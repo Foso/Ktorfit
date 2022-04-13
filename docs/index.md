@@ -299,7 +299,7 @@ Then you can use the extension function to set additional configuration. The Req
 
 
 ## Setup
-https://github.com/Foso/Ktorfit/tree/master/example
+(You can also look how it's done in the [examples](https://github.com/Foso/Ktorfit/tree/master/example))
 For Kotlin Native Targets (iOS,Linux) you need to enable the new memory model in gradle.properties
 
 ```kotlin
@@ -353,5 +353,3 @@ When you want to use Ktor plugins for things like serialization, you need to add
 
 ## Contributions
 When you find unexpected behaviour please write an issue feature request
-
-## License

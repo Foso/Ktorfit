@@ -32,6 +32,10 @@ interface ExampleApi {
 }
 ```
 
+!!! info
+
+    The return type String will return the response text. When you want directly parse the response into a class you need to add a JSON,XML, etc. converter to Ktor
+
 Now we add a function that will be used to make our request. The @GET annotation will tell Ktorfit that this a GET request. The value of @GET is the relative URL path that will be appended to the base url which we set later.
 
 An interface used for Ktorfit needs to have a Http method annotation on every function.
@@ -53,9 +57,10 @@ println(response)
 
 Now we can use exampleApi to make the request.
 
+
+
 ## Setup
 (You can also look how it's done in the [examples](https://github.com/Foso/Ktorfit/tree/master/example))
-
 For Kotlin Native Targets (iOS,Linux) you need to enable the new memory model in gradle.properties
 
 ```kotlin
@@ -84,7 +89,7 @@ dependencies {
 }
 ```
 
-[NAMEOFPLATFORM] is the name of the compilation target. When you to use it for the Android module it's **kspAndroid**, for Js it's **kspJs**, etc.
+[NAMEOFPLATFORM] is the name of the compilation target. When you want to use it for the Android module it's **kspAndroid**, for Js it's **kspJs**, etc.
 Look here for more information https://kotlinlang.org/docs/ksp-multiplatform.html
 
 
@@ -103,8 +108,8 @@ sourceSets {
 ```
 
 #### Ktor
-Ktorfit is based on Ktor Clients 2.0.0. You don't need to add an extra dependency for the default clients. 
-When you want to use Ktor plugins for things like serialization, you need to add the dependencies and they need to be compatible with 2.0.0 
+Ktorfit is based on Ktor Clients 2.0.0. You don't need to add an extra dependency for the default clients.
+When you want to use Ktor plugins for things like serialization, you need to add the dependencies and they need to be compatible with 2.0.0
 
 
 ## 👷 Project Structure
