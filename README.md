@@ -125,3 +125,4 @@ Feel free to send feedback on [Twitter](https://twitter.com/jklingenberg_) or [f
 ## 📜 License
 
 This project is licensed under the Apache License, Version 2.0 - see the [LICENSE.md](https://github.com/Foso/Ktorfit/blob/master/LICENSE) file for details
+
