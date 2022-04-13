@@ -52,7 +52,6 @@ extra:
       link: 'https://jensklingenberg.de/'
 nav:
   - 'Overview': index.md
-  - 'Development': development.md
 
 
 
