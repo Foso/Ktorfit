@@ -113,7 +113,7 @@ When you want to use Ktor plugins for things like serialization, you need to add
  	
 * <kbd>ktorfit-ksp</kbd> - module with source for the KSP plugin
 * <kbd>ktorfit-lib</kbd> - module with source for the Ktorfit lib
-* <kbd>workload</kbd> - experimental test module to test various stuff
+* <kbd>workload</kbd> - experimental test module to try various stuff
 
 * <kbd>example</kbd> - contains example projects that use Ktorfit
 * <kbd>docs</kbd> - contains the source for the github page
