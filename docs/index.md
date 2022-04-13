@@ -352,4 +352,4 @@ When you want to use Ktor plugins for things like serialization, you need to add
 
 
 ## Contributions
-When you find unexpected behaviour please write an issue feature request
+When you find unexpected behaviour please write an [issue](https://github.com/Foso/Ktorfit/issues/new/choose)
