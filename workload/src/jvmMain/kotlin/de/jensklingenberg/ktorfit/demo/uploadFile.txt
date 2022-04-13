@@ -48,7 +48,7 @@ fun main() {
     runBlocking {
         //  println(de.jensklingenberg.ktorfit.demo.getStarWarsApi.getPersonById(1).name)
 
-        val test = githubApi.edeka2("Ktor logo",  formData {
+        val test = githubApi.upload("Ktor logo",  formData {
             append("image", File("ktor_logo.png").readBytes(), Headers.build {
                 append(HttpHeaders.ContentType, "image/png")
                 append(HttpHeaders.ContentDisposition, "filename=ktor_logo.png")
