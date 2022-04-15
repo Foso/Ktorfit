@@ -1,7 +1,7 @@
 <h1>Ktorfit</h1>
 
 [![All Contribtors](https://img.shields.io/badge/Maven-Central-download.svg?style=flat-square)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit)
-[![jCenter](https://img.shields.io/badge/Apache-2.0-green.svg)](https://github.com/Foso/Ktorfit/blob/master/LICENSE) [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/foso/ktorfit)](https://github.com/foso/ktorfit/releases)
+[![jCenter](https://img.shields.io/badge/Apache-2.0-green.svg)](https://github.com/Foso/Ktorfit/blob/master/LICENSE)
 
 <p align="center">
   <img src ="https://raw.githubusercontent.com/Foso/Experimental/master/carbon.png"  />
