@@ -21,7 +21,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.4.8")
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
-   // implementation(project(":ktorfit-lib"))
+    implementation("com.squareup:kotlinpoet:1.11.0")
 
 }
 

@@ -4,7 +4,7 @@ import com.google.devtools.ksp.processing.Dependencies.Companion.ALL_FILES
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import de.jensklingenberg.ktorfit.generator.generateClassImpl
-import de.jensklingenberg.ktorfit.generator.generateHttpExtSource
+import de.jensklingenberg.ktorfit.generator.generateKtorfitExtSource
 import de.jensklingenberg.ktorfit.http.*
 import de.jensklingenberg.ktorfit.ktorfitError
 import de.jensklingenberg.ktorfit.parser.toMyClass
@@ -70,7 +70,7 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
         generateClassImpl(myClasses, codeGenerator)
 
 
-        val source = generateHttpExtSource(myClasses, env.platforms.any { it.platformName == "JS" })
+        val source = generateKtorfitExtSource(myClasses, env.platforms.any { it.platformName == "JS" })
         codeGenerator.createNewFile(ALL_FILES, "de.jensklingenberg.ktorfit", "KtorfitExt", "kt").use { output ->
             OutputStreamWriter(output).use { writer ->
                 writer.write(source)

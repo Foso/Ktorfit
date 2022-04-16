@@ -1,11 +1,8 @@
 package de.jensklingenberg.ktorfit.node
 
-import de.jensklingenberg.ktorfit.model.MyFunction
+import com.squareup.kotlinpoet.*
 import de.jensklingenberg.ktorfit.model.MyParam
 import de.jensklingenberg.ktorfit.model.MyType
-import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
-import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
-import de.jensklingenberg.ktorfit.node.RelativeUrlArgumentNode
 import org.junit.Assert
 import org.junit.Test
 
@@ -28,17 +25,18 @@ class QueryArgumentNodeTest {
         MyType("Map<String,String>", "Map<String,String>"),
         annotations = listOf(de.jensklingenberg.ktorfit.model.annotations.QueryMap(true))
     )
+
     @Test
     fun justGET() {
 
 
-
         val expected = """relativeUrl="posts""""
 
-        val funcText = QueryArgumentNode(listOf(testPathParam,testPathParam2,testPathParam3)).toString()
+        val funcText = QueryArgumentNode(listOf(testPathParam, testPathParam2, testPathParam3)).toString()
         Assert.assertEquals(expected, funcText)
     }
 
 
 
 }
+
