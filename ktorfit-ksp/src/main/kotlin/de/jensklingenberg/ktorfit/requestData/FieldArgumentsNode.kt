@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.node
+package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.findAnnotationOrNull
 import de.jensklingenberg.ktorfit.hasAnnotation
@@ -11,10 +11,10 @@ import de.jensklingenberg.ktorfit.surroundWith
 /**
  * Source for the "fields" argument of [de.jensklingenberg.ktorfit.RequestData]
  */
-class FieldArgumentsNode(private val params: List<MyParam>) : MyNode() {
+private class FieldArgumentsNode(private val params: List<MyParam>)  {
 
     override fun toString(): String {
-        //Get all Parameter with @Query and add them to a map
+        //Get all Parameter with @Field and add them to a map
 
         val myFieldStrings = mutableListOf<String>()
 
@@ -45,3 +45,5 @@ class FieldArgumentsNode(private val params: List<MyParam>) : MyNode() {
         return myFieldStrings.joinToString { it }.surroundIfNotEmpty("fields = listOf(", ")")
     }
 }
+
+fun getFieldArgumentsText(params: List<MyParam>)  = FieldArgumentsNode(params).toString()

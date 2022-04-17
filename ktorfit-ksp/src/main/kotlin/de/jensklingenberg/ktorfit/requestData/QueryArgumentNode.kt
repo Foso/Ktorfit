@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.node
+package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.findAnnotationOrNull
 import de.jensklingenberg.ktorfit.hasAnnotation
@@ -11,7 +11,7 @@ import de.jensklingenberg.ktorfit.surroundIfNotEmpty
 /**
  * Source for the "queries" argument of [de.jensklingenberg.ktorfit.RequestData]
  */
-class QueryArgumentNode(private val params: List<MyParam>) : MyNode() {
+class QueryArgumentNode(private val params: List<MyParam>)  {
 
     override fun toString(): String {
         //Get all Parameter with @Query and add them to a map
@@ -58,3 +58,5 @@ class QueryArgumentNode(private val params: List<MyParam>) : MyNode() {
         return myQueryStrings.joinToString { it }.surroundIfNotEmpty("queries = listOf(", ")")
     }
 }
+
+fun getQueryArgumentNode(params: List<MyParam>) = QueryArgumentNode(params).toString()

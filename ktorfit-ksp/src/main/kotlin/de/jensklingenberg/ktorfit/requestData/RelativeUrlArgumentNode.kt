@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.node
+package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.findAnnotationOrNull
 import de.jensklingenberg.ktorfit.hasAnnotation
@@ -9,7 +9,7 @@ import de.jensklingenberg.ktorfit.model.annotations.Url
 /**
  * Source for the "relativeUrl" argument of [de.jensklingenberg.ktorfit.RequestData]
  */
-class RelativeUrlArgumentNode(private val myFunction: MyFunction) : MyNode() {
+class RelativeUrlArgumentNode(private val myFunction: MyFunction)  {
 
     override fun toString(): String {
         val methodAnnotation = myFunction.httpMethodAnnotation
@@ -47,3 +47,5 @@ class RelativeUrlArgumentNode(private val myFunction: MyFunction) : MyNode() {
         return "relativeUrl=\"$urlPath\""
     }
 }
+
+fun getRelativeUrlArgumentNode(myFunction: MyFunction) = RelativeUrlArgumentNode(myFunction).toString()

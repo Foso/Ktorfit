@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.node
+package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.model.MyParam
 import de.jensklingenberg.ktorfit.model.MyType

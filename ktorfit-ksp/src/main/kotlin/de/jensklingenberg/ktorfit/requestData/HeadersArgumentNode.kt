@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.node
+package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.*
 import de.jensklingenberg.ktorfit.model.MyParam
@@ -8,10 +8,10 @@ import de.jensklingenberg.ktorfit.model.annotations.*
 /**
  * Source for the "headers" argument of [de.jensklingenberg.ktorfit.RequestData]
  */
-class HeadersArgumentNode(
+private class HeadersArgumentNode(
     private val functionAnnotations: List<FunctionAnnotation>,
     private val paramList: List<MyParam>
-) : MyNode() {
+)  {
 
     override fun toString(): String {
         val headerList = mutableListOf<Pair<String, String>>()
@@ -51,6 +51,11 @@ class HeadersArgumentNode(
         }.surroundIfNotEmpty("listOf(", ")")
 
 
-        return headerText.prefixIfNotEmpty("headers = ")
+        return headerText.prefixIfNotEmpty("headers = ").replace(" ","·")
     }
 }
+
+fun getHeadersArgumentNode(
+    functionAnnotations: List<FunctionAnnotation>,
+     paramList: List<MyParam>
+): String = HeadersArgumentNode(functionAnnotations,paramList).toString()

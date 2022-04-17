@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.node
+package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.hasAnnotation
 import de.jensklingenberg.ktorfit.model.MyParam
@@ -11,7 +11,7 @@ import de.jensklingenberg.ktorfit.surroundWith
 /**
  * Source for the "parts" argument of [de.jensklingenberg.ktorfit.RequestData]
  */
-class PartsArgumentNode(private val params: List<MyParam>) : MyNode() {
+class PartsArgumentNode(private val params: List<MyParam>)  {
 
     override fun toString(): String {
         val paramsWithPartMapAnno = params.filter { it.hasAnnotation<PartMap>() }
@@ -32,3 +32,4 @@ class PartsArgumentNode(private val params: List<MyParam>) : MyNode() {
     }
 }
 
+fun getPartsArgumentNode(params: List<MyParam>) = PartsArgumentNode(params).toString()

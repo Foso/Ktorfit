@@ -33,7 +33,7 @@ fun generateKtorfitExtSource(
 
     val funSpec = FunSpec.builder("create")
         .addModifiers(KModifier.INLINE)
-        .addTypeVariable(TypeVariableName("T",).copy(reified = true))
+        .addTypeVariable(TypeVariableName("T").copy(reified = true))
         .receiver(TypeVariableName("Ktorfit"))
         .returns(TypeVariableName("T"))
         .beginControlFlow("return when{")

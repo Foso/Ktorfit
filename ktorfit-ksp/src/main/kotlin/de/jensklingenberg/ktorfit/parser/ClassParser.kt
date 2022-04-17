@@ -19,16 +19,16 @@ private fun getImports(ksClassDeclaration: KSClassDeclaration): List<String> {
             .filter { it.trimStart().startsWith("import") }
             .toMutableList()
 
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.Ktorfit")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.KtorfitClient")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.RequestData")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.QueryData")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.QueryType")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.HeaderData")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.FieldData")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.FieldType")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.Ktorfit")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.KtorfitClient")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.RequestData")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.QueryData")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.QueryType")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.HeaderData")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.FieldData")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.FieldType")
 
-    return importList
+    return importList.map { it.removePrefix("import ") }
 }
 
 private fun MutableList<String>.addIfAbsent(e2: String) {

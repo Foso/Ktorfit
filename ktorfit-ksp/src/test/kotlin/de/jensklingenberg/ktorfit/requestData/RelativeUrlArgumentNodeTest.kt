@@ -1,11 +1,10 @@
-package de.jensklingenberg.ktorfit.node
+package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.model.MyFunction
 import de.jensklingenberg.ktorfit.model.MyParam
 import de.jensklingenberg.ktorfit.model.MyType
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
-import de.jensklingenberg.ktorfit.node.RelativeUrlArgumentNode
 import org.junit.Assert
 import org.junit.Test
 
