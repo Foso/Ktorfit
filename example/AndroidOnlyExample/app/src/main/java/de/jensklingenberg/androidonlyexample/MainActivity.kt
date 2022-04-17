@@ -19,53 +19,41 @@ import de.jensklingenberg.ktorfit.http.GET
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-interface ExampleApi {
-    @GET("people/1/")
-    suspend fun getPerson(): String
-
-    @GET("people/1/")
-    fun getPersonCall(): Call<String>
-}
-val ktorfit = Ktorfit(baseUrl = "https://swapi.dev/api/")
-
-fun testApi() = ktorfit.create<ExampleApi>()
-class TestClass {
-    init {
-        val exampleApi = ktorfit.create<ExampleApi>()
-        GlobalScope.launch {
-            Log.d("Android:",exampleApi.getPerson())
-        }
+val ktorfit = Ktorfit("https://swapi.dev/api/", HttpClient {
+    install(ContentNegotiation) {
+        json(Json { isLenient = true; ignoreUnknownKeys = true })
     }
+}).also {
+    it.addResponseConverter(FlowResponseConverter())
 }
 
 class MainActivity : ComponentActivity() {
+
+    val api: StarWarsApi = ktorfit.create<StarWarsApi>()
+
+    val peopleState = MutableStateFlow(listOf<Person>())
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TestClass()
-            TestJava().test()
             AndroidOnlyExampleTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    val people = peopleState.rememberAsState()
+
+                    LazyColumn {
+                        items(people) { person ->
+                            Text(person.name)
+                        }
+                    }
                 }
             }
         }
-    }
-}
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    AndroidOnlyExampleTheme {
-        Greeting("Android")
+        lifecycleScope.launch {
+            peopleState.value = api.getPeople(page = 1)
+        }
     }
 }
