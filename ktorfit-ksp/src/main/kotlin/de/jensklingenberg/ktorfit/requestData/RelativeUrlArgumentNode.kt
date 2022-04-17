@@ -9,43 +9,39 @@ import de.jensklingenberg.ktorfit.model.annotations.Url
 /**
  * Source for the "relativeUrl" argument of [de.jensklingenberg.ktorfit.RequestData]
  */
-class RelativeUrlArgumentNode(private val myFunction: MyFunction)  {
 
-    override fun toString(): String {
-        val methodAnnotation = myFunction.httpMethodAnnotation
+fun getRelativeUrlArgumentNode(myFunction: MyFunction): String {
+    val methodAnnotation = myFunction.httpMethodAnnotation
 
-        var urlPath = ""
+    var urlPath = ""
 
-        if (methodAnnotation.path.isNotEmpty()) {
-            //url="posts"
-            urlPath = methodAnnotation.path
-        } else {
-            myFunction.params.firstOrNull { it.hasAnnotation<Url>() }?.let {
-                //url=$foo
-                urlPath = "\${" + it.name + "}"
-            }
+    if (methodAnnotation.path.isNotEmpty()) {
+        //url="posts"
+        urlPath = methodAnnotation.path
+    } else {
+        myFunction.params.firstOrNull { it.hasAnnotation<Url>() }?.let {
+            //url=$foo
+            urlPath = "\${" + it.name + "}"
         }
-        /**
-         * Replace all values with curly braces in url path to corresponding annotated parameter names
-         */
-        myFunction.params.filter { it.hasAnnotation<Path>() }.forEach { myParam ->
-            val paramName = myParam.name
-            val pathAnnotation = myParam.findAnnotationOrNull<Path>()
-            val pathPath = pathAnnotation?.value ?: ""
-            val pathEncoded = pathAnnotation?.encoded ?: false
-
-            val newPathValue = if (!pathEncoded) {
-                "\${client.encode($paramName)}"
-            } else {
-                "\${$paramName}"
-            }
-
-            urlPath = urlPath.replace("{${pathPath}}", newPathValue)
-        }
-
-
-        return "relativeUrl=\"$urlPath\""
     }
-}
+    /**
+     * Replace all values with curly braces in url path to corresponding annotated parameter names
+     */
+    myFunction.params.filter { it.hasAnnotation<Path>() }.forEach { myParam ->
+        val paramName = myParam.name
+        val pathAnnotation = myParam.findAnnotationOrNull<Path>()
+        val pathPath = pathAnnotation?.value ?: ""
+        val pathEncoded = pathAnnotation?.encoded ?: false
 
-fun getRelativeUrlArgumentNode(myFunction: MyFunction) = RelativeUrlArgumentNode(myFunction).toString()
+        val newPathValue = if (!pathEncoded) {
+            "\${client.encode($paramName)}"
+        } else {
+            "\${$paramName}"
+        }
+
+        urlPath = urlPath.replace("{${pathPath}}", newPathValue)
+    }
+
+
+    return "relativeUrl=\"$urlPath\""
+}

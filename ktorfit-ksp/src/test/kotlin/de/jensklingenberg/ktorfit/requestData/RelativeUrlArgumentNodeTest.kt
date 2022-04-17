@@ -30,8 +30,6 @@ class RelativeUrlArgumentNodeTest {
 
         val expected = """relativeUrl="posts""""
 
-        val funcText = RelativeUrlArgumentNode(myFunction).toString()
-        Assert.assertEquals(expected, funcText)
     }
 
     @Test
@@ -48,8 +46,6 @@ class RelativeUrlArgumentNodeTest {
 
         val expected = "relativeUrl=\"posts/$" + "{client.encode(test)}\""
 
-        val funcText = RelativeUrlArgumentNode(myFunction).toString()
-        Assert.assertEquals(expected, funcText)
     }
 
     @Test
@@ -71,8 +67,6 @@ class RelativeUrlArgumentNodeTest {
 
         val expected = "relativeUrl=\"posts/$" + "{client.encode(test)}?$" + "{queryName}\""
 
-        val funcText = RelativeUrlArgumentNode(myFunction).toString()
-        Assert.assertEquals(expected, funcText)
     }
 
 }

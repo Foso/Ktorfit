@@ -11,25 +11,21 @@ import de.jensklingenberg.ktorfit.surroundWith
 /**
  * Source for the "parts" argument of [de.jensklingenberg.ktorfit.RequestData]
  */
-class PartsArgumentNode(private val params: List<MyParam>)  {
 
-    override fun toString(): String {
-        val paramsWithPartMapAnno = params.filter { it.hasAnnotation<PartMap>() }
-        val paramsWithPartAnno = params.filter { it.hasAnnotation<Part>() }
+fun getPartsArgumentNode(params: List<MyParam>): String {
+    val paramsWithPartMapAnno = params.filter { it.hasAnnotation<PartMap>() }
+    val paramsWithPartAnno = params.filter { it.hasAnnotation<Part>() }
 
-        var partsText = paramsWithPartAnno.joinToString { myParam ->
-            val partParamName = myParam.name
-            val partKeyName = myParam.annotations.filterIsInstance<Part>().first().value.surroundWith("\"")
+    var partsText = paramsWithPartAnno.joinToString { myParam ->
+        val partParamName = myParam.name
+        val partKeyName = myParam.annotations.filterIsInstance<Part>().first().value.surroundWith("\"")
 
-            "$partKeyName to $partParamName"
-        }.surroundIfNotEmpty("mapOf(", ")")
+        "$partKeyName to $partParamName"
+    }.surroundIfNotEmpty("mapOf(", ")")
 
 
-        partsText += paramsWithPartMapAnno.joinToString("") { myParam ->
-            ("+".takeIf { partsText.isNotEmpty() } ?: "") + myParam.name
-        }
-        return partsText.prefixIfNotEmpty("parts = ")
+    partsText += paramsWithPartMapAnno.joinToString("") { myParam ->
+        ("+".takeIf { partsText.isNotEmpty() } ?: "") + myParam.name
     }
+    return partsText.prefixIfNotEmpty("parts = ")
 }
-
-fun getPartsArgumentNode(params: List<MyParam>) = PartsArgumentNode(params).toString()

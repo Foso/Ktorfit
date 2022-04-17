@@ -10,7 +10,7 @@ import java.io.File
 
 
 /**
- *  //TODO: Find better way to get imports
+ *  TODO: Find better way to get imports
  */
 private fun getImports(ksClassDeclaration: KSClassDeclaration): List<String> {
     val importList =

@@ -5,7 +5,6 @@ import com.google.devtools.ksp.processing.Dependencies
 import com.squareup.kotlinpoet.*
 import de.jensklingenberg.ktorfit.findAnnotationOrNull
 import de.jensklingenberg.ktorfit.model.MyClass
-import de.jensklingenberg.ktorfit.model.MyFunction
 import de.jensklingenberg.ktorfit.model.annotations.Streaming
 import de.jensklingenberg.ktorfit.requestData.*
 import de.jensklingenberg.ktorfit.resolveTypeName
@@ -14,7 +13,7 @@ import java.io.OutputStreamWriter
 
 fun generateClassImpl(myClasses: List<MyClass>, codeGenerator: CodeGenerator) {
     myClasses.forEach { myClass ->
-        val file = getFileSpec(myClass).toString().replace("WILDCARDIMPORT", "*").replace("_KTORFIT_", " ")
+        val file = getFileSpec(myClass).toString().replace("WILDCARDIMPORT", "*")
 
         val packageName = myClass.packageName
         val className = myClass.name
@@ -28,27 +27,12 @@ fun generateClassImpl(myClasses: List<MyClass>, codeGenerator: CodeGenerator) {
 }
 
 
-/**
- * Support for extending multiple interfaces, is done with Kotlin delegation. Ktorfit interfaces can only extend other Ktorfit interfaces, so there will
- * be a generated implementation for each interface that we can use.
- */
-fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<String>): TypeSpec.Builder {
-    superClasses.forEach { superClassQualifiedName ->
-        val superTypeClassName = superClassQualifiedName.substringAfterLast(".")
-        val superTypePackage = superClassQualifiedName.substringBeforeLast(".")
-        this.addSuperinterface(
-            ClassName(superTypePackage, superTypeClassName),
-            CodeBlock.of("${superTypePackage}._${superTypeClassName}Impl(client)")
-        )
-    }
 
-    return this
-}
 
 fun getFileSpec(myClass: MyClass): FileSpec {
     val funcs: List<FunSpec> = getFunSpecs(myClass)
 
-    val propterties = myClass.properties.map { property ->
+    val properties = myClass.properties.map { property ->
         val propBuilder = PropertySpec.builder(
             property.simpleName.asString(),
             TypeVariableName(property.type.resolve().resolveTypeName())
@@ -93,34 +77,20 @@ fun getFileSpec(myClass: MyClass): FileSpec {
                         .build()
                 )
                 .addFunctions(funcs)
-                .addProperties(propterties)
+                .addProperties(properties)
                 .build()
         )
 
         .build()
 }
 
-private fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
 
-    imports.forEach {
-        /**
-         * Wildcard imports are not allowed by KotlinPoet, as a work around * is replaced with WILDCARDIMPORT and it will be replaced again
-         * after Kotlin Poet generated the source code
-         */
-        val className = it.substringAfterLast(".").replace("*", "WILDCARDIMPORT")
-        val packageName = it.substringBeforeLast(".")
-        this.addImport(packageName, className)
-    }
-    return this
-}
+fun getFunSpecs(myClass: MyClass): List<FunSpec> = myClass.functions.map { myFunc ->
 
-fun getFunSpecs(myClass: MyClass) = myClass.functions.map { myFunc ->
-
-    val requestDataArgumentsText = getRequestDataArgumentNode(
-        myFunc
+    val requestDataArgumentsText = RequestDataArgumentNode(
+        myFunc,
     ).toString()
 
-    val hasStreaming = myFunc.findAnnotationOrNull<Streaming>() != null
     val returnTypeName = myFunc.returnType.name
     val typeWithoutOuterType = returnTypeName.substringAfter("<").substringBeforeLast(">")
 
@@ -137,11 +107,7 @@ fun getFunSpecs(myClass: MyClass) = myClass.functions.map { myFunc ->
         .addStatement(requestDataArgumentsText)
         .addStatement(
             if (myFunc.isSuspend) {
-                if (hasStreaming) {
-                    "return client.prepareRequest(requestData)"
-                } else {
-                    "return client.suspendRequest<${returnTypeName}, $typeWithoutOuterType>(requestData)"
-                }
+                "return client.suspendRequest<${returnTypeName}, $typeWithoutOuterType>(requestData)"
             } else {
                 "return client.request<${returnTypeName}, $typeWithoutOuterType>(requestData)"
             }
@@ -149,11 +115,34 @@ fun getFunSpecs(myClass: MyClass) = myClass.functions.map { myFunc ->
         .build()
 }
 
-fun getRequestDataArgumentNode(
-    myFunc: MyFunction
-): RequestDataArgumentNode {
+/**
+ * Support for extending multiple interfaces, is done with Kotlin delegation. Ktorfit interfaces can only extend other Ktorfit interfaces, so there will
+ * be a generated implementation for each interface that we can use.
+ */
+fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<String>): TypeSpec.Builder {
+    superClasses.forEach { superClassQualifiedName ->
+        val superTypeClassName = superClassQualifiedName.substringAfterLast(".")
+        val superTypePackage = superClassQualifiedName.substringBeforeLast(".")
+        this.addSuperinterface(
+            ClassName(superTypePackage, superTypeClassName),
+            CodeBlock.of("${superTypePackage}._${superTypeClassName}Impl(client)")
+        )
+    }
 
-    return RequestDataArgumentNode(
-        myFunc,
-    )
+    return this
+}
+
+
+private fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
+
+    imports.forEach {
+        /**
+         * Wildcard imports are not allowed by KotlinPoet, as a work around * is replaced with WILDCARDIMPORT and it will be replaced again
+         * after Kotlin Poet generated the source code
+         */
+        val className = it.substringAfterLast(".").replace("*", "WILDCARDIMPORT")
+        val packageName = it.substringBeforeLast(".")
+        this.addImport(packageName, className)
+    }
+    return this
 }

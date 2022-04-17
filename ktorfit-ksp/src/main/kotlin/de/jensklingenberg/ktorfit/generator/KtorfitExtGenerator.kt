@@ -26,7 +26,7 @@ fun generateKtorfitExtSource(
     val whenCaseStatements = myClasses.joinToString("") {
         val packageName = it.packageName
         val className = it.name
-        "T::class == ${packageName}.${className}::class ->{\n"+
+        "${packageName}.${className}::class ->{\n"+
                 "${packageName}._${className}Impl(KtorfitClient(this)) as T\n"+
                 "}\n"
     }
@@ -36,7 +36,7 @@ fun generateKtorfitExtSource(
         .addTypeVariable(TypeVariableName("T").copy(reified = true))
         .receiver(TypeVariableName("Ktorfit"))
         .returns(TypeVariableName("T"))
-        .beginControlFlow("return when{")
+        .beginControlFlow("return when(T::class){")
         .addStatement(whenCaseStatements)
         .addStatement("else ->{")
         .addStatement("throw IllegalArgumentException(\"Could not find any Ktorfit annotations in class \"+ T::class.$classNameReflectionMethod  )")

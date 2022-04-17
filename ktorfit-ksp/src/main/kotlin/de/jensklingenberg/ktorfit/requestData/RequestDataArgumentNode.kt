@@ -28,12 +28,12 @@ class RequestDataArgumentNode(private val myFunction: MyFunction) {
         //METHOD
         val method = "method=\"${methodAnnotation.httpMethod.keyword}\""
         //HEADERS
-        val headersText = getHeadersArgumentNode(myFunction.annotations, myFunction.params)
+        val headersText = getHeadersArgumentText(myFunction.annotations, myFunction.params)
         //BODY
         val body = getBodyDataText()
         //URL
         val urlPath = getRelativeUrlArgumentNode(myFunction)
-        val queryText = getQueryArgumentNode(myFunction.params)
+        val queryText = getQueryArgumentText(myFunction.params)
         val fieldsText = getFieldArgumentsText(myFunction.params)
         val partsText = getPartsArgumentNode(myFunction.params)
         val builderText = getRequestBuilderText()

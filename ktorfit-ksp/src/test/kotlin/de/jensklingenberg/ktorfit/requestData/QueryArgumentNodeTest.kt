@@ -31,8 +31,7 @@ class QueryArgumentNodeTest {
 
         val expected = """relativeUrl="posts""""
 
-        val funcText = QueryArgumentNode(listOf(testPathParam, testPathParam2, testPathParam3)).toString()
-        Assert.assertEquals(expected, funcText)
+        
     }
 
 
