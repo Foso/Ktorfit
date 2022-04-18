@@ -3,20 +3,18 @@ package de.jensklingenberg.ktorfit.generator
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.squareup.kotlinpoet.*
-import de.jensklingenberg.ktorfit.findAnnotationOrNull
-import de.jensklingenberg.ktorfit.model.MyClass
-import de.jensklingenberg.ktorfit.model.annotations.Streaming
+import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.requestData.*
 import de.jensklingenberg.ktorfit.resolveTypeName
 import java.io.OutputStreamWriter
 
 
-fun generateClassImpl(myClasses: List<MyClass>, codeGenerator: CodeGenerator) {
-    myClasses.forEach { myClass ->
-        val file = getFileSpec(myClass).toString().replace("WILDCARDIMPORT", "*")
+fun generateClassImpl(classDataList: List<ClassData>, codeGenerator: CodeGenerator) {
+    classDataList.forEach { classData ->
+        val file = getFileSpec(classData).toString().replace("WILDCARDIMPORT", "*")
 
-        val packageName = myClass.packageName
-        val className = myClass.name
+        val packageName = classData.packageName
+        val className = classData.name
 
         codeGenerator.createNewFile(Dependencies.ALL_FILES, packageName, "_${className}Impl", "kt").use { output ->
             OutputStreamWriter(output).use { writer ->
@@ -29,7 +27,7 @@ fun generateClassImpl(myClasses: List<MyClass>, codeGenerator: CodeGenerator) {
 
 
 
-fun getFileSpec(myClass: MyClass): FileSpec {
+fun getFileSpec(myClass: ClassData): FileSpec {
     val funcs: List<FunSpec> = getFunSpecs(myClass)
 
     val properties = myClass.properties.map { property ->
@@ -85,7 +83,7 @@ fun getFileSpec(myClass: MyClass): FileSpec {
 }
 
 
-fun getFunSpecs(myClass: MyClass): List<FunSpec> = myClass.functions.map { myFunc ->
+fun getFunSpecs(myClass: ClassData): List<FunSpec> = myClass.functions.map { myFunc ->
 
     val requestDataArgumentsText = RequestDataArgumentNode(
         myFunc,
@@ -137,7 +135,7 @@ private fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder
 
     imports.forEach {
         /**
-         * Wildcard imports are not allowed by KotlinPoet, as a work around * is replaced with WILDCARDIMPORT and it will be replaced again
+         * Wildcard imports are not allowed by KotlinPoet, as a workaround * is replaced with WILDCARDIMPORT and it will be replaced again
          * after Kotlin Poet generated the source code
          */
         val className = it.substringAfterLast(".").replace("*", "WILDCARDIMPORT")

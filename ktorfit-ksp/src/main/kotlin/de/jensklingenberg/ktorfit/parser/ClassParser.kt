@@ -4,8 +4,8 @@ import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import de.jensklingenberg.ktorfit.ktorfitError
-import de.jensklingenberg.ktorfit.model.MyClass
-import de.jensklingenberg.ktorfit.model.MyFunction
+import de.jensklingenberg.ktorfit.model.ClassData
+import de.jensklingenberg.ktorfit.model.FunctionData
 import java.io.File
 
 
@@ -37,9 +37,9 @@ private fun MutableList<String>.addIfAbsent(e2: String) {
     }
 }
 
-fun toMyClass(ksClassDeclaration: KSClassDeclaration, logger: KSPLogger): MyClass {
+fun toClassData(ksClassDeclaration: KSClassDeclaration, logger: KSPLogger): ClassData {
 
-    val myFunctions: List<MyFunction> = getMyFunctionsList(ksClassDeclaration.getDeclaredFunctions().toList(), logger)
+    val functionDataList: List<FunctionData> = getFunctionDataList(ksClassDeclaration.getDeclaredFunctions().toList(), logger)
 
     val imports = getImports(ksClassDeclaration)
     val packageName = ksClassDeclaration.packageName.asString()
@@ -52,5 +52,5 @@ fun toMyClass(ksClassDeclaration: KSClassDeclaration, logger: KSPLogger): MyClas
     if (packageName.isEmpty()) {
         logger.ktorfitError("Interface needs to have a package", ksClassDeclaration)
     }
-    return MyClass(className, packageName, myFunctions, imports, supertypes, properties)
+    return ClassData(className, packageName, functionDataList, imports, supertypes, properties)
 }

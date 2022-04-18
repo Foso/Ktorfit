@@ -1,7 +1,7 @@
 package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.*
-import de.jensklingenberg.ktorfit.model.MyParam
+import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.*
 
 
@@ -11,7 +11,7 @@ import de.jensklingenberg.ktorfit.model.annotations.*
 
 fun getHeadersArgumentText(
     functionAnnotations: List<FunctionAnnotation>,
-     paramList: List<MyParam>
+     paramList: List<ParameterData>
 ): String {
     val headerList = mutableListOf<Pair<String, String>>()
 

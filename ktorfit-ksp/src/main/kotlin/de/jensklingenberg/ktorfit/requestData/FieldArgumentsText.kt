@@ -2,7 +2,7 @@ package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.findAnnotationOrNull
 import de.jensklingenberg.ktorfit.hasAnnotation
-import de.jensklingenberg.ktorfit.model.MyParam
+import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.Field
 import de.jensklingenberg.ktorfit.model.annotations.FieldMap
 import de.jensklingenberg.ktorfit.surroundIfNotEmpty
@@ -12,7 +12,7 @@ import de.jensklingenberg.ktorfit.surroundWith
  * Source for the "fields" argument of [de.jensklingenberg.ktorfit.RequestData]
  */
 
-fun getFieldArgumentsText(params: List<MyParam>): String {
+fun getFieldArgumentsText(params: List<ParameterData>): String {
     //Get all Parameter with @Field and add them to a map
 
     val myFieldStrings = mutableListOf<String>()

@@ -4,8 +4,8 @@ import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.*
-import de.jensklingenberg.ktorfit.model.MyFunction
-import de.jensklingenberg.ktorfit.model.MyParam
+import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.*
 
 @OptIn(KspExperimental::class)
@@ -169,15 +169,15 @@ fun KSType?.resolveTypeName(): String {
 }
 
 
-inline fun <reified T> MyFunction.findAnnotationOrNull(): T? {
+inline fun <reified T> FunctionData.findAnnotationOrNull(): T? {
     return this.annotations.firstOrNull { it is T } as? T
 }
 
-inline fun <reified T> MyParam.findAnnotationOrNull(): T? {
+inline fun <reified T> ParameterData.findAnnotationOrNull(): T? {
     return this.annotations.firstOrNull { it is T } as? T
 }
 
-inline fun <reified T> MyParam.hasAnnotation(): Boolean {
+inline fun <reified T> ParameterData.hasAnnotation(): Boolean {
     return this.findAnnotationOrNull<T>() != null
 }
 

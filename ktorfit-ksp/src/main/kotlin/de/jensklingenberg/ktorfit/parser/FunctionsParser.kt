@@ -3,8 +3,12 @@ package de.jensklingenberg.ktorfit.parser
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import de.jensklingenberg.ktorfit.*
-import de.jensklingenberg.ktorfit.model.MyFunction
-import de.jensklingenberg.ktorfit.model.MyType
+import de.jensklingenberg.ktorfit.model.KtorfitError
+import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED
+import de.jensklingenberg.ktorfit.model.TypeData
 import de.jensklingenberg.ktorfit.model.annotations.*
 
 
@@ -21,17 +25,17 @@ fun getHttpMethodAnnotations(func: KSFunctionDeclaration): List<HttpMethodAnnota
     return listOfNotNull(getAnno, postAnno, putAnno, deleteAnno, headAnno, optionsAnno, patchAnno, httpAnno)
 }
 
-fun getMyFunctionsList(
+fun getFunctionDataList(
     ksFunctionDeclarationList: List<KSFunctionDeclaration>,
     logger: KSPLogger
-): List<MyFunction> {
+): List<FunctionData> {
 
     return ksFunctionDeclarationList.map { funcDeclaration ->
 
         val functionName = funcDeclaration.simpleName.asString()
-        val functionParameters = funcDeclaration.parameters.map { getMyParamList(it, logger) }
+        val functionParameters = funcDeclaration.parameters.map { getParameterData(it, logger) }
 
-        val returnType = MyType(
+        val returnType = TypeData(
             funcDeclaration.returnType?.resolve().resolveTypeName(),
             funcDeclaration.returnType?.resolve()?.declaration?.qualifiedName?.asString() ?: ""
         )
@@ -41,7 +45,7 @@ fun getMyFunctionsList(
         with(funcDeclaration) {
             if (funcDeclaration.typeParameters.isNotEmpty()) {
                 logger.ktorfitError(
-                    "function or parameters types must not include a type variable or wildcard:",
+                    KtorfitError.FUNCTION_OR_PARAMETERS_TYPES_MUST_NOT_INCLUDE_ATYPE_VARIABLE_OR_WILDCARD,
                     funcDeclaration
                 )
             }
@@ -54,7 +58,7 @@ fun getMyFunctionsList(
             this.getFormUrlEncodedAnnotation()?.let { formUrlEncoded ->
                 if (functionParameters.none { it.hasAnnotation<Field>() } && functionParameters.none { it.hasAnnotation<FieldMap>() }) {
                     logger.ktorfitError(
-                        "Form-encoded method must contain at least one @Field or @FieldMap.",
+                        KtorfitError.FORM_ENCODED_METHOD_MUST_CONTAIN_AT_LEAST_ONE_FIELD_OR_FIELD_MAP,
                         funcDeclaration
                     )
                 }
@@ -98,7 +102,7 @@ fun getMyFunctionsList(
         }
 
         if (functionParameters.filter { it.hasRequestBuilderAnno }.size > 1) {
-            logger.ktorfitError("Only one RequestBuilder is allowed. Found: " + httpMethodAnnoList.joinToString { it.toString() } + " at " + functionName,
+            logger.ktorfitError(ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED + " Found: " + httpMethodAnnoList.joinToString { it.toString() } + " at " + functionName,
                 funcDeclaration)
         }
 
@@ -150,7 +154,13 @@ fun getMyFunctionsList(
 
         if (functionParameters.any { it.hasAnnotation<Field>() }) {
             if (funcDeclaration.getFormUrlEncodedAnnotation() == null) {
-                logger.ktorfitError("@Field parameters can only be used with form encoding", funcDeclaration)
+                logger.ktorfitError(FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING, funcDeclaration)
+            }
+        }
+
+        if (functionParameters.any { it.hasAnnotation<FieldMap>() }) {
+            if (funcDeclaration.getFormUrlEncodedAnnotation() == null) {
+                logger.ktorfitError(FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING, funcDeclaration)
             }
         }
 
@@ -160,7 +170,7 @@ fun getMyFunctionsList(
             }
         }
 
-        return@map MyFunction(
+        return@map FunctionData(
             functionName,
             returnType,
             funcDeclaration.isSuspend,

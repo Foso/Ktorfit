@@ -1,11 +1,11 @@
 package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.hasAnnotation
-import de.jensklingenberg.ktorfit.model.MyFunction
+import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.annotations.Body
 
 
-class RequestDataArgumentNode(private val myFunction: MyFunction) {
+class RequestDataArgumentNode(private val myFunction: FunctionData) {
 
     val params = myFunction.params
 
@@ -32,15 +32,15 @@ class RequestDataArgumentNode(private val myFunction: MyFunction) {
         //BODY
         val body = getBodyDataText()
         //URL
-        val urlPath = getRelativeUrlArgumentNode(myFunction)
+        val urlPath = getRelativeUrlArgumentText(myFunction.httpMethodAnnotation,myFunction.params)
         val queryText = getQueryArgumentText(myFunction.params)
         val fieldsText = getFieldArgumentsText(myFunction.params)
-        val partsText = getPartsArgumentNode(myFunction.params)
+        val partsText = getPartsArgumentText(myFunction.params)
         val builderText = getRequestBuilderText()
 
         val qualifiedTypeName = "qualifiedRawTypeName=\"${myFunction.returnType.qualifiedName}\""
 
-        val args = listOf<String>(
+        val args = listOf(
             method,
             urlPath,
             headersText,

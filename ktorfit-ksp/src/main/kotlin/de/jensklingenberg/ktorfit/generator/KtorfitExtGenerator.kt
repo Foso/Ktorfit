@@ -4,13 +4,13 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeVariableName
-import de.jensklingenberg.ktorfit.model.MyClass
+import de.jensklingenberg.ktorfit.model.ClassData
 
 /**
  * This will generate the Ktorfit.create() extension function
  */
 fun generateKtorfitExtSource(
-    myClasses: List<MyClass>,
+    myClasses: List<ClassData>,
     isJS: Boolean = false
 ): String {
     val classNameReflectionMethod = if (isJS) {

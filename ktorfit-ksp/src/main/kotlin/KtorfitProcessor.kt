@@ -7,7 +7,7 @@ import de.jensklingenberg.ktorfit.generator.generateClassImpl
 import de.jensklingenberg.ktorfit.generator.generateKtorfitExtSource
 import de.jensklingenberg.ktorfit.http.*
 import de.jensklingenberg.ktorfit.ktorfitError
-import de.jensklingenberg.ktorfit.parser.toMyClass
+import de.jensklingenberg.ktorfit.parser.toClassData
 import java.io.OutputStreamWriter
 
 
@@ -64,7 +64,7 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
                         classDec
                     )
                 }
-                toMyClass(classDec, logger)
+                toClassData(classDec, logger)
             }
 
         generateClassImpl(myClasses, codeGenerator)

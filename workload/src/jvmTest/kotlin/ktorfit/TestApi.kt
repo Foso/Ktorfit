@@ -10,6 +10,8 @@ import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
 import de.jensklingenberg.ktorfit.http.QueryMap
 import de.jensklingenberg.ktorfit.http.QueryName
+import de.jensklingenberg.ktorfit.http.ReqBuilder
+import io.ktor.client.request.*
 
 interface TestApi2 : StarWarsApi, QueryTestApi, QueryNameTestApi {
 
@@ -44,6 +46,7 @@ interface QueryTestApi {
 
 interface HeaderTestApi {
 
+    suspend fun test(@ReqBuilder builder : HttpRequestBuilder.() -> Unit)
 
     @GET("people/{id}/")
     suspend fun testHeaderWithArray(@Path("id") peopleId: Int, @Header("huhu") name: Array<String?>): People

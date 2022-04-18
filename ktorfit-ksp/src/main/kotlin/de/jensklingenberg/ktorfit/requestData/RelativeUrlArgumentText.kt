@@ -2,7 +2,8 @@ package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.findAnnotationOrNull
 import de.jensklingenberg.ktorfit.hasAnnotation
-import de.jensklingenberg.ktorfit.model.MyFunction
+import de.jensklingenberg.ktorfit.model.ParameterData
+import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.Path
 import de.jensklingenberg.ktorfit.model.annotations.Url
 
@@ -10,8 +11,7 @@ import de.jensklingenberg.ktorfit.model.annotations.Url
  * Source for the "relativeUrl" argument of [de.jensklingenberg.ktorfit.RequestData]
  */
 
-fun getRelativeUrlArgumentNode(myFunction: MyFunction): String {
-    val methodAnnotation = myFunction.httpMethodAnnotation
+fun getRelativeUrlArgumentText(methodAnnotation: HttpMethodAnnotation, params: List<ParameterData>): String {
 
     var urlPath = ""
 
@@ -19,15 +19,16 @@ fun getRelativeUrlArgumentNode(myFunction: MyFunction): String {
         //url="posts"
         urlPath = methodAnnotation.path
     } else {
-        myFunction.params.firstOrNull { it.hasAnnotation<Url>() }?.let {
+        params.firstOrNull { it.hasAnnotation<Url>() }?.let {
             //url=$foo
             urlPath = "\${" + it.name + "}"
         }
     }
+
     /**
      * Replace all values with curly braces in url path to corresponding annotated parameter names
      */
-    myFunction.params.filter { it.hasAnnotation<Path>() }.forEach { myParam ->
+    params.filter { it.hasAnnotation<Path>() }.forEach { myParam ->
         val paramName = myParam.name
         val pathAnnotation = myParam.findAnnotationOrNull<Path>()
         val pathPath = pathAnnotation?.value ?: ""
