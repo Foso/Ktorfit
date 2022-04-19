@@ -3,11 +3,11 @@ import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.processing.Dependencies.Companion.ALL_FILES
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import de.jensklingenberg.ktorfit.generator.generateClassImpl
-import de.jensklingenberg.ktorfit.generator.generateHttpExtSource
+import de.jensklingenberg.ktorfit.generator.generateImplClass
+import de.jensklingenberg.ktorfit.generator.generateKtorfitExtSource
 import de.jensklingenberg.ktorfit.http.*
 import de.jensklingenberg.ktorfit.ktorfitError
-import de.jensklingenberg.ktorfit.parser.toMyClass
+import de.jensklingenberg.ktorfit.parser.toClassData
 import java.io.OutputStreamWriter
 
 
@@ -22,10 +22,10 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
     private val logger: KSPLogger = env.logger
     private var invoked = false
 
-    private lateinit var myResolver: Resolver
+    private lateinit var resolver: Resolver
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        myResolver = resolver
+        this.resolver = resolver
 
         if (invoked) {
             return emptyList()
@@ -36,14 +36,14 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
     }
 
     private fun getAnnotatedFunctions(): List<KSFunctionDeclaration> {
-        val getAnnotated = myResolver.getSymbolsWithAnnotation(GET::class.java.name).toList()
-        val postAnnotated = myResolver.getSymbolsWithAnnotation(POST::class.java.name).toList()
-        val putAnnotated = myResolver.getSymbolsWithAnnotation(PUT::class.java.name).toList()
-        val deleteAnnotated = myResolver.getSymbolsWithAnnotation(DELETE::class.java.name).toList()
-        val headAnnotated = myResolver.getSymbolsWithAnnotation(HEAD::class.java.name).toList()
-        val optionsAnnotated = myResolver.getSymbolsWithAnnotation(OPTIONS::class.java.name).toList()
-        val patchAnnotated = myResolver.getSymbolsWithAnnotation(PATCH::class.java.name).toList()
-        val httpAnnotated = myResolver.getSymbolsWithAnnotation(HTTP::class.java.name).toList()
+        val getAnnotated = resolver.getSymbolsWithAnnotation(GET::class.java.name).toList()
+        val postAnnotated = resolver.getSymbolsWithAnnotation(POST::class.java.name).toList()
+        val putAnnotated = resolver.getSymbolsWithAnnotation(PUT::class.java.name).toList()
+        val deleteAnnotated = resolver.getSymbolsWithAnnotation(DELETE::class.java.name).toList()
+        val headAnnotated = resolver.getSymbolsWithAnnotation(HEAD::class.java.name).toList()
+        val optionsAnnotated = resolver.getSymbolsWithAnnotation(OPTIONS::class.java.name).toList()
+        val patchAnnotated = resolver.getSymbolsWithAnnotation(PATCH::class.java.name).toList()
+        val httpAnnotated = resolver.getSymbolsWithAnnotation(HTTP::class.java.name).toList()
 
         val ksAnnotatedList =
             getAnnotated + postAnnotated + putAnnotated + deleteAnnotated + headAnnotated + optionsAnnotated + patchAnnotated + httpAnnotated
@@ -53,7 +53,7 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
 
     override fun finish() {
 
-        val myClasses = getAnnotatedFunctions().groupBy { it.closestClassDeclaration()!! }
+        val classDataList = getAnnotatedFunctions().groupBy { it.closestClassDeclaration()!! }
             .map { (classDec) ->
                 if (classDec.origin.name == "JAVA") {
                     logger.ktorfitError("Java Interfaces are not supported", classDec)
@@ -64,13 +64,13 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
                         classDec
                     )
                 }
-                toMyClass(classDec, logger)
+                toClassData(classDec, logger)
             }
 
-        generateClassImpl(myClasses, codeGenerator)
+        generateImplClass(classDataList, codeGenerator)
 
 
-        val source = generateHttpExtSource(myClasses, env.platforms.any { it.platformName == "JS" })
+        val source = generateKtorfitExtSource(classDataList, env.platforms.any { it.platformName == "JS" })
         codeGenerator.createNewFile(ALL_FILES, "de.jensklingenberg.ktorfit", "KtorfitExt", "kt").use { output ->
             OutputStreamWriter(output).use { writer ->
                 writer.write(source)

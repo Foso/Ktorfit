@@ -4,13 +4,13 @@ import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import de.jensklingenberg.ktorfit.ktorfitError
-import de.jensklingenberg.ktorfit.model.MyClass
-import de.jensklingenberg.ktorfit.model.MyFunction
+import de.jensklingenberg.ktorfit.model.ClassData
+import de.jensklingenberg.ktorfit.model.FunctionData
 import java.io.File
 
 
 /**
- *  //TODO: Find better way to get imports
+ *  TODO: Find better way to get imports
  */
 private fun getImports(ksClassDeclaration: KSClassDeclaration): List<String> {
     val importList =
@@ -19,27 +19,27 @@ private fun getImports(ksClassDeclaration: KSClassDeclaration): List<String> {
             .filter { it.trimStart().startsWith("import") }
             .toMutableList()
 
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.Ktorfit")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.KtorfitClient")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.RequestData")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.QueryData")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.QueryType")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.HeaderData")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.FieldData")
-    importList.addIfAbsent("import de.jensklingenberg.ktorfit.internal.FieldType")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.Ktorfit")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.KtorfitClient")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.RequestData")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.QueryData")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.QueryType")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.HeaderData")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.FieldData")
+    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.FieldType")
 
-    return importList
+    return importList.map { it.removePrefix("import ") }
 }
 
-private fun MutableList<String>.addIfAbsent(e2: String) {
-    if (this.none { it.contains(e2) }) {
-        this.add(e2)
+private fun MutableList<String>.addIfAbsent(text: String) {
+    if (this.none { it.contains(text) }) {
+        this.add(text)
     }
 }
 
-fun toMyClass(ksClassDeclaration: KSClassDeclaration, logger: KSPLogger): MyClass {
+fun toClassData(ksClassDeclaration: KSClassDeclaration, logger: KSPLogger): ClassData {
 
-    val myFunctions: List<MyFunction> = getMyFunctionsList(ksClassDeclaration.getDeclaredFunctions().toList(), logger)
+    val functionDataList: List<FunctionData> = getFunctionDataList(ksClassDeclaration.getDeclaredFunctions().toList(), logger)
 
     val imports = getImports(ksClassDeclaration)
     val packageName = ksClassDeclaration.packageName.asString()
@@ -52,5 +52,5 @@ fun toMyClass(ksClassDeclaration: KSClassDeclaration, logger: KSPLogger): MyClas
     if (packageName.isEmpty()) {
         logger.ktorfitError("Interface needs to have a package", ksClassDeclaration)
     }
-    return MyClass(className, packageName, myFunctions, imports, supertypes, properties)
+    return ClassData(className, packageName, functionDataList, imports, supertypes, properties)
 }

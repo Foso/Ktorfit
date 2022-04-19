@@ -19,10 +19,10 @@ version = "1.0.0-beta04"
 dependencies {
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.4.8")
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
-   // implementation(project(":ktorfit-lib"))
-
+    testImplementation("com.github.tschuchortdev:kotlin-compile-testing-ksp:1.4.8")
+    implementation("com.squareup:kotlinpoet:1.11.0")
+    testImplementation("com.google.truth:truth:1.1.2")
 }
 
 tasks.register("sourcesJar", Jar::class) {

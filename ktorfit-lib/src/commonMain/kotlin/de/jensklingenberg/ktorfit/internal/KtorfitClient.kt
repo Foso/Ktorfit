@@ -31,6 +31,12 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         requestData: RequestData
     ): TReturn {
 
+        if(TReturn::class == HttpStatement::class){
+            return httpClient.prepareRequest {
+                requestBuilder(requestData)
+            } as TReturn
+        }
+
         val request = httpClient.request {
             requestBuilder(requestData)
         }
@@ -65,17 +71,6 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         throw IllegalArgumentException("Add a ResponseConverter for " + requestData.qualifiedRawTypeName + " or make function suspend")
     }
 
-    /**
-     * This is used for requests with @Streaming annotation
-     * Used by generated Code
-     */
-    suspend inline fun prepareRequest(
-        requestData: RequestData
-    ): HttpStatement {
-        return httpClient.prepareRequest {
-            requestBuilder(requestData)
-        }
-    }
 
     fun HttpRequestBuilder.requestBuilder(
         requestData: RequestData

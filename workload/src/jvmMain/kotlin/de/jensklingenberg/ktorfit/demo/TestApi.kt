@@ -3,6 +3,7 @@ package de.jensklingenberg.ktorfit.demo
 import com.example.model.Post
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.FieldMap
+import de.jensklingenberg.ktorfit.http.FormUrlEncoded
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Headers
 import de.jensklingenberg.ktorfit.http.POST
@@ -16,8 +17,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface TestApi  {
 
+    @FormUrlEncoded
     @Headers(value = ["Accept: application/json"])
-    @GET("posts")
+    @POST("posts")
     suspend fun getPosts(@FieldMap map: Map<String, String>): List<Post>
 
     @GET("posts/{userId}")

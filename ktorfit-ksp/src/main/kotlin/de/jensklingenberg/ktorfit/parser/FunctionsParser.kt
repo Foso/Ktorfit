@@ -3,8 +3,17 @@ package de.jensklingenberg.ktorfit.parser
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import de.jensklingenberg.ktorfit.*
-import de.jensklingenberg.ktorfit.model.MyFunction
-import de.jensklingenberg.ktorfit.model.MyType
+import de.jensklingenberg.ktorfit.model.KtorfitError
+import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON
+import de.jensklingenberg.ktorfit.model.TypeData
 import de.jensklingenberg.ktorfit.model.annotations.*
 
 
@@ -21,17 +30,17 @@ fun getHttpMethodAnnotations(func: KSFunctionDeclaration): List<HttpMethodAnnota
     return listOfNotNull(getAnno, postAnno, putAnno, deleteAnno, headAnno, optionsAnno, patchAnno, httpAnno)
 }
 
-fun getMyFunctionsList(
+fun getFunctionDataList(
     ksFunctionDeclarationList: List<KSFunctionDeclaration>,
     logger: KSPLogger
-): List<MyFunction> {
+): List<FunctionData> {
 
     return ksFunctionDeclarationList.map { funcDeclaration ->
 
         val functionName = funcDeclaration.simpleName.asString()
-        val functionParameters = funcDeclaration.parameters.map { getMyParamList(it, logger) }
+        val functionParameters = funcDeclaration.parameters.map { getParameterData(it, logger) }
 
-        val returnType = MyType(
+        val returnType = TypeData(
             funcDeclaration.returnType?.resolve().resolveTypeName(),
             funcDeclaration.returnType?.resolve()?.declaration?.qualifiedName?.asString() ?: ""
         )
@@ -41,7 +50,7 @@ fun getMyFunctionsList(
         with(funcDeclaration) {
             if (funcDeclaration.typeParameters.isNotEmpty()) {
                 logger.ktorfitError(
-                    "function or parameters types must not include a type variable or wildcard:",
+                    KtorfitError.FUNCTION_OR_PARAMETERS_TYPES_MUST_NOT_INCLUDE_ATYPE_VARIABLE_OR_WILDCARD,
                     funcDeclaration
                 )
             }
@@ -54,7 +63,7 @@ fun getMyFunctionsList(
             this.getFormUrlEncodedAnnotation()?.let { formUrlEncoded ->
                 if (functionParameters.none { it.hasAnnotation<Field>() } && functionParameters.none { it.hasAnnotation<FieldMap>() }) {
                     logger.ktorfitError(
-                        "Form-encoded method must contain at least one @Field or @FieldMap.",
+                        KtorfitError.FORM_ENCODED_METHOD_MUST_CONTAIN_AT_LEAST_ONE_FIELD_OR_FIELD_MAP,
                         funcDeclaration
                     )
                 }
@@ -65,7 +74,7 @@ fun getMyFunctionsList(
             this.getStreamingAnnotation()?.let { streaming ->
                 if (returnType.name != "HttpStatement") {
                     logger.ktorfitError(
-                        "For streaming the return type must be io.ktor.client.statement.HttpStatement",
+                        FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT,
                         funcDeclaration
                     )
                 }
@@ -92,13 +101,13 @@ fun getMyFunctionsList(
 
         if (httpMethodAnno.path.isEmpty() && functionParameters.none { it.hasAnnotation<Url>() }) {
             logger.ktorfitError(
-                "Missing either @${httpMethodAnno.httpMethod.keyword} URL or @Url parameter.",
+                MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(httpMethodAnno.httpMethod.keyword),
                 funcDeclaration
             )
         }
 
         if (functionParameters.filter { it.hasRequestBuilderAnno }.size > 1) {
-            logger.ktorfitError("Only one RequestBuilder is allowed. Found: " + httpMethodAnnoList.joinToString { it.toString() } + " at " + functionName,
+            logger.ktorfitError(ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED + " Found: " + httpMethodAnnoList.joinToString { it.toString() } + " at " + functionName,
                 funcDeclaration)
         }
 
@@ -106,7 +115,7 @@ fun getMyFunctionsList(
             HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH -> {}
             else -> {
                 if (functionParameters.any { it.hasAnnotation<Body>() }) {
-                    logger.ktorfitError("Non-body HTTP method cannot contain @Body.", funcDeclaration)
+                    logger.ktorfitError(NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY, funcDeclaration)
                 }
 
                 if (functionAnnotationList.any { it is Multipart }) {
@@ -127,7 +136,7 @@ fun getMyFunctionsList(
 
         if (functionParameters.any { it.hasAnnotation<Path>() } && httpMethodAnno.path.isEmpty()) {
             logger.ktorfitError(
-                "@Path can only be used with relative url on @GET",
+                PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON+"@${httpMethodAnno.httpMethod.keyword}",
                 funcDeclaration
             )
         }
@@ -150,17 +159,23 @@ fun getMyFunctionsList(
 
         if (functionParameters.any { it.hasAnnotation<Field>() }) {
             if (funcDeclaration.getFormUrlEncodedAnnotation() == null) {
-                logger.ktorfitError("@Field parameters can only be used with form encoding", funcDeclaration)
+                logger.ktorfitError(FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING, funcDeclaration)
+            }
+        }
+
+        if (functionParameters.any { it.hasAnnotation<FieldMap>() }) {
+            if (funcDeclaration.getFormUrlEncodedAnnotation() == null) {
+                logger.ktorfitError(FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING, funcDeclaration)
             }
         }
 
         if (functionParameters.any { it.hasAnnotation<Body>() }) {
             if (funcDeclaration.getFormUrlEncodedAnnotation() != null) {
-                logger.ktorfitError("@Body parameters cannot be used with form or multi-part encoding", funcDeclaration)
+                logger.ktorfitError(BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING, funcDeclaration)
             }
         }
 
-        return@map MyFunction(
+        return@map FunctionData(
             functionName,
             returnType,
             funcDeclaration.isSuspend,

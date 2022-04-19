@@ -12,9 +12,13 @@ import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
 import de.jensklingenberg.ktorfit.http.Streaming
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import io.ktor.client.statement.*
+import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import io.ktor.utils.io.*
+import io.ktor.utils.io.core.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
@@ -41,7 +45,7 @@ interface JvmPlaceHolderApi : StarWarsApi {
     suspend fun testQuery(@Path("id") peopleId: Int, @Query("huhu") name: Array<String?>): People
 
     @Streaming
-    @GET("docs/response.html#streaming")
+    @GET("people/1/")
     suspend fun getPostsStreaming(): HttpStatement
 }
 
@@ -71,7 +75,10 @@ fun main() {
 
     println("==============================================")
     runBlocking {
-        val response = exampleApi.testQuery(3, arrayOf("na   ud", null, "do"))
+        val response = exampleApi.getPostsStreaming().execute(){httpResponse->
+            val channel: String = httpResponse.body()
+            println(channel)
+        }
 
         println("LI    " + response)
 
