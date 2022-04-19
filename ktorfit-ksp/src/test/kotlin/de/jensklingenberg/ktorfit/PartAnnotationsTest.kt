@@ -32,7 +32,7 @@ interface TestService {
     """
         )
 
-        val expectedFunctionText = "parts ="
+        val expectedPartsArgumentText = "parts ="
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -49,7 +49,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFunctionText)).isFalse()
+        Truth.assertThat(generatedFile.readText().contains(expectedPartsArgumentText)).isFalse()
     }
 
     @Test
@@ -69,7 +69,7 @@ interface TestService {
     """
         )
 
-        val expected = "parts = mapOf(\"name\" to testPart)"
+        val expectedPartsArgumentText = "parts = mapOf(\"name\" to testPart)"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -86,7 +86,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedPartsArgumentText)).isTrue()
     }
 
     @Test
@@ -108,7 +108,7 @@ interface TestService {
         )
 
 
-        val expected = "parts = testPartMap"
+        val expectedPartsArgumentText = "parts = testPartMap"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -125,7 +125,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedPartsArgumentText)).isTrue()
     }
 
 
@@ -149,7 +149,7 @@ interface TestService {
         )
 
 
-        val expected =  "parts = mapOf(\"name\" to testPart)+name"
+        val expectedPartsArgumentText =  "parts = mapOf(\"name\" to testPart)+name"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -166,7 +166,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedPartsArgumentText)).isTrue()
     }
 
     @Test

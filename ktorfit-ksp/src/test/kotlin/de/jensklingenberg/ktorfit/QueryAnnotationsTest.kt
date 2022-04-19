@@ -33,7 +33,7 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = "queries ="
+        val expectedQueriesArgumentText = "queries ="
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -50,7 +50,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFunctionText)).isFalse()
+        Truth.assertThat(generatedFile.readText().contains(expectedQueriesArgumentText)).isFalse()
     }
 
 
@@ -74,7 +74,7 @@ interface TestService {
         )
 
 
-        val expected = "queries = listOf(QueryData(false,testQuery,\"name\",QueryType.QUERY))"
+        val expectedQueriesArgumentText = "queries = listOf(QueryData(false,testQuery,\"name\",QueryType.QUERY))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -91,7 +91,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedQueriesArgumentText)).isTrue()
     }
 
     @Test
@@ -113,7 +113,7 @@ interface TestService {
         )
 
 
-        val expected = "queries = listOf(QueryData(true,testQuery,\"name\",QueryType.QUERY))"
+        val expectedQueriesArgumentText = "queries = listOf(QueryData(true,testQuery,\"name\",QueryType.QUERY))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -130,7 +130,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedQueriesArgumentText)).isTrue()
     }
 
     @Test
@@ -152,7 +152,7 @@ interface TestService {
         )
 
 
-        val expected = "queries = listOf(QueryData(false,testQueryName,\"\",QueryType.QUERYNAME))"
+        val expectedQueriesArgumentText = "queries = listOf(QueryData(false,testQueryName,\"\",QueryType.QUERYNAME))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -169,7 +169,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedQueriesArgumentText)).isTrue()
     }
 
 
@@ -192,7 +192,7 @@ interface TestService {
         )
 
 
-        val expected = "queries = listOf(QueryData(false,testQueryMap,\"\",QueryType.QUERYMAP))"
+        val expectedQueriesArgumentText = "queries = listOf(QueryData(false,testQueryMap,\"\",QueryType.QUERYMAP))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -209,7 +209,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedQueriesArgumentText)).isTrue()
     }
 
 
@@ -234,7 +234,7 @@ interface TestService {
         )
 
 
-        val expected =  "queries = listOf(QueryData(false,testQuery,\"name\",QueryType.QUERY),\n" +
+        val expectedQueriesArgumentText =  "queries = listOf(QueryData(false,testQuery,\"name\",QueryType.QUERY),\n" +
                 "            QueryData(false,testQueryName,\"\",QueryType.QUERYNAME),\n" +
                 "            QueryData(false,name,\"\",QueryType.QUERYMAP)),"
 
@@ -253,7 +253,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedQueriesArgumentText)).isTrue()
     }
 
     @Test

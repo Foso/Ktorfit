@@ -94,7 +94,7 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = "bodyData = id"
+        val expectedBodyDataArgumentText = "bodyData = id"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -111,7 +111,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFunctionText)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedBodyDataArgumentText)).isTrue()
     }
 
     @Test
@@ -132,7 +132,7 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = "bodyData ="
+        val expectedBodyDataArgumentText = "bodyData ="
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -149,7 +149,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFunctionText)).isFalse()
+        Truth.assertThat(generatedFile.readText().contains(expectedBodyDataArgumentText)).isFalse()
     }
 
 }

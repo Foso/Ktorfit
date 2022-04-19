@@ -32,8 +32,7 @@ interface TestService {
     """
         )
 
-
-        val expectedFunctionText = "fields ="
+        val expectedFieldsArgumentText = "fields ="
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -50,7 +49,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFunctionText)).isFalse()
+        Truth.assertThat(generatedFile.readText().contains(expectedFieldsArgumentText)).isFalse()
     }
 
 
@@ -101,7 +100,7 @@ interface TestService {
     """
         )
 
-        val expected = "fields = listOf(FieldData(false,testField,\"name\",FieldType.FIELD))"
+        val expectedFieldsArgumentText = "fields = listOf(FieldData(false,testField,\"name\",FieldType.FIELD))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -118,7 +117,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedFieldsArgumentText)).isTrue()
     }
 
     @Test
@@ -141,7 +140,7 @@ interface TestService {
         )
 
 
-        val expected = "fields = listOf(FieldData(false,testFieldMap,\"\",FieldType.FIELDMAP))"
+        val expectedFieldsArgumentText = "fields = listOf(FieldData(false,testFieldMap,\"\",FieldType.FIELDMAP))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -158,7 +157,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedFieldsArgumentText)).isTrue()
     }
 
 
@@ -184,7 +183,7 @@ interface TestService {
         )
 
 
-        val expected =  "fields = listOf(FieldData(false,testField,\"name\",FieldType.FIELD),\n" +
+        val expectedFieldsArgumentText =  "fields = listOf(FieldData(false,testField,\"name\",FieldType.FIELD),\n" +
                 "            FieldData(false,name,\"\",FieldType.FIELDMAP))"
 
         val compilation = KotlinCompilation().apply {
@@ -202,7 +201,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedFieldsArgumentText)).isTrue()
     }
 
     @Test

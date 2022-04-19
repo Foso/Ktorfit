@@ -42,7 +42,7 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = "requestBuilder ="
+        val expectedRequestBuilderArgumentText = "requestBuilder ="
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -59,7 +59,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFunctionText)).isFalse()
+        Truth.assertThat(generatedFile.readText().contains(expectedRequestBuilderArgumentText)).isFalse()
     }
 
 
@@ -81,7 +81,7 @@ interface TestService {
         )
 
 
-        val expected = "requestBuilder = builder"
+        val expectedRequestBuilderArgumentText = "requestBuilder = builder"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(httpReqBuilderSource, source)
@@ -98,7 +98,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedRequestBuilderArgumentText)).isTrue()
     }
 
     @Test

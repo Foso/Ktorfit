@@ -39,7 +39,7 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = "headers ="
+        val expectedHeadersArgumentText = "headers ="
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -56,7 +56,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFunctionText)).isFalse()
+        Truth.assertThat(generatedFile.readText().contains(expectedHeadersArgumentText)).isFalse()
     }
 
 
@@ -81,7 +81,7 @@ interface TestService {
         )
 
 
-        val expected ="headers = listOf(HeaderData(\"x\",\"y\"), HeaderData(\"a\",\"b\"))"
+        val expectedHeadersArgumentText ="headers = listOf(HeaderData(\"x\",\"y\"), HeaderData(\"a\",\"b\"))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -98,7 +98,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedHeadersArgumentText)).isTrue()
     }
 
 
@@ -121,7 +121,7 @@ interface TestService {
         )
 
 
-        val expected ="headers = listOf(HeaderData(\"testHeader\",testParameter))"
+        val expectedHeadersArgumentText ="headers = listOf(HeaderData(\"testHeader\",testParameter))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -138,7 +138,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedHeadersArgumentText)).isTrue()
     }
 
     @Test
@@ -160,7 +160,7 @@ interface TestService {
         )
 
 
-        val expected = "headers = listOf(HeaderData(\"\",testParameter))"
+        val expectedHeadersArgumentText = "headers = listOf(HeaderData(\"\",testParameter))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -177,7 +177,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedHeadersArgumentText)).isTrue()
     }
 
     @Test
