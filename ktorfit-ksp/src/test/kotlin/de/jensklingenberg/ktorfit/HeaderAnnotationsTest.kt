@@ -24,7 +24,7 @@ class HeaderAnnotationsTest {
     fun whenNoHeaderAnnotationsFound_KeepHeadersArgumentEmpty() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
@@ -65,7 +65,7 @@ interface TestService {
     fun whenHeadersAnnotationFound_AddHeader() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Headers
@@ -106,7 +106,7 @@ interface TestService {
     fun whenHeaderAnnotationFound_AddHeader() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
@@ -145,7 +145,7 @@ interface TestService {
     fun whenHeaderMapAnnotationFound_AddHeader() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.HeaderMap
@@ -184,7 +184,7 @@ interface TestService {
     fun whenHeaderMapTypeIsNotMap_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.HeaderMap
@@ -213,7 +213,7 @@ interface TestService {
     fun whenHeaderMapKeysIsNotString_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.HeaderMap

@@ -30,6 +30,8 @@ class KtorfitError {
             "@Body parameters cannot be used with form or multi-part encoding"
         const val FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT =
             "For streaming the return type must be io.ktor.client.statement.HttpStatement"
+        const val COULD_NOT_FIND_ANY_KTORFIT_ANNOTATIONS_IN_CLASS = "Could not find any Ktorfit annotations in class"
+        fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) = "Missing either @$keyword URL or @Url parameter"
 
     }
 }

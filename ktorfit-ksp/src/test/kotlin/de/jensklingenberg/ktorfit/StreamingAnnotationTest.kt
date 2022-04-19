@@ -31,7 +31,7 @@ interface HttpStatement
     fun whenStreamingAnnotationFound_SetHttpStatementAsFunctionReturnType() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Streaming
@@ -76,7 +76,7 @@ interface TestService {
     fun whenStreamingReturnTypeNotHttpStatement_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Streaming

@@ -12,20 +12,20 @@ import org.junit.Assert
 import org.junit.Test
 import java.io.File
 
-class ReqBuilderAnnotationsTest {
+class UrlTest {
 
-    private val httpReqBuilderSource = SourceFile.kotlin(
-        "ReqBuilder.kt", """
-      package io.ktor.client.request
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.ReqBuilder
-
-interface HttpRequestBuilder
-    """
-    )
 
     @Test
-    fun whenNoRequestBuilderAnnotationsFound_KeepArgumentEmpty() {
+    fun testFunctionWithGET() {
+        val expectedFunctionSource = """
+  public override suspend fun test(): String {
+    val requestData = RequestData(method="GET",
+        relativeUrl="user",
+        qualifiedRawTypeName="kotlin.String") 
+
+    return client.suspendRequest<String, String>(requestData)
+  }
+"""
 
         val source = SourceFile.kotlin(
             "Source.kt", """
@@ -33,16 +33,11 @@ interface HttpRequestBuilder
 import de.jensklingenberg.ktorfit.http.GET
 
 interface TestService {
-
-    @GET("posts")
+    @GET("user")
     suspend fun test(): String
-    
 }
     """
         )
-
-
-        val expectedFunctionText = "requestBuilder ="
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -59,32 +54,36 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFunctionText)).isFalse()
+        Truth.assertThat(generatedFile.readText().contains(expectedFunctionSource)).isTrue()
     }
 
-
     @Test
-    fun addRequestBuilderArgumentWhenAnnotationFound() {
+    fun testFunctionWithGETAndUrlAnno() {
+        val expectedFunctionSource = """
+  public override suspend fun test(url: String): String {
+    val requestData = RequestData(method="GET",
+        relativeUrl="$\{url}",
+        qualifiedRawTypeName="kotlin.String") 
+
+    return client.suspendRequest<String, String>(requestData)
+  }
+""".replace("\\{", "{")
 
         val source = SourceFile.kotlin(
             "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.ReqBuilder
-import io.ktor.client.request.*
+import de.jensklingenberg.ktorfit.http.Url
 
 interface TestService {
-    @GET("posts")
-    suspend fun test(@ReqBuilder builder : HttpRequestBuilder.() -> Unit)
+    @GET("")
+    suspend fun test(@Url url: String): String
 }
     """
         )
 
-
-        val expected = "requestBuilder = builder"
-
         val compilation = KotlinCompilation().apply {
-            sources = listOf(httpReqBuilderSource, source)
+            sources = listOf(source)
             inheritClassPath = true
             symbolProcessorProviders = listOf(KtorfitProcessorProvider())
             kspIncremental = true
@@ -98,30 +97,27 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expected)).isTrue()
+        Truth.assertThat(generatedFile.readText().contains(expectedFunctionSource)).isTrue()
     }
 
     @Test
-    fun whenMultipleReqBuilderFound_ThrowCompilationError() {
+    fun whenHttpMethodAnnotationPathEmptyAndNoUrlAnno_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
             "Source.kt", """
-   package com.example.api
+      package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.ReqBuilder
-import io.ktor.client.request.*
 
 interface TestService {
-
-    @GET("posts")
-    suspend fun test(@ReqBuilder builder : HttpRequestBuilder.() -> Unit,@ReqBuilder builder2 : HttpRequestBuilder.() -> Unit)
-    
+    @GET("")
+    suspend fun test(): String
 }
     """
         )
 
+
         val compilation = KotlinCompilation().apply {
-            sources = listOf(httpReqBuilderSource,source)
+            sources = listOf(source)
             inheritClassPath = true
             symbolProcessorProviders = listOf(KtorfitProcessorProvider())
             kspIncremental = true
@@ -129,39 +125,10 @@ interface TestService {
 
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED))
+        Assert.assertTrue(result.messages.contains(KtorfitError.MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER("GET")))
     }
 
-    @Test
-    fun whenReqBuilderNOtReqBuilder_ThrowCompilationError() {
 
-        val source = SourceFile.kotlin(
-            "Source.kt", """
-   package com.example.api
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.ReqBuilder
-import io.ktor.client.request.*
-
-interface TestService {
-
-    @GET("posts")
-    suspend fun test(@ReqBuilder builder : String)
-    
-}
-    """
-        )
-
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(httpReqBuilderSource,source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
-
-        val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.REQ_BUILDER_PARAMETER_TYPE_NEEDS_TO_BE_HTTP_REQUEST_BUILDER))
-    }
 
 }
 

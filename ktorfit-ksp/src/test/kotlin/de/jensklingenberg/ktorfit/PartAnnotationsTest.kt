@@ -19,7 +19,7 @@ class PartAnnotationsTest {
     fun whenNoPartAnnotationsFound_KeepPartsArgumentEmpty() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 
@@ -56,7 +56,7 @@ interface TestService {
     fun whenPartAnnotationFoundAddItToPartsArgument() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Part
@@ -93,7 +93,7 @@ interface TestService {
     fun whenPartMapAnnotationFoundAddItToPartsArgument() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.PartMap
 import de.jensklingenberg.ktorfit.http.POST
@@ -133,7 +133,7 @@ interface TestService {
     fun testFunctionWithPartAndPartMap() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.PartMap
@@ -173,7 +173,7 @@ interface TestService {
     fun whenPartMapTypeIsNotMap_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
     import de.jensklingenberg.ktorfit.http.POST
     import de.jensklingenberg.ktorfit.http.PartMap
@@ -201,7 +201,7 @@ interface TestService {
     fun whenPartNullable_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
     import de.jensklingenberg.ktorfit.http.POST
     import de.jensklingenberg.ktorfit.http.Part

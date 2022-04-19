@@ -7,7 +7,7 @@ data class FunctionData(
     val name: String,
     val returnType: TypeData,
     val isSuspend: Boolean = false,
-    val params: List<ParameterData>,
+    val parameterDataList: List<ParameterData>,
     val annotations: List<FunctionAnnotation> = emptyList(),
     val httpMethodAnnotation: HttpMethodAnnotation
 )

@@ -19,7 +19,7 @@ class FieldAnnotationsTest {
     fun whenNoFieldAnnotationsFound_KeepFieldsArgumentEmpty() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 
@@ -59,7 +59,7 @@ interface TestService {
     fun whenFieldUsedWithoutFormEncoding_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Field
@@ -87,7 +87,7 @@ interface TestService {
     fun whenFieldAnnotationFoundAddItToFieldsArgument() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Field
@@ -125,7 +125,7 @@ interface TestService {
     fun whenFieldMapAnnotationFoundAddItToFieldsArgument() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.FieldMap
 import de.jensklingenberg.ktorfit.http.FormUrlEncoded
@@ -166,7 +166,7 @@ interface TestService {
     fun testFunctionWithFieldAndFieldMap() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.FieldMap
@@ -209,7 +209,7 @@ interface TestService {
     fun whenFieldMapTypeIsNotMap_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.FieldMap
@@ -241,7 +241,7 @@ interface TestService {
     fun whenFieldMapKeysIsNotString_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.FieldMap

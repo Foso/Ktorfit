@@ -19,7 +19,7 @@ class QueryAnnotationsTest {
     fun whenNoQueryAnnotationsFound_KeepQuerysArgumentEmpty() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 
@@ -59,7 +59,7 @@ interface TestService {
     fun testQuery() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Query
@@ -98,7 +98,7 @@ interface TestService {
     fun testEncodedQuery() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Query
@@ -137,7 +137,7 @@ interface TestService {
     fun testQueryName() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.QueryName
@@ -177,7 +177,7 @@ interface TestService {
     fun testQueryMap() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.QueryMap
@@ -217,7 +217,7 @@ interface TestService {
     fun testFunctionWithQueryAndQueryNameAndQueryMap() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.QueryMap
@@ -260,7 +260,7 @@ interface TestService {
     fun whenQueryMapTypeIsNotMap_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.QueryMap
@@ -290,7 +290,7 @@ interface TestService {
     fun whenQueryMapKeysIsNotString_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.QueryMap
@@ -313,14 +313,14 @@ interface TestService {
 
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.QUERY_MAP_PARAMETER_TYPE_MUST_BE_MAP))
+        Assert.assertTrue(result.messages.contains(KtorfitError.QUERY_MAP_KEYS_MUST_BE_OF_TYPE_STRING))
     }
 
     @Test
     fun whenQueryMapNullable_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.QueryMap

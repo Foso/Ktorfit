@@ -19,7 +19,7 @@ class BodyAnnotationsTest {
     fun whenBodyUsedWithNonBodyMethod_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Body
@@ -50,7 +50,7 @@ interface TestService {
     fun whenBodyUsedWithFormUrlEncoded_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Body
@@ -81,7 +81,7 @@ interface TestService {
     fun testFunctionWithBody() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Body
@@ -118,7 +118,7 @@ interface TestService {
     fun whenNoBodyAnnotationsFound_KeepBodysArgumentEmpty() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 

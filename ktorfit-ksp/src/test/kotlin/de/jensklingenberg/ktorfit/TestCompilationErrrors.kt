@@ -19,7 +19,7 @@ class TestCompilationErrrors() {
 
   @Test
   fun whenMoreThan1HttpMethodFound_throwError() {
-    val source = SourceFile.kotlin("CustomCallable.kt", """
+    val source = SourceFile.kotlin("Source.kt", """
       package com.example.api
 
 import com.example.model.github.GithubFollowerResponseItem

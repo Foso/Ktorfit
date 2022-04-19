@@ -21,7 +21,7 @@ class PathAnnotationsTest {
     fun testFunctionWithGETAndPath() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
@@ -66,7 +66,7 @@ interface TestService {
     fun testFunctionWithGETAndAlreadyEncodedPath() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
@@ -83,11 +83,11 @@ interface TestService {
 
         val expectedFunctionText = """public override suspend fun test(id: String): String {
     val requestData = RequestData(method="GET",
-        relativeUrl="user/$\{id}",
+        relativeUrl="user/$%{id}",
         qualifiedRawTypeName="kotlin.String") 
 
     return client.suspendRequest<String, String>(requestData)
-  }""".replace("\\{", "{")
+  }""".replace("%", "")
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -111,7 +111,7 @@ interface TestService {
     fun whenPathParameterNullable_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
@@ -142,7 +142,7 @@ interface TestService {
     fun whenPathUsedWithEmptyHttpAnnotationValue_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "CustomCallable.kt", """
+            "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path

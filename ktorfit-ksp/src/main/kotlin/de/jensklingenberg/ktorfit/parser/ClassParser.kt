@@ -31,9 +31,9 @@ private fun getImports(ksClassDeclaration: KSClassDeclaration): List<String> {
     return importList.map { it.removePrefix("import ") }
 }
 
-private fun MutableList<String>.addIfAbsent(e2: String) {
-    if (this.none { it.contains(e2) }) {
-        this.add(e2)
+private fun MutableList<String>.addIfAbsent(text: String) {
+    if (this.none { it.contains(text) }) {
+        this.add(text)
     }
 }
 

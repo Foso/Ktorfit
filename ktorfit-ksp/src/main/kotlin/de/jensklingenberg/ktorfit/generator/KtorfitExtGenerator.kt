@@ -5,12 +5,13 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeVariableName
 import de.jensklingenberg.ktorfit.model.ClassData
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.COULD_NOT_FIND_ANY_KTORFIT_ANNOTATIONS_IN_CLASS
 
 /**
  * This will generate the Ktorfit.create() extension function
  */
 fun generateKtorfitExtSource(
-    myClasses: List<ClassData>,
+    classDataList: List<ClassData>,
     isJS: Boolean = false
 ): String {
     val classNameReflectionMethod = if (isJS) {
@@ -23,7 +24,7 @@ fun generateKtorfitExtSource(
         "qualifiedName"
     }
 
-    val whenCaseStatements = myClasses.joinToString("") {
+    val whenCaseStatements = classDataList.joinToString("") {
         val packageName = it.packageName
         val className = it.name
         "${packageName}.${className}::class ->{\n"+
@@ -39,7 +40,7 @@ fun generateKtorfitExtSource(
         .beginControlFlow("return when(T::class){")
         .addStatement(whenCaseStatements)
         .addStatement("else ->{")
-        .addStatement("throw IllegalArgumentException(\"Could not find any Ktorfit annotations in class \"+ T::class.$classNameReflectionMethod  )")
+        .addStatement("throw IllegalArgumentException(\"${COULD_NOT_FIND_ANY_KTORFIT_ANNOTATIONS_IN_CLASS}\"+ T::class.$classNameReflectionMethod  )")
         .addStatement("}")
         .endControlFlow()
         .build()
