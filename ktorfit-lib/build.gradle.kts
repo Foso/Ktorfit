@@ -10,6 +10,10 @@ plugins {
 
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
 version = "1.0.0-beta04"
 val ktorVersion = "2.0.0"//"2.0.0-eap-354"
 kotlin {
@@ -71,6 +75,14 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
 
+            }
+        }
+        val jvmTest by getting {
+
+            dependencies {
+                dependsOn(jvmMain)
+                implementation("io.ktor:ktor-client-mock:$ktorVersion")
+                implementation("junit:junit:4.13.2")
             }
         }
         val iosX64Main by getting
