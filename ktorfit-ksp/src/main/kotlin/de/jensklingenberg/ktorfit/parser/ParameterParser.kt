@@ -7,6 +7,9 @@ import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_KEYS_MU
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PART_MAP_PARAMETER_TYPE_MUST_BE_MAP
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PART_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PATH_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.QUERY_MAP_KEYS_MUST_BE_OF_TYPE_STRING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.QUERY_MAP_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.QUERY_MAP_PARAMETER_TYPE_MUST_BE_MAP
@@ -71,7 +74,7 @@ fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger
 
     ksValueParameter.getPathAnnotation()?.let {
         if (ksValueParameter.type.resolve().isMarkedNullable) {
-            logger.ktorfitError("Path parameter type may not be nullable", ksValueParameter.type)
+            logger.ktorfitError(PATH_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE, ksValueParameter.type)
         }
         pararamAnnos.add(it)
     }
@@ -133,14 +136,14 @@ fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger
 
     ksValueParameter.getPartAnnotation()?.let {
         if (ksValueParameter.type.resolve().isMarkedNullable) {
-            logger.ktorfitError("Part parameter type may not be nullable", ksValueParameter.type)
+            logger.ktorfitError(PART_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE, ksValueParameter.type)
         }
         pararamAnnos.add(it)
     }
 
     ksValueParameter.getPartMapAnnotation()?.let {
         if (!ksValueParameter.type.toString().endsWith("Map")) {
-            logger.ktorfitError("@PartMap parameter type must be Map.", ksValueParameter)
+            logger.ktorfitError(PART_MAP_PARAMETER_TYPE_MUST_BE_MAP, ksValueParameter)
         }
         pararamAnnos.add(it)
     }

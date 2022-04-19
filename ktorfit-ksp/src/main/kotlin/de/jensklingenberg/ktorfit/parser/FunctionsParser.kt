@@ -5,9 +5,13 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import de.jensklingenberg.ktorfit.*
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON
 import de.jensklingenberg.ktorfit.model.TypeData
 import de.jensklingenberg.ktorfit.model.annotations.*
 
@@ -69,7 +73,7 @@ fun getFunctionDataList(
             this.getStreamingAnnotation()?.let { streaming ->
                 if (returnType.name != "HttpStatement") {
                     logger.ktorfitError(
-                        "For streaming the return type must be io.ktor.client.statement.HttpStatement",
+                        FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT,
                         funcDeclaration
                     )
                 }
@@ -110,7 +114,7 @@ fun getFunctionDataList(
             HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH -> {}
             else -> {
                 if (functionParameters.any { it.hasAnnotation<Body>() }) {
-                    logger.ktorfitError("Non-body HTTP method cannot contain @Body.", funcDeclaration)
+                    logger.ktorfitError(NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY, funcDeclaration)
                 }
 
                 if (functionAnnotationList.any { it is Multipart }) {
@@ -131,7 +135,7 @@ fun getFunctionDataList(
 
         if (functionParameters.any { it.hasAnnotation<Path>() } && httpMethodAnno.path.isEmpty()) {
             logger.ktorfitError(
-                "@Path can only be used with relative url on @GET",
+                PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON+"@${httpMethodAnno.httpMethod.keyword}",
                 funcDeclaration
             )
         }
@@ -166,7 +170,7 @@ fun getFunctionDataList(
 
         if (functionParameters.any { it.hasAnnotation<Body>() }) {
             if (funcDeclaration.getFormUrlEncodedAnnotation() != null) {
-                logger.ktorfitError("@Body parameters cannot be used with form or multi-part encoding", funcDeclaration)
+                logger.ktorfitError(BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING, funcDeclaration)
             }
         }
 
