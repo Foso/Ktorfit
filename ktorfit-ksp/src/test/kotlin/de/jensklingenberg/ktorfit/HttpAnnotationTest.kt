@@ -8,6 +8,7 @@ import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspIncremental
 import com.tschuchort.compiletesting.kspSourcesDir
 import com.tschuchort.compiletesting.symbolProcessorProviders
+import de.jensklingenberg.ktorfit.model.KtorfitError
 import org.junit.Assert
 import org.junit.Test
 import java.io.File
@@ -110,6 +111,6 @@ interface GithubService {
         }
         val result = compilation.compile()
         assertThat(result.exitCode).isEqualTo(ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains("Ktorfit: Only one HTTP method is allowed. Found: GET, POST at test"))
+        Assert.assertTrue(result.messages.contains(KtorfitError.ONLY_ONE_HTTP_METHOD_IS_ALLOWED))
     }
 }

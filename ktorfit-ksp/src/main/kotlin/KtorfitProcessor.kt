@@ -8,6 +8,7 @@ import de.jensklingenberg.ktorfit.generator.generateKtorfitExtSource
 import de.jensklingenberg.ktorfit.http.*
 import de.jensklingenberg.ktorfit.ktorfitError
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.JAVA_INTERFACES_ARE_NOT_SUPPORTED
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.TYPE_PARAMETERS_ARE_UNSUPPORTED_ON
 import de.jensklingenberg.ktorfit.parser.toClassData
 import java.io.OutputStreamWriter
 
@@ -61,7 +62,7 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
                 }
                 if (classDec.typeParameters.isNotEmpty()) {
                     logger.ktorfitError(
-                        "Type parameters are unsupported on ${classDec.simpleName.asString()}",
+                        TYPE_PARAMETERS_ARE_UNSUPPORTED_ON+" ${classDec.simpleName.asString()}",
                         classDec
                     )
                 }

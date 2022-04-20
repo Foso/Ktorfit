@@ -8,9 +8,13 @@ import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FORM_URL_ENCODED_CAN_ONLY_BE_SPECIFIED_ON_HTTP_METHODS_WITH_REQUEST_BODY
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.ONLY_ONE_ENCODING_ANNOTATION_IS_ALLOWED
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.ONLY_ONE_HTTP_METHOD_IS_ALLOWED
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON
 import de.jensklingenberg.ktorfit.model.TypeData
@@ -93,7 +97,7 @@ fun getFunctionDataList(
         }
 
         if (httpMethodAnnoList.size > 1) {
-            logger.ktorfitError("Only one HTTP method is allowed. Found: " + httpMethodAnnoList.joinToString { it.httpMethod.keyword } + " at " + functionName,
+            logger.ktorfitError(ONLY_ONE_HTTP_METHOD_IS_ALLOWED+ "Found: " + httpMethodAnnoList.joinToString { it.httpMethod.keyword } + " at " + functionName,
                 funcDeclaration)
         }
 
@@ -127,7 +131,7 @@ fun getFunctionDataList(
 
                 if (funcDeclaration.getFormUrlEncodedAnnotation() != null) {
                     logger.ktorfitError(
-                        "FormUrlEncoded can only be specified on HTTP methods with request body (e.g., @POST).",
+                        FORM_URL_ENCODED_CAN_ONLY_BE_SPECIFIED_ON_HTTP_METHODS_WITH_REQUEST_BODY,
                         funcDeclaration
                     )
                 }
@@ -142,16 +146,16 @@ fun getFunctionDataList(
         }
 
         if (funcDeclaration.getFormUrlEncodedAnnotation() != null && funcDeclaration.getMultipartAnnotation() != null) {
-            logger.ktorfitError("Only one encoding annotation is allowed.", funcDeclaration)
+            logger.ktorfitError(ONLY_ONE_ENCODING_ANNOTATION_IS_ALLOWED, funcDeclaration)
         }
 
         if (functionParameters.any { it.hasAnnotation<Url>() }) {
             if (functionParameters.filter { it.hasAnnotation<Url>() }.size > 1) {
-                logger.ktorfitError("Multiple @Url method annotations found", funcDeclaration)
+                logger.ktorfitError(MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND, funcDeclaration)
             }
             if (httpMethodAnno.path.isNotEmpty()) {
                 logger.ktorfitError(
-                    "@Url cannot be used with @${httpMethodAnno.httpMethod.keyword} URL",
+                    "@Url only be used with empty @${httpMethodAnno.httpMethod.keyword} URL value",
                     funcDeclaration
                 )
             }

@@ -100,6 +100,8 @@ interface TestService {
         Truth.assertThat(generatedFile.readText().contains(expectedFunctionSource)).isTrue()
     }
 
+
+    //Multipe
     @Test
     fun whenHttpMethodAnnotationPathEmptyAndNoUrlAnno_ThrowCompilationError() {
 
@@ -126,6 +128,35 @@ interface TestService {
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
         Assert.assertTrue(result.messages.contains(KtorfitError.MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER("GET")))
+    }
+
+    @Test
+    fun whenMultipleParameterWithUrlAnnotation_ThrowCompilationError() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Url
+
+interface TestService {
+    @GET("")
+    suspend fun test(@Url url: String,@Url url2: String): String
+}
+    """
+        )
+
+
+        val compilation = KotlinCompilation().apply {
+            sources = listOf(source)
+            inheritClassPath = true
+            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
+            kspIncremental = true
+        }
+
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        Assert.assertTrue(result.messages.contains(KtorfitError.MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND))
     }
 
 

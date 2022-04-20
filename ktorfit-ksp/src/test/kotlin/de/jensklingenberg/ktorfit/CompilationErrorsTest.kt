@@ -41,7 +41,8 @@ class CompilationErrorsTest() {
     @Test
     fun whenInterfaceWithoutPackage_ThrowCompilationError() {
 
-        val source = SourceFile.kotlin("Source.kt", """
+        val source = SourceFile.kotlin(
+            "Source.kt", """
 
 import com.example.model.github.GithubFollowerResponseItem
 import com.example.model.github.Issuedata
@@ -61,7 +62,8 @@ interface GithubService {
     suspend fun test(): String
     
 }
-    """)
+    """
+        )
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -72,6 +74,45 @@ interface GithubService {
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
         Assert.assertTrue(result.messages.contains(KtorfitError.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE))
+    }
+
+
+    @Test
+    fun whenInterfaceWithGenerics_ThrowCompilationError() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+  package com.example.api
+import com.example.model.github.GithubFollowerResponseItem
+import com.example.model.github.Issuedata
+import com.example.model.github.TestReeeItem
+import de.jensklingenberg.ktorfit.http.Body
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
+import de.jensklingenberg.ktorfit.http.Headers
+import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.Path
+import kotlinx.coroutines.flow.Flow
+
+interface GithubService<T> {
+
+    @GET("user/followers")
+    @POST("repos/foso/experimental/issues")
+    suspend fun test(): String
+    
+}
+    """
+        )
+
+        val compilation = KotlinCompilation().apply {
+            sources = listOf(source)
+            inheritClassPath = true
+            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
+            kspIncremental = true
+        }
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        Assert.assertTrue(result.messages.contains(KtorfitError.TYPE_PARAMETERS_ARE_UNSUPPORTED_ON))
     }
 
 }
