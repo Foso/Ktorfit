@@ -6,6 +6,7 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import de.jensklingenberg.ktorfit.ktorfitError
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE
 import java.io.File
 
 
@@ -50,7 +51,7 @@ fun toClassData(ksClassDeclaration: KSClassDeclaration, logger: KSPLogger): Clas
     val properties = ksClassDeclaration.getAllProperties().toList()
 
     if (packageName.isEmpty()) {
-        logger.ktorfitError("Interface needs to have a package", ksClassDeclaration)
+        logger.ktorfitError(INTERFACE_NEEDS_TO_HAVE_A_PACKAGE, ksClassDeclaration)
     }
     return ClassData(className, packageName, functionDataList, imports, supertypes, properties)
 }

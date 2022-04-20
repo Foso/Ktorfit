@@ -32,6 +32,8 @@ class KtorfitError {
             "For streaming the return type must be io.ktor.client.statement.HttpStatement"
         const val COULD_NOT_FIND_ANY_KTORFIT_ANNOTATIONS_IN_CLASS = "Could not find any Ktorfit annotations in class"
         fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) = "Missing either @$keyword URL or @Url parameter"
+        const val JAVA_INTERFACES_ARE_NOT_SUPPORTED = "Java Interfaces are not supported"
+        const val INTERFACE_NEEDS_TO_HAVE_A_PACKAGE = "Interface needs to have a package"
 
     }
 }

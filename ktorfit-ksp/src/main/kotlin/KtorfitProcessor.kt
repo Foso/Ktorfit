@@ -7,6 +7,7 @@ import de.jensklingenberg.ktorfit.generator.generateImplClass
 import de.jensklingenberg.ktorfit.generator.generateKtorfitExtSource
 import de.jensklingenberg.ktorfit.http.*
 import de.jensklingenberg.ktorfit.ktorfitError
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.JAVA_INTERFACES_ARE_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.parser.toClassData
 import java.io.OutputStreamWriter
 
@@ -56,7 +57,7 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
         val classDataList = getAnnotatedFunctions().groupBy { it.closestClassDeclaration()!! }
             .map { (classDec) ->
                 if (classDec.origin.name == "JAVA") {
-                    logger.ktorfitError("Java Interfaces are not supported", classDec)
+                    logger.ktorfitError(JAVA_INTERFACES_ARE_NOT_SUPPORTED, classDec)
                 }
                 if (classDec.typeParameters.isNotEmpty()) {
                     logger.ktorfitError(
