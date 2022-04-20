@@ -46,7 +46,7 @@ fun KSFunctionDeclaration.parseHTTPMethodAnno(name: String): HttpMethodAnnotatio
 
             if (name == "HTTP") {
                 this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.HTTP::class).firstOrNull()?.let {
-                    MyHttp(it.path, HttpMethod.valueOf(it.method), it.hasBody)
+                    CustomHttp(it.path, HttpMethod.valueOf(it.method), it.hasBody)
                 }
 
             } else {
