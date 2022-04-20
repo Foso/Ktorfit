@@ -56,7 +56,7 @@ class HeaderTest {
     @Test
     fun testHeaderWithArray() {
         /**
-         * When Header value is a Array of String it should result in a List with headers where every item of the list has the header key
+         * When Header value is an Array of String it should result in a List with headers where every item of the list has the header key
          * null values are ignored
          */
 
