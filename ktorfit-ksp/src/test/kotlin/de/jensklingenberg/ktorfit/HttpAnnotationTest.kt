@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit
 
 import KtorfitProcessorProvider
+import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.KotlinCompilation.ExitCode
@@ -75,7 +76,94 @@ interface TestService {
         assertThat(generatedFile.readText()).isEqualTo(expectedSource)
     }
 
+    @Test
+    fun testCustomHttpMethod() {
 
+        val source = SourceFile.kotlin(
+            "Source.kt", """     
+package com.example.api
+import de.jensklingenberg.ktorfit.http.HTTP
+import de.jensklingenberg.ktorfit.http.Body
+
+interface TestService {
+
+    @HTTP("CUSTOM","user")
+    suspend fun test(): String
+    
+}"""
+        )
+
+
+        val expectedFunctionText = """public override suspend fun test(): String {
+    val requestData = RequestData(method="",
+        relativeUrl="user",
+        qualifiedRawTypeName="kotlin.String") 
+
+    return client.suspendRequest<String, String>(requestData)
+  }"""
+
+        val compilation = KotlinCompilation().apply {
+            sources = listOf(source)
+            inheritClassPath = true
+            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
+            kspIncremental = true
+        }
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertThat(generatedFile.readText().contains(expectedFunctionText)).isTrue()
+    }
+
+    @Test
+    fun testCustomHttpMethodWithBody() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """     
+package com.example.api
+import de.jensklingenberg.ktorfit.http.HTTP
+import de.jensklingenberg.ktorfit.http.Body
+
+interface TestService {
+
+    @HTTP("GET","user",true)
+    suspend fun test(@Body body: String): String
+    
+}"""
+        )
+
+
+        val expectedFunctionText = """public override suspend fun test(body: String): String {
+    val requestData = RequestData(method="GET",
+        relativeUrl="user",
+        bodyData = body,
+        qualifiedRawTypeName="kotlin.String") 
+
+    return client.suspendRequest<String, String>(requestData)
+  }"""
+
+        val compilation = KotlinCompilation().apply {
+            sources = listOf(source)
+            inheritClassPath = true
+            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
+            kspIncremental = true
+        }
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertThat(generatedFile.readText().contains(expectedFunctionText)).isTrue()
+    }
 
     @Test
     fun whenMultipleHttpMethodsFound_throwError() {

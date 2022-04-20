@@ -114,7 +114,9 @@ fun getFunctionDataList(
         when (httpMethodAnno.httpMethod) {
             HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH -> {}
             else -> {
-                if (functionParameters.any { it.hasAnnotation<Body>() }) {
+                if(httpMethodAnno is CustomHttp && httpMethodAnno.hasBody){
+                 //Do nothing
+                }else if (functionParameters.any { it.hasAnnotation<Body>() }) {
                     logger.ktorfitError(NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY, funcDeclaration)
                 }
 

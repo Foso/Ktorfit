@@ -4,7 +4,7 @@ enum class HttpMethod(val keyword: String) {
     GET("GET"), POST("POST"), PUT("PUT"), DELETE("DELETE"), HEAD("HEAD"), PATCH("PATCH"), CUSTOM("")
 }
 
-class MyHttp(override val path: String, override val httpMethod: HttpMethod, val body: Boolean = false) :
+class CustomHttp(override val path: String, override val httpMethod: HttpMethod, val hasBody: Boolean = false) :
     HttpMethodAnnotation(path, httpMethod)
 
 /**
