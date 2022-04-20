@@ -159,16 +159,16 @@ class KtorfitClient(val ktorfit: Ktorfit) {
             when (val data = entry.data) {
                 is List<*> -> {
                     data.filterNotNull().forEach {
-                        setParameter(entry.encoded, entry.queryKey, it.toString())
+                        setParameter(entry.encoded, entry.key, it.toString())
                     }
                 }
                 is Array<*> -> {
                     data.filterNotNull().forEach {
-                        setParameter(entry.encoded, entry.queryKey, it.toString())
+                        setParameter(entry.encoded, entry.key, it.toString())
                     }
                 }
                 else -> {
-                    setParameter(entry.encoded, entry.queryKey, entry.data.toString())
+                    setParameter(entry.encoded, entry.key, entry.data.toString())
                 }
             }
         }
@@ -198,11 +198,11 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                     when (val data = entry.data) {
                         is List<*> -> {
                             data.filterNotNull().forEach {
-                                append(entry.encoded, entry.queryKey, it as String)
+                                append(entry.encoded, entry.key, it as String)
                             }
                         }
                         else -> {
-                            append(entry.encoded, entry.queryKey, entry.data.toString())
+                            append(entry.encoded, entry.key, entry.data.toString())
                         }
                     }
                 }

@@ -74,7 +74,7 @@ interface TestService {
         )
 
 
-        val expectedQueriesArgumentText = "queries = listOf(QueryData(false,testQuery,\"name\",QueryType.QUERY))"
+        val expectedQueriesArgumentText = "queries = listOf(QueryData(false,\"name\",testQuery,QueryType.QUERY))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -113,7 +113,7 @@ interface TestService {
         )
 
 
-        val expectedQueriesArgumentText = "queries = listOf(QueryData(true,testQuery,\"name\",QueryType.QUERY))"
+        val expectedQueriesArgumentText = "queries = listOf(QueryData(true,\"name\",testQuery,QueryType.QUERY))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -152,7 +152,7 @@ interface TestService {
         )
 
 
-        val expectedQueriesArgumentText = "queries = listOf(QueryData(false,testQueryName,\"\",QueryType.QUERYNAME))"
+        val expectedQueriesArgumentText = "queries = listOf(QueryData(false,\"\",testQueryName,QueryType.QUERYNAME))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -192,7 +192,7 @@ interface TestService {
         )
 
 
-        val expectedQueriesArgumentText = "queries = listOf(QueryData(false,testQueryMap,\"\",QueryType.QUERYMAP))"
+        val expectedQueriesArgumentText = "queries = listOf(QueryData(false,\"\",testQueryMap,QueryType.QUERYMAP))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -234,9 +234,9 @@ interface TestService {
         )
 
 
-        val expectedQueriesArgumentText =  "queries = listOf(QueryData(false,testQuery,\"name\",QueryType.QUERY),\n" +
-                "            QueryData(false,testQueryName,\"\",QueryType.QUERYNAME),\n" +
-                "            QueryData(false,name,\"\",QueryType.QUERYMAP)),"
+        val expectedQueriesArgumentText =  "queries = listOf(QueryData(false,\"name\",testQuery,QueryType.QUERY),\n" +
+                "            QueryData(false,\"\",testQueryName,QueryType.QUERYNAME),\n" +
+                "            QueryData(false,\"\",name,QueryType.QUERYMAP)),"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)

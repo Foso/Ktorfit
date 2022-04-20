@@ -71,7 +71,7 @@ interface TestService {
     val requestData = RequestData(method="POST",
         relativeUrl="user",
         headers = listOf(HeaderData("Content-Type","application/x-www-form-urlencoded")),
-        fields = listOf(FieldData(false,id,"id",FieldType.FIELD)),
+        fields = listOf(FieldData(false,"id",id,FieldType.FIELD)),
         qualifiedRawTypeName="kotlin.String") 
 
     return client.suspendRequest<String, String>(requestData)

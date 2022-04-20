@@ -1,5 +1,4 @@
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.internal.HeaderData
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import de.jensklingenberg.ktorfit.internal.QueryData
 import de.jensklingenberg.ktorfit.internal.QueryType
@@ -7,7 +6,6 @@ import de.jensklingenberg.ktorfit.internal.RequestData
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -32,7 +30,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 qualifiedRawTypeName = "kotlin.String",
-                queries = listOf(QueryData(false, testValue, testKey, QueryType.QUERY))
+                queries = listOf(QueryData(false, testKey, testValue, QueryType.QUERY))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -56,7 +54,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 qualifiedRawTypeName = "kotlin.String",
-                queries = listOf(QueryData(true, testValue, testKey, QueryType.QUERY))
+                queries = listOf(QueryData(true, testKey, testValue, QueryType.QUERY))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -82,7 +80,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 qualifiedRawTypeName = "kotlin.String",
-                queries = listOf(QueryData(false, testValue, testKey, QueryType.QUERY))
+                queries = listOf(QueryData(false, testKey, testValue, QueryType.QUERY))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -108,7 +106,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 qualifiedRawTypeName = "kotlin.String",
-                queries = listOf(QueryData(false, testValue, testKey, QueryType.QUERY))
+                queries = listOf(QueryData(false, testKey, testValue, QueryType.QUERY))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -133,7 +131,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 qualifiedRawTypeName = "kotlin.String",
-                queries = listOf(QueryData(false, testValue, testKey, QueryType.QUERYNAME))
+                queries = listOf(QueryData(false, testKey, testValue, QueryType.QUERYNAME))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -157,7 +155,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 qualifiedRawTypeName = "kotlin.String",
-                queries = listOf(QueryData(false, testValue, testKey, QueryType.QUERYNAME))
+                queries = listOf(QueryData(false, testKey, testValue, QueryType.QUERYNAME))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -181,7 +179,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 qualifiedRawTypeName = "kotlin.String",
-                queries = listOf(QueryData(false, testMap, testKey, QueryType.QUERYMAP))
+                queries = listOf(QueryData(false, testKey, testMap, QueryType.QUERYMAP))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
