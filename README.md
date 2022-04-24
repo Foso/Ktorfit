@@ -2,7 +2,7 @@
 
 [![All Contribtors](https://img.shields.io/badge/Maven-Central-download.svg?style=flat-square)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Foso/Ktorfit)
 [![jCenter](https://img.shields.io/badge/Apache-2.0-green.svg)](https://github.com/Foso/Ktorfit/blob/master/LICENSE) v1.0.0-beta04
-
+[Documentation](http://foso.github.io/Ktorfit)
 <p align="center">
   <img src ="https://raw.githubusercontent.com/Foso/Experimental/master/carbon.png"  />
 </p>
@@ -16,7 +16,7 @@ Ktorfit is a HTTP client/Kotlin Symbol Processor for Kotlin Multiplatform (Js, J
 [![GitHub stars](https://img.shields.io/github/stars/Foso/Ktorfit.svg?style=social&label=Star)](https://github.com/Foso/Ktorfit) [![GitHub forks](https://img.shields.io/github/forks/Foso/Ktorfit.svg?style=social&label=Fork)](https://github.com/Foso/Ktorfit/fork) [![GitHub watchers](https://img.shields.io/github/watchers/Foso/Ktorfit.svg?style=social&label=Watch)](https://github.com/Foso/Ktorfit) [![Twitter Follow](https://img.shields.io/twitter/follow/jklingenberg_.svg?style=social)](https://twitter.com/jklingenberg_)
 
 ## How to use
-For more documentation check: http://foso.github.io/Ktorfit
+For more documentation check: [http://foso.github.io/Ktorfit](http://foso.github.io/Ktorfit)
 
 First do the [Setup](#setup)
 
