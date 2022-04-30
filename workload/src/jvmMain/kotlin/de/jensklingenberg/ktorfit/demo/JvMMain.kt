@@ -53,15 +53,7 @@ val jvmKtorfit = Ktorfit(baseUrl = StarWarsApi.baseUrl, jvmClient)
 
 
 fun main() {
-    jvmClient.plugin(HttpSend).intercept { request ->
-        val originalCall = execute(request)
-        if (originalCall.response.status.value !in 100..399) {
-            execute(request)
-        } else {
-            originalCall
-        }
-    }
-    val file = File.createTempFile("files", "index")
+
     jvmKtorfit.addResponseConverter(FlowResponseConverter())
     jvmKtorfit.addResponseConverter(RxResponseConverter())
     jvmKtorfit.addResponseConverter(KtorfitCallResponseConverter())
