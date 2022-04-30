@@ -27,22 +27,3 @@ val commonKtorfit = Ktorfit(baseUrl = JsonPlaceHolderApi.baseUrl, httpClient2).a
 
 val jsonPlaceHolderApi = commonKtorfit.create<JsonPlaceHolderApi>()
 
-
-public inline fun <reified T> Ktorfit.create2(): T {
-    return when(T::class) {
-        com.example.api.GithubService::class -> {
-            com.example.api._GithubServiceImpl(KtorfitClient(this)) as T
-        }
-        com.example.api.JsonPlaceHolderApi::class -> {
-            com.example.api._JsonPlaceHolderApiImpl(KtorfitClient(this)) as T
-        }
-
-
-        else -> {
-            throw IllegalArgumentException(
-                "Could not find any Ktorfit annotations in class " +
-                        T::class.qualifiedName
-            )
-        }
-    }
-}

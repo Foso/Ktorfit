@@ -1,3 +1,4 @@
+import com.google.auto.service.AutoService
 import com.google.devtools.ksp.closestClassDeclaration
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.processing.Dependencies.Companion.ALL_FILES
@@ -12,7 +13,7 @@ import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.TYPE_PARAMETERS_A
 import de.jensklingenberg.ktorfit.parser.toClassData
 import java.io.OutputStreamWriter
 
-
+@AutoService(SymbolProcessorProvider::class)
 public class KtorfitProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
         return KtorfitProcessor(environment)
