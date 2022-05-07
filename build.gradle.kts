@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform") apply false
-    id("com.vanniktech.maven.publish") version "0.18.0" apply false
+    id("com.vanniktech.maven.publish") version "0.19.0" apply false
 
 }
 
@@ -17,9 +17,9 @@ buildscript {
         }
     }
     dependencies {
-    classpath("com.vanniktech:gradle-maven-publish-plugin:0.18.0")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.5.30")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.6.20")
+    classpath("com.vanniktech:gradle-maven-publish-plugin:0.19.0")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.10")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:1.6.10")
         classpath("com.android.tools.build:gradle:7.0.4")
 
 
@@ -31,10 +31,9 @@ subprojects {
         google()
         mavenLocal()
         mavenCentral()
-        maven {
-            url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
-        }
+
     }
 
 }
 
+// ./gradlew clean :workload:compileKotlinJvm --no-daemon -Dorg.gradle.debug=true -Dkotlin.compiler.execution.strategy="in-process" -Dkotlin.daemon.jvm.options="-Xdebug,-Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n"

@@ -15,7 +15,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 version = "1.0.0-beta04"
-val ktorVersion = "2.0.0"//"2.0.0-eap-354"
+val ktorVersion = "2.0.1"
 kotlin {
 
     android(){
