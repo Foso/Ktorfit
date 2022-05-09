@@ -8,8 +8,8 @@ plugins {
 }
 
 version = "1.0"
-val ktorVersion = "2.0.0"
-val ktorfitVersion = "1.0.0-beta04"
+val ktorVersion = "2.0.1"
+val ktorfitVersion = "1.0.0-beta05"
 
 kotlin {
     android()
@@ -35,7 +35,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
 
                 //Only needed when you want to use Kotlin Serialization
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")

@@ -14,7 +14,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-version = "1.0.0-beta04"
+version = "1.0.0-beta05"
 val ktorVersion = "2.0.1"
 kotlin {
 
@@ -51,7 +51,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
 
             }
         }
@@ -125,7 +125,7 @@ publishing {
     publications {
         create<MavenPublication>("default") {
             artifact(tasks["sourcesJar"])
-            //artifact(tasks["dokkaJar"])
+          //  artifact(tasks["javadocJar"])
 
             pom {
                 name.set(project.name)

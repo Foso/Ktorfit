@@ -1,23 +1,24 @@
 package de.jensklingenberg.androidonlyexample
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.lifecycleScope
 import de.jensklingenberg.androidonlyexample.ui.theme.AndroidOnlyExampleTheme
-import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.adapter.FlowResponseConverter
 import de.jensklingenberg.ktorfit.create
-import de.jensklingenberg.ktorfit.http.GET
-import kotlinx.coroutines.GlobalScope
+import io.ktor.client.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 
 val ktorfit = Ktorfit("https://swapi.dev/api/", HttpClient {
     install(ContentNegotiation) {
@@ -26,12 +27,12 @@ val ktorfit = Ktorfit("https://swapi.dev/api/", HttpClient {
 }).also {
     it.addResponseConverter(FlowResponseConverter())
 }
+val api: StarWarsApi = ktorfit.create<StarWarsApi>()
 
 class MainActivity : ComponentActivity() {
 
-    val api: StarWarsApi = ktorfit.create<StarWarsApi>()
 
-    val peopleState = MutableStateFlow(listOf<Person>())
+    private val peopleState = mutableStateOf<Person?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,19 +42,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val people = peopleState.rememberAsState()
-
-                    LazyColumn {
-                        items(people) { person ->
-                            Text(person.name)
-                        }
+                    peopleState.value?.let {
+                        Text(it.name?: "")
                     }
+
                 }
             }
         }
 
         lifecycleScope.launch {
-            peopleState.value = api.getPeople(page = 1)
+            peopleState.value = api.getPerson( 1)
         }
     }
 }

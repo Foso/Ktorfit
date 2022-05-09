@@ -43,7 +43,7 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-core-native:1.3.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
-                implementation("io.ktor:ktor-client-curl:2.0.0-eap-362")
+                implementation("io.ktor:ktor-client-curl:2.0.1")
 
             }
         }

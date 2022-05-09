@@ -26,7 +26,7 @@ class Greeting {
     fun greeting(): String {
 
         loadData()
-        return "Hello, ${Platform().platform}!"
+        return "Hello, ${Platform().platform}! Look in the LogCat"
     }
 
 

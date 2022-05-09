@@ -6,6 +6,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "My_Application"
+rootProject.name = "KtorfitMultiplatformExample"
 include(":androidApp")
 include(":shared")

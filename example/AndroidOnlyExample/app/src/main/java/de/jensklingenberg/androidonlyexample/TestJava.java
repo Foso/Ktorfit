@@ -1,7 +1,6 @@
 package de.jensklingenberg.androidonlyexample;
 
-import static de.jensklingenberg.androidonlyexample.MainActivityKt.testApi;
-
+import static de.jensklingenberg.androidonlyexample.MainActivityKt.getApi;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,11 +10,12 @@ import io.ktor.client.statement.HttpResponse;
 
 public class TestJava {
 
-    void test(){
-        testApi().getPersonCall().onExecute(new Callback<String>() {
+    void test() {
+        getApi().getPersonCall(1).onExecute(new Callback<Person>() {
+
             @Override
-            public void onResponse(String s, @NonNull HttpResponse httpResponse) {
-                Log.d("Android:",s);
+            public void onResponse(Person person, @NonNull HttpResponse httpResponse) {
+                Log.d("Android:", person.toString());
             }
 
             @Override
