@@ -7,6 +7,7 @@ import de.jensklingenberg.ktorfit.ktorfitError
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE
+import de.jensklingenberg.ktorfit.resolveTypeName
 import java.io.File
 
 
@@ -40,14 +41,18 @@ private fun MutableList<String>.addIfAbsent(text: String) {
 
 fun toClassData(ksClassDeclaration: KSClassDeclaration, logger: KSPLogger): ClassData {
 
-    val functionDataList: List<FunctionData> = getFunctionDataList(ksClassDeclaration.getDeclaredFunctions().toList(), logger)
+    val functionDataList: List<FunctionData> =
+        getFunctionDataList(ksClassDeclaration.getDeclaredFunctions().toList(), logger)
 
     val imports = getImports(ksClassDeclaration)
     val packageName = ksClassDeclaration.packageName.asString()
     val className = ksClassDeclaration.simpleName.asString()
 
     val supertypes =
-        ksClassDeclaration.superTypes.toList().mapNotNull { it.resolve().declaration.qualifiedName?.asString() }
+        ksClassDeclaration.superTypes.toList().filterNot {
+            /** In KSP Any is a supertype of an interface */
+            it.resolve().resolveTypeName() == "Any"
+        }.mapNotNull { it.resolve().declaration.qualifiedName?.asString() }
     val properties = ksClassDeclaration.getAllProperties().toList()
 
     if (packageName.isEmpty()) {

@@ -15,7 +15,7 @@ tasks.withType<KotlinCompile> {
 
 
 group = "de.jensklingenberg.ktorfit"
-version = "1.0.0-beta05"
+version = "1.0.0-beta06"
 
 dependencies {
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")

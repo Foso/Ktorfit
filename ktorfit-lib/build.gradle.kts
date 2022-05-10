@@ -14,7 +14,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-version = "1.0.0-beta05"
+version = "1.0.0-beta06"
 val ktorVersion = "2.0.1"
 kotlin {
 
