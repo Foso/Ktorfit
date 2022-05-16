@@ -93,7 +93,7 @@ Look here for more information https://kotlinlang.org/docs/ksp-multiplatform.htm
 
 Add the Ktorfit-lib to your common module.
 ```kotlin
-val ktorfitVersion = "1.0.0-beta05"
+val ktorfitVersion = "1.0.0-beta06"
 
 sourceSets {
     val commonMain by getting{
