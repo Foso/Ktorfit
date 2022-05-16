@@ -104,8 +104,8 @@ sourceSets {
 ```
 
 #### Ktor
-Ktorfit is based on Ktor Clients 2.0.0. You don't need to add an extra dependency for the default clients.
-When you want to use Ktor plugins for things like serialization, you need to add the dependencies and they need to be compatible with 2.0.0
+Ktorfit is based on Ktor Clients 2.0.1. You don't need to add an extra dependency for the default clients.
+When you want to use Ktor plugins for things like serialization, you need to add the dependencies and they need to be compatible with 2.0.1
 
 ## 📙 Documentation
 In this Readme is only a basic example, for more documentation check: [http://foso.github.io/Ktorfit](http://foso.github.io/Ktorfit)
