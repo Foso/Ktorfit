@@ -319,7 +319,7 @@ Next you have to add the Ktorfit KSP Plugin to the common target and every compi
 
 
 ```kotlin
-val ktorfitVersion = "1.0.0-beta05"
+val ktorfitVersion = "1.0.0-beta06"
 
 dependencies {
     add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
@@ -336,7 +336,7 @@ Look here for more information https://kotlinlang.org/docs/ksp-multiplatform.htm
 
 Add the Ktorfit-lib to your common module.
 ```kotlin
-val ktorfitVersion = "1.0.0-beta05"
+val ktorfitVersion = "1.0.0-beta06"
 
 sourceSets {
     val commonMain by getting{
@@ -347,8 +347,8 @@ sourceSets {
 ```
 
 #### Ktor
-Ktorfit is based on Ktor Clients 2.0.0. You don't need to add an extra dependency for the default clients. 
-When you want to use Ktor plugins for things like serialization, you need to add the dependencies and they need to be compatible with 2.0.0 
+Ktorfit is based on Ktor Clients 2.0.1. You don't need to add an extra dependency for the default clients. 
+When you want to use Ktor plugins for things like serialization, you need to add the dependencies and they need to be compatible with 2.0.1
 
 
 ## Contributions
