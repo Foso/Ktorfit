@@ -33,6 +33,7 @@ class KtorfitError {
         const val COULD_NOT_FIND_ANY_KTORFIT_ANNOTATIONS_IN_CLASS = "Could not find any Ktorfit annotations in class"
         fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) = "Missing either @$keyword URL or @Url parameter"
         const val JAVA_INTERFACES_ARE_NOT_SUPPORTED = "Java Interfaces are not supported"
+        const val INTERNAL_INTERFACES_ARE_NOT_SUPPORTED = "internal Interfaces are not supported"
         const val INTERFACE_NEEDS_TO_HAVE_A_PACKAGE = "Interface needs to have a package"
         const val ONLY_ONE_HTTP_METHOD_IS_ALLOWED = "Only one HTTP method is allowed."
         const val FORM_URL_ENCODED_CAN_ONLY_BE_SPECIFIED_ON_HTTP_METHODS_WITH_REQUEST_BODY = "FormUrlEncoded can only be specified on HTTP methods with request body (e.g., @POST)."

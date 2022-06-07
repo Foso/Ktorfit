@@ -3,10 +3,13 @@ package de.jensklingenberg.ktorfit.parser
 import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.Modifier
+import com.squareup.kotlinpoet.ksp.toKModifier
 import de.jensklingenberg.ktorfit.ktorfitError
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.INTERNAL_INTERFACES_ARE_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.resolveTypeName
 import java.io.File
 
@@ -58,5 +61,17 @@ fun toClassData(ksClassDeclaration: KSClassDeclaration, logger: KSPLogger): Clas
     if (packageName.isEmpty()) {
         logger.ktorfitError(INTERFACE_NEEDS_TO_HAVE_A_PACKAGE, ksClassDeclaration)
     }
-    return ClassData(className, packageName, functionDataList, imports, supertypes, properties)
+
+    if (ksClassDeclaration.modifiers.contains(Modifier.INTERNAL)) {
+        logger.ktorfitError(INTERNAL_INTERFACES_ARE_NOT_SUPPORTED, ksClassDeclaration)
+    }
+
+    return ClassData(
+        className,
+        packageName,
+        functionDataList,
+        imports,
+        supertypes,
+        properties,
+        modifiers = ksClassDeclaration.modifiers.mapNotNull { it.toKModifier() })
 }

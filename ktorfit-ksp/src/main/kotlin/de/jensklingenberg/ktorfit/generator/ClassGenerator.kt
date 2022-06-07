@@ -62,6 +62,7 @@ fun getFileSpec(classData: ClassData): FileSpec {
         .addImport("de.jensklingenberg.ktorfit.internal", "KtorfitClient")
         .addType(
             TypeSpec.classBuilder(implClassName)
+                .addModifiers(classData.modifiers)
                 .addSuperinterface(ClassName(classData.packageName, classData.name))
                 .addKtorfitSuperInterface(classData.superClasses)
                 .primaryConstructor(

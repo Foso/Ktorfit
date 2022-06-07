@@ -70,7 +70,6 @@ interface TestService {
         val expectedBodyDataArgumentText = """public override suspend fun test(id: String): String {
     val requestData = RequestData(method="POST",
         relativeUrl="user",
-        headers = listOf(HeaderData("Content-Type","application/x-www-form-urlencoded")),
         fields = listOf(FieldData(false,"id",id,FieldType.FIELD)),
         qualifiedRawTypeName="kotlin.String") 
 

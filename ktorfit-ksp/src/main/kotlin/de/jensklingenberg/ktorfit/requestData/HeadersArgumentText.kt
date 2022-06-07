@@ -20,7 +20,10 @@ fun getHeadersArgumentText(
     val paramsWithHeaderMap = paramList.filter { it.hasAnnotation<HeaderMap>() }
 
     if (functionAnnotations.any { it is FormUrlEncoded }) {
-        headerList.add(Pair("\"Content-Type\"", "\"application/x-www-form-urlencoded\""))
+        /**
+         * Can't add Content Type Header, because it leads to Ktor issues https://github.com/ktorio/ktor/issues/1127
+         */
+      //  headerList.add(Pair("\"Content-Type\"", "\"application/x-www-form-urlencoded\""))
     }
 
     paramsWithHeaderAnno.forEach { myParam ->
