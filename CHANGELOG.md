@@ -1,4 +1,9 @@
-1.0.0-beta05
+1.0.0-beta07
+========================================
+- fix issue with FormUrlEncoded
+- based on Ktor 2.0.2
+
+1.0.0-beta06
 ========================================
 - fix issue with KSP 1.0.5 #19
 
