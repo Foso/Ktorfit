@@ -51,7 +51,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
 
             }
         }

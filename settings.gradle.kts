@@ -26,7 +26,7 @@ pluginManagement {
 
 rootProject.name = "Ktorfit"
 
-include(":workload")
+include(":sandbox")
 
 include(":ktorfit-ksp")
 //include(":ktorfit")

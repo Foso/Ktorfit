@@ -7,6 +7,7 @@ import de.jensklingenberg.ktorfit.adapter.KtorfitCallResponseConverter
 import de.jensklingenberg.ktorfit.create
 import io.ktor.client.*
 import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking

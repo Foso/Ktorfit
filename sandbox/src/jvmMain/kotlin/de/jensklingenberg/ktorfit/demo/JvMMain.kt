@@ -13,16 +13,12 @@ import de.jensklingenberg.ktorfit.http.Query
 import de.jensklingenberg.ktorfit.http.Streaming
 import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.statement.*
-import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
-import io.ktor.utils.io.*
-import io.ktor.utils.io.core.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
-import java.io.File
 
 
 val jvmClient = HttpClient {
@@ -67,10 +63,7 @@ fun main() {
 
     println("==============================================")
     runBlocking {
-        val response = exampleApi.getPostsStreaming().execute(){httpResponse->
-            val channel: String = httpResponse.body()
-            println(channel)
-        }
+        val response = exampleApi.getPersonById2(1)
 
         println("LI    " + response)
 

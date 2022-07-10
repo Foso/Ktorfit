@@ -8,6 +8,7 @@ import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import io.ktor.client.*
 import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
