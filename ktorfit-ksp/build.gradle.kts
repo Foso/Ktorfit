@@ -1,12 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val kspVersion: String by project
 
+
 plugins {
     kotlin("jvm")
     id("com.vanniktech.maven.publish")
     `maven-publish`
     signing
     id("org.jetbrains.dokka")
+
     kotlin("kapt")
 }
 tasks.withType<KotlinCompile> {
@@ -15,7 +17,7 @@ tasks.withType<KotlinCompile> {
 
 
 group = "de.jensklingenberg.ktorfit"
-version = "1.0.0-beta07"
+version = "1.0.0-beta08"
 
 dependencies {
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
