@@ -11,8 +11,9 @@ import de.jensklingenberg.ktorfit.http.Query
 import de.jensklingenberg.ktorfit.http.QueryMap
 import de.jensklingenberg.ktorfit.http.QueryName
 
-interface TestApi2 : StarWarsApi, QueryTestApi, QueryNameTestApi {
-
+interface TestApi2 : StarWarsApi,  QueryNameTestApi {
+    @GET("people/{id}/")
+    fun tste()
 
 }
 

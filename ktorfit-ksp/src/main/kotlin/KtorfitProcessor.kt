@@ -35,27 +35,6 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
         }
         invoked = true
 
-        return emptyList()
-    }
-
-    private fun getAnnotatedFunctions(): List<KSFunctionDeclaration> {
-        val getAnnotated = resolver.getSymbolsWithAnnotation(GET::class.java.name).toList()
-        val postAnnotated = resolver.getSymbolsWithAnnotation(POST::class.java.name).toList()
-        val putAnnotated = resolver.getSymbolsWithAnnotation(PUT::class.java.name).toList()
-        val deleteAnnotated = resolver.getSymbolsWithAnnotation(DELETE::class.java.name).toList()
-        val headAnnotated = resolver.getSymbolsWithAnnotation(HEAD::class.java.name).toList()
-        val optionsAnnotated = resolver.getSymbolsWithAnnotation(OPTIONS::class.java.name).toList()
-        val patchAnnotated = resolver.getSymbolsWithAnnotation(PATCH::class.java.name).toList()
-        val httpAnnotated = resolver.getSymbolsWithAnnotation(HTTP::class.java.name).toList()
-
-        val ksAnnotatedList =
-            getAnnotated + postAnnotated + putAnnotated + deleteAnnotated + headAnnotated + optionsAnnotated + patchAnnotated + httpAnnotated
-        return ksAnnotatedList.map { it as KSFunctionDeclaration }
-    }
-
-
-    override fun finish() {
-
         val classDataList = getAnnotatedFunctions().groupBy { it.closestClassDeclaration()!! }
             .map { (classDec) ->
                 if (classDec.origin.name == "JAVA") {
@@ -79,6 +58,29 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
                 writer.write(source)
             }
         }
+
+        return emptyList()
+    }
+
+    private fun getAnnotatedFunctions(): List<KSFunctionDeclaration> {
+        val getAnnotated = resolver.getSymbolsWithAnnotation(GET::class.java.name).toList()
+        val postAnnotated = resolver.getSymbolsWithAnnotation(POST::class.java.name).toList()
+        val putAnnotated = resolver.getSymbolsWithAnnotation(PUT::class.java.name).toList()
+        val deleteAnnotated = resolver.getSymbolsWithAnnotation(DELETE::class.java.name).toList()
+        val headAnnotated = resolver.getSymbolsWithAnnotation(HEAD::class.java.name).toList()
+        val optionsAnnotated = resolver.getSymbolsWithAnnotation(OPTIONS::class.java.name).toList()
+        val patchAnnotated = resolver.getSymbolsWithAnnotation(PATCH::class.java.name).toList()
+        val httpAnnotated = resolver.getSymbolsWithAnnotation(HTTP::class.java.name).toList()
+
+        val ksAnnotatedList =
+            getAnnotated + postAnnotated + putAnnotated + deleteAnnotated + headAnnotated + optionsAnnotated + patchAnnotated + httpAnnotated
+        return ksAnnotatedList.map { it as KSFunctionDeclaration }
+    }
+
+
+    override fun finish() {
+
+
 
     }
 }

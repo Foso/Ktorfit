@@ -14,8 +14,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-version = "1.0.0-beta07"
-val ktorVersion = "2.0.2"
+version = "1.0.0-beta08"
+val ktorVersion = "2.0.3"
 kotlin {
 
     android(){
@@ -51,7 +51,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
 
             }
         }

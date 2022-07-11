@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.devtools.ksp' version '1.6.10-1.0.4'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.10'
+    id 'com.google.devtools.ksp' version '1.7.0-1.0.6'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.0'
 
 }
 
@@ -40,7 +40,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.1.1'
+        kotlinCompilerExtensionVersion '1.2.0'
     }
     packagingOptions {
         resources {
@@ -48,13 +48,15 @@ android {
         }
     }
 }
+def ktorfit = "1.0.0-beta08"
+def ktor = "2.0.1"
 
 dependencies {
-    ksp('de.jensklingenberg.ktorfit:ktorfit-ksp:1.0.0-beta07')
-    implementation("de.jensklingenberg.ktorfit:ktorfit-lib:1.0.0-beta07")
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
-    implementation 'androidx.activity:activity-compose:1.4.0'
+    ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfit")
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0'
+    implementation 'androidx.activity:activity-compose:1.5.0'
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
     implementation 'androidx.compose.material:material:1.1.1'
@@ -64,8 +66,8 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
-    implementation("io.ktor:ktor-client-serialization:2.0.1")
-    implementation("io.ktor:ktor-client-content-negotiation:2.0.1")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.1")
+    implementation("io.ktor:ktor-client-serialization:$ktor")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktor")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
 }
 

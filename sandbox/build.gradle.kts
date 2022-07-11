@@ -5,8 +5,8 @@ plugins {
 }
 
 version = "1.0-SNAPSHOT"
-
-val ktorVersion = "2.0.0-beta-1"//"2.0.0-eap-354"
+val koin_ksp_version= "1.0.1"
+val ktorVersion = "2.0.3"//"2.0.0-eap-354"
 kotlin {
     jvm {
         compilations.all {
@@ -32,7 +32,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":ktorfit-lib"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
@@ -42,7 +42,7 @@ kotlin {
         val linuxX64Main by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-core-native:1.3.1")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
                 implementation("io.ktor:ktor-client-curl:2.0.1")
 
             }
@@ -54,7 +54,7 @@ kotlin {
 
             dependencies {
                 implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.3.9")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.6.2")
                 implementation("io.reactivex.rxjava3:rxjava:3.1.3")
                 implementation("io.ktor:ktor-client-gson:$ktorVersion")
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
@@ -101,7 +101,7 @@ configurations.all {
 }
 dependencies {
     add(
-        "kspMetadata",
+        "kspCommonMainMetadata",
         project(":ktorfit-ksp")
     )
     add("kspJvm", project(":ktorfit-ksp"))
@@ -111,6 +111,5 @@ dependencies {
     add("kspJs", project(":ktorfit-ksp"))
     add("kspLinuxX64", project(":ktorfit-ksp"))
 
-    // The universal "ksp" configuration has performance issue and is deprecated on multiplatform since 1.0.1
-    // ksp(project(":test-processor"))
 }
+
