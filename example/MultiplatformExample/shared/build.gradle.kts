@@ -2,14 +2,14 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "1.6.21-1.0.5"
+    id("com.google.devtools.ksp") version "1.7.0-1.0.6"
     id("kotlinx-serialization")
 
 }
 
 version = "1.0"
-val ktorVersion = "2.0.1"
-val ktorfitVersion = "1.0.0-beta07"
+val ktorVersion = "2.0.3"
+val ktorfitVersion = "1.0.0-beta08"
 
 kotlin {
     android()

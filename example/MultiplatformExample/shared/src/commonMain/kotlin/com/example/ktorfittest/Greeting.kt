@@ -3,13 +3,11 @@ package com.example.ktorfittest
 import de.jensklingenberg.ktorfit.adapter.FlowResponseConverter
 import de.jensklingenberg.ktorfit.create
 import io.ktor.client.*
-import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import kotlin.native.concurrent.ThreadLocal
 
 val ktorfit = de.jensklingenberg.ktorfit.Ktorfit("https://swapi.dev/api/", HttpClient {
     install(ContentNegotiation) {
