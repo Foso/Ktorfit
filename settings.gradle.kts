@@ -31,3 +31,5 @@ include(":sandbox")
 include(":ktorfit-ksp")
 //include(":ktorfit")
 include(":ktorfit-lib")
+include(":ktorfit-annotations")
+
