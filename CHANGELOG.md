@@ -1,3 +1,8 @@
+1.0.0-beta08
+========================================
+- fix issue with Koin Annotations
+
+
 1.0.0-beta07
 ========================================
 - fix issue with FormUrlEncoded
