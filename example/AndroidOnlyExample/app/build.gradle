@@ -48,7 +48,7 @@ android {
         }
     }
 }
-def ktorfit = "1.0.0-beta08"
+def ktorfit = "1.0.0-beta09"
 def ktor = "2.0.1"
 
 dependencies {
