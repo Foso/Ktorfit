@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform")
 
-    id("kotlinx-serialization")
+
     id("maven-publish")
     id("signing")
     id("com.vanniktech.maven.publish")
@@ -15,7 +15,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 version = "1.0.0-beta08"
-val ktorVersion = "2.0.3"
+
 kotlin {
 
     android(){
@@ -50,24 +50,17 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":ktorfit-annotations"))
-
-                api("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
 
             }
         }
         val linuxX64Main by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-core-linuxx64:$ktorVersion")
-                implementation("io.ktor:ktor-client-cio-linuxx64:$ktorVersion")
 
             }
         }
         val androidMain by getting{
 
             dependencies {
-                implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
 
             }
         }
@@ -75,25 +68,16 @@ kotlin {
         val jvmMain by getting {
 
             dependencies {
-                implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
 
             }
         }
-        val jvmTest by getting {
 
-            dependencies {
-                dependsOn(jvmMain)
-                implementation("io.ktor:ktor-client-mock:$ktorVersion")
-                implementation("junit:junit:4.13.2")
-            }
-        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val jsMain by getting {
 
             dependencies {
-                implementation("io.ktor:ktor-client-js:$ktorVersion")
             }
         }
 
@@ -103,7 +87,7 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                implementation("io.ktor:ktor-client-ios:$ktorVersion")
+
             }
         }
     }
@@ -131,7 +115,7 @@ publishing {
 
             pom {
                 name.set(project.name)
-                description.set("Ktorfit Client Library")
+                description.set("Ktorfit Annotations")
                 url.set("https://github.com/Foso/Ktorfit")
 
                 licenses {

@@ -20,6 +20,8 @@ group = "de.jensklingenberg.ktorfit"
 version = "1.0.0-beta08"
 
 dependencies {
+    implementation(project(":ktorfit-annotations"))
+
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.github.tschuchortdev:kotlin-compile-testing-ksp:1.4.9")
