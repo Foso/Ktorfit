@@ -245,10 +245,14 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         value: String
     ) {
         if (encoded) {
-            parameter(key, value)
+            encodedParameter(key, value)
         } else {
-            parameter(encode(key), encode(value))
+            parameter(key, (value))
         }
     }
+
+
+    private fun HttpRequestBuilder.encodedParameter(key: String, value: Any?): Unit =
+        value?.let { url.encodedParameters.append(key, it.toString()) } ?: Unit
 
 }

@@ -16,11 +16,12 @@ class QueryTest {
 
         val testKey = "foo"
         val testValue = "bar fizz"
-        val encodedTestValue = "bar%20fizz"
+        val encodedTestValue = "bar+fizz"
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                assertTrue(data.url.parameters[testKey] == encodedTestValue)
+
+                assertTrue(data.url.encodedQuery == "$testKey=$encodedTestValue")
             }
         }
 
@@ -41,10 +42,10 @@ class QueryTest {
 
         val testKey = "foo"
         val testValue = "bar fizz"
-
+        val expected = testValue
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                assertTrue(data.url.parameters[testKey] == testValue)
+                assertTrue(data.url.encodedQuery == "$testKey=$expected")
             }
         }
 
@@ -169,7 +170,7 @@ class QueryTest {
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                assertTrue(data.url.encodedQuery == "foo=bar&fizz%2520bar=buzz")
+                assertTrue(data.url.encodedQuery == "foo=bar&fizz%20bar=buzz")
             }
         }
 

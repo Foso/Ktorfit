@@ -1,3 +1,7 @@
+1.0.0-beta09
+========================================
+- #15 fix encoding of query parameters
+
 1.0.0-beta08
 ========================================
 - fix issue with Koin Annotations
