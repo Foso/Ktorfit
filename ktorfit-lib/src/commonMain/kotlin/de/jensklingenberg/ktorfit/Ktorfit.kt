@@ -3,26 +3,18 @@ package de.jensklingenberg.ktorfit
 import de.jensklingenberg.ktorfit.adapter.KtorfitCallResponseConverter
 import de.jensklingenberg.ktorfit.adapter.ResponseConverter
 import io.ktor.client.*
+import io.ktor.client.engine.*
 
 
 /**
  * Main class for Ktorfit, create the class than use the [create<T>()] function.
- * @param baseUrl that will be used for every request with object
- * @param httpClient client that will be used for every request with object
  */
-class Ktorfit(var baseUrl: String, var httpClient: HttpClient = HttpClient()) {
+class Ktorfit private constructor(var baseUrl: String, var httpClient: HttpClient = HttpClient()) {
 
     private val responseConverters: MutableList<ResponseConverter> = mutableListOf()
 
 
     init {
-        if (baseUrl.isEmpty()) {
-            throw IllegalStateException("Base URL required")
-        }
-
-        if (!baseUrl.endsWith("/")) {
-            throw IllegalStateException("Base URL needs to end with /")
-        }
         addResponseConverter(KtorfitCallResponseConverter())
     }
 
@@ -36,7 +28,65 @@ class Ktorfit(var baseUrl: String, var httpClient: HttpClient = HttpClient()) {
 
     fun getResponseConverters() = responseConverters
 
+    /**
+     * Builder class for Ktorfit.
+     *
+     * @see baseUrl
+     * @see httpClient
+     */
+    class Builder {
+        private lateinit var _baseUrl: String
+        private var _httpClient = HttpClient()
+
+        /**
+         * That will be used for every request with object
+         */
+        fun baseUrl(url: String) = apply {
+            this._baseUrl = url
+        }
+
+        /**
+         * Client that will be used for every request with object
+         */
+        fun httpClient(client: HttpClient) = apply {
+            this._httpClient = client
+        }
+
+        /**
+         * Client-Builder that will be used for every request with object
+         */
+        fun httpClient(config: HttpClientConfig<*>.() -> Unit) = apply {
+            this._httpClient = HttpClient(config)
+        }
+
+        /**
+         * Client-Builder with engine that will be used for every request with object
+         */
+        fun httpClient(engine: HttpClientEngine, config: HttpClientConfig<*>.() -> Unit) = apply {
+            this._httpClient = HttpClient(engine, config)
+        }
+
+        /**
+         * Creates an instance of Ktorfit with specified baseUrl and HttpClient.
+         */
+        fun build(): Ktorfit {
+            if (!this::_baseUrl.isInitialized || this._baseUrl.isEmpty()) {
+                throw IllegalStateException("Base URL required")
+            }
+
+            if (!_baseUrl.endsWith("/")) {
+                throw IllegalStateException("Base URL needs to end with /")
+            }
+
+            return Ktorfit(_baseUrl, _httpClient)
+        }
+    }
 }
+
+/**
+ * Create a Ktorfit instance using Kotlin-DSL.
+ */
+fun ktorfit(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().apply(builder).build()
 
 /**
  * This will make IntelliJ think that this function exists.
