@@ -56,7 +56,7 @@ class Ktorfit private constructor(var baseUrl: String, var httpClient: HttpClien
          * Client-Builder that will be used for every request with object
          */
         fun httpClient(config: HttpClientConfig<*>.() -> Unit) = apply {
-            this._httpClient = HttpClient(config)
+            this._httpClient = HttpClient(this._httpClient.engine, config)
         }
 
         /**
