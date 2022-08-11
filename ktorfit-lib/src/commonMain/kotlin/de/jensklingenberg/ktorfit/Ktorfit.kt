@@ -68,6 +68,11 @@ class Ktorfit private constructor(
         }
 
         /**
+         * Apply changes to builder and get the Ktorfit instance without the need of calling [build] afterwards.
+         */
+        fun build(builder: Builder.() -> Unit) = this.apply(builder).build()
+
+        /**
          * Creates an instance of Ktorfit with specified baseUrl and HttpClient.
          */
         fun build(): Ktorfit {
