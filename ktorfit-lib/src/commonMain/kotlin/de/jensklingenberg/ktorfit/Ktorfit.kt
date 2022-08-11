@@ -10,8 +10,8 @@ import io.ktor.client.engine.*
  * Main class for Ktorfit, create the class than use the [create<T>()] function.
  */
 class Ktorfit private constructor(
-    var baseUrl: String,
-    var httpClient: HttpClient = HttpClient(),
+    val baseUrl: String,
+    val httpClient: HttpClient = HttpClient(),
     val responseConverters: Set<ResponseConverter>
 ) {
     /**

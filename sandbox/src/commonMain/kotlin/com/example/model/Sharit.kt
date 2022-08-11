@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.adapter.KtorfitCallResponseConverter
 import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
+import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -19,10 +20,13 @@ val httpClient2 = HttpClient() {
     }
 }
 
-
-val commonKtorfit = Ktorfit(baseUrl = JsonPlaceHolderApi.baseUrl, httpClient2).apply {
-    addResponseConverter(KtorfitCallResponseConverter())
-    addResponseConverter(FlowResponseConverter())
+val commonKtorfit = ktorfit {
+    baseUrl(JsonPlaceHolderApi.baseUrl)
+    httpClient(httpClient2)
+    responseConverter(
+        KtorfitCallResponseConverter(),
+        FlowResponseConverter()
+    )
 }
 
 
