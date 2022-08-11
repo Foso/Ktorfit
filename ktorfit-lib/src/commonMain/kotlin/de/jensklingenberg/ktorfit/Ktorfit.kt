@@ -9,25 +9,11 @@ import io.ktor.client.engine.*
 /**
  * Main class for Ktorfit, create the class than use the [create<T>()] function.
  */
-class Ktorfit private constructor(var baseUrl: String, var httpClient: HttpClient = HttpClient()) {
-
-    private val responseConverters: MutableList<ResponseConverter> = mutableListOf()
-
-
-    init {
-        addResponseConverter(KtorfitCallResponseConverter())
-    }
-
-    /**
-     * Use this to add [ResponseConverter] for unsupported return types of requests
-     */
-    fun addResponseConverter(ResponseConverter: ResponseConverter): Ktorfit {
-        responseConverters.add(ResponseConverter)
-        return this
-    }
-
-    fun getResponseConverters() = responseConverters
-
+class Ktorfit private constructor(
+    var baseUrl: String,
+    var httpClient: HttpClient = HttpClient(),
+    val responseConverters: Set<ResponseConverter>
+) {
     /**
      * Builder class for Ktorfit.
      *
@@ -37,6 +23,7 @@ class Ktorfit private constructor(var baseUrl: String, var httpClient: HttpClien
     class Builder {
         private lateinit var _baseUrl: String
         private var _httpClient = HttpClient()
+        private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf(KtorfitCallResponseConverter())
 
         /**
          * That will be used for every request with object
@@ -74,6 +61,13 @@ class Ktorfit private constructor(var baseUrl: String, var httpClient: HttpClien
         }
 
         /**
+         * Use this to add [ResponseConverter] for unsupported return types of requests
+         */
+        fun responseConverter(vararg converter: ResponseConverter) = apply {
+            this._responseConverter.addAll(converter)
+        }
+
+        /**
          * Creates an instance of Ktorfit with specified baseUrl and HttpClient.
          */
         fun build(): Ktorfit {
@@ -85,7 +79,7 @@ class Ktorfit private constructor(var baseUrl: String, var httpClient: HttpClien
                 throw IllegalStateException("Base URL needs to end with /")
             }
 
-            return Ktorfit(_baseUrl, _httpClient)
+            return Ktorfit(_baseUrl, _httpClient, _responseConverter)
         }
     }
 }

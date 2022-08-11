@@ -55,7 +55,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         requestData: RequestData
     ): TReturn {
 
-        ktorfit.getResponseConverters().firstOrNull { wrapper ->
+        ktorfit.responseConverters.firstOrNull { wrapper ->
             wrapper.supportedType(
                 requestData.qualifiedRawTypeName
             )
@@ -107,8 +107,8 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                         }
                     }
                     is Map<*, *> -> {
-                        data.entries.forEach {
-                            append(it.key.toString(), it.value.toString())
+                        data.entries.forEach { entry ->
+                            append(entry.key.toString(), entry.value.toString())
                         }
                     }
                     else -> {
