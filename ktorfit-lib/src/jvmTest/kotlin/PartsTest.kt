@@ -19,7 +19,7 @@ class PartsTest {
             }
         }
 
-        val ktorfit = Ktorfit("www.test.de/", HttpClient(engine))
+        val ktorfit = Ktorfit.Builder().baseUrl("www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET",
