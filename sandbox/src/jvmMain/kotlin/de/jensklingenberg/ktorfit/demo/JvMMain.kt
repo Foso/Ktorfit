@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.adapter.FlowResponseConverter
 import de.jensklingenberg.ktorfit.adapter.KtorfitCallResponseConverter
 import de.jensklingenberg.ktorfit.create
+import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
@@ -25,21 +26,19 @@ val jvmClient = HttpClient {
 
 }
 
-val jvmKtorfit = Ktorfit(baseUrl = StarWarsApi.baseUrl, jvmClient)
+val jvmKtorfit = ktorfit {
+    baseUrl(StarWarsApi.baseUrl)
+    httpClient(jvmClient)
+    responseConverter(
+        FlowResponseConverter(),
+        RxResponseConverter(),
+        KtorfitCallResponseConverter()
+    )
+}
 
 
 fun main() {
-
-    jvmKtorfit.addResponseConverter(FlowResponseConverter())
-    jvmKtorfit.addResponseConverter(RxResponseConverter())
-    jvmKtorfit.addResponseConverter(KtorfitCallResponseConverter())
-
-
     val exampleApi = jvmKtorfit.create<JvmPlaceHolderApi>()
-
-
-
-
 
     println("==============================================")
     runBlocking {

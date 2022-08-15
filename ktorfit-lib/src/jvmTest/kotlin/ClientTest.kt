@@ -12,7 +12,7 @@ class ClientTest {
     @Test
     fun whenBaseUrlNotEndingWithSlashThrowError() {
         try {
-            val ktorfit = Ktorfit("www.example.com")
+            val ktorfit = Ktorfit.Builder().baseUrl("www.example.com").build()
         } catch (illegal: IllegalStateException) {
             assert(illegal.message == "Base URL needs to end with /")
         }
@@ -21,7 +21,7 @@ class ClientTest {
     @Test
     fun whenBaseUrlEmptyThrowError() {
         try {
-            val ktorfit = Ktorfit("")
+            val ktorfit = Ktorfit.Builder().baseUrl("").build()
         } catch (illegal: IllegalStateException) {
             assert(illegal.message == "Base URL required")
         }
@@ -37,7 +37,7 @@ class ClientTest {
             }
         }
 
-        val ktorfit = Ktorfit("www.test.de/", HttpClient(engine))
+        val ktorfit = Ktorfit.Builder().baseUrl("www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET", relativeUrl = "posts", qualifiedRawTypeName = "kotlin.String"

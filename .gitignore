@@ -2,4 +2,4 @@
 .idea/
 build/
 **/build/
-
+local.properties

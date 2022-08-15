@@ -5,6 +5,7 @@ import de.jensklingenberg.ktorfit.adapter.FlowResponseConverter
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.adapter.KtorfitCallResponseConverter
 import de.jensklingenberg.ktorfit.create
+import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -27,15 +28,17 @@ fun main() {
     }
 
 
-    val jvmKtorfit = Ktorfit(baseUrl = GithubService.baseUrl, jvmClient)
+    val jvmKtorfit = ktorfit {
+        baseUrl(GithubService.baseUrl)
+        httpClient(jvmClient)
+        responseConverter(
+            FlowResponseConverter(),
+            RxResponseConverter(),
+            KtorfitCallResponseConverter()
+        )
+    }
 
     val testApi = jvmKtorfit.create<GithubService>()
-
-
-
-    jvmKtorfit.addResponseConverter(FlowResponseConverter())
-    jvmKtorfit.addResponseConverter(RxResponseConverter())
-    jvmKtorfit.addResponseConverter(KtorfitCallResponseConverter())
 
 
     runBlocking {
