@@ -1,13 +1,7 @@
 package de.jensklingenberg.ktorfit.demo
 
 import com.example.model.Post
-import de.jensklingenberg.ktorfit.http.Body
-import de.jensklingenberg.ktorfit.http.FieldMap
-import de.jensklingenberg.ktorfit.http.FormUrlEncoded
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.Headers
-import de.jensklingenberg.ktorfit.http.POST
-import de.jensklingenberg.ktorfit.http.Path
+import de.jensklingenberg.ktorfit.http.*
 import io.ktor.client.request.forms.*
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.flow.Flow
@@ -42,5 +36,8 @@ interface TestApi  {
     @Headers(value = ["Accept: application/json"])
     @GET("posts")
     fun getObserPosts(): Observable<List<Post>>
+
+
+
 }
 
