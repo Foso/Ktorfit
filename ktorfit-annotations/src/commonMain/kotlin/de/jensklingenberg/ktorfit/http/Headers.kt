@@ -8,4 +8,4 @@ package de.jensklingenberg.ktorfit.http
  *  suspend fun requestWithHeaders(): List<Comment>
  */
 @Target(AnnotationTarget.FUNCTION)
-annotation class Headers(val value: Array<String>)
+annotation class Headers(vararg val value: String)
