@@ -37,7 +37,7 @@ kotlin {
             }
         }
     }
-
+    mingwX64()
     js(IR) {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
