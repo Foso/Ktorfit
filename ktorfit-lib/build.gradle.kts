@@ -37,6 +37,7 @@ kotlin {
             }
         }
     }
+    mingwX64()
 
     js(IR) {
         this.nodejs()
@@ -53,7 +54,7 @@ kotlin {
                 api(project(":ktorfit-annotations"))
 
                 api("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
             }
         }
@@ -61,6 +62,13 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-core-linuxx64:$ktorVersion")
                 implementation("io.ktor:ktor-client-cio-linuxx64:$ktorVersion")
+
+            }
+        }
+
+        val mingwX64Main by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-core-mingwx64:$ktorVersion")
 
             }
         }
