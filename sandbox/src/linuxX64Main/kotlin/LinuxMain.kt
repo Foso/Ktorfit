@@ -7,11 +7,12 @@ import kotlinx.coroutines.runBlocking
 
 fun main() {
 
-    val linuxKtorfit = Ktorfit(JsonPlaceHolderApi.baseUrl, HttpClient())
-    linuxKtorfit.addResponseConverter(FlowResponseConverter())
-    val api =linuxKtorfit.create<JsonPlaceHolderApi>()
+    val linuxKtorfit = Ktorfit.Builder().baseUrl(JsonPlaceHolderApi.baseUrl).httpClient(HttpClient())
+        .responseConverter(FlowResponseConverter()).build()
+
+    val api = linuxKtorfit.create<JsonPlaceHolderApi>()
     runBlocking {
-        api.getPosts().collect{
+        api.getPosts().collect {
             println(it)
         }
     }
