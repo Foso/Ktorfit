@@ -32,14 +32,10 @@ class KtorfitCallResponseConverter : SuspendResponseConverter {
 
         return object : Call<T> {
             override fun onExecute(callBack: Callback<T>) {
-                if (res.isFailure) {
-                    callBack.onError(res.exceptionOrNull()!!)
-                } else {
-                    try {
-                        callBack.onResponse(res.getOrThrow() as T, response)
-                    } catch (ex: Exception) {
-                        callBack.onError(ex)
-                    }
+                try {
+                    callBack.onResponse(res.getOrThrow() as T, response)
+                } catch (ex: Throwable) {
+                    callBack.onError(ex)
                 }
             }
 
