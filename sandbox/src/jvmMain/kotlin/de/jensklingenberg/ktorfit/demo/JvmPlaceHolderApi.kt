@@ -19,4 +19,7 @@ interface JvmPlaceHolderApi : StarWarsApi {
     @Streaming
     @GET("people/1/")
     suspend fun getPostsStreaming(): HttpStatement
+
+    @GET("people/{id}/")
+    suspend fun getPersonById2AsResponse(@Path("id") peopleId: Int): Response<People>
 }

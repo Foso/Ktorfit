@@ -1,4 +1,5 @@
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.adapter.CoreResponseConverter
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import de.jensklingenberg.ktorfit.internal.RequestData
 import io.ktor.client.*
@@ -46,6 +47,19 @@ class ClientTest {
         }
 
 
+    }
+
+    @Test
+    fun whenResponseConverterInvalidThrowError() {
+        try {
+            val ktorfit = Ktorfit.Builder().baseUrl("/").responseConverter(object : CoreResponseConverter {
+                override fun supportedType(returnTypeName: String): Boolean {
+                    return true
+                }
+            })
+        } catch (illegal: IllegalArgumentException) {
+            assert(illegal.message == "Your response converter must be either of type ResponseConverter or SuspendRespondConverter")
+        }
     }
 }
 
