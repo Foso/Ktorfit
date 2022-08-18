@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface StarWarsApi {
     @GET("people/{id}/")
-    suspend fun getPersonByIdResponse(@Path("id") peopleId: Int): People
+    suspend fun getPersonByIdResponse(@Path("id") peopleId: Int): Person
 
     @GET("people/{id}/")
-    fun getPeopleByIdFlowResponse(@Path("id") peopleId: Int): Flow<People>
+    fun getPeopleByIdFlowResponse(@Path("id") peopleId: Int): Flow<Person>
 }

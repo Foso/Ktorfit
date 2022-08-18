@@ -1,5 +1,6 @@
 package com.example.ktorfittest
 
+import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.adapter.FlowResponseConverter
 import de.jensklingenberg.ktorfit.create
 import io.ktor.client.*
@@ -9,13 +10,13 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
-val ktorfit = de.jensklingenberg.ktorfit.Ktorfit("https://swapi.dev/api/", HttpClient {
+val ktorfit = Ktorfit.Builder()
+    .baseUrl("https://swapi.dev/api/")
+    .httpClient(HttpClient {
     install(ContentNegotiation) {
         json(Json { isLenient = true; ignoreUnknownKeys = true })
     }
-}).also {
-    it.addResponseConverter(FlowResponseConverter())
-}
+}).build()
 
 
 val starWarsApi = ktorfit.create<StarWarsApi>()

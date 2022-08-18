@@ -40,7 +40,7 @@ Because Ktor relies on Coroutines by default your functions need to have the **s
 
 
 ```kotlin
-val ktorfit = Ktorfit(baseUrl = "https://swapi.dev/api/")
+val ktorfit = Ktorfit.Builder().baseUrl("https://swapi.dev/api/").build()
 val exampleApi = ktorfit.create<ExampleApi>()
 ```
 
@@ -101,7 +101,7 @@ On a request with **getPerson(1)** , **{peopleId}** will be replaced with the ar
 
 ## Headers
 ```kotlin
-@Headers(value = ["Accept: application/json"])
+@Headers("Accept: application/json")
 @GET("comments")
 suspend fun requestWithHeaders(
     @Header("Content-Type") name: String,
@@ -193,14 +193,14 @@ The idea of a ResponseConverter is to enable directly wrapping response types in
 You can add adapters on your Ktorfit object.
 
 ```kotlin
-ktorfit.addResponseConverter(FlowResponseConverter())
+ktorfit.responseConverter(FlowResponseConverter())
 ```
 
 ###Flow
 Ktorfit has support for Kotlin Flow. You need add the FlowResponseConverter() to your Ktorfit instance.
 
 ```kotlin
-ktorfit.addResponseConverter(FlowResponseConverter())
+ktorfit.responseConverter(FlowResponseConverter())
 ```
 
 ```kotlin
@@ -215,7 +215,7 @@ Then you can drop the **suspend** modifier and wrap your return type with Flow<>
 ### Call
 
 ```kotlin
-ktorfit.addResponseConverter(KtorfitResponseConverter())
+ktorfit.responseConverter(KtorfitResponseConverter())
 ```
 ```kotlin
 @GET("people/{id}/")
@@ -319,7 +319,7 @@ Next you have to add the Ktorfit KSP Plugin to the common target and every compi
 
 
 ```kotlin
-val ktorfitVersion = "1.0.0-beta09"
+val ktorfitVersion = "1.0.0-beta10"
 
 dependencies {
     add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
@@ -336,7 +336,7 @@ Look here for more information https://kotlinlang.org/docs/ksp-multiplatform.htm
 
 Add the Ktorfit-lib to your common module.
 ```kotlin
-val ktorfitVersion = "1.0.0-beta09"
+val ktorfitVersion = "1.0.0-beta10"
 
 sourceSets {
     val commonMain by getting{
@@ -347,7 +347,7 @@ sourceSets {
 ```
 
 #### Ktor
-Ktorfit is based on Ktor Clients 2.0.3. You don't need to add an extra dependency for the default clients. 
+Ktorfit is based on Ktor Clients 2.1.0. You don't need to add an extra dependency for the default clients. 
 When you want to use Ktor plugins for things like serialization, you need to add the dependencies and they need to be compatible with 2.0.1
 
 
