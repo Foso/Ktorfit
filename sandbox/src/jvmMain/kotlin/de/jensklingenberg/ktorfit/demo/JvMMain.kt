@@ -43,7 +43,7 @@ fun main() {
 
     println("==============================================")
     runBlocking {
-        val response = exampleApi.getPersonById2AsResponse(2)
+        val response = exampleApi.getPersonById2(2)
 
         println("LI    " + response)
 

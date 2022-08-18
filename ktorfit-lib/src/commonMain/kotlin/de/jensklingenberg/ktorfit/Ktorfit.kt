@@ -22,7 +22,7 @@ class Ktorfit private constructor(
     constructor(
         baseUrl: String,
         httpClient: HttpClient = HttpClient()
-    ) : this(baseUrl,httpClient, setOf(KtorfitCallResponseConverter()), emptySet())
+    ) : this(baseUrl,httpClient, emptySet(), setOf(KtorfitCallResponseConverter()))
 
     /**
      * Builder class for Ktorfit.
@@ -33,8 +33,8 @@ class Ktorfit private constructor(
     class Builder {
         private lateinit var _baseUrl: String
         private var _httpClient = HttpClient()
-        private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf(KtorfitCallResponseConverter())
-        private var _suspendResponseConverter: MutableSet<SuspendResponseConverter> = mutableSetOf()
+        private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf()
+        private var _suspendResponseConverter: MutableSet<SuspendResponseConverter> = mutableSetOf(KtorfitCallResponseConverter())
 
         /**
          * That will be used for every request with object
