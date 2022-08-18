@@ -20,13 +20,11 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
-val ktorfit = Ktorfit("https://swapi.dev/api/", HttpClient {
+val ktorfit = Ktorfit.Builder().baseUrl("https://swapi.dev/api/").httpClient(HttpClient {
     install(ContentNegotiation) {
         json(Json { isLenient = true; ignoreUnknownKeys = true })
     }
-}).also {
-    it.addResponseConverter(FlowResponseConverter())
-}
+}).responseConverter(FlowResponseConverter()).build()
 val api: StarWarsApi = ktorfit.create<StarWarsApi>()
 
 class MainActivity : ComponentActivity() {

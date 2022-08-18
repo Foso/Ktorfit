@@ -14,6 +14,13 @@ class Ktorfit private constructor(
     val httpClient: HttpClient = HttpClient(),
     val responseConverters: Set<ResponseConverter>
 ) {
+
+    @Deprecated("Use Ktorfit.Builder()", replaceWith = ReplaceWith("Ktorfit.Builder().baseUrl(baseUrl).httpClient(httpClient).build()"))
+    constructor(
+        baseUrl: String,
+        httpClient: HttpClient = HttpClient()
+    ) : this(baseUrl,httpClient, emptySet())
+
     /**
      * Builder class for Ktorfit.
      *

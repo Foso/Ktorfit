@@ -53,7 +53,7 @@ interface HeaderTestApi {
     suspend fun testHeaderWithList(@Path("id") peopleId: Int, @Header("huhu") name: List<String?>): People
 
 
-    @Headers(value = ["Accept2: application/json","Accept: application/json2"])
+    @Headers("Accept2: application/json","Accept: application/json2")
     @GET("people/{id}/")
     suspend fun testHeaders(@Path("id") peopleId: Int ): People
 

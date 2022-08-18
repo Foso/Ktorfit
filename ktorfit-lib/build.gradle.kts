@@ -14,8 +14,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-version = "1.0.0-beta09"
-val ktorVersion = "2.0.3"
+version = "1.0.0-beta10"
+val ktorVersion = "2.1.0"
 kotlin {
 
     android(){
@@ -37,6 +37,7 @@ kotlin {
             }
         }
     }
+    mingwX64()
 
     js(IR) {
         this.nodejs()
@@ -53,7 +54,7 @@ kotlin {
                 api(project(":ktorfit-annotations"))
 
                 api("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
             }
         }
@@ -61,6 +62,13 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-core-linuxx64:$ktorVersion")
                 implementation("io.ktor:ktor-client-cio-linuxx64:$ktorVersion")
+
+            }
+        }
+
+        val mingwX64Main by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-core-mingwx64:$ktorVersion")
 
             }
         }
