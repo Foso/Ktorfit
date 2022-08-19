@@ -1,5 +1,7 @@
 1.0.0-beta10
 ========================================
+(18.08.2022)
+
 - based on Ktor 2.0.2
 - added windows target #26
 - @PATCH, @POST, @PUT now have a default value #22
