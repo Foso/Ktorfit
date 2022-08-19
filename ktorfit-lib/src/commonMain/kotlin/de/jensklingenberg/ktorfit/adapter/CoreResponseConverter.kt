@@ -1,6 +1,6 @@
 package de.jensklingenberg.ktorfit.adapter
 
-interface CoreResponseConverter {
+sealed interface CoreResponseConverter {
 
     fun supportedType(returnTypeName: String): Boolean
 
