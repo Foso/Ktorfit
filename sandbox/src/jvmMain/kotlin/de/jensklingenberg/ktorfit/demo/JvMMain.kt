@@ -32,7 +32,8 @@ val jvmKtorfit = ktorfit {
     responseConverter(
         FlowResponseConverter(),
         RxResponseConverter(),
-        KtorfitCallResponseConverter()
+        KtorfitCallResponseConverter(),
+        SuspendConverter()
     )
 }
 
@@ -42,7 +43,7 @@ fun main() {
 
     println("==============================================")
     runBlocking {
-        val response = exampleApi.getPersonById2(1)
+        val response = exampleApi.getPersonById2(2)
 
         println("LI    " + response)
 

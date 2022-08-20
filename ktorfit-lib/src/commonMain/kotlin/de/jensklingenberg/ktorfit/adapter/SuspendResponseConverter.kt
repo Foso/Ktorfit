@@ -3,9 +3,9 @@ package de.jensklingenberg.ktorfit.adapter
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
 
-interface ResponseConverter : CoreResponseConverter {
+interface SuspendResponseConverter : CoreResponseConverter {
 
-    fun <PRequest : Any> wrapResponse(
+    suspend fun <PRequest : Any> wrapResponse(
         returnTypeName: String,
         requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>
     ): Any

@@ -27,7 +27,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    suspend inline fun <reified TReturn, reified PRequest> suspendRequest(
+    suspend inline fun <reified TReturn, reified PRequest : Any> suspendRequest(
         requestData: RequestData
     ): TReturn {
 
@@ -35,6 +35,19 @@ class KtorfitClient(val ktorfit: Ktorfit) {
             return httpClient.prepareRequest {
                 requestBuilder(requestData)
             } as TReturn
+        }
+
+        ktorfit.suspendResponseConverters.firstOrNull { wrapper ->
+            wrapper.supportedType(
+                requestData.qualifiedRawTypeName
+            )
+        }?.let {
+            return it.wrapResponse<PRequest>(returnTypeName = requestData.qualifiedRawTypeName, requestFunction = {
+                val response = httpClient.request {
+                    requestBuilder(requestData)
+                }
+                Pair(typeInfo<PRequest>(), response)
+            }) as TReturn
         }
 
         val request = httpClient.request {
