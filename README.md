@@ -112,7 +112,7 @@ In this Readme is only a basic example, for more documentation check: [http://fo
 
 
 ## 👷 Project Structure
- 	
+* <kbd>ktorfit-annotations</kbd> - module with annotations for the Ktorfit
 * <kbd>ktorfit-ksp</kbd> - module with source for the KSP plugin
 * <kbd>ktorfit-lib</kbd> - module with source for the Ktorfit lib
 * <kbd>sandbox</kbd> - experimental test module to try various stuff
