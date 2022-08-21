@@ -20,7 +20,7 @@ buildscript {
     classpath("com.vanniktech:gradle-maven-publish-plugin:0.18.0")
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.5.30")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.7.0")
-        classpath("com.android.tools.build:gradle:7.2.2")
+        classpath("com.android.tools.build:gradle:7.0.4")
 
 
     }

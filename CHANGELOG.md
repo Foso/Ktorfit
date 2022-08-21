@@ -1,6 +1,8 @@
 1.0.0-beta11
 ========================================
-KtorfitCallResponseConverter and FlowResponseConverter moved to de.jensklingenberg.ktorfit.converter.builtin
+
+- you can now use ResponseConverter in combination with suspend functions. Implement the SuspendResponseConverter
+- KtorfitCallResponseConverter and FlowResponseConverter moved to de.jensklingenberg.ktorfit.converter.builtin
 
 
 1.0.0-beta10
