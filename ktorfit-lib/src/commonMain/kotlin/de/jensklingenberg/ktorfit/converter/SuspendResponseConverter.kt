@@ -16,7 +16,7 @@ interface SuspendResponseConverter : CoreResponseConverter {
      * the return type. e.g. for Flow<String> it will be kotlinx.coroutines.flow.Flow
      * @return the wrapped response
      */
-    suspend fun <PRequest : Any> wrapResponse(
+    suspend fun <PRequest : Any> wrapSuspendResponse(
         returnTypeName: String,
         requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>
     ): Any

@@ -14,11 +14,11 @@ import kotlinx.coroutines.coroutineScope
  */
 class KtorfitSuspendCallResponseConverter : SuspendResponseConverter {
 
-    override fun supportedType(returnTypeName: String): Boolean {
+    override fun supportedType(returnTypeName: String, isSuspend: Boolean): Boolean {
         return returnTypeName == "de.jensklingenberg.ktorfit.Call"
     }
 
-    override suspend fun <T : Any> wrapResponse(
+    override suspend fun <T : Any> wrapSuspendResponse(
         returnTypeName: String,
         requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>
     ): Any {

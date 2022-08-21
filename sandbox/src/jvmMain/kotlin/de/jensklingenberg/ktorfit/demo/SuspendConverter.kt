@@ -7,11 +7,11 @@ import io.ktor.util.reflect.*
 
 class SuspendConverter : SuspendResponseConverter {
 
-    override fun supportedType(returnTypeName: String): Boolean {
+    override fun supportedType(returnTypeName: String, isSuspend: Boolean): Boolean {
         return returnTypeName.equals("de.jensklingenberg.ktorfit.demo.Response", true)
     }
 
-    override suspend fun <PRequest : Any> wrapResponse(
+    override suspend fun <PRequest : Any> wrapSuspendResponse(
         returnTypeName: String,
         requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>
     ): Any {

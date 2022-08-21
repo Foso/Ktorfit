@@ -39,10 +39,11 @@ class KtorfitClient(val ktorfit: Ktorfit) {
 
         ktorfit.suspendResponseConverters.firstOrNull { wrapper ->
             wrapper.supportedType(
-                requestData.qualifiedRawTypeName
+                requestData.qualifiedRawTypeName,
+                true
             )
         }?.let {
-            return it.wrapResponse<PRequest>(returnTypeName = requestData.qualifiedRawTypeName, requestFunction = {
+            return it.wrapSuspendResponse<PRequest>(returnTypeName = requestData.qualifiedRawTypeName, requestFunction = {
                 val response = httpClient.request {
                     requestBuilder(requestData)
                 }
@@ -70,7 +71,8 @@ class KtorfitClient(val ktorfit: Ktorfit) {
 
         ktorfit.responseConverters.firstOrNull { wrapper ->
             wrapper.supportedType(
-                requestData.qualifiedRawTypeName
+                requestData.qualifiedRawTypeName,
+                false
             )
         }?.let {
             return it.wrapResponse<PRequest>(returnTypeName = requestData.qualifiedRawTypeName, requestFunction = {
