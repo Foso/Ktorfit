@@ -1,7 +1,7 @@
 <h1>Ktorfit</h1>
 
 [![All Contribtors](https://img.shields.io/badge/Maven-Central-download.svg?style=flat-square)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Foso/Ktorfit)
-[![jCenter](https://img.shields.io/badge/Apache-2.0-green.svg)](https://github.com/Foso/Ktorfit/blob/master/LICENSE) v1.0.0-beta09
+[![jCenter](https://img.shields.io/badge/Apache-2.0-green.svg)](https://github.com/Foso/Ktorfit/blob/master/LICENSE) v1.0.0-beta10
 [Documentation](http://foso.github.io/Ktorfit)
 <p align="center">
   <img src ="https://raw.githubusercontent.com/Foso/Experimental/master/carbon.png"  />
@@ -38,7 +38,7 @@ Because Ktor relies on Coroutines by default your functions need to have the **s
 
 
 ```kotlin
-val ktorfit = Ktorfit(baseUrl = "https://swapi.dev/api/")
+val ktorfit = Ktorfit.Builder().baseUrl("https://swapi.dev/api/").build()
 val exampleApi = ktorfit.create<ExampleApi>()
 ```
 
@@ -76,7 +76,7 @@ Next you have to add the Ktorfit KSP Plugin to the common target and every compi
 
 
 ```kotlin
-val ktorfitVersion = "1.0.0-beta09"
+val ktorfitVersion = "1.0.0-beta10"
 
 dependencies {
     add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
@@ -93,7 +93,7 @@ Look here for more information https://kotlinlang.org/docs/ksp-multiplatform.htm
 
 Add the Ktorfit-lib to your common module.
 ```kotlin
-val ktorfitVersion = "1.0.0-beta09"
+val ktorfitVersion = "1.0.0-beta10"
 
 sourceSets {
     val commonMain by getting{
@@ -104,18 +104,18 @@ sourceSets {
 ```
 
 #### Ktor
-Ktorfit is based on Ktor Clients 2.0.3. You don't need to add an extra dependency for the default clients.
-When you want to use Ktor plugins for things like serialization, you need to add the dependencies and they need to be compatible with 2.0.1
+Ktorfit is based on Ktor Clients 2.1.0. You don't need to add an extra dependency for the default clients.
+When you want to use Ktor plugins for things like serialization, you need to add the dependencies and they need to be compatible with 2.1.0
 
 ## 📙 Documentation
 In this Readme is only a basic example, for more documentation check: [http://foso.github.io/Ktorfit](http://foso.github.io/Ktorfit)
 
 
 ## 👷 Project Structure
- 	
+* <kbd>ktorfit-annotations</kbd> - module with annotations for the Ktorfit
 * <kbd>ktorfit-ksp</kbd> - module with source for the KSP plugin
 * <kbd>ktorfit-lib</kbd> - module with source for the Ktorfit lib
-* <kbd>workload</kbd> - experimental test module to try various stuff
+* <kbd>sandbox</kbd> - experimental test module to try various stuff
 
 * <kbd>example</kbd> - contains example projects that use Ktorfit
 * <kbd>docs</kbd> - contains the source for the github page
