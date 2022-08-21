@@ -27,8 +27,8 @@ fun generateKtorfitExtSource(
     val whenCaseStatements = classDataList.joinToString("") {
         val packageName = it.packageName
         val className = it.name
-        "${packageName}.${className}::class ->{\n"+
-                "${packageName}._${className}Impl(KtorfitClient(this)) as T\n"+
+        "${packageName}.${className}::class ->{\n" +
+                "${packageName}._${className}Impl(KtorfitClient(this)) as T\n" +
                 "}\n"
     }
 

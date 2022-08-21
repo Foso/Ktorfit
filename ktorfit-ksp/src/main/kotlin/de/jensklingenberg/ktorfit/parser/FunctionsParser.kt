@@ -3,8 +3,8 @@ package de.jensklingenberg.ktorfit.parser
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import de.jensklingenberg.ktorfit.*
-import de.jensklingenberg.ktorfit.model.KtorfitError
 import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.KtorfitError
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING
@@ -97,7 +97,7 @@ fun getFunctionDataList(
         }
 
         if (httpMethodAnnoList.size > 1) {
-            logger.ktorfitError(ONLY_ONE_HTTP_METHOD_IS_ALLOWED+ "Found: " + httpMethodAnnoList.joinToString { it.httpMethod.keyword } + " at " + functionName,
+            logger.ktorfitError(ONLY_ONE_HTTP_METHOD_IS_ALLOWED + "Found: " + httpMethodAnnoList.joinToString { it.httpMethod.keyword } + " at " + functionName,
                 funcDeclaration)
         }
 
@@ -118,9 +118,9 @@ fun getFunctionDataList(
         when (httpMethodAnno.httpMethod) {
             HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH -> {}
             else -> {
-                if(httpMethodAnno is CustomHttp && httpMethodAnno.hasBody){
-                 //Do nothing
-                }else if (functionParameters.any { it.hasAnnotation<Body>() }) {
+                if (httpMethodAnno is CustomHttp && httpMethodAnno.hasBody) {
+                    //Do nothing
+                } else if (functionParameters.any { it.hasAnnotation<Body>() }) {
                     logger.ktorfitError(NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY, funcDeclaration)
                 }
 
@@ -142,7 +142,7 @@ fun getFunctionDataList(
 
         if (functionParameters.any { it.hasAnnotation<Path>() } && httpMethodAnno.path.isEmpty()) {
             logger.ktorfitError(
-                PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON+"@${httpMethodAnno.httpMethod.keyword}",
+                PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON + "@${httpMethodAnno.httpMethod.keyword}",
                 funcDeclaration
             )
         }

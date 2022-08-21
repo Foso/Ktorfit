@@ -42,7 +42,7 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
                 }
                 if (classDec.typeParameters.isNotEmpty()) {
                     logger.ktorfitError(
-                        TYPE_PARAMETERS_ARE_UNSUPPORTED_ON+" ${classDec.simpleName.asString()}",
+                        TYPE_PARAMETERS_ARE_UNSUPPORTED_ON + " ${classDec.simpleName.asString()}",
                         classDec
                     )
                 }
@@ -75,13 +75,6 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
         val ksAnnotatedList =
             getAnnotated + postAnnotated + putAnnotated + deleteAnnotated + headAnnotated + optionsAnnotated + patchAnnotated + httpAnnotated
         return ksAnnotatedList.map { it as KSFunctionDeclaration }
-    }
-
-
-    override fun finish() {
-
-
-
     }
 }
 

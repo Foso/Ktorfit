@@ -31,12 +31,15 @@ class KtorfitError {
         const val FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT =
             "For streaming the return type must be io.ktor.client.statement.HttpStatement"
         const val COULD_NOT_FIND_ANY_KTORFIT_ANNOTATIONS_IN_CLASS = "Could not find any Ktorfit annotations in class"
-        fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) = "Missing either @$keyword URL or @Url parameter"
+        fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) =
+            "Missing either @$keyword URL or @Url parameter"
+
         const val JAVA_INTERFACES_ARE_NOT_SUPPORTED = "Java Interfaces are not supported"
         const val INTERNAL_INTERFACES_ARE_NOT_SUPPORTED = "internal Interfaces are not supported"
         const val INTERFACE_NEEDS_TO_HAVE_A_PACKAGE = "Interface needs to have a package"
         const val ONLY_ONE_HTTP_METHOD_IS_ALLOWED = "Only one HTTP method is allowed."
-        const val FORM_URL_ENCODED_CAN_ONLY_BE_SPECIFIED_ON_HTTP_METHODS_WITH_REQUEST_BODY = "FormUrlEncoded can only be specified on HTTP methods with request body (e.g., @POST)."
+        const val FORM_URL_ENCODED_CAN_ONLY_BE_SPECIFIED_ON_HTTP_METHODS_WITH_REQUEST_BODY =
+            "FormUrlEncoded can only be specified on HTTP methods with request body (e.g., @POST)."
         const val ONLY_ONE_ENCODING_ANNOTATION_IS_ALLOWED = "Only one encoding annotation is allowed."
         const val MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND = "Multiple @Url method annotations found"
         const val TYPE_PARAMETERS_ARE_UNSUPPORTED_ON = "Type parameters are unsupported on "

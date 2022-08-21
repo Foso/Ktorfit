@@ -42,6 +42,7 @@ fun KSFunctionDeclaration.parseHTTPMethodAnno(name: String): HttpMethodAnnotatio
         null -> {
             null
         }
+
         else -> {
 
             if (name == "HTTP") {
