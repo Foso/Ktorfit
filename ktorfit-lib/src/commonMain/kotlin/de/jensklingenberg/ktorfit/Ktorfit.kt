@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit
 
 import de.jensklingenberg.ktorfit.converter.CoreResponseConverter
-import de.jensklingenberg.ktorfit.converter.builtin.KtorfitSuspendCallResponseConverter
 import de.jensklingenberg.ktorfit.converter.ResponseConverter
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import io.ktor.client.*
@@ -18,11 +17,14 @@ class Ktorfit private constructor(
     val suspendResponseConverters: Set<SuspendResponseConverter>
 ) {
 
-    @Deprecated("Use Ktorfit.Builder()", replaceWith = ReplaceWith("Ktorfit.Builder().baseUrl(baseUrl).httpClient(httpClient).build()"))
+    @Deprecated(
+        "Use Ktorfit.Builder()",
+        replaceWith = ReplaceWith("Ktorfit.Builder().baseUrl(baseUrl).httpClient(httpClient).build()")
+    )
     constructor(
         baseUrl: String,
         httpClient: HttpClient = HttpClient()
-    ) : this(baseUrl,httpClient, emptySet(), setOf(KtorfitSuspendCallResponseConverter()))
+    ) : this(baseUrl, httpClient, emptySet(), emptySet())
 
     /**
      * Builder class for Ktorfit.
@@ -34,9 +36,7 @@ class Ktorfit private constructor(
         private lateinit var _baseUrl: String
         private var _httpClient = HttpClient()
         private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf()
-        private var _suspendResponseConverter: MutableSet<SuspendResponseConverter> = mutableSetOf(
-            KtorfitSuspendCallResponseConverter()
-        )
+        private var _suspendResponseConverter: MutableSet<SuspendResponseConverter> = mutableSetOf()
 
         /**
          * That will be used for every request with object
