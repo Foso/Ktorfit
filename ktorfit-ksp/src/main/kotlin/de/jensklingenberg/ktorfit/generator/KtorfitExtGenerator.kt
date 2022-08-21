@@ -16,7 +16,7 @@ fun generateKtorfitExtSource(
 ): String {
     val classNameReflectionMethod = if (isJS) {
         /**
-         * On JS "simpleName" is used to get class name, because qualifiedName does not exists
+         * On JS "simpleName" is used to get class name, because qualifiedName does not exist
          */
         //https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/qualified-name.html
         "simpleName"
