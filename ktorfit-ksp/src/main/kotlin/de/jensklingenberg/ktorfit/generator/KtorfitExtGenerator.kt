@@ -16,7 +16,7 @@ fun generateKtorfitExtSource(
 ): String {
     val classNameReflectionMethod = if (isJS) {
         /**
-         * On JS "simpleName" is used to get class name, because qualifiedName does not exists
+         * On JS "simpleName" is used to get class name, because qualifiedName does not exist
          */
         //https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/qualified-name.html
         "simpleName"
@@ -27,8 +27,8 @@ fun generateKtorfitExtSource(
     val whenCaseStatements = classDataList.joinToString("") {
         val packageName = it.packageName
         val className = it.name
-        "${packageName}.${className}::class ->{\n"+
-                "${packageName}._${className}Impl(KtorfitClient(this)) as T\n"+
+        "${packageName}.${className}::class ->{\n" +
+                "${packageName}._${className}Impl(KtorfitClient(this)) as T\n" +
                 "}\n"
     }
 

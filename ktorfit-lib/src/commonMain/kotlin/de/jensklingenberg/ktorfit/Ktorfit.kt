@@ -1,7 +1,8 @@
 package de.jensklingenberg.ktorfit
 
-import de.jensklingenberg.ktorfit.adapter.KtorfitCallResponseConverter
-import de.jensklingenberg.ktorfit.adapter.ResponseConverter
+import de.jensklingenberg.ktorfit.converter.CoreResponseConverter
+import de.jensklingenberg.ktorfit.converter.ResponseConverter
+import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import io.ktor.client.*
 import io.ktor.client.engine.*
 
@@ -12,14 +13,18 @@ import io.ktor.client.engine.*
 class Ktorfit private constructor(
     val baseUrl: String,
     val httpClient: HttpClient = HttpClient(),
-    val responseConverters: Set<ResponseConverter>
+    val responseConverters: Set<ResponseConverter>,
+    val suspendResponseConverters: Set<SuspendResponseConverter>
 ) {
 
-    @Deprecated("Use Ktorfit.Builder()", replaceWith = ReplaceWith("Ktorfit.Builder().baseUrl(baseUrl).httpClient(httpClient).build()"))
+    @Deprecated(
+        "Use Ktorfit.Builder()",
+        replaceWith = ReplaceWith("Ktorfit.Builder().baseUrl(baseUrl).httpClient(httpClient).build()")
+    )
     constructor(
         baseUrl: String,
         httpClient: HttpClient = HttpClient()
-    ) : this(baseUrl,httpClient, emptySet())
+    ) : this(baseUrl, httpClient, emptySet(), emptySet())
 
     /**
      * Builder class for Ktorfit.
@@ -30,7 +35,8 @@ class Ktorfit private constructor(
     class Builder {
         private lateinit var _baseUrl: String
         private var _httpClient = HttpClient()
-        private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf(KtorfitCallResponseConverter())
+        private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf()
+        private var _suspendResponseConverter: MutableSet<SuspendResponseConverter> = mutableSetOf()
 
         /**
          * That will be used for every request with object
@@ -68,10 +74,16 @@ class Ktorfit private constructor(
         }
 
         /**
-         * Use this to add [ResponseConverter] for unsupported return types of requests
+         * Use this to add [ResponseConverter] or [SuspendResponseConverter] for unsupported return types of requests
          */
-        fun responseConverter(vararg converter: ResponseConverter) = apply {
-            this._responseConverter.addAll(converter)
+        fun responseConverter(vararg converters: CoreResponseConverter) = apply {
+            converters.forEach { converter ->
+                when (converter) {
+                    is ResponseConverter -> this._responseConverter.add(converter)
+                    is SuspendResponseConverter -> this._suspendResponseConverter.add(converter)
+                    else -> throw IllegalArgumentException("Your response converter must be either of type ResponseConverter or SuspendRespondConverter")
+                }
+            }
         }
 
         /**
@@ -91,7 +103,7 @@ class Ktorfit private constructor(
                 throw IllegalStateException("Base URL needs to end with /")
             }
 
-            return Ktorfit(_baseUrl, _httpClient, _responseConverter)
+            return Ktorfit(_baseUrl, _httpClient, _responseConverter, _suspendResponseConverter)
         }
     }
 }

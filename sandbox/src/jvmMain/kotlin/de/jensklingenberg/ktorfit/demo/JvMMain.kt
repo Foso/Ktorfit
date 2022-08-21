@@ -2,9 +2,8 @@ package de.jensklingenberg.ktorfit.demo
 
 
 import com.example.api.StarWarsApi
-import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.adapter.FlowResponseConverter
-import de.jensklingenberg.ktorfit.adapter.KtorfitCallResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.KtorfitSuspendCallResponseConverter
 import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
@@ -32,7 +31,8 @@ val jvmKtorfit = ktorfit {
     responseConverter(
         FlowResponseConverter(),
         RxResponseConverter(),
-        KtorfitCallResponseConverter()
+        KtorfitSuspendCallResponseConverter(),
+        SuspendConverter()
     )
 }
 
@@ -42,7 +42,7 @@ fun main() {
 
     println("==============================================")
     runBlocking {
-        val response = exampleApi.getPersonById2(1)
+        val response = exampleApi.getPersonById2(2)
 
         println("LI    " + response)
 

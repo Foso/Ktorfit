@@ -11,7 +11,7 @@ import de.jensklingenberg.ktorfit.model.annotations.*
 
 fun getHeadersArgumentText(
     functionAnnotations: List<FunctionAnnotation>,
-     paramList: List<ParameterData>
+    paramList: List<ParameterData>
 ): String {
     val headerList = mutableListOf<Pair<String, String>>()
 
@@ -23,7 +23,7 @@ fun getHeadersArgumentText(
         /**
          * Can't add Content Type Header, because it leads to Ktor issues https://github.com/ktorio/ktor/issues/1127
          */
-      //  headerList.add(Pair("\"Content-Type\"", "\"application/x-www-form-urlencoded\""))
+        //  headerList.add(Pair("\"Content-Type\"", "\"application/x-www-form-urlencoded\""))
     }
 
     paramsWithHeaderAnno.forEach { myParam ->
@@ -53,5 +53,5 @@ fun getHeadersArgumentText(
     }.surroundIfNotEmpty("listOf(", ")")
 
 
-    return headerText.prefixIfNotEmpty("headers = ").replace(" ","·")
+    return headerText.prefixIfNotEmpty("headers = ").replace(" ", "·")
 }

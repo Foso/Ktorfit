@@ -1,6 +1,6 @@
 package de.jensklingenberg.ktorfit.demo
 
-import de.jensklingenberg.ktorfit.adapter.ResponseConverter
+import de.jensklingenberg.ktorfit.converter.ResponseConverter
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
 import io.reactivex.rxjava3.core.Completable
@@ -93,7 +93,6 @@ class RxResponseConverter : ResponseConverter {
                             }
                         }
                     } catch (ex: NumberFormatException) {
-                        println("dfsdfsdfsdfds")
                         e.onError(ex)
                     }
                 }

@@ -14,14 +14,15 @@ public class TestJava {
         getApi().getPersonCall(1).onExecute(new Callback<Person>() {
 
             @Override
+            public void onError(@NonNull Throwable throwable) {
+
+            }
+
+            @Override
             public void onResponse(Person person, @NonNull HttpResponse httpResponse) {
                 Log.d("Android:", person.toString());
             }
 
-            @Override
-            public void onError(@NonNull Exception e) {
-
-            }
         });
     }
 

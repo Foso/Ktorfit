@@ -1,7 +1,5 @@
 plugins {
     kotlin("multiplatform")
-
-
     id("maven-publish")
     id("signing")
     id("com.vanniktech.maven.publish")
@@ -14,7 +12,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-version = "1.0.0-beta10"
+version = "1.0.0-beta11"
 
 kotlin {
 

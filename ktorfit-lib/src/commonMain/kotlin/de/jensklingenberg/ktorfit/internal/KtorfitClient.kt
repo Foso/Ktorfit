@@ -27,14 +27,27 @@ class KtorfitClient(val ktorfit: Ktorfit) {
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    suspend inline fun <reified TReturn, reified PRequest> suspendRequest(
+    suspend inline fun <reified TReturn, reified PRequest : Any> suspendRequest(
         requestData: RequestData
     ): TReturn {
 
-        if(TReturn::class == HttpStatement::class){
+        if (TReturn::class == HttpStatement::class) {
             return httpClient.prepareRequest {
                 requestBuilder(requestData)
             } as TReturn
+        }
+
+        ktorfit.suspendResponseConverters.firstOrNull { wrapper ->
+            wrapper.supportedType(
+                requestData.qualifiedRawTypeName
+            )
+        }?.let {
+            return it.wrapResponse<PRequest>(returnTypeName = requestData.qualifiedRawTypeName, requestFunction = {
+                val response = httpClient.request {
+                    requestBuilder(requestData)
+                }
+                Pair(typeInfo<PRequest>(), response)
+            }) as TReturn
         }
 
         val request = httpClient.request {
@@ -101,16 +114,19 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                             append(it.key, dataEntry.toString())
                         }
                     }
+
                     is Array<*> -> {
                         data.filterNotNull().forEach { dataEntry ->
                             append(it.key, dataEntry.toString())
                         }
                     }
+
                     is Map<*, *> -> {
                         data.entries.forEach { entry ->
                             append(entry.key.toString(), entry.value.toString())
                         }
                     }
+
                     else -> {
                         append(it.key, it.value.toString())
                     }
@@ -132,6 +148,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                         }
                     }
                 }
+
                 is Array<*> -> {
                     data.filterNotNull().forEach { dataEntry ->
                         if (entry.encoded) {
@@ -141,6 +158,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                         }
                     }
                 }
+
                 else -> {
                     if (entry.encoded) {
                         queryNames.add(entry.data.toString())
@@ -162,11 +180,13 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                         setParameter(entry.encoded, entry.key, it.toString())
                     }
                 }
+
                 is Array<*> -> {
                     data.filterNotNull().forEach {
                         setParameter(entry.encoded, entry.key, it.toString())
                     }
                 }
+
                 else -> {
                     setParameter(entry.encoded, entry.key, entry.data.toString())
                 }
@@ -201,6 +221,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                                 append(entry.encoded, entry.key, it as String)
                             }
                         }
+
                         else -> {
                             append(entry.encoded, entry.key, entry.data.toString())
                         }

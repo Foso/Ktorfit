@@ -17,7 +17,7 @@ tasks.withType<KotlinCompile> {
 
 
 group = "de.jensklingenberg.ktorfit"
-version = "1.0.0-beta10"
+version = "1.0.0-beta11"
 
 dependencies {
     implementation(project(":ktorfit-annotations"))

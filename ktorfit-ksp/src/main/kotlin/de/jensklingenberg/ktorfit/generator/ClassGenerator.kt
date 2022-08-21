@@ -4,7 +4,7 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.squareup.kotlinpoet.*
 import de.jensklingenberg.ktorfit.model.ClassData
-import de.jensklingenberg.ktorfit.requestData.*
+import de.jensklingenberg.ktorfit.requestData.getRequestDataArgumentText
 import de.jensklingenberg.ktorfit.resolveTypeName
 import java.io.OutputStreamWriter
 
@@ -23,8 +23,6 @@ fun generateImplClass(classDataList: List<ClassData>, codeGenerator: CodeGenerat
         }
     }
 }
-
-
 
 
 fun getFileSpec(classData: ClassData): FileSpec {

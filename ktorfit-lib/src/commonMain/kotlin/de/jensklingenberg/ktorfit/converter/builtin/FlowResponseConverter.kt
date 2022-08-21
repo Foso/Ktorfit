@@ -1,5 +1,6 @@
-package de.jensklingenberg.ktorfit.adapter
+package de.jensklingenberg.ktorfit.converter.builtin
 
+import de.jensklingenberg.ktorfit.converter.ResponseConverter
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
 import kotlinx.coroutines.flow.flow

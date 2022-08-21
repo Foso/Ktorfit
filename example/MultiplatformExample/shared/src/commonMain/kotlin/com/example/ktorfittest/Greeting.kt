@@ -1,7 +1,8 @@
 package com.example.ktorfittest
 
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.adapter.FlowResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.KtorfitCallResponseConverter
 import de.jensklingenberg.ktorfit.create
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -16,7 +17,7 @@ val ktorfit = Ktorfit.Builder()
     install(ContentNegotiation) {
         json(Json { isLenient = true; ignoreUnknownKeys = true })
     }
-}).build()
+}).responseConverter(FlowResponseConverter(),KtorfitCallResponseConverter()).build()
 
 
 val starWarsApi = ktorfit.create<StarWarsApi>()
