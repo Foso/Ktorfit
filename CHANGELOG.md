@@ -1,3 +1,8 @@
+1.0.0-beta11
+========================================
+KtorfitCallResponseConverter and FlowResponseConverter moved to de.jensklingenberg.ktorfit.converter.builtin
+
+
 1.0.0-beta10
 ========================================
 (18.08.2022)

@@ -1,18 +1,18 @@
-package de.jensklingenberg.ktorfit.adapter
+package de.jensklingenberg.ktorfit.converter.builtin
 
 import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.Callback
+import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 /**
- * Converter to enable the use of Call<> as return type
+ * Converter to enable the use of Call<> as return type in suspend functions
+ * e.g. suspend fun test(): Call<String>
  */
-class KtorfitCallResponseConverter : SuspendResponseConverter {
+class KtorfitSuspendCallResponseConverter : SuspendResponseConverter {
 
     override fun supportedType(returnTypeName: String): Boolean {
         return returnTypeName == "de.jensklingenberg.ktorfit.Call"

@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.adapter
+package de.jensklingenberg.ktorfit.converter
 
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*

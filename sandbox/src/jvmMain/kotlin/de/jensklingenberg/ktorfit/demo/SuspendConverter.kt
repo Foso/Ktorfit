@@ -1,6 +1,6 @@
 package de.jensklingenberg.ktorfit.demo
 
-import de.jensklingenberg.ktorfit.adapter.SuspendResponseConverter
+import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
