@@ -15,7 +15,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 version = "1.0.0-beta11"
-val ktorVersion = "2.1.0"
+val ktorVersion = deps.versions.ktorVersion
 kotlin {
 
     android(){
@@ -54,7 +54,7 @@ kotlin {
                 api(project(":ktorfit-annotations"))
 
                 api("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${deps.versions.kotlinxCoroutinesCore}")
 
             }
         }
@@ -92,7 +92,7 @@ kotlin {
             dependencies {
                 dependsOn(jvmMain)
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
-                implementation("junit:junit:4.13.2")
+                implementation("junit:junit:${deps.versions.junit}")
             }
         }
         val iosX64Main by getting

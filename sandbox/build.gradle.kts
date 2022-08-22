@@ -5,8 +5,7 @@ plugins {
 }
 
 version = "1.0-SNAPSHOT"
-val koin_ksp_version= "1.0.1"
-val ktorVersion = "2.0.3"//"2.0.0-eap-354"
+val ktorVersion = deps.versions.ktorVersion
 kotlin {
     jvm {
         compilations.all {

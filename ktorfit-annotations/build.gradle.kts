@@ -51,24 +51,7 @@ kotlin {
 
             }
         }
-        val linuxX64Main by getting {
-            dependencies {
 
-            }
-        }
-        val androidMain by getting{
-
-            dependencies {
-
-            }
-        }
-
-        val jvmMain by getting {
-
-            dependencies {
-
-            }
-        }
 
         val iosX64Main by getting
         val iosArm64Main by getting

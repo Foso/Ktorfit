@@ -20,16 +20,17 @@ group = "de.jensklingenberg.ktorfit"
 version = "1.0.0-beta11"
 
 dependencies {
+   //deps.version.junit
     implementation(project(":ktorfit-annotations"))
 
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("com.github.tschuchortdev:kotlin-compile-testing-ksp:1.4.9")
-    implementation("com.squareup:kotlinpoet:1.12.0")
-    implementation("com.squareup:kotlinpoet-ksp:1.12.0")
-    testImplementation("com.google.truth:truth:1.1.3")
-    compileOnly ("com.google.auto.service:auto-service:1.0.1")
-    kapt ("com.google.auto.service:auto-service:1.0.1")
+    testImplementation("junit:junit:${deps.versions.junit}")
+    testImplementation("com.github.tschuchortdev:kotlin-compile-testing-ksp:${deps.versions.kotlinCompiletestingksp}")
+    implementation("com.squareup:kotlinpoet:${deps.versions.kotlinPoet}")
+    implementation("com.squareup:kotlinpoet-ksp:${deps.versions.kotlinPoet}")
+    testImplementation("com.google.truth:truth:${deps.versions.truth}")
+    compileOnly ("com.google.auto.service:auto-service:${deps.versions.autoService}")
+    kapt ("com.google.auto.service:auto-service:${deps.versions.autoService}")
 }
 
 tasks.register("sourcesJar", Jar::class) {
