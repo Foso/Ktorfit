@@ -5,7 +5,7 @@ plugins {
 }
 
 version = "1.0-SNAPSHOT"
-val ktorVersion = deps.versions.ktorVersion
+val ktorVersion = "2.1.0"
 kotlin {
     jvm {
         compilations.all {

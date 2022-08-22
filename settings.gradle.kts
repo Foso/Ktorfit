@@ -1,13 +1,3 @@
-
-@Suppress("UnstableApiUsage")
-dependencyResolutionManagement {
-    versionCatalogs {
-        create("deps") {
-            from(files("deps.versions.toml"))
-        }
-    }
-}
-
 pluginManagement {
     val kotlinVersion: String by settings
     val kspVersion: String by settings
