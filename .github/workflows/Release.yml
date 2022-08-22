@@ -1,12 +1,5 @@
 name: Publish a release
 
-on:
-  push:
-    branches:
-      - master
-    tags:
-      - '*'
-
 jobs:
   publish_archives:
     runs-on: macOS-latest
