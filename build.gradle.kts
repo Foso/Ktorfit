@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform") apply false
-    id("com.vanniktech.maven.publish") version "0.19.0" apply false
+    id("com.vanniktech.maven.publish") version "0.20.0" apply false
 
 }
 
