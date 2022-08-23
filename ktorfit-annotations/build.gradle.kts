@@ -11,8 +11,9 @@ plugins {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
+val ktorfitVersion: String by project
 
-version = "1.0.0-beta11"
+version = ktorfitVersion
 
 kotlin {
 
@@ -154,10 +155,6 @@ publishing {
                     password = property("sonatypePassword") as String
                 }
             }
-        }
-        maven {
-            name = "test"
-            setUrl("file://${rootProject.buildDir}/localMaven")
         }
     }
 }
