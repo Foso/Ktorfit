@@ -5,7 +5,7 @@
 - KtorfitCallResponseConverter and FlowResponseConverter moved to de.jensklingenberg.ktorfit.converter.builtin
 
 
-1.0.0-beta10 (18.08.2022)
+1.0.0-beta10 (18-08-2022)
 ========================================
 
 - based on Ktor 2.0.2
