@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class RxResponseConverter : ResponseConverter {
 
-    override fun supportedType(returnTypeName: String): Boolean {
+    override fun supportedType(returnTypeName: String, isSuspend: Boolean): Boolean {
         return listOf("io.reactivex.rxjava3.core.Single", "io.reactivex.rxjava3.core.Observable","io.reactivex.rxjava3.core.Completable").contains(
             returnTypeName
         )
