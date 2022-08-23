@@ -13,8 +13,9 @@ plugins {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
+val ktorfitVersion: String by project
 
-version = "1.0.0-beta11"
+version = ktorfitVersion
 val ktorVersion = "2.1.0"
 kotlin {
 
