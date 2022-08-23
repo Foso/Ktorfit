@@ -6,6 +6,7 @@ plugins {
 
 version = "1.0-SNAPSHOT"
 val ktorVersion = "2.1.0"
+
 kotlin {
     jvm {
         compilations.all {
