@@ -12,6 +12,7 @@ import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FORM_URL_ENCODED_
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.ONLY_ONE_ENCODING_ANNOTATION_IS_ALLOWED
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.ONLY_ONE_HTTP_METHOD_IS_ALLOWED
@@ -126,7 +127,7 @@ fun getFunctionDataList(
 
                 if (functionAnnotationList.any { it is Multipart }) {
                     logger.ktorfitError(
-                        "Multipart can only be specified on HTTP methods with request body (e.g., @POST)",
+                        MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS,
                         funcDeclaration
                     )
                 }
