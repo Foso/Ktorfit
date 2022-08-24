@@ -26,6 +26,14 @@ fun generateImplClass(classDataList: List<ClassData>, codeGenerator: CodeGenerat
 
 
 fun getFileSpec(classData: ClassData): FileSpec {
+
+    val createFunctionSpec = FunSpec.builder("create${classData.name}")
+        .addModifiers(KModifier.INLINE)
+        .addStatement("return _${classData.name}Impl(KtorfitClient(this))")
+        .receiver(TypeVariableName("Ktorfit"))
+        .returns(TypeVariableName(classData.name))
+        .build()
+
     val funSpecList: List<FunSpec> = getFunSpecs(classData)
 
     val properties = classData.properties.map { property ->
@@ -78,6 +86,7 @@ fun getFileSpec(classData: ClassData): FileSpec {
                 .addProperties(properties)
                 .build()
         )
+        .addFunction(createFunctionSpec)
 
         .build()
 }
@@ -131,7 +140,7 @@ fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<String>): TypeS
 }
 
 
-private fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
+fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
 
     imports.forEach {
         /**
