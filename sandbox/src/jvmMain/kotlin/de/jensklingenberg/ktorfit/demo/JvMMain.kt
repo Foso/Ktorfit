@@ -38,7 +38,7 @@ val jvmKtorfit = ktorfit {
 
 
 fun main() {
-    val exampleApi = jvmKtorfit.create<JvmPlaceHolderApi>()
+    val exampleApi = jvmKtorfit.createJvmPlaceHolderApi()
 
     println("==============================================")
     runBlocking {

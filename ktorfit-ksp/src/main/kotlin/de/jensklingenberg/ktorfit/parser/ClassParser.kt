@@ -5,6 +5,8 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.Modifier
 import com.squareup.kotlinpoet.ksp.toKModifier
+import de.jensklingenberg.ktorfit.generator.clientClass
+import de.jensklingenberg.ktorfit.generator.ktorfitClass
 import de.jensklingenberg.ktorfit.ktorfitError
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.FunctionData
@@ -24,8 +26,8 @@ private fun getImports(ksClassDeclaration: KSClassDeclaration): List<String> {
             .filter { it.trimStart().startsWith("import") }
             .toMutableList()
 
-    importList.addIfAbsent("de.jensklingenberg.ktorfit.Ktorfit")
-    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.KtorfitClient")
+    importList.addIfAbsent(ktorfitClass.packageName+"."+ ktorfitClass.name)
+    importList.addIfAbsent(clientClass.packageName+"."+ clientClass.name)
     importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.RequestData")
     importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.QueryData")
     importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.QueryType")
