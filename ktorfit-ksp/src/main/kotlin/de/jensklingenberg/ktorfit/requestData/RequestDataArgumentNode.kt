@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.requestData
 
-import de.jensklingenberg.ktorfit.hasAnnotation
+
+import de.jensklingenberg.ktorfit.generator.requestDataClass
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.Body
@@ -49,5 +50,5 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
         qualifiedTypeName
     ).filter { it.isNotEmpty() }.joinToString(",\n") { it }
 
-    return "val requestData = RequestData($args) \n"
+    return "val requestData = ${requestDataClass.name}($args) \n"
 }

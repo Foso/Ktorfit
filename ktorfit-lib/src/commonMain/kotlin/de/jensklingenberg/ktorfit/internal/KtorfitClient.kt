@@ -19,7 +19,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
      * Converts [value] to an URL encoded value
      * Used by generated Code
      */
-    fun encode(value: Any): String {
+    private fun encode(value: Any): String {
         return value.toString().encodeURLParameter()
     }
 
@@ -43,12 +43,14 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                 true
             )
         }?.let {
-            return it.wrapSuspendResponse<PRequest>(returnTypeName = requestData.qualifiedRawTypeName, requestFunction = {
-                val response = httpClient.request {
-                    requestBuilder(requestData)
-                }
-                Pair(typeInfo<PRequest>(), response)
-            }) as TReturn
+            return it.wrapSuspendResponse<PRequest>(
+                returnTypeName = requestData.qualifiedRawTypeName,
+                requestFunction = {
+                    val response = httpClient.request {
+                        requestBuilder(requestData)
+                    }
+                    Pair(typeInfo<PRequest>(), response)
+                }) as TReturn
         }
 
         val request = httpClient.request {
@@ -102,9 +104,27 @@ class KtorfitClient(val ktorfit: Ktorfit) {
 
         val queryNameUrl = handleQueries(requestData)
 
-        url(ktorfit.baseUrl + requestData.relativeUrl + queryNameUrl)
+        val newURL = getRelativeUrl(requestData.paths, requestData.relativeUrl)
+
+        url(ktorfit.baseUrl + newURL + queryNameUrl)
 
         requestData.requestBuilder(this)
+    }
+
+    private fun getRelativeUrl(paths: List<PathData>, relativeUrl: String): String {
+        var newUrl = relativeUrl
+        paths.forEach {
+
+            val newPathValue = if (!it.encoded) {
+                encode(it.value)
+            } else {
+                it.value
+            }
+
+            newUrl = newUrl.replace("{${it.key}}", newPathValue)
+        }
+
+        return newUrl
     }
 
     private fun HttpRequestBuilder.handleHeaders(headers: List<HeaderData>) {

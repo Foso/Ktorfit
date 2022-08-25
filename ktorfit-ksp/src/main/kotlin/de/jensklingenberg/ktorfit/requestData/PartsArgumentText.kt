@@ -1,6 +1,6 @@
 package de.jensklingenberg.ktorfit.requestData
 
-import de.jensklingenberg.ktorfit.hasAnnotation
+
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.Part
 import de.jensklingenberg.ktorfit.model.annotations.PartMap

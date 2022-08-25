@@ -19,7 +19,7 @@ import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.VARARG_NOT_SUPPOR
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.TypeData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
-
+import de.jensklingenberg.ktorfit.model.ktorfitError
 
 
 fun getParameterData(ksValueParameter: KSValueParameter, logger: KSPLogger): ParameterData {

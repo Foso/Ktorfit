@@ -22,7 +22,8 @@ data class RequestData(
     val parts: Map<String, Any> = emptyMap(),
     val bodyData: Any? = null,
     val qualifiedRawTypeName: String,
-    val requestBuilder: HttpRequestBuilder.() -> Unit = {}
+    val requestBuilder: HttpRequestBuilder.() -> Unit = {},
+    val paths : List<PathData> = emptyList()
 )
 
 

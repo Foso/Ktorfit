@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.requestData
 
-import de.jensklingenberg.ktorfit.findAnnotationOrNull
-import de.jensklingenberg.ktorfit.hasAnnotation
+
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.Query
 import de.jensklingenberg.ktorfit.model.annotations.QueryMap

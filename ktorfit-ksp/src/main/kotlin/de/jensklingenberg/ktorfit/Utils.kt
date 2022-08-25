@@ -2,10 +2,8 @@ package de.jensklingenberg.ktorfit
 
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
-import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.*
 import de.jensklingenberg.ktorfit.model.FunctionData
-import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.*
 
 @OptIn(KspExperimental::class)
@@ -174,13 +172,6 @@ inline fun <reified T> FunctionData.findAnnotationOrNull(): T? {
     return this.annotations.firstOrNull { it is T } as? T
 }
 
-inline fun <reified T> ParameterData.findAnnotationOrNull(): T? {
-    return this.annotations.firstOrNull { it is T } as? T
-}
-
-inline fun <reified T> ParameterData.hasAnnotation(): Boolean {
-    return this.findAnnotationOrNull<T>() != null
-}
 
 fun String.prefixIfNotEmpty(s: String): String {
     return (s + this).takeIf { this.isNotEmpty() } ?: this
@@ -192,11 +183,6 @@ fun String.postfixIfNotEmpty(s: String): String {
 
 fun String.surroundIfNotEmpty(prefix: String = "", postFix: String = ""): String {
     return this.prefixIfNotEmpty(prefix).postfixIfNotEmpty(postFix)
-}
-
-
-public fun KSPLogger.ktorfitError(s: String, classDec: KSNode) {
-    this.error("Ktorfit: $s", classDec)
 }
 
 

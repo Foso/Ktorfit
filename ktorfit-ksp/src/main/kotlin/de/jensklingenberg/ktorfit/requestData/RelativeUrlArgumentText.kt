@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.requestData
 
-import de.jensklingenberg.ktorfit.findAnnotationOrNull
-import de.jensklingenberg.ktorfit.hasAnnotation
+
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.Path
@@ -25,24 +24,26 @@ fun getRelativeUrlArgumentText(methodAnnotation: HttpMethodAnnotation, params: L
         }
     }
 
-    /**
-     * Replace all values with curly braces in url path to corresponding annotated parameter names
-     */
-    params.filter { it.hasAnnotation<Path>() }.forEach { myParam ->
+
+    val pathData = getPathsText(params)
+
+
+    return "relativeUrl=\"$urlPath\"$pathData"
+}
+
+fun getPathsText(params: List<ParameterData>): String {
+    var pathData = ",\npaths=listOf("
+
+    pathData += params.filter { it.hasAnnotation<Path>() }.map { myParam ->
         val paramName = myParam.name
         val pathAnnotation = myParam.findAnnotationOrNull<Path>()
         val pathPath = pathAnnotation?.value ?: ""
         val pathEncoded = pathAnnotation?.encoded ?: false
 
-        val newPathValue = if (!pathEncoded) {
-            "\${client.encode($paramName)}"
-        } else {
-            "\${$paramName}"
-        }
-
-        urlPath = urlPath.replace("{${pathPath}}", newPathValue)
-    }
+        "PathData(\"$pathPath\",$pathEncoded,\"\$$paramName\")"
+    }.joinToString { it }
 
 
-    return "relativeUrl=\"$urlPath\""
+    pathData = "$pathData)"
+    return pathData
 }

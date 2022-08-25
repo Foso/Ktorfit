@@ -8,10 +8,6 @@ import de.jensklingenberg.ktorfit.requestData.getRequestDataArgumentText
 import de.jensklingenberg.ktorfit.resolveTypeName
 import java.io.OutputStreamWriter
 
-
-
-
-
 private const val WILDCARDIMPORT = "WILDCARDIMPORT"
 
 fun generateImplClass(classDataList: List<ClassData>, codeGenerator: CodeGenerator) {
@@ -118,9 +114,9 @@ fun getFunSpecs(classData: ClassData): List<FunSpec> = classData.functions.map {
         )
         .addStatement(
             if (functionData.isSuspend) {
-                "return ${clientClass.objectName}.suspendRequest<${returnTypeName}, $typeWithoutOuterType>(requestData)"
+                "return ${clientClass.objectName}.suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})"
             } else {
-                "return ${clientClass.objectName}.request<${returnTypeName}, $typeWithoutOuterType>(requestData)"
+                "return ${clientClass.objectName}.request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})"
             }
         )
         .build()

@@ -1,5 +1,8 @@
 package de.jensklingenberg.ktorfit.model
 
+import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.symbol.KSNode
+
 class KtorfitError {
 
     companion object {
@@ -43,10 +46,15 @@ class KtorfitError {
         const val ONLY_ONE_ENCODING_ANNOTATION_IS_ALLOWED = "Only one encoding annotation is allowed."
         const val MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND = "Multiple @Url method annotations found"
         const val TYPE_PARAMETERS_ARE_UNSUPPORTED_ON = "Type parameters are unsupported on "
-        const val MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS = "Multipart can only be specified on HTTP methods with request body (e.g., @POST)"
+        const val MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS =
+            "Multipart can only be specified on HTTP methods with request body (e.g., @POST)"
         const val VARARG_NOT_SUPPORTED_USE_LIST_OR_ARRAY = "vararg not supported use List or Array"
         const val NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED = "Nullable Parameters Are Not Supported"
 
 
     }
+}
+
+public fun KSPLogger.ktorfitError(s: String, classDec: KSNode) {
+    this.error("Ktorfit: $s", classDec)
 }
