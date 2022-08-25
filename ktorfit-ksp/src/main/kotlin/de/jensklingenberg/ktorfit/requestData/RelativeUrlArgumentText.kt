@@ -24,15 +24,11 @@ fun getRelativeUrlArgumentText(methodAnnotation: HttpMethodAnnotation, params: L
         }
     }
 
-
-    val pathData = getPathsText(params)
-
-
-    return "relativeUrl=\"$urlPath\"$pathData"
+    return "relativeUrl=\"$urlPath\""
 }
 
 fun getPathsText(params: List<ParameterData>): String {
-    var pathData = ",\npaths=listOf("
+    var pathData = "\npaths=listOf("
 
     pathData += params.filter { it.hasAnnotation<Path>() }.map { myParam ->
         val paramName = myParam.name

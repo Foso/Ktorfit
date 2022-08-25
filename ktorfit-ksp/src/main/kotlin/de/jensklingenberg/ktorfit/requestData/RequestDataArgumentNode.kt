@@ -31,6 +31,7 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
     val body = getBodyDataText(functionData.parameterDataList)
     //URL
     val urlPath = getRelativeUrlArgumentText(functionData.httpMethodAnnotation, functionData.parameterDataList)
+    val pathsText = getPathsText(functionData.parameterDataList)
     val queryText = getQueryArgumentText(functionData.parameterDataList)
     val fieldsText = getFieldArgumentsText(functionData.parameterDataList)
     val partsText = getPartsArgumentText(functionData.parameterDataList)
@@ -47,7 +48,8 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
         fieldsText,
         partsText,
         builderText,
-        qualifiedTypeName
+        qualifiedTypeName,
+        pathsText
     ).filter { it.isNotEmpty() }.joinToString(",\n") { it }
 
     return "val requestData = ${requestDataClass.name}($args) \n"
