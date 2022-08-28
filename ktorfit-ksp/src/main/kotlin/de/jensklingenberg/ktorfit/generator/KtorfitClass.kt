@@ -6,3 +6,4 @@ val clientClass = KtorfitClass("KtorfitClient", "de.jensklingenberg.ktorfit.inte
 val ktorfitClass = KtorfitClass("Ktorfit", "de.jensklingenberg.ktorfit", "")
 val requestDataClass = KtorfitClass("RequestData", "de.jensklingenberg.ktorfit.internal", "requestData")
 val ktorfitExtClass = KtorfitClass("KtorfitExt", "de.jensklingenberg.ktorfit", "")
+val pathDataClass = KtorfitClass("PathData", "de.jensklingenberg.ktorfit.internal", "")

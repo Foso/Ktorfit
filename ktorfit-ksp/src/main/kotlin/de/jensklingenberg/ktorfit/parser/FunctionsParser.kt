@@ -149,6 +149,16 @@ fun getFunctionDataList(
             )
         }
 
+        functionParameters.filter { it.hasAnnotation<Path>() }.forEach {
+            val pathAnnotation = it.findAnnotationOrNull<Path>()
+            if(!httpMethodAnno.path.contains("{${pathAnnotation?.value ?: ""}}")){
+                logger.ktorfitError(
+                    "Missing {${pathAnnotation?.value ?: ""}} in relative url path",
+                    funcDeclaration
+                )
+            }
+        }
+
         if (funcDeclaration.getFormUrlEncodedAnnotation() != null && funcDeclaration.getMultipartAnnotation() != null) {
             logger.ktorfitError(ONLY_ONE_ENCODING_ANNOTATION_IS_ALLOWED, funcDeclaration)
         }

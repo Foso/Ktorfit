@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.requestData
 
 
+import de.jensklingenberg.ktorfit.generator.pathDataClass
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.Path
@@ -36,7 +37,7 @@ fun getPathsText(params: List<ParameterData>): String {
         val pathPath = pathAnnotation?.value ?: ""
         val pathEncoded = pathAnnotation?.encoded ?: false
 
-        "PathData(\"$pathPath\",$pathEncoded,\"\$$paramName\")"
+        "${pathDataClass.name}(\"$pathPath\",$pathEncoded,\"\$$paramName\")"
     }.joinToString { it }
 
 

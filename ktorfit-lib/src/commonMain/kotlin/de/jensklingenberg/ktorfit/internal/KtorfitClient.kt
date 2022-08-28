@@ -13,11 +13,10 @@ import io.ktor.util.reflect.*
 
 class KtorfitClient(val ktorfit: Ktorfit) {
 
-    val httpClient = ktorfit.httpClient
+   val httpClient = ktorfit.httpClient
 
     /**
      * Converts [value] to an URL encoded value
-     * Used by generated Code
      */
     private fun encode(value: Any): String {
         return value.toString().encodeURLParameter()
@@ -37,8 +36,12 @@ class KtorfitClient(val ktorfit: Ktorfit) {
             } as TReturn
         }
 
-        ktorfit.suspendResponseConverters.firstOrNull { wrapper ->
-            wrapper.supportedType(
+        val request = httpClient.request {
+            requestBuilder(requestData)
+        }
+
+        ktorfit.suspendResponseConverters.firstOrNull { converter ->
+            converter.supportedType(
                 requestData.qualifiedRawTypeName,
                 true
             )
@@ -46,15 +49,8 @@ class KtorfitClient(val ktorfit: Ktorfit) {
             return it.wrapSuspendResponse<PRequest>(
                 returnTypeName = requestData.qualifiedRawTypeName,
                 requestFunction = {
-                    val response = httpClient.request {
-                        requestBuilder(requestData)
-                    }
-                    Pair(typeInfo<PRequest>(), response)
+                    Pair(typeInfo<PRequest>(), request)
                 }) as TReturn
-        }
-
-        val request = httpClient.request {
-            requestBuilder(requestData)
         }
 
         return request.body()
@@ -71,8 +67,8 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         requestData: RequestData
     ): TReturn {
 
-        ktorfit.responseConverters.firstOrNull { wrapper ->
-            wrapper.supportedType(
+        ktorfit.responseConverters.firstOrNull { converter ->
+            converter.supportedType(
                 requestData.qualifiedRawTypeName,
                 false
             )
@@ -115,10 +111,10 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         var newUrl = relativeUrl
         paths.forEach {
 
-            val newPathValue = if (!it.encoded) {
-                encode(it.value)
-            } else {
+            val newPathValue = if (it.encoded) {
                 it.value
+            } else {
+                encode(it.value)
             }
 
             newUrl = newUrl.replace("{${it.key}}", newPathValue)

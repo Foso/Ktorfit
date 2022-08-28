@@ -1,3 +1,7 @@
+1.0.0-beta12 (Not released)
+========================================
+- throw compiler time error when you use @Path without the corresponding value inside the relative url path
+
 1.0.0-beta11 (21-08-2022)
 ========================================
 

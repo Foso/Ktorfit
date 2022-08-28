@@ -7,6 +7,7 @@ import com.google.devtools.ksp.symbol.Modifier
 import com.squareup.kotlinpoet.ksp.toKModifier
 import de.jensklingenberg.ktorfit.generator.clientClass
 import de.jensklingenberg.ktorfit.generator.ktorfitClass
+import de.jensklingenberg.ktorfit.generator.pathDataClass
 import de.jensklingenberg.ktorfit.generator.requestDataClass
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.FunctionData
@@ -35,7 +36,7 @@ private fun getImports(ksClassDeclaration: KSClassDeclaration): List<String> {
     importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.HeaderData")
     importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.FieldData")
     importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.FieldType")
-    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.PathData")
+    importList.addIfAbsent(pathDataClass.packageName+"."+ pathDataClass.name)
 
     return importList.map { it.removePrefix("import ") }
 }
