@@ -13,13 +13,12 @@ import io.ktor.util.reflect.*
 
 class KtorfitClient(val ktorfit: Ktorfit) {
 
-    val httpClient = ktorfit.httpClient
+   val httpClient = ktorfit.httpClient
 
     /**
      * Converts [value] to an URL encoded value
-     * Used by generated Code
      */
-    fun encode(value: Any): String {
+    private fun encode(value: Any): String {
         return value.toString().encodeURLParameter()
     }
 
@@ -37,21 +36,21 @@ class KtorfitClient(val ktorfit: Ktorfit) {
             } as TReturn
         }
 
-        ktorfit.suspendResponseConverters.firstOrNull { wrapper ->
-            wrapper.supportedType(
-                requestData.qualifiedRawTypeName
-            )
-        }?.let {
-            return it.wrapResponse<PRequest>(returnTypeName = requestData.qualifiedRawTypeName, requestFunction = {
-                val response = httpClient.request {
-                    requestBuilder(requestData)
-                }
-                Pair(typeInfo<PRequest>(), response)
-            }) as TReturn
-        }
-
         val request = httpClient.request {
             requestBuilder(requestData)
+        }
+
+        ktorfit.suspendResponseConverters.firstOrNull { converter ->
+            converter.supportedType(
+                requestData.qualifiedRawTypeName,
+                true
+            )
+        }?.let {
+            return it.wrapSuspendResponse<PRequest>(
+                returnTypeName = requestData.qualifiedRawTypeName,
+                requestFunction = {
+                    Pair(typeInfo<PRequest>(), request)
+                }) as TReturn
         }
 
         return request.body()
@@ -68,9 +67,10 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         requestData: RequestData
     ): TReturn {
 
-        ktorfit.responseConverters.firstOrNull { wrapper ->
-            wrapper.supportedType(
-                requestData.qualifiedRawTypeName
+        ktorfit.responseConverters.firstOrNull { converter ->
+            converter.supportedType(
+                requestData.qualifiedRawTypeName,
+                false
             )
         }?.let {
             return it.wrapResponse<PRequest>(returnTypeName = requestData.qualifiedRawTypeName, requestFunction = {
@@ -100,9 +100,27 @@ class KtorfitClient(val ktorfit: Ktorfit) {
 
         val queryNameUrl = handleQueries(requestData)
 
-        url(ktorfit.baseUrl + requestData.relativeUrl + queryNameUrl)
+        val newURL = getRelativeUrl(requestData.paths, requestData.relativeUrl)
+
+        url(ktorfit.baseUrl + newURL + queryNameUrl)
 
         requestData.requestBuilder(this)
+    }
+
+    private fun getRelativeUrl(paths: List<PathData>, relativeUrl: String): String {
+        var newUrl = relativeUrl
+        paths.forEach {
+
+            val newPathValue = if (it.encoded) {
+                it.value
+            } else {
+                encode(it.value)
+            }
+
+            newUrl = newUrl.replace("{${it.key}}", newPathValue)
+        }
+
+        return newUrl
     }
 
     private fun HttpRequestBuilder.handleHeaders(headers: List<HeaderData>) {

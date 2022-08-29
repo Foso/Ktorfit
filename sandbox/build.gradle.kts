@@ -30,6 +30,7 @@ kotlin {
     mingwX64()
     sourceSets {
         val commonMain by getting {
+
             dependencies {
                 implementation(project(":ktorfit-lib"))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
@@ -50,7 +51,7 @@ kotlin {
 
 
         val jvmMain by getting {
-            //   kotlin.srcDir("build/kspCaches/jvmMain/")
+               kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
 
             dependencies {
                 implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
@@ -107,7 +108,7 @@ dependencies {
     add("kspJvm", project(":ktorfit-ksp"))
     add("kspIosX64", project(":ktorfit-ksp"))
 
-    add("kspJvmTest", project(":ktorfit-ksp"))
+   // add("kspJvmTest", project(":ktorfit-ksp"))
     add("kspJs", project(":ktorfit-ksp"))
     add("kspLinuxX64", project(":ktorfit-ksp"))
     add("kspMingwX64", project(":ktorfit-ksp"))

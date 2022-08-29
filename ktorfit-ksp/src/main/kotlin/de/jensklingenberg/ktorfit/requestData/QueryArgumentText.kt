@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.requestData
 
-import de.jensklingenberg.ktorfit.findAnnotationOrNull
-import de.jensklingenberg.ktorfit.hasAnnotation
+
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.Query
 import de.jensklingenberg.ktorfit.model.annotations.QueryMap
@@ -13,7 +12,7 @@ import de.jensklingenberg.ktorfit.surroundIfNotEmpty
  */
 
 fun getQueryArgumentText(params: List<ParameterData>): String {
-    //Get all Parameter with @Query and add them to a map
+    //Get all Parameter with @Query and add them to a list
 
     val myQueryStrings = mutableListOf<String>()
 

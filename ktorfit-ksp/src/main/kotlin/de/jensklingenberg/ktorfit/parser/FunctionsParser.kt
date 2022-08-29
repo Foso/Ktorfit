@@ -11,14 +11,19 @@ import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_PARAMETERS_
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FORM_URL_ENCODED_CAN_ONLY_BE_SPECIFIED_ON_HTTP_METHODS_WITH_REQUEST_BODY
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MISSING_X_IN_RELATIVE_URL_PATH
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.NO_HTTP_ANNOTATION_AT
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.ONLY_ONE_ENCODING_ANNOTATION_IS_ALLOWED
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.ONLY_ONE_HTTP_METHOD_IS_ALLOWED
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.URL_CAN_ONLY_BE_USED_WITH_EMPY
 import de.jensklingenberg.ktorfit.model.TypeData
 import de.jensklingenberg.ktorfit.model.annotations.*
+import de.jensklingenberg.ktorfit.model.ktorfitError
 
 
 fun getHttpMethodAnnotations(func: KSFunctionDeclaration): List<HttpMethodAnnotation> {
@@ -93,7 +98,7 @@ fun getFunctionDataList(
         val httpMethodAnnoList = getHttpMethodAnnotations(funcDeclaration)
 
         if (httpMethodAnnoList.isEmpty()) {
-            logger.ktorfitError("No Http annotation $functionName", funcDeclaration)
+            logger.ktorfitError(NO_HTTP_ANNOTATION_AT(functionName), funcDeclaration)
         }
 
         if (httpMethodAnnoList.size > 1) {
@@ -126,7 +131,7 @@ fun getFunctionDataList(
 
                 if (functionAnnotationList.any { it is Multipart }) {
                     logger.ktorfitError(
-                        "Multipart can only be specified on HTTP methods with request body (e.g., @POST)",
+                        MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS,
                         funcDeclaration
                     )
                 }
@@ -147,6 +152,16 @@ fun getFunctionDataList(
             )
         }
 
+        functionParameters.filter { it.hasAnnotation<Path>() }.forEach {
+            val pathAnnotation = it.findAnnotationOrNull<Path>()
+            if(!httpMethodAnno.path.contains("{${pathAnnotation?.value ?: ""}}")){
+                logger.ktorfitError(
+                    MISSING_X_IN_RELATIVE_URL_PATH(pathAnnotation?.value ?: ""),
+                    funcDeclaration
+                )
+            }
+        }
+
         if (funcDeclaration.getFormUrlEncodedAnnotation() != null && funcDeclaration.getMultipartAnnotation() != null) {
             logger.ktorfitError(ONLY_ONE_ENCODING_ANNOTATION_IS_ALLOWED, funcDeclaration)
         }
@@ -157,7 +172,7 @@ fun getFunctionDataList(
             }
             if (httpMethodAnno.path.isNotEmpty()) {
                 logger.ktorfitError(
-                    "@Url only be used with empty @${httpMethodAnno.httpMethod.keyword} URL value",
+                    URL_CAN_ONLY_BE_USED_WITH_EMPY(httpMethodAnno.httpMethod.keyword),
                     funcDeclaration
                 )
             }

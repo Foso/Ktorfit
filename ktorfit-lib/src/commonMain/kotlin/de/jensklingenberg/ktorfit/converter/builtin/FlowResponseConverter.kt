@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
  */
 class FlowResponseConverter : ResponseConverter {
 
-    override fun supportedType(returnTypeName: String): Boolean {
+    override fun supportedType(returnTypeName: String, isSuspend: Boolean): Boolean {
         return returnTypeName == "kotlinx.coroutines.flow.Flow"
     }
 

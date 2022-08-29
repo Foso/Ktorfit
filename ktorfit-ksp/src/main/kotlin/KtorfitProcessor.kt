@@ -1,17 +1,15 @@
 import com.google.auto.service.AutoService
 import com.google.devtools.ksp.closestClassDeclaration
 import com.google.devtools.ksp.processing.*
-import com.google.devtools.ksp.processing.Dependencies.Companion.ALL_FILES
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import de.jensklingenberg.ktorfit.generator.generateImplClass
-import de.jensklingenberg.ktorfit.generator.generateKtorfitExtSource
+import de.jensklingenberg.ktorfit.generator.generateKtorfitExtClass
 import de.jensklingenberg.ktorfit.http.*
-import de.jensklingenberg.ktorfit.ktorfitError
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.JAVA_INTERFACES_ARE_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.TYPE_PARAMETERS_ARE_UNSUPPORTED_ON
+import de.jensklingenberg.ktorfit.model.ktorfitError
 import de.jensklingenberg.ktorfit.parser.toClassData
-import java.io.OutputStreamWriter
 
 @AutoService(SymbolProcessorProvider::class)
 public class KtorfitProcessorProvider : SymbolProcessorProvider {
@@ -51,13 +49,8 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
 
         generateImplClass(classDataList, codeGenerator)
 
+        generateKtorfitExtClass(classDataList, env.platforms.any { it.platformName == "JS" }, codeGenerator)
 
-        val source = generateKtorfitExtSource(classDataList, env.platforms.any { it.platformName == "JS" })
-        codeGenerator.createNewFile(ALL_FILES, "de.jensklingenberg.ktorfit", "KtorfitExt", "kt").use { output ->
-            OutputStreamWriter(output).use { writer ->
-                writer.write(source)
-            }
-        }
 
         return emptyList()
     }

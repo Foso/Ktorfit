@@ -27,6 +27,7 @@ import de.jensklingenberg.ktorfit.`internal`.FieldData
 import de.jensklingenberg.ktorfit.`internal`.FieldType
 import de.jensklingenberg.ktorfit.`internal`.HeaderData
 import de.jensklingenberg.ktorfit.`internal`.KtorfitClient
+import de.jensklingenberg.ktorfit.`internal`.PathData
 import de.jensklingenberg.ktorfit.`internal`.QueryData
 import de.jensklingenberg.ktorfit.`internal`.QueryType
 import de.jensklingenberg.ktorfit.`internal`.RequestData
@@ -43,6 +44,8 @@ public class _TestServiceImpl(
     return client.suspendRequest<String, String>(requestData)
   }
 }
+
+public fun Ktorfit.createTestService(): TestService = _TestServiceImpl(KtorfitClient(this))
 """
 
         val source = SourceFile.kotlin(

@@ -78,10 +78,11 @@ class Ktorfit private constructor(
          */
         fun responseConverter(vararg converters: CoreResponseConverter) = apply {
             converters.forEach { converter ->
-                when (converter) {
-                    is ResponseConverter -> this._responseConverter.add(converter)
-                    is SuspendResponseConverter -> this._suspendResponseConverter.add(converter)
-                    else -> throw IllegalArgumentException("Your response converter must be either of type ResponseConverter or SuspendRespondConverter")
+                if (converter is ResponseConverter) {
+                    this._responseConverter.add(converter)
+                }
+                if (converter is SuspendResponseConverter) {
+                    this._suspendResponseConverter.add(converter)
                 }
             }
         }

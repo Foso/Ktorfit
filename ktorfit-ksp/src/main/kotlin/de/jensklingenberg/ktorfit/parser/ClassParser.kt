@@ -5,11 +5,15 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.Modifier
 import com.squareup.kotlinpoet.ksp.toKModifier
-import de.jensklingenberg.ktorfit.ktorfitError
+import de.jensklingenberg.ktorfit.generator.clientClass
+import de.jensklingenberg.ktorfit.generator.ktorfitClass
+import de.jensklingenberg.ktorfit.generator.pathDataClass
+import de.jensklingenberg.ktorfit.generator.requestDataClass
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.INTERNAL_INTERFACES_ARE_NOT_SUPPORTED
+import de.jensklingenberg.ktorfit.model.ktorfitError
 import de.jensklingenberg.ktorfit.resolveTypeName
 import java.io.File
 
@@ -24,14 +28,15 @@ private fun getImports(ksClassDeclaration: KSClassDeclaration): List<String> {
             .filter { it.trimStart().startsWith("import") }
             .toMutableList()
 
-    importList.addIfAbsent("de.jensklingenberg.ktorfit.Ktorfit")
-    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.KtorfitClient")
-    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.RequestData")
+    importList.addIfAbsent(ktorfitClass.packageName + "." + ktorfitClass.name)
+    importList.addIfAbsent(clientClass.packageName + "." + clientClass.name)
+    importList.addIfAbsent(requestDataClass.packageName + "." + requestDataClass.name)
     importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.QueryData")
     importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.QueryType")
     importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.HeaderData")
     importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.FieldData")
     importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.FieldType")
+    importList.addIfAbsent(pathDataClass.packageName+"."+ pathDataClass.name)
 
     return importList.map { it.removePrefix("import ") }
 }

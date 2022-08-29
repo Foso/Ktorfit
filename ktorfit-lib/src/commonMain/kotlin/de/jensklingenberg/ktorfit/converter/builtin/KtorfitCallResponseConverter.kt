@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
  */
 class KtorfitCallResponseConverter : ResponseConverter {
 
-    override fun supportedType(returnTypeName: String): Boolean {
+    override fun supportedType(returnTypeName: String, isSuspend: Boolean): Boolean {
         return returnTypeName == "de.jensklingenberg.ktorfit.Call"
     }
 

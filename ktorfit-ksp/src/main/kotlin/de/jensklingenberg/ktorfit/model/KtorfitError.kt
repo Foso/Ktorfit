@@ -1,5 +1,8 @@
 package de.jensklingenberg.ktorfit.model
 
+import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.symbol.KSNode
+
 class KtorfitError {
 
     companion object {
@@ -34,6 +37,7 @@ class KtorfitError {
         fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) =
             "Missing either @$keyword URL or @Url parameter"
 
+        fun MISSING_X_IN_RELATIVE_URL_PATH(keyword: String) = "Missing {${keyword}} in relative url path"
         const val JAVA_INTERFACES_ARE_NOT_SUPPORTED = "Java Interfaces are not supported"
         const val INTERNAL_INTERFACES_ARE_NOT_SUPPORTED = "internal Interfaces are not supported"
         const val INTERFACE_NEEDS_TO_HAVE_A_PACKAGE = "Interface needs to have a package"
@@ -43,5 +47,17 @@ class KtorfitError {
         const val ONLY_ONE_ENCODING_ANNOTATION_IS_ALLOWED = "Only one encoding annotation is allowed."
         const val MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND = "Multiple @Url method annotations found"
         const val TYPE_PARAMETERS_ARE_UNSUPPORTED_ON = "Type parameters are unsupported on "
+        const val MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS =
+            "Multipart can only be specified on HTTP methods with request body (e.g., @POST)"
+        const val VARARG_NOT_SUPPORTED_USE_LIST_OR_ARRAY = "vararg not supported use List or Array"
+        const val NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED = "Nullable Parameters Are Not Supported"
+        fun NO_HTTP_ANNOTATION_AT(functionName:String) = "No Http annotation at $functionName"
+        fun URL_CAN_ONLY_BE_USED_WITH_EMPY(keyword:String) = "@Url can only be used with empty @${keyword} URL value"
+
+
     }
+}
+
+public fun KSPLogger.ktorfitError(s: String, classDec: KSNode) {
+    this.error("Ktorfit: $s", classDec)
 }

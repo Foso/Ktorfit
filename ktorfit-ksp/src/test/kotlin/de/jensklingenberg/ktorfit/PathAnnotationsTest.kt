@@ -14,9 +14,6 @@ import java.io.File
 
 class PathAnnotationsTest {
 
-
-
-
     @Test
     fun testFunctionWithGETAndPath() {
 
@@ -38,11 +35,12 @@ interface TestService {
 
         val expectedFunctionText = """public override suspend fun test(id: String): String {
     val requestData = RequestData(method="GET",
-        relativeUrl="user/$\{client.encode(id)}",
-        qualifiedRawTypeName="kotlin.String") 
+        relativeUrl="user/{id}",
+        qualifiedRawTypeName="kotlin.String",
+        paths = listOf(PathData("id",false,"äid"))) 
 
     return client.suspendRequest<String, String>(requestData)
-  }""".replace("\\{", "{")
+  }""".replace("\\{", "{").replace("ä","$")
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -83,11 +81,12 @@ interface TestService {
 
         val expectedFunctionText = """public override suspend fun test(id: String): String {
     val requestData = RequestData(method="GET",
-        relativeUrl="user/$%{id}",
-        qualifiedRawTypeName="kotlin.String") 
+        relativeUrl="user/{id}",
+        qualifiedRawTypeName="kotlin.String",
+        paths = listOf(PathData("id",true,"äid"))) 
 
     return client.suspendRequest<String, String>(requestData)
-  }""".replace("%", "")
+  }""".replace("%", "").replace("ä","$")
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)

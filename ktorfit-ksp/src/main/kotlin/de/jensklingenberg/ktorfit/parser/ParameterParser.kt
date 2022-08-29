@@ -7,6 +7,7 @@ import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_KEYS_MU
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PART_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PART_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PATH_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE
@@ -14,17 +15,19 @@ import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.QUERY_MAP_KEYS_MU
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.QUERY_MAP_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.QUERY_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.REQ_BUILDER_PARAMETER_TYPE_NEEDS_TO_BE_HTTP_REQUEST_BUILDER
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.VARARG_NOT_SUPPORTED_USE_LIST_OR_ARRAY
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.TypeData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
+import de.jensklingenberg.ktorfit.model.ktorfitError
 
 
 fun getParameterData(ksValueParameter: KSValueParameter, logger: KSPLogger): ParameterData {
     if (ksValueParameter.isVararg) {
-        logger.ktorfitError("vararg not supported use List or Array", ksValueParameter)
+        logger.ktorfitError(VARARG_NOT_SUPPORTED_USE_LIST_OR_ARRAY, ksValueParameter)
     }
     if (ksValueParameter.type.resolve().isMarkedNullable) {
-        logger.ktorfitError("Nullable Parameters are not supported", ksValueParameter)
+        logger.ktorfitError(NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED, ksValueParameter)
     }
 
     val pararameterAnnotations = getParamAnnotationList(ksValueParameter, logger)
