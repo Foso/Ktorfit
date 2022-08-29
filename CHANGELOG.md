@@ -1,6 +1,31 @@
 1.0.0-beta12 (Not released)
 ========================================
+**Breaking Changes: **
+wrapResponse from SuspendResponseConverter got renamed to wrapSuspendResponse. This add the possibility to have ResponseConverter and SuspendResponseConverter implemented in the same class.
+
+**Changes: **
 - throw compiler time error when you use @Path without the corresponding value inside the relative url path
+- every generated implementation class of an interface that Ktorfit generates will now contain a "create" ext function that can be used instead of the generic create() function
+e.g. Let's say you have a interface GithubService 
+
+'''kotlin
+val kttorfit = ktorfit {
+baseUrl("http://example.com/")
+}.create<GithubService>()
+'''
+
+or this
+
+'''kotlin
+val kttorfit = ktorfit {
+baseUrl("http://example.com/")
+}.createGithubService()
+'''
+
+By default, IntelliJ/Android Studio can't find the generated code, you need to add the KSP generated folder to the sourcesets 
+like this:
+
+kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
 
 1.0.0-beta11 (21-08-2022)
 ========================================

@@ -108,7 +108,7 @@ dependencies {
     add("kspJvm", project(":ktorfit-ksp"))
     add("kspIosX64", project(":ktorfit-ksp"))
 
-    add("kspJvmTest", project(":ktorfit-ksp"))
+   // add("kspJvmTest", project(":ktorfit-ksp"))
     add("kspJs", project(":ktorfit-ksp"))
     add("kspLinuxX64", project(":ktorfit-ksp"))
     add("kspMingwX64", project(":ktorfit-ksp"))
