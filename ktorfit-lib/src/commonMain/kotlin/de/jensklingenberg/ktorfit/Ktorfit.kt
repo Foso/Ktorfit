@@ -62,7 +62,7 @@ class Ktorfit private constructor(
         /**
          * Build HttpClient by just passing an engine factory
          */
-        fun httpClient(engineFactory: HttpClientEngineFactory<HttpClientEngineConfig>) = apply {
+        fun <T : HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>) = apply {
             this._httpClient = HttpClient(engineFactory)
         }
 
@@ -83,7 +83,7 @@ class Ktorfit private constructor(
         /**
          * Client-Builder with engine factory that will be used for every request with object
          */
-        fun httpClient(engineFactory: HttpClientEngineFactory<HttpClientEngineConfig>, config: HttpClientConfig<HttpClientEngineConfig>.() -> Unit) = apply {
+        fun <T : HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>, config: HttpClientConfig<T>.() -> Unit) = apply {
             this._httpClient = HttpClient(engineFactory, config)
         }
 
