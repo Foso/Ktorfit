@@ -11,6 +11,7 @@ import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_PARAMETERS_
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FORM_URL_ENCODED_CAN_ONLY_BE_SPECIFIED_ON_HTTP_METHODS_WITH_REQUEST_BODY
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MISSING_X_IN_RELATIVE_URL_PATH
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY
@@ -153,7 +154,7 @@ fun getFunctionDataList(
             val pathAnnotation = it.findAnnotationOrNull<Path>()
             if(!httpMethodAnno.path.contains("{${pathAnnotation?.value ?: ""}}")){
                 logger.ktorfitError(
-                    "Missing {${pathAnnotation?.value ?: ""}} in relative url path",
+                    MISSING_X_IN_RELATIVE_URL_PATH(pathAnnotation?.value ?: ""),
                     funcDeclaration
                 )
             }

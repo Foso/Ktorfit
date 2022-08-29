@@ -37,6 +37,7 @@ class KtorfitError {
         fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) =
             "Missing either @$keyword URL or @Url parameter"
 
+        fun MISSING_X_IN_RELATIVE_URL_PATH(keyword: String) = "Missing {${keyword}} in relative url path"
         const val JAVA_INTERFACES_ARE_NOT_SUPPORTED = "Java Interfaces are not supported"
         const val INTERNAL_INTERFACES_ARE_NOT_SUPPORTED = "internal Interfaces are not supported"
         const val INTERFACE_NEEDS_TO_HAVE_A_PACKAGE = "Interface needs to have a package"
