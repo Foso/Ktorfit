@@ -3,23 +3,7 @@ package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.generator.requestDataClass
 import de.jensklingenberg.ktorfit.model.FunctionData
-import de.jensklingenberg.ktorfit.model.ParameterData
-import de.jensklingenberg.ktorfit.model.annotations.Body
 
-
-private fun getRequestBuilderText(parameterDataList: List<ParameterData>): String {
-    return (parameterDataList.find { it.hasRequestBuilderAnno }?.let {
-        "requestBuilder = " + it.name
-    } ?: "")
-}
-
-private fun getBodyDataText(params: List<ParameterData>): String {
-    var bodyText = ""
-    params.firstOrNull { it.hasAnnotation<Body>() }?.let {
-        bodyText = "bodyData = " + it.name
-    }
-    return bodyText
-}
 
 fun getRequestDataArgumentText(functionData: FunctionData): String {
     val methodAnnotation = functionData.httpMethodAnnotation
