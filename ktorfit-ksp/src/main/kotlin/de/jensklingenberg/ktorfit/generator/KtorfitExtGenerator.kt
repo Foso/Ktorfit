@@ -1,19 +1,23 @@
 package de.jensklingenberg.ktorfit.generator
 
+import com.google.devtools.ksp.processing.CodeGenerator
+import com.google.devtools.ksp.processing.Dependencies
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeVariableName
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.COULD_NOT_FIND_ANY_KTORFIT_ANNOTATIONS_IN_CLASS
+import java.io.OutputStreamWriter
 
 /**
  * This will generate the Ktorfit.create() extension function
  */
-fun generateKtorfitExtSource(
+fun generateKtorfitExtClass(
     classDataList: List<ClassData>,
-    isJS: Boolean = false
-): String {
+    isJS: Boolean = false,
+    codeGenerator: CodeGenerator
+) {
     val classNameReflectionMethod = if (isJS) {
         /**
          * On JS "simpleName" is used to get class name, because qualifiedName does not exist
@@ -51,5 +55,9 @@ fun generateKtorfitExtSource(
         .addFunction(funSpec)
         .build()
 
-    return fileSpec.toString()
+    codeGenerator.createNewFile(Dependencies.ALL_FILES, ktorfitExtClass.packageName, ktorfitExtClass.name, "kt").use { output ->
+        OutputStreamWriter(output).use { writer ->
+            writer.write(fileSpec.toString())
+        }
+    }
 }

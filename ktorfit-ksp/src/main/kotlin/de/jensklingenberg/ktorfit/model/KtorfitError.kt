@@ -51,6 +51,8 @@ class KtorfitError {
             "Multipart can only be specified on HTTP methods with request body (e.g., @POST)"
         const val VARARG_NOT_SUPPORTED_USE_LIST_OR_ARRAY = "vararg not supported use List or Array"
         const val NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED = "Nullable Parameters Are Not Supported"
+        fun NO_HTTP_ANNOTATION_AT(functionName:String) = "No Http annotation at $functionName"
+        fun URL_CAN_ONLY_BE_USED_WITH_EMPY(keyword:String) = "@Url can only be used with empty @${keyword} URL value"
 
 
     }

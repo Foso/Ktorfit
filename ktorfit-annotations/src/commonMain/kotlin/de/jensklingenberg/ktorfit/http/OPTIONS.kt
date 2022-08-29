@@ -6,4 +6,4 @@ package de.jensklingenberg.ktorfit.http
 
  * */
 @Target(AnnotationTarget.FUNCTION)
-annotation class OPTIONS(val value: String)
+annotation class OPTIONS(val value: String = "")

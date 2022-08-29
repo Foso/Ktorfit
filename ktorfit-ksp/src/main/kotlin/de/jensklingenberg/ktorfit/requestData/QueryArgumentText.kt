@@ -12,7 +12,7 @@ import de.jensklingenberg.ktorfit.surroundIfNotEmpty
  */
 
 fun getQueryArgumentText(params: List<ParameterData>): String {
-    //Get all Parameter with @Query and add them to a map
+    //Get all Parameter with @Query and add them to a list
 
     val myQueryStrings = mutableListOf<String>()
 
