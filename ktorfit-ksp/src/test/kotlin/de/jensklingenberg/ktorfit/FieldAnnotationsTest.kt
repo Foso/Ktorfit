@@ -100,7 +100,7 @@ interface TestService {
     """
         )
 
-        val expectedFieldsArgumentText = "fields = listOf(FieldData(false,\"name\",testField,FieldType.FIELD))"
+        val expectedFieldsArgumentText = "fields = listOf(FieldData(\"name\",testField,false,FieldType.FIELD))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -140,7 +140,7 @@ interface TestService {
         )
 
 
-        val expectedFieldsArgumentText = "fields = listOf(FieldData(false,\"\",testFieldMap,FieldType.FIELDMAP))"
+        val expectedFieldsArgumentText = "fields = listOf(FieldData(\"\",testFieldMap,false,FieldType.FIELDMAP))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -183,8 +183,8 @@ interface TestService {
         )
 
 
-        val expectedFieldsArgumentText =  "fields = listOf(FieldData(false,\"name\",testField,FieldType.FIELD),\n" +
-                "            FieldData(false,\"\",name,FieldType.FIELDMAP))"
+        val expectedFieldsArgumentText =  "fields = listOf(FieldData(\"name\",testField,false,FieldType.FIELD),\n" +
+                "            FieldData(\"\",name,false,FieldType.FIELDMAP))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)

@@ -147,8 +147,9 @@ fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
          * Wildcard imports are not allowed by KotlinPoet, as a workaround * is replaced with WILDCARDIMPORT and it will be replaced again
          * after Kotlin Poet generated the source code
          */
-        val className = it.substringAfterLast(".").replace("*", WILDCARDIMPORT)
         val packageName = it.substringBeforeLast(".")
+        val className = it.substringAfterLast(".").replace("*", WILDCARDIMPORT)
+
         this.addImport(packageName, className)
     }
     return this

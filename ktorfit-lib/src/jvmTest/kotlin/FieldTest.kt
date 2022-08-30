@@ -31,7 +31,7 @@ class FieldTest {
                 method = "GET",
                 relativeUrl = "",
                 qualifiedRawTypeName = "kotlin.String",
-                fields = listOf(FieldData(false, testKey, testValue, FieldType.FIELD)),
+                fields = listOf(FieldData(testKey, testValue, false, FieldType.FIELD)),
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }

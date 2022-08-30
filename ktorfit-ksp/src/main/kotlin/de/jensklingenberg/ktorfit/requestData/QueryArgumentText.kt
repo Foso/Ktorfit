@@ -23,7 +23,7 @@ fun getQueryArgumentText(params: List<ParameterData>): String {
         val queryKey = "\"${query.value}\""
         val type = "QueryType.QUERY"
 
-        "QueryData($encoded,$queryKey,$data,$type)"
+        "QueryData($queryKey,$data,$encoded,$type)"
     }
 
     myQueryStrings.addAll(queryStrings)
@@ -36,7 +36,7 @@ fun getQueryArgumentText(params: List<ParameterData>): String {
         val queryKey = "\"\""
         val type = "QueryType.QUERYNAME"
 
-        "QueryData($encoded,$queryKey,$data,$type)"
+        "QueryData($queryKey,$data,$encoded,$type)"
     }
 
     myQueryStrings.addAll(queryNamesStrings)
@@ -48,7 +48,7 @@ fun getQueryArgumentText(params: List<ParameterData>): String {
         val queryKey = "\"\""
         val type = "QueryType.QUERYMAP"
 
-        "QueryData($encoded,$queryKey,$data,$type)"
+        "QueryData($queryKey,$data,$encoded,$type)"
     }
 
     myQueryStrings.addAll(queryMapStrings)

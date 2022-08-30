@@ -50,8 +50,8 @@ fun getHeadersArgumentText(
         val (key, value) = it
 
         "HeaderData($key,$value)"
-    }.surroundIfNotEmpty("listOf(", ")")
+    }.surroundIfNotEmpty("headers = listOf(", ")")
 
 
-    return headerText.prefixIfNotEmpty("headers = ").replace(" ", "·")
+    return headerText.replace(" ", "·")
 }
