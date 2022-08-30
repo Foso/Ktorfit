@@ -59,7 +59,7 @@ Ktorfit.Builder()
 ```
 
 - 
-**Breaking Changes: **
+## Breaking Changes:
 @Headers now requires a vararg of String instead of an Array
 e.g. you need to change from:
 
