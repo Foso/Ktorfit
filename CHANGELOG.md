@@ -1,4 +1,7 @@
-1.0.0-beta12 (Not released)
+1.0.0-beta13 (Not released)
+========================================
+
+1.0.0-beta12 (31-08-2022)
 ========================================
 ## Breaking Changes: 
 wrapResponse from SuspendResponseConverter got renamed to wrapSuspendResponse. This add the possibility to have ResponseConverter and SuspendResponseConverter implemented in the same class.
@@ -22,7 +25,7 @@ baseUrl("http://example.com/")
 ```
 
 By default, IntelliJ/Android Studio can't find the generated code, you need to add the KSP generated folder to the sourcesets 
-like this:
+like this: (See more here: https://kotlinlang.org/docs/ksp-quickstart.html#make-ide-aware-of-generated-code)
 
 ```kotlin
 kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
