@@ -9,7 +9,7 @@ wrapResponse from SuspendResponseConverter got renamed to wrapSuspendResponse. T
 ## Changes: 
 - throw compiler time error when you use @Path without the corresponding value inside the relative url path
 - every generated implementation class of an interface that Ktorfit generates will now contain a "create" ext function that can be used instead of the generic create() function
-e.g. Let's say you have a interface GithubService 
+e.g. Let's say you have a interface GithubService, then you can create an instance like this:
 
 ```kotlin
 val kttorfit = ktorfit {
