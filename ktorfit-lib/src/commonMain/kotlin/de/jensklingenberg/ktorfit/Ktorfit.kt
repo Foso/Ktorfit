@@ -33,7 +33,7 @@ class Ktorfit private constructor(
      * @see httpClient
      */
     class Builder {
-        private lateinit var _baseUrl: String
+        private var _baseUrl: String = ""
         private var _httpClient = HttpClient()
         private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf()
         private var _suspendResponseConverter: MutableSet<SuspendResponseConverter> = mutableSetOf()
@@ -42,6 +42,13 @@ class Ktorfit private constructor(
          * That will be used for every request with object
          */
         fun baseUrl(url: String) = apply {
+            if (url.isEmpty()) {
+                throw IllegalStateException("Base URL required")
+            }
+
+            if (!url.endsWith("/")) {
+                throw IllegalStateException("Base URL needs to end with /")
+            }
             this._baseUrl = url
         }
 
@@ -96,14 +103,6 @@ class Ktorfit private constructor(
          * Creates an instance of Ktorfit with specified baseUrl and HttpClient.
          */
         fun build(): Ktorfit {
-            if (!this::_baseUrl.isInitialized || this._baseUrl.isEmpty()) {
-                throw IllegalStateException("Base URL required")
-            }
-
-            if (!_baseUrl.endsWith("/")) {
-                throw IllegalStateException("Base URL needs to end with /")
-            }
-
             return Ktorfit(_baseUrl, _httpClient, _responseConverter, _suspendResponseConverter)
         }
     }

@@ -37,7 +37,7 @@ interface TestService {
     val requestData = RequestData(method="GET",
         relativeUrl="user/{id}",
         qualifiedRawTypeName="kotlin.String",
-        paths = listOf(PathData("id",false,"äid"))) 
+        paths = listOf(PathData("id","äid",false))) 
 
     return client.suspendRequest<String, String>(requestData)
   }""".replace("\\{", "{").replace("ä","$")
@@ -83,7 +83,7 @@ interface TestService {
     val requestData = RequestData(method="GET",
         relativeUrl="user/{id}",
         qualifiedRawTypeName="kotlin.String",
-        paths = listOf(PathData("id",true,"äid"))) 
+        paths = listOf(PathData("id","äid",true))) 
 
     return client.suspendRequest<String, String>(requestData)
   }""".replace("%", "").replace("ä","$")
