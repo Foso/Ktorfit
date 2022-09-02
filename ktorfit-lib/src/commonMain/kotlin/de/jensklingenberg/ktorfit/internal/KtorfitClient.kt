@@ -73,7 +73,9 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                 false
             )
         }?.let {
-            return it.wrapResponse<PRequest>(returnTypeName = requestData.qualifiedRawTypeName, requestFunction = {
+            return it.wrapResponse<PRequest>(
+                returnTypeName = requestData.qualifiedRawTypeName,
+                requestFunction = {
                 val response = httpClient.request {
                     requestBuilder(requestData)
                 }
