@@ -4,9 +4,9 @@ package de.jensklingenberg.ktorfit.requestData
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.Part
 import de.jensklingenberg.ktorfit.model.annotations.PartMap
-import de.jensklingenberg.ktorfit.prefixIfNotEmpty
-import de.jensklingenberg.ktorfit.surroundIfNotEmpty
-import de.jensklingenberg.ktorfit.surroundWith
+import de.jensklingenberg.ktorfit.utils.prefixIfNotEmpty
+import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
+import de.jensklingenberg.ktorfit.utils.surroundWith
 
 /**
  * Source for the "parts" argument of [de.jensklingenberg.ktorfit.RequestData]

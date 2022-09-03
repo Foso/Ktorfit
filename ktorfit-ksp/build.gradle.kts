@@ -3,6 +3,7 @@ val kspVersion: String by project
 val ktorfitVersion: String by project
 val autoService: String by project
 val kotlinPoet: String by project
+val detektVersion: String by project
 
 plugins {
     kotlin("jvm")
@@ -10,7 +11,7 @@ plugins {
     `maven-publish`
     signing
     id("org.jetbrains.dokka")
-
+    id("io.gitlab.arturbosch.detekt").version("1.21.0")
     kotlin("kapt")
 }
 tasks.withType<KotlinCompile> {
@@ -23,7 +24,6 @@ group = "de.jensklingenberg.ktorfit"
 version = ktorfitVersion
 
 dependencies {
-   //deps.version.junit
     implementation(project(":ktorfit-annotations"))
 
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
@@ -34,6 +34,13 @@ dependencies {
     testImplementation("com.google.truth:truth:1.1.3")
     compileOnly ("com.google.auto.service:auto-service:$autoService")
     kapt ("com.google.auto.service:auto-service:$autoService")
+}
+
+
+detekt {
+    toolVersion = "1.21.0"
+    config = files("../detekt-config.yml")
+    buildUponDefaultConfig = false
 }
 
 tasks.register("sourcesJar", Jar::class) {

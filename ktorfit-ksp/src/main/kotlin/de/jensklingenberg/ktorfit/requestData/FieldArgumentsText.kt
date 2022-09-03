@@ -4,8 +4,8 @@ package de.jensklingenberg.ktorfit.requestData
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.Field
 import de.jensklingenberg.ktorfit.model.annotations.FieldMap
-import de.jensklingenberg.ktorfit.surroundIfNotEmpty
-import de.jensklingenberg.ktorfit.surroundWith
+import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
+import de.jensklingenberg.ktorfit.utils.surroundWith
 
 /**
  * Source for the "fields" argument of [de.jensklingenberg.ktorfit.RequestData]

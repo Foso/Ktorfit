@@ -14,7 +14,7 @@ import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.INTERNAL_INTERFACES_ARE_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.ktorfitError
-import de.jensklingenberg.ktorfit.resolveTypeName
+import de.jensklingenberg.ktorfit.utils.resolveTypeName
 import java.io.File
 
 

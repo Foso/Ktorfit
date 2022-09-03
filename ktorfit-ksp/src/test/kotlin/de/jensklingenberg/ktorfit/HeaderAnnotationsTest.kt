@@ -2,17 +2,9 @@ package de.jensklingenberg.ktorfit
 
 import KtorfitProcessorProvider
 import com.google.common.truth.Truth
-import com.tschuchort.compiletesting.KotlinCompilation
-import com.tschuchort.compiletesting.SourceFile
-import com.tschuchort.compiletesting.kspIncremental
-import com.tschuchort.compiletesting.kspSourcesDir
-import com.tschuchort.compiletesting.symbolProcessorProviders
+import com.tschuchort.compiletesting.*
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP
-import de.jensklingenberg.ktorfit.model.ParameterData
-import de.jensklingenberg.ktorfit.model.TypeData
-import de.jensklingenberg.ktorfit.model.annotations.Header
-import de.jensklingenberg.ktorfit.requestData.getHeadersArgumentText
 import org.junit.Assert
 import org.junit.Test
 import java.io.File

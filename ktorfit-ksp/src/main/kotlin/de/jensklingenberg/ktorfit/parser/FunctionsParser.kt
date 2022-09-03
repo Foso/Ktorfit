@@ -2,7 +2,6 @@ package de.jensklingenberg.ktorfit.parser
 
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import de.jensklingenberg.ktorfit.*
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING
@@ -24,6 +23,7 @@ import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.URL_CAN_ONLY_BE_U
 import de.jensklingenberg.ktorfit.model.TypeData
 import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.model.ktorfitError
+import de.jensklingenberg.ktorfit.utils.*
 
 
 fun getHttpMethodAnnotations(func: KSFunctionDeclaration): List<HttpMethodAnnotation> {
@@ -154,7 +154,7 @@ fun getFunctionDataList(
 
         functionParameters.filter { it.hasAnnotation<Path>() }.forEach {
             val pathAnnotation = it.findAnnotationOrNull<Path>()
-            if(!httpMethodAnno.path.contains("{${pathAnnotation?.value ?: ""}}")){
+            if (!httpMethodAnno.path.contains("{${pathAnnotation?.value ?: ""}}")) {
                 logger.ktorfitError(
                     MISSING_X_IN_RELATIVE_URL_PATH(pathAnnotation?.value ?: ""),
                     funcDeclaration
@@ -178,22 +178,16 @@ fun getFunctionDataList(
             }
         }
 
-        if (functionParameters.any { it.hasAnnotation<Field>() }) {
-            if (funcDeclaration.getFormUrlEncodedAnnotation() == null) {
-                logger.ktorfitError(FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING, funcDeclaration)
-            }
+        if (functionParameters.any { it.hasAnnotation<Field>() } && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
+            logger.ktorfitError(FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING, funcDeclaration)
         }
 
-        if (functionParameters.any { it.hasAnnotation<FieldMap>() }) {
-            if (funcDeclaration.getFormUrlEncodedAnnotation() == null) {
-                logger.ktorfitError(FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING, funcDeclaration)
-            }
+        if (functionParameters.any { it.hasAnnotation<FieldMap>() } && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
+            logger.ktorfitError(FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING, funcDeclaration)
         }
 
-        if (functionParameters.any { it.hasAnnotation<Body>() }) {
-            if (funcDeclaration.getFormUrlEncodedAnnotation() != null) {
-                logger.ktorfitError(BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING, funcDeclaration)
-            }
+        if (functionParameters.any { it.hasAnnotation<Body>() } && funcDeclaration.getFormUrlEncodedAnnotation() != null) {
+            logger.ktorfitError(BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING, funcDeclaration)
         }
 
         return@map FunctionData(

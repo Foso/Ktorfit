@@ -5,7 +5,7 @@ import com.google.devtools.ksp.processing.Dependencies
 import com.squareup.kotlinpoet.*
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.requestData.getRequestDataArgumentText
-import de.jensklingenberg.ktorfit.resolveTypeName
+import de.jensklingenberg.ktorfit.utils.resolveTypeName
 import java.io.OutputStreamWriter
 
 private const val WILDCARDIMPORT = "WILDCARDIMPORT"

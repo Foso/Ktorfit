@@ -1,69 +1,9 @@
-package de.jensklingenberg.ktorfit
+package de.jensklingenberg.ktorfit.utils
 
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
-import com.google.devtools.ksp.symbol.*
-import de.jensklingenberg.ktorfit.model.FunctionData
+import com.google.devtools.ksp.symbol.KSValueParameter
 import de.jensklingenberg.ktorfit.model.annotations.*
-
-@OptIn(KspExperimental::class)
-fun KSFunctionDeclaration.getHeadersAnnotation(): Headers? {
-    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Headers::class).firstOrNull()?.let { headers ->
-        return Headers(headers.value.toList())
-    }
-}
-
-@OptIn(KspExperimental::class)
-fun KSFunctionDeclaration.getFormUrlEncodedAnnotation(): FormUrlEncoded? {
-    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.FormUrlEncoded::class).firstOrNull()?.let {
-        return FormUrlEncoded()
-    }
-}
-
-@OptIn(KspExperimental::class)
-fun KSFunctionDeclaration.getStreamingAnnotation(): Streaming? {
-    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Streaming::class).firstOrNull()?.let {
-        return Streaming()
-    }
-}
-
-@OptIn(KspExperimental::class)
-fun KSFunctionDeclaration.getMultipartAnnotation(): Multipart? {
-    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Multipart::class).firstOrNull()?.let {
-        return Multipart()
-    }
-}
-
-@OptIn(KspExperimental::class)
-fun KSFunctionDeclaration.parseHTTPMethodAnno(name: String): HttpMethodAnnotation? {
-    return when (val annotation = this.getAnnotationByName(name)) {
-        null -> {
-            null
-        }
-
-        else -> {
-
-            if (name == "HTTP") {
-                this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.HTTP::class).firstOrNull()?.let {
-                    CustomHttp(it.path, HttpMethod.valueOf(it.method), it.hasBody)
-                }
-
-            } else {
-                val value = annotation.getArgumentValueByName<String>("value") ?: ""
-                HttpMethodAnnotation(value, HttpMethod.valueOf(name))
-            }
-
-        }
-    }
-}
-
-fun KSFunctionDeclaration.getAnnotationByName(name: String): KSAnnotation? {
-    return this.annotations.toList().firstOrNull { it.shortName.asString() == name }
-}
-
-fun <T> KSAnnotation.getArgumentValueByName(name: String): T? {
-    return this.arguments.firstOrNull { it.name?.asString() == name }?.value as? T
-}
 
 @OptIn(KspExperimental::class)
 fun KSValueParameter.getPathAnnotation(): Path? {
@@ -122,8 +62,6 @@ fun KSValueParameter.getPartMapAnnotation(): PartMap? {
     }
 }
 
-val KSFunctionDeclaration.isSuspend: Boolean
-    get() = (this).modifiers.contains(Modifier.SUSPEND)
 
 @OptIn(KspExperimental::class)
 fun KSValueParameter.getRequestBuilderAnnotation(): RequestBuilder? {
@@ -160,32 +98,4 @@ fun KSValueParameter.getBodyAnnotation(): Body? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Body::class).firstOrNull()?.let {
         return Body()
     }
-}
-
-fun KSType?.resolveTypeName(): String {
-    //TODO: Find better way to handle type alias Types
-    return this.toString().removePrefix("[typealias ").removeSuffix("]")
-}
-
-
-inline fun <reified T> FunctionData.findAnnotationOrNull(): T? {
-    return this.annotations.firstOrNull { it is T } as? T
-}
-
-
-fun String.prefixIfNotEmpty(s: String): String {
-    return (s + this).takeIf { this.isNotEmpty() } ?: this
-}
-
-fun String.postfixIfNotEmpty(s: String): String {
-    return (this + s).takeIf { this.isNotEmpty() } ?: this
-}
-
-fun String.surroundIfNotEmpty(prefix: String = "", postFix: String = ""): String {
-    return this.prefixIfNotEmpty(prefix).postfixIfNotEmpty(postFix)
-}
-
-
-fun String.surroundWith(s: String): String {
-    return s + this + s
 }

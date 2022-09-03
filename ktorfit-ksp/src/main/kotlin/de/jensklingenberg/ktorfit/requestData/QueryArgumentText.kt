@@ -5,7 +5,7 @@ import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.Query
 import de.jensklingenberg.ktorfit.model.annotations.QueryMap
 import de.jensklingenberg.ktorfit.model.annotations.QueryName
-import de.jensklingenberg.ktorfit.surroundIfNotEmpty
+import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 /**
  * Source for the "queries" argument of [de.jensklingenberg.ktorfit.RequestData]
