@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ComplexMethod:FunctionsParser.kt$fun getFunctionDataList( ksFunctionDeclarationList: List&lt;KSFunctionDeclaration>, logger: KSPLogger ): List&lt;FunctionData></ID>
+    <ID>ComplexMethod:ParameterParser.kt$fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger): List&lt;ParameterAnnotation></ID>
+    <ID>LongMethod:FunctionsParser.kt$fun getFunctionDataList( ksFunctionDeclarationList: List&lt;KSFunctionDeclaration>, logger: KSPLogger ): List&lt;FunctionData></ID>
+    <ID>LongMethod:ParameterParser.kt$fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger): List&lt;ParameterAnnotation></ID>
+    <ID>TooManyFunctions:KSValueParameterExt.kt$de.jensklingenberg.ktorfit.utils.KSValueParameterExt.kt</ID>
+    <ID>TooManyFunctions:Utils.kt$de.jensklingenberg.ktorfit.utils.Utils.kt</ID>
+  </CurrentIssues>
+</SmellBaseline>
