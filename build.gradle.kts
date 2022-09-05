@@ -18,7 +18,7 @@ buildscript {
     }
     dependencies {
 
-        classpath("com.vanniktech:gradle-maven-publish-plugin:0.20.0")
+        classpath("com.vanniktech:gradle-maven-publish-plugin:0.21.0")
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.7.10")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.7.10")
         classpath("com.android.tools.build:gradle:7.2.2")
