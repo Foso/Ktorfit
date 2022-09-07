@@ -25,6 +25,8 @@ If applicable, add screenshots to help explain your problem.
 
 **Software used**
 
+KtorfitVersion: 
+
 <!--Go to "Help > About" and paste the result down here-->
 
 ```
