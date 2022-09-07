@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
+labels: 'bug'
 assignees: ''
 
 ---
@@ -26,15 +26,6 @@ If applicable, add screenshots to help explain your problem.
 **Software used**
 
 KtorfitVersion: 
-
-<!--Go to "Help > About" and paste the result down here-->
-
-```
-IntelliJ IDEA 2019.2 (Ultimate Edition)
-Build #IU-192.5728.98, built on July 23, 2019
-Runtime version: 11.0.3+12-b304.10 amd64
-Windows 10 10.0
-```
 
 
 **Additional context**
