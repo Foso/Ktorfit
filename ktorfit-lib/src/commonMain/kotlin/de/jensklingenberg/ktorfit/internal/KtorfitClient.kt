@@ -11,6 +11,11 @@ import io.ktor.util.*
 import io.ktor.util.reflect.*
 
 
+/**
+ * This class will be used by the generated Code
+ * Please don't use the class directly
+ */
+@InternalKtorfitApi
 class KtorfitClient(val ktorfit: Ktorfit) {
 
    val httpClient = ktorfit.httpClient
