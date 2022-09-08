@@ -1,53 +1,32 @@
-name: Bug Report
-description: File a bug report
-title: "[Bug]: "
-labels: ["bug"]
-body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
-  - type: textarea
-    id: what-happened
-    attributes:
-      label: What happened?
-      description: What happened?
-      placeholder: Tell us what you see!
-    validations:
-      required: true
-  - type: textarea
-    id: expexted
-    attributes:
-      label: What did you expect to happen?
-      description: What would happen if everything was going smoothly?
-    validations:
-      required: true
-  - type: textarea
-    id: reproduce
-    attributes:
-      label: How can we reproduce this issue?
-      description: as minimally and precisely as possible please
-      placeholder: Give us a nice bullited list of things that lead up to this bug
-    validations:
-      required: true
-  - type: textarea
-    id: extra-details
-    attributes:
-      label: Is there anything else we need to know about?
-      description: Tell us the rest of the story
-    validations:
-      required: false
-  - type: input
-    id: ktorfit-version
-    attributes:
-      label: Ktorfit version
-      placeholder: ex. 1.x.x
-    validations:
-      required: true
-  - type: textarea
-    id: other-version
-    attributes:
-      label: Versions of other dependencies
-      placeholder: ex. jumbo monkey forms - 1.0
-    validations:
-      required: false
+---
+name: Bug report
+about: Create a report to help us improve
+title: ''
+labels: 'bug'
+assignees: ''
+
+---
+
+**Describe the bug**
+A clear and concise description of what the bug is.
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
+
+**Expected behavior**
+A clear and concise description of what you expected to happen.
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+**Software used**
+
+KtorfitVersion: 
+
+
+**Additional context**
+Add any other context about the problem here.
