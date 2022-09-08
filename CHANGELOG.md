@@ -1,5 +1,6 @@
 1.0.0-beta13 (Not released)
 ========================================
+- KtorfitCallResponseConverter and KtorfitSuspendCallResponseConverter are now combined in KtorfitCallResponseConverter
 
 1.0.0-beta12 (31-08-2022)
 ========================================
