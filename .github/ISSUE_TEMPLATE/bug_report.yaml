@@ -44,10 +44,3 @@ body:
       placeholder: ex. 1.x.x
     validations:
       required: true
-  - type: textarea
-    id: other-version
-    attributes:
-      label: Versions of other dependencies
-      placeholder: ex. jumbo monkey forms - 1.0
-    validations:
-      required: false
