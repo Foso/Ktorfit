@@ -20,7 +20,7 @@ class ConverterTest {
                 }
             }
 
-            val ktorfit = Ktorfit.Builder().baseUrl("www.test.de/").httpClient(HttpClient(engine)).build()
+            val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
             runBlocking {
                 val requestData = RequestData(
                     method = "GET",
