@@ -125,6 +125,11 @@ In this Readme is only a basic example, for more documentation check: [http://fo
 Feel free to send feedback on [Twitter](https://twitter.com/jklingenberg_) or [file an issue](https://github.com/foso/Ktorfit/issues/new). Feature requests are always welcome. 
 
 
+## Credits
+
+Ktorfit is brought to you by [contributors](https://github.com/Foso/Ktorfit/graphs/contributors).
+
+
 ## 📜 License
 
 This project is licensed under the Apache License, Version 2.0 - see the [LICENSE.md](https://github.com/Foso/Ktorfit/blob/master/LICENSE) file for details
