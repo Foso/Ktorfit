@@ -18,7 +18,6 @@ val commonKtorfit = ktorfit {
     httpClient(httpClient2)
     responseConverter(
         KtorfitCallResponseConverter(),
-        KtorfitSuspendCallResponseConverter(),
         FlowResponseConverter()
     )
 }

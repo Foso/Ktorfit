@@ -76,7 +76,7 @@ Next you have to add the Ktorfit KSP Plugin to the common target and every compi
 
 
 ```kotlin
-val ktorfitVersion = "1.0.0-beta12"
+val ktorfitVersion = "LATEST_KTORFIT_VERSION"
 
 dependencies {
     add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
@@ -93,7 +93,7 @@ Look here for more information https://kotlinlang.org/docs/ksp-multiplatform.htm
 
 Add the Ktorfit-lib to your common module.
 ```kotlin
-val ktorfitVersion = "1.0.0-beta12"
+val ktorfitVersion = "LATEST_KTORFIT_VERSION"
 
 sourceSets {
     val commonMain by getting{
@@ -123,6 +123,11 @@ In this Readme is only a basic example, for more documentation check: [http://fo
 ## ✍️ Feedback
 
 Feel free to send feedback on [Twitter](https://twitter.com/jklingenberg_) or [file an issue](https://github.com/foso/Ktorfit/issues/new). Feature requests are always welcome. 
+
+
+## Credits
+
+Ktorfit is brought to you by [contributors](https://github.com/Foso/Ktorfit/graphs/contributors).
 
 
 ## 📜 License
