@@ -2,6 +2,9 @@
 ========================================
 - KtorfitCallResponseConverter and KtorfitSuspendCallResponseConverter are now combined in KtorfitCallResponseConverter
 
+Fixed:
+- Url annotation not resolved correctly #52
+
 1.0.0-beta12 (31-08-2022)
 ========================================
 ## Breaking Changes: 

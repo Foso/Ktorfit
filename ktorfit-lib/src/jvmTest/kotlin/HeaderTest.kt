@@ -19,7 +19,7 @@ class HeaderTest {
             }
         }
 
-        val ktorfit = Ktorfit.Builder().baseUrl("www.test.de/").httpClient(HttpClient(engine)).build()
+        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET", relativeUrl = "", qualifiedRawTypeName = "kotlin.String", headers = listOf(HeaderData("Accept","application/json"))
@@ -44,7 +44,7 @@ class HeaderTest {
             }
         }
 
-        val ktorfit = Ktorfit.Builder().baseUrl("www.test.de/").httpClient(HttpClient(engine)).build()
+        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET", relativeUrl = "", qualifiedRawTypeName = "kotlin.String", headers = listOf(HeaderData("Accept",testList))
@@ -69,7 +69,7 @@ class HeaderTest {
             }
         }
 
-        val ktorfit = Ktorfit.Builder().baseUrl("www.test.de/").httpClient(HttpClient(engine)).build()
+        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET", relativeUrl = "", qualifiedRawTypeName = "kotlin.String", headers = listOf(HeaderData("Accept",testList))
@@ -94,7 +94,7 @@ class HeaderTest {
             }
         }
 
-        val ktorfit = Ktorfit.Builder().baseUrl("www.test.de/").httpClient(HttpClient(engine)).build()
+        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET", relativeUrl = "", qualifiedRawTypeName = "kotlin.String", headers = listOf(HeaderData("",testMap))

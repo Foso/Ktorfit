@@ -107,9 +107,9 @@ class KtorfitClient(val ktorfit: Ktorfit) {
 
         val queryNameUrl = handleQueries(requestData)
 
-        val newURL = getRelativeUrl(requestData.paths, requestData.relativeUrl)
+        val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl).removePrefix(ktorfit.baseUrl)
 
-        url(ktorfit.baseUrl + newURL + queryNameUrl)
+        url(ktorfit.baseUrl + relativeUrl + queryNameUrl)
 
         requestData.requestBuilder(this)
     }

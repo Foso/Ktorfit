@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit
 
+import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.converter.CoreResponseConverter
 import de.jensklingenberg.ktorfit.converter.ResponseConverter
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
@@ -48,6 +49,9 @@ class Ktorfit private constructor(
 
             if (!url.endsWith("/")) {
                 throw IllegalStateException("Base URL needs to end with /")
+            }
+            if(!url.startsWith("http") && !url.startsWith("https")){
+                throw IllegalStateException(EXPECTED_URL_SCHEME)
             }
             this._baseUrl = url
         }
