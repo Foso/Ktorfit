@@ -38,19 +38,12 @@ body:
     validations:
       required: false
   - type: input
-    id: syna-version
+    id: ktorfit-version
     attributes:
-      label: Syna theme version
-      placeholder: ex. 0.17.4
+      label: Ktorfit version
+      placeholder: ex. 1.x.x
     validations:
-      required: false
-  - type: input
-    id: hugo-version
-    attributes:
-      label: Hugo version
-      placeholder: ex. 0.101.0
-    validations:
-      required: false
+      required: true
   - type: textarea
     id: other-version
     attributes:
