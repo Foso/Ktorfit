@@ -4,6 +4,7 @@ import de.jensklingenberg.ktorfit.*
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
+import de.jensklingenberg.ktorfit.utils.surroundWith
 
 
 /**
@@ -24,7 +25,7 @@ fun getHeadersArgumentText(
         /**
          * Can't add Content Type Header, because it leads to Ktor issues https://github.com/ktorio/ktor/issues/1127
          */
-        //  headerList.add(Pair("\"Content-Type\"", "\"application/x-www-form-urlencoded\""))
+          headerList.add(Pair("Content-Type".surroundWith("\""), "application/x-www-form-urlencoded".surroundWith("\"")))
     }
 
     paramsWithHeaderAnno.forEach { myParam ->
@@ -34,12 +35,12 @@ fun getHeadersArgumentText(
         headerList.add(Pair("\"${headerPath}\"", paramName))
     }
 
-    headersAnno?.let { headers ->
-        headers.path.forEach {
+
+    headersAnno?.path?.forEach {
             val (key, value) = it.split(":")
 
-            headerList.add(Pair("\"" + key + "\"", "\"" + value + "\""))
-        }
+            headerList.add(Pair(key.surroundWith("\""), value.surroundWith("\"")))
+
     }
 
     paramsWithHeaderMap.forEach {
