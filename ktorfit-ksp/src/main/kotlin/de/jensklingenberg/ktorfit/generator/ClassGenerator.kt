@@ -10,6 +10,9 @@ import java.io.OutputStreamWriter
 
 private const val WILDCARDIMPORT = "WILDCARDIMPORT"
 
+/**
+ * Generate the Impl class for every interface used for Ktorfit
+ */
 fun generateImplClass(classDataList: List<ClassData>, codeGenerator: CodeGenerator) {
     classDataList.forEach { classData ->
         val file = getFileSpec(classData).toString().replace(WILDCARDIMPORT, "*")
@@ -25,7 +28,9 @@ fun generateImplClass(classDataList: List<ClassData>, codeGenerator: CodeGenerat
     }
 }
 
-
+/**
+ * Transform a [ClassData] to a [FileSpec] for KotlinPoet
+ */
 fun getFileSpec(classData: ClassData): FileSpec {
 
     val createFunctionSpec = FunSpec.builder("create${classData.name}")
@@ -144,7 +149,7 @@ fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
 
     imports.forEach {
         /**
-         * Wildcard imports are not allowed by KotlinPoet, as a workaround * is replaced with WILDCARDIMPORT and it will be replaced again
+         * Wildcard imports are not allowed by KotlinPoet, as a workaround * is replaced with WILDCARDIMPORT, and it will be replaced again
          * after Kotlin Poet generated the source code
          */
         val packageName = it.substringBeforeLast(".")
