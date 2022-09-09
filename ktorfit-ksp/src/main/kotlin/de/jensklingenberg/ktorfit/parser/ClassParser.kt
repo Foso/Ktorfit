@@ -19,6 +19,8 @@ import java.io.File
 
 
 /**
+ * Gets the imports of a class by reading the imports from the file
+ * which contains the class
  *  TODO: Find better way to get imports
  */
 private fun getImports(ksClassDeclaration: KSClassDeclaration): List<String> {
@@ -26,25 +28,19 @@ private fun getImports(ksClassDeclaration: KSClassDeclaration): List<String> {
         File(ksClassDeclaration.containingFile!!.filePath)
             .readLines()
             .filter { it.trimStart().startsWith("import") }
-            .toMutableList()
+            .toMutableSet()
 
-    importList.addIfAbsent(ktorfitClass.packageName + "." + ktorfitClass.name)
-    importList.addIfAbsent(clientClass.packageName + "." + clientClass.name)
-    importList.addIfAbsent(requestDataClass.packageName + "." + requestDataClass.name)
-    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.QueryData")
-    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.QueryType")
-    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.HeaderData")
-    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.FieldData")
-    importList.addIfAbsent("de.jensklingenberg.ktorfit.internal.FieldType")
-    importList.addIfAbsent(pathDataClass.packageName+"."+ pathDataClass.name)
+    importList.add(ktorfitClass.packageName + "." + ktorfitClass.name)
+    importList.add(clientClass.packageName + "." + clientClass.name)
+    importList.add(requestDataClass.packageName + "." + requestDataClass.name)
+    importList.add("de.jensklingenberg.ktorfit.internal.QueryData")
+    importList.add("de.jensklingenberg.ktorfit.internal.QueryType")
+    importList.add("de.jensklingenberg.ktorfit.internal.HeaderData")
+    importList.add("de.jensklingenberg.ktorfit.internal.FieldData")
+    importList.add("de.jensklingenberg.ktorfit.internal.FieldType")
+    importList.add(pathDataClass.packageName+"."+ pathDataClass.name)
 
     return importList.map { it.removePrefix("import ") }
-}
-
-private fun MutableList<String>.addIfAbsent(text: String) {
-    if (this.none { it.contains(text) }) {
-        this.add(text)
-    }
 }
 
 fun toClassData(ksClassDeclaration: KSClassDeclaration, logger: KSPLogger): ClassData {

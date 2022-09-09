@@ -57,6 +57,9 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
         return emptyList()
     }
 
+    /**
+     * Returns a list of all [KSFunctionDeclaration] which are annotated with a Http Method Annotation
+     */
     private fun getAnnotatedFunctions(): List<KSFunctionDeclaration> {
         val getAnnotated = resolver.getSymbolsWithAnnotation(GET::class.java.name).toList()
         val postAnnotated = resolver.getSymbolsWithAnnotation(POST::class.java.name).toList()
