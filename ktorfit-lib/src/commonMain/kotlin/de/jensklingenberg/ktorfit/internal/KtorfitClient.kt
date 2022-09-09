@@ -102,8 +102,8 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         this.method = HttpMethod.parse(requestData.method)
 
         handleBody(requestData.bodyData)
-
-        val queryNameUrl = handleQueries(requestData)
+        handleQueries(requestData)
+        val queryNameUrl = handleQueryNames(requestData)
 
         val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl).removePrefix(ktorfit.baseUrl)
 
@@ -118,6 +118,11 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         }
     }
 
+    /**
+     * This method replaces all parts of the [relativeUrl] which have curly braces
+     * with their corresponding value
+     * @return the relative URL with replaced values
+     */
     private fun getRelativeUrl(paths: List<PathData>, relativeUrl: String): String {
         var newUrl = relativeUrl
         paths.forEach {
@@ -164,7 +169,37 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         }
     }
 
-    private fun HttpRequestBuilder.handleQueries(requestData: RequestData): String {
+    private fun HttpRequestBuilder.handleQueries(requestData: RequestData) {
+        requestData.queries.filter { it.type == QueryType.QUERY }.forEach { entry ->
+
+            when (val data = entry.data) {
+                is List<*> -> {
+                    data.filterNotNull().forEach {
+                        setParameter(entry.encoded, entry.key, it.toString())
+                    }
+                }
+
+                is Array<*> -> {
+                    data.filterNotNull().forEach {
+                        setParameter(entry.encoded, entry.key, it.toString())
+                    }
+                }
+
+                else -> {
+                    setParameter(entry.encoded, entry.key, entry.data.toString())
+                }
+            }
+        }
+
+        requestData.queries.filter { it.type == QueryType.QUERYMAP }.forEach { entry ->
+            (entry.data as Map<*, *>).forEach {
+                setParameter(entry.encoded, it.key.toString(), it.value.toString())
+            }
+        }
+
+    }
+
+    private fun HttpRequestBuilder.handleQueryNames(requestData: RequestData): String {
         val queryNames = mutableListOf<String>()
         requestData.queries.filter { it.type == QueryType.QUERYNAME }.forEach { entry ->
             when (val data = entry.data) {
@@ -201,32 +236,6 @@ class KtorfitClient(val ktorfit: Ktorfit) {
 
         queryNameUrl = ("?$queryNameUrl").takeIf { queryNameUrl.isNotEmpty() } ?: ""
 
-        requestData.queries.filter { it.type == QueryType.QUERY }.forEach { entry ->
-
-            when (val data = entry.data) {
-                is List<*> -> {
-                    data.filterNotNull().forEach {
-                        setParameter(entry.encoded, entry.key, it.toString())
-                    }
-                }
-
-                is Array<*> -> {
-                    data.filterNotNull().forEach {
-                        setParameter(entry.encoded, entry.key, it.toString())
-                    }
-                }
-
-                else -> {
-                    setParameter(entry.encoded, entry.key, entry.data.toString())
-                }
-            }
-        }
-
-        requestData.queries.filter { it.type == QueryType.QUERYMAP }.forEach { entry ->
-            (entry.data as Map<*, *>).forEach {
-                setParameter(entry.encoded, it.key.toString(), it.value.toString())
-            }
-        }
         return queryNameUrl
     }
 
