@@ -101,9 +101,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         handleParts(requestData.parts)
         this.method = HttpMethod.parse(requestData.method)
 
-        requestData.bodyData?.let {
-            setBody(it)
-        }
+        handleBody(requestData.bodyData)
 
         val queryNameUrl = handleQueries(requestData)
 
@@ -112,6 +110,12 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         url(ktorfit.baseUrl + relativeUrl + queryNameUrl)
 
         requestData.requestBuilder(this)
+    }
+
+    private fun HttpRequestBuilder.handleBody(body: Any?) {
+        body?.let {
+            setBody(it)
+        }
     }
 
     private fun getRelativeUrl(paths: List<PathData>, relativeUrl: String): String {
