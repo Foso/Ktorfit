@@ -156,8 +156,8 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                     }
 
                     is Map<*, *> -> {
-                        data.entries.forEach { entry ->
-                            append(entry.key.toString(), entry.value.toString())
+                        for ((key,value) in data.entries) {
+                            append(key.toString(), value.toString())
                         }
                     }
 
@@ -233,7 +233,6 @@ class KtorfitClient(val ktorfit: Ktorfit) {
             }
         }
         var queryNameUrl = queryNames.joinToString("&") { it }
-
         queryNameUrl = ("?$queryNameUrl").takeIf { queryNameUrl.isNotEmpty() } ?: ""
 
         return queryNameUrl

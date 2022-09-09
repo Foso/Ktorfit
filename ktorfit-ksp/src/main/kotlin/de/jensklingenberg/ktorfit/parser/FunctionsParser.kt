@@ -25,7 +25,10 @@ import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.model.ktorfitError
 import de.jensklingenberg.ktorfit.utils.*
 
-
+/**
+ * Collect all [HttpMethodAnnotation] from a [KSFunctionDeclaration]
+ * @return list of [HttpMethodAnnotation]
+ */
 fun getHttpMethodAnnotations(func: KSFunctionDeclaration): List<HttpMethodAnnotation> {
     val getAnno = func.parseHTTPMethodAnno("GET")
     val putAnno = func.parseHTTPMethodAnno("PUT")
@@ -70,7 +73,7 @@ fun getFunctionDataList(
             }
 
             this.getFormUrlEncodedAnnotation()?.let { formUrlEncoded ->
-                if (functionParameters.none { it.hasAnnotation<Field>() } && functionParameters.none { it.hasAnnotation<FieldMap>() }) {
+                if (functionParameters.none { it.hasAnnotation<Field>() || it.hasAnnotation<FieldMap>() }) {
                     logger.ktorfitError(
                         KtorfitError.FORM_ENCODED_METHOD_MUST_CONTAIN_AT_LEAST_ONE_FIELD_OR_FIELD_MAP,
                         funcDeclaration

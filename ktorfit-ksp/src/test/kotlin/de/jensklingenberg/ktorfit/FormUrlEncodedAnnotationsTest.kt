@@ -47,6 +47,37 @@ interface TestService {
         Assert.assertTrue(result.messages.contains(KtorfitError.FORM_URL_ENCODED_CAN_ONLY_BE_SPECIFIED_ON_HTTP_METHODS_WITH_REQUEST_BODY))
     }
 
+    @Test
+    fun whenFormUrlEncodedUsedWithNoFieldAnnotation_ThrowCompilationError() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.Body
+import de.jensklingenberg.ktorfit.http.FormUrlEncoded
+interface TestService {
+
+        @FormUrlEncoded
+    @POST("user")
+    suspend fun test(@Body id: String): String
+    
+}
+    """
+        )
+
+
+        val compilation = KotlinCompilation().apply {
+            sources = listOf(source)
+            inheritClassPath = true
+            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
+            kspIncremental = true
+        }
+
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        Assert.assertTrue(result.messages.contains(KtorfitError.FORM_ENCODED_METHOD_MUST_CONTAIN_AT_LEAST_ONE_FIELD_OR_FIELD_MAP))
+    }
 
 
     @Test
