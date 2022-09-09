@@ -36,7 +36,9 @@ class KtorfitError {
         const val COULD_NOT_FIND_ANY_KTORFIT_ANNOTATIONS_IN_CLASS = "Could not find any Ktorfit annotations in class"
         fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) =
             "Missing either @$keyword URL or @Url parameter"
-
+        fun NO_KTORFIT_ANNOTATION_FOUND_AT(parameterName:String): String {
+            return "No Ktorfit Annotation found at $parameterName"
+        }
         fun MISSING_X_IN_RELATIVE_URL_PATH(keyword: String) = "Missing {${keyword}} in relative url path"
         const val JAVA_INTERFACES_ARE_NOT_SUPPORTED = "Java Interfaces are not supported"
         const val INTERNAL_INTERFACES_ARE_NOT_SUPPORTED = "internal Interfaces are not supported"

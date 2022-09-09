@@ -15,14 +15,14 @@ private const val WILDCARDIMPORT = "WILDCARDIMPORT"
  */
 fun generateImplClass(classDataList: List<ClassData>, codeGenerator: CodeGenerator) {
     classDataList.forEach { classData ->
-        val file = getFileSpec(classData).toString().replace(WILDCARDIMPORT, "*")
+        val fileSource = getFileSpec(classData).toString().replace(WILDCARDIMPORT, "*")
 
         val packageName = classData.packageName
         val className = classData.name
 
         codeGenerator.createNewFile(Dependencies.ALL_FILES, packageName, "_${className}Impl", "kt").use { output ->
             OutputStreamWriter(output).use { writer ->
-                writer.write(file)
+                writer.write(fileSource)
             }
         }
     }

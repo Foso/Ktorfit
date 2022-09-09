@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_KEYS_MU
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.NO_KTORFIT_ANNOTATION_FOUND_AT
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PART_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PART_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE
@@ -30,19 +31,21 @@ fun getParameterData(ksValueParameter: KSValueParameter, logger: KSPLogger): Par
         logger.ktorfitError(NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED, ksValueParameter)
     }
 
-    val pararameterAnnotations = getParamAnnotationList(ksValueParameter, logger)
+    val parameterAnnotations = getParamAnnotationList(ksValueParameter, logger)
 
     val reqBuilderAnno = ksValueParameter.getRequestBuilderAnnotation()
     val parameterName = ksValueParameter.name?.asString() ?: ""
     val parameterType = ksValueParameter.type.resolve()
     val hasRequestBuilderAnno = reqBuilderAnno != null
 
-    if (pararameterAnnotations.isEmpty() && reqBuilderAnno == null) {
+    if (parameterAnnotations.isEmpty() && !hasRequestBuilderAnno) {
         logger.ktorfitError(
-            "No Ktorfit Annotation found at " + parameterName + " " + ksValueParameter.parent.toString(),
+            NO_KTORFIT_ANNOTATION_FOUND_AT(parameterName),
             ksValueParameter
         )
     }
+
+
 
     if (hasRequestBuilderAnno && parameterType.resolveTypeName() != "[@kotlin.ExtensionFunctionType] Function1<HttpRequestBuilder, Unit>") {
         logger.ktorfitError(
@@ -63,27 +66,27 @@ fun getParameterData(ksValueParameter: KSValueParameter, logger: KSPLogger): Par
         )
     }
 
-    return ParameterData(parameterName, type, pararameterAnnotations, hasRequestBuilderAnno)
+    return ParameterData(parameterName, type, parameterAnnotations, hasRequestBuilderAnno)
 
 }
 
 
 fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger): List<ParameterAnnotation> {
 
-    val pararamAnnos = mutableListOf<ParameterAnnotation>()
+    val paramAnnos = mutableListOf<ParameterAnnotation>()
     ksValueParameter.getBodyAnnotation()?.let {
-        pararamAnnos.add(it)
+        paramAnnos.add(it)
     }
 
     ksValueParameter.getPathAnnotation()?.let {
         if (ksValueParameter.type.resolve().isMarkedNullable) {
             logger.ktorfitError(PATH_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE, ksValueParameter.type)
         }
-        pararamAnnos.add(it)
+        paramAnnos.add(it)
     }
 
     ksValueParameter.getHeadersAnnotation()?.let {
-        pararamAnnos.add(it)
+        paramAnnos.add(it)
     }
 
     ksValueParameter.getHeaderMapAnnotation()?.let {
@@ -95,15 +98,15 @@ fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger
         if (mapKey.type.toString() != "String" || mapKey.type?.resolve()?.isMarkedNullable == true) {
             logger.error(HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING, ksValueParameter)
         }
-        pararamAnnos.add(it)
+        paramAnnos.add(it)
     }
 
     ksValueParameter.getQueryAnnotation()?.let {
-        pararamAnnos.add(it)
+        paramAnnos.add(it)
     }
 
     ksValueParameter.getQueryNameAnnotation()?.let {
-        pararamAnnos.add(it)
+        paramAnnos.add(it)
     }
 
     ksValueParameter.getQueryMapAnnotation()?.let {
@@ -118,11 +121,11 @@ fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger
         if (ksValueParameter.type.resolve().isMarkedNullable) {
             logger.ktorfitError(QUERY_MAP_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE, ksValueParameter.type)
         }
-        pararamAnnos.add(it)
+        paramAnnos.add(it)
     }
 
     ksValueParameter.getFieldAnnotation()?.let {
-        pararamAnnos.add(it)
+        paramAnnos.add(it)
     }
 
     ksValueParameter.getFieldMapAnnotation()?.let {
@@ -134,27 +137,27 @@ fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger
         if (mapKey.type.toString() != "String" || mapKey.type?.resolve()?.isMarkedNullable == true) {
             logger.error(FIELD_MAP_KEYS_MUST_BE_OF_TYPE_STRING, ksValueParameter)
         }
-        pararamAnnos.add(it)
+        paramAnnos.add(it)
     }
 
     ksValueParameter.getPartAnnotation()?.let {
         if (ksValueParameter.type.resolve().isMarkedNullable) {
             logger.ktorfitError(PART_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE, ksValueParameter.type)
         }
-        pararamAnnos.add(it)
+        paramAnnos.add(it)
     }
 
     ksValueParameter.getPartMapAnnotation()?.let {
         if (!ksValueParameter.type.toString().endsWith("Map")) {
             logger.ktorfitError(PART_MAP_PARAMETER_TYPE_MUST_BE_MAP, ksValueParameter)
         }
-        pararamAnnos.add(it)
+        paramAnnos.add(it)
     }
 
     ksValueParameter.getUrlAnnotation()?.let {
-        pararamAnnos.add(it)
+        paramAnnos.add(it)
     }
-    return pararamAnnos
+    return paramAnnos
 }
 
 
