@@ -122,7 +122,7 @@ In this Readme is only a basic example, for more documentation check: [http://fo
 
 ## ✍️ Feedback
 
-Feel free to send feedback on [Twitter](https://twitter.com/jklingenberg_) or [file an issue](https://github.com/foso/Ktorfit/issues/new). Feature requests are always welcome. 
+Feel free to send feedback on [Twitter](https://twitter.com/jklingenberg_) or [file an issue](https://github.com/foso/Ktorfit/issues/new). Feature requests/Pull Requests are always welcome. 
 
 
 ## Credits
