@@ -127,7 +127,7 @@ Feel free to send feedback on [Twitter](https://twitter.com/jklingenberg_) or [f
 
 ## Credits
 
-Ktorfit is brought to you by [contributors](https://github.com/Foso/Ktorfit/graphs/contributors).
+Ktorfit is brought to you by these [contributors](https://github.com/Foso/Ktorfit/graphs/contributors).
 
 
 ## 📜 License
