@@ -3,6 +3,13 @@ description: File a bug report
 title: "[Bug]: "
 labels: ["bug"]
 body:
+  - type: input
+    id: ktorfit-version
+    attributes:
+      label: Ktorfit version
+      placeholder: ex. 1.x.x
+    validations:
+      required: true
   - type: markdown
     attributes:
       value: |
@@ -37,10 +44,4 @@ body:
       description: Tell us the rest of the story
     validations:
       required: false
-  - type: input
-    id: ktorfit-version
-    attributes:
-      label: Ktorfit version
-      placeholder: ex. 1.x.x
-    validations:
-      required: true
+  
