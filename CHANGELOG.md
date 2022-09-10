@@ -17,14 +17,14 @@ wrapResponse from SuspendResponseConverter got renamed to wrapSuspendResponse. T
 e.g. Let's say you have a interface GithubService, then you can create an instance like this:
 
 ```kotlin
-val kttorfit = ktorfit {
+val ktorfit = ktorfit {
 baseUrl("http://example.com/")
 }.create<GithubService>()
 ```
 or this
 
 ```kotlin
-val kttorfit = ktorfit {
+val ktorfit = ktorfit {
 baseUrl("http://example.com/")
 }.createGithubService()
 ```
