@@ -18,6 +18,11 @@ detekt {
     buildUponDefaultConfig = false
 }
 
+mavenPublishing {
+    publishToMavenCentral()
+    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
+    signAllPublications()
+}
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
