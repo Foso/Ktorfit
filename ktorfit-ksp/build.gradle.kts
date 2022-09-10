@@ -21,7 +21,7 @@ tasks.withType<KotlinCompile> {
 mavenPublishing {
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
-    signAllPublications()
+   // signAllPublications()
 }
 
 group = "de.jensklingenberg.ktorfit"

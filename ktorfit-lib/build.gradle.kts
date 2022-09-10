@@ -21,7 +21,7 @@ detekt {
 mavenPublishing {
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
-    signAllPublications()
+  //  signAllPublications()
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
