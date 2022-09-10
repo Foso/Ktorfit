@@ -18,7 +18,11 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-
+mavenPublishing {
+    publishToMavenCentral()
+    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
+    signAllPublications()
+}
 
 group = "de.jensklingenberg.ktorfit"
 version = ktorfitVersion

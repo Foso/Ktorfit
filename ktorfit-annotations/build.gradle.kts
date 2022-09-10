@@ -104,7 +104,11 @@ android {
     }
 }
 
-
+mavenPublishing {
+    publishToMavenCentral()
+    // publishToMavenCentral("S01") for publishing through s01.oss.sonatype.org
+    signAllPublications()
+}
 
 publishing {
     publications {
