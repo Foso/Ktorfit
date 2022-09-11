@@ -16,6 +16,7 @@ package de.jensklingenberg.ktorfit.http
  *
  * =====
  * [value] is the key of the query parameter
+ * null values are ignored
  * @param encoded true means that this value is already URL encoded and will not be encoded again
  */
 @Target(AnnotationTarget.VALUE_PARAMETER)

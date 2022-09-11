@@ -15,6 +15,8 @@ class KtorfitError {
         const val QUERY_MAP_PARAMETER_TYPE_MUST_BE_MAP = "@QueryMap parameter type must be Map."
         const val QUERY_MAP_KEYS_MUST_BE_OF_TYPE_STRING = "@QueryMap keys must be of type String:"
         const val QUERY_MAP_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE = "QueryMap parameter type may not be nullable"
+        const val URL_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE = "Url parameter type may not be nullable"
+
         const val FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP = "@FieldMap parameter type must be Map."
         const val FIELD_MAP_KEYS_MUST_BE_OF_TYPE_STRING = "@FieldMap keys must be of type String:"
         const val ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED = "Only one RequestBuilder is allowed."
