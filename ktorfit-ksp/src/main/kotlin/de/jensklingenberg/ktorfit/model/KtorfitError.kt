@@ -29,6 +29,8 @@ class KtorfitError {
         const val PART_MAP_PARAMETER_TYPE_MUST_BE_MAP = "@PartMap parameter type must be Map."
         const val PART_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE = "Part parameter type may not be nullable"
         const val PATH_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE = "Path parameter type may not be nullable"
+        const val BODY_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE = "Body parameter type may not be nullable"
+
         const val PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON = "@Path can only be used with relative url on "
         const val NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY = "Non-body HTTP method cannot contain @Body"
         const val BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING =

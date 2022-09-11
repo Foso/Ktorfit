@@ -24,7 +24,7 @@ interface KtorSamplesApi {
     val test1: String
 
     @POST("signup")
-    suspend fun sendReg(@Body param: Parameters): String
+    suspend fun sendReg(@Body param: Parameters?): String
 
     //client-submit-form
     @POST("signup")

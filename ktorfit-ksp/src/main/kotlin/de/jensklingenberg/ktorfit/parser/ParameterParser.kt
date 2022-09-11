@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.parser
 
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSValueParameter
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.BODY_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_KEYS_MUST_BE_OF_TYPE_STRING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING
@@ -74,6 +75,9 @@ fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger
 
     val paramAnnos = mutableListOf<ParameterAnnotation>()
     ksValueParameter.getBodyAnnotation()?.let {
+        if (ksValueParameter.type.resolve().isMarkedNullable) {
+            logger.ktorfitError(BODY_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE, ksValueParameter.type)
+        }
         paramAnnos.add(it)
     }
 
