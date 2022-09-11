@@ -316,35 +316,6 @@ interface TestService {
         Assert.assertTrue(result.messages.contains(KtorfitError.QUERY_MAP_KEYS_MUST_BE_OF_TYPE_STRING))
     }
 
-    @Test
-    fun whenQueryMapNullable_ThrowCompilationError() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """
-      package com.example.api
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.QueryMap
-
-interface TestService {
-
-    @GET("posts")
-    suspend fun test(@QueryMap() testQueryMap: Map<String,String>?)
-    
-}
-    """
-        )
-
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
-
-        val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.QUERY_MAP_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE))
-    }
 
 }
 
