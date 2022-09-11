@@ -38,6 +38,29 @@ class QueryTest {
     }
 
     @Test
+    fun testQueryWithNullableStringIsNull_IgnoreIt() {
+
+        val testKey = "foo"
+
+        val engine = object : TestEngine() {
+            override fun getRequestData(data: HttpRequestData) {
+                assertTrue(data.url.encodedQuery == "")
+            }
+        }
+
+        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
+        runBlocking {
+            val requestData = RequestData(
+                method = "GET",
+                relativeUrl = "",
+                qualifiedRawTypeName = "kotlin.String",
+                queries = listOf(QueryData(testKey, null, false, QueryType.QUERY))
+            )
+            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+        }
+    }
+
+    @Test
     fun testQueryWithEncodedString() {
 
         val testKey = "foo"

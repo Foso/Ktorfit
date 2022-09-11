@@ -184,7 +184,9 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                         setParameter(entry.encoded, entry.key, it.toString())
                     }
                 }
-
+                null->{
+                    //Ignore this query
+                }
                 else -> {
                     setParameter(entry.encoded, entry.key, entry.data.toString())
                 }
@@ -192,8 +194,11 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         }
 
         requestData.queries.filter { it.type == QueryType.QUERYMAP }.forEach { entry ->
-            (entry.data as Map<*, *>).forEach {
-                setParameter(entry.encoded, it.key.toString(), it.value.toString())
+            for ((key, value) in entry.data as Map<*, *>) {
+                value?.let {
+                    setParameter(entry.encoded, key.toString(), value.toString())
+                }
+
             }
         }
 
@@ -222,7 +227,9 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                         }
                     }
                 }
-
+                null->{
+                    //Ignore this query
+                }
                 else -> {
                     if (entry.encoded) {
                         queryNames.add(entry.data.toString())
@@ -310,7 +317,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
     }
 
 
-    private fun HttpRequestBuilder.encodedParameter(key: String, value: Any?): Unit =
+    private fun HttpRequestBuilder.encodedParameter(key: String, value: Any): Unit =
         value?.let { url.encodedParameters.append(key, it.toString()) } ?: Unit
 
 }

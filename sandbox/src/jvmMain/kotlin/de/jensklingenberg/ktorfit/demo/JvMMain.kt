@@ -4,10 +4,10 @@ package de.jensklingenberg.ktorfit.demo
 import com.example.api.StarWarsApi
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.KtorfitCallResponseConverter
-import de.jensklingenberg.ktorfit.converter.builtin.KtorfitSuspendCallResponseConverter
 import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
+import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.serialization.kotlinx.json.*
@@ -43,11 +43,12 @@ val jvmKtorfit = ktorfit {
 
 
 fun main() {
-    val exampleApi = jvmKtorfit.createJvmPlaceHolderApi()
+    val exampleApi = jvmKtorfit.create<JvmPlaceHolderApi>()
 
     println("==============================================")
     runBlocking {
-        val response = exampleApi.getPersonById2(2)
+        val response = exampleApi.testQuery(4, listOf("a",null,"c"))
+
 
         println("LI    " + response)
 

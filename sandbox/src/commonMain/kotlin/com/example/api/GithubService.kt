@@ -18,7 +18,7 @@ interface GithubService {
         "Content-Type: application/json"
     )
     @POST("repos/foso/experimental/issues")
-    suspend fun createIsseu(@Body body: Issuedata, @Header("Acci") headi: String): String
+    suspend fun createIssue(@Body body: Issuedata, @Header("Acci") headi: String?): String
 
     @Headers(
         "Accept: application/vnd.github.v3+json",

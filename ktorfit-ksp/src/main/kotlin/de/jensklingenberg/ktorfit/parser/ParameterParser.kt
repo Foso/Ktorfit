@@ -7,14 +7,13 @@ import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_PARAMET
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.NO_KTORFIT_ANNOTATION_FOUND_AT
-import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PART_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PART_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PATH_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.QUERY_MAP_KEYS_MUST_BE_OF_TYPE_STRING
-import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.QUERY_MAP_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.QUERY_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.REQ_BUILDER_PARAMETER_TYPE_NEEDS_TO_BE_HTTP_REQUEST_BUILDER
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.URL_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.VARARG_NOT_SUPPORTED_USE_LIST_OR_ARRAY
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.TypeData
@@ -28,7 +27,7 @@ fun getParameterData(ksValueParameter: KSValueParameter, logger: KSPLogger): Par
         logger.ktorfitError(VARARG_NOT_SUPPORTED_USE_LIST_OR_ARRAY, ksValueParameter)
     }
     if (ksValueParameter.type.resolve().isMarkedNullable) {
-        logger.ktorfitError(NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED, ksValueParameter)
+        //logger.ktorfitError(NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED, ksValueParameter)
     }
 
     val parameterAnnotations = getParamAnnotationList(ksValueParameter, logger)
@@ -118,9 +117,6 @@ fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger
         if (mapKey.type.toString() != "String" || mapKey.type?.resolve()?.isMarkedNullable == true) {
             logger.error(QUERY_MAP_KEYS_MUST_BE_OF_TYPE_STRING, ksValueParameter)
         }
-        if (ksValueParameter.type.resolve().isMarkedNullable) {
-            logger.ktorfitError(QUERY_MAP_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE, ksValueParameter.type)
-        }
         paramAnnos.add(it)
     }
 
@@ -155,6 +151,9 @@ fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger
     }
 
     ksValueParameter.getUrlAnnotation()?.let {
+        if (ksValueParameter.type.resolve().isMarkedNullable) {
+            logger.ktorfitError(URL_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE, ksValueParameter)
+        }
         paramAnnos.add(it)
     }
     return paramAnnos

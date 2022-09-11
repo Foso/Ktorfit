@@ -2,10 +2,7 @@ package de.jensklingenberg.ktorfit.demo
 
 import com.example.api.StarWarsApi
 import com.example.model.People
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.Path
-import de.jensklingenberg.ktorfit.http.Query
-import de.jensklingenberg.ktorfit.http.Streaming
+import de.jensklingenberg.ktorfit.http.*
 import io.ktor.client.statement.*
 
 interface JvmPlaceHolderApi : StarWarsApi {
@@ -14,7 +11,7 @@ interface JvmPlaceHolderApi : StarWarsApi {
     suspend fun getPersonById2(@Path("id") peopleId: Int): People
 
     @GET("people/{id}/")
-    suspend fun testQuery(@Path("id") peopleId: Int, @Query("huhu") name: Array<String?>): People
+    suspend fun testQuery(@Path("id") peopleId: Int, @QueryName na : List<String?>?): People
 
     @Streaming
     @GET("people/1/")
@@ -22,4 +19,6 @@ interface JvmPlaceHolderApi : StarWarsApi {
 
     @GET("people/{id}/")
     suspend fun getPersonById2AsResponse(@Path("id") peopleId: Int): Response<People>
+    @GET()
+    suspend fun getPersonByIdByUrl(@Url peopleId: String, @QueryMap name: Map<String,Int>?): People
 }
