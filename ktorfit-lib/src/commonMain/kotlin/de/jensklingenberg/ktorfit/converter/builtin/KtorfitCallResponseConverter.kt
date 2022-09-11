@@ -45,7 +45,7 @@ class KtorfitCallResponseConverter : ResponseConverter, SuspendResponseConverter
         }
     }
 
-    override suspend fun <T : Any> wrapSuspendResponse(
+    override suspend fun <T : Any?> wrapSuspendResponse(
         returnTypeName: String,
         requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>
     ): Any {
