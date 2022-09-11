@@ -18,7 +18,7 @@ import io.ktor.util.reflect.*
 @InternalKtorfitApi
 class KtorfitClient(val ktorfit: Ktorfit) {
 
-   val httpClient = ktorfit.httpClient
+    val httpClient = ktorfit.httpClient
 
     /**
      * Converts [value] to an URL encoded value
@@ -31,9 +31,9 @@ class KtorfitClient(val ktorfit: Ktorfit) {
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    suspend inline fun <reified TReturn, reified PRequest : Any> suspendRequest(
+    suspend inline fun <reified TReturn, reified PRequest : Any?> suspendRequest(
         requestData: RequestData
-    ): TReturn {
+    ): TReturn? {
 
         if (TReturn::class == HttpStatement::class) {
             return httpClient.prepareRequest {
@@ -58,7 +58,17 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                 }) as TReturn
         }
 
-        return request.body()
+        return try {
+            val returnIt = request.body<TReturn>()
+            returnIt
+        } catch (ex: Exception) {
+            return if (requestData.qualifiedRawTypeName.endsWith("?")) {
+                null
+            } else {
+                throw ex
+            }
+
+        }
 
     }
 
@@ -81,11 +91,11 @@ class KtorfitClient(val ktorfit: Ktorfit) {
             return it.wrapResponse<PRequest>(
                 returnTypeName = requestData.qualifiedRawTypeName,
                 requestFunction = {
-                val response = httpClient.request {
-                    requestBuilder(requestData)
-                }
-                Pair(typeInfo<PRequest>(), response)
-            }) as TReturn
+                    val response = httpClient.request {
+                        requestBuilder(requestData)
+                    }
+                    Pair(typeInfo<PRequest>(), response)
+                }) as TReturn
         }
 
         throw IllegalArgumentException("Add a ResponseConverter for " + requestData.qualifiedRawTypeName + " or make function suspend")
@@ -156,11 +166,12 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                     }
 
                     is Map<*, *> -> {
-                        for ((key,value) in data.entries) {
+                        for ((key, value) in data.entries) {
                             append(key.toString(), value.toString())
                         }
                     }
-                    null->{
+
+                    null -> {
                         //Ignore this header
                     }
 
@@ -187,9 +198,11 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                         setParameter(entry.encoded, entry.key, it.toString())
                     }
                 }
-                null->{
+
+                null -> {
                     //Ignore this query
                 }
+
                 else -> {
                     setParameter(entry.encoded, entry.key, entry.data.toString())
                 }
@@ -230,9 +243,11 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                         }
                     }
                 }
-                null->{
+
+                null -> {
                     //Ignore this query
                 }
+
                 else -> {
                     if (entry.encoded) {
                         queryNames.add(entry.data.toString())

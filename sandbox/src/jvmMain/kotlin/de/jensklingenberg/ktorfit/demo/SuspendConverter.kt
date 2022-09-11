@@ -11,7 +11,7 @@ class SuspendConverter : SuspendResponseConverter {
         return returnTypeName.equals("de.jensklingenberg.ktorfit.demo.Response", true)
     }
 
-    override suspend fun <PRequest : Any> wrapSuspendResponse(
+    override suspend fun <PRequest : Any?> wrapSuspendResponse(
         returnTypeName: String,
         requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>
     ): Any {

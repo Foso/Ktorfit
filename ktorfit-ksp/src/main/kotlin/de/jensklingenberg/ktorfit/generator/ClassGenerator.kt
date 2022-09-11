@@ -101,7 +101,11 @@ fun getFunSpecs(classData: ClassData): List<FunSpec> = classData.functions.map {
 
     val returnTypeName = functionData.returnType.name
     val typeWithoutOuterType = returnTypeName.substringAfter("<").substringBeforeLast(">")
-
+    val nullableText = if (functionData.returnType.name.endsWith("?")) {
+        ""
+    } else {
+        "!!"
+    }
     FunSpec.builder(functionData.name)
         .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
             if (functionData.isSuspend) {
@@ -119,9 +123,9 @@ fun getFunSpecs(classData: ClassData): List<FunSpec> = classData.functions.map {
         )
         .addStatement(
             if (functionData.isSuspend) {
-                "return ${clientClass.objectName}.suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})"
+                "return ${clientClass.objectName}.suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
             } else {
-                "return ${clientClass.objectName}.request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})"
+                "return ${clientClass.objectName}.request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
             }
         )
         .build()
