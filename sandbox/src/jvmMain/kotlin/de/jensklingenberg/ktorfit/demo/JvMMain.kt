@@ -47,7 +47,7 @@ fun main() {
 
     println("==============================================")
     runBlocking {
-        val response = exampleApi.testQuery(4, listOf("a",null,"c"))
+        val response = exampleApi.testQuery(4, listOf("a",null,"c"),null)
 
 
         println("LI    " + response)

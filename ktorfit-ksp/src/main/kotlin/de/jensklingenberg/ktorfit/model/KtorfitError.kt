@@ -57,6 +57,7 @@ class KtorfitError {
         const val NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED = "Nullable Parameters Are Not Supported"
         fun NO_HTTP_ANNOTATION_AT(functionName:String) = "No Http annotation at $functionName"
         fun URL_CAN_ONLY_BE_USED_WITH_EMPY(keyword:String) = "@Url can only be used with empty @${keyword} URL value"
+        const val HEADERS_VALUE_MUST_BE_IN_FORM= "@Headers value must be in the form \"Name: Value\". Found: "
 
 
     }

@@ -5,6 +5,7 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADERS_VALUE_MUST_BE_IN_FORM
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.FORM_URL_ENCODED_CAN_ONLY_BE_SPECIFIED_ON_HTTP_METHODS_WITH_REQUEST_BODY
@@ -67,9 +68,17 @@ fun getFunctionDataList(
                 )
             }
 
+            this.getHeadersAnnotation()?.let { headers ->
+                headers.path.forEach {
+                    //Check if headers are in valid format
 
-            this.getHeadersAnnotation()?.let {
-                functionAnnotationList.add(it)
+                    try {
+                        val (key, value) = it.split(":")
+                    }catch (exception:Exception){
+                        logger.ktorfitError(HEADERS_VALUE_MUST_BE_IN_FORM+it,funcDeclaration)
+                    }
+                }
+                functionAnnotationList.add(headers)
             }
 
             this.getFormUrlEncodedAnnotation()?.let { formUrlEncoded ->

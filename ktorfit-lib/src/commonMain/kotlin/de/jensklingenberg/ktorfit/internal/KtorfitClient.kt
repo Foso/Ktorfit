@@ -160,6 +160,9 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                             append(key.toString(), value.toString())
                         }
                     }
+                    null->{
+                        //Ignore this header
+                    }
 
                     else -> {
                         append(it.key, it.value.toString())
