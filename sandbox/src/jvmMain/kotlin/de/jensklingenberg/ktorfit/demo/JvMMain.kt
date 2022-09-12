@@ -2,14 +2,16 @@ package de.jensklingenberg.ktorfit.demo
 
 
 import com.example.api.StarWarsApi
+import com.example.api.createJsonPlaceHolderApi
+import de.jensklingenberg.ktorfit.Callback
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.KtorfitCallResponseConverter
 import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
-import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -44,9 +46,21 @@ val jvmKtorfit = ktorfit {
 
 fun main() {
     val exampleApi = jvmKtorfit.create<JvmPlaceHolderApi>()
-
+    val jsonPlaceHolderApi = jvmKtorfit.createJsonPlaceHolderApi()
     println("==============================================")
+
+
     runBlocking {
+        jsonPlaceHolderApi.suscallPosts().onExecute(object :Callback<String>{
+            override fun onResponse(call: String, response: HttpResponse) {
+
+            }
+
+            override fun onError(exception: Throwable) {
+
+            }
+
+        })
         val response = exampleApi.testQuery(4, listOf("a",null,"c"))
 
 

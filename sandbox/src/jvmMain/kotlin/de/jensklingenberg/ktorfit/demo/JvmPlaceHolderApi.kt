@@ -10,7 +10,7 @@ interface JvmPlaceHolderApi : StarWarsApi {
     @GET("people/{id}/")
     suspend fun getPersonById2(@Path("id") peopleId: Int): People
 
-    @GET("peopddle/{id}/")
+    @GET("people/{id}/")
     suspend fun testQuery(@Path("id") peopleId: Int, @QueryName na : List<String?>?): People
 
     @Streaming
