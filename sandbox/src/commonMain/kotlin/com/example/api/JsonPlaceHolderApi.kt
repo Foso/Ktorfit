@@ -29,6 +29,9 @@ interface JsonPlaceHolderApi {
     @GET("posts")
     fun callPosts(): Call<String>
 
+    @GET("posts")
+    suspend fun suscallPosts(): Call<String>
+
     @Streaming
     @GET("docs/response.html#streaming")
     suspend fun getPostsStreaming(@QueryMap test: Map<String, String>): HttpStatement

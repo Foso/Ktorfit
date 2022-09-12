@@ -59,13 +59,13 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         }
 
         return try {
-            val returnIt = request.body<TReturn>()
-            returnIt
-        } catch (ex: Exception) {
-            return if (requestData.qualifiedRawTypeName.endsWith("?")) {
+            request.body<TReturn>()
+        } catch (exception: Exception) {
+            val typeIsNullable = requestData.qualifiedRawTypeName.endsWith("?")
+            return if (typeIsNullable) {
                 null
             } else {
-                throw ex
+                throw exception
             }
 
         }
@@ -220,6 +220,11 @@ class KtorfitClient(val ktorfit: Ktorfit) {
 
     }
 
+    /**
+     * Returns a String for the query names that will be appended to the url
+     * QueryNames will be handled special because otherwise Ktor always adds a "=" behind every
+     * query e.g. QueryName("Hello") will be sent by Ktor like "?Hello="
+     */
     private fun HttpRequestBuilder.handleQueryNames(requestData: RequestData): String {
         val queryNames = mutableListOf<String>()
         requestData.queries.filter { it.type == QueryType.QUERYNAME }.forEach { entry ->
@@ -336,6 +341,6 @@ class KtorfitClient(val ktorfit: Ktorfit) {
 
 
     private fun HttpRequestBuilder.encodedParameter(key: String, value: Any): Unit =
-        value?.let { url.encodedParameters.append(key, it.toString()) } ?: Unit
+        value.let { url.encodedParameters.append(key, it.toString()) } ?: Unit
 
 }

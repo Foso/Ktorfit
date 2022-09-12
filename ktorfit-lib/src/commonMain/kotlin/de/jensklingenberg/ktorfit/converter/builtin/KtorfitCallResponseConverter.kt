@@ -27,6 +27,7 @@ class KtorfitCallResponseConverter : ResponseConverter, SuspendResponseConverter
     ): Any {
         return object : Call<T> {
             override fun onExecute(callBack: Callback<T>) {
+
                 GlobalScope.launch {
                     val deferredResponse = async { requestFunction() }
 
@@ -49,9 +50,8 @@ class KtorfitCallResponseConverter : ResponseConverter, SuspendResponseConverter
         returnTypeName: String,
         requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>
     ): Any {
-        val deferredResponse = coroutineScope { async { requestFunction() } }
 
-        val (data, response) = deferredResponse.await()
+        val (data, response) = requestFunction()
 
         val res = runCatching {
             response.call.body(data)
