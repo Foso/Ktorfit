@@ -1,11 +1,13 @@
 import com.google.auto.service.AutoService
 import com.google.devtools.ksp.closestClassDeclaration
 import com.google.devtools.ksp.processing.*
+import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import de.jensklingenberg.ktorfit.generator.generateImplClass
 import de.jensklingenberg.ktorfit.generator.generateKtorfitExtClass
 import de.jensklingenberg.ktorfit.http.*
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.API_DECLARATIONS_MUST_BE_INTERFACES
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.JAVA_INTERFACES_ARE_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.TYPE_PARAMETERS_ARE_UNSUPPORTED_ON
 import de.jensklingenberg.ktorfit.model.ktorfitError
@@ -37,6 +39,9 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
             .map { (classDec) ->
                 if (classDec.origin.name == "JAVA") {
                     logger.ktorfitError(JAVA_INTERFACES_ARE_NOT_SUPPORTED, classDec)
+                }
+                if(classDec.classKind != ClassKind.INTERFACE){
+                    logger.ktorfitError(API_DECLARATIONS_MUST_BE_INTERFACES, classDec)
                 }
                 if (classDec.typeParameters.isNotEmpty()) {
                     logger.ktorfitError(
