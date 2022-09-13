@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.converter.builtin
 
 import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.Callback
+import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.ResponseConverter
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import io.ktor.client.statement.*
@@ -21,12 +22,13 @@ class KtorfitCallResponseConverter : ResponseConverter, SuspendResponseConverter
         return returnTypeName == "de.jensklingenberg.ktorfit.Call"
     }
 
-    override fun <T : Any> wrapResponse(
+    override fun <PRequest> wrapResponse(
         returnTypeName: String,
-        requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>
+        requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>,
+        ktorfit: Ktorfit
     ): Any {
-        return object : Call<T> {
-            override fun onExecute(callBack: Callback<T>) {
+        return object : Call<PRequest> {
+            override fun onExecute(callBack: Callback<PRequest>) {
 
                 GlobalScope.launch {
                     val deferredResponse = async { requestFunction() }
@@ -35,7 +37,7 @@ class KtorfitCallResponseConverter : ResponseConverter, SuspendResponseConverter
 
                     try {
                         val res = response.call.body(data)
-                        callBack.onResponse(res as T, response)
+                        callBack.onResponse(res as PRequest, response)
                     } catch (ex: Exception) {
                         callBack.onError(ex)
                     }
@@ -46,9 +48,10 @@ class KtorfitCallResponseConverter : ResponseConverter, SuspendResponseConverter
         }
     }
 
-    override suspend fun <T : Any?> wrapSuspendResponse(
+    override suspend fun <PRequest> wrapSuspendResponse(
         returnTypeName: String,
-        requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>
+        requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>,
+        ktorfit: Ktorfit
     ): Any {
 
         val (data, response) = requestFunction()
@@ -57,10 +60,10 @@ class KtorfitCallResponseConverter : ResponseConverter, SuspendResponseConverter
             response.call.body(data)
         }
 
-        return object : Call<T> {
-            override fun onExecute(callBack: Callback<T>) {
+        return object : Call<PRequest> {
+            override fun onExecute(callBack: Callback<PRequest>) {
                 try {
-                    callBack.onResponse(res.getOrThrow() as T, response)
+                    callBack.onResponse(res.getOrThrow() as PRequest, response)
                 } catch (ex: Throwable) {
                     callBack.onError(ex)
                 }

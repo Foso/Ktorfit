@@ -1,6 +1,7 @@
 package com.example.api
 
 import com.example.model.Comment
+import com.example.model.People
 import com.example.model.Post
 import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.http.Body

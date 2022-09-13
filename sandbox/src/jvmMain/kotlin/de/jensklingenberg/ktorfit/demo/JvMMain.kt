@@ -51,7 +51,7 @@ fun main() {
 
 
     runBlocking {
-        jsonPlaceHolderApi.suscallPosts().onExecute(object :Callback<String>{
+        jsonPlaceHolderApi.suscallPosts().onExecute(object : Callback<String> {
             override fun onResponse(call: String, response: HttpResponse) {
 
             }

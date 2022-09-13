@@ -55,7 +55,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                 returnTypeName = requestData.qualifiedRawTypeName,
                 requestFunction = {
                     Pair(typeInfo<PRequest>(), request)
-                }) as TReturn
+                },ktorfit) as TReturn
         }
 
         return try {
@@ -78,9 +78,9 @@ class KtorfitClient(val ktorfit: Ktorfit) {
     /**
      * This will handle all requests for functions without suspend modifier
      */
-    inline fun <reified TReturn, reified PRequest : Any> request(
+    inline fun <reified TReturn, reified PRequest : Any?> request(
         requestData: RequestData
-    ): TReturn {
+    ): TReturn? {
 
         ktorfit.responseConverters.firstOrNull { converter ->
             converter.supportedType(
@@ -88,17 +88,24 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                 false
             )
         }?.let {
-            return it.wrapResponse<PRequest>(
+            return it.wrapResponse<PRequest?>(
                 returnTypeName = requestData.qualifiedRawTypeName,
                 requestFunction = {
                     val response = httpClient.request {
                         requestBuilder(requestData)
                     }
                     Pair(typeInfo<PRequest>(), response)
-                }) as TReturn
+                },ktorfit) as TReturn
         }
 
-        throw IllegalArgumentException("Add a ResponseConverter for " + requestData.qualifiedRawTypeName + " or make function suspend")
+        val typeIsNullable = requestData.qualifiedRawTypeName.endsWith("?")
+        return if (typeIsNullable) {
+            null
+        } else {
+            throw IllegalArgumentException("Add a ResponseConverter for " + requestData.qualifiedRawTypeName + " or make function suspend")
+
+        }
+
     }
 
 

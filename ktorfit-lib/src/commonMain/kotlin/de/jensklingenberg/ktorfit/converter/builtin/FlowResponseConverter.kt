@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit.converter.builtin
 
+import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.ResponseConverter
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
@@ -14,9 +15,10 @@ class FlowResponseConverter : ResponseConverter {
         return returnTypeName == "kotlinx.coroutines.flow.Flow"
     }
 
-    override fun <PRequest : Any> wrapResponse(
+    override fun <PRequest> wrapResponse(
         returnTypeName: String,
-        requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>
+        requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>,
+        ktorfit: Ktorfit
     ): Any {
         return flow {
             try {
