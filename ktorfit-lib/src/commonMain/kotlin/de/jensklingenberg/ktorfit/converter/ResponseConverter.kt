@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit.converter
 
+import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
 
@@ -15,9 +16,10 @@ interface ResponseConverter : CoreResponseConverter {
      * the return type. e.g. for Flow<String> it will be kotlinx.coroutines.flow.Flow
      * @return the wrapped response
      */
-    fun <PRequest : Any> wrapResponse(
+    fun <PRequest : Any?> wrapResponse(
         returnTypeName: String,
-        requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>
+        requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>,
+        ktorfit: Ktorfit
     ): Any
 
 }

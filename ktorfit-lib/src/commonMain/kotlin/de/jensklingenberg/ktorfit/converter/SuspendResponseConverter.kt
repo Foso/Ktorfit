@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit.converter
 
+import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
 
@@ -18,7 +19,8 @@ interface SuspendResponseConverter : CoreResponseConverter {
      */
     suspend fun <PRequest : Any?> wrapSuspendResponse(
         returnTypeName: String,
-        requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>
+        requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>,
+        ktorfit: Ktorfit
     ): Any
 
 }
