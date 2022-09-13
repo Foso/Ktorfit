@@ -39,7 +39,7 @@ interface TestService {
         qualifiedRawTypeName="kotlin.String",
         paths = listOf(PathData("id","äid",false))) 
 
-    return client.suspendRequest<String, String>(requestData)
+    return client.suspendRequest<String, String>(requestData)!!
   }""".replace("\\{", "{").replace("ä","$")
 
         val compilation = KotlinCompilation().apply {
@@ -85,7 +85,7 @@ interface TestService {
         qualifiedRawTypeName="kotlin.String",
         paths = listOf(PathData("id","äid",true))) 
 
-    return client.suspendRequest<String, String>(requestData)
+    return client.suspendRequest<String, String>(requestData)!!
   }""".replace("%", "").replace("ä","$")
 
         val compilation = KotlinCompilation().apply {

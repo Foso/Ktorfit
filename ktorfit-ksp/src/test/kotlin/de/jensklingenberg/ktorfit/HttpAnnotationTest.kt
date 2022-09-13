@@ -41,7 +41,7 @@ public class _TestServiceImpl(
         relativeUrl="user",
         qualifiedRawTypeName="kotlin.String") 
 
-    return client.suspendRequest<String, String>(requestData)
+    return client.suspendRequest<String, String>(requestData)!!
   }
 }
 
@@ -103,7 +103,7 @@ interface TestService {
         relativeUrl="user",
         qualifiedRawTypeName="kotlin.String") 
 
-    return client.suspendRequest<String, String>(requestData)
+    return client.suspendRequest<String, String>(requestData)!!
   }"""
 
         val compilation = KotlinCompilation().apply {
@@ -148,7 +148,7 @@ interface TestService {
         bodyData = body,
         qualifiedRawTypeName="kotlin.String") 
 
-    return client.suspendRequest<String, String>(requestData)
+    return client.suspendRequest<String, String>(requestData)!!
   }"""
 
         val compilation = KotlinCompilation().apply {

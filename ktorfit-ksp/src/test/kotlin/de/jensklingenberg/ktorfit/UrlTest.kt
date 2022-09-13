@@ -23,7 +23,7 @@ class UrlTest {
         relativeUrl="user",
         qualifiedRawTypeName="kotlin.String") 
 
-    return client.suspendRequest<String, String>(requestData)
+    return client.suspendRequest<String, String>(requestData)!!
   }
 """
 
@@ -65,7 +65,7 @@ interface TestService {
         relativeUrl="$\{url}",
         qualifiedRawTypeName="kotlin.String") 
 
-    return client.suspendRequest<String, String>(requestData)
+    return client.suspendRequest<String, String>(requestData)!!
   }
 """.replace("\\{", "{")
 
