@@ -44,7 +44,7 @@ interface TestService {
         relativeUrl="posts",
         qualifiedRawTypeName="io.ktor.client.statement.HttpStatement") 
 
-    return client.suspendRequest<HttpStatement, HttpStatement>(requestData)
+    return client.suspendRequest<HttpStatement, HttpStatement>(requestData)!!
   }"""
 
         val compilation = KotlinCompilation().apply {

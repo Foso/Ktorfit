@@ -93,19 +93,19 @@ import de.jensklingenberg.ktorfit.http.FormUrlEncoded
 interface TestService {
  @FormUrlEncoded
    @POST("user")
-    suspend fun test(@Field("id") id: String): String
+    suspend fun test(@Field("id") id: String): String?
 }
     """
         )
 
-        val expectedBodyDataArgumentText = """public override suspend fun test(id: String): String {
+        val expectedBodyDataArgumentText = """public override suspend fun test(id: String): String? {
     val requestData = RequestData(method="POST",
         relativeUrl="user",
         headers = listOf(HeaderData("Content-Type","application/x-www-form-urlencoded")),
         fields = listOf(FieldData("id",id,false,FieldType.FIELD)),
-        qualifiedRawTypeName="kotlin.String") 
+        qualifiedRawTypeName="kotlin.String?") 
 
-    return client.suspendRequest<String, String>(requestData)
+    return client.suspendRequest<String?, String?>(requestData)
   }"""
 
         val compilation = KotlinCompilation().apply {
