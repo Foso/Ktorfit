@@ -3,6 +3,17 @@
 [![All Contribtors](https://img.shields.io/badge/Maven-Central-download.svg?style=flat-square)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Foso/Ktorfit)
 [![jCenter](https://img.shields.io/badge/Apache-2.0-green.svg)](https://github.com/Foso/Ktorfit/blob/master/LICENSE) v1.0.0-beta12
 [Documentation](http://foso.github.io/Ktorfit)
+
+![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
+![badge-ios](http://img.shields.io/badge/platform-ios-CDCDCD.svg?style=flat)
+![badge-mac](http://img.shields.io/badge/platform-macos-111111.svg?style=flat)
+![badge-watchos](http://img.shields.io/badge/platform-watchos-C0C0C0.svg?style=flat)
+![badge-tvos](http://img.shields.io/badge/platform-tvos-808080.svg?style=flat)
+![badge-jvm](http://img.shields.io/badge/platform-jvm-DB413D.svg?style=flat)
+![badge-linux](http://img.shields.io/badge/platform-linux-2D3F6C.svg?style=flat)
+![badge-windows](http://img.shields.io/badge/platform-windows-4D76CD.svg?style=flat)
+![badge-js](http://img.shields.io/badge/platform-js-F8DB5D.svg?style=flat)
+![badge-nodejs](https://img.shields.io/badge/platform-nodejs-F8DB5D.svg?style=flat)
 <p align="center">
   <img src ="https://raw.githubusercontent.com/Foso/Experimental/master/carbon.png"  />
 </p>
