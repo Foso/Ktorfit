@@ -5,6 +5,7 @@ plugins {
     id("com.vanniktech.maven.publish")
     id("org.jetbrains.dokka")
     id("com.android.library")
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.11.1"
 
 }
 
