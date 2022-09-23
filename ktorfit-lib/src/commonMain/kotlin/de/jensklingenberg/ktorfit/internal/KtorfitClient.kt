@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.internal
 
 import de.jensklingenberg.ktorfit.Ktorfit
+
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
@@ -9,7 +10,6 @@ import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.util.*
 import io.ktor.util.reflect.*
-
 
 /**
  * This class will be used by the generated Code
@@ -27,87 +27,86 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         return value.toString().encodeURLParameter()
     }
 
+
+    /**
+     * This will handle all requests for functions without suspend modifier
+     */
+    inline fun <reified ReturnType, reified RequestType : Any?> request(
+        requestData: RequestData
+    ): ReturnType? {
+
+        ktorfit.requestConverters.firstOrNull { converter ->
+            converter.supportedType(
+                requestData.returnTypeData,false
+            )
+        }?.let { requestConverter ->
+            return requestConverter.convertRequest<RequestType?>(
+                typeData = requestData.returnTypeData,
+                requestFunction = {
+                    try {
+                        val data = suspendRequest<HttpResponse, HttpResponse>(requestData)
+                        Pair(typeInfo<RequestType?>(), data)
+                    } catch (ex: Exception) {
+                        throw ex
+                    }
+                },
+                ktorfit = ktorfit
+            ) as ReturnType?
+        }
+
+        val typeIsNullable = requestData.returnTypeData.qualifiedName.endsWith("?")
+        return if (typeIsNullable) {
+            null
+        } else {
+            throw IllegalArgumentException("Add a RequestConverter for " + requestData.returnTypeData.qualifiedName + " or make function suspend")
+        }
+
+    }
+
     /**
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    suspend inline fun <reified TReturn, reified PRequest : Any?> suspendRequest(
+    suspend inline fun <reified ReturnType, reified PRequest : Any?> suspendRequest(
         requestData: RequestData
-    ): TReturn? {
-
-        if (TReturn::class == HttpStatement::class) {
-            return httpClient.prepareRequest {
+    ): ReturnType? {
+        try {
+            if (ReturnType::class == HttpStatement::class) {
+                return httpClient.prepareRequest {
+                    requestBuilder(requestData)
+                } as ReturnType
+            }
+            val response = httpClient.request {
                 requestBuilder(requestData)
-            } as TReturn
-        }
+            }
+            if (ReturnType::class == HttpResponse::class) {
+                return response as ReturnType
+            }
 
-        val request = httpClient.request {
-            requestBuilder(requestData)
-        }
+            ktorfit.responseConverters.firstOrNull { converter ->
+                converter.supportedType(
+                    requestData.returnTypeData, true
+                )
+            }?.let {
+                return it.wrapResponse<PRequest>(
+                    typeData = requestData.returnTypeData,
+                    requestFunction = {
+                        Pair(typeInfo<PRequest>(), response)
+                    }, ktorfit
+                ) as ReturnType
+            }
 
-        ktorfit.suspendResponseConverters.firstOrNull { converter ->
-            converter.supportedType(
-                requestData.qualifiedRawTypeName,
-                true
-            )
-        }?.let {
-            return it.wrapSuspendResponse<PRequest>(
-                returnTypeName = requestData.qualifiedRawTypeName,
-                requestFunction = {
-                    Pair(typeInfo<PRequest>(), request)
-                },ktorfit) as TReturn
-        }
+            return response.body<ReturnType>()
 
-        return try {
-            request.body<TReturn>()
         } catch (exception: Exception) {
-            val typeIsNullable = requestData.qualifiedRawTypeName.endsWith("?")
+            val typeIsNullable = requestData.returnTypeData.qualifiedName.endsWith("?")
             return if (typeIsNullable) {
                 null
             } else {
                 throw exception
             }
-
         }
-
     }
-
-
-    //T is return type
-    //P is requested type
-    /**
-     * This will handle all requests for functions without suspend modifier
-     */
-    inline fun <reified TReturn, reified PRequest : Any?> request(
-        requestData: RequestData
-    ): TReturn? {
-
-        ktorfit.responseConverters.firstOrNull { converter ->
-            converter.supportedType(
-                requestData.qualifiedRawTypeName,
-                false
-            )
-        }?.let {
-            return it.wrapResponse<PRequest?>(
-                returnTypeName = requestData.qualifiedRawTypeName,
-                requestFunction = {
-                    val response = httpClient.request {
-                        requestBuilder(requestData)
-                    }
-                    Pair(typeInfo<PRequest>(), response)
-                },ktorfit) as TReturn
-        }
-
-        val typeIsNullable = requestData.qualifiedRawTypeName.endsWith("?")
-        return if (typeIsNullable) {
-            null
-        } else {
-            throw IllegalArgumentException("Add a ResponseConverter for " + requestData.qualifiedRawTypeName + " or make function suspend")
-
-        }
-
-    }
-
 
     fun HttpRequestBuilder.requestBuilder(
         requestData: RequestData
@@ -232,7 +231,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
      * QueryNames will be handled special because otherwise Ktor always adds a "=" behind every
      * query e.g. QueryName("Hello") will be sent by Ktor like "?Hello="
      */
-    private fun HttpRequestBuilder.handleQueryNames(requestData: RequestData): String {
+    private fun handleQueryNames(requestData: RequestData): String {
         val queryNames = mutableListOf<String>()
         requestData.queries.filter { it.type == QueryType.QUERYNAME }.forEach { entry ->
             when (val data = entry.data) {
@@ -351,3 +350,4 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         value.let { url.encodedParameters.append(key, it.toString()) } ?: Unit
 
 }
+

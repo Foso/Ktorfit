@@ -1,6 +1,7 @@
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import de.jensklingenberg.ktorfit.internal.RequestData
+import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.content.*
@@ -26,10 +27,10 @@ class BodyTest {
             val requestData = RequestData(
                 method = "GET",
                 relativeUrl = "",
-                qualifiedRawTypeName = "kotlin.String",
+                returnTypeData = TypeData("kotlin.String"),
                 bodyData = "testBody"
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 

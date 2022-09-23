@@ -15,6 +15,8 @@ import java.io.File
 class FieldAnnotationsTest {
 
 
+
+
     @Test
     fun whenNoFieldAnnotationsFound_KeepFieldsArgumentEmpty() {
 
@@ -26,7 +28,7 @@ import de.jensklingenberg.ktorfit.http.GET
 interface TestService {
 
     @GET("posts")
-    suspend fun test(): String
+    suspend fun test(): Map<String,Int>
     
 }
     """

@@ -14,11 +14,9 @@ fun getRelativeUrlArgumentText(methodAnnotation: HttpMethodAnnotation, params: L
     var urlPath = ""
 
     if (methodAnnotation.path.isNotEmpty()) {
-        //url="posts"
         urlPath = methodAnnotation.path
     } else {
         params.firstOrNull { it.hasAnnotation<Url>() }?.let {
-            //url=$foo
             urlPath = "\${" + it.name + "}"
         }
     }

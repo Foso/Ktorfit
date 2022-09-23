@@ -3,6 +3,7 @@ package com.example.api
 import com.example.model.github.GithubFollowerResponseItem
 import com.example.model.github.Issuedata
 import com.example.model.github.TestReeeItem
+import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.http.*
 import kotlinx.coroutines.flow.Flow
 
@@ -19,6 +20,10 @@ interface GithubService {
     )
     @POST("repos/foso/experimental/issues")
     suspend fun createIssue(@Body body: Issuedata, @Header("Acci") headi: String?): String
+
+    @POST("repos/foso/experimental/issues")
+    suspend fun createIssue2(@Body body: Issuedata, @Header("Acci") headi: String?): Call<Map<String?, Int>>
+
 
     @Headers(
         "Accept: application/vnd.github.v3+json",

@@ -17,28 +17,27 @@ fun getHeadersArgumentText(
 ): String {
     val headerList = mutableListOf<Pair<String, String>>()
 
-    val paramsWithHeaderAnno = paramList.filter { it.hasAnnotation<Header>() }
-    val headersAnno = functionAnnotations.filterIsInstance<Headers>().firstOrNull()
-    val paramsWithHeaderMap = paramList.filter { it.hasAnnotation<HeaderMap>() }
-
     if (functionAnnotations.any { it is FormUrlEncoded }) {
-          headerList.add(Pair("Content-Type".surroundWith("\""), "application/x-www-form-urlencoded".surroundWith("\"")))
+        headerList.add(Pair("Content-Type".surroundWith("\""), "application/x-www-form-urlencoded".surroundWith("\"")))
     }
 
-    paramsWithHeaderAnno.forEach { myParam ->
+    val parameterWithHeaderAnnotationList = paramList.filter { it.hasAnnotation<Header>() }
+
+    parameterWithHeaderAnnotationList.forEach { myParam ->
         val paramName = myParam.name
         val headerPath = myParam.findAnnotationOrNull<Header>()?.path ?: ""
 
         headerList.add(Pair("\"${headerPath}\"", paramName))
     }
 
+    val headersAnno = functionAnnotations.filterIsInstance<Headers>().firstOrNull()
 
     headersAnno?.path?.forEach {
-            val (key, value) = it.split(":")
-
-            headerList.add(Pair(key.surroundWith("\""), value.surroundWith("\"")))
-
+        val (key, value) = it.split(":")
+        headerList.add(Pair(key.surroundWith("\""), value.trim().surroundWith("\"")))
     }
+
+    val paramsWithHeaderMap = paramList.filter { it.hasAnnotation<HeaderMap>() }
 
     paramsWithHeaderMap.forEach {
         headerList.add(Pair("\"\"", it.name))

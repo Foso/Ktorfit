@@ -18,7 +18,7 @@ version = ktorfitVersion
 
 kotlin {
 
-    android(){
+    android {
         publishLibraryVariants("release", "debug")
     }
     jvm {
@@ -42,53 +42,26 @@ kotlin {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
     }
-    linuxX64() {
+    linuxX64 {
         binaries {
             executable()
         }
     }
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-
-            }
-        }
-        val linuxX64Main by getting {
-            dependencies {
-
-            }
-        }
-        val androidMain by getting{
-
-            dependencies {
-
-            }
-        }
-
-        val jvmMain by getting {
-
-            dependencies {
-
-            }
-        }
-
+        val commonMain by getting
+        val linuxX64Main by getting
+        val androidMain by getting
+        val jvmMain by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val jsMain by getting {
-
-            dependencies {
-            }
-        }
-
-        val iosMain by getting{
+        val jsMain by getting
+        val iosMain by getting {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
-            dependencies {
-
-            }
+            dependencies {}
         }
     }
 }
@@ -108,14 +81,14 @@ android {
 mavenPublishing {
     publishToMavenCentral()
     // publishToMavenCentral("S01") for publishing through s01.oss.sonatype.org
-   // signAllPublications()
+    // signAllPublications()
 }
 
 publishing {
     publications {
         create<MavenPublication>("default") {
             artifact(tasks["sourcesJar"])
-          //  artifact(tasks["javadocJar"])
+            //  artifact(tasks["javadocJar"])
 
             pom {
                 name.set(project.name)
@@ -164,6 +137,6 @@ publishing {
     }
 }
 
-rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class){
+rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class) {
     rootProject.the(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class).nodeVersion = "16.0.0"
 }

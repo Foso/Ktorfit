@@ -2,6 +2,7 @@ import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import de.jensklingenberg.ktorfit.internal.RequestData
+import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.runBlocking
@@ -51,9 +52,9 @@ class ClientTest {
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
-                method = "GET", relativeUrl = "posts", qualifiedRawTypeName = "kotlin.String"
+                method = "GET", relativeUrl = "posts", returnTypeData = TypeData("kotlin.String")
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
 
 
@@ -72,9 +73,9 @@ class ClientTest {
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
-                method = "GET", relativeUrl = "http://www.test.de/posts", qualifiedRawTypeName = "kotlin.String"
+                method = "GET", relativeUrl = "http://www.test.de/posts", returnTypeData = TypeData("kotlin.String")
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
 
 

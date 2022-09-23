@@ -5,7 +5,6 @@ enum class HttpMethod(val keyword: String) {
 }
 
 
-
 /**
  * Annotation at a function
  */

@@ -21,20 +21,31 @@ class HeaderAnnotationsTest {
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
 
+
+class Test<T>()
+
 interface TestService {
 
     @GET("posts")
-    suspend fun test(): String
+    suspend fun test(): List<Triple<String,Int,String>>
     
 }
     """
         )
 
+        val source2 = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api2
+
+
+
+    """
+        )
 
         val expectedHeadersArgumentText = "headers ="
 
         val compilation = KotlinCompilation().apply {
-            sources = listOf(source)
+            sources = listOf(source2,source)
             inheritClassPath = true
             symbolProcessorProviders = listOf(KtorfitProcessorProvider())
             kspIncremental = true

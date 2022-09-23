@@ -14,31 +14,31 @@ import de.jensklingenberg.ktorfit.utils.surroundWith
 fun getFieldArgumentsText(params: List<ParameterData>): String {
     //Get all Parameter with @Field and add them to a map
 
-    val myFieldStrings = mutableListOf<String>()
+    val fieldDataStringList = mutableListOf<String>()
 
-    val fieldStrings = params.filter { it.hasAnnotation<Field>() }.map { myParam ->
-        val query = myParam.annotations.filterIsInstance<Field>().first()
+    val fieldDataList = params.filter { it.hasAnnotation<Field>() }.map { parameterData ->
+        val query = parameterData.annotations.filterIsInstance<Field>().first()
         val encoded = query.encoded
-        val data = myParam.name
+        val data = parameterData.name
         val queryKey = query.value.surroundWith("\"")
         val type = "FieldType.FIELD"
 
         "FieldData($queryKey,$data,$encoded,$type)"
     }
 
-    myFieldStrings.addAll(fieldStrings)
+    fieldDataStringList.addAll(fieldDataList)
 
-    val fieldMapStrings = params.filter { it.hasAnnotation<FieldMap>() }.map { myParam ->
-        val queryMap = myParam.findAnnotationOrNull<FieldMap>()!!
+    val fieldMapStrings = params.filter { it.hasAnnotation<FieldMap>() }.map { parameterData ->
+        val queryMap = parameterData.findAnnotationOrNull<FieldMap>()!!
         val encoded = queryMap.encoded
-        val data = myParam.name
+        val data = parameterData.name
         val keyName = "\"\""
         val type = "FieldType.FIELDMAP"
 
         "FieldData($keyName,$data,$encoded,$type)"
     }
 
-    myFieldStrings.addAll(fieldMapStrings)
+    fieldDataStringList.addAll(fieldMapStrings)
 
-    return myFieldStrings.joinToString { it }.surroundIfNotEmpty("fields = listOf(", ")")
+    return fieldDataStringList.joinToString { it }.surroundIfNotEmpty("fields = listOf(", ")")
 }

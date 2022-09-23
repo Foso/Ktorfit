@@ -9,7 +9,7 @@ import io.ktor.client.request.*
  * @param queries list of query parameters that will be added to the requested url
  * @param fields map of fields parameters that will be added to the formData Body
  * @param bodyData data that will send to with the request
- * @param qualifiedRawTypeName This is the qualifiedName of requested return type
+ * @param returnTypeData This is the qualifiedName of requested return type
  * It will be used by [ResponseConverter] to check if they support the type
  * Because on JS the qualifiedName reflection does not exist, it is inserted as arguments by the Compiler Plugin
  */
@@ -21,7 +21,7 @@ data class RequestData(
     val fields: List<FieldData> = emptyList(),
     val parts: Map<String, Any> = emptyMap(),
     val bodyData: Any? = null,
-    val qualifiedRawTypeName: String,
+    val returnTypeData: TypeData,
     val requestBuilder: HttpRequestBuilder.() -> Unit = {},
     val paths : List<PathData> = emptyList()
 )

@@ -5,6 +5,8 @@ import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.symbol.*
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.annotations.*
+import de.jensklingenberg.ktorfit.model.ktorfitClass
+import java.io.File
 
 @OptIn(KspExperimental::class)
 fun KSFunctionDeclaration.getHeadersAnnotation(): Headers? {
@@ -96,4 +98,27 @@ fun String.surroundIfNotEmpty(prefix: String = "", postFix: String = ""): String
 
 fun String.surroundWith(s: String): String {
     return s + this + s
+}
+
+/**
+ * Gets the imports of a class by reading the imports from the file
+ * which contains the class
+ *  TODO: Find better way to get imports
+ */
+fun KSClassDeclaration.getFileImports(): List<String> {
+    val importList =
+        File(this.containingFile!!.filePath)
+            .readLines()
+            .filter { it.trimStart().startsWith("import") }
+            .toMutableSet()
+
+    importList.add(ktorfitClass.packageName + "." + ktorfitClass.name)
+    importList.add("de.jensklingenberg.ktorfit.internal.*")
+
+    return importList.map { it.removePrefix("import ") }
+}
+
+
+fun String.removeWhiteSpaces(): String {
+    return this.replace("\\s".toRegex(), "")
 }

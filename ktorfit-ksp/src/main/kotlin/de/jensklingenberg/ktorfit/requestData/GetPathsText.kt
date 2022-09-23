@@ -1,6 +1,6 @@
 package de.jensklingenberg.ktorfit.requestData
 
-import de.jensklingenberg.ktorfit.generator.pathDataClass
+import de.jensklingenberg.ktorfit.model.pathDataClass
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.Path
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty

@@ -38,6 +38,9 @@ dependencies {
     testImplementation("com.google.truth:truth:1.1.3")
     compileOnly ("com.google.auto.service:auto-service:$autoService")
     kapt ("com.google.auto.service:auto-service:$autoService")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
+
 }
 
 
