@@ -36,7 +36,7 @@ interface TestService {
         val expectedFunctionText = """public override suspend fun test(id: String): String {
     val requestData = RequestData(method="GET",
         relativeUrl="user/{id}",
-        qualifiedRawTypeName="kotlin.String",
+        returnTypeData=TypeData("kotlin.String"),
         paths = listOf(PathData("id","äid",false))) 
 
     return client.suspendRequest<String, String>(requestData)!!
@@ -82,7 +82,7 @@ interface TestService {
         val expectedFunctionText = """public override suspend fun test(id: String): String {
     val requestData = RequestData(method="GET",
         relativeUrl="user/{id}",
-        qualifiedRawTypeName="kotlin.String",
+        returnTypeData=TypeData("kotlin.String"),
         paths = listOf(PathData("id","äid",true))) 
 
     return client.suspendRequest<String, String>(requestData)!!

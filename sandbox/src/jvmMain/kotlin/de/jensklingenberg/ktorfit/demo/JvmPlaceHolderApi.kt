@@ -1,7 +1,9 @@
 package de.jensklingenberg.ktorfit.demo
 
+import com.example.api.Response
 import com.example.api.StarWarsApi
 import com.example.model.People
+import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.http.*
 import io.ktor.client.statement.*
 
@@ -18,7 +20,13 @@ interface JvmPlaceHolderApi : StarWarsApi {
     suspend fun getPostsStreaming(): HttpStatement
 
     @GET("people/{id}/")
-    suspend fun getPersonById2AsResponse(@Path("id") peopleId: Int): Response<People>
+    fun getPersonById2AsResponse(@Path("id") peopleId: Int): Response<People>
+
+    @Headers(value = ["Content-Type: application/json"])
+
+    @GET("people/{id}/")
+    suspend fun callPersonById2AsResponse(@Path("id") peopleId: Int): Call<List<People>>
+
     @GET()
     suspend fun getPersonByIdByUrl(@Url peopleId: String, @QueryMap name: Map<String,Int>?): People
 }

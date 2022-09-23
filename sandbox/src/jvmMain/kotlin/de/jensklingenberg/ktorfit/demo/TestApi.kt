@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.demo
 
 import com.example.model.Post
+import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.http.*
 import io.ktor.client.request.forms.*
 import io.reactivex.rxjava3.core.Observable
@@ -11,10 +12,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface TestApi  {
 
-    @FormUrlEncoded
-    @Headers(value = ["Accept: application/json"])
-    @POST("posts")
-    suspend fun getPosts(@FieldMap map: Map<String, String>): List<Post>
+    @GET("pos4ts")
+    fun getPosts(): Call<List<Post>>
 
     @GET("posts/{userId}")
     suspend fun getPost(@Path("userId") myUserId: Int = 4): Post

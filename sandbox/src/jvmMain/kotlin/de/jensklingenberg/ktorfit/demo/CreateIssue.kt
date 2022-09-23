@@ -1,8 +1,7 @@
 package de.jensklingenberg.ktorfit.demo
 
 import com.example.api.GithubService
-import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
-import de.jensklingenberg.ktorfit.converter.builtin.KtorfitSuspendCallResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.FlowRequestConverter
 import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
@@ -29,10 +28,9 @@ fun main() {
     val jvmKtorfit = ktorfit {
         baseUrl(GithubService.baseUrl)
         httpClient(jvmClient)
-        responseConverter(
-            FlowResponseConverter(),
-            RxResponseConverter(),
-            KtorfitSuspendCallResponseConverter()
+        requestConverter(
+            FlowRequestConverter(),
+            RxRequestConverter()
         )
     }
 

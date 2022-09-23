@@ -2,6 +2,7 @@ import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.internal.HeaderData
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import de.jensklingenberg.ktorfit.internal.RequestData
+import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.runBlocking
@@ -22,9 +23,9 @@ class HeaderTest {
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
-                method = "GET", relativeUrl = "", qualifiedRawTypeName = "kotlin.String", headers = listOf(HeaderData("Content-Type","application/json"))
+                method = "GET", relativeUrl = "", returnTypeData = TypeData("kotlin.String"), headers = listOf(HeaderData("Content-Type","application/json"))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 
@@ -40,9 +41,9 @@ class HeaderTest {
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
-                method = "GET", relativeUrl = "", qualifiedRawTypeName = "kotlin.String", headers = listOf(HeaderData("Content-Type",null))
+                method = "GET", relativeUrl = "", returnTypeData = TypeData("kotlin.String"), headers = listOf(HeaderData("Content-Type",null))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 
@@ -65,9 +66,9 @@ class HeaderTest {
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
-                method = "GET", relativeUrl = "", qualifiedRawTypeName = "kotlin.String", headers = listOf(HeaderData("Accept",testList))
+                method = "GET", relativeUrl = "", returnTypeData = TypeData("kotlin.String"), headers = listOf(HeaderData("Accept",testList))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 
@@ -90,9 +91,9 @@ class HeaderTest {
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
-                method = "GET", relativeUrl = "", qualifiedRawTypeName = "kotlin.String", headers = listOf(HeaderData("Accept",testList))
+                method = "GET", relativeUrl = "", returnTypeData = TypeData("kotlin.String"), headers = listOf(HeaderData("Accept",testList))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 
@@ -115,9 +116,9 @@ class HeaderTest {
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
-                method = "GET", relativeUrl = "", qualifiedRawTypeName = "kotlin.String", headers = listOf(HeaderData("",testMap))
+                method = "GET", relativeUrl = "", returnTypeData = TypeData("kotlin.String"), headers = listOf(HeaderData("",testMap))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 

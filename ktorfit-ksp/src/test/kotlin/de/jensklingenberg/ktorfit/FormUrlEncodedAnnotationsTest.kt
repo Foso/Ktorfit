@@ -103,7 +103,7 @@ interface TestService {
         relativeUrl="user",
         headers = listOf(HeaderData("Content-Type","application/x-www-form-urlencoded")),
         fields = listOf(FieldData("id",id,false,FieldType.FIELD)),
-        qualifiedRawTypeName="kotlin.String?") 
+        returnTypeData=TypeData("String?")) 
 
     return client.suspendRequest<String?, String?>(requestData)
   }"""

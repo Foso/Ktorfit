@@ -17,6 +17,7 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     jvm()
+    macosX64()
     js(IR) {
         this.nodejs()
         binaries.executable()

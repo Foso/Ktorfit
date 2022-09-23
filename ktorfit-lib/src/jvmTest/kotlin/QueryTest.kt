@@ -1,8 +1,5 @@
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.internal.KtorfitClient
-import de.jensklingenberg.ktorfit.internal.QueryData
-import de.jensklingenberg.ktorfit.internal.QueryType
-import de.jensklingenberg.ktorfit.internal.RequestData
+import de.jensklingenberg.ktorfit.internal.*
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.runBlocking
@@ -30,10 +27,10 @@ class QueryTest {
             val requestData = RequestData(
                 method = "GET",
                 relativeUrl = "",
-                qualifiedRawTypeName = "kotlin.String",
+                returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(QueryData(testKey, testValue, false, QueryType.QUERY))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 
@@ -53,10 +50,10 @@ class QueryTest {
             val requestData = RequestData(
                 method = "GET",
                 relativeUrl = "",
-                qualifiedRawTypeName = "kotlin.String",
+                returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(QueryData(testKey, null, false, QueryType.QUERY))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 
@@ -77,10 +74,10 @@ class QueryTest {
             val requestData = RequestData(
                 method = "GET",
                 relativeUrl = "",
-                qualifiedRawTypeName = "kotlin.String",
+                returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(QueryData(testKey, testValue, true, QueryType.QUERY))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 
@@ -103,10 +100,10 @@ class QueryTest {
             val requestData = RequestData(
                 method = "GET",
                 relativeUrl = "",
-                qualifiedRawTypeName = "kotlin.String",
+                returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(QueryData(testKey, testValue, false, QueryType.QUERY))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 
@@ -129,10 +126,10 @@ class QueryTest {
             val requestData = RequestData(
                 method = "GET",
                 relativeUrl = "",
-                qualifiedRawTypeName = "kotlin.String",
+                returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(QueryData(testKey, testValue, false, QueryType.QUERY))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 
@@ -154,10 +151,10 @@ class QueryTest {
             val requestData = RequestData(
                 method = "GET",
                 relativeUrl = "",
-                qualifiedRawTypeName = "kotlin.String",
+                returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(QueryData(testKey, testValue, false, QueryType.QUERYNAME))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 
@@ -178,10 +175,10 @@ class QueryTest {
             val requestData = RequestData(
                 method = "GET",
                 relativeUrl = "",
-                qualifiedRawTypeName = "kotlin.String",
+                returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(QueryData(testKey, testValue, false, QueryType.QUERYNAME))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 
@@ -202,10 +199,10 @@ class QueryTest {
             val requestData = RequestData(
                 method = "GET",
                 relativeUrl = "",
-                qualifiedRawTypeName = "kotlin.String",
+                returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(QueryData(testKey, testMap, false, QueryType.QUERYMAP))
             )
-            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
         }
     }
 

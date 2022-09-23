@@ -41,9 +41,11 @@ class KtorfitError {
         const val COULD_NOT_FIND_ANY_KTORFIT_ANNOTATIONS_IN_CLASS = "Could not find any Ktorfit annotations in class"
         fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) =
             "Missing either @$keyword URL or @Url parameter"
-        fun NO_KTORFIT_ANNOTATION_FOUND_AT(parameterName:String): String {
+
+        fun NO_KTORFIT_ANNOTATION_FOUND_AT(parameterName: String): String {
             return "No Ktorfit Annotation found at $parameterName"
         }
+
         fun MISSING_X_IN_RELATIVE_URL_PATH(keyword: String) = "Missing {${keyword}} in relative url path"
         const val JAVA_INTERFACES_ARE_NOT_SUPPORTED = "Java Interfaces are not supported"
         const val INTERNAL_INTERFACES_ARE_NOT_SUPPORTED = "internal Interfaces are not supported"
@@ -58,9 +60,9 @@ class KtorfitError {
             "Multipart can only be specified on HTTP methods with request body (e.g., @POST)"
         const val VARARG_NOT_SUPPORTED_USE_LIST_OR_ARRAY = "vararg not supported use List or Array"
         const val NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED = "Nullable Parameters Are Not Supported"
-        fun NO_HTTP_ANNOTATION_AT(functionName:String) = "No Http annotation at $functionName"
-        fun URL_CAN_ONLY_BE_USED_WITH_EMPY(keyword:String) = "@Url can only be used with empty @${keyword} URL value"
-        const val HEADERS_VALUE_MUST_BE_IN_FORM= "@Headers value must be in the form \"Name: Value\". Found: "
+        fun NO_HTTP_ANNOTATION_AT(functionName: String) = "No Http annotation at $functionName"
+        fun URL_CAN_ONLY_BE_USED_WITH_EMPY(keyword: String) = "@Url can only be used with empty @${keyword} URL value"
+        const val HEADERS_VALUE_MUST_BE_IN_FORM = "@Headers value must be in the form \"Name: Value\". Found: "
 
 
     }

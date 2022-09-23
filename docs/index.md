@@ -36,7 +36,7 @@ interface ExampleApi {
 Now we add a function that will be used to make our request. The @GET annotation will tell Ktorfit that this a GET request. The value of @GET is the relative URL path that will be appended to the base url which we set later.
 
 An interface used for Ktorfit needs to have a Http method annotation on every function.
-Because Ktor relies on Coroutines by default your functions need to have the **suspend** modifier. Alternatively you can use [#Flow](#flow) or Call (see below)
+Because Ktor relies on Coroutines by default your functions need to have the **suspend** modifier. Alternatively you can use [#Flow](./requestconverter.md#flow) or [Call](./requestconverter.md#call)
 
 
 ```kotlin
@@ -186,65 +186,15 @@ exampleApi.upload("Ktor logo",multipart)
 
 All your parameters annotated with @Part wil be combined and send as MultiPartFormDataContent
 
-##ResponseConverter
-
-The idea of a ResponseConverter is to enable directly wrapping response types into other data holder types. 
-
-You can add adapters on your Ktorfit object.
-
-```kotlin
-ktorfit.responseConverter(FlowResponseConverter())
-```
-
-###Flow
-Ktorfit has support for Kotlin Flow. You need add the FlowResponseConverter() to your Ktorfit instance.
-
-```kotlin
-ktorfit.responseConverter(FlowResponseConverter())
-```
-
-```kotlin
-
-@GET("comments")
-fun getCommentsById(@Query("postId") postId: String): Flow<List<Comment>>
-```
-
-Then you can drop the **suspend** modifier and wrap your return type with Flow<>
+## RequestConverter
+See documentation [Here](./requestconverter.md)
 
 
-### Call
+## ResponseConverter
 
-```kotlin
-ktorfit.responseConverter(KtorfitResponseConverter())
-```
-```kotlin
-@GET("people/{id}/")
-fun getPersonById(@Path("id") peopleId: Int): Call<People>
-```
+See documentation [Here](./responseconverter.md)
 
-```kotlin
-exampleApi.getPersonById(3).onExecute(object : Callback<People>{
-    override fun onResponse(call: People, response: HttpResponse) {
-        //Do something with Response
-    }
-
-    override fun onError(exception: Exception) {
-        //Do something with exception
-    }
-})
-```
-
-You can use Call<T> to receive the response in a Callback.
-
-### Your own
-You can also add your own Converter. You just need to implement ResponseConverter
-
-```kotlin
-class OwnResponseConverter : ResponseConverter {
-   ...
-```
-
-### JSON
+## JSON
 Ktorfit doesn't parse JSON. You have to install the Json Feature to the Ktor Client that you add to Ktorfit.
 See here : https://ktor.io/docs/serialization-client.html
 
@@ -255,7 +205,6 @@ val ktorClient = HttpClient() {
         }
 }
 ```
-
 
 ## Streaming
 

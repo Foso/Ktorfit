@@ -23,14 +23,7 @@ class HttpAnnotationTest() {
 package com.example.api
 
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.`internal`.FieldData
-import de.jensklingenberg.ktorfit.`internal`.FieldType
-import de.jensklingenberg.ktorfit.`internal`.HeaderData
-import de.jensklingenberg.ktorfit.`internal`.KtorfitClient
-import de.jensklingenberg.ktorfit.`internal`.PathData
-import de.jensklingenberg.ktorfit.`internal`.QueryData
-import de.jensklingenberg.ktorfit.`internal`.QueryType
-import de.jensklingenberg.ktorfit.`internal`.RequestData
+import de.jensklingenberg.ktorfit.`internal`.*
 import de.jensklingenberg.ktorfit.http.GET
 
 public class _TestServiceImpl(
@@ -39,7 +32,7 @@ public class _TestServiceImpl(
   public override suspend fun test(): String {
     val requestData = RequestData(method="GET",
         relativeUrl="user",
-        qualifiedRawTypeName="kotlin.String") 
+        returnTypeData=TypeData("kotlin.String")) 
 
     return client.suspendRequest<String, String>(requestData)!!
   }
@@ -101,7 +94,7 @@ interface TestService {
         val expectedFunctionText = """public override suspend fun test(): String {
     val requestData = RequestData(method="",
         relativeUrl="user",
-        qualifiedRawTypeName="kotlin.String") 
+        returnTypeData=TypeData("kotlin.String")) 
 
     return client.suspendRequest<String, String>(requestData)!!
   }"""
@@ -146,7 +139,7 @@ interface TestService {
     val requestData = RequestData(method="GET",
         relativeUrl="user",
         bodyData = body,
-        qualifiedRawTypeName="kotlin.String") 
+        returnTypeData=TypeData("kotlin.String")) 
 
     return client.suspendRequest<String, String>(requestData)!!
   }"""

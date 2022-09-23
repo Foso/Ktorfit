@@ -1,7 +1,7 @@
 package de.jensklingenberg.ktorfit.requestData
 
 
-import de.jensklingenberg.ktorfit.generator.requestDataClass
+import de.jensklingenberg.ktorfit.model.requestDataClass
 import de.jensklingenberg.ktorfit.model.FunctionData
 
 
@@ -21,12 +21,7 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
     val partsText = getPartsArgumentText(functionData.parameterDataList)
     val builderText = getRequestBuilderText(functionData.parameterDataList)
 
-    val nullable = if(functionData.returnType.name.endsWith("?")){
-        "?"
-    }else{
-        ""
-    }
-    val qualifiedTypeName = "qualifiedRawTypeName=\"${functionData.returnType.qualifiedName}$nullable\""
+    val qualifiedTypeName = "returnTypeData=${functionData.returnType.qualifiedName}"
 
     val args = listOf(
         method,

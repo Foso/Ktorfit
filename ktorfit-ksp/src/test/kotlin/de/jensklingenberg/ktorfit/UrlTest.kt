@@ -21,7 +21,7 @@ class UrlTest {
   public override suspend fun test(): String {
     val requestData = RequestData(method="GET",
         relativeUrl="user",
-        qualifiedRawTypeName="kotlin.String") 
+        returnTypeData=TypeData("kotlin.String")) 
 
     return client.suspendRequest<String, String>(requestData)!!
   }
@@ -63,7 +63,7 @@ interface TestService {
   public override suspend fun test(url: String): String {
     val requestData = RequestData(method="GET",
         relativeUrl="$\{url}",
-        qualifiedRawTypeName="kotlin.String") 
+        returnTypeData=TypeData("kotlin.String")) 
 
     return client.suspendRequest<String, String>(requestData)!!
   }

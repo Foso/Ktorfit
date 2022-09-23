@@ -6,7 +6,7 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeVariableName
-import de.jensklingenberg.ktorfit.model.ClassData
+import de.jensklingenberg.ktorfit.model.*
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.COULD_NOT_FIND_ANY_KTORFIT_ANNOTATIONS_IN_CLASS
 import java.io.OutputStreamWriter
 
@@ -28,6 +28,12 @@ fun generateKtorfitExtClass(
         "qualifiedName"
     }
 
+
+    /**
+     * com.example.api.ExampleApi::class ->{
+     * this.createExampleApi() as T
+     * }
+     */
     val whenCaseStatements = classDataList.joinToString("") {
         val packageName = it.packageName
         val className = it.name
@@ -55,9 +61,26 @@ fun generateKtorfitExtClass(
         .addFunction(funSpec)
         .build()
 
-    codeGenerator.createNewFile(Dependencies.ALL_FILES, ktorfitExtClass.packageName, ktorfitExtClass.name, "kt").use { output ->
-        OutputStreamWriter(output).use { writer ->
-            writer.write(fileSpec.toString())
+    codeGenerator.createNewFile(Dependencies.ALL_FILES, ktorfitExtClass.packageName, ktorfitExtClass.name, "kt")
+        .use { output ->
+            OutputStreamWriter(output).use { writer ->
+                writer.write(fileSpec.toString())
+            }
         }
+}
+
+
+fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
+
+    imports.forEach {
+        /**
+         * Wildcard imports are not allowed by KotlinPoet, as a workaround * is replaced with WILDCARDIMPORT, and it will be replaced again
+         * after Kotlin Poet generated the source code
+         */
+        val packageName = it.substringBeforeLast(".")
+        val className = it.substringAfterLast(".").replace("*", WILDCARDIMPORT)
+
+        this.addImport(packageName, className)
     }
+    return this
 }

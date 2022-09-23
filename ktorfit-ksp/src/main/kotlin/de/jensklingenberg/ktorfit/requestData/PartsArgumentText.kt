@@ -13,10 +13,10 @@ import de.jensklingenberg.ktorfit.utils.surroundWith
  */
 
 fun getPartsArgumentText(params: List<ParameterData>): String {
-    val paramsWithPartMapAnno = params.filter { it.hasAnnotation<PartMap>() }
-    val paramsWithPartAnno = params.filter { it.hasAnnotation<Part>() }
     val partStrings = mutableListOf<String>()
-    val partsText = paramsWithPartAnno.joinToString { myParam ->
+
+    val paramsWithPartAnnotation = params.filter { it.hasAnnotation<Part>() }
+    val partsText = paramsWithPartAnnotation.joinToString { myParam ->
         val partParamName = myParam.name
         val partKeyName = myParam.annotations.filterIsInstance<Part>().first().value.surroundWith("\"")
 
@@ -24,6 +24,8 @@ fun getPartsArgumentText(params: List<ParameterData>): String {
     }.surroundIfNotEmpty("mapOf(", ")")
     partStrings.add(partsText)
 
+
+    val paramsWithPartMapAnno = params.filter { it.hasAnnotation<PartMap>() }
     paramsWithPartMapAnno.forEach { myParam ->
         partStrings.add(myParam.name)
     }

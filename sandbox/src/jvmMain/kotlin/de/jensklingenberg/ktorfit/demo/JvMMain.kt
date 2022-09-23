@@ -1,11 +1,15 @@
 package de.jensklingenberg.ktorfit.demo
 
 
-import com.example.api.StarWarsApi
-import com.example.api.createJsonPlaceHolderApi
+import com.example.api.JsonPlaceHolderApi
+import com.example.model.Comment
+import com.example.model.MyOwnResponse
+import com.example.model.MyOwnResponseConverter
+import com.example.model.jsonPlaceHolderApi
 import de.jensklingenberg.ktorfit.Callback
-import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
-import de.jensklingenberg.ktorfit.converter.builtin.KtorfitCallResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.FlowRequestConverter
+import de.jensklingenberg.ktorfit.converter.builtin.CallRequestConverter
 import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
@@ -23,48 +27,49 @@ val jvmClient = HttpClient {
     install(Logging) {
         level = LogLevel.ALL
     }
+
     install(ContentNegotiation) {
         json(Json { isLenient = true; ignoreUnknownKeys = true })
     }
+
     this.developmentMode = true
     expectSuccess = false
 
 
 }
 
+
+
 val jvmKtorfit = ktorfit {
-    baseUrl(StarWarsApi.baseUrl)
+    baseUrl(JsonPlaceHolderApi.baseUrl)
     httpClient(jvmClient)
-    responseConverter(
-        FlowResponseConverter(),
-        RxResponseConverter(),
-        KtorfitCallResponseConverter(),
-        SuspendConverter()
+    requestConverter(
+        FlowRequestConverter(),
+        RxRequestConverter(),
+        CallRequestConverter()
     )
+    responseConverter(CallResponseConverter(), MyOwnResponseConverter())
 }
 
 
 fun main() {
-    val exampleApi = jvmKtorfit.create<JvmPlaceHolderApi>()
-    val jsonPlaceHolderApi = jvmKtorfit.createJsonPlaceHolderApi()
-    println("==============================================")
 
 
     runBlocking {
-        jsonPlaceHolderApi.suscallPosts().onExecute(object : Callback<String> {
-            override fun onResponse(call: String, response: HttpResponse) {
 
+     val api =   jvmKtorfit.create<JsonPlaceHolderApi>()
+
+
+       val test = api.getCommentsByPostIdResponse(3)
+
+        when(test){
+            is MyOwnResponse.Success -> {
+                test
             }
-
-            override fun onError(exception: Throwable) {
-
+            else->{
+                test
             }
-
-        })
-        val response = exampleApi.testQuery(4, listOf("a",null,"c"))
-
-
-        println("LI    " + response)
+        }
 
 
         delay(3000)
