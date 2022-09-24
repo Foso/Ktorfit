@@ -12,19 +12,25 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import de.jensklingenberg.androidonlyexample.ui.theme.AndroidOnlyExampleTheme
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.converter.builtin.FlowRequestConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 import de.jensklingenberg.ktorfit.create
+import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
-val ktorfit = Ktorfit.Builder().baseUrl("https://swapi.dev/api/").httpClient(HttpClient {
-    install(ContentNegotiation) {
-        json(Json { isLenient = true; ignoreUnknownKeys = true })
-    }
-}).responseConverter(FlowResponseConverter()).build()
+val ktorfit = ktorfit {
+    baseUrl("https://swapi.dev/api/")
+    httpClient(HttpClient {
+        install(ContentNegotiation) {
+            json(Json { isLenient = true; ignoreUnknownKeys = true })
+        }
+    })
+    requestConverter(FlowRequestConverter()).build()
+}
 val api: StarWarsApi = ktorfit.create<StarWarsApi>()
 
 class MainActivity : ComponentActivity() {
@@ -41,7 +47,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     peopleState.value?.let {
-                        Text(it.name?: "")
+                        Text(it.name ?: "")
                     }
 
                 }
@@ -49,7 +55,7 @@ class MainActivity : ComponentActivity() {
         }
 
         lifecycleScope.launch {
-            peopleState.value = api.getPerson( 1)
+            peopleState.value = api.getPerson(1)
         }
     }
 }

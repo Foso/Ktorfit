@@ -48,7 +48,9 @@ val jvmKtorfit = ktorfit {
         RxRequestConverter(),
         CallRequestConverter()
     )
-    responseConverter(CallResponseConverter(), MyOwnResponseConverter())
+    responseConverter(
+        CallResponseConverter(),
+        MyOwnResponseConverter())
 }
 
 

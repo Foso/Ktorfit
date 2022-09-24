@@ -1,23 +1,21 @@
-1.0.0-beta14 (Not released)
+1.0.0-beta14 (24-09-2022)
 ========================================
 NEW:
-- Types for Queries can now be nullable, queries with null values will be ignored in requests
+- Query parameters can now be nullable, null values will be ignored in requests
 
 FIX:
 - Url annotation not resolved correctly #65
 
 BREAKING CHANGES:
-- We needed to change how converters work and the naming:
+- Changed naming of Converters:
 
-- SuspendResponseConverter:
-- is now called RequestConverter
-- the wrapSuspendResponse is now called convertRequest.
-- returnTypeName is replaced through typeData, you can use typeData.qualifiedName to get the same value as returnTypeName
-  RequestConverter need to be added with the requestConverter() on your Ktorfit object.
-
-
-- ResponseConverters:
-- returnTypeName is replaced through typeData, you can use typeData.qualifiedName to get the same value as returnTypeName
+  - SuspendResponseConverter:
+    - is now called RequestConverter
+    - the wrapSuspendResponse is now called convertRequest.
+    - returnTypeName is replaced through typeData, you can use typeData.qualifiedName to get the same value as returnTypeName
+      RequestConverter need to be added with the requestConverter() on your Ktorfit object.
+  - ResponseConverters:
+    - returnTypeName is replaced through typeData, you can use typeData.qualifiedName to get the same value as returnTypeName
 
 
 

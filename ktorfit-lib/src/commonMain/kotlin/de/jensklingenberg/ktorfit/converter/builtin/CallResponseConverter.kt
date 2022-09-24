@@ -42,3 +42,6 @@ class CallResponseConverter : ResponseConverter {
         return typeData.qualifiedName == "de.jensklingenberg.ktorfit.Call"
     }
 }
+
+@Deprecated("Use CallRequestConverter and add it to requestConverter()", replaceWith = ReplaceWith("FlowRequestConverter"))
+typealias KtorfitCallResponseConverter = CallRequestConverter
