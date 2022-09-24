@@ -2,6 +2,7 @@
 ========================================
 NEW:
 - Query parameters can now be nullable, null values will be ignored in requests
+- Function return types can now be nullable
 
 FIX:
 - Url annotation not resolved correctly #65
