@@ -14,10 +14,10 @@ BREAKING CHANGES:
     - the wrapSuspendResponse is now called convertRequest.
     - returnTypeName is replaced through typeData, you can use typeData.qualifiedName to get the same value as returnTypeName
       RequestConverter need to be added with the requestConverter() on your Ktorfit object.
+    - [https://foso.github.io/Ktorfit/requestconverter/](https://foso.github.io/Ktorfit/requestconverter/)
   - ResponseConverters:
     - returnTypeName is replaced through typeData, you can use typeData.qualifiedName to get the same value as returnTypeName
-
-
+      [https://foso.github.io/Ktorfit/responseconverter/](https://foso.github.io/Ktorfit/responseconverter/)
 
 
 1.0.0-beta13 (10-09-2022)
