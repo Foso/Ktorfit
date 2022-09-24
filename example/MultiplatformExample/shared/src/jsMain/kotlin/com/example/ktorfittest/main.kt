@@ -12,7 +12,7 @@ fun main() {
         println("Launch")
 
 
-        starWarsApi.getPeopleByIdFlowResponse(3).collect {
+        starWarsApi.getPeopleByIdFlowResponse(3,null).collect {
             println("JS getPeopleByIdFlowResponse:" + it.name)
         }
 

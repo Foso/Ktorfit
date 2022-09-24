@@ -135,7 +135,7 @@ class QueryTest {
 
     @Test
     fun testQueryNameWithString() {
-
+        val baseUrl = "http://www.test.de/"
         val testKey = "foo"
         val testValue = "bar fizz"
         val encodedTestValue = "bar%20fizz"
@@ -146,7 +146,7 @@ class QueryTest {
             }
         }
 
-        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
+        val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET",
@@ -160,6 +160,7 @@ class QueryTest {
 
     @Test
     fun testQueryNameWithStringList() {
+        val baseUrl = "http://www.test.de/"
 
         val testKey = "foo"
         val testValue = listOf("foo", null, "bar fizz")
@@ -170,7 +171,7 @@ class QueryTest {
             }
         }
 
-        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
+        val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET",
@@ -184,7 +185,7 @@ class QueryTest {
 
     @Test
     fun testQueryMap() {
-
+        val baseUrl = "http://www.test.de/"
         val testKey = "foo"
         val testMap = mapOf("foo" to "bar", "fizz bar" to "buzz")
 
@@ -194,7 +195,31 @@ class QueryTest {
             }
         }
 
-        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
+        val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
+        runBlocking {
+            val requestData = RequestData(
+                method = "GET",
+                relativeUrl = "",
+                returnTypeData = TypeData("kotlin.String"),
+                queries = listOf(QueryData(testKey, testMap, false, QueryType.QUERYMAP))
+            )
+            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
+        }
+    }
+
+    @Test
+    fun whenQueryMapContainsNullValues_SkipTheNullValues() {
+        val baseUrl = "http://www.test.de/"
+        val testKey = "foo"
+        val testMap = mapOf("foo" to "bar", "fizz bar" to null)
+
+        val engine = object : TestEngine() {
+            override fun getRequestData(data: HttpRequestData) {
+                assertTrue(data.url.encodedQuery == "foo=bar")
+            }
+        }
+
+        val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET",

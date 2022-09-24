@@ -32,3 +32,6 @@ class FlowRequestConverter : RequestConverter {
         }
     }
 }
+
+@Deprecated("Use FlowRequestConverter and add it to requestConverter()", replaceWith = ReplaceWith("FlowRequestConverter"))
+typealias FlowResponseConverter = FlowRequestConverter

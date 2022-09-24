@@ -18,10 +18,14 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+val enableSigning: String by project
+
 mavenPublishing {
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
-   // signAllPublications()
+    if(enableSigning.toBoolean()){
+        signAllPublications()
+    }
 }
 
 group = "de.jensklingenberg.ktorfit"
