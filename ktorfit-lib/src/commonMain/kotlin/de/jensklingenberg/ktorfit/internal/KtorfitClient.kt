@@ -37,7 +37,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
 
         ktorfit.requestConverters.firstOrNull { converter ->
             converter.supportedType(
-                requestData.returnTypeData,false
+                requestData.returnTypeData, false
             )
         }?.let { requestConverter ->
             return requestConverter.convertRequest<RequestType?>(
@@ -121,11 +121,25 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         handleQueries(requestData)
         val queryNameUrl = handleQueryNames(requestData)
 
-        val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl).removePrefix(ktorfit.baseUrl)
+        val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl)
 
-        url(ktorfit.baseUrl + relativeUrl + queryNameUrl)
+        val requestUrl = getRequestUrl(ktorfit.baseUrl, relativeUrl, queryNameUrl)
+
+        url(requestUrl)
 
         requestData.requestBuilder(this)
+    }
+
+    private fun getRequestUrl(
+        baseUrl: String,
+        relativeUrl: String,
+        queryNameUrl: String
+    ): String {
+        return if (relativeUrl.startsWith("http")) {
+            relativeUrl
+        } else {
+            baseUrl + relativeUrl
+        } + queryNameUrl
     }
 
     private fun HttpRequestBuilder.handleBody(body: Any?) {

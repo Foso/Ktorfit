@@ -3,6 +3,9 @@
 NEW:
 - Types for Queries can now be nullable, queries with null values will be ignored in requests
 
+FIX:
+- Url annotation not resolved correctly #65
+
 BREAKING CHANGES:
 - We needed to change how converters work and the naming:
 
