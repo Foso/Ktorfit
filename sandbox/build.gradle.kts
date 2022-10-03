@@ -5,7 +5,7 @@ plugins {
 }
 
 version = "1.0-SNAPSHOT"
-val ktorVersion = "2.1.1"
+val ktorVersion = "2.1.2"
 
 kotlin {
     jvm {
