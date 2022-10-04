@@ -1,7 +1,7 @@
 package de.jensklingenberg.ktorfit.demo
 
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.converter.request.RequestConverter
+import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
@@ -12,7 +12,7 @@ import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class RxRequestConverter : RequestConverter {
+class RxRequestConverter : ResponseConverter {
 
     override fun supportedType(typeData: TypeData, isSuspend: Boolean): Boolean {
         return listOf("io.reactivex.rxjava3.core.Single", "io.reactivex.rxjava3.core.Observable","io.reactivex.rxjava3.core.Completable").contains(
@@ -20,7 +20,7 @@ class RxRequestConverter : RequestConverter {
         )
     }
 
-    override fun <RequestType> convertRequest(
+    override fun <RequestType> wrapResponse(
         typeData: TypeData,
         requestFunction: suspend () -> Pair<TypeInfo, HttpResponse?>,
         ktorfit: Ktorfit

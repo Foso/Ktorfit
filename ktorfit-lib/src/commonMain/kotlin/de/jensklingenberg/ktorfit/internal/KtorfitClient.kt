@@ -40,7 +40,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                 requestData.returnTypeData, false
             )
         }?.let { requestConverter ->
-            return requestConverter.convertRequest<RequestType?>(
+            return requestConverter.wrapResponse<RequestType?>(
                 typeData = requestData.returnTypeData,
                 requestFunction = {
                     try {
@@ -83,12 +83,12 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                 return response as ReturnType
             }
 
-            ktorfit.responseConverters.firstOrNull { converter ->
+            ktorfit.suspendResponseConverters.firstOrNull { converter ->
                 converter.supportedType(
                     requestData.returnTypeData, true
                 )
             }?.let {
-                return it.wrapResponse<PRequest>(
+                return it.wrapSuspendResponse<PRequest>(
                     typeData = requestData.returnTypeData,
                     requestFunction = {
                         Pair(typeInfo<PRequest>(), response)

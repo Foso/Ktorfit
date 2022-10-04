@@ -2,7 +2,7 @@ package de.jensklingenberg.ktorfit.converter.request
 
 import de.jensklingenberg.ktorfit.internal.TypeData
 
-interface CoreRequestConverter {
+interface CoreResponseConverter {
 
     /**
      * Check if this converter supports the return type
