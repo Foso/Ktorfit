@@ -13,7 +13,7 @@ import kotlinx.serialization.json.Json
 
 val commonClient = HttpClient() {
     install(ContentNegotiation) {
-         json(Json { isLenient = true; ignoreUnknownKeys = true })
+        json(Json { isLenient = true; ignoreUnknownKeys = true })
     }
 }
 
@@ -22,7 +22,8 @@ val commonKtorfit = ktorfit {
     httpClient(commonClient)
     responseConverter(
         CallResponseConverter(),
-        FlowResponseConverter())
+        FlowResponseConverter()
+    )
 }
 
 
