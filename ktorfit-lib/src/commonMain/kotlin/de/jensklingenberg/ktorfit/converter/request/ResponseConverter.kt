@@ -1,16 +1,15 @@
 package de.jensklingenberg.ktorfit.converter.request
 
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.converter.request.CoreRequestConverter
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
 
 /**
- * RequestConverter can be used when you don`t want to make
- * a function in your interface _suspend_.
+ * Implement this to support wrapping for custom types
+ *  e.g. fun test() : MyCustomType<String>
  */
-interface RequestConverter : CoreRequestConverter {
+interface ResponseConverter : CoreResponseConverter {
 
     /**
      * @param typeData is the qualified name of the outer type of
@@ -19,7 +18,7 @@ interface RequestConverter : CoreRequestConverter {
      * @param ktorfit the Ktorfit object that is used for this request
      * @return the wrapped response
      */
-    fun <RequestType : Any?> convertRequest(
+    fun <RequestType : Any?> wrapResponse(
         typeData: TypeData,
         requestFunction: suspend () -> Pair<TypeInfo, HttpResponse?>,
         ktorfit: Ktorfit
