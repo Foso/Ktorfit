@@ -1,3 +1,17 @@
+1.0.0-beta15 (05-10-2022)
+========================================
+⬆️ Deps updates
+- based on Ktor 2.1.2
+
+🐛 Bugs fixed
+- kotlinx.coroutines.JobCancellationException: Parent job is Completed #70
+
+💥 Breaking changes
+- reverted the api of converters to the state of beta13, see #71 
+- when you are updating from beta13, this is the only change to converters:
+  returnTypeName is replaced through typeData, you can use typeData.qualifiedName to get the same value as returnTypeName
+
+
 1.0.0-beta14 (24-09-2022)
 ========================================
 NEW:
