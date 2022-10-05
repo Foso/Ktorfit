@@ -1,6 +1,6 @@
 package com.example.ktorfittest
 
-import de.jensklingenberg.ktorfit.converter.builtin.FlowRequestConverter
+import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
@@ -17,7 +17,7 @@ val ktorfit = ktorfit {
             json(Json { isLenient = true; ignoreUnknownKeys = true })
         }
     })
-    requestConverter(FlowRequestConverter(), FlowRequestConverter())
+    responseConverter(FlowResponseConverter())
 }
 
 

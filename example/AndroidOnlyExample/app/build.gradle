@@ -48,8 +48,8 @@ android {
         }
     }
 }
-def ktorfit = "1.0.0-beta14"
-def ktor = "2.1.1"
+def ktorfit = "1.0.0-beta15"
+def ktor = "2.1.2"
 
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")

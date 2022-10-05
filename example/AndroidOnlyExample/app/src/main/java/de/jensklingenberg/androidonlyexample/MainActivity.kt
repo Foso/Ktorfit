@@ -11,14 +11,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import de.jensklingenberg.androidonlyexample.ui.theme.AndroidOnlyExampleTheme
-import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.converter.builtin.FlowRequestConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.ktorfit
-import io.ktor.client.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
@@ -29,7 +27,7 @@ val ktorfit = ktorfit {
             json(Json { isLenient = true; ignoreUnknownKeys = true })
         }
     })
-    requestConverter(FlowRequestConverter()).build()
+    responseConverter(FlowResponseConverter()).build()
 }
 val api: StarWarsApi = ktorfit.create<StarWarsApi>()
 
