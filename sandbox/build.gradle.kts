@@ -59,7 +59,7 @@ kotlin {
                 implementation("io.reactivex.rxjava3:rxjava:3.1.5")
 
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
-                implementation("ch.qos.logback:logback-classic:1.4.0")
+                implementation("ch.qos.logback:logback-classic:1.4.3")
                 implementation("io.ktor:ktor-serialization-gson:$ktorVersion")
 
             }
