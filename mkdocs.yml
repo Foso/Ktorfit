@@ -53,7 +53,7 @@ extra:
 nav:
   - 'Overview': index.md
   - 'ResponseConverter': responseconverter.md
-  - 'RequestConverter': requestconverter.md
+  - 'SuspendResponseConverter': suspendresponseconverter.md
 
 
 markdown_extensions:

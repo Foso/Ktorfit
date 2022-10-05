@@ -1,18 +1,18 @@
 Because Ktor relies on Coroutines by default your functions need to have the suspend modifier.
 
-To change this, you need to use a RequestConverter, you add your own or use [Flow](#flow) or [Call](#call)
+To change this, you need to use a SuspendResponseConverter, you add your own or use [Flow](#flow) or [Call](#call)
 
 You can add RequestConverter on your Ktorfit object.
 
 ```kotlin
-ktorfit.requestConverter(FlowRequestConverter())
+ktorfit.responseConverter(FlowResponseConverter())
 ```
 
 ### Flow
-Ktorfit has support for Kotlin Flow. You need add the FlowRequestConverter() to your Ktorfit instance.
+Ktorfit has support for Kotlin Flow. You need add the FlowResponseConverter() to your Ktorfit instance.
 
 ```kotlin
-ktorfit.requestConverter(FlowRequestConverter())
+ktorfit.responseConverter(FlowResponseConverter())
 ```
 
 ```kotlin
@@ -27,7 +27,7 @@ Then you can drop the **suspend** modifier and wrap your return type with Flow<>
 ### Call
 
 ```kotlin
-ktorfit.responseConverter(CallRequestConverter())
+ktorfit.responseConverter(CallResponseConverter())
 ```
 ```kotlin
 @GET("people/{id}/")
@@ -53,6 +53,6 @@ You can also add your own Converter. You just need to implement RequestConverter
 the conversion from **suspend** to your async code.
 
 ```kotlin
-class MyOwnResponseConverter : RequestConverter {
+class MyOwnResponseConverter : SuspendResponseConverter {
    ...
 ```
