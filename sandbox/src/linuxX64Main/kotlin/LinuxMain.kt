@@ -8,7 +8,7 @@ import kotlinx.coroutines.runBlocking
 fun main() {
 
     val linuxKtorfit = Ktorfit.Builder().baseUrl(JsonPlaceHolderApi.baseUrl).httpClient(HttpClient())
-        .requestConverter(FlowResponseConverter()).build()
+        .responseConverter(FlowResponseConverter()).build()
 
     val api = linuxKtorfit.create<JsonPlaceHolderApi>()
     runBlocking {
