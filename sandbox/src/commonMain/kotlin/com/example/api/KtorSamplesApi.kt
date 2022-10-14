@@ -30,7 +30,7 @@ interface KtorSamplesApi {
     @POST("signup")
     @FormUrlEncoded
     suspend fun signup(
-        @Field("username") username: String,
+        @Field("username") username: String?,
         @Field("email") email: String,
         @Field("password") password: String,
         @Field("confirmation") confirmation: String

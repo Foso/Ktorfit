@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.demo
 
 
 import com.example.api.JsonPlaceHolderApi
+import com.example.api.KtorSamplesApi
 import com.example.model.Comment
 import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverter
@@ -41,7 +42,7 @@ val jvmClient = HttpClient {
 
 
 val jvmKtorfit = ktorfit {
-    baseUrl(JsonPlaceHolderApi.baseUrl)
+    baseUrl(KtorSamplesApi.baseUrl)
     httpClient(jvmClient)
     requestConverter(
         FlowRequestConverter(),
@@ -57,19 +58,10 @@ fun main() {
 
     runBlocking {
 
-     val api =   jvmKtorfit.create<JsonPlaceHolderApi>()
+     val api =   jvmKtorfit.create<KtorSamplesApi>()
 
 
-       val test = api.getCommentsByPostIdResponse(3)
-
-        when(test){
-            is MyOwnResponse.Success -> {
-                test
-            }
-            else->{
-                test
-            }
-        }
+      api.signup(null,"dd","ddd","2")
 
 
         delay(3000)
