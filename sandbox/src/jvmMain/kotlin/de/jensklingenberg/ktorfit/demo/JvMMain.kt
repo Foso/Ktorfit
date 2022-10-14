@@ -2,21 +2,15 @@ package de.jensklingenberg.ktorfit.demo
 
 
 import com.example.api.JsonPlaceHolderApi
-import com.example.api.KtorSamplesApi
-import com.example.model.Comment
 import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverter
-import com.example.model.jsonPlaceHolderApi
-import de.jensklingenberg.ktorfit.Callback
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
-import de.jensklingenberg.ktorfit.converter.builtin.FlowRequestConverter
-import de.jensklingenberg.ktorfit.converter.builtin.CallRequestConverter
+import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
-import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -40,16 +34,15 @@ val jvmClient = HttpClient {
 }
 
 
-
 val jvmKtorfit = ktorfit {
-    baseUrl(KtorSamplesApi.baseUrl)
+    baseUrl(JsonPlaceHolderApi.baseUrl)
     httpClient(jvmClient)
-    requestConverter(
-        FlowRequestConverter(),
+    responseConverter(
+        FlowResponseConverter(),
         RxRequestConverter(),
-        CallRequestConverter()
+        CallResponseConverter(),
+        MyOwnResponseConverter()
     )
-    responseConverter(CallResponseConverter(), MyOwnResponseConverter())
 }
 
 
@@ -58,10 +51,20 @@ fun main() {
 
     runBlocking {
 
-     val api =   jvmKtorfit.create<KtorSamplesApi>()
+        val api = jvmKtorfit.create<JsonPlaceHolderApi>()
 
 
-      api.signup(null,"dd","ddd","2")
+        val test = api.getCommentsByPostIdResponse(3)
+
+        when (test) {
+            is MyOwnResponse.Success -> {
+                test
+            }
+
+            else -> {
+                test
+            }
+        }
 
 
         delay(3000)

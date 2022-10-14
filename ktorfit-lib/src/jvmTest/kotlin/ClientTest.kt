@@ -43,7 +43,7 @@ class ClientTest {
     @Test
     fun checkIfCorrectHttpMethodIsSet() {
 
-        val engine = object : TestEngine(){
+        val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
                 Assert.assertEquals("GET", data.method.value)
             }
@@ -54,7 +54,7 @@ class ClientTest {
             val requestData = RequestData(
                 method = "GET", relativeUrl = "posts", returnTypeData = TypeData("kotlin.String")
             )
-            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
 
 
@@ -63,7 +63,7 @@ class ClientTest {
     @Test
     fun whenUrlValueContainsBaseUrl_ThenRemoveBaseUrl() {
 
-        val engine = object : TestEngine(){
+        val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
                 val url = data.url.toString().removePrefix("http://localhost/")
                 Assert.assertEquals("http://www.test.de/posts", url)
@@ -75,7 +75,33 @@ class ClientTest {
             val requestData = RequestData(
                 method = "GET", relativeUrl = "http://www.test.de/posts", returnTypeData = TypeData("kotlin.String")
             )
-            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
+        }
+
+
+    }
+
+    @Test
+    fun whenUrlValueContainsAUrl_ThenUseItAsRequestUrl() {
+
+        val baseUrl = "http://www.test.de/"
+        val relativeUrl = "http://www.example.com/posts"
+
+        val expectedRequestUrl = "http://www.example.com/posts"
+
+        val engine = object : TestEngine() {
+            override fun getRequestData(data: HttpRequestData) {
+                val url = data.url.toString().removePrefix("http://localhost/")
+                Assert.assertEquals(expectedRequestUrl, url)
+            }
+        }
+
+        val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
+        runBlocking {
+            val requestData = RequestData(
+                method = "GET", relativeUrl = relativeUrl, returnTypeData = TypeData("kotlin.String")
+            )
+            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
 
 

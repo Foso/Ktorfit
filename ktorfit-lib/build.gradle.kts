@@ -22,11 +22,14 @@ detekt {
     config = files("../detekt-config.yml")
     buildUponDefaultConfig = false
 }
+val enableSigning: String by project
 
 mavenPublishing {
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
-  //  signAllPublications()
+    if(enableSigning.toBoolean()){
+        signAllPublications()
+    }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -39,7 +42,7 @@ version = ktorfitVersion
 
 kotlin {
 
-    android(){
+    android {
         publishLibraryVariants("release", "debug")
     }
     jvm {
@@ -64,7 +67,7 @@ kotlin {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
     }
-    linuxX64() {
+    linuxX64 {
         binaries {
             executable()
         }

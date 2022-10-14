@@ -1,15 +1,15 @@
 package com.example.model
 
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.converter.ResponseConverter
+import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
 
-class MyOwnResponseConverter : ResponseConverter {
+class MyOwnResponseConverter : SuspendResponseConverter {
 
-    override suspend fun <RequestType> wrapResponse(
+    override suspend fun <RequestType> wrapSuspendResponse(
         typeData: TypeData,
         requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>,
         ktorfit: Ktorfit

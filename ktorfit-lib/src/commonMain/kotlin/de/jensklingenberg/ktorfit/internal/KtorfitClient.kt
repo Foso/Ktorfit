@@ -40,7 +40,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                 requestData.returnTypeData, false
             )
         }?.let { requestConverter ->
-            return requestConverter.convertRequest<RequestType?>(
+            return requestConverter.wrapResponse<RequestType?>(
                 typeData = requestData.returnTypeData,
                 requestFunction = {
                     try {
@@ -83,12 +83,12 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                 return response as ReturnType
             }
 
-            ktorfit.responseConverters.firstOrNull { converter ->
+            ktorfit.suspendResponseConverters.firstOrNull { converter ->
                 converter.supportedType(
                     requestData.returnTypeData, true
                 )
             }?.let {
-                return it.wrapResponse<PRequest>(
+                return it.wrapSuspendResponse<PRequest>(
                     typeData = requestData.returnTypeData,
                     requestFunction = {
                         Pair(typeInfo<PRequest>(), response)
@@ -121,11 +121,25 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         handleQueries(requestData)
         val queryNameUrl = handleQueryNames(requestData)
 
-        val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl).removePrefix(ktorfit.baseUrl)
+        val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl)
 
-        url(ktorfit.baseUrl + relativeUrl + queryNameUrl)
+        val requestUrl = getRequestUrl(ktorfit.baseUrl, relativeUrl, queryNameUrl)
+
+        url(requestUrl)
 
         requestData.requestBuilder(this)
+    }
+
+    private fun getRequestUrl(
+        baseUrl: String,
+        relativeUrl: String,
+        queryNameUrl: String
+    ): String {
+        return if (relativeUrl.startsWith("http")) {
+            relativeUrl
+        } else {
+            baseUrl + relativeUrl
+        } + queryNameUrl
     }
 
     private fun HttpRequestBuilder.handleBody(body: Any?) {

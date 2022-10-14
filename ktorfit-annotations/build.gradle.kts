@@ -78,10 +78,14 @@ android {
     }
 }
 
+val enableSigning: String by project
+
 mavenPublishing {
     publishToMavenCentral()
-    // publishToMavenCentral("S01") for publishing through s01.oss.sonatype.org
-    // signAllPublications()
+    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
+    if(enableSigning.toBoolean()){
+        signAllPublications()
+    }
 }
 
 publishing {

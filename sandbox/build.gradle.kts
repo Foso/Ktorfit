@@ -5,7 +5,7 @@ plugins {
 }
 
 version = "1.0-SNAPSHOT"
-val ktorVersion = "2.1.1"
+val ktorVersion = "2.1.2"
 
 kotlin {
     jvm {
@@ -44,7 +44,7 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-core-native:1.3.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("io.ktor:ktor-client-curl:2.1.1")
+                implementation("io.ktor:ktor-client-curl:2.1.2")
 
             }
         }
@@ -59,7 +59,7 @@ kotlin {
                 implementation("io.reactivex.rxjava3:rxjava:3.1.5")
 
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
-                implementation("ch.qos.logback:logback-classic:1.4.0")
+                implementation("ch.qos.logback:logback-classic:1.4.3")
                 implementation("io.ktor:ktor-serialization-gson:$ktorVersion")
 
             }
