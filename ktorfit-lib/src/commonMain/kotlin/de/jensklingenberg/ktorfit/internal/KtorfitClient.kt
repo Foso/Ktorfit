@@ -242,7 +242,9 @@ class KtorfitClient(val ktorfit: Ktorfit) {
 
                 fields.filter { it.type == FieldType.FIELDMAP }.forEach { entry ->
                     for ((key, value) in entry.data as Map<*, *>) {
-                        append(entry.encoded, key.toString(), value.toString())
+                        value?.let {
+                            append(entry.encoded, key.toString(), value.toString())
+                        }
                     }
                 }
             }

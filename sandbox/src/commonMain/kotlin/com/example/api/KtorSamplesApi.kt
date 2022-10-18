@@ -40,7 +40,7 @@ interface KtorSamplesApi {
     //client-submit-form
     @POST("signup")
     @FormUrlEncoded
-    suspend fun signup(@FieldMap fieldMap: Map<String, String>, @Field("username",encoded = true) email: List<String>): String
+    suspend fun signup(@FieldMap fieldMap: Map<String, String>?, @Field("username",encoded = true) email: List<String>): String
 
     @Multipart
     @POST("upload")

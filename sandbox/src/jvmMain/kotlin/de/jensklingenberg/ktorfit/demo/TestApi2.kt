@@ -21,7 +21,7 @@ data class Test(val name: String)
 
 interface QueryMapApi {
     @GET("people/{id}/")
-    suspend fun testQueryMap(@Path("id") peopleId: Int, @QueryMap(true) name: Map<String, Test>): People
+    suspend fun testQueryMap(@Path("id") peopleId: Int, @QueryMap(true) name: Map<String, Test>?): People
 }
 
 interface QueryTestApi {
