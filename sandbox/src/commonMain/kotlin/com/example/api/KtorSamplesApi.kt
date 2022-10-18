@@ -1,14 +1,6 @@
 package com.example.api
 
-import de.jensklingenberg.ktorfit.http.Body
-import de.jensklingenberg.ktorfit.http.Field
-import de.jensklingenberg.ktorfit.http.FieldMap
-import de.jensklingenberg.ktorfit.http.FormUrlEncoded
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.Headers
-import de.jensklingenberg.ktorfit.http.Multipart
-import de.jensklingenberg.ktorfit.http.POST
-import de.jensklingenberg.ktorfit.http.Part
+import de.jensklingenberg.ktorfit.http.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import io.ktor.http.content.*
@@ -40,7 +32,10 @@ interface KtorSamplesApi {
     //client-submit-form
     @POST("signup")
     @FormUrlEncoded
-    suspend fun signup(@FieldMap fieldMap: Map<String, String>?, @Field("username",encoded = true) email: List<String>): String
+    suspend fun signup(
+        @FieldMap fieldMap: Map<String, String>?,
+        @Field("username", encoded = true) email: List<String>
+    ): String
 
     @Multipart
     @POST("upload")
