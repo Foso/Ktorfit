@@ -203,6 +203,56 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         }
     }
 
+    private fun HttpRequestBuilder.handleFields(fields: List<FieldData>) {
+        if (fields.isNotEmpty()) {
+            val formParameters = Parameters.build {
+
+                fun append(encoded: Boolean, key: String, value: String) {
+                    if (encoded) {
+                        append(key, value)
+                    } else {
+                        append(encode(key), encode(value))
+                    }
+                }
+
+                fields.filter { it.type == FieldType.FIELD }.forEach { entry ->
+
+                    when (val data = entry.data) {
+                        is List<*> -> {
+                            data.filterNotNull().forEach {
+                                append(entry.encoded, entry.key, it as String)
+                            }
+                        }
+
+                        is Array<*> -> {
+                            data.filterNotNull().forEach {
+                                append(entry.encoded, entry.key, it as String)
+                            }
+                        }
+
+                        null -> {
+                            //Ignore this
+                        }
+
+                        else -> {
+                            append(entry.encoded, entry.key, entry.data.toString())
+                        }
+                    }
+                }
+
+                fields.filter { it.type == FieldType.FIELDMAP }.forEach { entry ->
+                    for ((key, value) in entry.data as Map<*, *>) {
+                        value?.let {
+                            append(entry.encoded, key.toString(), value.toString())
+                        }
+                    }
+                }
+            }
+            setBody(FormDataContent(formParameters))
+
+        }
+    }
+
     private fun HttpRequestBuilder.handleQueries(requestData: RequestData) {
         requestData.queries.filter { it.type == QueryType.QUERY }.forEach { entry ->
 
@@ -288,43 +338,6 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         return queryNameUrl
     }
 
-    private fun HttpRequestBuilder.handleFields(fields: List<FieldData>) {
-        if (fields.isNotEmpty()) {
-            val formParameters = Parameters.build {
-
-                fun append(encoded: Boolean, key: String, value: String) {
-                    if (encoded) {
-                        append(key, value)
-                    } else {
-                        append(encode(key), encode(value))
-                    }
-                }
-
-                fields.filter { it.type == FieldType.FIELD }.forEach { entry ->
-
-                    when (val data = entry.data) {
-                        is List<*> -> {
-                            data.filterNotNull().forEach {
-                                append(entry.encoded, entry.key, it as String)
-                            }
-                        }
-
-                        else -> {
-                            append(entry.encoded, entry.key, entry.data.toString())
-                        }
-                    }
-                }
-
-                fields.filter { it.type == FieldType.FIELDMAP }.forEach { entry ->
-                    (entry.data as Map<*, *>).forEach {
-                        append(entry.encoded, it.key.toString(), it.value.toString())
-                    }
-                }
-            }
-            setBody(FormDataContent(formParameters))
-
-        }
-    }
 
     @OptIn(InternalAPI::class)
     private fun HttpRequestBuilder.handleParts(parts: Map<String, Any>) {

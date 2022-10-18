@@ -10,6 +10,7 @@ class QueryTest {
 
     @Test
     fun testQueryWithString() {
+        val baseUrl = "http://www.test.de/"
 
         val testKey = "foo"
         val testValue = "bar fizz"
@@ -22,7 +23,7 @@ class QueryTest {
             }
         }
 
-        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
+        val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET",
@@ -38,6 +39,7 @@ class QueryTest {
     fun testQueryWithNullableStringIsNull_IgnoreIt() {
 
         val testKey = "foo"
+        val baseUrl = "http://www.test.de/"
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
@@ -45,7 +47,7 @@ class QueryTest {
             }
         }
 
-        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
+        val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET",
@@ -59,6 +61,7 @@ class QueryTest {
 
     @Test
     fun testQueryWithEncodedString() {
+        val baseUrl = "http://www.test.de/"
 
         val testKey = "foo"
         val testValue = "bar fizz"
@@ -69,7 +72,7 @@ class QueryTest {
             }
         }
 
-        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
+        val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET",
@@ -88,6 +91,7 @@ class QueryTest {
          */
         val testKey = "foo"
         val testValue = listOf("foo", null, "bar")
+        val baseUrl = "http://www.test.de/"
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
@@ -95,7 +99,7 @@ class QueryTest {
             }
         }
 
-        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
+        val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET",
@@ -114,6 +118,7 @@ class QueryTest {
          */
         val testKey = "foo"
         val testValue = arrayOf("foo", null, "bar")
+        val baseUrl = "http://www.test.de/"
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
@@ -121,7 +126,7 @@ class QueryTest {
             }
         }
 
-        val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
+        val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
                 method = "GET",
