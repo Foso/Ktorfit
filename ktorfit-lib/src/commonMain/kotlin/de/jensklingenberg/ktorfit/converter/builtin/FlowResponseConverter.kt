@@ -22,7 +22,7 @@ class FlowResponseConverter : ResponseConverter {
         requestFunction: suspend () -> Pair<TypeInfo, HttpResponse?>,
         ktorfit: Ktorfit
     ): Any {
-        return flow {
+        return flow<Any> {
             try {
                 val (info, response) = requestFunction()
                 if (info.type == HttpResponse::class) {
