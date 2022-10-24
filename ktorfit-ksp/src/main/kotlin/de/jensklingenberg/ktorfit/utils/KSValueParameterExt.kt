@@ -2,7 +2,11 @@ package de.jensklingenberg.ktorfit.utils
 
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
+import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSValueParameter
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.ksp.toClassName
 import de.jensklingenberg.ktorfit.model.annotations.*
 
 @OptIn(KspExperimental::class)
@@ -98,4 +102,17 @@ fun KSValueParameter.getBodyAnnotation(): Body? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Body::class).firstOrNull()?.let {
         return Body()
     }
+}
+
+fun KSAnnotated.getRequestTypeAnnotations(): ClassName? {
+    val requestTypeClazz = de.jensklingenberg.ktorfit.http.RequestType::class
+    val filteredAnnotations = this.annotations.filter {
+        it.shortName.getShortName() == requestTypeClazz.simpleName
+                && it.annotationType.resolve().declaration.qualifiedName?.asString() == requestTypeClazz.qualifiedName
+    }
+    return filteredAnnotations.mapNotNull {
+        it.arguments.map { arg ->
+            (arg.value as KSType).toClassName()
+        }.firstOrNull()
+    }.firstOrNull()
 }

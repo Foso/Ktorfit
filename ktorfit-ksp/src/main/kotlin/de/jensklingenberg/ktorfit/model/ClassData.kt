@@ -87,7 +87,7 @@ fun ClassData.getImplClassFileSource(): String {
                         .initializer(clientClass.objectName)
                         .build()
                 )
-                .addFunctions(classData.functions.map { it.toFunSpec() })
+                .addFunctions(classData.functions.map { it.toFunSpec() }.flatten())
                 .addProperties(properties)
                 .build()
         )
@@ -107,7 +107,7 @@ fun ClassData.getImplClassFileSource(): String {
  */
 fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     val ksClassDeclaration = this
-    val imports = ksClassDeclaration.getFileImports()
+    val imports = ksClassDeclaration.getFileImports().toMutableList()
     val packageName = ksClassDeclaration.packageName.asString()
     val className = ksClassDeclaration.simpleName.asString()
 
@@ -132,6 +132,10 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     val functionDataList: List<FunctionData> = ksClassDeclaration.getDeclaredFunctions().toList().map { funcDeclaration ->
             return@map funcDeclaration.toFunctionData( logger, imports, packageName)
         }
+
+    if (functionDataList.any { it.parameterDataList.any { param -> param.hasRequestTypeAnnotation() } }) {
+        imports.add("kotlin.reflect.cast")
+    }
 
     val supertypes =
         ksClassDeclaration.superTypes.toList().filterNot {

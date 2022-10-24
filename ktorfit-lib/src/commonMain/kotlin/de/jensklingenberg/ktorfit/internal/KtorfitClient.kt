@@ -35,7 +35,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         requestData: RequestData
     ): ReturnType? {
 
-        ktorfit.requestConverters.firstOrNull { converter ->
+        ktorfit.responseConverters.firstOrNull { converter ->
             converter.supportedType(
                 requestData.returnTypeData, false
             )
