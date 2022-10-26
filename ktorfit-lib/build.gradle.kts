@@ -8,7 +8,7 @@ plugins {
     id("org.jetbrains.dokka")
     id("com.android.library")
     id("io.gitlab.arturbosch.detekt").version("1.21.0")
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.11.1"
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.12.1"
     id("app.cash.licensee")
 }
 
