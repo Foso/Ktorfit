@@ -1,0 +1,26 @@
+name: Publish Release
+
+on:
+   workflow_dispatch:
+
+jobs:
+  publish:
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 11
+
+      - uses: gradle/gradle-build-action@v2
+
+      - name: Publish release
+        run: ./gradlew clean :ktorfit-annotations:publishToMavenLocal
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_PRIVATE_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
