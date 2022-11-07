@@ -4,6 +4,7 @@ package de.jensklingenberg.ktorfit.demo
 import com.example.api.JsonPlaceHolderApi
 import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverter
+import com.example.model.StringToIntRequestConverter
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 import de.jensklingenberg.ktorfit.create
@@ -43,6 +44,9 @@ val jvmKtorfit = ktorfit {
         CallResponseConverter(),
         MyOwnResponseConverter()
     )
+    requestConverter(
+        StringToIntRequestConverter()
+    )
 }
 
 
@@ -54,7 +58,7 @@ fun main() {
         val api = jvmKtorfit.create<JsonPlaceHolderApi>()
 
 
-        val test = api.getCommentsByPostIdResponse(3)
+        val test = api.getCommentsByPostIdResponse("3")
 
         when (test) {
             is MyOwnResponse.Success -> {

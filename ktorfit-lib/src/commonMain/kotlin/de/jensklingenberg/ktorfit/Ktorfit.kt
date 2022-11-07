@@ -3,6 +3,7 @@ package de.jensklingenberg.ktorfit
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
+import de.jensklingenberg.ktorfit.converter.request.RequestConverter
 import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -14,8 +15,9 @@ import io.ktor.client.engine.*
 class Ktorfit private constructor(
     val baseUrl: String,
     val httpClient: HttpClient = HttpClient(),
-    val requestConverters: Set<ResponseConverter>,
+    val responseConverters: Set<ResponseConverter>,
     val suspendResponseConverters: Set<SuspendResponseConverter>,
+    val requestConverters: Set<RequestConverter>
 ) {
 
     /**
@@ -29,6 +31,7 @@ class Ktorfit private constructor(
         private var _httpClient = HttpClient()
         private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf()
         private var _suspendResponseConverter: MutableSet<SuspendResponseConverter> = mutableSetOf()
+        private var _requestConverter: MutableSet<RequestConverter> = mutableSetOf()
 
         /**
          * That will be used for every request with object
@@ -106,6 +109,10 @@ class Ktorfit private constructor(
             }
         }
 
+        fun requestConverter(vararg converters: RequestConverter) = apply {
+            this._requestConverter.addAll(converters)
+        }
+
 
         /**
          * Apply changes to builder and get the Ktorfit instance without the need of calling [build] afterwards.
@@ -116,7 +123,7 @@ class Ktorfit private constructor(
          * Creates an instance of Ktorfit with specified baseUrl and HttpClient.
          */
         fun build(): Ktorfit {
-            return Ktorfit(_baseUrl, _httpClient, _responseConverter, _suspendResponseConverter)
+            return Ktorfit(_baseUrl, _httpClient, _responseConverter, _suspendResponseConverter, _requestConverter)
         }
     }
 }

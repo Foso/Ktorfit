@@ -9,6 +9,7 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeVariableName
 import de.jensklingenberg.ktorfit.model.TypeData.Companion.getMyType
 import de.jensklingenberg.ktorfit.model.annotations.*
+import de.jensklingenberg.ktorfit.requestData.addRequestConverterText
 import de.jensklingenberg.ktorfit.requestData.getRequestDataArgumentText
 import de.jensklingenberg.ktorfit.utils.*
 
@@ -21,7 +22,7 @@ data class FunctionData(
     val httpMethodAnnotation: HttpMethodAnnotation
 ) {
 
-    fun toFunSpec(): FunSpec {
+    fun toFunSpec(): List<FunSpec> {
         val returnTypeName = this.returnType.name
         val typeWithoutOuterType = returnTypeName.substringAfter("<").substringBeforeLast(">")
         val nullableText = if (!this.returnType.name.endsWith("?")) {
@@ -29,29 +30,70 @@ data class FunctionData(
         } else {
             ""
         }
-        return FunSpec.builder(this.name)
-            .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
-                if (this.isSuspend) {
-                    it.add(KModifier.SUSPEND)
-                }
-            })
-            .returns(TypeVariableName(this.returnType.name))
-            .addParameters(this.parameterDataList.map {
-                ParameterSpec(it.name, TypeVariableName(it.type.name))
-            })
-            .addStatement(
-                getRequestDataArgumentText(
-                    this,
+        return if (this.parameterDataList.any { it.hasRequestTypeAnnotation() }) {
+            listOf(
+                FunSpec.builder(this.name)
+                .addModifiers(mutableListOf(KModifier.PRIVATE).also {
+                    if (this.isSuspend) {
+                        it.add(KModifier.SUSPEND)
+                    }
+                })
+                .returns(TypeVariableName(this.returnType.name))
+                .addParameters(this.parameterDataList.map {
+                    ParameterSpec(it.name, it.requestTypeClassName!!)
+                })
+                .addStatement(
+                    getRequestDataArgumentText(
+                        this
+                    )
+                ).addStatement(
+                    if (this.isSuspend) {
+                        "return ${clientClass.objectName}.suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
+                    } else {
+                        "return ${clientClass.objectName}.request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
+                    }
                 )
+                .build(),
+
+                FunSpec.builder(this.name)
+                .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
+                    if (this.isSuspend) {
+                        it.add(KModifier.SUSPEND)
+                    }
+                })
+                .returns(TypeVariableName(this.returnType.name))
+                .addParameters(this.parameterDataList.map {
+                    ParameterSpec(it.name, TypeVariableName(it.type.name))
+                })
+                .addRequestConverterText(this)
+                .build()
             )
-            .addStatement(
-                if (this.isSuspend) {
-                    "return ${clientClass.objectName}.suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
-                } else {
-                    "return ${clientClass.objectName}.request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
-                }
+        } else {
+            listOf(FunSpec.builder(this.name)
+                .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
+                    if (this.isSuspend) {
+                        it.add(KModifier.SUSPEND)
+                    }
+                })
+                .returns(TypeVariableName(this.returnType.name))
+                .addParameters(this.parameterDataList.map {
+                    ParameterSpec(it.name, TypeVariableName(it.type.name))
+                })
+                .addStatement(
+                    getRequestDataArgumentText(
+                        this,
+                    )
+                )
+                .addStatement(
+                    if (this.isSuspend) {
+                        "return ${clientClass.objectName}.suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
+                    } else {
+                        "return ${clientClass.objectName}.request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
+                    }
+                )
+                .build()
             )
-            .build()
+        }
     }
 
 
