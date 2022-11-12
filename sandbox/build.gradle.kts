@@ -7,6 +7,10 @@ plugins {
 version = "1.0-SNAPSHOT"
 val ktorVersion = "2.1.2"
 
+ksp {
+    arg("Ktorfit_Errors", "1")
+}
+
 kotlin {
     jvm {
         compilations.all {
