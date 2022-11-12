@@ -1,5 +1,9 @@
 1.0.0-beta16 (NOT RELEASED)
 ========================================
+
+NEW:
+- Field parameters can now be nullable, null values will be ignored in requests
+
 ⬆️ Deps updates
 - based on Ktor 2.1.3
 - Kotlin 1.7.21
