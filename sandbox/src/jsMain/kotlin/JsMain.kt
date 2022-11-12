@@ -1,5 +1,6 @@
 
 
+import com.example.model.MyOwnResponse
 import com.example.model.Post
 import com.example.model.jsonPlaceHolderApi
 import de.jensklingenberg.ktorfit.Callback
@@ -18,8 +19,17 @@ fun main() {
 
     GlobalScope.launch {
         println("Launch")
-        jsonPlaceHolderApi.getPosts().collect {
-            println("HALLO"+it)
+
+        val test = jsonPlaceHolderApi.getCommentsByPostIdResponse("3")
+
+        when (test) {
+            is MyOwnResponse.Success -> {
+                println(test)
+            }
+
+            else -> {
+                println(test)
+            }
         }
 
         delay(3000)

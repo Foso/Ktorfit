@@ -1,6 +1,8 @@
 package com.example.model
 
-sealed class MyOwnResponse<T> {
+import kotlinx.serialization.Serializable
+
+@Serializable sealed class MyOwnResponse<T> {
     data class Success<T>(val data: T) : MyOwnResponse<T>()
     class Error(val ex:Throwable) : MyOwnResponse<Nothing>()
 

@@ -22,7 +22,11 @@ val commonKtorfit = ktorfit {
     httpClient(commonClient)
     responseConverter(
         CallResponseConverter(),
-        FlowResponseConverter()
+        FlowResponseConverter(),
+        MyOwnResponseConverter()
+    )
+    requestConverter(
+        StringToIntRequestConverter()
     )
 }
 
