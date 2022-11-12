@@ -113,17 +113,17 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
 
     val isJavaClass = ksClassDeclaration.origin.name == "JAVA"
     if (isJavaClass) {
-        logger.ktorfitError(KtorfitError.JAVA_INTERFACES_ARE_NOT_SUPPORTED, ksClassDeclaration)
+        logger.error(KtorfitError.JAVA_INTERFACES_ARE_NOT_SUPPORTED, ksClassDeclaration)
     }
 
     val isInterface = ksClassDeclaration.classKind == ClassKind.INTERFACE
     if (!isInterface) {
-        logger.ktorfitError(KtorfitError.API_DECLARATIONS_MUST_BE_INTERFACES, ksClassDeclaration)
+        logger.error(KtorfitError.API_DECLARATIONS_MUST_BE_INTERFACES, ksClassDeclaration)
     }
 
     val hasTypeParameters = ksClassDeclaration.typeParameters.isNotEmpty()
     if (hasTypeParameters) {
-        logger.ktorfitError(
+        logger.error(
             KtorfitError.TYPE_PARAMETERS_ARE_UNSUPPORTED_ON + " ${ksClassDeclaration.simpleName.asString()}",
             ksClassDeclaration
         )
@@ -145,11 +145,11 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     val properties = ksClassDeclaration.getAllProperties().toList()
 
     if (packageName.isEmpty()) {
-        logger.ktorfitError(KtorfitError.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE, ksClassDeclaration)
+        logger.error(KtorfitError.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE, ksClassDeclaration)
     }
 
     if (ksClassDeclaration.modifiers.contains(Modifier.INTERNAL)) {
-        logger.ktorfitError(KtorfitError.INTERNAL_INTERFACES_ARE_NOT_SUPPORTED, ksClassDeclaration)
+        logger.error(KtorfitError.INTERNAL_INTERFACES_ARE_NOT_SUPPORTED, ksClassDeclaration)
     }
 
     return ClassData(

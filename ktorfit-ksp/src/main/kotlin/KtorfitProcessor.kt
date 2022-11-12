@@ -27,6 +27,7 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
     }
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+       val type = (env.options.get("Ktorfit_Errors")?.toIntOrNull()) ?: 1
         ktorfitResolver = resolver
 
         if (invoked) {
@@ -36,7 +37,7 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
 
         val classDataList = getAnnotatedFunctions(ktorfitResolver).groupBy { it.closestClassDeclaration()!! }
             .map { (classDec) ->
-                classDec.toClassData( logger)
+                classDec.toClassData( KtorfitLogger(logger,type))
             }
 
         generateImplClass(classDataList, codeGenerator)

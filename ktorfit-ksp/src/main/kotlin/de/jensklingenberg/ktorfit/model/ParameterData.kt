@@ -32,7 +32,7 @@ data class ParameterData(
 fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
     val ksValueParameter = this
     if (ksValueParameter.isVararg) {
-        logger.ktorfitError(KtorfitError.VARARG_NOT_SUPPORTED_USE_LIST_OR_ARRAY, ksValueParameter)
+        logger.error(KtorfitError.VARARG_NOT_SUPPORTED_USE_LIST_OR_ARRAY, ksValueParameter)
     }
 
     val parameterAnnotations = ksValueParameter.getParamAnnotationList( logger)
@@ -44,14 +44,14 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
     val hasRequestBuilderAnno = reqBuilderAnno != null
 
     if (parameterAnnotations.isEmpty() && !hasRequestBuilderAnno) {
-        logger.ktorfitError(
+        logger.error(
             KtorfitError.NO_KTORFIT_ANNOTATION_FOUND_AT(parameterName),
             ksValueParameter
         )
     }
 
     if (hasRequestBuilderAnno && parameterType.resolveTypeName() != "[@kotlin.ExtensionFunctionType] Function1<HttpRequestBuilder, Unit>") {
-        logger.ktorfitError(
+        logger.error(
             KtorfitError.REQ_BUILDER_PARAMETER_TYPE_NEEDS_TO_BE_HTTP_REQUEST_BUILDER,
             ksValueParameter
         )
