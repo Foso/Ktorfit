@@ -4,13 +4,19 @@
 NEW:
 - Field parameters can now be nullable, null values will be ignored in requests
 - Add option to turn of error checking
-  ksp {
+
+  **ksp {
   arg("Ktorfit_Errors", "1")
-  }
+  }**
+  
   You can set it in your build.gradle.kts file, 
+  
   0: Turn off all Ktorfit related error checking
+  
   1: Check for errors
+  
   2: Turn errors into warnings
+  
 -  Added RequestConverter support #84
 
 ⬆️ Deps updates
