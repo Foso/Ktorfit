@@ -1,1 +1,1 @@
-The Http Reponse will be printed to the logcat
+The Http Response will be printed to the logcat

@@ -11,12 +11,16 @@ NEW:
   0: Turn off all Ktorfit related error checking
   1: Check for errors
   2: Turn errors into warnings
+-  Added RequestConverter support #84
 
 ⬆️ Deps updates
 - based on Ktor 2.1.3
 - Kotlin 1.7.21
 - KSP 1.0.8
 - update Android TargetSdk to 33
+
+🐛 Bugs fixed
+- FlowResponseConverter #81
 
 1.0.0-beta15 (05-10-2022)
 ========================================

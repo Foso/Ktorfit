@@ -2,14 +2,14 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "1.7.0-1.0.6"
+    id("com.google.devtools.ksp") version "1.7.10-1.0.6"
     id("kotlinx-serialization")
 
 }
 
 version = "1.0"
-val ktorVersion = "2.1.0"
-val ktorfitVersion = "1.0.0-beta15"
+val ktorVersion = "2.1.3"
+val ktorfitVersion = "1.0.0-beta16"
 
 kotlin {
     android()
@@ -89,11 +89,11 @@ kotlin {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 33
     }
 }
 
