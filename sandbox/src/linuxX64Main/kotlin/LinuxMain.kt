@@ -10,12 +10,7 @@ fun main() {
     val linuxKtorfit = Ktorfit.Builder().baseUrl(JsonPlaceHolderApi.baseUrl).httpClient(HttpClient())
         .responseConverter(FlowResponseConverter()).build()
 
-    val api = linuxKtorfit.create<JsonPlaceHolderApi>()
-    runBlocking {
-        api.getPosts().collect {
-            println(it)
-        }
-    }
+
 
     println("ddd")
 }

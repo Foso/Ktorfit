@@ -3,10 +3,12 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlinx-serialization")
 }
-
+apply(plugin = "compiler.gradleplugin.helloworld")
 version = "1.0-SNAPSHOT"
-val ktorVersion = "2.1.2"
-
+val ktorVersion = "2.2.2"
+configure<de.jensklingenberg.gradle.TestCompilerExtension> {
+    enabled = true
+}
 ksp {
     arg("Ktorfit_Errors", "1")
 }

@@ -43,7 +43,7 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
         generateImplClass(classDataList, codeGenerator)
 
         if (classDataList.isNotEmpty()) {
-            generateKtorfitExtClass(classDataList, env.platforms.any { it.platformName == "JS" }, codeGenerator)
+           // generateKtorfitExtClass(classDataList, env.platforms.any { it.platformName == "JS" }, codeGenerator)
         }
 
         return emptyList()

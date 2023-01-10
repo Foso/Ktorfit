@@ -34,21 +34,6 @@ fun main() {
         )
     }
 
-    val testApi = jvmKtorfit.create<GithubService>()
 
-
-    runBlocking {
-
-        testApi.listCommits("foso","Experimental").collect{
-            println(it.first().author)
-        }
-
-
-     //  println( testApi.createIsseu(Issuedata("hey","ho")))
-//BODY {"title":"title","body":"This is a test"}
-       // BODY Issuedata(title=Hallo, body=hhhh)
-        delay(3000)
-
-    }
 
 }

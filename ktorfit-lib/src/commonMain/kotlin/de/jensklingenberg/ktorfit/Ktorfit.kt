@@ -5,6 +5,7 @@ import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.RequestConverter
 import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
+import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import io.ktor.client.*
 import io.ktor.client.engine.*
 
@@ -19,6 +20,9 @@ class Ktorfit private constructor(
     val suspendResponseConverters: Set<SuspendResponseConverter>,
     val requestConverters: Set<RequestConverter>
 ) {
+
+
+
 
     /**
      * Builder class for Ktorfit.
@@ -147,6 +151,19 @@ fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().appl
  * val testApi = ktorfit.create<TestApi>()
  */
 
-inline fun <reified T> Ktorfit.create(): T {
-    throw NotImplementedError("Ktorfit didn't generate Code for " + T::class.simpleName + " You need to apply the KSP Plugin")
+fun <T> Ktorfit.create(testInteface2: Hidden = DefaultHidden()): T {
+    testInteface2.setClient(KtorfitClient(this))
+    return testInteface2 as T
+}
+
+class DefaultHidden : Hidden {
+    override fun setClient(client: KtorfitClient) {
+
+    }
+
+}
+
+
+interface Hidden {
+    fun setClient(client: KtorfitClient)
 }

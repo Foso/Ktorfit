@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.demo
 
 
 import com.example.api.JsonPlaceHolderApi
+import com.example.model.Jens
 import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverter
 import com.example.model.StringToIntRequestConverter
@@ -16,6 +17,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
+import ktorfit.Test
 
 
 val jvmClient = HttpClient {
@@ -51,24 +53,13 @@ val jvmKtorfit = ktorfit {
 
 
 fun main() {
-
+    val api = jvmKtorfit.create<Jens>()
+    api.print()
 
     runBlocking {
 
-        val api = jvmKtorfit.create<JsonPlaceHolderApi>()
 
 
-        val test = api.getCommentsByPostIdResponse("3")
-
-        when (test) {
-            is MyOwnResponse.Success -> {
-                test
-            }
-
-            else -> {
-                test
-            }
-        }
 
 
         delay(3000)

@@ -17,7 +17,7 @@ buildscript {
         }
     }
     dependencies {
-
+        classpath("de.jensklingenberg:gradle-plugin:1.0.0")
         classpath("com.vanniktech:gradle-maven-publish-plugin:0.22.0")
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.7.10")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.7.21")
