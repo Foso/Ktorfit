@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.demo
 
 
+import com.example.api.GithubService
 import com.example.api.JsonPlaceHolderApi
 import com.example.model.Jens
 import com.example.model.MyOwnResponse
@@ -53,13 +54,24 @@ val jvmKtorfit = ktorfit {
 
 
 fun main() {
-    val api = jvmKtorfit.create<Jens>()
-    api.print()
+    val api = jvmKtorfit.create<JsonPlaceHolderApi>()
+
 
     runBlocking {
 
 
 
+        val test = api.getCommentsByPostIdResponse("3")
+
+        when (test) {
+            is MyOwnResponse.Success -> {
+                test
+            }
+
+            else -> {
+                test
+            }
+        }
 
 
         delay(3000)

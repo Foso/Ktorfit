@@ -124,7 +124,13 @@ class Trafo(
                 val className = arg.classFqName?.asString()?.substringAfterLast(".") ?: ""
 
               val classT =  moduleFragment.files.firstOrNull(){it.name == "_$className" + "Impl.kt"}?.declarations?.firstIsInstance<IrClassImpl>()
-               if(classT == null) throw NullPointerException("Class not found"+className.toString())
+               if(classT == null) {
+                   moduleFragment.files.forEach {
+                       messageCollector.report(CompilerMessageSeverity.WARNING, it.name.toString())
+
+                   }
+                   throw NullPointerException("Class not found"+className.toString())
+               }
                 val testClass = classT?.symbol
 
                 val newCont = testClass?.constructors?.first() ?: throw NullPointerException(expression.dump())

@@ -33,13 +33,21 @@ const val WILDCARDIMPORT = "WILDCARDIMPORT"
  */
 fun ClassData.getImplClassFileSource(): String {
     val classData = this
+
     /**
      * public fun Ktorfit.createExampleApi(): ExampleApi = _ExampleApiImpl(KtorfitClient(this))
+     * _JsonPlaceHolderApiImpl(KtorfitClient(this)).also { it.setClient(KtorfitClient(this)) }
      */
     val createExtensionFunctionSpec = FunSpec.builder("create${classData.name}")
-        .addStatement("return _${classData.name}Impl(${clientClass.name}(this))")
+        .addStatement("return _${classData.name}Impl().also{ it.setClient(KtorfitClient(this)) }")
         .receiver(TypeVariableName(ktorfitClass.name))
         .returns(TypeVariableName(classData.name))
+        .build()
+
+    val func = FunSpec.builder("setClient")
+        .addModifiers(KModifier.OVERRIDE)
+        .addParameter("client", TypeVariableName(clientClass.name))
+        .addStatement("this.client = client")
         .build()
 
     val properties = classData.properties.map { property ->
@@ -75,19 +83,21 @@ fun ClassData.getImplClassFileSource(): String {
             TypeSpec.classBuilder(implClassName)
                 .addModifiers(classData.modifiers)
                 .addSuperinterface(ClassName(classData.packageName, classData.name))
+                .addSuperinterface(ClassName("de.jensklingenberg.ktorfit", "Hidden"))
                 .addKtorfitSuperInterface(classData.superClasses)
-                .primaryConstructor(
-                    FunSpec.constructorBuilder()
-                        .addParameter(clientClass.objectName, TypeVariableName(clientClass.name))
-                        .build()
-                )
-                .addProperty(
-                    PropertySpec.builder(clientClass.objectName, TypeVariableName(clientClass.name))
-                        .addModifiers(KModifier.PRIVATE)
-                        .initializer(clientClass.objectName)
-                        .build()
-                )
+
                 .addFunctions(classData.functions.map { it.toFunSpec() }.flatten())
+                .addFunction(func)
+                .addProperty(
+                    PropertySpec
+                        .builder(
+                            "client",
+                            TypeVariableName(clientClass.name),
+                            listOf(KModifier.PRIVATE, KModifier.LATEINIT)
+                        )
+                        .mutable(true)
+                        .build()
+                )
                 .addProperties(properties)
                 .build()
         )
@@ -95,8 +105,6 @@ fun ClassData.getImplClassFileSource(): String {
 
         .build().toString().replace(WILDCARDIMPORT, "*")
 }
-
-
 
 
 /**
@@ -129,9 +137,11 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         )
     }
 
-    val functionDataList: List<FunctionData> = ksClassDeclaration.getDeclaredFunctions().toList().map { funcDeclaration ->
-            return@map funcDeclaration.toFunctionData( logger, imports, packageName)
+    val functionDataList: List<FunctionData> =
+        ksClassDeclaration.getDeclaredFunctions().toList().map { funcDeclaration ->
+            return@map funcDeclaration.toFunctionData(logger, imports, packageName)
         }
+
 
     if (functionDataList.any { it.parameterDataList.any { param -> param.hasRequestTypeAnnotation() } }) {
         imports.add("kotlin.reflect.cast")
@@ -167,12 +177,12 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
  * be a generated implementation for each interface that we can use.
  */
 fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<String>): TypeSpec.Builder {
-    superClasses.forEach { superClassQualifiedName ->
+    (superClasses).forEach { superClassQualifiedName ->
         val superTypeClassName = superClassQualifiedName.substringAfterLast(".")
         val superTypePackage = superClassQualifiedName.substringBeforeLast(".")
         this.addSuperinterface(
             ClassName(superTypePackage, superTypeClassName),
-            CodeBlock.of("${superTypePackage}._${superTypeClassName}Impl(${clientClass.objectName})")
+            CodeBlock.of("${superTypePackage}._${superTypeClassName}Impl()")
         )
     }
 
