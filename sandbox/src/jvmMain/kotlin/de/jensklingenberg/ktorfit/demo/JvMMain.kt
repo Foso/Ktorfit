@@ -9,7 +9,7 @@ import com.example.model.MyOwnResponseConverter
 import com.example.model.StringToIntRequestConverter
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
-import de.jensklingenberg.ktorfit.create
+
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -54,15 +54,19 @@ val jvmKtorfit = ktorfit {
 
 
 
+fun zop(zup:()->Unit){
+
+}
+
 fun main() {
-    val api = jvmKtorfit.create<JsonPlaceHolderApi>()
 
 
     runBlocking {
 
+         val api2 = jvmKtorfit.create<JsonPlaceHolderApi>()
 
 
-        val test = api.getCommentsByPostIdResponse("3")
+        val test = api2.getCommentsByPostIdResponse("3")
 
         when (test) {
             is MyOwnResponse.Success -> {

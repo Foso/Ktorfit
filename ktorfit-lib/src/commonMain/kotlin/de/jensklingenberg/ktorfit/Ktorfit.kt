@@ -21,7 +21,10 @@ class Ktorfit private constructor(
     val requestConverters: Set<RequestConverter>
 ) {
 
-
+    fun <T> create(testInteface2: Hidden = DefaultHidden()): T {
+        testInteface2.setClient(KtorfitClient(this))
+        return testInteface2 as T
+    }
 
 
     /**
@@ -151,10 +154,7 @@ fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().appl
  * val testApi = ktorfit.create<TestApi>()
  */
 
-fun <T> Ktorfit.create(testInteface2: Hidden = DefaultHidden()): T {
-    testInteface2.setClient(KtorfitClient(this))
-    return testInteface2 as T
-}
+
 
 class DefaultHidden : Hidden {
     override fun setClient(client: KtorfitClient) {

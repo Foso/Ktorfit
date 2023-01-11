@@ -4,23 +4,18 @@ import com.google.auto.service.AutoService
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
-import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
-import org.jetbrains.kotlin.cli.common.config.kotlinSourceRoots
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.com.intellij.mock.MockProject
 import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 import org.jetbrains.kotlin.config.CompilerConfiguration
-import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
+import org.jetbrains.kotlin.ir.IrStatement
+import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.declarations.impl.IrClassImpl
-import org.jetbrains.kotlin.ir.declarations.name
-import org.jetbrains.kotlin.ir.expressions.IrCall
-import org.jetbrains.kotlin.ir.expressions.IrExpression
+import org.jetbrains.kotlin.ir.expressions.*
 import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
 import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.types.defaultType
 import org.jetbrains.kotlin.ir.util.constructors
-import org.jetbrains.kotlin.ir.util.dump
+import org.jetbrains.kotlin.ir.util.kotlinFqName
 import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstance
 
 @AutoService(ComponentRegistrar::class)
@@ -34,51 +29,55 @@ class CommonComponentRegistrar : ComponentRegistrar {
             return
         }
 
-        val messageCollector = configuration.get(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE)
-
         IrGenerationExtension.registerExtension(
             project,
-            RedactedIrGenerationExtension(messageCollector)
+            RedactedIrGenerationExtension()
         )
     }
 }
 
 
-class RedactedIrGenerationExtension(val messageCollector: MessageCollector) : IrGenerationExtension {
+class RedactedIrGenerationExtension : IrGenerationExtension {
     override fun generate(moduleFragment: IrModuleFragment, pluginContext: IrPluginContext) {
-
-        moduleFragment.transform(Test33(moduleFragment), null)
+        moduleFragment.transform(ElementTransformer( moduleFragment), null)
     }
 }
 
-class Test33(
-    val moduleFragment: IrModuleFragment
+class ElementTransformer(
+    private val moduleFragment: IrModuleFragment
 ) :
     IrElementTransformerVoidWithContext() {
 
-    override fun visitExpression(expression: IrExpression): IrExpression {
-        (expression as? IrCall)?.let {
-            if (it.typeArgumentsCount > 0) {
-                if (expression.symbol.owner.name.asString() != "create") {
-                    return expression
-                }
-            }
-        }
-        return expression
-    }
-
     override fun visitCall(expression: IrCall): IrExpression {
-        expression.transform(Trafo( moduleFragment), null)
+        expression.transform(CreateFuncTransformer( moduleFragment), null)
 
         return super.visitCall(expression)
+    }
+    override fun visitVariable(declaration: IrVariable): IrStatement {
+        declaration.transform(CreateFuncTransformer( moduleFragment),null)
+        return super.visitVariable(declaration)
+    }
+
+    override fun visitSimpleFunction(declaration: IrSimpleFunction): IrStatement {
+       if(declaration.parent.kotlinFqName.asString()=="main"){
+           val dec = declaration
+           return super.visitSimpleFunction(dec)
+       }
+        return super.visitSimpleFunction(declaration)
+    }
+
+    override fun visitFunctionExpression(expression: IrFunctionExpression): IrExpression {
+        expression.transform(CreateFuncTransformer( moduleFragment), null)
+
+        return super.visitFunctionExpression(expression)
     }
 
 
 }
 
 
-class Trafo(
-    val moduleFragment: IrModuleFragment
+class CreateFuncTransformer(
+    private val moduleFragment: IrModuleFragment
 ) :
     IrElementTransformerVoidWithContext() {
 
@@ -89,8 +88,11 @@ class Trafo(
     override fun visitExpression(expression: IrExpression): IrExpression {
 
         //Find exampleKtorfit.create<TestApi>()
-        (expression as? IrCall)?.let {
-            if (it.typeArgumentsCount > 0) {
+        (expression as? IrCall)?.let { irCall ->
+            if (irCall.typeArgumentsCount > 0) {
+                if (expression.symbol.owner.name.asString() == "runBlocking") {
+                    return expression
+                }
                 if (expression.symbol.owner.name.asString() != "create") {
                     return expression
                 }
@@ -99,25 +101,26 @@ class Trafo(
                     return expression
                 }
 
-                //Get T from create<T>
-                val argumentType = it.getTypeArgument(0) ?: return expression
+                //Get T from create<T>()
+                val argumentType = irCall.getTypeArgument(0) ?: return expression
 
                 val className = argumentType.classFqName?.asString()?.substringAfterLast(".") ?: ""
+                val implClassName = "_$className" + "Impl.kt"
 
                 //Find the class _TestApiImpl.kt
                 val classT =
-                    moduleFragment.files.firstOrNull() { it.name == "_$className" + "Impl.kt" }?.declarations?.firstIsInstance<IrClassImpl>()
+                    moduleFragment.files.firstOrNull { it.name == implClassName }?.declarations?.firstIsInstance<IrClassImpl>()
                         ?: throw NullPointerException("Class not found $className")
-                val testClass = classT?.symbol
+                val implClassSymbol = classT.symbol
 
-                val newConstructor = testClass?.constructors?.first() ?: throw NullPointerException(expression.dump())
+                val newConstructor = implClassSymbol.constructors.first()
 
-                //Create the constructor call for create<ExampleApi>(_ExampleApiImpl())
-                val newCall = IrConstructorCallImpl(0, 0, type = testClass.defaultType, symbol = newConstructor, 0, 0, 0, null)
+                //Create the constructor call for _ExampleApiImpl()
+                val newCall = IrConstructorCallImpl(0, 0, type = implClassSymbol.defaultType, symbol = newConstructor, 0, 0, 0, null)
 
-                //Set _ExampleApiImpl() as Argument for create<ExampleApi>()
-                it.putValueArgument(0, newCall)
-                return super.visitExpression(it)
+                //Set _ExampleApiImpl() as argument for create<ExampleApi>()
+                irCall.putValueArgument(0, newCall)
+                return super.visitExpression(irCall)
             }
         }
         return super.visitExpression(expression)
