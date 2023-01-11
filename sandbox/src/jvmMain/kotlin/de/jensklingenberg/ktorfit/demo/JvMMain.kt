@@ -53,6 +53,7 @@ val jvmKtorfit = ktorfit {
 }
 
 
+
 fun main() {
     val api = jvmKtorfit.create<JsonPlaceHolderApi>()
 

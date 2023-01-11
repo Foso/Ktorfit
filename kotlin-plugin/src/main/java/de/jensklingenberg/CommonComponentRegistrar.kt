@@ -14,22 +14,14 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 import org.jetbrains.kotlin.ir.declarations.impl.IrClassImpl
 import org.jetbrains.kotlin.ir.declarations.name
-import org.jetbrains.kotlin.ir.descriptors.toIrBasedKotlinType
 import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
 import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.types.defaultType
-import org.jetbrains.kotlin.ir.types.impl.IrSimpleTypeBuilder
-import org.jetbrains.kotlin.ir.types.impl.buildSimpleType
-import org.jetbrains.kotlin.ir.util.addArguments
 import org.jetbrains.kotlin.ir.util.constructors
 import org.jetbrains.kotlin.ir.util.dump
-import org.jetbrains.kotlin.name.ClassId
-import org.jetbrains.kotlin.name.FqName
-import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstance
-import java.util.NoSuchElementException
 
 @AutoService(ComponentRegistrar::class)
 class CommonComponentRegistrar : ComponentRegistrar {
@@ -43,13 +35,9 @@ class CommonComponentRegistrar : ComponentRegistrar {
         }
 
         val messageCollector = configuration.get(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE)
-        configuration.kotlinSourceRoots.forEach {
-            messageCollector.report(
-                CompilerMessageSeverity.WARNING,
-                "*** Hello from ***" + it.path
-            )
-        }
-        IrGenerationExtension.registerExtension(project,
+
+        IrGenerationExtension.registerExtension(
+            project,
             RedactedIrGenerationExtension(messageCollector)
         )
     }
@@ -59,14 +47,11 @@ class CommonComponentRegistrar : ComponentRegistrar {
 class RedactedIrGenerationExtension(val messageCollector: MessageCollector) : IrGenerationExtension {
     override fun generate(moduleFragment: IrModuleFragment, pluginContext: IrPluginContext) {
 
-        moduleFragment.transform(Test33(pluginContext, messageCollector,moduleFragment), null)
+        moduleFragment.transform(Test33(moduleFragment), null)
     }
-
 }
 
 class Test33(
-    private val irPluginContext: IrPluginContext,
-    val messageCollector: MessageCollector,
     val moduleFragment: IrModuleFragment
 ) :
     IrElementTransformerVoidWithContext() {
@@ -83,7 +68,7 @@ class Test33(
     }
 
     override fun visitCall(expression: IrCall): IrExpression {
-        expression.transform(Trafo(irPluginContext, messageCollector,moduleFragment), null)
+        expression.transform(Trafo( moduleFragment), null)
 
         return super.visitCall(expression)
     }
@@ -91,61 +76,46 @@ class Test33(
 
 }
 
-inline fun <reified T> Iterable<*>.firstIsInstance(): T {
-    for (element in this) if (element is T) return element
-    throw NoSuchElementException("No element of given type found")
-}
 
 class Trafo(
-    val irPluginContext: IrPluginContext,
-    val messageCollector: MessageCollector,
     val moduleFragment: IrModuleFragment
 ) :
     IrElementTransformerVoidWithContext() {
 
 
+    /**
+     * Transform exampleKtorfit.create<TestApi>() to exampleKtorfit.create<TestApi>(_TestApiImpl())
+     */
     override fun visitExpression(expression: IrExpression): IrExpression {
 
-        //expression.transformChildren(this, null)
-
+        //Find exampleKtorfit.create<TestApi>()
         (expression as? IrCall)?.let {
             if (it.typeArgumentsCount > 0) {
                 if (expression.symbol.owner.name.asString() != "create") {
                     return expression
                 }
-                if (!expression.symbol.owner.symbol.toString().contains("de.jensklingenberg.ktorfit.ktorfit")) {
-                    // return expression
+
+                if (!expression.symbol.owner.symbol.toString().contains("de.jensklingenberg.ktorfit.Ktorfit")) {
+                    return expression
                 }
-                messageCollector.report(CompilerMessageSeverity.WARNING, expression.dump())
 
-                val arg = it.getTypeArgument(0) ?: return expression
-                messageCollector.report(CompilerMessageSeverity.WARNING, "ARG*:" + arg.classFqName!!.asString())
+                //Get T from create<T>
+                val argumentType = it.getTypeArgument(0) ?: return expression
 
-                val className = arg.classFqName?.asString()?.substringAfterLast(".") ?: ""
+                val className = argumentType.classFqName?.asString()?.substringAfterLast(".") ?: ""
 
-              val classT =  moduleFragment.files.firstOrNull(){it.name == "_$className" + "Impl.kt"}?.declarations?.firstIsInstance<IrClassImpl>()
-               if(classT == null) {
-                   moduleFragment.files.forEach {
-                       messageCollector.report(CompilerMessageSeverity.WARNING, it.name.toString())
-
-                   }
-                   throw NullPointerException("Class not found"+className.toString())
-               }
+                //Find the class _TestApiImpl.kt
+                val classT =
+                    moduleFragment.files.firstOrNull() { it.name == "_$className" + "Impl.kt" }?.declarations?.firstIsInstance<IrClassImpl>()
+                        ?: throw NullPointerException("Class not found $className")
                 val testClass = classT?.symbol
 
-                val newCont = testClass?.constructors?.first() ?: throw NullPointerException(expression.dump())
+                val newConstructor = testClass?.constructors?.first() ?: throw NullPointerException(expression.dump())
 
-                val bui = IrSimpleTypeBuilder()
+                //Create the constructor call for create<ExampleApi>(_ExampleApiImpl())
+                val newCall = IrConstructorCallImpl(0, 0, type = testClass.defaultType, symbol = newConstructor, 0, 0, 0, null)
 
-                bui.classifier = testClass
-                bui.kotlinType = arg.toIrBasedKotlinType()
-
-
-                val newCall = IrConstructorCallImpl(0, 0, type = testClass.defaultType, symbol = newCont, 0, 0, 0, null)
-
-                if(it.valueArgumentsCount==0){
-                    throw NullPointerException(it.dump())
-                }
+                //Set _ExampleApiImpl() as Argument for create<ExampleApi>()
                 it.putValueArgument(0, newCall)
                 return super.visitExpression(it)
             }
