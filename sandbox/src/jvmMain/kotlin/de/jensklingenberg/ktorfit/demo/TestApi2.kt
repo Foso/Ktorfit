@@ -2,6 +2,7 @@ package ktorfit
 
 import com.example.api.StarWarsApi
 import com.example.model.People
+import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.HeaderMap
@@ -17,7 +18,7 @@ interface TestApi2 : StarWarsApi,  QueryNameTestApi {
 
 }
 
-data class Test(val name: String)
+data class Test(val name: Ktorfit)
 
 interface QueryMapApi {
     @GET("people/{id}/")

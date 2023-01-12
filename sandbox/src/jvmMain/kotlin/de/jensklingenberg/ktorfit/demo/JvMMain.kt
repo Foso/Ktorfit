@@ -1,12 +1,11 @@
 package de.jensklingenberg.ktorfit.demo
 
 
-import com.example.api.GithubService
 import com.example.api.JsonPlaceHolderApi
-import com.example.model.Jens
 import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverter
 import com.example.model.StringToIntRequestConverter
+import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 
@@ -18,7 +17,6 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
-import ktorfit.Test
 
 
 val jvmClient = HttpClient {
@@ -54,16 +52,18 @@ val jvmKtorfit = ktorfit {
 
 
 
-fun zop(zup:()->Unit){
+
+internal class Test2() {
+
 
 }
 
 fun main() {
-
+val tes = "dd33 32"
+    val api2: JsonPlaceHolderApi = jvmKtorfit.create<JsonPlaceHolderApi>()
 
     runBlocking {
 
-         val api2 = jvmKtorfit.create<JsonPlaceHolderApi>()
 
 
         val test = api2.getCommentsByPostIdResponse("3")

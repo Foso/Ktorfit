@@ -4,7 +4,13 @@ import com.google.auto.service.AutoService
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
+import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys
+import org.jetbrains.kotlin.cli.common.config.kotlinSourceRoots
+import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
+import org.jetbrains.kotlin.cli.common.messages.MessageCollector
+import org.jetbrains.kotlin.cli.jvm.compiler.createSourceFilesFromSourceRoots
 import org.jetbrains.kotlin.com.intellij.mock.MockProject
+import org.jetbrains.kotlin.com.intellij.openapi.extensions.LoadingOrder
 import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.ir.IrStatement
@@ -17,6 +23,7 @@ import org.jetbrains.kotlin.ir.types.defaultType
 import org.jetbrains.kotlin.ir.util.constructors
 import org.jetbrains.kotlin.ir.util.kotlinFqName
 import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstance
+import java.io.File
 
 @AutoService(ComponentRegistrar::class)
 class CommonComponentRegistrar : ComponentRegistrar {
@@ -29,10 +36,19 @@ class CommonComponentRegistrar : ComponentRegistrar {
             return
         }
 
-        IrGenerationExtension.registerExtension(
-            project,
-            RedactedIrGenerationExtension()
-        )
+        val sourceFiles = createSourceFilesFromSourceRoots(configuration, project, configuration.kotlinSourceRoots)
+//val file = File(configuration.kotlinSourceRoots.get(15).path).readText()
+        val messageCollector = configuration.get(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE)
+        configuration.kotlinSourceRoots.forEach {
+            messageCollector.report(
+                CompilerMessageSeverity.WARNING,
+                "*** Hello from ***" + it.path
+            )
+        }
+
+        project.extensionArea
+            .getExtensionPoint(IrGenerationExtension.extensionPointName)
+            .registerExtension( RedactedIrGenerationExtension(), LoadingOrder.LAST, project)
     }
 }
 
@@ -47,6 +63,16 @@ class ElementTransformer(
     private val moduleFragment: IrModuleFragment
 ) :
     IrElementTransformerVoidWithContext() {
+
+    override fun visitValueParameterNew(declaration: IrValueParameter): IrStatement {
+        declaration.transform(CreateFuncTransformer( moduleFragment), null)
+        return super.visitValueParameterNew(declaration)
+    }
+
+    override fun visitPropertyNew(declaration: IrProperty): IrStatement {
+        declaration.transform(CreateFuncTransformer( moduleFragment), null)
+        return super.visitPropertyNew(declaration)
+    }
 
     override fun visitCall(expression: IrCall): IrExpression {
         expression.transform(CreateFuncTransformer( moduleFragment), null)
@@ -101,6 +127,7 @@ class CreateFuncTransformer(
                     return expression
                 }
 
+                
                 //Get T from create<T>()
                 val argumentType = irCall.getTypeArgument(0) ?: return expression
 

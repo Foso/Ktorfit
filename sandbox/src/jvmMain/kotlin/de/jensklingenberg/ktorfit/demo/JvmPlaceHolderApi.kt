@@ -7,7 +7,7 @@ import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.http.*
 import io.ktor.client.statement.*
 
-interface JvmPlaceHolderApi : StarWarsApi {
+internal interface JvmPlaceHolderApi : StarWarsApi {
 
     @GET("people/{id}/")
     suspend fun getPersonById2(@Path("id") peopleId: Int): People

@@ -33,12 +33,13 @@ const val WILDCARDIMPORT = "WILDCARDIMPORT"
  */
 fun ClassData.getImplClassFileSource(): String {
     val classData = this
-
+classData.functions.first()
     /**
      * public fun Ktorfit.createExampleApi(): ExampleApi = _ExampleApiImpl(KtorfitClient(this))
      * _JsonPlaceHolderApiImpl(KtorfitClient(this)).also { it.setClient(KtorfitClient(this)) }
      */
     val createExtensionFunctionSpec = FunSpec.builder("create${classData.name}")
+        .addModifiers(classData.modifiers)
         .addStatement("return _${classData.name}Impl().also{ it.setClient(KtorfitClient(this)) }")
         .receiver(TypeVariableName(ktorfitClass.name))
         .returns(TypeVariableName(classData.name))
@@ -159,7 +160,7 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     }
 
     if (ksClassDeclaration.modifiers.contains(Modifier.INTERNAL)) {
-        logger.error(KtorfitError.INTERNAL_INTERFACES_ARE_NOT_SUPPORTED, ksClassDeclaration)
+       // logger.error(KtorfitError.INTERNAL_INTERFACES_ARE_NOT_SUPPORTED, ksClassDeclaration)
     }
 
     return ClassData(

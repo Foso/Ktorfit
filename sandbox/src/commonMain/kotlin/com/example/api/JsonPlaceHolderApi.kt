@@ -9,7 +9,7 @@ import io.ktor.client.statement.*
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
 
-interface JsonPlaceHolderApi {
+internal interface JsonPlaceHolderApi {
 
     companion object {
         const val baseUrl = "https://jsonplaceholder.typicode.com/"
