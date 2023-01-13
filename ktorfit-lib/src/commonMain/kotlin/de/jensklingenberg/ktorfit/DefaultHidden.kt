@@ -2,7 +2,7 @@ package de.jensklingenberg.ktorfit
 
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 
-class DefaultHidden : Hidden {
+class DefaultKtorfitService : KtorfitService {
     override fun setClient(client: KtorfitClient) {
 
     }

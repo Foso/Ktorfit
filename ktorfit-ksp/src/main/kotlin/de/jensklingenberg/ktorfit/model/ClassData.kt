@@ -84,7 +84,7 @@ classData.functions.first()
             TypeSpec.classBuilder(implClassName)
                 .addModifiers(classData.modifiers)
                 .addSuperinterface(ClassName(classData.packageName, classData.name))
-                .addSuperinterface(ClassName("de.jensklingenberg.ktorfit", "Hidden"))
+                .addSuperinterface(ClassName("de.jensklingenberg.ktorfit", "KtorfitService"))
                 .addKtorfitSuperInterface(classData.superClasses)
 
                 .addFunctions(classData.functions.map { it.toFunSpec() }.flatten())

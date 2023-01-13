@@ -27,6 +27,7 @@ pluginManagement {
 rootProject.name = "Ktorfit"
 
 include(":sandbox")
+include(":sandbox3")
 
 include(":ktorfit-ksp")
 include(":kotlin-plugin")

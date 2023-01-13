@@ -45,19 +45,17 @@ val jvmKtorfit = ktorfit {
 }
 
 
-
-
 internal class Test2() {
-    val api2 = jvmKtorfit.create<JsonPlaceHolderApi>()
+
 
 }
 
 fun main() {
-val tes = "dd3sh 332"
-    val api2 = Test2().api2
+val tes = "dd3shvv vvb332"
+    //val api2 = Test2().api2
 
     runBlocking {
-
+        val api2 = jvmKtorfit.create<JsonPlaceHolderApi>()
 
 
         val test = api2.deletePosts(3)

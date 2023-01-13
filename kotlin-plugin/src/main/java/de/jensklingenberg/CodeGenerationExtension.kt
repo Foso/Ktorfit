@@ -5,6 +5,10 @@ import org.jetbrains.kotlin.analyzer.AnalysisResult.RetryWithAdditionalRoots
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.com.intellij.openapi.project.Project
+import org.jetbrains.kotlin.com.intellij.openapi.vfs.local.CoreLocalFileSystem
+import org.jetbrains.kotlin.com.intellij.openapi.vfs.local.CoreLocalVirtualFile
+import org.jetbrains.kotlin.com.intellij.psi.PsiManager
+import org.jetbrains.kotlin.com.intellij.psi.SingleRootFileViewProvider
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.container.ComponentProvider
 import org.jetbrains.kotlin.context.ProjectContext
@@ -76,9 +80,9 @@ internal class CodeGenerationExtension(
             package com.example.api
 
             import de.jensklingenberg.ktorfit.internal.KtorfitClient
-            import de.jensklingenberg.ktorfit.Hidden
+            import de.jensklingenberg.ktorfit.KtorfitService
 
-            class _JsonPlaceHolderApiImpl : Hidden {
+            class _JsonPlaceHolderApiImpl : KtorfitService {
                 override fun setClient(client: KtorfitClient) {
 
                 }
@@ -106,7 +110,7 @@ internal class CodeGenerationExtension(
 
         val additionalKotlinRoots = mutableListOf<File>()
         if(files.none { it.virtualFilePath.contains("_Json") }){
-            additionalKotlinRoots.add(ff)
+           // additionalKotlinRoots.add(ff)
         }
 
         return AnalysisResult.RetryWithAdditionalRoots(
@@ -115,4 +119,13 @@ internal class CodeGenerationExtension(
     }
 
 
+}
+
+fun createNewKtFile(
+    name: String, content: String, outputDir: String, fileManager: PsiManager
+): KtFile {
+    val directory = File(outputDir).apply { mkdirs() }
+    val file = File(directory, name).apply { writeText(content) }
+    val virtualFile = CoreLocalVirtualFile(CoreLocalFileSystem(), file)
+    return KtFile(SingleRootFileViewProvider(fileManager, virtualFile), false)
 }

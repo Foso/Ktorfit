@@ -69,9 +69,9 @@ class MyAnalysisHandlerExtension(
             package com.example.api
 
             import de.jensklingenberg.ktorfit.internal.KtorfitClient
-            import de.jensklingenberg.ktorfit.Hidden
+            import de.jensklingenberg.ktorfit.KtorfitService
 
-            class _JsonPlaceHolderApiImpl : Hidden {
+            class _JsonPlaceHolderApiImpl : KtorfitService {
                 override fun setClient(client: KtorfitClient) {
 
                 }

@@ -22,4 +22,3 @@ interface JsonPlaceHolderApi {
     suspend fun deletePosts(@Path("postId") postId: Int): String
 
 }
-

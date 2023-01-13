@@ -20,10 +20,10 @@ class Ktorfit private constructor(
     val suspendResponseConverters: Set<SuspendResponseConverter>,
     val requestConverters: Set<RequestConverter>
 ) {
-
-    fun <T> create(testInteface2: Hidden = DefaultHidden()): T {
+    
+    fun <T> create(testInteface2: KtorfitService = DefaultKtorfitService()): T {
         testInteface2.setClient(KtorfitClient(this))
-        return testInteface2 as T
+        return testInteface2 as? T ?: throw NullPointerException()
     }
 
 
@@ -146,6 +146,6 @@ fun ktorfit(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().apply(build
 fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().apply(builder)
 
 
-interface Hidden {
+interface KtorfitService {
     fun setClient(client: KtorfitClient)
 }
