@@ -2,10 +2,7 @@ package de.jensklingenberg.ktorfit.demo
 
 
 import com.example.api.JsonPlaceHolderApi
-import com.example.model.MyOwnResponse
-import com.example.model.MyOwnResponseConverter
-import com.example.model.StringToIntRequestConverter
-import de.jensklingenberg.ktorfit.Ktorfit
+import com.example.api.*
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 
@@ -43,40 +40,29 @@ val jvmKtorfit = ktorfit {
         FlowResponseConverter(),
         RxRequestConverter(),
         CallResponseConverter(),
-        MyOwnResponseConverter()
     )
-    requestConverter(
-        StringToIntRequestConverter()
-    )
+
 }
 
 
 
 
 internal class Test2() {
-
+    val api2 = jvmKtorfit.create<JsonPlaceHolderApi>()
 
 }
 
 fun main() {
-val tes = "dd33 32"
-    val api2: JsonPlaceHolderApi = jvmKtorfit.create<JsonPlaceHolderApi>()
+val tes = "dd3sh 332"
+    val api2 = Test2().api2
 
     runBlocking {
 
 
 
-        val test = api2.getCommentsByPostIdResponse("3")
+        val test = api2.deletePosts(3)
 
-        when (test) {
-            is MyOwnResponse.Success -> {
-                test
-            }
 
-            else -> {
-                test
-            }
-        }
 
 
         delay(3000)

@@ -1,9 +1,6 @@
 
 
-import com.example.model.MyOwnResponse
-import com.example.model.Post
 import com.example.model.jsonPlaceHolderApi
-import de.jensklingenberg.ktorfit.Callback
 import io.ktor.client.statement.*
 
 import kotlinx.coroutines.GlobalScope
