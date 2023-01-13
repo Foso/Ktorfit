@@ -6,7 +6,7 @@ plugins {
 apply(plugin = "compiler.gradleplugin.helloworld")
 version = "1.0-SNAPSHOT"
 val ktorVersion = "2.2.2"
-configure<de.jensklingenberg.gradle.TestCompilerExtension> {
+configure<de.jensklingenberg.ktorfit.KtorfitGradleConfiguration> {
     enabled = true
 }
 ksp {

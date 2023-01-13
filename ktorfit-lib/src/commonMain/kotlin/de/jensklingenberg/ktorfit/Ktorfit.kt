@@ -21,9 +21,9 @@ class Ktorfit private constructor(
     val requestConverters: Set<RequestConverter>
 ) {
     
-    fun <T> create(testInteface2: KtorfitService = DefaultKtorfitService()): T {
-        testInteface2.setClient(KtorfitClient(this))
-        return testInteface2 as? T ?: throw NullPointerException()
+    fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
+        ktorfitService.setClient(KtorfitClient(this))
+        return ktorfitService as? T ?: throw NullPointerException()
     }
 
 

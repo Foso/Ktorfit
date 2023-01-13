@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
+
 plugins {
     kotlin("multiplatform")
     id("com.google.devtools.ksp")
@@ -6,7 +9,7 @@ plugins {
 apply(plugin = "compiler.gradleplugin.helloworld")
 version = "1.0-SNAPSHOT"
 val ktorVersion = "2.2.2"
-configure<de.jensklingenberg.gradle.TestCompilerExtension> {
+configure<de.jensklingenberg.ktorfit.KtorfitGradleConfiguration> {
     enabled = true
 }
 ksp {
@@ -121,3 +124,6 @@ dependencies {
 
 }
 
+tasks.withType<KotlinCompile>().configureEach {
+    compilerExecutionStrategy.set(KotlinCompilerExecutionStrategy.IN_PROCESS)
+}

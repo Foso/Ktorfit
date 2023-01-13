@@ -38,24 +38,20 @@ val jvmKtorfit = ktorfit {
     httpClient(jvmClient)
     responseConverter(
         FlowResponseConverter(),
-        RxRequestConverter(),
+
         CallResponseConverter(),
     )
 
 }
 
 
-internal class Test2() {
-
-
-}
 
 fun main() {
-val tes = "dd3shvv vvb332"
+    val tes = "dd3shvvvvb332"
     //val api2 = Test2().api2
 
     runBlocking {
-        val api2 = jvmKtorfit.create<JsonPlaceHolderApi>()
+        val api2 = jvmKtorfit.create<JensPlaceHolderApi>()
 
 
         val test = api2.deletePosts(3)
@@ -65,5 +61,4 @@ val tes = "dd3shvv vvb332"
 
         delay(3000)
     }
-
 }

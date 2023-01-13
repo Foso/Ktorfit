@@ -25,12 +25,13 @@ pluginManagement {
 //./gradlew clean :sandbox:compileKotlinJvm --no-daemon -Dorg.gradle.debug=true -Dkotlin.compiler.execution.strategy="in-process" -Dkotlin.daemon.jvm.options="-Xdebug,-Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n"
 
 rootProject.name = "Ktorfit"
-
+includeBuild("gradle-plugin")
 include(":sandbox")
 include(":sandbox3")
 
 include(":ktorfit-ksp")
 include(":kotlin-plugin")
+include(":kotlin-plugin-native")
 include(":ktorfit-lib")
 include(":ktorfit-annotations")
 

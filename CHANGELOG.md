@@ -21,7 +21,7 @@ NEW:
 
 ⬆️ Deps updates
 - based on Ktor 2.1.3
-- Kotlin 1.7.21
+- Kotlin 1.8.0
 - KSP 1.0.8
 - update Android TargetSdk to 33
 

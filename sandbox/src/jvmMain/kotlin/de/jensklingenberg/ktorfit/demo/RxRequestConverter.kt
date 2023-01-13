@@ -27,7 +27,7 @@ class RxRequestConverter : ResponseConverter {
     ): Any {
         return when (typeData.qualifiedName) {
             "io.reactivex.rxjava3.core.Single" -> {
-                Single.create<RequestType> { e ->
+                Single.create<Any> { e ->
 
                     try {
                         ktorfit.httpClient.launch {
@@ -50,7 +50,7 @@ class RxRequestConverter : ResponseConverter {
                 }
             }
             "io.reactivex.rxjava3.core.Observable" -> {
-                Observable.create<RequestType> { e ->
+                Observable.create<Any> { e ->
                     try {
                         ktorfit.httpClient.launch {
                             val result = async {
