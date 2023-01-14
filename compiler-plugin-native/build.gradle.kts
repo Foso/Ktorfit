@@ -1,11 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
-val kspVersion: String by project
 val ktorfitVersion: String by project
 val autoService: String by project
-val kotlinPoet: String by project
 val detektVersion: String by project
+val enableSigning: String by project
 
 plugins {
     kotlin("jvm")
@@ -16,13 +15,6 @@ plugins {
     id("io.gitlab.arturbosch.detekt").version("1.21.0")
     kotlin("kapt")
 }
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
-
-
-
-val enableSigning: String by project
 
 mavenPublishing {
     publishToMavenCentral()
@@ -36,16 +28,9 @@ group = "de.jensklingenberg.ktorfit"
 version = ktorfitVersion
 
 dependencies {
-
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("com.google.truth:truth:1.1.3")
     compileOnly ("com.google.auto.service:auto-service:$autoService")
     kapt ("com.google.auto.service:auto-service:$autoService")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
-    compileOnly("org.jetbrains.kotlin:kotlin-compiler:1.8.0")
-
-
+    compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.8.0")
 }
 
 
@@ -120,4 +105,8 @@ publishing {
 
 tasks.withType<KotlinCompilationTask<*>>().configureEach {
     compilerOptions.freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }

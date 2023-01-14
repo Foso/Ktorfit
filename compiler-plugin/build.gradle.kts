@@ -1,11 +1,10 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kspVersion: String by project
 val ktorfitVersion: String by project
 val autoService: String by project
-val kotlinPoet: String by project
 val detektVersion: String by project
+val enableSigning: String by project
 
 plugins {
     kotlin("jvm")
@@ -17,18 +16,10 @@ plugins {
     kotlin("kapt")
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
-
-
-
-val enableSigning: String by project
-
 mavenPublishing {
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
-    if(enableSigning.toBoolean()){
+    if (enableSigning.toBoolean()) {
         signAllPublications()
     }
 }
@@ -37,11 +28,10 @@ group = "de.jensklingenberg.ktorfit"
 version = ktorfitVersion
 
 dependencies {
-    compileOnly ("com.google.auto.service:auto-service:$autoService")
-    kapt ("com.google.auto.service:auto-service:$autoService")
+    compileOnly("com.google.auto.service:auto-service:$autoService")
+    kapt("com.google.auto.service:auto-service:$autoService")
     compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.8.0")
 }
-
 
 detekt {
     toolVersion = "1.21.0"
@@ -114,4 +104,8 @@ publishing {
 
 tasks.withType<KotlinCompilationTask<*>>().configureEach {
     compilerOptions.freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }

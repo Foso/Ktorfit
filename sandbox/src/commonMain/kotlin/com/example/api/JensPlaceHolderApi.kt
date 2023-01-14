@@ -1,10 +1,12 @@
-package de.jensklingenberg.ktorfit.demo
+package com.example.api
 
 import de.jensklingenberg.ktorfit.http.DELETE
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Headers
 import de.jensklingenberg.ktorfit.http.Path
 import kotlinx.coroutines.flow.Flow
+
+
 
 interface JensPlaceHolderApi {
 

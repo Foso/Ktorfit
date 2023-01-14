@@ -33,16 +33,7 @@ val jvmClient = HttpClient {
 }
 
 
-val jvmKtorfit = ktorfit {
-    baseUrl(JsonPlaceHolderApi.baseUrl)
-    httpClient(jvmClient)
-    responseConverter(
-        FlowResponseConverter(),
 
-        CallResponseConverter(),
-    )
-
-}
 
 
 
@@ -51,7 +42,7 @@ fun main() {
     //val api2 = Test2().api2
 
     runBlocking {
-        val api2:JensPlaceHolderApi = jvmKtorfit.create()
+        val api2: JensPlaceHolderApi = jvmKtorfit.create()
 
 
         val test = api2.deletePosts(3)

@@ -52,7 +52,7 @@ publishing {
             //artifact(tasks["dokkaJar"])
 
             pom {
-                name.set("compiler.gradleplugin.helloworld")
+                name.set("compiler.gradleplugin.helloworld2")
                 description.set("KotlinCompilerPluginExample")
                 url.set("https://github.com/Foso/KotlinCompilerPluginExample")
 
