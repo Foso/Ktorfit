@@ -16,6 +16,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt").version("1.21.0")
     kotlin("kapt")
 }
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
@@ -36,16 +37,9 @@ group = "de.jensklingenberg.ktorfit"
 version = ktorfitVersion
 
 dependencies {
-
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("com.google.truth:truth:1.1.3")
     compileOnly ("com.google.auto.service:auto-service:$autoService")
     kapt ("com.google.auto.service:auto-service:$autoService")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
-    compileOnly("org.jetbrains.kotlin:kotlin-compiler:1.8.0")
-
-
+    compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.8.0")
 }
 
 
@@ -73,7 +67,7 @@ publishing {
 
             pom {
                 name.set(project.name)
-                description.set("KSP Plugin for Ktorfit")
+                description.set("Compiler Plugin for Ktorfit")
                 url.set("https://github.com/Foso/Ktorfit")
 
                 licenses {

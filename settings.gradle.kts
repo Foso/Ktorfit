@@ -30,8 +30,8 @@ include(":sandbox")
 include(":sandbox3")
 
 include(":ktorfit-ksp")
-include(":kotlin-plugin")
-include(":kotlin-plugin-native")
+include(":compiler-plugin")
+include(":compiler-plugin-native")
 include(":ktorfit-lib")
 include(":ktorfit-annotations")
 

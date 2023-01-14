@@ -19,7 +19,7 @@ buildscript {
     dependencies {
         classpath("de.jensklingenberg.ktorfit:gradle-plugin:1.0.0-beta16")
         classpath("com.vanniktech:gradle-maven-publish-plugin:0.22.0")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.7.10")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.7.20")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.8.0")
         classpath("com.android.tools.build:gradle:7.2.2")
         classpath ("app.cash.licensee:licensee-gradle-plugin:1.5.0")

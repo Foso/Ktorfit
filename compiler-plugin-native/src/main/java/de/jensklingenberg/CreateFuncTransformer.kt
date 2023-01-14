@@ -2,8 +2,6 @@ package de.jensklingenberg
 
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
-import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
@@ -15,11 +13,11 @@ import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 
 class CreateFuncTransformer(
-    private val moduleFragment: IrModuleFragment,
-    val messageCollector: MessageCollector,
     private val pluginContext: IrPluginContext
 ) :
     IrElementTransformerVoidWithContext() {
+    private val CREATE_FUNCTION_NAME = "create"
+    private val KTORFIT_CREATE_PACKAGE = "de.jensklingenberg.ktorfit.Ktorfit"
 
     /**
      * Transform exampleKtorfit.create<TestApi>() to exampleKtorfit.create<TestApi>(_TestApiImpl())
@@ -29,11 +27,12 @@ class CreateFuncTransformer(
         //Find exampleKtorfit.create<TestApi>()
         (expression as? IrCall)?.let { irCall ->
             if (irCall.typeArgumentsCount > 0) {
-                if (expression.symbol.owner.name.asString() != "create") {
+
+                if (expression.symbol.owner.name.asString() != CREATE_FUNCTION_NAME) {
                     return expression
                 }
 
-                if (!expression.symbol.owner.symbol.toString().contains("de.jensklingenberg.ktorfit.Ktorfit")) {
+                if (!expression.symbol.owner.symbol.toString().contains(KTORFIT_CREATE_PACKAGE)) {
                     return expression
                 }
 
@@ -41,16 +40,16 @@ class CreateFuncTransformer(
                 val argumentType = irCall.getTypeArgument(0) ?: return expression
 
 
-                val packaage = argumentType.classFqName?.asString()?.substringBeforeLast(".")!!
-                val className = argumentType.classFqName?.asString()?.substringAfterLast(".") ?: ""
+                val typeClassPackage = argumentType.classFqName?.asString()?.substringBeforeLast(".")!!
+                val typeClassName = argumentType.classFqName?.asString()?.substringAfterLast(".") ?: ""
 
                 //Find the class _TestApiImpl
                 val implClassSymbol = pluginContext.referenceClass(
                     ClassId(
-                        FqName(packaage),
-                        Name.identifier("_$className" + "Impl")
+                        FqName(typeClassPackage),
+                        Name.identifier("_$typeClassName" + "Impl")
                     )
-                ) ?: throw NullPointerException("_$className" + "Impl not found, did you apply the Ksp Ktorfit plugin?")
+                ) ?: throw NullPointerException("_$typeClassName" + "Impl not found, did you apply the KSP Ktorfit plugin?")
 
                 val newConstructor = implClassSymbol.constructors.first()
 

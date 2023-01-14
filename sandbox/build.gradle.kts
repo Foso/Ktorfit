@@ -6,7 +6,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlinx-serialization")
 }
-apply(plugin = "compiler.gradleplugin.helloworld")
+apply(plugin = "de.jensklingenberg.ktorfit")
 version = "1.0-SNAPSHOT"
 val ktorVersion = "2.2.2"
 configure<de.jensklingenberg.ktorfit.KtorfitGradleConfiguration> {

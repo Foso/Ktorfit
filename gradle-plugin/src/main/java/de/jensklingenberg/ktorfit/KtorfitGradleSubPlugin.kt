@@ -19,7 +19,6 @@ class KtorfitGradleSubPlugin : KotlinCompilerPluginSupportPlugin {
         const val SERIALIZATION_GROUP_NAME = "de.jensklingenberg.ktorfit"
         const val ARTIFACT_NAME = "compiler-plugin"
         const val NATIVE_ARTIFACT_NAME = "$ARTIFACT_NAME-native"
-        const val VERSION_NUMBER = "1.0.0-beta16"
     }
 
     private var gradleExtension : KtorfitGradleConfiguration = KtorfitGradleConfiguration()
