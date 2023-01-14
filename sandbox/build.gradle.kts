@@ -17,6 +17,10 @@ ksp {
 }
 
 kotlin {
+
+    jvmToolchain(8) // "8"
+
+
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"

@@ -50,12 +50,13 @@ val jvmKtorfit = ktorfit {
 }
 
 
+
 fun main() {
 
 
     runBlocking {
 
-        val api = jsonPlaceHolderApi
+        val api = jvmKtorfit.create<JsonPlaceHolderApi>()
 
 
         val test = api.getCommentsByPostIdResponse("3")
