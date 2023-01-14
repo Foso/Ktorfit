@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "de.jensklingenberg.ktorfit"
-version = "1.0.0-beta16"
+version = "1.0.0-beta17"
 
 
 allprojects {

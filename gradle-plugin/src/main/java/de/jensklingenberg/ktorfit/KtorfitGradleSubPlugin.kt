@@ -9,7 +9,7 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
 open class KtorfitGradleConfiguration {
     var enabled: Boolean = true
-    var version: String = "1.0.0-beta16"
+    var version: String = "1.0.0-beta17"
 }
 
 

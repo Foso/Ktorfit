@@ -2,10 +2,12 @@ package de.jensklingenberg.ktorfit.demo
 
 
 import com.example.api.JsonPlaceHolderApi
-import com.example.api.*
+import com.example.model.MyOwnResponse
+import com.example.model.MyOwnResponseConverter
+import com.example.model.StringToIntRequestConverter
+import com.example.model.jsonPlaceHolderApi
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
-
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -33,23 +35,43 @@ val jvmClient = HttpClient {
 }
 
 
-
-
+val jvmKtorfit = ktorfit {
+    baseUrl(JsonPlaceHolderApi.baseUrl)
+    httpClient(jvmClient)
+    responseConverter(
+        FlowResponseConverter(),
+        RxRequestConverter(),
+        CallResponseConverter(),
+        MyOwnResponseConverter()
+    )
+    requestConverter(
+        StringToIntRequestConverter()
+    )
+}
 
 
 fun main() {
-    val tes = "dd3shvvvvb332"
-    //val api2 = Test2().api2
+
 
     runBlocking {
-        val api2: JensPlaceHolderApi = jvmKtorfit.create()
+
+        val api = jsonPlaceHolderApi
 
 
-        val test = api2.deletePosts(3)
+        val test = api.getCommentsByPostIdResponse("3")
 
+        when (test) {
+            is MyOwnResponse.Success -> {
+                test
+            }
 
+            else -> {
+                test
+            }
+        }
 
 
         delay(3000)
     }
+
 }

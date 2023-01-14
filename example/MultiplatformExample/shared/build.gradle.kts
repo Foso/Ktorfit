@@ -2,14 +2,17 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "1.7.10-1.0.6"
+    id("com.google.devtools.ksp") version "1.8.0-1.0.8"
     id("kotlinx-serialization")
 
 }
-
+apply(plugin = "de.jensklingenberg.ktorfit")
+configure<de.jensklingenberg.ktorfit.KtorfitGradleConfiguration> {
+    enabled = true
+}
 version = "1.0"
-val ktorVersion = "2.1.3"
-val ktorfitVersion = "1.0.0-beta16"
+val ktorVersion = "2.2.2"
+val ktorfitVersion = "1.0.0-beta17"
 
 kotlin {
     android()

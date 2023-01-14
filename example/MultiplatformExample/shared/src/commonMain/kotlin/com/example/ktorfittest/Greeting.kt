@@ -2,7 +2,6 @@ package com.example.ktorfittest
 
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
-import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -37,6 +36,6 @@ class Greeting {
 fun loadData() {
     GlobalScope.launch {
         val response = starWarsApi.getPersonByIdResponse(3)
-        println("Ktorfit:"+Platform().platform + ":" + response)
+        println("Ktorfit  :  "+Platform().platform + ":" + response)
     }
 }

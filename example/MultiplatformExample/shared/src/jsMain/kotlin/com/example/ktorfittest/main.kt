@@ -3,6 +3,7 @@ package com.example.ktorfittest
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+val starWarsApi2 = ktorfit.create<StarWarsApi>()
 
 //Run with jsNodeRun
 fun main() {
@@ -12,7 +13,7 @@ fun main() {
         println("Launch")
 
 
-        starWarsApi.getPeopleByIdFlowResponse(3,null).collect {
+        starWarsApi2.getPeopleByIdFlowResponse(3,null).collect {
             println("JS getPeopleByIdFlowResponse:" + it.name)
         }
 
