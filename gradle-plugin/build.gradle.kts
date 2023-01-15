@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "de.jensklingenberg.ktorfit"
-version = "1.0.0-beta17"
+version = "1.0.0"
 
 
 allprojects {
@@ -29,7 +29,7 @@ gradlePlugin {
     plugins {
 
         create("simplePlugin") {
-            id = "de.jensklingenberg.ktorfit" // users will do `apply plugin: "compiler.plugin.helloworld"`
+            id = "de.jensklingenberg.ktorfit" // users will do `apply plugin: "de.jensklingenberg.ktorfit"`
             implementationClass = "de.jensklingenberg.ktorfit.KtorfitGradleSubPlugin" // entry-point class
         }
     }
@@ -52,9 +52,9 @@ publishing {
             //artifact(tasks["dokkaJar"])
 
             pom {
-                name.set("compiler.gradleplugin.helloworld2")
-                description.set("KotlinCompilerPluginExample")
-                url.set("https://github.com/Foso/KotlinCompilerPluginExample")
+                name.set(project.name)
+                description.set("Grade plugin for Ktorfit")
+                url.set("https://github.com/Foso/Ktorfit")
 
                 licenses {
                     license {
@@ -63,8 +63,8 @@ publishing {
                     }
                 }
                 scm {
-                    url.set("https://github.com/Foso/KotlinCompilerPluginExample")
-                    connection.set("scm:git:git://github.com/Foso/KotlinCompilerPluginExample.git")
+                    url.set("https://github.com/Foso/Ktorfit")
+                    connection.set("scm:git:git://github.com/Foso/Ktorfit.git")
                 }
                 developers {
                     developer {

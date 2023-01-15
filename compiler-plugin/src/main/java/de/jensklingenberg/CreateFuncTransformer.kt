@@ -14,16 +14,15 @@ import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 
+/**
+ * Transform exampleKtorfit.create<TestApi>() to exampleKtorfit.create<TestApi>(_TestApiImpl())
+ */
 class CreateFuncTransformer(
-    private val moduleFragment: IrModuleFragment,
-    val messageCollector: MessageCollector,
     private val pluginContext: IrPluginContext
 ) :
     IrElementTransformerVoidWithContext() {
 
-    /**
-     * Transform exampleKtorfit.create<TestApi>() to exampleKtorfit.create<TestApi>(_TestApiImpl())
-     */
+
     override fun visitExpression(expression: IrExpression): IrExpression {
 
         //Find exampleKtorfit.create<TestApi>()

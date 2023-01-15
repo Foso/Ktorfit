@@ -1,6 +1,5 @@
 plugins {
     kotlin("multiplatform")
-
     id("kotlinx-serialization")
     id("maven-publish")
     id("signing")
@@ -211,10 +210,4 @@ publishing {
 
 rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class){
     rootProject.the(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class).nodeVersion = "16.0.0"
-}
-
-kotlin {
-
-    // Or shorter:
-    jvmToolchain(8) // "8"
 }

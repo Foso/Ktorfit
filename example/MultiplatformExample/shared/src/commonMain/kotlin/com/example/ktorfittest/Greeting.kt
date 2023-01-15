@@ -20,6 +20,9 @@ val ktorfit = ktorfit {
     responseConverter(FlowResponseConverter(),CallResponseConverter())
 }
 
+fun tst(){
+    println("dddd")
+}
 
 val starWarsApi = ktorfit.create<StarWarsApi>()
 

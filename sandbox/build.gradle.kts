@@ -18,7 +18,7 @@ ksp {
 
 kotlin {
 
-    jvmToolchain(8) // "8"
+  //  jvmToolchain(8) // "8"
 
 
     jvm {
@@ -67,7 +67,6 @@ kotlin {
                kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
 
             dependencies {
-                implementation(project(":sandbox3"))
                 implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.6.4")
                 implementation("io.reactivex.rxjava3:rxjava:3.1.5")
@@ -129,5 +128,5 @@ dependencies {
 }
 
 tasks.withType<KotlinCompile>().configureEach {
-    compilerExecutionStrategy.set(KotlinCompilerExecutionStrategy.IN_PROCESS)
+    //compilerExecutionStrategy.set(KotlinCompilerExecutionStrategy.IN_PROCESS)
 }

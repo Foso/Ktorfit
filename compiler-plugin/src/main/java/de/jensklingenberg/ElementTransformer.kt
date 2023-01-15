@@ -8,7 +8,6 @@ import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.IrFunctionExpression
-import org.jetbrains.kotlin.ir.util.kotlinFqName
 
 class ElementTransformer(
     private val moduleFragment: IrModuleFragment,
@@ -17,30 +16,28 @@ class ElementTransformer(
 ) : IrElementTransformerVoidWithContext() {
 
     override fun visitValueParameterNew(declaration: IrValueParameter): IrStatement {
-        declaration.transform(CreateFuncTransformer(moduleFragment, messageCollector, pluginContext), null)
+        declaration.transform(CreateFuncTransformer(pluginContext), null)
         return super.visitValueParameterNew(declaration)
     }
 
     override fun visitPropertyNew(declaration: IrProperty): IrStatement {
-        declaration.transform(CreateFuncTransformer(moduleFragment, messageCollector, pluginContext), null)
+        declaration.transform(CreateFuncTransformer(pluginContext), null)
         return super.visitPropertyNew(declaration)
     }
 
     override fun visitCall(expression: IrCall): IrExpression {
-        expression.transform(CreateFuncTransformer(moduleFragment, messageCollector, pluginContext), null)
+        expression.transform(CreateFuncTransformer(pluginContext), null)
         return super.visitCall(expression)
     }
 
     override fun visitVariable(declaration: IrVariable): IrStatement {
-        declaration.transform(CreateFuncTransformer(moduleFragment, messageCollector, pluginContext), null)
+        declaration.transform(CreateFuncTransformer(pluginContext), null)
         return super.visitVariable(declaration)
     }
 
 
     override fun visitFunctionExpression(expression: IrFunctionExpression): IrExpression {
-        expression.transform(CreateFuncTransformer(moduleFragment, messageCollector, pluginContext), null)
+        expression.transform(CreateFuncTransformer(pluginContext), null)
         return super.visitFunctionExpression(expression)
     }
-
-
 }

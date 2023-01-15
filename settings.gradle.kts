@@ -27,8 +27,6 @@ pluginManagement {
 rootProject.name = "Ktorfit"
 includeBuild("gradle-plugin")
 include(":sandbox")
-include(":sandbox3")
-
 include(":ktorfit-ksp")
 include(":compiler-plugin")
 include(":compiler-plugin-native")

@@ -5,7 +5,6 @@ import com.example.api.JsonPlaceHolderApi
 import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverter
 import com.example.model.StringToIntRequestConverter
-import com.example.model.jsonPlaceHolderApi
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 import de.jensklingenberg.ktorfit.ktorfit
@@ -53,7 +52,7 @@ val jvmKtorfit = ktorfit {
 
 fun main() {
 
-
+println("dddd")
     runBlocking {
 
         val api = jvmKtorfit.create<JsonPlaceHolderApi>()

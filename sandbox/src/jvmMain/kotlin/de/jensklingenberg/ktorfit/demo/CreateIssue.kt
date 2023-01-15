@@ -29,7 +29,7 @@ fun main() {
         httpClient(jvmClient)
         responseConverter(
             FlowResponseConverter(),
-            RxRequestConverter2()
+            RxRequestConverter()
         )
     }
 

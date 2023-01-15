@@ -39,7 +39,7 @@ class KtorfitGradleSubPlugin : KotlinCompilerPluginSupportPlugin {
         super.apply(target)
     }
 
-    override fun getCompilerPluginId(): String = "helloWorldPlugin"
+    override fun getCompilerPluginId(): String = "KtorfitPlugin"
 
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean {
         return true
