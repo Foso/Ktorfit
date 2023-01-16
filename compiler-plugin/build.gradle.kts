@@ -8,12 +8,13 @@ val enableSigning: String by project
 
 plugins {
     kotlin("jvm")
+    kotlin("kapt")
     id("com.vanniktech.maven.publish")
     `maven-publish`
     signing
     id("org.jetbrains.dokka")
     id("io.gitlab.arturbosch.detekt").version("1.21.0")
-    kotlin("kapt")
+
 }
 
 mavenPublishing {
@@ -32,7 +33,9 @@ dependencies {
     kapt("com.google.auto.service:auto-service:$autoService")
     compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.8.0")
     testImplementation("dev.zacsweers.kctfork:core:0.2.1")
-    testImplementation("dev.zacsweers.kctfork:ksp:0.2.1")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("com.google.truth:truth:1.1.3")
+
 }
 
 detekt {
