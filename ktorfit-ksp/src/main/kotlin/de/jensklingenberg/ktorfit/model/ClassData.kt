@@ -159,10 +159,6 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         logger.error(KtorfitError.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE, ksClassDeclaration)
     }
 
-    if (ksClassDeclaration.modifiers.contains(Modifier.INTERNAL)) {
-       // logger.error(KtorfitError.INTERNAL_INTERFACES_ARE_NOT_SUPPORTED, ksClassDeclaration)
-    }
-
     return ClassData(
         name = className,
         packageName = packageName,

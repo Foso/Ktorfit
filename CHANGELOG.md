@@ -1,3 +1,22 @@
+1.0.0-beta17 (not released)
+========================================
+- Ktorfit now needs an additional gradle plugin
+
+Add this to your classpath:
+classpath("de.jensklingenberg.ktorfit:gradle-plugin:1.0.0")
+
+and this plugin:
+plugins {
+id("de.jensklingenberg.ktorfit.gradle")
+}
+- interfaces can now be internal
+
+⬆️ Deps updates
+- based on Ktor 2.2.2
+- Kotlin 1.8.0
+- KSP 1.8.0-1.0.8
+- update Android TargetSdk to 33
+
 1.0.0-beta16 (13-11-2022)
 ========================================
 
@@ -21,7 +40,7 @@ NEW:
 
 ⬆️ Deps updates
 - based on Ktor 2.1.3
-- Kotlin 1.8.0
+- Kotlin 1.7.21
 - KSP 1.0.8
 - update Android TargetSdk to 33
 

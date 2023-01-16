@@ -23,12 +23,14 @@ class HttpAnnotationTest() {
 package com.example.api
 
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.KtorfitService
 import de.jensklingenberg.ktorfit.`internal`.*
 import de.jensklingenberg.ktorfit.http.GET
+import kotlin.Unit
 
-public class _TestServiceImpl(
-  private val client: KtorfitClient,
-) : TestService {
+public class _TestServiceImpl : TestService, KtorfitService {
+  private lateinit var client: KtorfitClient
+
   public override suspend fun test(): String {
     val requestData = RequestData(method="GET",
         relativeUrl="user",
@@ -36,9 +38,14 @@ public class _TestServiceImpl(
 
     return client.suspendRequest<String, String>(requestData)!!
   }
+
+  public override fun setClient(client: KtorfitClient): Unit {
+    this.client = client
+  }
 }
 
-public fun Ktorfit.createTestService(): TestService = _TestServiceImpl(KtorfitClient(this))
+public fun Ktorfit.createTestService(): TestService = _TestServiceImpl().also{
+    it.setClient(KtorfitClient(this)) }
 """
 
         val source = SourceFile.kotlin(

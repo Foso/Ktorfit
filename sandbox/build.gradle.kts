@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
-
 plugins {
     kotlin("multiplatform")
     id("com.google.devtools.ksp")
@@ -16,6 +13,15 @@ ksp {
     arg("Ktorfit_Errors", "1")
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
 kotlin {
     jvm {
         compilations.all {

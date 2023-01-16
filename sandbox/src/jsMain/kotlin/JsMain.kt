@@ -3,7 +3,6 @@
 import com.example.api.JsonPlaceHolderApi
 import com.example.model.MyOwnResponse
 import com.example.model.commonKtorfit
-import de.jensklingenberg.ktorfit.create
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

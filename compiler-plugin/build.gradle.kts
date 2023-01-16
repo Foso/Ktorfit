@@ -31,6 +31,8 @@ dependencies {
     compileOnly("com.google.auto.service:auto-service:$autoService")
     kapt("com.google.auto.service:auto-service:$autoService")
     compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.8.0")
+    testImplementation("dev.zacsweers.kctfork:core:0.2.1")
+    testImplementation("dev.zacsweers.kctfork:ksp:0.2.1")
 }
 
 detekt {

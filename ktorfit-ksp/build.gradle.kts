@@ -42,7 +42,8 @@ dependencies {
 
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("com.github.tschuchortdev:kotlin-compile-testing-ksp:1.4.9")
+    testImplementation("dev.zacsweers.kctfork:core:0.2.1")
+    testImplementation("dev.zacsweers.kctfork:ksp:0.2.1")
     implementation("com.squareup:kotlinpoet:$kotlinPoet")
     implementation("com.squareup:kotlinpoet-ksp:$kotlinPoet")
     testImplementation("com.google.truth:truth:1.1.3")
@@ -53,6 +54,9 @@ dependencies {
 
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
+    compilerOptions.freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
+}
 
 detekt {
     toolVersion = "1.21.0"
