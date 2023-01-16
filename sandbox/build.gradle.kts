@@ -6,10 +6,10 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlinx-serialization")
 }
-apply(plugin = "de.jensklingenberg.ktorfit")
+apply(plugin = "de.jensklingenberg.ktorfit.gradle")
 version = "1.0-SNAPSHOT"
 val ktorVersion = "2.2.2"
-configure<de.jensklingenberg.ktorfit.KtorfitGradleConfiguration> {
+configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     enabled = true
 }
 ksp {

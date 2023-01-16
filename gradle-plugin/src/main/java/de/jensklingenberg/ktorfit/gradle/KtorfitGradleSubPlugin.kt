@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit
+package de.jensklingenberg.ktorfit.gradle
 
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
@@ -20,7 +20,7 @@ class KtorfitGradleSubPlugin : KotlinCompilerPluginSupportPlugin {
         const val ARTIFACT_NAME = "compiler-plugin"
         const val NATIVE_ARTIFACT_NAME = "$ARTIFACT_NAME-native"
     }
-
+    private lateinit var myproject: Project
     private var gradleExtension : KtorfitGradleConfiguration = KtorfitGradleConfiguration()
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
         gradleExtension = kotlinCompilation.target.project.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
@@ -31,29 +31,34 @@ class KtorfitGradleSubPlugin : KotlinCompilerPluginSupportPlugin {
         }
     }
 
+    private fun Project.getKtorfitConfig() = this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
+
     override fun apply(target: Project) {
-        target.extensions.create(
-            "helloWorld",
-            KtorfitGradleConfiguration::class.java
-        )
+        target.extensions.create("ktorfit", KtorfitGradleConfiguration::class.java)
+        myproject = target
         super.apply(target)
     }
 
-    override fun getCompilerPluginId(): String = "KtorfitPlugin"
+    override fun getCompilerPluginId(): String = "ktorfitPlugin"
 
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean {
         return true
     }
 
-    override fun getPluginArtifact(): SubpluginArtifact = SubpluginArtifact(
-        groupId = SERIALIZATION_GROUP_NAME,
-        artifactId = ARTIFACT_NAME,
-        version = gradleExtension.version // remember to bump this version before any release!
-    )
+    override fun getPluginArtifact(): SubpluginArtifact {
 
-    override fun getPluginArtifactForNative(): SubpluginArtifact = SubpluginArtifact(
-        groupId = SERIALIZATION_GROUP_NAME,
-        artifactId = NATIVE_ARTIFACT_NAME,
-        version = gradleExtension.version // remember to bump this version before any release!
-    )
+        return SubpluginArtifact(
+            groupId = SERIALIZATION_GROUP_NAME,
+            artifactId = ARTIFACT_NAME,
+            version = myproject.getKtorfitConfig().version // remember to bump this version before any release!
+        )
+    }
+
+    override fun getPluginArtifactForNative(): SubpluginArtifact {
+        return SubpluginArtifact(
+            groupId = SERIALIZATION_GROUP_NAME,
+            artifactId = NATIVE_ARTIFACT_NAME,
+            version = myproject.getKtorfitConfig().version // remember to bump this version before any release!
+        )
+    }
 }

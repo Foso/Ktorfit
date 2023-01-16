@@ -20,10 +20,13 @@ class Ktorfit private constructor(
     val suspendResponseConverters: Set<SuspendResponseConverter>,
     val requestConverters: Set<RequestConverter>
 ) {
-    
-    fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
+
+    fun <T> create2(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
+        if(ktorfitService is DefaultKtorfitService){
+            throw IllegalArgumentException("You need to enable the Ktorfit Gradle Plugin")
+        }
         ktorfitService.setClient(KtorfitClient(this))
-        return ktorfitService as? T ?: throw NullPointerException()
+        return ktorfitService as T
     }
 
 
@@ -145,6 +148,14 @@ fun ktorfit(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().apply(build
  */
 fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().apply(builder)
 
+@Deprecated("Use ",ReplaceWith("this.create<T>(ktorfitService)"))
+fun <T> Ktorfit.create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
+    if(ktorfitService is DefaultKtorfitService){
+        throw IllegalArgumentException("You need to enable the Ktorfit Gradle Plugin")
+    }
+    ktorfitService.setClient(KtorfitClient(this))
+    return ktorfitService as T
+}
 
 interface KtorfitService {
     fun setClient(client: KtorfitClient)

@@ -19,7 +19,15 @@ allprojects {
     }
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.8.0")
@@ -29,8 +37,8 @@ gradlePlugin {
     plugins {
 
         create("simplePlugin") {
-            id = "de.jensklingenberg.ktorfit" // users will do `apply plugin: "de.jensklingenberg.ktorfit"`
-            implementationClass = "de.jensklingenberg.ktorfit.KtorfitGradleSubPlugin" // entry-point class
+            id = "de.jensklingenberg.ktorfit.gradle" // users will do `apply plugin: "compiler.plugin.helloworld"`
+            implementationClass = "de.jensklingenberg.ktorfit.gradle.KtorfitGradleSubPlugin" // entry-point class
         }
     }
 }
@@ -52,9 +60,9 @@ publishing {
             //artifact(tasks["dokkaJar"])
 
             pom {
-                name.set(project.name)
-                description.set("Grade plugin for Ktorfit")
-                url.set("https://github.com/Foso/Ktorfit")
+                name.set("compiler.gradleplugin.helloworld")
+                description.set("Gradle plugin for Ktorfit")
+                url.set("https://github.com/Foso/KotlinCompilerPluginExample")
 
                 licenses {
                     license {

@@ -6,10 +6,8 @@ plugins {
     id("kotlinx-serialization")
 
 }
-apply(plugin = "de.jensklingenberg.ktorfit")
-configure<de.jensklingenberg.ktorfit.KtorfitGradleConfiguration> {
-    enabled = true
-}
+apply(plugin = "de.jensklingenberg.ktorfit.gradle")
+
 version = "1.0"
 val ktorVersion = "2.2.2"
 val ktorfitVersion = "1.0.0-beta17"

@@ -3,6 +3,7 @@
 import com.example.api.JsonPlaceHolderApi
 import com.example.model.MyOwnResponse
 import com.example.model.commonKtorfit
+import de.jensklingenberg.ktorfit.create
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -11,7 +12,7 @@ import kotlinx.coroutines.launch
 fun main() {
 
     GlobalScope.launch {
-        println("Lau    nch")
+        println("Lau nch")
 
         val test =  commonKtorfit.create<JsonPlaceHolderApi>().getCommentsByPostIdResponse("3")
 
