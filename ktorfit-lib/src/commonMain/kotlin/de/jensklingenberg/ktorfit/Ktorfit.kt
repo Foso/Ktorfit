@@ -21,7 +21,7 @@ class Ktorfit private constructor(
     val requestConverters: Set<RequestConverter>
 ) {
 
-    fun <T> create2(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
+    fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
         if(ktorfitService is DefaultKtorfitService){
             throw IllegalArgumentException("You need to enable the Ktorfit Gradle Plugin")
         }
@@ -148,13 +148,9 @@ fun ktorfit(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().apply(build
  */
 fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().apply(builder)
 
-@Deprecated("Use ",ReplaceWith("this.create<T>(ktorfitService)"))
+@Deprecated("Use the non-Extension function")
 fun <T> Ktorfit.create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
-    if(ktorfitService is DefaultKtorfitService){
-        throw IllegalArgumentException("You need to enable the Ktorfit Gradle Plugin")
-    }
-    ktorfitService.setClient(KtorfitClient(this))
-    return ktorfitService as T
+    return this.create(ktorfitService)
 }
 
 interface KtorfitService {

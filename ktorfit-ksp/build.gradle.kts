@@ -14,7 +14,13 @@ plugins {
     id("io.gitlab.arturbosch.detekt").version("1.21.0")
     kotlin("kapt")
 }
-tasks.withType<KotlinCompile> {
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 

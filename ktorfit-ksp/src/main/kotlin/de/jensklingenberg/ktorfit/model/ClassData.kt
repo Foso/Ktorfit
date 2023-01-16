@@ -8,7 +8,7 @@ import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.Modifier
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.toKModifier
-import de.jensklingenberg.ktorfit.generator.addImports
+import de.jensklingenberg.ktorfit.utils.addImports
 import de.jensklingenberg.ktorfit.utils.getFileImports
 import de.jensklingenberg.ktorfit.utils.resolveTypeName
 

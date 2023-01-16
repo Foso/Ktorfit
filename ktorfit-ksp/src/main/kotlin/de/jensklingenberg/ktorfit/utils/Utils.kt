@@ -3,7 +3,9 @@ package de.jensklingenberg.ktorfit.utils
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.symbol.*
+import com.squareup.kotlinpoet.FileSpec
 import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.WILDCARDIMPORT
 import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.model.ktorfitClass
 import java.io.File
@@ -121,4 +123,20 @@ fun KSClassDeclaration.getFileImports(): List<String> {
 
 fun String.removeWhiteSpaces(): String {
     return this.replace("\\s".toRegex(), "")
+}
+
+
+fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
+
+    imports.forEach {
+        /**
+         * Wildcard imports are not allowed by KotlinPoet, as a workaround * is replaced with WILDCARDIMPORT, and it will be replaced again
+         * after Kotlin Poet generated the source code
+         */
+        val packageName = it.substringBeforeLast(".")
+        val className = it.substringAfterLast(".").replace("*", WILDCARDIMPORT)
+
+        this.addImport(packageName, className)
+    }
+    return this
 }

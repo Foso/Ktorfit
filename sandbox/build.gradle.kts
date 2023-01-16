@@ -17,10 +17,6 @@ ksp {
 }
 
 kotlin {
-
-  //  jvmToolchain(8) // "8"
-
-
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
@@ -125,8 +121,4 @@ dependencies {
     add("kspLinuxX64", project(":ktorfit-ksp"))
     add("kspMingwX64", project(":ktorfit-ksp"))
 
-}
-
-tasks.withType<KotlinCompile>().configureEach {
-    //compilerExecutionStrategy.set(KotlinCompilerExecutionStrategy.IN_PROCESS)
 }
