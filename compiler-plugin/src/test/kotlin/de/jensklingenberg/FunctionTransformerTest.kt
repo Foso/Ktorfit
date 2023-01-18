@@ -18,7 +18,7 @@ class FunctionTransformerTest {
     var temporaryFolder: TemporaryFolder = TemporaryFolder()
 
     @Test
-    fun whenBodyUsedWithNonBodyMethod_ThrowCompilationError() {
+    fun whenCreateFuncWithIntefaceFound_TransformItToUseTheImplementation() {
         val source = SourceFile.kotlin(
             "Ktorfit.kt", """
 package de.jensklingenberg.ktorfit

@@ -37,7 +37,7 @@ gradlePlugin {
     plugins {
 
         create("simplePlugin") {
-            id = "de.jensklingenberg.ktorfit.gradle" // users will do `apply plugin: "compiler.plugin.helloworld"`
+            id = "de.jensklingenberg.ktorfit" // users will do `apply plugin: "compiler.plugin.helloworld"`
             implementationClass = "de.jensklingenberg.ktorfit.gradle.KtorfitGradleSubPlugin" // entry-point class
         }
     }
@@ -60,7 +60,7 @@ publishing {
             //artifact(tasks["dokkaJar"])
 
             pom {
-                name.set("compiler.gradleplugin.helloworld")
+                name.set("ktorfit-gradle-plugin")
                 description.set("Gradle plugin for Ktorfit")
                 url.set("https://github.com/Foso/KotlinCompilerPluginExample")
 

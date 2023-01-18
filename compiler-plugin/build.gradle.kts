@@ -62,7 +62,7 @@ publishing {
             //artifact(tasks["dokkaJar"])
 
             pom {
-                name.set(project.name)
+                name.set("ktorfit-compiler-plugin")
                 description.set("Compiler Plugin for Ktorfit")
                 url.set("https://github.com/Foso/Ktorfit")
 
@@ -105,6 +105,12 @@ publishing {
                 }
             }
         }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
     }
 }
 
