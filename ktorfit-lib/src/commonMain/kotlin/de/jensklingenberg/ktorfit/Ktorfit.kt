@@ -5,8 +5,10 @@ import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.RequestConverter
 import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
+import de.jensklingenberg.ktorfit.internal.DefaultKtorfitService
 import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
+import de.jensklingenberg.ktorfit.internal.KtorfitService
 import io.ktor.client.*
 import io.ktor.client.engine.*
 
@@ -23,8 +25,14 @@ class Ktorfit private constructor(
 ) {
 
     @OptIn(InternalKtorfitApi::class)
+            /**
+             * This will return an implementation of [T] if [T] is an interface
+             * with Ktorfit annotations.
+             * @param ktorfitService Please keep the default parameter, it will be replaced
+             * by the compiler plugin
+             */
     fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
-        if(ktorfitService is DefaultKtorfitService){
+        if (ktorfitService is DefaultKtorfitService) {
             throw IllegalArgumentException("You need to enable the Ktorfit Gradle Plugin")
         }
         ktorfitService.setClient(KtorfitClient(this))
@@ -151,10 +159,13 @@ fun ktorfit(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().apply(build
 fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().apply(builder)
 
 @Deprecated("Use the non-Extension function")
+        /**
+         * This will return an implementation of [T] if [T] is an interface
+         * with Ktorfit annotations.
+         * @param ktorfitService Please keep the default parameter, it will be replaced
+         * by the compiler plugin
+         */
 fun <T> Ktorfit.create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
     return this.create(ktorfitService)
 }
 
-interface KtorfitService {
-    fun setClient(client: KtorfitClient)
-}

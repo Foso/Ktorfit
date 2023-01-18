@@ -97,7 +97,7 @@ fun ClassData.getImplClassFileSource(): String {
         )
         .addModifiers(classData.modifiers)
         .addSuperinterface(ClassName(classData.packageName, classData.name))
-        .addSuperinterface(ClassName("de.jensklingenberg.ktorfit", "KtorfitService"))
+        .addSuperinterface(ClassName("de.jensklingenberg.ktorfit.internal", "KtorfitService"))
         .addKtorfitSuperInterface(classData.superClasses)
         .addFunctions(classData.functions.map { it.toFunSpec() }.flatten())
         .addFunction(setClientFunction)

@@ -37,7 +37,7 @@ gradlePlugin {
     plugins {
 
         create("simplePlugin") {
-            id = "de.jensklingenberg.ktorfit" // users will do `apply plugin: "compiler.plugin.helloworld"`
+            id = "de.jensklingenberg.ktorfit" // users will do `apply plugin: "de.jensklingenberg.ktorfit"`
             implementationClass = "de.jensklingenberg.ktorfit.gradle.KtorfitGradleSubPlugin" // entry-point class
         }
     }
