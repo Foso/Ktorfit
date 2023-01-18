@@ -1,6 +1,7 @@
 package com.example.model
 
 import com.example.api.JsonPlaceHolderApi
+import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 import de.jensklingenberg.ktorfit.create
@@ -17,6 +18,8 @@ val commonClient = HttpClient() {
         json(Json { isLenient = true; ignoreUnknownKeys = true })
     }
 }
+
+
 
 val commonKtorfit = ktorfit {
     baseUrl(JsonPlaceHolderApi.baseUrl)

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 fun main() {
 
     GlobalScope.launch {
-        println("Lau nch")
+        println("Laucnh")
 
         val test =  commonKtorfit.create<JsonPlaceHolderApi>().getCommentsByPostIdResponse("3")
 

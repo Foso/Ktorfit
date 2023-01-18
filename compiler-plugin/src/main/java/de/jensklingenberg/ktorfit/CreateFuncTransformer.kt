@@ -1,9 +1,10 @@
-package de.jensklingenberg
+package de.jensklingenberg.ktorfit
 
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
+import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
-import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
+import org.jetbrains.kotlin.ir.descriptors.toIrBasedKotlinType
 import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
@@ -18,10 +19,10 @@ import org.jetbrains.kotlin.name.Name
  * Transform exampleKtorfit.create<TestApi>() to exampleKtorfit.create<TestApi>(_TestApiImpl())
  */
 class CreateFuncTransformer(
-    private val pluginContext: IrPluginContext
+    private val pluginContext: IrPluginContext,
+    private val messageCollector: MessageCollector
 ) :
     IrElementTransformerVoidWithContext() {
-
 
     override fun visitExpression(expression: IrExpression): IrExpression {
 
@@ -39,8 +40,11 @@ class CreateFuncTransformer(
                 //Get T from create<T>()
                 val argumentType = irCall.getTypeArgument(0) ?: return expression
 
+                if(argumentType.toIrBasedKotlinType().toString() == "T"){
+                    return expression
+                }
 
-                val packaage = argumentType.classFqName?.asString()?.substringBeforeLast(".")!!
+                val packaage = argumentType.classFqName?.asString()?.substringBeforeLast(".") ?: return expression
                 val className = argumentType.classFqName?.asString()?.substringAfterLast(".") ?: ""
 
                 //Find the class _TestApiImpl
@@ -67,6 +71,7 @@ class CreateFuncTransformer(
 
                 //Set _ExampleApiImpl() as argument for create<ExampleApi>()
                 irCall.putValueArgument(0, newCall)
+                messageCollector.report(CompilerMessageSeverity.INFO,"Transformed "+argumentType.toIrBasedKotlinType().toString()+" to _$className" + "Impl" )
                 return super.visitExpression(irCall)
             }
         }

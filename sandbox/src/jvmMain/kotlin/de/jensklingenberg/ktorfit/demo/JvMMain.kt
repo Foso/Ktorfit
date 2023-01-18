@@ -52,7 +52,7 @@ val jvmKtorfit = ktorfit {
 
 fun main() {
 
-println("dddd")
+println("d ddd")
     runBlocking {
 
         val api = jvmKtorfit.create<JsonPlaceHolderApi>()

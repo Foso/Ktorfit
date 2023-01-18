@@ -1,4 +1,4 @@
-package de.jensklingenberg
+package de.jensklingenberg.ktorfit
 
 import com.google.auto.service.AutoService
 import org.jetbrains.kotlin.compiler.plugin.AbstractCliOption
@@ -16,6 +16,10 @@ class ExampleCommandLineProcessor : CommandLineProcessor {
         CliOption(
             optionName = "enabled", valueDescription = "<true|false>",
             description = "whether to enable the plugin or not"
+        ),
+        CliOption(
+            optionName = "logging", valueDescription = "<true|false>",
+            description = "whether to enable logging"
         )
     )
 
@@ -25,8 +29,10 @@ class ExampleCommandLineProcessor : CommandLineProcessor {
         configuration: CompilerConfiguration
     ) = when (option.optionName) {
         "enabled" -> configuration.put(KEY_ENABLED, value.toBoolean())
+        "logging" -> configuration.put(KEY_LOGGING, value.toBoolean())
         else -> configuration.put(KEY_ENABLED, true)
     }
 }
 
 val KEY_ENABLED = CompilerConfigurationKey<Boolean>("whether the plugin is enabled")
+val KEY_LOGGING = CompilerConfigurationKey<Boolean>("whether logging is enabled")

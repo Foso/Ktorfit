@@ -5,6 +5,7 @@ import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.RequestConverter
 import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
+import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -21,6 +22,7 @@ class Ktorfit private constructor(
     val requestConverters: Set<RequestConverter>
 ) {
 
+    @OptIn(InternalKtorfitApi::class)
     fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
         if(ktorfitService is DefaultKtorfitService){
             throw IllegalArgumentException("You need to enable the Ktorfit Gradle Plugin")

@@ -9,7 +9,8 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
 open class KtorfitGradleConfiguration {
     var enabled: Boolean = true
-    var version: String = "1.0.0-beta17"
+    var version: String = "1.0.0-beta17" // remember to bump this version before any release!
+    var logging: Boolean = false
 }
 
 
@@ -18,28 +19,35 @@ class KtorfitGradleSubPlugin : KotlinCompilerPluginSupportPlugin {
     companion object {
         const val SERIALIZATION_GROUP_NAME = "de.jensklingenberg.ktorfit"
         const val ARTIFACT_NAME = "compiler-plugin"
-        const val NATIVE_ARTIFACT_NAME = "$ARTIFACT_NAME-native"
+        const val COMPILER_PLUGIN_ID = "ktorfitPlugin"
+        const val GRADLE_TASKNAME = "ktorfit"
     }
+
     private lateinit var myproject: Project
-    private var gradleExtension : KtorfitGradleConfiguration = KtorfitGradleConfiguration()
+    private var gradleExtension: KtorfitGradleConfiguration = KtorfitGradleConfiguration()
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
-        gradleExtension = kotlinCompilation.target.project.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
+        gradleExtension = kotlinCompilation.target.project.extensions.findByType(KtorfitGradleConfiguration::class.java)
+            ?: KtorfitGradleConfiguration()
 
         return kotlinCompilation.target.project.provider {
-            val options = mutableListOf(SubpluginOption("enabled", gradleExtension.enabled.toString()))
+            val options = mutableListOf(
+                SubpluginOption("enabled", gradleExtension.enabled.toString()),
+                SubpluginOption("logging", gradleExtension.logging.toString())
+            )
             options
         }
     }
 
-    private fun Project.getKtorfitConfig() = this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
+    private fun Project.getKtorfitConfig() =
+        this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
 
     override fun apply(target: Project) {
-        target.extensions.create("ktorfit", KtorfitGradleConfiguration::class.java)
+        target.extensions.create(GRADLE_TASKNAME, KtorfitGradleConfiguration::class.java)
         myproject = target
         super.apply(target)
     }
 
-    override fun getCompilerPluginId(): String = "ktorfitPlugin"
+    override fun getCompilerPluginId(): String = COMPILER_PLUGIN_ID
 
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean {
         return true
@@ -50,15 +58,7 @@ class KtorfitGradleSubPlugin : KotlinCompilerPluginSupportPlugin {
         return SubpluginArtifact(
             groupId = SERIALIZATION_GROUP_NAME,
             artifactId = ARTIFACT_NAME,
-            version = myproject.getKtorfitConfig().version // remember to bump this version before any release!
-        )
-    }
-
-    override fun getPluginArtifactForNative(): SubpluginArtifact {
-        return SubpluginArtifact(
-            groupId = SERIALIZATION_GROUP_NAME,
-            artifactId = NATIVE_ARTIFACT_NAME,
-            version = myproject.getKtorfitConfig().version // remember to bump this version before any release!
+            version = myproject.getKtorfitConfig().version
         )
     }
 }
