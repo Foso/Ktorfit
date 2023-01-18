@@ -67,14 +67,10 @@ Now we can use exampleApi to make the request.
 ## Setup
 (You can also look how it's done in the [examples](https://github.com/Foso/Ktorfit/tree/master/example))
 
-For Kotlin Native Targets (iOS,Linux) you need to enable the new memory model in gradle.properties
-
-```kotlin
-kotlin.native.binary.memoryModel=experimental
-```
 
 #### KSP
 When you are not using KSP already you need to apply the plugin in your build.gradle
+
 ```kotlin
 
 plugins {

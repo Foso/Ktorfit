@@ -14,6 +14,12 @@ plugins {
     id("io.gitlab.arturbosch.detekt").version("1.21.0")
     kotlin("kapt")
 }
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
@@ -33,20 +39,23 @@ version = ktorfitVersion
 
 dependencies {
     implementation(project(":ktorfit-annotations"))
-
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("com.github.tschuchortdev:kotlin-compile-testing-ksp:1.4.9")
     implementation("com.squareup:kotlinpoet:$kotlinPoet")
     implementation("com.squareup:kotlinpoet-ksp:$kotlinPoet")
-    testImplementation("com.google.truth:truth:1.1.3")
+
     compileOnly ("com.google.auto.service:auto-service:$autoService")
     kapt ("com.google.auto.service:auto-service:$autoService")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation("dev.zacsweers.kctfork:core:0.2.1")
+    testImplementation("dev.zacsweers.kctfork:ksp:0.2.1")
     testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
 
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
+    compilerOptions.freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
+}
 
 detekt {
     toolVersion = "1.21.0"

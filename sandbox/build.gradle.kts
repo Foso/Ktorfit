@@ -3,14 +3,25 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlinx-serialization")
 }
-
+apply(plugin = "de.jensklingenberg.ktorfit")
 version = "1.0-SNAPSHOT"
-val ktorVersion = "2.1.2"
-
+val ktorVersion = "2.2.2"
+configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
+    enabled = true
+}
 ksp {
     arg("Ktorfit_Errors", "1")
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
 kotlin {
     jvm {
         compilations.all {
@@ -101,12 +112,9 @@ kotlin {
     }
 }
 
-configurations.all {
-    resolutionStrategy {
-        force("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
-    }
-}
+
 dependencies {
+
     add(
         "kspCommonMainMetadata",
         project(":ktorfit-ksp")
@@ -120,4 +128,3 @@ dependencies {
     add("kspMingwX64", project(":ktorfit-ksp"))
 
 }
-

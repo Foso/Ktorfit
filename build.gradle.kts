@@ -1,9 +1,7 @@
 plugins {
     kotlin("multiplatform") apply false
     id("com.vanniktech.maven.publish") version "0.21.0" apply false
-
 }
-
 
 buildscript {
     repositories {
@@ -17,12 +15,12 @@ buildscript {
         }
     }
     dependencies {
-
-        classpath("com.vanniktech:gradle-maven-publish-plugin:0.22.0")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.7.10")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.7.21")
+        classpath("com.vanniktech:gradle-maven-publish-plugin:0.23.1")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.7.20")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:1.8.0")
         classpath("com.android.tools.build:gradle:7.2.2")
         classpath ("app.cash.licensee:licensee-gradle-plugin:1.5.0")
+        classpath("de.jensklingenberg.ktorfit:gradle-plugin:1.0.0")
 
     }
 }

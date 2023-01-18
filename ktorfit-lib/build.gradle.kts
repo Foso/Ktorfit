@@ -1,6 +1,5 @@
 plugins {
     kotlin("multiplatform")
-
     id("kotlinx-serialization")
     id("maven-publish")
     id("signing")
@@ -145,11 +144,11 @@ val javadocJar by tasks.registering(Jar::class) {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 33
     }
 }
 
