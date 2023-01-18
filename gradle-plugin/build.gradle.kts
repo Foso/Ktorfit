@@ -3,6 +3,7 @@ plugins {
     kotlin("kapt") version("1.8.0")
     id("java-gradle-plugin")
     `maven-publish`
+    id("com.gradle.plugin-publish") version "1.1.0"
 }
 
 group = "de.jensklingenberg.ktorfit"
@@ -34,11 +35,16 @@ dependencies {
 }
 
 gradlePlugin {
+    website.set("https://github.com/Foso/Ktorfit")
+    vcsUrl.set("https://github.com/Foso/Ktorfit/tree/master/gradle-plugin")
     plugins {
 
-        create("simplePlugin") {
+        create("ktorfitPlugin") {
             id = "de.jensklingenberg.ktorfit" // users will do `apply plugin: "de.jensklingenberg.ktorfit"`
             implementationClass = "de.jensklingenberg.ktorfit.gradle.KtorfitGradleSubPlugin" // entry-point class
+            displayName = "Ktorfit Gradle Plugin"
+            description = "Gradle Plugin for Ktorfit"
+            tags.set(listOf("http","kotlin","kotlin-mpp","ktor","rest"))
         }
     }
 }
