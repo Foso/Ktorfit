@@ -23,13 +23,14 @@ class HttpAnnotationTest() {
 package com.example.api
 
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.`internal`.KtorfitService
 import de.jensklingenberg.ktorfit.`internal`.*
 import de.jensklingenberg.ktorfit.http.GET
 import kotlin.OptIn
 import kotlin.Unit
 
 @OptIn(InternalKtorfitApi::class)
-public class _TestServiceImpl : TestService {
+public class _TestServiceImpl : TestService, KtorfitService {
   private lateinit var client: KtorfitClient
 
   public override suspend fun test(): String {
