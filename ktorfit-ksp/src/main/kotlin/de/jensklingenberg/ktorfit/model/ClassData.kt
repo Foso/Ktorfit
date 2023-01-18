@@ -50,6 +50,11 @@ fun ClassData.getImplClassFileSource(): String {
         .returns(TypeVariableName(classData.name))
         .build()
 
+    /**
+     * public override fun setClient(client: KtorfitClient): Unit {
+     *     this.client = client
+     *   }
+     */
     val setClientFunction = FunSpec.builder("setClient")
         .addModifiers(KModifier.OVERRIDE)
         .addParameter("client", TypeVariableName(clientClass.name))
