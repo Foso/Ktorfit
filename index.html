@@ -80,7 +80,7 @@
 <span class=w>    </span><span class=p>}</span>
 <span class=p>}</span>
 </code></pre></div></p> <p>Then you can use the extension function to set additional configuration. The RequestBuilder will be applied last after everything that is set by Ktorfit</p> <h2 id=setup>Setup<a class=headerlink href=#setup title="Permanent link">&para;</a></h2> <p>(You can also look how it&rsquo;s done in the <a href=https://github.com/Foso/Ktorfit/tree/master/example>examples</a>)</p> <h4 id=ksp>KSP<a class=headerlink href=#ksp title="Permanent link">&para;</a></h4> <p>When you are not using KSP already you need to apply the plugin in your build.gradle <div class=highlight><pre><span></span><code><span class=n>plugins</span><span class=w> </span><span class=p>{</span>
-<span class=w>  </span><span class=n>id</span><span class=p>(</span><span class=s>&quot;com.google.devtools.ksp&quot;</span><span class=p>)</span><span class=w> </span><span class=n>version</span><span class=w> </span><span class=s>&quot;1.7.0-1.0.6&quot;</span>
+<span class=w>  </span><span class=n>id</span><span class=p>(</span><span class=s>&quot;com.google.devtools.ksp&quot;</span><span class=p>)</span><span class=w> </span><span class=n>version</span><span class=w> </span><span class=s>&quot;1.7.20-1.0.8&quot;</span>
 <span class=p>}</span>
 </code></pre></div></p> <p>Next you have to add the Ktorfit KSP Plugin to the common target and every compilation target, where you want to use Ktorfit.</p> <div class=highlight><pre><span></span><code><span class=kd>val</span><span class=w> </span><span class=nv>ktorfitVersion</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=s>&quot;LATEST_KTORFIT_VERSION&quot;</span>
 
