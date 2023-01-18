@@ -20,7 +20,7 @@ java {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
@@ -39,17 +39,16 @@ version = ktorfitVersion
 
 dependencies {
     implementation(project(":ktorfit-annotations"))
-
     implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("dev.zacsweers.kctfork:core:0.2.1")
-    testImplementation("dev.zacsweers.kctfork:ksp:0.2.1")
     implementation("com.squareup:kotlinpoet:$kotlinPoet")
     implementation("com.squareup:kotlinpoet-ksp:$kotlinPoet")
-    testImplementation("com.google.truth:truth:1.1.3")
+
     compileOnly ("com.google.auto.service:auto-service:$autoService")
     kapt ("com.google.auto.service:auto-service:$autoService")
-
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation("dev.zacsweers.kctfork:core:0.2.1")
+    testImplementation("dev.zacsweers.kctfork:ksp:0.2.1")
     testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
 
 }

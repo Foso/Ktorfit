@@ -16,6 +16,7 @@ interface StarWarsApi {
     @GET("people/{id}/")
     fun getPeopleByIdCallResponse(@Path("id") peopleId: Int): Call<Person>
 
+
     @GET("people/{id}/")
     fun queryTest(@Path("id") peopleId: Int, @Query("hello") world: String?): Call<Person>
 }

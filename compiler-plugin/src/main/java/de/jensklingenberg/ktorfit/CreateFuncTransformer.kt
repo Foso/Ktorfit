@@ -3,7 +3,6 @@ package de.jensklingenberg.ktorfit
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
-import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.ir.descriptors.toIrBasedKotlinType
 import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
@@ -20,7 +19,7 @@ import org.jetbrains.kotlin.name.Name
  */
 class CreateFuncTransformer(
     private val pluginContext: IrPluginContext,
-    private val messageCollector: MessageCollector
+    private val debugLogger: DebugLogger
 ) :
     IrElementTransformerVoidWithContext() {
 
@@ -71,7 +70,7 @@ class CreateFuncTransformer(
 
                 //Set _ExampleApiImpl() as argument for create<ExampleApi>()
                 irCall.putValueArgument(0, newCall)
-                messageCollector.report(CompilerMessageSeverity.INFO,"Transformed "+argumentType.toIrBasedKotlinType().toString()+" to _$className" + "Impl" )
+                debugLogger.log("Transformed "+argumentType.toIrBasedKotlinType().toString()+" to _$className" + "Impl" )
                 return super.visitExpression(irCall)
             }
         }

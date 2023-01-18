@@ -52,7 +52,7 @@ fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
             """.trimIndent()
         )
 
-        val result = compile(listOf(source2,source))
+        val result = compile(listOf(source2, source))
 
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
         Truth.assertThat(result.messages.contains("_TestServiceImpl")).isEqualTo(true)
@@ -60,13 +60,16 @@ fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
     }
 
     private fun prepareCompilation(
-         sourceFiles: List<SourceFile>
+        sourceFiles: List<SourceFile>
     ): KotlinCompilation {
         return KotlinCompilation().apply {
             workingDir = temporaryFolder.root
-            componentRegistrars= listOf(CommonCompilerPluginRegistrar())
+            componentRegistrars = listOf(CommonCompilerPluginRegistrar())
             val processor = ExampleCommandLineProcessor()
-            pluginOptions= listOf(PluginOption("ktorfitPlugin", "enabled", true.toString()),PluginOption("ktorfitPlugin", "logging", true.toString()))
+            pluginOptions = listOf(
+                PluginOption("ktorfitPlugin", "enabled", true.toString()),
+                PluginOption("ktorfitPlugin", "logging", true.toString())
+            )
             commandLineProcessors = listOf(processor)
             inheritClassPath = true
             sources = sourceFiles
@@ -78,9 +81,9 @@ fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
     }
 
     private fun compile(
-         sourceFiles: List<SourceFile>
+        sourceFiles: List<SourceFile>
     ): KotlinCompilation.Result {
-        return prepareCompilation( sourceFiles).compile()
+        return prepareCompilation(sourceFiles).compile()
     }
 }
 

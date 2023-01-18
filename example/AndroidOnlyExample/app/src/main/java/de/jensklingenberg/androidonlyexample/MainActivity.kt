@@ -29,7 +29,7 @@ val ktorfit = ktorfit {
     })
     responseConverter(FlowResponseConverter()).build()
 }
-val api: StarWarsApi = ktorfit.create()
+val api: StarWarsApi = ktorfit.create<StarWarsApi>()
 
 class MainActivity : ComponentActivity() {
 

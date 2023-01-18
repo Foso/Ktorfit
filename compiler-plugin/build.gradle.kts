@@ -113,11 +113,10 @@ java {
         languageVersion.set(JavaLanguageVersion.of(11))
     }
 }
-
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
 tasks.withType<KotlinCompilationTask<*>>().configureEach {
     compilerOptions.freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}

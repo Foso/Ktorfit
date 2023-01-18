@@ -54,7 +54,6 @@ class KtorfitGradleSubPlugin : KotlinCompilerPluginSupportPlugin {
     }
 
     override fun getPluginArtifact(): SubpluginArtifact {
-
         return SubpluginArtifact(
             groupId = SERIALIZATION_GROUP_NAME,
             artifactId = ARTIFACT_NAME,

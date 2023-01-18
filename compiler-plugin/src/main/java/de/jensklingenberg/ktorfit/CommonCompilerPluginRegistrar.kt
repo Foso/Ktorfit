@@ -12,32 +12,24 @@ import org.jetbrains.kotlin.ir.expressions.*
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.types.*
 
-data class DebugLogger(val messageCollector: MessageCollector){
-    var activ : Boolean = false
-
-
-
-}
-
 @AutoService(ComponentRegistrar::class)
-class CommonCompilerPluginRegistrar :  ComponentRegistrar {
-
+class CommonCompilerPluginRegistrar : ComponentRegistrar {
 
     override val supportsK2: Boolean
         get() = true
 
     override fun registerProjectComponents(project: MockProject, configuration: CompilerConfiguration) {
         if (configuration[KEY_ENABLED] == false) {
-             return
+            return
         }
-
+        val logging = configuration[KEY_LOGGING] ?: false
         val messageCollector = configuration.get(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE)
 
-        IrGenerationExtension.registerExtension(project, KtorfitIrGenerationExtension(messageCollector))
-
+        IrGenerationExtension.registerExtension(
+            project,
+            KtorfitIrGenerationExtension(DebugLogger(logging, messageCollector))
+        )
     }
-
-
 }
 
 

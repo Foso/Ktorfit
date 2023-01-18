@@ -26,7 +26,7 @@ val starWarsApi = ktorfit.create<StarWarsApi>()
 
 class Greeting {
     fun greeting(): String {
-        println("22")
+
         loadData()
         return "Hello, ${Platform().platform}! Look in the LogCat"
     }
@@ -37,6 +37,6 @@ class Greeting {
 fun loadData() {
     GlobalScope.launch {
         val response = starWarsApi.getPersonByIdResponse(3)
-        println("Ktorfit  :  "+Platform().platform + ":" + response)
+        println("Ktorfit:"+Platform().platform + ":" + response)
     }
 }

@@ -5,7 +5,6 @@ plugins {
     id ("org.jetbrains.kotlin.plugin.serialization") version "1.7.21"
 
 }
-apply(plugin = "de.jensklingenberg.ktorfit.gradle")
 
 android {
     namespace= ("de.jensklingenberg.androidonlyexample")
@@ -49,8 +48,8 @@ android {
         }
     }
 }
-val ktorfit = "1.0.0-beta17"
-val ktor = "2.1.3"
+val ktorfit = "1.0.0-beta16"
+val ktor = "2.2.2"
 val compose_ui_version = "1.3.2"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")
