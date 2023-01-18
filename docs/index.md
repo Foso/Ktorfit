@@ -255,7 +255,7 @@ When you are not using KSP already you need to apply the plugin in your build.gr
 ```kotlin
 
 plugins {
-  id("com.google.devtools.ksp") version "1.7.0-1.0.6"
+  id("com.google.devtools.ksp") version "1.7.20-1.0.8"
 }
 ```
 
