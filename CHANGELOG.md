@@ -3,10 +3,12 @@
 ## NEW:
 - Ktorfit now needs an additional gradle plugin. This will solve serveral issues with multi-module projects.
 
-Add this plugin:
+Add this [plugin](https://plugins.gradle.org/plugin/de.jensklingenberg.ktorfit):
+```kotlin
 plugins {
-id("de.jensklingenberg.ktorfit")
+  id "de.jensklingenberg.ktorfit" version "1.0.0"
 }
+```
 
 - interfaces can now be internal
 

@@ -8,8 +8,19 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
 open class KtorfitGradleConfiguration {
+    /**
+     * If the compiler plugin should be active
+     */
     var enabled: Boolean = true
+
+    /**
+     * version number of the compiler plugin
+     */
     var version: String = "1.0.0-beta17" // remember to bump this version before any release!
+
+    /**
+     * used to get debug information from the compiler plugin
+     */
     var logging: Boolean = false
 }
 
