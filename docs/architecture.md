@@ -67,7 +67,7 @@ val api = jvmKtorfit.create<ExampleApi>(_ExampleApiImpl())
 ```
 
 When the create() function is used, the object is cast to a KtorfitService and the client will be added.
-Then it is cast to requested type <T>
+Then it is cast to requested type <T >
 
 ```kotlin
 fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
