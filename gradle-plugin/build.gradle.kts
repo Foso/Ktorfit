@@ -36,7 +36,7 @@ dependencies {
 
 gradlePlugin {
     website.set("https://github.com/Foso/Ktorfit")
-    vcsUrl.set("https://github.com/Foso/Ktorfit/tree/master/gradle-plugin")
+    vcsUrl.set("https://github.com/Foso/Ktorfit")
     plugins {
 
         create("ktorfitPlugin") {
