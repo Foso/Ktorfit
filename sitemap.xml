@@ -6,6 +6,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://github.com/Foso/Ktorfit/architecture/</loc>
+         <lastmod>2023-01-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://github.com/Foso/Ktorfit/development/</loc>
          <lastmod>2023-01-19</lastmod>
          <changefreq>daily</changefreq>
