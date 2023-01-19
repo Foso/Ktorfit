@@ -1,21 +1,27 @@
 1.0.0-beta17 (not released)
 ========================================
-- Ktorfit now needs an additional gradle plugin
+## NEW:
+- Ktorfit now needs an additional gradle plugin. This will solve serveral issues with multi-module projects.
 
-Add this to your classpath:
-classpath("de.jensklingenberg.ktorfit:gradle-plugin:1.0.0")
-
-and this plugin:
+Add this plugin:
 plugins {
-id("de.jensklingenberg.ktorfit.gradle")
+id("de.jensklingenberg.ktorfit")
 }
+
 - interfaces can now be internal
+
+## Fixed
+* Ktorfit multiple module support #92
+* Add support for 'internal' parameter type #13
+* Duplicate class KtorfitExtKt found in modules moduleA and moduleB #86
+* [Bug]: Android overload resolution ambiguity #64
 
 ⬆️ Deps updates
 - based on Ktor 2.2.2
 - Kotlin 1.8.0
 - KSP 1.8.0-1.0.8
 - update Android TargetSdk to 33
+
 
 1.0.0-beta16 (13-11-2022)
 ========================================
@@ -46,6 +52,17 @@ NEW:
 
 🐛 Bugs fixed
 - FlowResponseConverter #81
+
+## What's Changed
+* build(deps): bump logback-classic from 1.4.0 to 1.4.3 by @dependabot in https://github.com/Foso/Ktorfit/pull/74
+* Foso/revert converters changes by @Foso in https://github.com/Foso/Ktorfit/pull/76
+* 67 add nullable field parameters support by @Foso in https://github.com/Foso/Ktorfit/pull/80
+* fix: FlowResponseConverter by @Foso in https://github.com/Foso/Ktorfit/pull/81
+* Added RequestConverter support by @DATL4G in https://github.com/Foso/Ktorfit/pull/84
+* feat: add option to turn off error checking #77 by @Foso in https://github.com/Foso/Ktorfit/pull/88
+
+
+**Full Changelog**: https://github.com/Foso/Ktorfit/compare/v1.0.0-beta15...v1.0.0-beta16
 
 1.0.0-beta15 (05-10-2022)
 ========================================

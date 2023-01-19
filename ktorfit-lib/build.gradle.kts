@@ -156,9 +156,9 @@ android {
 
 publishing {
     publications {
-        create<MavenPublication>("default") {
+        create<MavenPublication>("ktorfit-lib") {
             artifact(tasks["sourcesJar"])
-          //  artifact(tasks["javadocJar"])
+            artifact(tasks["javadocJar"])
 
             pom {
                 name.set(project.name)

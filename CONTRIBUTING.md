@@ -22,7 +22,7 @@ Trivial fixes (typo, easy-to-fix compilation error, etc.) don't need to go throu
 
 
 ## Documentation
-* <kbd>docs</kbd> - contains the source for the github page
+* <kbd>docs</kbd> - contains the source for the GitHub page
 
 When updating the documentation, test the generated mkdocs site locally.
 

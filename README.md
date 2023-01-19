@@ -124,7 +124,7 @@ In this Readme is only a basic example, for more documentation check: [http://fo
 * <kbd>sandbox</kbd> - experimental test module to try various stuff
 
 * <kbd>example</kbd> - contains example projects that use Ktorfit
-* <kbd>docs</kbd> - contains the source for the github page
+* <kbd>docs</kbd> - contains the source for the GitHub page
 
 ## ✍️ Feedback
 
