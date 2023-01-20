@@ -208,10 +208,18 @@ class KtorfitClient(val ktorfit: Ktorfit) {
             val formParameters = Parameters.build {
 
                 fun append(encoded: Boolean, key: String, value: String) {
+                    /**
+                     * This is a workaround.
+                     * Ktor encodes parameters by default and i dont know
+                     * how to deactivate this.
+                     * When the value is not encoding it will be given to Ktor unchanged.
+                     * If it is encoded, it gets decode, so Ktor can encode it again.
+                     */
+
                     if (encoded) {
-                        append(key, value)
+                        append(key, value.decodeURLQueryComponent( plusIsSpace = true))
                     } else {
-                        append(encode(key), encode(value))
+                        append(key, value)
                     }
                 }
 
