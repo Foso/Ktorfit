@@ -7,6 +7,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
+@OptIn(InternalKtorfitApi::class)
 class FieldTest {
 
     @Test
@@ -14,7 +15,7 @@ class FieldTest {
         val baseUrl = "http://www.test.de/"
         val testKey = "foo"
         val testValue = "bar fizz"
-        val encodedTestValue = "bar%20fizz"
+        val encodedTestValue = "bar fizz"
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
