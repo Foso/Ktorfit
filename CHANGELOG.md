@@ -1,6 +1,6 @@
 1.0.0-beta17 (not released)
 ========================================
-## NEW:
+## BREAKING CHANGE:
 - Ktorfit now needs an additional gradle plugin. This will solve serveral issues with multi-module projects.
 
 Add this [plugin](https://plugins.gradle.org/plugin/de.jensklingenberg.ktorfit):
@@ -16,7 +16,8 @@ plugins {
 * Ktorfit multiple module support #92
 * Add support for 'internal' parameter type #13
 * Duplicate class KtorfitExtKt found in modules moduleA and moduleB #86
-* [Bug]: Android overload resolution ambiguity #64
+*  Android overload resolution ambiguity #64
+*  Form data is double encoded #95
 
 ⬆️ Deps updates
 - based on Ktor 2.2.2
