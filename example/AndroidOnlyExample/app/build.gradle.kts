@@ -3,6 +3,7 @@ plugins {
     id ("org.jetbrains.kotlin.android")
     id ("com.google.devtools.ksp") version "1.7.20-1.0.8"
     id ("org.jetbrains.kotlin.plugin.serialization") version "1.7.21"
+    id ("de.jensklingenberg.ktorfit") version "1.0.0"
 
 }
 
@@ -48,7 +49,7 @@ android {
         }
     }
 }
-val ktorfit = "1.0.0-beta16"
+val ktorfit = "1.0.0-beta17"
 val ktor = "2.2.2"
 val compose_ui_version = "1.3.2"
 dependencies {
