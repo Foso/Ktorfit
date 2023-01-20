@@ -68,8 +68,16 @@ Now we can use exampleApi to make the request.
 (You can also look how it's done in the [examples](https://github.com/Foso/Ktorfit/tree/master/example))
 
 
-#### KSP
-When you are not using KSP already you need to apply the plugin in your build.gradle
+#### Gradle Plugins
+You need to add KSP and the Ktorfit Gradle plugin
+```kotlin
+
+plugins {
+  id("com.google.devtools.ksp") version "1.7.20-1.0.8"
+  id("de.jensklingenberg.ktorfit") version "1.0.0"
+
+}
+```
 
 ```kotlin
 
