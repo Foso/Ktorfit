@@ -69,7 +69,7 @@ Now we can use exampleApi to make the request.
 
 
 #### Gradle Plugins
-You need to add KSP and the Ktorfit Gradle plugin
+You need to add KSP and the [Ktorfit Gradle plugin](https://plugins.gradle.org/plugin/de.jensklingenberg.ktorfit)
 ```kotlin
 
 plugins {
