@@ -251,12 +251,12 @@ Then you can use the extension function to set additional configuration. The Req
 (You can also look how it's done in the [examples](https://github.com/Foso/Ktorfit/tree/master/example))
 
 #### Gradle Plugins
-You need to add KSP and the Ktorfit Gradle plugin
+You need to add KSP and the [Ktorfit Gradle plugin](https://plugins.gradle.org/plugin/de.jensklingenberg.ktorfit)
 ```kotlin
 
 plugins {
   id("com.google.devtools.ksp") version "1.7.20-1.0.8"
-  id "de.jensklingenberg.ktorfit" version "1.0.0"
+  id("de.jensklingenberg.ktorfit") version "1.0.0"
 
 }
 ```
