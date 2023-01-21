@@ -10,9 +10,11 @@ plugins {
 }
 ```
 
+## NEW
+
 - interfaces can now be internal
 
-## Fixed
+## FIXED
 * Ktorfit multiple module support #92
 * Add support for 'internal' parameter type #13
 * Duplicate class KtorfitExtKt found in modules moduleA and moduleB #86
