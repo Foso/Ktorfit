@@ -1,4 +1,4 @@
-1.0.0-beta17 (not released)
+1.0.0-beta17 (21-01-2023)
 ========================================
 ## BREAKING CHANGE:
 - Ktorfit now needs an additional gradle plugin. This will solve serveral issues with multi-module projects.
