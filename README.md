@@ -1,7 +1,7 @@
 <h1>Ktorfit</h1>
 
 [![All Contribtors](https://img.shields.io/badge/Maven-Central-download.svg?style=flat-square)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Foso/Ktorfit)
-[![jCenter](https://img.shields.io/badge/Apache-2.0-green.svg)](https://github.com/Foso/Ktorfit/blob/master/LICENSE) v1.0.0-beta16
+[![jCenter](https://img.shields.io/badge/Apache-2.0-green.svg)](https://github.com/Foso/Ktorfit/blob/master/LICENSE)
 [Documentation](http://foso.github.io/Ktorfit)
 
 ![badge-android](http://img.shields.io/badge/platform-android-6EDB8D.svg?style=flat)
@@ -76,13 +76,6 @@ plugins {
   id("com.google.devtools.ksp") version "1.7.20-1.0.8"
   id("de.jensklingenberg.ktorfit") version "1.0.0"
 
-}
-```
-
-```kotlin
-
-plugins {
-  id("com.google.devtools.ksp") version "1.7.20-1.0.8"
 }
 ```
 
