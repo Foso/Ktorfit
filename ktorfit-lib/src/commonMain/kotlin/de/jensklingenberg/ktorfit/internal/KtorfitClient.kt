@@ -210,10 +210,10 @@ class KtorfitClient(val ktorfit: Ktorfit) {
                 fun append(encoded: Boolean, key: String, value: String) {
                     /**
                      * This is a workaround.
-                     * Ktor encodes parameters by default and i dont know
+                     * Ktor encodes parameters by default and I don't know
                      * how to deactivate this.
-                     * When the value is not encoding it will be given to Ktor unchanged.
-                     * If it is encoded, it gets decode, so Ktor can encode it again.
+                     * When the value is not encoded it will be given to Ktor unchanged.
+                     * If it is encoded, it gets decoded, so Ktor can encode it again.
                      */
 
                     if (encoded) {

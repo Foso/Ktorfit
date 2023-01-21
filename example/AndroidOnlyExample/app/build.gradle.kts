@@ -3,6 +3,7 @@ plugins {
     id ("org.jetbrains.kotlin.android")
     id ("com.google.devtools.ksp") version "1.7.20-1.0.8"
     id ("org.jetbrains.kotlin.plugin.serialization") version "1.7.21"
+    id ("de.jensklingenberg.ktorfit") version "1.0.0"
 
 }
 
@@ -48,7 +49,7 @@ android {
         }
     }
 }
-val ktorfit = "1.0.0-beta16"
+val ktorfit = "1.0.0-beta17"
 val ktor = "2.2.2"
 val compose_ui_version = "1.3.2"
 dependencies {
@@ -61,8 +62,8 @@ dependencies {
     implementation ("androidx.compose.ui:ui-tooling-preview:$compose_ui_version")
     implementation ("androidx.compose.material:material:1.3.1")
     testImplementation ("junit:junit:4.13.2")
-    androidTestImplementation ("androidx.test.ext:junit:1.1.4")
-    androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.0")
+    androidTestImplementation ("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation ("androidx.compose.ui:ui-test-junit4:$compose_ui_version")
     debugImplementation ("androidx.compose.ui:ui-tooling:$compose_ui_version")
     debugImplementation ("androidx.compose.ui:ui-test-manifest:$compose_ui_version")

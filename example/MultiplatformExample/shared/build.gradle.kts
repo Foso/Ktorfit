@@ -4,12 +4,12 @@ plugins {
     id("com.android.library")
     id("com.google.devtools.ksp") version "1.8.0-1.0.8"
     id("kotlinx-serialization")
-
+    id("de.jensklingenberg.ktorfit") version "1.0.0"
 }
 
 version = "1.0"
 val ktorVersion = "2.2.2"
-val ktorfitVersion = "1.0.0-beta16"
+val ktorfitVersion = "1.0.0-beta17"
 
 kotlin {
     android()
@@ -104,11 +104,5 @@ dependencies {
     add("kspIosX64", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
     add("kspJs", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
     add("kspIosSimulatorArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
-}
-
-configurations.all {
-    resolutionStrategy {
-        force("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
-    }
 }
 
