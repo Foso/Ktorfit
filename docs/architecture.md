@@ -1,5 +1,7 @@
 # How Ktorfit works under the hood
 
+Ktorfit consists of three main components KSP-Plugin, Compiler plugin and the Ktorfit lib
+
 ## KSP-Plugin 
 This will generate the code for the implementation of the interfaces
 
