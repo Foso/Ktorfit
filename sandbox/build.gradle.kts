@@ -116,15 +116,14 @@ kotlin {
 dependencies {
 
     add(
-        "kspCommonMainMetadata",
-        project(":ktorfit-ksp")
+        "kspCommonMainMetadata", projects.ktorfitKsp
     )
-    add("kspJvm", project(":ktorfit-ksp"))
-    add("kspIosX64", project(":ktorfit-ksp"))
+    add("kspJvm", projects.ktorfitKsp)
+    add("kspIosX64", projects.ktorfitKsp)
 
-   // add("kspJvmTest", project(":ktorfit-ksp"))
-    add("kspJs", project(":ktorfit-ksp"))
-    add("kspLinuxX64", project(":ktorfit-ksp"))
-    add("kspMingwX64", project(":ktorfit-ksp"))
+   // add("kspJvmTest", projects.ktorfitKsp)
+    add("kspJs",projects.ktorfitKsp)
+    add("kspLinuxX64", projects.ktorfitKsp)
+    add("kspMingwX64", projects.ktorfitKsp)
 
 }
