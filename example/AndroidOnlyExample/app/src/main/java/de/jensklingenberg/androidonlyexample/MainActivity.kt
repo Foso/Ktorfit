@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
 val ktorfit = ktorfit {
-    baseUrl("https://swapi.dev/api/")
+    baseUrl("https://example.com/")
     httpClient(HttpClient {
         install(ContentNegotiation) {
             json(Json { isLenient = true; ignoreUnknownKeys = true })

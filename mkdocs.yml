@@ -7,7 +7,7 @@ docs_dir: 'docs'
 edit_uri: 'tree/master/docs/'
 
 # Copyright
-copyright: Copyright &copy; Apache v2 License 2022 Jens Klingenberg
+copyright: Copyright &copy; Apache v2 License 2022-2023 Jens Klingenberg
 
 theme:
   name: 'material'
@@ -52,9 +52,12 @@ extra:
       link: 'https://jensklingenberg.de/'
 nav:
   - 'Overview': index.md
+  - 'Getting started': getting-started.md
+  - 'Requests': requests.md
   - 'ResponseConverter': responseconverter.md
   - 'SuspendResponseConverter': suspendresponseconverter.md
-
+  - 'Configuration': configuration.md
+  - 'Changelog': CHANGELOG.md
 
 markdown_extensions:
   - smarty
