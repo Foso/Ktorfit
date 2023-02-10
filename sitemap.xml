@@ -6,12 +6,32 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://github.com/Foso/Ktorfit/CHANGELOG/</loc>
+         <lastmod>2023-02-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://github.com/Foso/Ktorfit/architecture/</loc>
          <lastmod>2023-02-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://github.com/Foso/Ktorfit/configuration/</loc>
+         <lastmod>2023-02-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://github.com/Foso/Ktorfit/development/</loc>
+         <lastmod>2023-02-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://github.com/Foso/Ktorfit/getting-started/</loc>
+         <lastmod>2023-02-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://github.com/Foso/Ktorfit/requests/</loc>
          <lastmod>2023-02-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
