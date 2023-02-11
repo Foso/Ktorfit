@@ -1,24 +1,24 @@
 plugins {
     id ("com.android.application")
     id ("org.jetbrains.kotlin.android")
-    id ("com.google.devtools.ksp") version "1.7.20-1.0.8"
-    id ("org.jetbrains.kotlin.plugin.serialization") version "1.7.21"
+    id ("com.google.devtools.ksp") version "1.8.0-1.0.9"
+    id ("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
     id ("de.jensklingenberg.ktorfit") version "1.0.0"
 
 }
 
 android {
-    namespace= ("de.jensklingenberg.androidonlyexample")
-    compileSdk= (33)
+    namespace= "de.jensklingenberg.androidonlyexample"
+    compileSdk= 33
 
     defaultConfig {
         applicationId= ("de.jensklingenberg.androidonlyexample")
-        minSdk= (21)
-        targetSdk =(33)
-        versionCode= (1)
-        versionName= ("1.0")
+        minSdk= 21
+        targetSdk =33
+        versionCode= 1
+        versionName= "1.0"
 
-        testInstrumentationRunner= ("androidx.test.runner.AndroidJUnitRunner")
+        testInstrumentationRunner= "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary= true
         }
@@ -41,7 +41,7 @@ android {
         compose= (true)
     }
     composeOptions {
-        kotlinCompilerExtensionVersion= ("1.3.2")
+        kotlinCompilerExtensionVersion= "1.4.0"
     }
     packagingOptions {
         resources {
@@ -51,7 +51,7 @@ android {
 }
 val ktorfit = "1.0.0-beta17"
 val ktor = "2.2.2"
-val compose_ui_version = "1.3.2"
+val compose_ui_version = "1.3.3"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")
     implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfit")
