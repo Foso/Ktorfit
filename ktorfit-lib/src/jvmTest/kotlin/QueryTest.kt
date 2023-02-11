@@ -6,6 +6,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
+@OptIn(InternalKtorfitApi::class)
 class QueryTest {
 
     @Test
