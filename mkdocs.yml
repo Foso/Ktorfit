@@ -52,7 +52,8 @@ extra:
       link: 'https://jensklingenberg.de/'
 nav:
   - 'Overview': index.md
-  - 'Getting started': getting-started.md
+  - 'Quick start': quick-start.md
+  - 'Installation': installation.md
   - 'Requests': requests.md
   - 'ResponseConverter': responseconverter.md
   - 'SuspendResponseConverter': suspendresponseconverter.md
