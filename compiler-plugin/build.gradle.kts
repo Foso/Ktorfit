@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val ktorfitVersion: String by project
 val autoService: String by project
 val detektVersion: String by project
-val enableSigning: String by project
+val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
 
 plugins {
     kotlin("jvm")
@@ -20,7 +20,7 @@ plugins {
 mavenPublishing {
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
-    if (enableSigning.toBoolean()) {
+    if (enableSigning) {
         signAllPublications()
     }
 }
