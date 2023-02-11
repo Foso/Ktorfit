@@ -2,11 +2,7 @@ package de.jensklingenberg.ktorfit
 
 import KtorfitProcessorProvider
 import com.google.common.truth.Truth
-import com.tschuchort.compiletesting.KotlinCompilation
-import com.tschuchort.compiletesting.SourceFile
-import com.tschuchort.compiletesting.kspIncremental
-import com.tschuchort.compiletesting.kspSourcesDir
-import com.tschuchort.compiletesting.symbolProcessorProviders
+import com.tschuchort.compiletesting.*
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import org.junit.Assert
 import org.junit.Test
@@ -69,6 +65,7 @@ interface TestService {
   }
 """.replace("\\{", "{")
 
+
         val source = SourceFile.kotlin(
             "Source.kt", """
       package com.example.api
@@ -101,7 +98,7 @@ interface TestService {
     }
 
 
-    //Multipe
+    //Multiple
     @Test
     fun whenHttpMethodAnnotationPathEmptyAndNoUrlAnno_ThrowCompilationError() {
 
@@ -141,7 +138,7 @@ import de.jensklingenberg.ktorfit.http.Url
 
 interface TestService {
     @GET("")
-    suspend fun test(@Url url: String,@Url url2: String): String
+    suspend fun test(@Url url: String, @Url url2: String): String
 }
     """
         )

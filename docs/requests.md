@@ -1,5 +1,5 @@
 ## HTTP Request
-Ktorfit supports the following the Http Method Annotations:
+Ktorfit supports the following the HTTP method annotations:
 
 * @GET
 * @POST
@@ -11,6 +11,28 @@ Ktorfit supports the following the Http Method Annotations:
 
 Or you can set your custom method to @HTTP
 
+
+```kotlin
+@GET("posts")
+fun getPosts(): List<Post>
+```
+
+The value of the HTTP annotation will be appended to the **baseUrl** that you set in the Ktorfit builder.
+If the value contains a url that starts with http or https, this url will be used for the request instead of the baseUrl.
+
+```kotlin
+@GET("https://example.com/posts")
+fun getPosts(): List<Post>
+```
+
+The value can only be empty when you also use [@Url](#url)
+
+## URL
+Can be used to set a URL dynamically as a function parameter.
+```kotlin
+@GET("")
+suspend fun getPosts(@Url url: String): List<Post>
+```
 
 ## Query
 ```kotlin

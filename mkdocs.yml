@@ -58,6 +58,7 @@ nav:
   - 'ResponseConverter': responseconverter.md
   - 'SuspendResponseConverter': suspendresponseconverter.md
   - 'Configuration': configuration.md
+  - 'Architecture': architecture.md
   - 'Changelog': CHANGELOG.md
 
 markdown_extensions:
