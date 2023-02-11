@@ -18,11 +18,12 @@ fun generateImplClass(classDataList: List<ClassData>, codeGenerator: CodeGenerat
         val className = classData.name
         val fileName = "_${className}Impl"
 
-        codeGenerator.createNewFile(Dependencies.ALL_FILES, packageName, fileName , "kt").use { output ->
-            OutputStreamWriter(output).use { writer ->
-                writer.write(fileSource)
+        codeGenerator.createNewFile(dependencies = Dependencies(false, classData.ksFile), packageName, fileName, "kt")
+            .use { output ->
+                OutputStreamWriter(output).use { writer ->
+                    writer.write(fileSource)
+                }
             }
-        }
     }
 }
 

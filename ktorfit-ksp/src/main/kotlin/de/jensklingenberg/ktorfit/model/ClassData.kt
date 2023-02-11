@@ -4,6 +4,7 @@ import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.toKModifier
@@ -22,7 +23,8 @@ data class ClassData(
     val imports: List<String>,
     val superClasses: List<String> = emptyList(),
     val properties: List<KSPropertyDeclaration> = emptyList(),
-    val modifiers: List<KModifier> = emptyList()
+    val modifiers: List<KModifier> = emptyList(),
+    val ksFile: KSFile
 )
 
 const val WILDCARDIMPORT = "WILDCARDIMPORT"
@@ -180,7 +182,13 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         imports = imports,
         superClasses = supertypes,
         properties = properties,
-        modifiers = ksClassDeclaration.modifiers.mapNotNull { it.toKModifier() })
+        modifiers = ksClassDeclaration.modifiers.mapNotNull { it.toKModifier() },
+        ksFile = this.getKsFile()
+    )
+}
+
+private fun KSClassDeclaration.getKsFile(): KSFile {
+    return this.containingFile ?: throw Error("Containing File for ${this.simpleName} was null")
 }
 
 /**
