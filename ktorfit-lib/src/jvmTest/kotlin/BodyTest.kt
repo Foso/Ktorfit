@@ -1,4 +1,5 @@
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import de.jensklingenberg.ktorfit.internal.RequestData
 import de.jensklingenberg.ktorfit.internal.TypeData
@@ -9,6 +10,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
+@OptIn(InternalKtorfitApi::class)
 class BodyTest {
 
     @Test
