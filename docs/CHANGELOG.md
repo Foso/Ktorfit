@@ -4,7 +4,7 @@ NEW:
 You can now disable the check if the baseUrl ends with a /
 
 ```kotlin
-Ktorfit.Builder().baseUrl(testBaseUrl, false).build()
+Ktorfit.Builder().baseUrl(testBaseUrl, checkUrl= false).build()
 ```
 
 1.0.0-beta17 (21-01-2023)
