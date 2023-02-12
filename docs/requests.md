@@ -27,7 +27,7 @@ fun getPosts(): List<Post>
 
 The value can only be empty when you also use [@Url](#url)
 
-## URL
+## Url
 Can be used to set a URL dynamically as a function parameter.
 ```kotlin
 @GET("")
