@@ -7,7 +7,7 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.content.*
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertTrue
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 @OptIn(InternalKtorfitApi::class)
@@ -18,9 +18,8 @@ class BodyTest {
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                assertTrue( (data.body is TextContent))
-                assertTrue( (data.body as TextContent).text == "testBody")
-
+                assertEquals(true, (data.body is TextContent))
+                assertEquals("testBody", (data.body as TextContent).text)
             }
         }
 
@@ -32,7 +31,7 @@ class BodyTest {
                 returnTypeData = TypeData("kotlin.String"),
                 bodyData = "testBody"
             )
-            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
     }
 

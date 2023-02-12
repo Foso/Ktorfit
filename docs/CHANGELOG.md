@@ -1,8 +1,17 @@
+1.0.0-beta18 (Not released)
+========================================
+NEW:
+You can now disable the check if the baseUrl ends with a /
+
+```kotlin
+Ktorfit.Builder().baseUrl(testBaseUrl, checkUrl= false).build()
+```
+
 1.0.0-beta17 (21-01-2023)
 ========================================
 💥 Breaking changes:
 
-- Ktorfit now needs an additional gradle plugin. This will solve serveral issues with multi-module projects.
+- Ktorfit now needs an additional gradle plugin. This will solve several issues with multi-module projects.
 
 Add this [plugin](https://plugins.gradle.org/plugin/de.jensklingenberg.ktorfit):
 ```kotlin

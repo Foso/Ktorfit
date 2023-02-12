@@ -1,1 +1,1 @@
-See /docs/CHANGELOG.md
+See [/docs/CHANGELOG.md](/docs/CHANGELOG.md)
