@@ -8,6 +8,7 @@ import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.toKModifier
+import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.utils.addImports
 import de.jensklingenberg.ktorfit.utils.getFileImports
 import de.jensklingenberg.ktorfit.utils.resolveTypeName
@@ -34,7 +35,6 @@ const val WILDCARDIMPORT = "WILDCARDIMPORT"
  */
 fun ClassData.getImplClassFileSource(): String {
     val classData = this
-
     val optinAnnotation = AnnotationSpec.builder(ClassName("kotlin", "OptIn"))
         .addMember("InternalKtorfitApi::class")
         .build()
@@ -66,7 +66,7 @@ fun ClassData.getImplClassFileSource(): String {
     val properties = classData.properties.map { property ->
         val propBuilder = PropertySpec.builder(
             property.simpleName.asString(),
-            TypeVariableName(property.type.resolve().resolveTypeName())
+            property.type.toTypeName()
         )
             .addModifiers(KModifier.OVERRIDE)
             .mutable(property.isMutable)
@@ -79,7 +79,7 @@ fun ClassData.getImplClassFileSource(): String {
         if (property.isMutable) {
             propBuilder.setter(
                 FunSpec.setterBuilder()
-                    .addParameter("value", TypeVariableName(property.type.resolve().resolveTypeName()))
+                    .addParameter("value", property.type.toTypeName())
                     .build()
             )
         }
@@ -98,13 +98,15 @@ fun ClassData.getImplClassFileSource(): String {
         .mutable(true)
         .build()
 
+    val ktorfitServiceClassName = ClassName("de.jensklingenberg.ktorfit.internal", "KtorfitService")
+
     val implClassSpec = TypeSpec.classBuilder(implClassName)
         .addAnnotation(
             optinAnnotation
         )
         .addModifiers(classData.modifiers)
         .addSuperinterface(ClassName(classData.packageName, classData.name))
-        .addSuperinterface(ClassName("de.jensklingenberg.ktorfit.internal", "KtorfitService"))
+        .addSuperinterface(ktorfitServiceClassName)
         .addKtorfitSuperInterface(classData.superClasses)
         .addFunctions(classData.functions.map { it.toFunSpec() }.flatten())
         .addFunction(setClientFunction)
