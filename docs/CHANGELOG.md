@@ -1,7 +1,8 @@
 1.0.0-beta18 (Not released)
 ========================================
 NEW:
-You can now disable the check if the baseUrl ends with a /
+
+* You can now disable the check if the baseUrl ends with a /
 
 ```kotlin
 Ktorfit.Builder().baseUrl(testBaseUrl, checkUrl= false).build()
