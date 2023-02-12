@@ -19,7 +19,7 @@ class FieldTest {
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                assertTrue( (data.body as FormDataContent).formData[testKey] == encodedTestValue)
+                assertTrue((data.body as FormDataContent).formData[testKey] == encodedTestValue)
             }
         }
 
@@ -28,10 +28,10 @@ class FieldTest {
             val requestData = RequestData(
                 method = "GET",
                 relativeUrl = "",
-                returnTypeData = TypeData( "kotlin.String"),
+                returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(FieldData(testKey, testValue, false, FieldType.FIELD)),
             )
-            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
     }
 
@@ -43,7 +43,7 @@ class FieldTest {
         val expected = testValue
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                assertTrue( (data.body as FormDataContent).formData[testKey] == expected)
+                assertTrue((data.body as FormDataContent).formData[testKey] == expected)
             }
         }
 
@@ -55,7 +55,7 @@ class FieldTest {
                 returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(FieldData(testKey, testValue, true, FieldType.FIELD)),
             )
-            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
     }
 
@@ -68,7 +68,7 @@ class FieldTest {
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                assertTrue( (data.body as FormDataContent).formData[testKey] == null)
+                assertTrue((data.body as FormDataContent).formData[testKey] == null)
             }
         }
 
@@ -77,10 +77,10 @@ class FieldTest {
             val requestData = RequestData(
                 method = "GET",
                 relativeUrl = "",
-                returnTypeData = TypeData( "kotlin.String"),
+                returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(FieldData(testKey, testValue, false, FieldType.FIELD)),
             )
-            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
     }
 
@@ -105,7 +105,7 @@ class FieldTest {
                 returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(FieldData(testKey, testMap, false, FieldType.FIELDMAP))
             )
-            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
     }
 

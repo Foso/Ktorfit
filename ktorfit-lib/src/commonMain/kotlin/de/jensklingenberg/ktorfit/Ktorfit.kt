@@ -55,16 +55,18 @@ class Ktorfit private constructor(
 
         /**
          * That will be used for every request with object
+         * @param url base url for every request
+         * @param checkUrl if true, it checks if [url] ends with / and starts with http/https
          */
-        fun baseUrl(url: String) = apply {
-            if (url.isEmpty()) {
+        fun baseUrl(url: String, checkUrl: Boolean = true) = apply {
+            if (checkUrl && url.isEmpty()) {
                 throw IllegalStateException("Base URL required")
             }
 
-            if (!url.endsWith("/")) {
+            if (checkUrl && !url.endsWith("/")) {
                 throw IllegalStateException("Base URL needs to end with /")
             }
-            if (!url.startsWith("http") && !url.startsWith("https")) {
+            if (checkUrl && !url.startsWith("http") && !url.startsWith("https")) {
                 throw IllegalStateException(EXPECTED_URL_SCHEME)
             }
             this._baseUrl = url

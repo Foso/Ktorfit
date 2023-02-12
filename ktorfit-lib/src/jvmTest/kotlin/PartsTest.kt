@@ -18,7 +18,7 @@ class PartsTest {
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                assertTrue( (data.body is MultiPartFormDataContent))
+                assertTrue((data.body is MultiPartFormDataContent))
             }
         }
 
@@ -28,9 +28,9 @@ class PartsTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                parts = mapOf("description" to "test","description2" to "test")
+                parts = mapOf("description" to "test", "description2" to "test")
             )
-            KtorfitClient(ktorfit).suspendRequest<String,String>(requestData)
+            KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
     }
 
