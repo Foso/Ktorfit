@@ -1,2 +1,16 @@
+build:
+  - "**/*.gradle"
+  - "**/*.gradle.kts"
+
+ci:
+  - ".github/*"
+  
+compiler-plugin:
+  - "compiler-plugin/src/**/*"
+  
 documentation:
   - "docs/*.md"
+
+
+gradle-plugin:
+  - "gradle-plugin/src/**/*"
