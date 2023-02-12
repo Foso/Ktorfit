@@ -50,7 +50,7 @@ android {
     }
 }
 val ktorfit = "1.0.0-beta17"
-val ktor = "2.2.2"
+val ktor = "2.2.3"
 val compose_ui_version = "1.3.3"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")

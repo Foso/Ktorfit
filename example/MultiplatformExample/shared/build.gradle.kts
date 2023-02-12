@@ -8,7 +8,7 @@ plugins {
 }
 
 version = "1.0"
-val ktorVersion = "2.2.2"
+val ktorVersion = "2.2.3"
 val ktorfitVersion = "1.0.0-beta17"
 
 kotlin {

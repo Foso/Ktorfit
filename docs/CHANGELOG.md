@@ -5,8 +5,16 @@ NEW:
 * You can now disable the check if the baseUrl ends with a /
 
 ```kotlin
-Ktorfit.Builder().baseUrl(testBaseUrl, checkUrl= false).build()
+Ktorfit.Builder().baseUrl(testBaseUrl, checkUrl = false).build()
 ```
+
+🐛 Bugs fixed
+
+* Fixed Ktorfit breaking incremental compilation #110
+
+⬆️ Deps updates
+
+- based on Ktor 2.2.3
 
 1.0.0-beta17 (21-01-2023)
 ========================================

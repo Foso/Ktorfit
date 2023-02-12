@@ -5,7 +5,7 @@ plugins {
 }
 apply(plugin = "de.jensklingenberg.ktorfit")
 version = "1.0-SNAPSHOT"
-val ktorVersion = "2.2.2"
+val ktorVersion = "2.2.3"
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     enabled = true
 }
@@ -59,7 +59,7 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-core-native:1.3.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("io.ktor:ktor-client-curl:2.2.2")
+                implementation("io.ktor:ktor-client-curl:2.2.3")
 
             }
         }
