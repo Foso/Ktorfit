@@ -70,7 +70,7 @@ fun KSValueParameter.getPartMapAnnotation(): PartMap? {
 @OptIn(KspExperimental::class)
 fun KSValueParameter.getRequestBuilderAnnotation(): RequestBuilder? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.ReqBuilder::class).firstOrNull()?.let {
-        return RequestBuilder()
+        return RequestBuilder
     }
 }
 
@@ -86,21 +86,21 @@ fun KSValueParameter.getQueryMapAnnotation(): QueryMap? {
 @OptIn(KspExperimental::class)
 fun KSValueParameter.getHeaderMapAnnotation(): HeaderMap? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.HeaderMap::class).firstOrNull()?.let {
-        return HeaderMap()
+        return HeaderMap
     }
 }
 
 @OptIn(KspExperimental::class)
 fun KSValueParameter.getUrlAnnotation(): Url? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Url::class).firstOrNull()?.let {
-        return Url()
+        return Url
     }
 }
 
 @OptIn(KspExperimental::class)
 fun KSValueParameter.getBodyAnnotation(): Body? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Body::class).firstOrNull()?.let {
-        return Body()
+        return Body
     }
 }
 

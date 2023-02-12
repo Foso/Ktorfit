@@ -25,88 +25,85 @@ data class FunctionData(
     fun toFunSpec(): List<FunSpec> {
         val returnTypeName = this.returnType.name
         val typeWithoutOuterType = returnTypeName.substringAfter("<").substringBeforeLast(">")
-        val nullableText = if (!this.returnType.name.endsWith("?")) {
-            "!!"
-        } else {
+        val nullableText = if (this.returnType.name.endsWith("?")) {
             ""
+        } else {
+            "!!"
         }
         return if (this.parameterDataList.any { it.hasRequestTypeAnnotation() }) {
             listOf(
                 FunSpec.builder(this.name)
-                .addModifiers(mutableListOf(KModifier.PRIVATE).also {
-                    if (this.isSuspend) {
-                        it.add(KModifier.SUSPEND)
-                    }
-                })
-                .returns(TypeVariableName(this.returnType.name))
-                .addParameters(this.parameterDataList.map {
-                    ParameterSpec(it.name, it.requestTypeClassName!!)
-                })
-                .addStatement(
-                    getRequestDataArgumentText(
-                        this
+                    .addModifiers(mutableListOf(KModifier.PRIVATE).also {
+                        if (this.isSuspend) {
+                            it.add(KModifier.SUSPEND)
+                        }
+                    })
+                    .returns(TypeVariableName(this.returnType.name))
+                    .addParameters(this.parameterDataList.map {
+                        ParameterSpec(it.name, it.requestTypeClassName!!)
+                    })
+                    .addStatement(
+                        getRequestDataArgumentText(
+                            this
+                        )
+                    ).addStatement(
+                        "return ${ktorfitClientClass.objectName}" + if (this.isSuspend) {
+                            ".suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
+                        } else {
+                            ".request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
+                        }
                     )
-                ).addStatement(
-                    if (this.isSuspend) {
-                        "return ${clientClass.objectName}.suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
-                    } else {
-                        "return ${clientClass.objectName}.request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
-                    }
-                )
-                .build(),
+                    .build(),
 
                 FunSpec.builder(this.name)
-                .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
-                    if (this.isSuspend) {
-                        it.add(KModifier.SUSPEND)
-                    }
-                })
-                .returns(TypeVariableName(this.returnType.name))
-                .addParameters(this.parameterDataList.map {
-                    ParameterSpec(it.name, TypeVariableName(it.type.name))
-                })
-                .addRequestConverterText(this)
-                .build()
+                    .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
+                        if (this.isSuspend) {
+                            it.add(KModifier.SUSPEND)
+                        }
+                    })
+                    .returns(TypeVariableName(this.returnType.name))
+                    .addParameters(this.parameterDataList.map {
+                        ParameterSpec(it.name, TypeVariableName(it.type.name))
+                    })
+                    .addRequestConverterText(this)
+                    .build()
             )
         } else {
-            listOf(FunSpec.builder(this.name)
-                .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
-                    if (this.isSuspend) {
-                        it.add(KModifier.SUSPEND)
-                    }
-                })
-                .returns(TypeVariableName(this.returnType.name))
-                .addParameters(this.parameterDataList.map {
-                    ParameterSpec(it.name, TypeVariableName(it.type.name))
-                })
-                .addStatement(
-                    getRequestDataArgumentText(
-                        this,
+            listOf(
+                FunSpec.builder(this.name)
+                    .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
+                        if (this.isSuspend) {
+                            it.add(KModifier.SUSPEND)
+                        }
+                    })
+                    .returns(TypeVariableName(this.returnType.name))
+                    .addParameters(this.parameterDataList.map {
+                        ParameterSpec(it.name, TypeVariableName(it.type.name))
+                    })
+                    .addStatement(
+                        getRequestDataArgumentText(
+                            this,
+                        )
                     )
-                )
-                .addStatement(
-                    if (this.isSuspend) {
-                        "return ${clientClass.objectName}.suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
-                    } else {
-                        "return ${clientClass.objectName}.request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
-                    }
-                )
-                .build()
+                    .addStatement(
+                        "return ${ktorfitClientClass.objectName}" + if (this.isSuspend) {
+                            ".suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
+                        } else {
+                            ".request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
+                        }
+                    )
+                    .build()
             )
         }
     }
 
-
-    companion object {
-
-    }
 }
 
 /**
  * Collect all [HttpMethodAnnotation] from a [KSFunctionDeclaration]
  * @return list of [HttpMethodAnnotation]
  */
-fun getHttpMethodAnnotations(ksFunctionDeclaration: KSFunctionDeclaration): List<HttpMethodAnnotation> {
+private fun getHttpMethodAnnotations(ksFunctionDeclaration: KSFunctionDeclaration): List<HttpMethodAnnotation> {
     val getAnno = ksFunctionDeclaration.parseHTTPMethodAnno("GET")
     val putAnno = ksFunctionDeclaration.parseHTTPMethodAnno("PUT")
     val postAnno = ksFunctionDeclaration.parseHTTPMethodAnno("POST")
@@ -126,7 +123,7 @@ fun KSFunctionDeclaration.toFunctionData(
 ): FunctionData {
     val funcDeclaration = this
     val functionName = funcDeclaration.simpleName.asString()
-    val functionParameters = funcDeclaration.parameters.map { it.createParameterData( logger) }
+    val functionParameters = funcDeclaration.parameters.map { it.createParameterData(logger) }
 
     val typeData = getMyType(
         funcDeclaration.returnType?.resolve().resolveTypeName().removeWhiteSpaces(),

@@ -14,7 +14,7 @@ data class TypeData(val qualifiedName: String, val typeArgs: List<TypeData> = em
     companion object{
 
         //https://kotlinlang.org/docs/packages.html
-        fun defaultImports() = listOf(
+        private fun defaultImports() = listOf(
             "kotlin.*",
             "kotlin.annotation.*",
             "kotlin.collections.*",
@@ -61,9 +61,6 @@ data class TypeData(val qualifiedName: String, val typeArgs: List<TypeData> = em
             resolver.getClassDeclarationByName("$packageName.$className")?.qualifiedName?.asString()?.let {
                 className = it
             }
-
-            //Look in imports
-
 
             //Wildcards
             val isWildCard = className == "*"
