@@ -19,15 +19,13 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
     private val logger: KSPLogger = env.logger
     private var invoked = false
 
-
     companion object {
         lateinit var ktorfitResolver: Resolver
     }
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-       val type = (env.options.get("Ktorfit_Errors")?.toIntOrNull()) ?: 1
+       val type = (env.options["Ktorfit_Errors"]?.toIntOrNull()) ?: 1
         ktorfitResolver = resolver
-
         if (invoked) {
             return emptyList()
         }
@@ -58,7 +56,7 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
 
         val ksAnnotatedList =
             getAnnotated + postAnnotated + putAnnotated + deleteAnnotated + headAnnotated + optionsAnnotated + patchAnnotated + httpAnnotated
-        return ksAnnotatedList.map { it as KSFunctionDeclaration }
+        return ksAnnotatedList.filterIsInstance<KSFunctionDeclaration>()
     }
 }
 
