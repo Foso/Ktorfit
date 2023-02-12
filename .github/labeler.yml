@@ -11,6 +11,11 @@ compiler-plugin:
 documentation:
   - "docs/*.md"
 
-
 gradle-plugin:
   - "gradle-plugin/src/**/*"
+  
+ktorfit-ksp:
+  - "ktorfit-ksp/src/**/*"  
+
+ktorfit-lib:
+  - "ktorfit-lib/src/**/*"  
