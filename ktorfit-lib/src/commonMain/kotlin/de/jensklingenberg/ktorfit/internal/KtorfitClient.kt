@@ -119,7 +119,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
         this.method = HttpMethod.parse(requestData.method)
 
         handleBody(requestData.bodyData)
-        handleQueries(requestData)
+        handleQueries(requestData.queries)
         val queryNameUrl = handleQueryNames(requestData)
 
         val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl)
@@ -262,8 +262,8 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
         }
     }
 
-    private fun HttpRequestBuilder.handleQueries(requestData: RequestData) {
-        requestData.queries.filter { it.type == QueryType.QUERY }.forEach { entry ->
+    private fun HttpRequestBuilder.handleQueries(queries: List<QueryData>) {
+        queries.filter { it.type == QueryType.QUERY }.forEach { entry ->
 
             when (val data = entry.data) {
                 is List<*> -> {
@@ -288,7 +288,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
             }
         }
 
-        requestData.queries.filter { it.type == QueryType.QUERYMAP }.forEach { entry ->
+        queries.filter { it.type == QueryType.QUERYMAP }.forEach { entry ->
             for ((key, value) in entry.data as Map<*, *>) {
                 value?.let {
                     setParameter(entry.encoded, key.toString(), value.toString())
