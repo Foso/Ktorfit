@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.internal
 
 import de.jensklingenberg.ktorfit.Ktorfit
+import io.ktor.client.*
 
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -16,9 +17,9 @@ import io.ktor.util.reflect.*
  * Please don't use the class directly
  */
 @InternalKtorfitApi
-class KtorfitClient(val ktorfit: Ktorfit) {
+public class KtorfitClient(public val ktorfit: Ktorfit) {
 
-    val httpClient = ktorfit.httpClient
+    public val httpClient: HttpClient = ktorfit.httpClient
 
     /**
      * Converts [value] to an URL encoded value
@@ -31,7 +32,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
     /**
      * This will handle all requests for functions without suspend modifier
      */
-    inline fun <reified ReturnType, reified RequestType : Any?> request(
+    public inline fun <reified ReturnType, reified RequestType : Any?> request(
         requestData: RequestData
     ): ReturnType? {
 
@@ -67,7 +68,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    suspend inline fun <reified ReturnType, reified PRequest : Any?> suspendRequest(
+    public suspend inline fun <reified ReturnType, reified PRequest : Any?> suspendRequest(
         requestData: RequestData
     ): ReturnType? {
         try {
@@ -108,7 +109,7 @@ class KtorfitClient(val ktorfit: Ktorfit) {
         }
     }
 
-    fun HttpRequestBuilder.requestBuilder(
+    public fun HttpRequestBuilder.requestBuilder(
         requestData: RequestData
     ) {
 

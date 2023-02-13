@@ -1,5 +1,5 @@
 package de.jensklingenberg.ktorfit
 
-interface Call<T> {
-    fun onExecute(callBack: Callback<T>)
+public interface Call<T> {
+    public fun onExecute(callBack: Callback<T>)
 }

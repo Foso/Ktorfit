@@ -16,15 +16,16 @@ import io.ktor.client.engine.*
 /**
  * Main class for Ktorfit, create the class than use the [create<T>()] function.
  */
-class Ktorfit private constructor(
-    val baseUrl: String,
-    val httpClient: HttpClient = HttpClient(),
-    val responseConverters: Set<ResponseConverter>,
-    val suspendResponseConverters: Set<SuspendResponseConverter>,
-    val requestConverters: Set<RequestConverter>
+public class Ktorfit private constructor(
+    public val baseUrl: String,
+    public val httpClient: HttpClient = HttpClient(),
+    public val responseConverters: Set<ResponseConverter>,
+    public val suspendResponseConverters: Set<SuspendResponseConverter>,
+    public val requestConverters: Set<RequestConverter>
 ) {
 
     @OptIn(InternalKtorfitApi::class)
+    public
             /**
              * This will return an implementation of [T] if [T] is an interface
              * with Ktorfit annotations.
@@ -46,7 +47,7 @@ class Ktorfit private constructor(
      * @see baseUrl
      * @see httpClient
      */
-    class Builder {
+    public class Builder {
         private var _baseUrl: String = ""
         private var _httpClient = HttpClient()
         private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf()
@@ -58,7 +59,7 @@ class Ktorfit private constructor(
          * @param url base url for every request
          * @param checkUrl if true, it checks if [url] ends with / and starts with http/https
          */
-        fun baseUrl(url: String, checkUrl: Boolean = true) = apply {
+        public fun baseUrl(url: String, checkUrl: Boolean = true): Builder = apply {
             if (checkUrl && url.isEmpty()) {
                 throw IllegalStateException("Base URL required")
             }
@@ -75,52 +76,52 @@ class Ktorfit private constructor(
         /**
          * Client that will be used for every request with object
          */
-        fun httpClient(client: HttpClient) = apply {
+        public fun httpClient(client: HttpClient): Builder = apply {
             this._httpClient = client
         }
 
         /**
          * Build HttpClient by just passing an engine
          */
-        fun httpClient(engine: HttpClientEngine) = apply {
+        public fun httpClient(engine: HttpClientEngine): Builder = apply {
             this._httpClient = HttpClient(engine)
         }
 
         /**
          * Build HttpClient by just passing an engine factory
          */
-        fun <T : HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>) = apply {
+        public fun <T : HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>): Builder = apply {
             this._httpClient = HttpClient(engineFactory)
         }
 
         /**
          * Client-Builder that will be used for every request with object
          */
-        fun httpClient(config: HttpClientConfig<*>.() -> Unit) = apply {
+        public fun httpClient(config: HttpClientConfig<*>.() -> Unit): Builder = apply {
             this._httpClient = HttpClient(this._httpClient.engine, config)
         }
 
         /**
          * Client-Builder with engine that will be used for every request with object
          */
-        fun httpClient(engine: HttpClientEngine, config: HttpClientConfig<*>.() -> Unit) = apply {
+        public fun httpClient(engine: HttpClientEngine, config: HttpClientConfig<*>.() -> Unit): Builder = apply {
             this._httpClient = HttpClient(engine, config)
         }
 
         /**
          * Client-Builder with engine factory that will be used for every request with object
          */
-        fun <T : HttpClientEngineConfig> httpClient(
+        public fun <T : HttpClientEngineConfig> httpClient(
             engineFactory: HttpClientEngineFactory<T>,
             config: HttpClientConfig<T>.() -> Unit
-        ) = apply {
+        ): Builder = apply {
             this._httpClient = HttpClient(engineFactory, config)
         }
 
         /**
          * Use this to add [ResponseConverter] or [SuspendResponseConverter] for unsupported return types of requests
          */
-        fun responseConverter(vararg converters: CoreResponseConverter) = apply {
+        public fun responseConverter(vararg converters: CoreResponseConverter): Builder = apply {
             converters.forEach { converter ->
                 if (converter is ResponseConverter) {
                     this._responseConverter.add(converter)
@@ -131,7 +132,7 @@ class Ktorfit private constructor(
             }
         }
 
-        fun requestConverter(vararg converters: RequestConverter) = apply {
+        public fun requestConverter(vararg converters: RequestConverter): Builder = apply {
             this._requestConverter.addAll(converters)
         }
 
@@ -139,12 +140,12 @@ class Ktorfit private constructor(
         /**
          * Apply changes to builder and get the Ktorfit instance without the need of calling [build] afterwards.
          */
-        fun build(builder: Builder.() -> Unit) = this.apply(builder).build()
+        public fun build(builder: Builder.() -> Unit): Ktorfit = this.apply(builder).build()
 
         /**
          * Creates an instance of Ktorfit with specified baseUrl and HttpClient.
          */
-        fun build(): Ktorfit {
+        public fun build(): Ktorfit {
             return Ktorfit(_baseUrl, _httpClient, _responseConverter, _suspendResponseConverter, _requestConverter)
         }
     }
@@ -153,14 +154,15 @@ class Ktorfit private constructor(
 /**
  * Create a Ktorfit instance using Kotlin-DSL.
  */
-fun ktorfit(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().apply(builder).build()
+public fun ktorfit(builder: Ktorfit.Builder.() -> Unit): Ktorfit = Ktorfit.Builder().apply(builder).build()
 
 /**
  * Creates a Ktorfit Builder instance using Kotlin-DSL.
  */
-fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit) = Ktorfit.Builder().apply(builder)
+public fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit): Ktorfit.Builder = Ktorfit.Builder().apply(builder)
 
 @Deprecated("Use the non-Extension function")
+public
         /**
          * This will return an implementation of [T] if [T] is an interface
          * with Ktorfit annotations.

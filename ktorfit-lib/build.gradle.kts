@@ -40,7 +40,7 @@ val ktorVersion: String by project
 version = ktorfitVersion
 
 kotlin {
-
+    explicitApi()
     android {
         publishLibraryVariants("release", "debug")
     }
