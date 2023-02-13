@@ -13,7 +13,7 @@ import io.ktor.client.request.*
  * It will be used by [ResponseConverter] to check if they support the type
  * Because on JS the qualifiedName reflection does not exist, it is inserted as arguments by the Compiler Plugin
  */
-data class RequestData(
+public data class RequestData(
     val method: String,
     val relativeUrl: String,
     val headers: List<HeaderData> = emptyList(),

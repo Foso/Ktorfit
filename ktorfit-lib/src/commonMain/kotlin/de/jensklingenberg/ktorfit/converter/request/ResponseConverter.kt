@@ -9,7 +9,7 @@ import io.ktor.util.reflect.*
  * Implement this to support wrapping for custom types
  *  e.g. fun test() : MyCustomType<String>
  */
-interface ResponseConverter : CoreResponseConverter {
+public interface ResponseConverter : CoreResponseConverter {
 
     /**
      * @param typeData is the qualified name of the outer type of
@@ -18,7 +18,7 @@ interface ResponseConverter : CoreResponseConverter {
      * @param ktorfit the Ktorfit object that is used for this request
      * @return the wrapped response
      */
-    fun <RequestType : Any?> wrapResponse(
+    public fun <RequestType : Any?> wrapResponse(
         typeData: TypeData,
         requestFunction: suspend () -> Pair<TypeInfo, HttpResponse?>,
         ktorfit: Ktorfit

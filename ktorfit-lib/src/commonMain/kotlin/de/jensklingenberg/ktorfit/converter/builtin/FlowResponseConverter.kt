@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 /**
  * Converter to enable the use of Flow<> as return type
  */
-class FlowResponseConverter : ResponseConverter {
+public class FlowResponseConverter : ResponseConverter {
 
     override fun supportedType(typeData: TypeData, isSuspend: Boolean): Boolean {
         return typeData.qualifiedName == "kotlinx.coroutines.flow.Flow"

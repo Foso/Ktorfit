@@ -1,23 +1,23 @@
 package de.jensklingenberg.ktorfit.internal
 
-class QueryData(
-    val key: String,
-    val data: Any?,
-    val encoded: Boolean = false,
-    val type: QueryType
+public class QueryData(
+    public val key: String,
+    public val data: Any?,
+    public val encoded: Boolean = false,
+    public val type: QueryType
 )
 
-enum class QueryType {
+public enum class QueryType {
     QUERY, QUERYNAME, QUERYMAP
 }
 
-class FieldData(
-    val key: String,
-    val data: Any?,
-    val encoded: Boolean = false,
-    val type: FieldType
+public class FieldData(
+    public val key: String,
+    public val data: Any?,
+    public val encoded: Boolean = false,
+    public val type: FieldType
 )
 
-enum class FieldType {
+public enum class FieldType {
     FIELD, FIELDMAP
 }

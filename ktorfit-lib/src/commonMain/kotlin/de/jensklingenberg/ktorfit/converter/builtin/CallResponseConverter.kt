@@ -12,7 +12,7 @@ import io.ktor.util.reflect.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class CallResponseConverter : SuspendResponseConverter, ResponseConverter {
+public class CallResponseConverter : SuspendResponseConverter, ResponseConverter {
 
     override suspend fun <RequestType> wrapSuspendResponse(
         typeData: TypeData,
