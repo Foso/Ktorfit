@@ -154,14 +154,14 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
      * with their corresponding value
      * @return the relative URL with replaced values
      */
-    private fun getRelativeUrl(paths: List<PathData>, relativeUrl: String): String {
+    private fun getRelativeUrl(paths: List<DH>, relativeUrl: String): String {
         var newUrl = relativeUrl
         paths.forEach {
 
             val newPathValue = if (it.encoded) {
-                it.value
+                it.data.toString()
             } else {
-                encode(it.value)
+                encode(it.data.toString())
             }
 
             newUrl = newUrl.replace("{${it.key}}", newPathValue)
@@ -170,10 +170,10 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
         return newUrl
     }
 
-    private fun HttpRequestBuilder.handleHeaders(headers: List<HeaderData>) {
+    private fun HttpRequestBuilder.handleHeaders(headers: List<DH>) {
         headers {
             headers.forEach {
-                when (val data = it.value) {
+                when (val data = it.data) {
                     is List<*> -> {
                         data.filterNotNull().forEach { dataEntry ->
                             append(it.key, dataEntry.toString())
@@ -197,14 +197,14 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
                     }
 
                     else -> {
-                        append(it.key, it.value.toString())
+                        append(it.key, it.data.toString())
                     }
                 }
             }
         }
     }
 
-    private fun HttpRequestBuilder.handleFields(fields: List<FieldData>) {
+    private fun HttpRequestBuilder.handleFields(fields: List<DH>) {
         if (fields.isNotEmpty()) {
             val formParameters = Parameters.build {
 
@@ -224,7 +224,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
                     }
                 }
 
-                fields.filter { it.type == FieldType.FIELD }.forEach { entry ->
+                fields.filter { it.type == "FieldType.FIELD" }.forEach { entry ->
 
                     when (val data = entry.data) {
                         is List<*> -> {
@@ -249,7 +249,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
                     }
                 }
 
-                fields.filter { it.type == FieldType.FIELDMAP }.forEach { entry ->
+                fields.filter { it.type == "FieldType.FIELDMAP" }.forEach { entry ->
                     for ((key, value) in entry.data as Map<*, *>) {
                         value?.let {
                             append(entry.encoded, key.toString(), value.toString())
@@ -262,8 +262,8 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
         }
     }
 
-    private fun HttpRequestBuilder.handleQueries(queries: List<QueryData>) {
-        queries.filter { it.type == QueryType.QUERY }.forEach { entry ->
+    private fun HttpRequestBuilder.handleQueries(queries: List<DH>) {
+        queries.filter { it.type == "QueryType.QUERY" }.forEach { entry ->
 
             when (val data = entry.data) {
                 is List<*> -> {
@@ -288,7 +288,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
             }
         }
 
-        queries.filter { it.type == QueryType.QUERYMAP }.forEach { entry ->
+        queries.filter { it.type == "QueryType.QUERYMAP" }.forEach { entry ->
             for ((key, value) in entry.data as Map<*, *>) {
                 value?.let {
                     setParameter(entry.encoded, key.toString(), value.toString())
@@ -306,7 +306,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
      */
     private fun handleQueryNames(requestData: RequestData): String {
         val queryNames = mutableListOf<String>()
-        requestData.queries.filter { it.type == QueryType.QUERYNAME }.forEach { entry ->
+        requestData.queries.filter { it.type == "QueryType.QUERYNAME" }.forEach { entry ->
             when (val data = entry.data) {
                 is List<*> -> {
                     data.filterNotNull().forEach { dataEntry ->

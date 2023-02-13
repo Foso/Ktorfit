@@ -7,7 +7,7 @@ import io.ktor.client.request.*
  * @param relativeUrl This is the request relative url path e.g. "posts/1"
  * @param headers list of Headers that will be used for request
  * @param queries list of query parameters that will be added to the requested url
- * @param fields map of fields parameters that will be added to the formData Body
+ * @param fields list of fields parameters that will be added to the formData Body
  * @param bodyData data that will send to with the request
  * @param returnTypeData This is the qualifiedName of requested return type
  * It will be used by [ResponseConverter] to check if they support the type
@@ -16,14 +16,14 @@ import io.ktor.client.request.*
 public data class RequestData(
     val method: String,
     val relativeUrl: String,
-    val headers: List<HeaderData> = emptyList(),
-    val queries: List<QueryData> = emptyList(),
-    val fields: List<FieldData> = emptyList(),
+    val headers: List<DH> = emptyList(),
+    val queries: List<DH> = emptyList(),
+    val fields: List<DH> = emptyList(),
     val parts: Map<String, Any> = emptyMap(),
     val bodyData: Any? = null,
     val returnTypeData: TypeData,
     val requestBuilder: HttpRequestBuilder.() -> Unit = {},
-    val paths : List<PathData> = emptyList()
+    val paths : List<DH> = emptyList()
 )
 
 

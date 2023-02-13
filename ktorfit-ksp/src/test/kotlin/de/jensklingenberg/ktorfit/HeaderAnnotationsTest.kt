@@ -84,7 +84,7 @@ interface TestService {
         )
 
 
-        val expectedHeadersArgumentText ="headers = listOf(HeaderData(\"x\",\"y\"), HeaderData(\"a\",\"b\"))"
+        val expectedHeadersArgumentText ="headers = listOf(DH(\"x\",\"y\"), DH(\"a\",\"b\"))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -124,7 +124,7 @@ interface TestService {
         )
 
 
-        val expectedHeadersArgumentText ="headers = listOf(HeaderData(\"testHeader\",testParameter))"
+        val expectedHeadersArgumentText ="headers = listOf(DH(\"testHeader\",testParameter))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -163,7 +163,7 @@ interface TestService {
         )
 
 
-        val expectedHeadersArgumentText = "headers = listOf(HeaderData(\"\",testParameter))"
+        val expectedHeadersArgumentText = "headers = listOf(DH(\"\",testParameter))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)

@@ -36,8 +36,8 @@ interface TestService {
         val expectedFunctionText = """public override suspend fun test(id: String): String {
     val requestData = RequestData(method="GET",
         relativeUrl="user/{id}",
-        returnTypeData=TypeData("kotlin.String"),
-        paths = listOf(PathData("id","äid",false))) 
+        returnTypeData = TypeData("kotlin.String"),
+        paths = listOf(DH("id","äid",false))) 
 
     return client.suspendRequest<String, String>(requestData)!!
   }""".replace("\\{", "{").replace("ä","$")
@@ -82,8 +82,8 @@ interface TestService {
         val expectedFunctionText = """public override suspend fun test(id: String): String {
     val requestData = RequestData(method="GET",
         relativeUrl="user/{id}",
-        returnTypeData=TypeData("kotlin.String"),
-        paths = listOf(PathData("id","äid",true))) 
+        returnTypeData = TypeData("kotlin.String"),
+        paths = listOf(DH("id","äid",true))) 
 
     return client.suspendRequest<String, String>(requestData)!!
   }""".replace("%", "").replace("ä","$")

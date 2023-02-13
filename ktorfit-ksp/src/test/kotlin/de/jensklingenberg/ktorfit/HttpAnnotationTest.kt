@@ -37,7 +37,7 @@ public class _TestServiceImpl : TestService, KtorfitService {
   public override suspend fun test(): String {
     val requestData = RequestData(method="GET",
         relativeUrl="user",
-        returnTypeData=TypeData("kotlin.String")) 
+        returnTypeData = TypeData("kotlin.String")) 
 
     return client.suspendRequest<String, String>(requestData)!!
   }
@@ -105,7 +105,7 @@ interface TestService {
         val expectedFunctionText = """public override suspend fun test(): String {
     val requestData = RequestData(method="",
         relativeUrl="user",
-        returnTypeData=TypeData("kotlin.String")) 
+        returnTypeData = TypeData("kotlin.String")) 
 
     return client.suspendRequest<String, String>(requestData)!!
   }"""
@@ -150,7 +150,7 @@ interface TestService {
     val requestData = RequestData(method="GET",
         relativeUrl="user",
         bodyData = body,
-        returnTypeData=TypeData("kotlin.String")) 
+        returnTypeData = TypeData("kotlin.String")) 
 
     return client.suspendRequest<String, String>(requestData)!!
   }"""

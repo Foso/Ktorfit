@@ -15,7 +15,7 @@ fun getPathsText(params: List<ParameterData>): String {
         val pathPath = pathAnnotation?.value ?: ""
         val pathEncoded = pathAnnotation?.encoded ?: false
 
-        "${pathDataClass.name}(\"$pathPath\",\"\$$paramName\",$pathEncoded)"
+        "DH(\"$pathPath\",\"\$$paramName\",$pathEncoded)"
     }.joinToString { it }
 
     return pathData.surroundIfNotEmpty("paths = listOf(", ")")
