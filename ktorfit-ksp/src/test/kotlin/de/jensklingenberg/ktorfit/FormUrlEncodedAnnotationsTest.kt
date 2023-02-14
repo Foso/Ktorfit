@@ -101,9 +101,9 @@ interface TestService {
         val expectedBodyDataArgumentText = """public override suspend fun test(id: String): String? {
     val requestData = RequestData(method="POST",
         relativeUrl="user",
-        headers = listOf(HeaderData("Content-Type","application/x-www-form-urlencoded")),
-        fields = listOf(FieldData("id",id,false,FieldType.FIELD)),
-        returnTypeData=TypeData("String?")) 
+        headers = listOf(DH("Content-Type","application/x-www-form-urlencoded")),
+        fields = listOf(DH("id",id,false,"FieldType.FIELD")),
+        returnTypeData = TypeData("String?")) 
 
     return client.suspendRequest<String?, String?>(requestData)
   }"""

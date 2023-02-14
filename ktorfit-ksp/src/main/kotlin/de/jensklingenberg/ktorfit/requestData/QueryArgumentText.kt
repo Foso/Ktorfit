@@ -21,9 +21,9 @@ fun getQueryArgumentText(params: List<ParameterData>): String {
         val encoded = query.encoded
         val data = myParam.name
         val queryKey = "\"${query.value}\""
-        val type = "QueryType.QUERY"
+        val type = "\"QueryType.QUERY\""
 
-        "QueryData($queryKey,$data,$encoded,$type)"
+        "$queryKey,$data,$encoded,$type"
     }
 
     myQueryStrings.addAll(queryStrings)
@@ -34,9 +34,9 @@ fun getQueryArgumentText(params: List<ParameterData>): String {
         val encoded = queryName.encoded
         val data = myParam.name
         val queryKey = "\"\""
-        val type = "QueryType.QUERYNAME"
+        val type = "\"QueryType.QUERYNAME\""
 
-        "QueryData($queryKey,$data,$encoded,$type)"
+        "$queryKey,$data,$encoded,$type"
     }
 
     myQueryStrings.addAll(queryNamesStrings)
@@ -46,12 +46,12 @@ fun getQueryArgumentText(params: List<ParameterData>): String {
         val encoded = queryMap.encoded
         val data = myParam.name
         val queryKey = "\"\""
-        val type = "QueryType.QUERYMAP"
+        val type = "\"QueryType.QUERYMAP\""
 
-        "QueryData($queryKey,$data,$encoded,$type)"
+        "$queryKey,$data,$encoded,$type"
     }
 
     myQueryStrings.addAll(queryMapStrings)
 
-    return myQueryStrings.joinToString { it }.surroundIfNotEmpty("queries = listOf(", ")")
+    return myQueryStrings.joinToString { "DH($it)" }.surroundIfNotEmpty("queries = listOf(", ")")
 }

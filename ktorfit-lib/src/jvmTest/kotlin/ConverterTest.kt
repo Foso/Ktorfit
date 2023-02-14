@@ -25,7 +25,7 @@ class ConverterTest {
                     method = "GET",
                     relativeUrl = "",
                     returnTypeData = TypeData("kotlinx.coroutines.flow.Flow"),
-                    headers = listOf(HeaderData("Accept", "application/json"))
+                    headers = listOf(DH("Accept", "application/json"))
                 )
                 KtorfitClient(ktorfit).request<Flow<String>, String>(requestData)
             }

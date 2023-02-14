@@ -24,7 +24,7 @@ class HeaderTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                headers = listOf(HeaderData("Content-Type", "application/json"))
+                headers = listOf(DH("Content-Type", "application/json"))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -45,7 +45,7 @@ class HeaderTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                headers = listOf(HeaderData("Content-Type", null))
+                headers = listOf(DH("Content-Type", null))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -73,7 +73,7 @@ class HeaderTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                headers = listOf(HeaderData("Accept", testList))
+                headers = listOf(DH("Accept", testList))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -101,7 +101,7 @@ class HeaderTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                headers = listOf(HeaderData("Accept", testList))
+                headers = listOf(DH("Accept", testList))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -129,7 +129,7 @@ class HeaderTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                headers = listOf(HeaderData("", testMap))
+                headers = listOf(DH("", testMap))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
