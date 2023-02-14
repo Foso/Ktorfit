@@ -19,7 +19,7 @@ class UrlTest {
         relativeUrl="user",
         returnTypeData = TypeData("kotlin.String")) 
 
-    return client.suspendRequest<String, String>(requestData)!!
+    return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }
 """
 
@@ -61,7 +61,7 @@ interface TestService {
         relativeUrl="$\{url}",
         returnTypeData = TypeData("kotlin.String")) 
 
-    return client.suspendRequest<String, String>(requestData)!!
+    return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }
 """.replace("\\{", "{")
 
