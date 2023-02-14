@@ -39,7 +39,7 @@ interface TestService {
         returnTypeData = TypeData("kotlin.String"),
         paths = listOf(DH("id","äid",false))) 
 
-    return client.suspendRequest<String, String>(requestData)!!
+    return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }""".replace("\\{", "{").replace("ä","$")
 
         val compilation = KotlinCompilation().apply {
@@ -85,7 +85,7 @@ interface TestService {
         returnTypeData = TypeData("kotlin.String"),
         paths = listOf(DH("id","äid",true))) 
 
-    return client.suspendRequest<String, String>(requestData)!!
+    return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }""".replace("%", "").replace("ä","$")
 
         val compilation = KotlinCompilation().apply {

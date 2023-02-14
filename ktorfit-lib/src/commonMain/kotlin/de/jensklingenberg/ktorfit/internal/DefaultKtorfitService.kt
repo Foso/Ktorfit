@@ -6,6 +6,8 @@ package de.jensklingenberg.ktorfit.internal
  * did not replace the default parameter with the right class
  */
 internal class DefaultKtorfitService : KtorfitService {
+    override lateinit var ktorfitClient: KtorfitClient
+
     @OptIn(InternalKtorfitApi::class)
     override fun setClient(client: KtorfitClient) {}
 }

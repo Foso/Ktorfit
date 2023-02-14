@@ -42,7 +42,6 @@ fun ClassData.getImplClassFileSource(): String {
 
     val createExtensionFunctionSpec = getCreateExtensionFunctionSpec(classData, optinAnnotation)
 
-    val setClientFunction = getSetClientFunction()
 
     val properties = classData.properties.map { property ->
         val propBuilder = PropertySpec.builder(
@@ -72,9 +71,9 @@ fun ClassData.getImplClassFileSource(): String {
 
     val clientProperty = PropertySpec
         .builder(
-            "client",
+            "ktorfitClient",
             TypeVariableName(ktorfitClientClass.name),
-            listOf(KModifier.PRIVATE, KModifier.LATEINIT)
+            listOf(KModifier.OVERRIDE, KModifier.LATEINIT)
         )
         .mutable(true)
         .build()
@@ -89,7 +88,6 @@ fun ClassData.getImplClassFileSource(): String {
         .addSuperinterface(ktorfitServiceClassName)
         .addKtorfitSuperInterface(classData.superClasses)
         .addFunctions(classData.functions.map { it.toFunSpec() }.flatten())
-        .addFunction(setClientFunction)
         .addProperty(
             clientProperty
         )
@@ -103,17 +101,6 @@ fun ClassData.getImplClassFileSource(): String {
         .addFunction(createExtensionFunctionSpec)
         .build().toString().replace(WILDCARDIMPORT, "*")
 }
-
-/**
- * public override fun setClient(client: KtorfitClient): Unit {
- *     this.client = client
- *   }
- */
-private fun getSetClientFunction() = FunSpec.builder("setClient")
-    .addModifiers(KModifier.OVERRIDE)
-    .addParameter("client", TypeVariableName(ktorfitClientClass.name))
-    .addStatement("this.client = client")
-    .build()
 
 /**
  * public fun Ktorfit.createExampleApi(): ExampleApi = _ExampleApiImpl(KtorfitClient(this)).also { it.setClient(KtorfitClient(this)) }

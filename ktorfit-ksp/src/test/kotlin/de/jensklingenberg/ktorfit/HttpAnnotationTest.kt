@@ -28,22 +28,17 @@ import de.jensklingenberg.ktorfit.`internal`.KtorfitService
 import de.jensklingenberg.ktorfit.`internal`.*
 import de.jensklingenberg.ktorfit.http.GET
 import kotlin.OptIn
-import kotlin.Unit
 
 @OptIn(InternalKtorfitApi::class)
 public class _TestServiceImpl : TestService, KtorfitService {
-  private lateinit var client: KtorfitClient
+  public override lateinit var ktorfitClient: KtorfitClient
 
   public override suspend fun test(): String {
     val requestData = RequestData(method="GET",
         relativeUrl="user",
         returnTypeData = TypeData("kotlin.String")) 
 
-    return client.suspendRequest<String, String>(requestData)!!
-  }
-
-  public override fun setClient(client: KtorfitClient): Unit {
-    this.client = client
+    return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }
 }
 
@@ -107,7 +102,7 @@ interface TestService {
         relativeUrl="user",
         returnTypeData = TypeData("kotlin.String")) 
 
-    return client.suspendRequest<String, String>(requestData)!!
+    return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }"""
 
         val compilation = KotlinCompilation().apply {
@@ -152,7 +147,7 @@ interface TestService {
         bodyData = body,
         returnTypeData = TypeData("kotlin.String")) 
 
-    return client.suspendRequest<String, String>(requestData)!!
+    return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }"""
 
         val compilation = KotlinCompilation().apply {

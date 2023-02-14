@@ -8,7 +8,7 @@ fun FunSpec.Builder.addRequestConverterText(functionData: FunctionData) = apply 
         val parameterNameUpperCase = parameter.name.replaceFirstChar { parameter.name.first().titlecaseChar() }
         if (parameter.hasRequestTypeAnnotation()) {
             this.addStatement("val requestKClass$parameterNameUpperCase = %T::class", parameter.requestTypeClassName!!)
-            this.addStatement("val requestConverter$parameterNameUpperCase = client.ktorfit.requestConverters.firstOrNull {")
+            this.addStatement("val requestConverter$parameterNameUpperCase = ktorfitClient.ktorfit.requestConverters.firstOrNull {")
             this.addStatement("\tit.supportedType(${parameter.name}::class, requestKClass$parameterNameUpperCase)")
             this.addStatement("} ?: throw IllegalArgumentException(%S)", "No RequestConverter found for parameter '${parameter.name}' in method '${functionData.name}'")
             this.addStatement("val convertedType$parameterNameUpperCase: %T = requestKClass$parameterNameUpperCase.cast(requestConverter$parameterNameUpperCase.convert(${parameter.name}))\n", parameter.requestTypeClassName)
