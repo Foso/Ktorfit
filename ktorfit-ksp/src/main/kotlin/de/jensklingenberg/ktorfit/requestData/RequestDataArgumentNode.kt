@@ -20,8 +20,8 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
     val fieldsText = getFieldArgumentsText(functionData.parameterDataList)
     val partsText = getPartsArgumentText(functionData.parameterDataList)
     val builderText = getRequestBuilderText(functionData.parameterDataList)
-    val requestText = getRequestTypeInfoText(functionData)
-    val returnTex = getReturnTypeInfoText(functionData)
+    val requestTypeInfoText = getRequestTypeInfoText(functionData)
+    val returnTypeInfoText = getReturnTypeInfoText(functionData)
     val qualifiedTypeName = "returnTypeData = ${functionData.returnType.qualifiedName}"
 
     val args = listOf(
@@ -35,8 +35,8 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
         builderText,
         qualifiedTypeName,
         pathsText,
-        requestText,
-        returnTex
+        requestTypeInfoText,
+        returnTypeInfoText
     ).filter { it.isNotEmpty() }.joinToString(",\n") { it }
 
     return "val requestData = ${requestDataClass.name}($args) \n"
