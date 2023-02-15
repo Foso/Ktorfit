@@ -3,6 +3,7 @@ import de.jensklingenberg.ktorfit.internal.*
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
+import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -30,6 +31,8 @@ class FieldTest {
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(DH(testKey, testValue, false)),
+                requestTypeInfo = typeInfo<String>(),
+                returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -54,6 +57,8 @@ class FieldTest {
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(DH(testKey, testValue, true)),
+                requestTypeInfo = typeInfo<String>(),
+                returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -79,6 +84,8 @@ class FieldTest {
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(DH(testKey, testValue, false)),
+                requestTypeInfo = typeInfo<String>(),
+                returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -103,7 +110,9 @@ class FieldTest {
                 method = "POST",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                fields = listOf(DH(testKey, testMap, false))
+                fields = listOf(DH(testKey, testMap, false)),
+                requestTypeInfo = typeInfo<String>(),
+                returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }

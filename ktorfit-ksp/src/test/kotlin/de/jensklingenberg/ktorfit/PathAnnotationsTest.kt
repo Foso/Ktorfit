@@ -37,7 +37,9 @@ interface TestService {
     val requestData = RequestData(method="GET",
         relativeUrl="user/{id}",
         returnTypeData = TypeData("kotlin.String"),
-        paths = listOf(DH("id","äid",false))) 
+        paths = listOf(DH("id","äid",false)),
+        requestTypeInfo=typeInfo<String>(),
+        returnTypeInfo = typeInfo<String>()) 
 
     return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }""".replace("\\{", "{").replace("ä","$")
@@ -83,7 +85,9 @@ interface TestService {
     val requestData = RequestData(method="GET",
         relativeUrl="user/{id}",
         returnTypeData = TypeData("kotlin.String"),
-        paths = listOf(DH("id","äid",true))) 
+        paths = listOf(DH("id","äid",true)),
+        requestTypeInfo=typeInfo<String>(),
+        returnTypeInfo = typeInfo<String>()) 
 
     return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }""".replace("%", "").replace("ä","$")

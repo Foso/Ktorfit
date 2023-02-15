@@ -40,7 +40,7 @@ fun getHeadersArgumentText(
     val paramsWithHeaderMap = paramList.filter { it.hasAnnotation<HeaderMap>() }
 
     paramsWithHeaderMap.forEach {
-        headerList.add(Pair("\"\"", it.name))
+        headerList.add("\"\"" to it.name)
     }
 
 
@@ -48,8 +48,8 @@ fun getHeadersArgumentText(
         val (key, value) = it
 
         "DH($key,$value)"
-    }.surroundIfNotEmpty("headers = listOf(", ")")
+    }.surroundIfNotEmpty("headers = listOf(", ")").replace(" ", "·")
 
 
-    return headerText.replace(" ", "·")
+    return headerText
 }

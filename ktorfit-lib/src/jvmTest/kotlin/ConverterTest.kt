@@ -2,6 +2,7 @@ import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.internal.*
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.util.reflect.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -25,7 +26,8 @@ class ConverterTest {
                     method = "GET",
                     relativeUrl = "",
                     returnTypeData = TypeData("kotlinx.coroutines.flow.Flow"),
-                    headers = listOf(DH("Accept", "application/json"))
+                    headers = listOf(DH("Accept", "application/json")),
+                    requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
                 )
                 KtorfitClient(ktorfit).request<Flow<String>, String>(requestData)
             }

@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.content.*
+import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -29,7 +30,9 @@ class BodyTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                bodyData = "testBody"
+                bodyData = "testBody",
+                returnTypeInfo = typeInfo<String>(),
+                requestTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
