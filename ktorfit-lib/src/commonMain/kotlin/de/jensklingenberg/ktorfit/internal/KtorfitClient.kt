@@ -17,7 +17,7 @@ import io.ktor.util.reflect.*
  * Please don't use the class directly
  */
 @InternalKtorfitApi
-public class KtorfitClient(public val ktorfit: Ktorfit) {
+internal class KtorfitClient(override val ktorfit: Ktorfit) : Client {
 
     public val httpClient: HttpClient = ktorfit.httpClient
 
@@ -32,7 +32,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
     /**
      * This will handle all requests for functions without suspend modifier
      */
-    public inline fun <reified ReturnType, reified RequestType : Any?> request(
+    public override fun <ReturnType, RequestType : Any?> request(
         requestData: RequestData
     ): ReturnType? {
 
@@ -46,7 +46,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
                 requestFunction = {
                     try {
                         val data = suspendRequest<HttpResponse, HttpResponse>(requestData)
-                        Pair(typeInfo<RequestType?>(), data)
+                        Pair(requestData.requestTypeInfo, data)
                     } catch (ex: Exception) {
                         throw ex
                     }
@@ -68,11 +68,12 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    public suspend inline fun <reified ReturnType, reified PRequest : Any?> suspendRequest(
+    public override suspend fun <ReturnType, PRequest : Any?> suspendRequest(
         requestData: RequestData
     ): ReturnType? {
         try {
-            if (ReturnType::class == HttpStatement::class) {
+
+            if (requestData.returnTypeData.instanceOf(HttpStatement::class)) {
                 return httpClient.prepareRequest {
                     requestBuilder(requestData)
                 } as ReturnType
@@ -80,7 +81,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
             val response = httpClient.request {
                 requestBuilder(requestData)
             }
-            if (ReturnType::class == HttpResponse::class) {
+            if (requestData.returnTypeData.instanceOf(HttpResponse::class)) {
                 return response as ReturnType
             }
 
@@ -92,12 +93,12 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
                 return it.wrapSuspendResponse<PRequest>(
                     typeData = requestData.returnTypeData,
                     requestFunction = {
-                        Pair(typeInfo<PRequest>(), response)
+                        Pair(requestData.requestTypeInfo, response)
                     }, ktorfit
                 ) as ReturnType
             }
 
-            return response.body<ReturnType>()
+            return response.body(requestData.returnTypeInfo)
 
         } catch (exception: Exception) {
             val typeIsNullable = requestData.returnTypeData.qualifiedName.endsWith("?")
@@ -109,7 +110,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
         }
     }
 
-    public fun HttpRequestBuilder.requestBuilder(
+    private fun HttpRequestBuilder.requestBuilder(
         requestData: RequestData
     ) {
 
@@ -120,7 +121,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
 
         handleBody(requestData.bodyData)
         handleQueries(requestData.queries)
-        val queryNameUrl = handleQueryNames(requestData)
+        val queryNameUrl = handleQueryNames(requestData.queries)
 
         val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl)
 
@@ -304,9 +305,9 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
      * QueryNames will be handled special because otherwise Ktor always adds a "=" behind every
      * query e.g. QueryName("Hello") will be sent by Ktor like "?Hello="
      */
-    private fun handleQueryNames(requestData: RequestData): String {
+    private fun handleQueryNames(queries: List<DH>): String {
         val queryNames = mutableListOf<String>()
-        requestData.queries.filter { it.type == "QueryType.QUERYNAME" }.forEach { entry ->
+        queries.filter { it.type == "QueryType.QUERYNAME" }.forEach { entry ->
             when (val data = entry.data) {
                 is List<*> -> {
                     data.filterNotNull().forEach { dataEntry ->
