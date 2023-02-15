@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
+import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -28,7 +29,8 @@ class PartsTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                parts = mapOf("description" to "test", "description2" to "test")
+                parts = mapOf("description" to "test", "description2" to "test"),
+                requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }

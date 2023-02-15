@@ -13,15 +13,15 @@ class UrlTest {
 
     @Test
     fun testFunctionWithGET() {
-        val expectedFunctionSource = """
-  public override suspend fun test(): String {
+        val expectedFunctionSource = """public override suspend fun test(): String {
     val requestData = RequestData(method="GET",
         relativeUrl="user",
-        returnTypeData = TypeData("kotlin.String")) 
+        returnTypeData = TypeData("kotlin.String"),
+        requestTypeInfo=typeInfo<String>(),
+        returnTypeInfo = typeInfo<String>()) 
 
     return ktorfitClient.suspendRequest<String, String>(requestData)!!
-  }
-"""
+  }"""
 
         val source = SourceFile.kotlin(
             "Source.kt", """
@@ -55,15 +55,15 @@ interface TestService {
 
     @Test
     fun testFunctionWithGETAndUrlAnno() {
-        val expectedFunctionSource = """
-  public override suspend fun test(url: String): String {
+        val expectedFunctionSource = """public override suspend fun test(url: String): String {
     val requestData = RequestData(method="GET",
         relativeUrl="$\{url}",
-        returnTypeData = TypeData("kotlin.String")) 
+        returnTypeData = TypeData("kotlin.String"),
+        requestTypeInfo=typeInfo<String>(),
+        returnTypeInfo = typeInfo<String>()) 
 
     return ktorfitClient.suspendRequest<String, String>(requestData)!!
-  }
-""".replace("\\{", "{")
+  }""".replace("\\{", "{")
 
 
         val source = SourceFile.kotlin(

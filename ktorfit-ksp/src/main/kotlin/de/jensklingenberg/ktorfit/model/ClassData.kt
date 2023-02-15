@@ -73,7 +73,7 @@ fun ClassData.getImplClassFileSource(): String {
     val clientProperty = PropertySpec
         .builder(
             "ktorfitClient",
-            TypeVariableName(ktorfitClientClass.name),
+            TypeVariableName(clientClass.name),
             listOf(KModifier.OVERRIDE, KModifier.LATEINIT)
         )
         .mutable(true)
@@ -116,7 +116,7 @@ private fun getCreateExtensionFunctionSpec(
             optinAnnotation
         )
         .addModifiers(classData.modifiers)
-        .addStatement("return _${classData.name}Impl().also{ it.setClient(%T(this)) }", ktorfitClientClass.toClassName())
+        .addStatement("return this.create(_${classData.name}Impl())")
         .receiver(TypeVariableName(ktorfitClass.name))
         .returns(TypeVariableName(classData.name))
         .build()
@@ -131,7 +131,9 @@ private fun getCreateExtensionFunctionSpec(
  */
 fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     val ksClassDeclaration = this
-    val imports = ksClassDeclaration.getFileImports().toMutableList()
+    val imports = ksClassDeclaration.getFileImports().toMutableList().also {
+        it.add("io.ktor.util.reflect.*")
+    }
     val packageName = ksClassDeclaration.packageName.asString()
     val className = ksClassDeclaration.simpleName.asString()
 

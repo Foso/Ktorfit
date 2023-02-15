@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.internal
 
 import io.ktor.client.request.*
+import io.ktor.util.reflect.*
 
 /**
  * @param method HTTP Keyword of requested Http Method Type
@@ -23,7 +24,9 @@ public data class RequestData(
     val bodyData: Any? = null,
     val returnTypeData: TypeData,
     val requestBuilder: HttpRequestBuilder.() -> Unit = {},
-    val paths : List<DH> = emptyList()
+    val paths : List<DH> = emptyList(),
+    val requestTypeInfo : TypeInfo,
+    val returnTypeInfo : TypeInfo
 )
 
 

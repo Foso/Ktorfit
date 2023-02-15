@@ -2,6 +2,7 @@ import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.internal.*
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
@@ -24,7 +25,8 @@ class HeaderTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                headers = listOf(DH("Content-Type", "application/json"))
+                headers = listOf(DH("Content-Type", "application/json")),
+                requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -45,7 +47,8 @@ class HeaderTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                headers = listOf(DH("Content-Type", null))
+                headers = listOf(DH("Content-Type", null)),
+                requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -73,7 +76,8 @@ class HeaderTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                headers = listOf(DH("Accept", testList))
+                headers = listOf(DH("Accept", testList)),
+                requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -101,7 +105,8 @@ class HeaderTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                headers = listOf(DH("Accept", testList))
+                headers = listOf(DH("Accept", testList)),
+                requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -129,7 +134,9 @@ class HeaderTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                headers = listOf(DH("", testMap))
+                headers = listOf(DH("", testMap)),
+                requestTypeInfo = typeInfo<String>(),
+                returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
