@@ -263,7 +263,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
     }
 
     private fun HttpRequestBuilder.handleQueries(queries: List<DH>) {
-        queries.filter { it.type == "QueryType.QUERY" }.forEach { entry ->
+        queries.filter { it.type == "QueryType.QUERY" || it.type == "QueryType.QUERYMAP" }.forEach { entry ->
 
             when (val data = entry.data) {
                 is List<*> -> {
@@ -278,6 +278,15 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
                     }
                 }
 
+                is Map<*,*> ->{
+                    for ((key, value) in entry.data as Map<*, *>) {
+                        value?.let {
+                            setParameter(entry.encoded, key.toString(), value.toString())
+                        }
+
+                    }
+                }
+
                 null -> {
                     //Ignore this query
                 }
@@ -285,15 +294,6 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
                 else -> {
                     setParameter(entry.encoded, entry.key, entry.data.toString())
                 }
-            }
-        }
-
-        queries.filter { it.type == "QueryType.QUERYMAP" }.forEach { entry ->
-            for ((key, value) in entry.data as Map<*, *>) {
-                value?.let {
-                    setParameter(entry.encoded, key.toString(), value.toString())
-                }
-
             }
         }
 
@@ -383,7 +383,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
 
 
     private fun HttpRequestBuilder.encodedParameter(key: String, value: Any): Unit =
-        value.let { url.encodedParameters.append(key, it.toString()) } ?: Unit
+        value.let { url.encodedParameters.append(key, it.toString()) }
 
 }
 
