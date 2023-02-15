@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.model.annotations
 
 import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSValueParameter
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import de.jensklingenberg.ktorfit.utils.*
@@ -11,17 +12,18 @@ import de.jensklingenberg.ktorfit.utils.*
 sealed class ParameterAnnotation
 object Body : ParameterAnnotation()
 object RequestBuilder : ParameterAnnotation()
-class Path(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
-class Query(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
-class QueryName(val encoded: Boolean = false) : ParameterAnnotation()
-class QueryMap(val encoded: Boolean = false) : ParameterAnnotation()
-class Header(val path: String) : ParameterAnnotation()
+data class Path(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
+data class Query(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
+data class QueryName(val encoded: Boolean = false) : ParameterAnnotation()
+data class QueryMap(val encoded: Boolean = false) : ParameterAnnotation()
+data class Header(val path: String) : ParameterAnnotation()
 object HeaderMap : ParameterAnnotation()
 object Url : ParameterAnnotation()
-class Field(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
-class FieldMap(val encoded: Boolean) : ParameterAnnotation()
-class Part(val value: String = "", val encoding: String = "binary") : ParameterAnnotation()
-class PartMap(val encoding: String = "binary") : ParameterAnnotation()
+data class RequestType(val requestType:KSType) : ParameterAnnotation()
+data class Field(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
+data class FieldMap(val encoded: Boolean) : ParameterAnnotation()
+data class Part(val value: String = "", val encoding: String = "binary") : ParameterAnnotation()
+data class PartMap(val encoding: String = "binary") : ParameterAnnotation()
 
 
 /**
@@ -123,6 +125,10 @@ fun KSValueParameter.getParamAnnotationList( logger: KSPLogger): List<ParameterA
         if (ksValueParameter.type.resolve().isMarkedNullable) {
             logger.error(KtorfitError.URL_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE, ksValueParameter)
         }
+        paramAnnos.add(it)
+    }
+
+    ksValueParameter.getRequestTypeAnnotation()?.let {
         paramAnnos.add(it)
     }
     return paramAnnos

@@ -3,10 +3,8 @@ package de.jensklingenberg.ktorfit.model
 import KtorfitProcessor
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.ParameterSpec
-import com.squareup.kotlinpoet.TypeVariableName
+import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ksp.toClassName
 import de.jensklingenberg.ktorfit.model.TypeData.Companion.getMyType
 import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.requestData.addRequestConverterText
@@ -30,7 +28,7 @@ data class FunctionData(
         } else {
             "!!"
         }
-        return if (this.parameterDataList.any { it.hasRequestTypeAnnotation() }) {
+        return if (this.parameterDataList.any { it.hasAnnotation<RequestType>() }) {
             listOf(
                 FunSpec.builder(this.name)
                     .addModifiers(mutableListOf(KModifier.PRIVATE).also {
@@ -40,7 +38,8 @@ data class FunctionData(
                     })
                     .returns(TypeVariableName(this.returnType.name))
                     .addParameters(this.parameterDataList.map {
-                        ParameterSpec(it.name, it.requestTypeClassName!!)
+                        val requestTypeClassName = it.annotations.filterIsInstance<RequestType>().first().requestType.toClassName()
+                        ParameterSpec(it.name, requestTypeClassName)
                     })
                     .addStatement(
                         getRequestDataArgumentText(
