@@ -102,7 +102,7 @@ interface TestService {
     val requestData = RequestData(method="POST",
         relativeUrl="user",
         headers = listOf(DH("Content-Type","application/x-www-form-urlencoded")),
-        fields = listOf(DH("id",id,false,"FieldType.FIELD")),
+        fields = listOf(DH("id",id,false)),
         returnTypeData = TypeData("String?")) 
 
     return ktorfitClient.suspendRequest<String?, String?>(requestData)

@@ -224,7 +224,7 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
                     }
                 }
 
-                fields.filter { it.type == "FieldType.FIELD" }.forEach { entry ->
+                fields.forEach { entry ->
 
                     when (val data = entry.data) {
                         is List<*> -> {
@@ -239,20 +239,20 @@ public class KtorfitClient(public val ktorfit: Ktorfit) {
                             }
                         }
 
+                        is Map<*,*> ->{
+                            for ((key, value) in entry.data as Map<*, *>) {
+                                value?.let {
+                                    append(entry.encoded, key.toString(), value.toString())
+                                }
+                            }
+                        }
+
                         null -> {
                             //Ignore this
                         }
 
                         else -> {
                             append(entry.encoded, entry.key, entry.data.toString())
-                        }
-                    }
-                }
-
-                fields.filter { it.type == "FieldType.FIELDMAP" }.forEach { entry ->
-                    for ((key, value) in entry.data as Map<*, *>) {
-                        value?.let {
-                            append(entry.encoded, key.toString(), value.toString())
                         }
                     }
                 }
