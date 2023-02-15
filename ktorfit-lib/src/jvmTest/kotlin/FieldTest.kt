@@ -29,7 +29,7 @@ class FieldTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                fields = listOf(DH(testKey, testValue, false, "")),
+                fields = listOf(DH(testKey, testValue, false)),
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -53,7 +53,7 @@ class FieldTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                fields = listOf(DH(testKey, testValue, true, "")),
+                fields = listOf(DH(testKey, testValue, true)),
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -78,7 +78,7 @@ class FieldTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                fields = listOf(DH(testKey, testValue, false, "")),
+                fields = listOf(DH(testKey, testValue, false)),
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -103,7 +103,7 @@ class FieldTest {
                 method = "POST",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                fields = listOf(DH(testKey, testMap, false, "MAP"))
+                fields = listOf(DH(testKey, testMap, false))
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
