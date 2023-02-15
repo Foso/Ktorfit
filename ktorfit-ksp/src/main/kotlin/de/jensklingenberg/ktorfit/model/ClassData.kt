@@ -9,6 +9,7 @@ import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
+import de.jensklingenberg.ktorfit.model.annotations.RequestType
 import de.jensklingenberg.ktorfit.utils.addImports
 import de.jensklingenberg.ktorfit.utils.getFileImports
 import de.jensklingenberg.ktorfit.utils.resolveTypeName
@@ -158,7 +159,7 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         }
 
 
-    if (functionDataList.any { it.parameterDataList.any { param -> param.hasRequestTypeAnnotation() } }) {
+    if (functionDataList.any { it.parameterDataList.any { param -> param.hasAnnotation<RequestType>() } }) {
         imports.add("kotlin.reflect.cast")
     }
 
