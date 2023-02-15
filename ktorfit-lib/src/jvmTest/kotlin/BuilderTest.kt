@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.internal.RequestData
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
@@ -60,7 +61,11 @@ class BuilderTest {
         val ktorfit = Ktorfit.Builder().baseUrl(testBaseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
-                method = expectedHTTPMethod, relativeUrl = testRelativeUrl, returnTypeData = TypeData("kotlin.String")
+                method = expectedHTTPMethod,
+                relativeUrl = testRelativeUrl,
+                returnTypeData = TypeData("kotlin.String"),
+                requestTypeInfo = typeInfo<String>(),
+                returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -85,7 +90,11 @@ class BuilderTest {
         val ktorfit = Ktorfit.Builder().baseUrl(testBaseUrl, false).httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
-                method = expectedHTTPMethod, relativeUrl = testRelativeUrl, returnTypeData = TypeData("kotlin.String")
+                method = expectedHTTPMethod,
+                relativeUrl = testRelativeUrl,
+                returnTypeData = TypeData("kotlin.String"),
+                requestTypeInfo = typeInfo<String>(),
+                returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -109,7 +118,11 @@ class BuilderTest {
         val ktorfit = Ktorfit.Builder().baseUrl(testBaseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
-                method = "GET", relativeUrl = testRelativeUrl, returnTypeData = TypeData("kotlin.String")
+                method = "GET",
+                relativeUrl = testRelativeUrl,
+                returnTypeData = TypeData("kotlin.String"),
+                requestTypeInfo = typeInfo<String>(),
+                returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -135,7 +148,11 @@ class BuilderTest {
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
             val requestData = RequestData(
-                method = "GET", relativeUrl = relativeUrl, returnTypeData = TypeData("kotlin.String")
+                method = "GET",
+                relativeUrl = relativeUrl,
+                returnTypeData = TypeData("kotlin.String"),
+                requestTypeInfo = typeInfo<String>(),
+                returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }

@@ -103,7 +103,9 @@ interface TestService {
         relativeUrl="user",
         headers = listOf(DH("Content-Type","application/x-www-form-urlencoded")),
         fields = listOf(DH("id",id,false)),
-        returnTypeData = TypeData("String?")) 
+        returnTypeData = TypeData("String?"),
+        requestTypeInfo=typeInfo<String?>(),
+        returnTypeInfo = typeInfo<String?>()) 
 
     return ktorfitClient.suspendRequest<String?, String?>(requestData)
   }"""
