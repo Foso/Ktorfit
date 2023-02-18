@@ -2,17 +2,13 @@ package de.jensklingenberg.ktorfit.model
 
 import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.KSPLogger
-import com.google.devtools.ksp.symbol.ClassKind
-import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.google.devtools.ksp.symbol.KSFile
-import com.google.devtools.ksp.symbol.KSPropertyDeclaration
+import com.google.devtools.ksp.symbol.*
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.annotations.RequestType
 import de.jensklingenberg.ktorfit.utils.addImports
 import de.jensklingenberg.ktorfit.utils.getFileImports
-import de.jensklingenberg.ktorfit.utils.resolveTypeName
 
 /**
  * @param name of the interface that contains annotations
@@ -23,7 +19,7 @@ data class ClassData(
     val packageName: String,
     val functions: List<FunctionData>,
     val imports: List<String>,
-    val superClasses: List<String> = emptyList(),
+    val superClasses: List<KSTypeReference> = emptyList(),
     val properties: List<KSPropertyDeclaration> = emptyList(),
     val modifiers: List<KModifier> = emptyList(),
     val ksFile: KSFile
@@ -88,7 +84,7 @@ fun ClassData.getImplClassFileSource(): String {
         .addSuperinterface(ClassName(classData.packageName, classData.name))
         .addSuperinterface(ktorfitServiceClassName)
         .addKtorfitSuperInterface(classData.superClasses)
-        .addFunctions(classData.functions.map { it.toFunSpec() }.flatten())
+        .addFunctions(classData.functions.map { it.toFunSpec() })
         .addProperty(
             clientProperty
         )
@@ -137,6 +133,39 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     val packageName = ksClassDeclaration.packageName.asString()
     val className = ksClassDeclaration.simpleName.asString()
 
+    checkClassForErrors(this,logger)
+
+    val functionDataList: List<FunctionData> =
+        ksClassDeclaration.getDeclaredFunctions().toList().map { funcDeclaration ->
+            return@map funcDeclaration.toFunctionData(logger, imports, packageName)
+        }
+
+
+    if (functionDataList.any { it.parameterDataList.any { param -> param.hasAnnotation<RequestType>() } }) {
+        imports.add("kotlin.reflect.cast")
+    }
+
+    val filteredSupertypes =
+        ksClassDeclaration.superTypes.toList().filterNot {
+            /** In KSP Any is a supertype of an interface */
+            it.toTypeName() == ANY
+        }
+    val properties = ksClassDeclaration.getAllProperties().toList()
+
+
+    return ClassData(
+        name = className,
+        packageName = packageName,
+        functions = functionDataList,
+        imports = imports,
+        superClasses = filteredSupertypes,
+        properties = properties,
+        modifiers = ksClassDeclaration.modifiers.mapNotNull { it.toKModifier() },
+        ksFile = this.getKsFile()
+    )
+}
+
+private fun checkClassForErrors(ksClassDeclaration: KSClassDeclaration, logger: KSPLogger) {
     val isJavaClass = ksClassDeclaration.origin.name == "JAVA"
     if (isJavaClass) {
         logger.error(KtorfitError.JAVA_INTERFACES_ARE_NOT_SUPPORTED, ksClassDeclaration)
@@ -155,37 +184,9 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         )
     }
 
-    val functionDataList: List<FunctionData> =
-        ksClassDeclaration.getDeclaredFunctions().toList().map { funcDeclaration ->
-            return@map funcDeclaration.toFunctionData(logger, imports, packageName)
-        }
-
-
-    if (functionDataList.any { it.parameterDataList.any { param -> param.hasAnnotation<RequestType>() } }) {
-        imports.add("kotlin.reflect.cast")
-    }
-
-    val filteredSupertypes =
-        ksClassDeclaration.superTypes.toList().filterNot {
-            /** In KSP Any is a supertype of an interface */
-            it.resolve().resolveTypeName() == "Any"
-        }.mapNotNull { it.resolve().declaration.qualifiedName?.asString() }
-    val properties = ksClassDeclaration.getAllProperties().toList()
-
-    if (packageName.isEmpty()) {
+    if (ksClassDeclaration.packageName.asString().isEmpty()) {
         logger.error(KtorfitError.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE, ksClassDeclaration)
     }
-
-    return ClassData(
-        name = className,
-        packageName = packageName,
-        functions = functionDataList,
-        imports = imports,
-        superClasses = filteredSupertypes,
-        properties = properties,
-        modifiers = ksClassDeclaration.modifiers.mapNotNull { it.toKModifier() },
-        ksFile = this.getKsFile()
-    )
 }
 
 private fun KSClassDeclaration.getKsFile(): KSFile {
@@ -196,10 +197,10 @@ private fun KSClassDeclaration.getKsFile(): KSFile {
  * Support for extending multiple interfaces, is done with Kotlin delegation. Ktorfit interfaces can only extend other Ktorfit interfaces, so there will
  * be a generated implementation for each interface that we can use.
  */
-fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<String>): TypeSpec.Builder {
+fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeReference>): TypeSpec.Builder {
     (superClasses).forEach { superClassQualifiedName ->
-        val superTypeClassName = superClassQualifiedName.substringAfterLast(".")
-        val superTypePackage = superClassQualifiedName.substringBeforeLast(".")
+        val superTypeClassName = superClassQualifiedName.resolve().declaration.simpleName.asString()
+        val superTypePackage = superClassQualifiedName.resolve().declaration.packageName.asString()
         this.addSuperinterface(
             ClassName(superTypePackage, superTypeClassName),
             CodeBlock.of("${superTypePackage}._${superTypeClassName}Impl()")

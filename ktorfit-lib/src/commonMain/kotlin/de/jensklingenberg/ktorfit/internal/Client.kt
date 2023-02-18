@@ -1,9 +1,9 @@
 package de.jensklingenberg.ktorfit.internal
 
-import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.converter.request.RequestConverter
 
 public interface Client {
-    public val ktorfit: Ktorfit
+    public val requestConverters: Set<RequestConverter>
 
     /**
      * This will handle all requests for functions without suspend modifier

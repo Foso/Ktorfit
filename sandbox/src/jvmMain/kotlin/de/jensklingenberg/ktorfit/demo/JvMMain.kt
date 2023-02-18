@@ -56,7 +56,6 @@ fun main() {
 
         val api = jvmKtorfit.create<JsonPlaceHolderApi>()
 
-
         val test = api.getCommentsByPostIdResponse("3")
 
         when (test) {

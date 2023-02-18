@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.internal
 
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.converter.request.RequestConverter
 import io.ktor.client.*
 
 import io.ktor.client.call.*
@@ -17,7 +18,7 @@ import io.ktor.util.reflect.*
  * Please don't use the class directly
  */
 @InternalKtorfitApi
-internal class KtorfitClient(override val ktorfit: Ktorfit) : Client {
+internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
 
     public val httpClient: HttpClient = ktorfit.httpClient
 
@@ -27,6 +28,9 @@ internal class KtorfitClient(override val ktorfit: Ktorfit) : Client {
     private fun encode(value: Any): String {
         return value.toString().encodeURLParameter()
     }
+
+    override val requestConverters: Set<RequestConverter>
+        get() = ktorfit.requestConverters
 
 
     /**
