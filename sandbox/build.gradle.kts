@@ -71,7 +71,7 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.6.4")
-                implementation("io.reactivex.rxjava3:rxjava:3.1.5")
+                implementation("io.reactivex.rxjava3:rxjava:3.1.6")
 
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
                 implementation("ch.qos.logback:logback-classic:1.4.5")
