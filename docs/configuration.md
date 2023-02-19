@@ -1,5 +1,5 @@
 # Compile errors
-By default, Ktorfit will throw compile error when it finds conditions under which it can't ensure that it will correct.
+By default, Ktorfit will throw compile error when it finds conditions under which it can't ensure that it will work correct.
 You can set an KSP argument to change this:
 
 ```kotlin
