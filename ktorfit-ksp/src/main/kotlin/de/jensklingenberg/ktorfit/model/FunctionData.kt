@@ -25,37 +25,37 @@ data class FunctionData(
     fun toFunSpec(): FunSpec {
         val returnTypeName = this.returnType.name
         val typeWithoutOuterType = returnTypeName.substringAfter("<").substringBeforeLast(">")
-        val nullableText = if (this.returnType.name.endsWith("?")) {
+        val nullableText = if (returnTypeName.endsWith("?")) {
             ""
         } else {
             "!!"
         }
         return FunSpec.builder(this.name)
-                .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
-                    if (this.isSuspend) {
-                        it.add(KModifier.SUSPEND)
-                    }
-                })
-                .returns(TypeVariableName(this.returnType.name))
-                .addParameters(this.parameterDataList.map {
-                    ParameterSpec(it.name, TypeVariableName(it.type.name))
-                })
-                .addRequestConverterText(this)
-                .addStatement(
-                    getRequestDataArgumentText(
-                        this,
-                    )
+            .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
+                if (this.isSuspend) {
+                    it.add(KModifier.SUSPEND)
+                }
+            })
+            .returns(TypeVariableName(returnTypeName))
+            .addParameters(this.parameterDataList.map {
+                ParameterSpec(it.name, TypeVariableName(it.type.name))
+            })
+            .addRequestConverterText(this)
+            .addStatement(
+                getRequestDataArgumentText(
+                    this,
                 )
-                .addStatement(
-                    "return ${ktorfitClientClass.objectName}" + if (this.isSuspend) {
-                        ".suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
-                    } else {
-                        ".request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
-                    }
-                )
-                .build()
-
-
+            )
+            .addStatement(
+                "return %L.%L<${returnTypeName}, ${typeWithoutOuterType}>(${requestDataClass.objectName})$nullableText",
+                ktorfitClientClass.objectName,
+                if (this.isSuspend) {
+                    "suspendRequest"
+                } else {
+                    "request"
+                }
+            )
+            .build()
     }
 
 }

@@ -132,7 +132,7 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     val packageName = ksClassDeclaration.packageName.asString()
     val className = ksClassDeclaration.simpleName.asString()
 
-    checkClassForErrors(this,logger)
+    checkClassForErrors(this, logger)
 
     val functionDataList: List<FunctionData> =
         ksClassDeclaration.getDeclaredFunctions().toList().map { funcDeclaration ->
@@ -197,12 +197,13 @@ private fun KSClassDeclaration.getKsFile(): KSFile {
  * be a generated implementation for each interface that we can use.
  */
 fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeReference>): TypeSpec.Builder {
-    (superClasses).forEach { superClassQualifiedName ->
-        val superTypeClassName = superClassQualifiedName.resolve().declaration.simpleName.asString()
-        val superTypePackage = superClassQualifiedName.resolve().declaration.packageName.asString()
+    (superClasses).forEach { superClassReference ->
+        val superClassDeclaration = superClassReference.resolve().declaration
+        val superTypeClassName = superClassDeclaration.simpleName.asString()
+        val superTypePackage = superClassDeclaration.packageName.asString()
         this.addSuperinterface(
             ClassName(superTypePackage, superTypeClassName),
-            CodeBlock.of("${superTypePackage}._${superTypeClassName}Impl()")
+            CodeBlock.of("%L._%LImpl()", superTypePackage, superTypeClassName)
         )
     }
 
