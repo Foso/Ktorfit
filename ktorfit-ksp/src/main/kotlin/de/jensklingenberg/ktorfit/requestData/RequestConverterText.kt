@@ -12,7 +12,7 @@ fun FunSpec.Builder.addRequestConverterText(functionData: FunctionData) = apply 
                 parameter.annotations.filterIsInstance<RequestType>().first().requestType.toClassName()
             if (parameter.hasAnnotation<RequestType>()) {
                 this.addStatement(
-                    "val %L: %T = ktorfitClient.convertRequestType(%L,%L::class,%T::class)",
+                    "val %L: %T = ktorfitClient.convertParameterType(%L,%L::class,%T::class)",
                     parameter.name,
                     requestTypeClassName,
                     parameter.name,

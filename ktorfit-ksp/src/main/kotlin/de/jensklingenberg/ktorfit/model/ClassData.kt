@@ -100,7 +100,7 @@ fun ClassData.getImplClassFileSource(): String {
 }
 
 /**
- * public fun Ktorfit.createExampleApi(): ExampleApi = _ExampleApiImpl(KtorfitClient(this)).also { it.setClient(KtorfitClient(this)) }
+ * public fun Ktorfit.createExampleApi(): ExampleApi = this.create(_ExampleApiImpl()
  */
 private fun getCreateExtensionFunctionSpec(
     classData: ClassData,
@@ -112,7 +112,7 @@ private fun getCreateExtensionFunctionSpec(
             optinAnnotation
         )
         .addModifiers(classData.modifiers)
-        .addStatement("return this.create(_${classData.name}Impl())")
+        .addStatement("return this.create(_${classData.name}Impl())",)
         .receiver(TypeVariableName(ktorfitClass.name))
         .returns(TypeVariableName(classData.name))
         .build()
@@ -121,7 +121,6 @@ private fun getCreateExtensionFunctionSpec(
 
 /**
  * Convert a [KSClassDeclaration] to [ClassData]
- * @param ksClassDeclaration interface that contains Ktorfit annotations
  * @param logger used to log errors
  * @return the transformed classdata
  */
