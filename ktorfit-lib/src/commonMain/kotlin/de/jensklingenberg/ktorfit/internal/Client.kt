@@ -15,5 +15,9 @@ public interface Client {
      */
     public suspend fun <ReturnType, RequestType> suspendRequest(requestData: RequestData): ReturnType?
 
-    public fun <T> convertRequestType(data: Any, parameterType: KClass<*>, requestType: KClass<*>): T
+    /**
+     * Convert [data] of type [parameterType] to [requestType]
+     * @return converted [data]
+     */
+    public fun <T : Any> convertParameterType(data: Any, parameterType: KClass<*>, requestType: KClass<T>): T
 }

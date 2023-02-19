@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.internal
 
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.converter.request.RequestConverter
 import io.ktor.client.*
 
 import io.ktor.client.call.*
@@ -112,12 +111,12 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
         }
     }
 
-    override fun <T> convertRequestType(data: Any, parameterType: KClass<*>, requestType: KClass<*>): T {
-        val requestConverterPostId = ktorfit.requestConverters.firstOrNull {
+    override fun <T : Any> convertParameterType(data: Any, parameterType: KClass<*>, requestType: KClass<T>): T {
+        val requestConverter = ktorfit.requestConverters.firstOrNull {
             it.supportedType(parameterType, requestType)
         }
-            ?: throw IllegalArgumentException("No RequestConverter found for parameter 'postId' in method 'getCommentsByPostIdResponse'")
-        return requestType.cast(requestConverterPostId.convert(data)) as T
+            ?: throw IllegalArgumentException("No RequestConverter found to convert ${parameterType.qualifiedName} to ${requestType.qualifiedName}")
+        return requestType.cast(requestConverter.convert(data))
     }
 
 
