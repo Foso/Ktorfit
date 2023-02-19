@@ -31,7 +31,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.8.0")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.8.10")
 }
 
 gradlePlugin {
