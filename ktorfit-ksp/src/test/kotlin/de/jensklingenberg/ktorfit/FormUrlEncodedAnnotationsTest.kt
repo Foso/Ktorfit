@@ -124,8 +124,8 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedBodyDataArgumentText)).isTrue()
+        Assert.assertEquals(true,generatedFile.exists())
+        Assert.assertEquals(true,generatedFile.readText().contains(expectedBodyDataArgumentText))
     }
 
     @Test

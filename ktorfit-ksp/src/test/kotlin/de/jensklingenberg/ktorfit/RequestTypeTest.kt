@@ -1,5 +1,6 @@
 import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.*
+import org.junit.Assert
 import org.junit.Test
 import java.io.File
 
@@ -22,26 +23,17 @@ interface TestService {
     """
         )
 
-
-        val expectedFunctionSource = """private suspend fun test(postId: Int): String {
+        val expectedFunctionSource = """public override suspend fun test(postId: String): String {
+    val postId: Int = ktorfitClient.convertParameterType(postId,postId::class,Int::class)
     val requestData = RequestData(method="GET",
         relativeUrl="posts/{postId}/comments",
         returnTypeData = TypeData("kotlin.String"),
-        paths = listOf(DH("postId","äpostId",false))) 
+        paths = listOf(DH("postId",postId,false)),
+        requestTypeInfo=typeInfo<String>(),
+        returnTypeInfo = typeInfo<String>()) 
 
     return ktorfitClient.suspendRequest<String, String>(requestData)!!
-  }
-
-  public override suspend fun test(postId: String): String {
-    val requestKClassPostId = Int::class
-    val requestConverterPostId = ktorfitClient.ktorfit.requestConverters.firstOrNull {
-    	it.supportedType(postId::class, requestKClassPostId)
-    } ?: throw
-        IllegalArgumentException("No RequestConverter found for parameter 'postId' in method 'test'")
-    val convertedTypePostId: Int = requestKClassPostId.cast(requestConverterPostId.convert(postId))
-
-    return test(convertedTypePostId)
-?""".replace("ä","$")
+  }"""
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -57,7 +49,7 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFunctionSource)).isFalse()
+        Assert.assertEquals(true,generatedFile.exists())
+        Assert.assertEquals(true,generatedFile.readText().contains(expectedFunctionSource))
     }
 }

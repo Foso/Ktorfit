@@ -6,7 +6,6 @@ import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.RequestConverter
 import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
 import de.jensklingenberg.ktorfit.internal.DefaultKtorfitService
-import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import de.jensklingenberg.ktorfit.internal.KtorfitService
 import io.ktor.client.*
@@ -24,15 +23,14 @@ public class Ktorfit private constructor(
     public val requestConverters: Set<RequestConverter>
 ) {
 
-    @OptIn(InternalKtorfitApi::class)
-    public
-            /**
-             * This will return an implementation of [T] if [T] is an interface
-             * with Ktorfit annotations.
-             * @param ktorfitService Please keep the default parameter, it will be replaced
-             * by the compiler plugin
-             */
-    fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
+
+    /**
+     * This will return an implementation of [T] if [T] is an interface
+     * with Ktorfit annotations.
+     * @param ktorfitService Please keep the default parameter, it will be replaced
+     * by the compiler plugin
+     */
+    public fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
         if (ktorfitService is DefaultKtorfitService) {
             throw IllegalArgumentException("You need to enable the Ktorfit Gradle Plugin")
         }

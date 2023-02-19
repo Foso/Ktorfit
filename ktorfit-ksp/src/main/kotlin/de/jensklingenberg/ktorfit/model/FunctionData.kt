@@ -3,8 +3,10 @@ package de.jensklingenberg.ktorfit.model
 import KtorfitProcessor
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import com.squareup.kotlinpoet.*
-import com.squareup.kotlinpoet.ksp.toClassName
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.TypeVariableName
 import de.jensklingenberg.ktorfit.model.TypeData.Companion.getMyType
 import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.requestData.addRequestConverterText
@@ -20,80 +22,40 @@ data class FunctionData(
     val httpMethodAnnotation: HttpMethodAnnotation
 ) {
 
-    fun toFunSpec(): List<FunSpec> {
+    fun toFunSpec(): FunSpec {
         val returnTypeName = this.returnType.name
         val typeWithoutOuterType = returnTypeName.substringAfter("<").substringBeforeLast(">")
-        val nullableText = if (this.returnType.name.endsWith("?")) {
+        val nullableText = if (returnTypeName.endsWith("?")) {
             ""
         } else {
             "!!"
         }
-        return if (this.parameterDataList.any { it.hasAnnotation<RequestType>() }) {
-            listOf(
-                FunSpec.builder(this.name)
-                    .addModifiers(mutableListOf(KModifier.PRIVATE).also {
-                        if (this.isSuspend) {
-                            it.add(KModifier.SUSPEND)
-                        }
-                    })
-                    .returns(TypeVariableName(this.returnType.name))
-                    .addParameters(this.parameterDataList.map {
-                        val requestTypeClassName = it.annotations.filterIsInstance<RequestType>().first().requestType.toClassName()
-                        ParameterSpec(it.name, requestTypeClassName)
-                    })
-                    .addStatement(
-                        getRequestDataArgumentText(
-                            this
-                        )
-                    ).addStatement(
-                        "return ${ktorfitClientClass.objectName}" + if (this.isSuspend) {
-                            ".suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
-                        } else {
-                            ".request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
-                        }
-                    )
-                    .build(),
-
-                FunSpec.builder(this.name)
-                    .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
-                        if (this.isSuspend) {
-                            it.add(KModifier.SUSPEND)
-                        }
-                    })
-                    .returns(TypeVariableName(this.returnType.name))
-                    .addParameters(this.parameterDataList.map {
-                        ParameterSpec(it.name, TypeVariableName(it.type.name))
-                    })
-                    .addRequestConverterText(this)
-                    .build()
+        return FunSpec.builder(this.name)
+            .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
+                if (this.isSuspend) {
+                    it.add(KModifier.SUSPEND)
+                }
+            })
+            .returns(TypeVariableName(returnTypeName))
+            .addParameters(this.parameterDataList.map {
+                ParameterSpec(it.name, TypeVariableName(it.type.name))
+            })
+            .addRequestConverterText(this)
+            .addStatement(
+                getRequestDataArgumentText(
+                    this,
+                )
             )
-        } else {
-            listOf(
-                FunSpec.builder(this.name)
-                    .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
-                        if (this.isSuspend) {
-                            it.add(KModifier.SUSPEND)
-                        }
-                    })
-                    .returns(TypeVariableName(this.returnType.name))
-                    .addParameters(this.parameterDataList.map {
-                        ParameterSpec(it.name, TypeVariableName(it.type.name))
-                    })
-                    .addStatement(
-                        getRequestDataArgumentText(
-                            this,
-                        )
-                    )
-                    .addStatement(
-                        "return ${ktorfitClientClass.objectName}" + if (this.isSuspend) {
-                            ".suspendRequest<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
-                        } else {
-                            ".request<${returnTypeName}, $typeWithoutOuterType>(${requestDataClass.objectName})" + nullableText
-                        }
-                    )
-                    .build()
+            .addStatement(
+                "return %L.%L<${returnTypeName}, ${typeWithoutOuterType}>(${requestDataClass.objectName})$nullableText",
+                ktorfitClientClass.objectName,
+                if (this.isSuspend) {
+                    "suspendRequest"
+                } else {
+                    "request"
+                }
             )
-        }
+            .build()
     }
 
 }
