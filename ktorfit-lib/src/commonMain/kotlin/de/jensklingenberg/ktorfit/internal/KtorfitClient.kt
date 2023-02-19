@@ -12,6 +12,8 @@ import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.util.*
 import io.ktor.util.reflect.*
+import kotlin.reflect.KClass
+import kotlin.reflect.cast
 
 /**
  * This class will be used by the generated Code
@@ -28,10 +30,6 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
     private fun encode(value: Any): String {
         return value.toString().encodeURLParameter()
     }
-
-    override val requestConverters: Set<RequestConverter>
-        get() = ktorfit.requestConverters
-
 
     /**
      * This will handle all requests for functions without suspend modifier
@@ -72,7 +70,7 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    public override suspend fun <ReturnType, PRequest : Any?> suspendRequest(
+    public override suspend fun <ReturnType, RequestType : Any?> suspendRequest(
         requestData: RequestData
     ): ReturnType? {
         try {
@@ -94,7 +92,7 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
                     requestData.returnTypeData, true
                 )
             }?.let {
-                return it.wrapSuspendResponse<PRequest>(
+                return it.wrapSuspendResponse<RequestType>(
                     typeData = requestData.returnTypeData,
                     requestFunction = {
                         Pair(requestData.requestTypeInfo, response)
@@ -114,15 +112,23 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
         }
     }
 
+    override fun <T> convertRequestType(data: Any, parameterType: KClass<*>, requestType: KClass<*>): T {
+        val requestConverterPostId = ktorfit.requestConverters.firstOrNull {
+            it.supportedType(parameterType, requestType)
+        }
+            ?: throw IllegalArgumentException("No RequestConverter found for parameter 'postId' in method 'getCommentsByPostIdResponse'")
+        return requestType.cast(requestConverterPostId.convert(data)) as T
+    }
+
+
     private fun HttpRequestBuilder.requestBuilder(
         requestData: RequestData
     ) {
+        this.method = HttpMethod.parse(requestData.method)
 
         handleHeaders(requestData.headers)
         handleFields(requestData.fields)
         handleParts(requestData.parts)
-        this.method = HttpMethod.parse(requestData.method)
-
         handleBody(requestData.bodyData)
         handleQueries(requestData.queries)
         val queryNameUrl = handleQueryNames(requestData.queries)
@@ -223,7 +229,7 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
                      */
 
                     if (encoded) {
-                        append(key, value.decodeURLQueryComponent( plusIsSpace = true))
+                        append(key, value.decodeURLQueryComponent(plusIsSpace = true))
                     } else {
                         append(key, value)
                     }
@@ -244,7 +250,7 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
                             }
                         }
 
-                        is Map<*,*> ->{
+                        is Map<*, *> -> {
                             for ((key, value) in entry.data as Map<*, *>) {
                                 value?.let {
                                     append(entry.encoded, key.toString(), value.toString())
@@ -283,7 +289,7 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
                     }
                 }
 
-                is Map<*,*> ->{
+                is Map<*, *> -> {
                     for ((key, value) in entry.data as Map<*, *>) {
                         value?.let {
                             setParameter(entry.encoded, key.toString(), value.toString())

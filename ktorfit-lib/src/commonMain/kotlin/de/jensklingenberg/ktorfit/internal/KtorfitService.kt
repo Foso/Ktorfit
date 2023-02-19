@@ -13,7 +13,4 @@ public interface KtorfitService {
     public fun setClient(ktorfitClient: Client) {
         this.ktorfitClient = ktorfitClient
     }
-
-
-
 }
