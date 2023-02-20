@@ -1,14 +1,14 @@
 package de.jensklingenberg.ktorfit.requestData
 
 
-import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.ReturnTypeData
 
 /**
  * Source for the "requestTypeInfo" argument of [de.jensklingenberg.ktorfit.RequestData]
  */
 
-fun getRequestTypeInfoText(function: FunctionData): String {
-    val typeWithoutOuterType = function.returnType.name.substringAfter("<").substringBeforeLast(">")
+fun getRequestTypeInfoText(returnType: ReturnTypeData): String {
+    val typeWithoutOuterType = returnType.innerTypeName
     return "requestTypeInfo=typeInfo<$typeWithoutOuterType>()"
 }
 

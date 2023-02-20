@@ -39,6 +39,9 @@ fun KSValueParameter.getParamAnnotationList( logger: KSPLogger): List<ParameterA
     ksValueParameter.getHeadersAnnotation()?.let {
         paramAnnos.add(it)
     }
+    ksValueParameter.getRequestBuilderAnnotation()?.let {
+        paramAnnos.add(it)
+    }
     ksValueParameter.getQueryAnnotation()?.let {
         paramAnnos.add(it)
     }

@@ -107,7 +107,7 @@ interface TestService {
         requestTypeInfo=typeInfo<String?>(),
         returnTypeInfo = typeInfo<String?>()) 
 
-    return ktorfitClient.suspendRequest<String?, String?>(requestData)
+    return ktorfitClient.suspendRequest<String?, String?>(requestData)!!
   }"""
 
         val compilation = KotlinCompilation().apply {
