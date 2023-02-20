@@ -24,8 +24,8 @@ data class FunctionData(
 
     fun toFunSpec(): FunSpec {
         val returnTypeName = this.returnType.name
-        val typeWithoutOuterType = returnTypeName.substringAfter("<").substringBeforeLast(">")
-        val nullableText = if (returnTypeName.endsWith("?")) {
+        val innerReturnType = this.returnType.innerTypeName
+        val nullableText = if (this.returnType.isNullable) {
             ""
         } else {
             "!!"
@@ -47,7 +47,7 @@ data class FunctionData(
                 )
             )
             .addStatement(
-                "return %L.%L<${returnTypeName}, ${typeWithoutOuterType}>(${requestDataClass.objectName})$nullableText",
+                "return %L.%L<${returnTypeName}, ${innerReturnType}>(${requestDataClass.objectName})$nullableText",
                 ktorfitClientClass.objectName,
                 if (this.isSuspend) {
                     "suspendRequest"
@@ -173,7 +173,7 @@ fun KSFunctionDeclaration.toFunctionData(
         )
     }
 
-    if (functionParameters.filter { it.hasRequestBuilderAnno }.size > 1) {
+    if (functionParameters.filter { it.hasAnnotation<RequestBuilder>() }.size > 1) {
         logger.error(KtorfitError.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED + " Found: " + httpMethodAnnoList.joinToString { it.toString() } + " at " + functionName,
             funcDeclaration)
     }

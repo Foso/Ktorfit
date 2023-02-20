@@ -19,9 +19,9 @@ import kotlin.reflect.cast
  * Please don't use the class directly
  */
 @InternalKtorfitApi
-internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
+internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
-    public val httpClient: HttpClient = ktorfit.httpClient
+    private val httpClient: HttpClient = ktorfit.httpClient
 
     /**
      * Converts [value] to an URL encoded value
@@ -33,7 +33,7 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
     /**
      * This will handle all requests for functions without suspend modifier
      */
-    public override fun <ReturnType, RequestType : Any?> request(
+    override fun <ReturnType, RequestType : Any?> request(
         requestData: RequestData
     ): ReturnType? {
 
@@ -56,7 +56,7 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
             ) as ReturnType?
         }
 
-        val typeIsNullable = requestData.returnTypeData.qualifiedName.endsWith("?")
+        val typeIsNullable = requestData.returnTypeData.isNullable
         return if (typeIsNullable) {
             null
         } else {
@@ -69,12 +69,12 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    public override suspend fun <ReturnType, RequestType : Any?> suspendRequest(
+    override suspend fun <ReturnType, RequestType : Any?> suspendRequest(
         requestData: RequestData
     ): ReturnType? {
         try {
 
-            if (requestData.returnTypeData.instanceOf(HttpStatement::class)) {
+            if (requestData.returnTypeInfo.type == (HttpStatement::class)) {
                 return httpClient.prepareRequest {
                     requestBuilder(requestData)
                 } as ReturnType
@@ -82,7 +82,7 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
             val response = httpClient.request {
                 requestBuilder(requestData)
             }
-            if (requestData.returnTypeData.instanceOf(HttpResponse::class)) {
+            if (requestData.returnTypeInfo.type == (HttpResponse::class)) {
                 return response as ReturnType
             }
 
@@ -102,7 +102,7 @@ internal class KtorfitClient(val ktorfit: Ktorfit) : Client {
             return response.body(requestData.returnTypeInfo)
 
         } catch (exception: Exception) {
-            val typeIsNullable = requestData.returnTypeData.qualifiedName.endsWith("?")
+            val typeIsNullable = requestData.returnTypeData.isNullable
             return if (typeIsNullable) {
                 null
             } else {

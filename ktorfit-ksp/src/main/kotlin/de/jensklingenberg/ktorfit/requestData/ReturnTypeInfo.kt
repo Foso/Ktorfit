@@ -2,13 +2,13 @@ package de.jensklingenberg.ktorfit.requestData
 
 
 import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.ReturnTypeData
 
 /**
  * Source for the "returnTypeInfo" argument of [de.jensklingenberg.ktorfit.RequestData]
  */
 
-fun getReturnTypeInfoText(function: FunctionData): String {
-    val typeWithoutOuterType = function.returnType.name
-    return "returnTypeInfo = typeInfo<$typeWithoutOuterType>()"
+fun getReturnTypeInfoText(returnType: ReturnTypeData): String {
+    return "returnTypeInfo = typeInfo<${returnType.name}>()"
 }
 

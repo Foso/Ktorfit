@@ -38,5 +38,5 @@ fun getFieldArgumentsText(params: List<ParameterData>): String {
 
     fieldDataStringList.addAll(fieldMapStrings)
 
-    return fieldDataStringList.joinToString { "DH($it)" }.surroundIfNotEmpty("fields = listOf(", ")")
+    return fieldDataStringList.joinToString() { "DH($it)" }.surroundIfNotEmpty("fields = listOf(", ")")
 }

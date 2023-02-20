@@ -3,6 +3,7 @@ package de.jensklingenberg.ktorfit.model
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSValueParameter
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
+import de.jensklingenberg.ktorfit.model.annotations.RequestBuilder
 import de.jensklingenberg.ktorfit.model.annotations.getParamAnnotationList
 import de.jensklingenberg.ktorfit.utils.getRequestBuilderAnnotation
 import de.jensklingenberg.ktorfit.utils.resolveTypeName
@@ -11,7 +12,7 @@ data class ParameterData(
     val name: String,
     val type: ReturnTypeData,
     val annotations: List<ParameterAnnotation> = emptyList(),
-    val hasRequestBuilderAnno: Boolean = false
+
 ) {
     inline fun <reified T> findAnnotationOrNull(): T? {
         return this.annotations.firstOrNull { it is T } as? T
@@ -20,6 +21,7 @@ data class ParameterData(
     inline fun <reified T> hasAnnotation(): Boolean {
         return this.findAnnotationOrNull<T>() != null
     }
+
 }
 
 fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
@@ -30,10 +32,9 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
 
     val parameterAnnotations = ksValueParameter.getParamAnnotationList( logger)
 
-    val reqBuilderAnno = ksValueParameter.getRequestBuilderAnnotation()
     val parameterName = ksValueParameter.name?.asString() ?: ""
     val parameterType = ksValueParameter.type.resolve()
-    val hasRequestBuilderAnno = reqBuilderAnno != null
+    val hasRequestBuilderAnno = parameterAnnotations.any(){it is RequestBuilder}
 
     if (parameterAnnotations.isEmpty() && !hasRequestBuilderAnno) {
         logger.error(
@@ -64,8 +65,7 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
     return ParameterData(
         parameterName,
         type,
-        parameterAnnotations,
-        hasRequestBuilderAnno
+        parameterAnnotations
     )
 
 }

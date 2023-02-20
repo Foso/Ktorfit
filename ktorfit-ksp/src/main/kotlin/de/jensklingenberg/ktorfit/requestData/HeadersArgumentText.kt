@@ -18,7 +18,8 @@ fun getHeadersArgumentText(
     val headerList = mutableListOf<Pair<String, String>>()
 
     if (functionAnnotations.any { it is FormUrlEncoded }) {
-        headerList.add("\"Content-Type\"" to "\"application/x-www-form-urlencoded\"")
+        val contentTypeHeader = "\"Content-Type\"" to "\"application/x-www-form-urlencoded\""
+        headerList.add(contentTypeHeader)
     }
 
     val parameterWithHeaderAnnotationList = paramList.filter { it.hasAnnotation<Header>() }
@@ -48,7 +49,7 @@ fun getHeadersArgumentText(
         val (key, value) = it
 
         "DH($key,$value)"
-    }.surroundIfNotEmpty("headers = listOf(", ")").replace(" ", "·")
+    }.surroundIfNotEmpty("headers = listOf(", ")")
 
 
     return headerText
