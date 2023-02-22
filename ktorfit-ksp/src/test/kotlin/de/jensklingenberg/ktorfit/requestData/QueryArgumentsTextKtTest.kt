@@ -21,7 +21,7 @@ class QueryArgumentsTextKtTest{
     @Test
     fun returnQueryWitQueryAnnotation() {
         val expected =
-            "queries = listOf(DH(\"world\",test1,false,\"QueryType.QUERY\"), DH(\"world\",test1,true,\"QueryType.QUERY\"))"
+            "queries = listOf(DH(\"world\",test1,false), DH(\"world\",test1,true))"
         val QueryAnnotation = Query("world")
         val QueryAnnotationEncoded = Query("world",true)
         //QUERNAME
@@ -36,7 +36,7 @@ class QueryArgumentsTextKtTest{
 
     @Test
     fun returnQueryWitQueryNameAnnotation() {
-        val expected = "queries = listOf(DH(\"world\",test1,true,\"QueryType.QUERY\"), DH(\"\",test1,false,\"QueryType.QUERYNAME\"))"
+        val expected = "queries = listOf(DH(\"world\",test1,true), DH(\"\",test1,false))"
         val QueryAnnotation = QueryName()
         val QueryAnnotationEncoded = Query("world",true)
         //QUERNAME
@@ -50,7 +50,7 @@ class QueryArgumentsTextKtTest{
 
     @Test
     fun returnQuerysWithQueryAndQueryMapAnnotation() {
-        val expected = "queries = listOf(DH(\"world\",test1,false,\"QueryType.QUERY\"), DH(\"world\",test2,true,\"QueryType.QUERY\"), DH(\"\",test3,true,\"QueryType.QUERYMAP\"))"
+        val expected = "queries = listOf(DH(\"world\",test1,false), DH(\"world\",test2,true), DH(\"\",test3,true))"
         val QueryAnnotation = Query("world")
         val QueryAnnotationEncoded = Query("world",true)
         val QueryMapAnnotation = QueryMap(true)

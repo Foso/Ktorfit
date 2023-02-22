@@ -2,15 +2,12 @@ package de.jensklingenberg.ktorfit.internal
 
 import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.*
-
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.http.content.*
-import io.ktor.util.*
-import io.ktor.util.reflect.*
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
@@ -130,11 +127,10 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         handleParts(requestData.parts)
         handleBody(requestData.bodyData)
         handleQueries(requestData.queries)
-        val queryNameUrl = handleQueryNames(requestData.queries)
 
         val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl)
 
-        val requestUrl = getRequestUrl(ktorfit.baseUrl, relativeUrl, queryNameUrl)
+        val requestUrl = getRequestUrl(ktorfit.baseUrl, relativeUrl)
 
         url(requestUrl)
 
@@ -143,14 +139,13 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
     private fun getRequestUrl(
         baseUrl: String,
-        relativeUrl: String,
-        queryNameUrl: String
+        relativeUrl: String
     ): String {
         return if (relativeUrl.startsWith("http")) {
             relativeUrl
         } else {
             baseUrl + relativeUrl
-        } + queryNameUrl
+        }
     }
 
     private fun HttpRequestBuilder.handleBody(body: Any?) {
@@ -273,7 +268,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     }
 
     private fun HttpRequestBuilder.handleQueries(queries: List<DH>) {
-        queries.filter { it.type == "QueryType.QUERY" || it.type == "QueryType.QUERYMAP" }.forEach { entry ->
+        queries.forEach { entry ->
 
             when (val data = entry.data) {
                 is List<*> -> {
@@ -309,55 +304,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
     }
 
-    /**
-     * Returns a String for the query names that will be appended to the url
-     * QueryNames will be handled special because otherwise Ktor always adds a "=" behind every
-     * query e.g. QueryName("Hello") will be sent by Ktor like "?Hello="
-     */
-    private fun handleQueryNames(queries: List<DH>): String {
-        val queryNames = mutableListOf<String>()
-        queries.filter { it.type == "QueryType.QUERYNAME" }.forEach { entry ->
-            when (val data = entry.data) {
-                is List<*> -> {
-                    data.filterNotNull().forEach { dataEntry ->
-                        if (entry.encoded) {
-                            queryNames.add(dataEntry.toString())
-                        } else {
-                            queryNames.add(encode(dataEntry.toString()))
-                        }
-                    }
-                }
-
-                is Array<*> -> {
-                    data.filterNotNull().forEach { dataEntry ->
-                        if (entry.encoded) {
-                            queryNames.add(dataEntry.toString())
-                        } else {
-                            queryNames.add(encode(dataEntry.toString()))
-                        }
-                    }
-                }
-
-                null -> {
-                    //Ignore this query
-                }
-
-                else -> {
-                    if (entry.encoded) {
-                        queryNames.add(entry.data.toString())
-                    } else {
-                        queryNames.add(encode(entry.data.toString()))
-                    }
-                }
-            }
-        }
-        var queryNameUrl = queryNames.joinToString("&") { it }
-        queryNameUrl = ("?$queryNameUrl").takeIf { queryNameUrl.isNotEmpty() } ?: ""
-
-        return queryNameUrl
-    }
-
-
     private fun HttpRequestBuilder.handleParts(parts: Map<String, Any>) {
         if (parts.isNotEmpty()) {
             val partDatas = mutableListOf<PartData>()
@@ -384,9 +330,19 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         value: String
     ) {
         if (encoded) {
-            encodedParameter(key, value)
+            if (key.isEmpty()) {
+                url.encodedParameters.appendAll(value, emptyList())
+            } else {
+                encodedParameter(key, value)
+            }
+
         } else {
-            parameter(key, (value))
+            if (key.isEmpty()) {
+                url.parameters.appendAll(value, emptyList())
+            } else {
+                parameter(key, value)
+            }
+
         }
     }
 

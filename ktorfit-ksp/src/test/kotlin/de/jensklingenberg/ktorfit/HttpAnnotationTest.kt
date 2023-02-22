@@ -25,7 +25,6 @@ package com.example.api
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.`internal`.KtorfitService
 import de.jensklingenberg.ktorfit.`internal`.*
-import de.jensklingenberg.ktorfit.http.GET
 import io.ktor.util.reflect.*
 import kotlin.OptIn
 
@@ -77,7 +76,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         assertThat(generatedFile.exists()).isTrue()
-        assertThat(generatedFile.readText()).isEqualTo(expectedSource)
+        Assert.assertEquals(expectedSource,generatedFile.readText())
     }
 
     @Test

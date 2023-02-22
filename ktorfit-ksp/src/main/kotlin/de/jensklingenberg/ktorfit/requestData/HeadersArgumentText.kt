@@ -49,7 +49,7 @@ fun getHeadersArgumentText(
         val (key, value) = it
 
         "DH($key,$value)"
-    }.surroundIfNotEmpty("headers = listOf(", ")")
+    }.surroundIfNotEmpty("headers = listOf(", ")").replace(" ", "·")
 
 
     return headerText
