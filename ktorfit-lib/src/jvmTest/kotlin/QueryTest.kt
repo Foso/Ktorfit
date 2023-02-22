@@ -148,7 +148,7 @@ class QueryTest {
     @Test
     fun testQueryNameWithString() {
         val baseUrl = "http://www.test.de/"
-        val testKey = "foo"
+        val testKey = ""
         val testValue = "bar fizz"
         val encodedTestValue = "bar%20fizz"
 
@@ -175,7 +175,7 @@ class QueryTest {
     fun testQueryNameWithStringList() {
         val baseUrl = "http://www.test.de/"
 
-        val testKey = "foo"
+        val testKey = ""
         val testValue = listOf("foo", null, "bar fizz")
 
         val engine = object : TestEngine() {
