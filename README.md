@@ -18,7 +18,7 @@ Ktorfit is a HTTP client/Kotlin Symbol Processor for Kotlin Multiplatform ( Andr
 [![GitHub stars](https://img.shields.io/github/stars/Foso/Ktorfit.svg?style=social&label=Star)](https://github.com/Foso/Ktorfit) [![GitHub forks](https://img.shields.io/github/forks/Foso/Ktorfit.svg?style=social&label=Fork)](https://github.com/Foso/Ktorfit/fork) [![Twitter Follow](https://img.shields.io/twitter/follow/jklingenberg_.svg?style=social)](https://twitter.com/jklingenberg_)
 
 ## How to use
-Please see the documentation at [https://foso.github.io/Ktorfit/getting-started/](https://foso.github.io/Ktorfit/getting-started/)
+Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.github.io/Ktorfit/)
 
 
 ## 👷 Project Structure
