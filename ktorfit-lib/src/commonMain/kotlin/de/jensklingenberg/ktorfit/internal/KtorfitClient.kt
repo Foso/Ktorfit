@@ -358,7 +358,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     }
 
 
-    @OptIn(InternalAPI::class)
     private fun HttpRequestBuilder.handleParts(parts: Map<String, Any>) {
         if (parts.isNotEmpty()) {
             val partDatas = mutableListOf<PartData>()
@@ -371,7 +370,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
             val formData = formData {
                 parts.filter { it.value is String }.forEach {
-                    this@formData.append(it.key, it.value)
+                    this@formData.append(it.key, it.value.toString())
                 }
             }
             val partDataList = formData + partDatas
