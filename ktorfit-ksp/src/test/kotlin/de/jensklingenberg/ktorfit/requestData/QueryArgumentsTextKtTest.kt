@@ -4,6 +4,7 @@ import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.Query
 import de.jensklingenberg.ktorfit.model.annotations.QueryMap
+import de.jensklingenberg.ktorfit.model.annotations.QueryName
 import org.junit.Assert
 import org.junit.Test
 
@@ -19,19 +20,37 @@ class QueryArgumentsTextKtTest{
 
     @Test
     fun returnQueryWitQueryAnnotation() {
+        val expected =
+            "queries = listOf(DH(\"world\",test1,false,\"QueryType.QUERY\"), DH(\"world\",test1,true,\"QueryType.QUERY\"))"
         val QueryAnnotation = Query("world")
         val QueryAnnotationEncoded = Query("world",true)
-
+        //QUERNAME
         val parameterData1 = ParameterData("test1", ReturnTypeData("String","kotlin.String"), annotations = listOf(QueryAnnotation))
         val parameterData2 = ParameterData("test1", ReturnTypeData("String","kotlin.String"), annotations = listOf(QueryAnnotationEncoded))
 
         val params = listOf(parameterData1,parameterData2)
         val text = getQueryArgumentText(params)
-        Assert.assertEquals("queries = listOf(DH(\"world\",test1,false,\"QueryType.QUERY\"), DH(\"world\",test1,true,\"QueryType.QUERY\"))",text)
+
+        Assert.assertEquals(expected,text)
+    }
+
+    @Test
+    fun returnQueryWitQueryNameAnnotation() {
+        val expected = "queries = listOf(DH(\"world\",test1,true,\"QueryType.QUERY\"), DH(\"\",test1,false,\"QueryType.QUERYNAME\"))"
+        val QueryAnnotation = QueryName()
+        val QueryAnnotationEncoded = Query("world",true)
+        //QUERNAME
+        val parameterData1 = ParameterData("test1", ReturnTypeData("String","kotlin.String"), annotations = listOf(QueryAnnotation))
+        val parameterData2 = ParameterData("test1", ReturnTypeData("String","kotlin.String"), annotations = listOf(QueryAnnotationEncoded))
+
+        val params = listOf(parameterData1,parameterData2)
+        val text = getQueryArgumentText(params)
+        Assert.assertEquals(expected,text)
     }
 
     @Test
     fun returnQuerysWithQueryAndQueryMapAnnotation() {
+        val expected = "queries = listOf(DH(\"world\",test1,false,\"QueryType.QUERY\"), DH(\"world\",test2,true,\"QueryType.QUERY\"), DH(\"\",test3,true,\"QueryType.QUERYMAP\"))"
         val QueryAnnotation = Query("world")
         val QueryAnnotationEncoded = Query("world",true)
         val QueryMapAnnotation = QueryMap(true)
@@ -43,6 +62,6 @@ class QueryArgumentsTextKtTest{
 
         val params = listOf(parameterData1,parameterData2,parameterData3)
         val text = getQueryArgumentText(params)
-        Assert.assertEquals("queries = listOf(DH(\"world\",test1,false,\"QueryType.QUERY\"), DH(\"world\",test2,true,\"QueryType.QUERY\"), DH(\"\",test3,true,\"QueryType.QUERYMAP\"))",text)
+        Assert.assertEquals(expected,text)
     }
 }
