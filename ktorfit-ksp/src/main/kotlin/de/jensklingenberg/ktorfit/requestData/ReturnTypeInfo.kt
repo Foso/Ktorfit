@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.requestData
 
 
-import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 
 /**

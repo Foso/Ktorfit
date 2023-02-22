@@ -40,7 +40,7 @@ data class FunctionData(
             .addParameters(this.parameterDataList.map {
                 ParameterSpec(it.name, TypeVariableName(it.type.name))
             })
-            .addRequestConverterText(this)
+            .addRequestConverterText(this.parameterDataList)
             .addStatement(
                 getRequestDataArgumentText(
                     this,
