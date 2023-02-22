@@ -18,6 +18,9 @@ interface JvmPlaceHolderApi : StarWarsApi {
     @GET("people/{id}/")
     suspend fun testQueryName(@Path("id") peopleId: Int, @QueryName na : List<String?>?): People
 
+    @GET("people/{id}/")
+    suspend fun testQueryName2(@Path("id") peopleId: Int, @QueryName na : Map<String,String>?,  @QueryMap na2 : Map<String,String>?): People
+
     @Streaming
     @GET("people/1/")
     suspend fun getPostsStreaming(): HttpStatement

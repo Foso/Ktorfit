@@ -40,7 +40,7 @@ data class FunctionData(
             .addParameters(this.parameterDataList.map {
                 ParameterSpec(it.name, TypeVariableName(it.type.name))
             })
-            .addRequestConverterText(this)
+            .addRequestConverterText(this.parameterDataList)
             .addStatement(
                 getRequestDataArgumentText(
                     this,
@@ -85,16 +85,16 @@ fun KSFunctionDeclaration.toFunctionData(
     val funcDeclaration = this
     val functionName = funcDeclaration.simpleName.asString()
     val functionParameters = funcDeclaration.parameters.map { it.createParameterData(logger) }
-
+    val resolvedFunctionReturnTypeName = funcDeclaration.returnType?.resolve().resolveTypeName()
     val typeData = getMyType(
-        funcDeclaration.returnType?.resolve().resolveTypeName().removeWhiteSpaces(),
+        resolvedFunctionReturnTypeName.removeWhiteSpaces(),
         imports,
         packageName,
         KtorfitProcessor.ktorfitResolver
     )
 
     val returnType = ReturnTypeData(
-        funcDeclaration.returnType?.resolve().resolveTypeName(),
+        resolvedFunctionReturnTypeName,
         typeData.toString()
     )
 

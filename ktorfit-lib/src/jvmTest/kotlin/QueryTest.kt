@@ -4,6 +4,7 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -31,7 +32,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                queries = listOf(DH(testKey, testValue, false, "QueryType.QUERY")),
+                queries = listOf(DH(testKey, testValue, false)),
                 requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
@@ -56,7 +57,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                queries = listOf(DH(testKey, null, false, "QueryType.QUERY")),
+                queries = listOf(DH(testKey, null, false)),
                 requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
@@ -82,7 +83,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                queries = listOf(DH(testKey, testValue, true, "QueryType.QUERY")),
+                queries = listOf(DH(testKey, testValue, true)),
                 requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
@@ -97,10 +98,10 @@ class QueryTest {
         val testKey = "foo"
         val testValue = listOf("foo", null, "bar")
         val baseUrl = "http://www.test.de/"
-
+        val expectedValue = testValue.filterNotNull()
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                assertTrue(data.url.parameters.getAll(testKey) == testValue.filterNotNull())
+                assertEquals(expectedValue,data.url.parameters.getAll(testKey))
             }
         }
 
@@ -110,7 +111,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                queries = listOf(DH(testKey, testValue, false, "QueryType.QUERY")),
+                queries = listOf(DH(testKey, testValue, false)),
                 requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
@@ -138,7 +139,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                queries = listOf(DH(testKey, testValue, false, "QueryType.QUERY")),
+                queries = listOf(DH(testKey, testValue, false)),
                 requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
@@ -164,7 +165,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                queries = listOf(DH(testKey, testValue, false, "QueryType.QUERYNAME")),
+                queries = listOf(DH(testKey, testValue, false)),
                 requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
@@ -190,7 +191,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                queries = listOf(DH(testKey, testValue, false, "QueryType.QUERYNAME")),
+                queries = listOf(DH(testKey, testValue, false)),
                 requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
@@ -215,7 +216,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                queries = listOf(DH(testKey, testMap, false, "QueryType.QUERYMAP")),
+                queries = listOf(DH(testKey, testMap, false)),
                 requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
@@ -240,7 +241,7 @@ class QueryTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                queries = listOf(DH(testKey, testMap, false, "QueryType.QUERYMAP")),
+                queries = listOf(DH(testKey, testMap, false)),
                 requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)

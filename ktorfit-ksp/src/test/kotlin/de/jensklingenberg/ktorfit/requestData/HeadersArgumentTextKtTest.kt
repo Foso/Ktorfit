@@ -23,7 +23,8 @@ class HeadersArgumentTextKtTest{
         val funcAnnotation = Headers(listOf("Accept:Content"))
         val params = listOf(parameterData)
         val text = getHeadersArgumentText(listOf(funcAnnotation),params)
-        Assert.assertEquals("headers = listOf(DH(\"Accept\",\"Content\"))",text)
+        val expected = "headers·=·listOf(DH(\"Accept\",\"Content\"))"
+        Assert.assertEquals(expected,text)
     }
 
     @Test
@@ -33,6 +34,7 @@ class HeadersArgumentTextKtTest{
         val funcAnnotation = Headers(listOf("Accept:Content"))
         val params = listOf(parameterData)
         val text = getHeadersArgumentText(listOf(funcAnnotation),params)
-        Assert.assertEquals("headers = listOf(DH(\"Accept\",\"Content\"), DH(\"\",test1))",text)
+        val expected = "headers·=·listOf(DH(\"Accept\",\"Content\"),·DH(\"\",test1))"
+        Assert.assertEquals(expected,text)
     }
 }

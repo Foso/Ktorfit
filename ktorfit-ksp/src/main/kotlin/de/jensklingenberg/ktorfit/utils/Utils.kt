@@ -112,6 +112,7 @@ fun KSClassDeclaration.getFileImports(): List<String> {
         File(this.containingFile!!.filePath)
             .readLines()
             .filter { it.trimStart().startsWith("import") }
+            .filter { !it.startsWith("import de.jensklingenberg.ktorfit.http.") }
             .toMutableSet()
 
     importList.add(ktorfitClass.packageName + "." + ktorfitClass.name)

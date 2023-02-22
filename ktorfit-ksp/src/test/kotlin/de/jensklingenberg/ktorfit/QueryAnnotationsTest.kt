@@ -74,7 +74,7 @@ interface TestService {
         )
 
 
-        val expectedQueriesArgumentText = "queries = listOf(DH(\"name\",testQuery,false,\"QueryType.QUERY\"))"
+        val expectedQueriesArgumentText = "queries = listOf(DH(\"name\",testQuery,false))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -113,7 +113,7 @@ interface TestService {
         )
 
 
-        val expectedQueriesArgumentText = "queries = listOf(DH(\"name\",testQuery,true,\"QueryType.QUERY\"))"
+        val expectedQueriesArgumentText = "queries = listOf(DH(\"name\",testQuery,true))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -152,7 +152,7 @@ interface TestService {
         )
 
 
-        val expectedQueriesArgumentText = "queries = listOf(DH(\"\",testQueryName,false,\"QueryType.QUERYNAME\"))"
+        val expectedQueriesArgumentText = "queries = listOf(DH(\"\",testQueryName,false))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -192,7 +192,7 @@ interface TestService {
         )
 
 
-        val expectedQueriesArgumentText = "queries = listOf(DH(\"\",testQueryMap,false,\"QueryType.QUERYMAP\"))"
+        val expectedQueriesArgumentText = "queries = listOf(DH(\"\",testQueryMap,false))"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
@@ -234,9 +234,7 @@ interface TestService {
         )
 
 
-        val expectedQueriesArgumentText =  "queries = listOf(DH(\"name\",testQuery,false,\"QueryType.QUERY\"),\n" +
-                "            DH(\"\",testQueryName,false,\"QueryType.QUERYNAME\"),\n" +
-                "            DH(\"\",name,false,\"QueryType.QUERYMAP\")),"
+        val expectedQueriesArgumentText =  "queries = listOf(DH(\"name\",testQuery,false), DH(\"\",testQueryName,false), DH(\"\",name,false)),"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(source)
