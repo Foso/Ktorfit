@@ -2,13 +2,13 @@ package de.jensklingenberg.ktorfit
 
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
-import org.jetbrains.kotlin.cli.common.messages.CompilerMessageSeverity
 import org.jetbrains.kotlin.ir.descriptors.toIrBasedKotlinType
 import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
 import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.types.defaultType
+import org.jetbrains.kotlin.ir.types.impl.originalKotlinType
 import org.jetbrains.kotlin.ir.util.constructors
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
@@ -23,6 +23,11 @@ class CreateFuncTransformer(
 ) :
     IrElementTransformerVoidWithContext() {
 
+    companion object {
+        fun ERROR_IMPL_NOT_FOUND(implName: String) =
+            "_${implName}Impl() not found, did you apply the Ksp Ktorfit plugin?"
+    }
+
     override fun visitExpression(expression: IrExpression): IrExpression {
 
         //Find exampleKtorfit.create<TestApi>()
@@ -36,15 +41,18 @@ class CreateFuncTransformer(
                     return expression
                 }
 
-                //Get T from create<T>()
-                val argumentType = irCall.getTypeArgument(0) ?: return expression
-
-                if(argumentType.toIrBasedKotlinType().toString() == "T"){
+                if (expression.getValueArgument(0) != null) {
                     return expression
                 }
 
-                val packaage = argumentType.classFqName?.asString()?.substringBeforeLast(".") ?: return expression
-                val className = argumentType.classFqName?.asString()?.substringAfterLast(".") ?: ""
+                //Get T from create<T>()
+                val argumentType = irCall.getTypeArgument(0) ?: return expression
+
+                val classFqName = argumentType.classFqName?.asString()
+                    ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
+
+                val packaage = classFqName.substringBeforeLast(".")
+                val className = classFqName.substringAfterLast(".")
 
                 //Find the class _TestApiImpl
                 val implClassSymbol = pluginContext.referenceClass(
@@ -52,7 +60,7 @@ class CreateFuncTransformer(
                         FqName(packaage),
                         Name.identifier("_$className" + "Impl")
                     )
-                ) ?: throw NullPointerException("_$className" + "Impl not found, did you apply the Ksp Ktorfit plugin?")
+                ) ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
 
                 val newConstructor = implClassSymbol.constructors.first()
 
@@ -70,7 +78,9 @@ class CreateFuncTransformer(
 
                 //Set _ExampleApiImpl() as argument for create<ExampleApi>()
                 irCall.putValueArgument(0, newCall)
-                debugLogger.log("Transformed "+argumentType.toIrBasedKotlinType().toString()+" to _$className" + "Impl" )
+                debugLogger.log(
+                    "Transformed " + argumentType.toIrBasedKotlinType().toString() + " to _$className" + "Impl"
+                )
                 return super.visitExpression(irCall)
             }
         }

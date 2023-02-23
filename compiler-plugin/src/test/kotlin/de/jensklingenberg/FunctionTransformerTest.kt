@@ -5,8 +5,10 @@ import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.PluginOption
 import com.tschuchort.compiletesting.SourceFile
 import de.jensklingenberg.ktorfit.CommonCompilerPluginRegistrar
+import de.jensklingenberg.ktorfit.CreateFuncTransformer
 import de.jensklingenberg.ktorfit.ExampleCommandLineProcessor
 import org.jetbrains.kotlin.config.JvmTarget
+import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -18,7 +20,7 @@ class FunctionTransformerTest {
     var temporaryFolder: TemporaryFolder = TemporaryFolder()
 
     @Test
-    fun whenCreateFuncWithIntefaceFound_TransformItToUseTheImplementation() {
+    fun whenCreateFuncWithInterfaceFound_TransformItToUseTheImplementation() {
         val source = SourceFile.kotlin(
             "Ktorfit.kt", """
 package de.jensklingenberg.ktorfit
@@ -57,6 +59,49 @@ fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
         Truth.assertThat(result.messages.contains("_TestServiceImpl")).isEqualTo(true)
 
+    }
+
+    @Test
+    fun throwCompileErrorWhenGenericTypeUsed() {
+        val source = SourceFile.kotlin(
+            "Ktorfit.kt", """
+package de.jensklingenberg.ktorfit
+
+class Ktorfit()
+
+interface KtorfitService
+
+class Default : KtorfitService
+
+fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
+    return this.create(ktorfitService)
+}
+
+     """
+        )
+        val source2 = SourceFile.kotlin(
+            "Main.kt", """
+                package com.example.api
+                import de.jensklingenberg.ktorfit.Ktorfit
+                import de.jensklingenberg.ktorfit.create
+                import de.jensklingenberg.ktorfit.KtorfitService
+                
+                interface TestService
+                class _TestServiceImpl : TestService, KtorfitService
+
+                class TestClass{
+
+                fun <T> test() : T{
+                    return Ktorfit().create<T>()
+                }
+                }
+
+            """.trimIndent()
+        )
+
+        val result = compile(listOf(source2, source))
+        Assert.assertEquals(KotlinCompilation.ExitCode.INTERNAL_ERROR,result.exitCode)
+        Truth.assertThat(result.messages.contains(CreateFuncTransformer.ERROR_IMPL_NOT_FOUND("T"))).isEqualTo(true)
     }
 
     private fun prepareCompilation(

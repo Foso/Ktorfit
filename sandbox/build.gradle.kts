@@ -8,6 +8,7 @@ version = "1.0-SNAPSHOT"
 val ktorVersion = "2.2.3"
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     enabled = true
+    version = "1.0.0"
 }
 ksp {
     arg("Ktorfit_Errors", "1")
