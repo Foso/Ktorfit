@@ -1,6 +1,7 @@
 1.0.1
 ========================================
 - internal optimizations
+- throw compile error when generated class can not be found
 
 1.0.0-beta18 (12-02-2023)
 ========================================
