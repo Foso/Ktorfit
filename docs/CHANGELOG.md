@@ -1,4 +1,4 @@
-1.0.0
+1.0.0 (not released)
 ========================================
 - internal optimizations
 - throw compile error when generated class can not be found
