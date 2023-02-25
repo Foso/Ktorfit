@@ -37,7 +37,7 @@ fun ClassData.getImplClassFileSource(): String {
         .build()
 
 
-    val createExtensionFunctionSpec = getCreateExtensionFunctionSpec(classData, optinAnnotation)
+    val createExtensionFunctionSpec = getCreateExtensionFunctionSpec(classData)
 
 
     val properties = classData.properties.map { property ->
@@ -49,7 +49,7 @@ fun ClassData.getImplClassFileSource(): String {
             .mutable(property.isMutable)
             .getter(
                 FunSpec.getterBuilder()
-                    .addStatement("TODO(\"Not yet implemented\")")
+                    .addStatement("throw IllegalStateException(\"Properties not supported by Ktorfit\")")
                     .build()
             )
 
@@ -103,14 +103,10 @@ fun ClassData.getImplClassFileSource(): String {
  * public fun Ktorfit.createExampleApi(): ExampleApi = this.create(_ExampleApiImpl()
  */
 private fun getCreateExtensionFunctionSpec(
-    classData: ClassData,
-    optinAnnotation: AnnotationSpec
+    classData: ClassData
 ): FunSpec {
 
     return FunSpec.builder("create${classData.name}")
-        .addAnnotation(
-            optinAnnotation
-        )
         .addModifiers(classData.modifiers)
         .addStatement("return this.create(_${classData.name}Impl())",)
         .receiver(TypeVariableName(ktorfitClass.name))
