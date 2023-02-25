@@ -2,7 +2,7 @@ plugins {
     id ("com.android.application")
     id ("org.jetbrains.kotlin.android")
     id ("com.google.devtools.ksp") version "1.8.0-1.0.9"
-    id ("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
+    id ("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
     id ("de.jensklingenberg.ktorfit") version "1.0.0"
 
 }
