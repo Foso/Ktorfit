@@ -5,7 +5,7 @@ plugins {
 }
 apply(plugin = "de.jensklingenberg.ktorfit")
 version = "1.0-SNAPSHOT"
-val ktorVersion = "2.2.3"
+val ktorVersion = "2.3.0-eap-614"
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     enabled = true
     version = "1.0.0"
