@@ -40,7 +40,7 @@ dependencies {
 }
 
 detekt {
-    toolVersion = "1.21.0"
+    toolVersion = "1.22.0"
     config = files("../detekt-config.yml")
     buildUponDefaultConfig = false
 }
