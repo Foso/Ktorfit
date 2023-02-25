@@ -13,7 +13,7 @@ plugins {
     `maven-publish`
     signing
     id("org.jetbrains.dokka")
-    id("io.gitlab.arturbosch.detekt").version("1.21.0")
+    id("io.gitlab.arturbosch.detekt").version("1.22.0")
 
 }
 
