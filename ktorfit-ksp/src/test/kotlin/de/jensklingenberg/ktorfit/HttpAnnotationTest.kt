@@ -43,7 +43,6 @@ public class _TestServiceImpl : TestService, KtorfitService {
   }
 }
 
-@OptIn(InternalKtorfitApi::class)
 public fun Ktorfit.createTestService(): TestService = this.create(_TestServiceImpl())
 """
 
