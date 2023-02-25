@@ -96,7 +96,7 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.20.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.20.0-1.3.70-eap-274-2")
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
                 implementation("io.ktor:ktor-client-json-js:$ktorVersion")
 
