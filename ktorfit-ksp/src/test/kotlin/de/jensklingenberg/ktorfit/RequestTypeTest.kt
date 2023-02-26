@@ -1,5 +1,6 @@
 import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.*
+import de.jensklingenberg.ktorfit.getCompilation
 import org.junit.Assert
 import org.junit.Test
 import java.io.File
@@ -35,12 +36,7 @@ interface TestService {
     return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }"""
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 

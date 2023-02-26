@@ -44,12 +44,7 @@ interface TestService {
 
         val expectedRequestBuilderArgumentText = "requestBuilder ="
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 

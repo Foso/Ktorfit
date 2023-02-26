@@ -36,12 +36,7 @@ interface TestService {
 
         val expectedFieldsArgumentText = "fields ="
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -72,12 +67,7 @@ interface TestService {
     """
         )
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
         Assert.assertTrue(result.messages.contains(KtorfitError.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING))
@@ -104,12 +94,7 @@ interface TestService {
 
         val expectedFieldsArgumentText = "fields = listOf(DH(\"name\",testField,false))"
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -144,12 +129,7 @@ interface TestService {
 
         val expectedFieldsArgumentText = "fields = listOf(DH(\"\",testFieldMap,false))"
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -187,12 +167,7 @@ interface TestService {
 
         val expectedFieldsArgumentText =  "fields = listOf(DH(\"name\",testField,false), DH(\"\",name,false)),"
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -225,12 +200,7 @@ interface TestService {
     """
         )
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
@@ -257,12 +227,7 @@ interface TestService {
     """
         )
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)

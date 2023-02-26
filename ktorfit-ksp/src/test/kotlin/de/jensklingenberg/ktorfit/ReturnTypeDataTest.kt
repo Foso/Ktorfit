@@ -30,12 +30,7 @@ interface TestService {
             """returnTypeData = TypeData("kotlin.collections.Map",listOf(TypeData("kotlin.String"),
             TypeData("kotlin.Int")))"""
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
