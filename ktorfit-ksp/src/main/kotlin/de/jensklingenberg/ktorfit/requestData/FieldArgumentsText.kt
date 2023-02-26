@@ -14,15 +14,14 @@ import de.jensklingenberg.ktorfit.utils.surroundWith
 fun getFieldArgumentsText(params: List<ParameterData>): String {
     //Get all Parameter with @Field and add them to a list
 
-    val fieldDataStringList = mutableListOf<String>()
+    val fieldDataStringList = mutableListOf<DataHolder>()
 
     val fieldDataList = params.filter { it.hasAnnotation<Field>() }.map { parameterData ->
         val field = parameterData.annotations.filterIsInstance<Field>().first()
         val encoded = field.encoded
         val data = parameterData.name
         val fieldKey = field.value.surroundWith("\"")
-
-        "$fieldKey,$data,$encoded"
+        DataHolder(fieldKey, data, encoded)
     }
 
     fieldDataStringList.addAll(fieldDataList)
@@ -33,10 +32,10 @@ fun getFieldArgumentsText(params: List<ParameterData>): String {
         val data = parameterData.name
         val keyName = "\"\""
 
-        "$keyName,$data,$encoded"
+        DataHolder(keyName, data, encoded)
     }
 
     fieldDataStringList.addAll(fieldMapStrings)
 
-    return fieldDataStringList.joinToString() { "DH($it)" }.surroundIfNotEmpty("fields = listOf(", ")")
+    return fieldDataStringList.joinToString { it.toString() }.surroundIfNotEmpty("fields = listOf(", ")")
 }

@@ -10,12 +10,11 @@ import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 fun getPathsText(params: List<ParameterData>): String {
     val pathData = params.filter { it.hasAnnotation<Path>() }.map { myParam ->
         val paramName = myParam.name
-        val pathAnnotation = myParam.findAnnotationOrNull<Path>()
-        val pathPath = pathAnnotation?.value ?: ""
-        val pathEncoded = pathAnnotation?.encoded ?: false
-
-        "DH(\"$pathPath\",$paramName,$pathEncoded)"
-    }.joinToString { it }
+        val pathAnnotation = myParam.findAnnotationOrNull<Path>()!!
+        val pathPath = "\"" + pathAnnotation.value + "\""
+        val pathEncoded = pathAnnotation.encoded
+        DataHolder(pathPath,paramName,pathEncoded)
+    }.joinToString { it.toString() }
 
     return pathData.surroundIfNotEmpty("paths = listOf(", ")")
 }
