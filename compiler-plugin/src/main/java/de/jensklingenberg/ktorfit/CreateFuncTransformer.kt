@@ -14,6 +14,7 @@ import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 
+
 /**
  * Transform exampleKtorfit.create<TestApi>() to exampleKtorfit.create<TestApi>(_TestApiImpl())
  */
@@ -26,6 +27,9 @@ class CreateFuncTransformer(
     companion object {
         fun ERROR_IMPL_NOT_FOUND(implName: String) =
             "_${implName}Impl() not found, did you apply the Ksp Ktorfit plugin?"
+        private const val KTORFIT_PACKAGE = "de.jensklingenberg.ktorfit.Ktorfit"
+        private const val KTORFIT_CREATE = "create"
+
     }
 
     override fun visitExpression(expression: IrExpression): IrExpression {
@@ -33,11 +37,11 @@ class CreateFuncTransformer(
         //Find exampleKtorfit.create<TestApi>()
         (expression as? IrCall)?.let { irCall ->
             if (irCall.typeArgumentsCount > 0) {
-                if (expression.symbol.owner.name.asString() != "create") {
+
+                if (!expression.symbol.owner.symbol.toString().contains(KTORFIT_PACKAGE)) {
                     return expression
                 }
-
-                if (!expression.symbol.owner.symbol.toString().contains("de.jensklingenberg.ktorfit.Ktorfit")) {
+                if (expression.symbol.owner.name.asString() != KTORFIT_CREATE) {
                     return expression
                 }
 
@@ -48,16 +52,16 @@ class CreateFuncTransformer(
                 //Get T from create<T>()
                 val argumentType = irCall.getTypeArgument(0) ?: return expression
 
-                val classFqName = argumentType.classFqName?.asString()
+                val classFqName = argumentType.classFqName
                     ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
 
-                val packaage = classFqName.substringBeforeLast(".")
-                val className = classFqName.substringAfterLast(".")
+                val packageName = classFqName.packageName
+                val className = classFqName.shortName().toString()
 
                 //Find the class _TestApiImpl
                 val implClassSymbol = pluginContext.referenceClass(
                     ClassId(
-                        FqName(packaage),
+                        FqName(packageName),
                         Name.identifier("_$className" + "Impl")
                     )
                 ) ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
@@ -88,3 +92,8 @@ class CreateFuncTransformer(
     }
 
 }
+
+private val FqName?.packageName: String
+    get() {
+        return this.toString().substringBeforeLast(".")
+    }

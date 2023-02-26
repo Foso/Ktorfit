@@ -14,7 +14,7 @@ import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 fun getQueryArgumentText(params: List<ParameterData>): String {
     //Get all Parameter with @Query and add them to a list
 
-    val myQueryStrings = mutableListOf<String>()
+    val myQueryStrings = mutableListOf<DataHolder>()
 
     val queryStrings = params.filter { it.hasAnnotation<Query>() }.map { myParam ->
         val query = myParam.annotations.filterIsInstance<Query>().first()
@@ -22,7 +22,7 @@ fun getQueryArgumentText(params: List<ParameterData>): String {
         val data = myParam.name
         val queryKey = "\"${query.value}\""
 
-        "$queryKey,$data,$encoded"
+        DataHolder(queryKey, data, encoded)
     }
 
     myQueryStrings.addAll(queryStrings)
@@ -34,7 +34,7 @@ fun getQueryArgumentText(params: List<ParameterData>): String {
         val data = myParam.name
         val queryKey = "\"\""
 
-        "$queryKey,$data,$encoded"
+        DataHolder(queryKey, data, encoded)
     }
 
     myQueryStrings.addAll(queryNamesStrings)
@@ -45,10 +45,10 @@ fun getQueryArgumentText(params: List<ParameterData>): String {
         val data = myParam.name
         val queryKey = "\"\""
 
-        "$queryKey,$data,$encoded"
+        DataHolder(queryKey, data, encoded)
     }
 
     myQueryStrings.addAll(queryMapStrings)
 
-    return myQueryStrings.joinToString { "DH($it)" }.surroundIfNotEmpty("queries = listOf(", ")")
+    return myQueryStrings.joinToString { it.toString() }.surroundIfNotEmpty("queries = listOf(", ")")
 }
