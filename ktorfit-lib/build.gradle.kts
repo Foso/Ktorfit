@@ -116,6 +116,8 @@ kotlin {
                 dependsOn(jvmMain)
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
                 implementation("junit:junit:4.13.2")
+                implementation ("org.mockito.kotlin:mockito-kotlin:4.1.0")
+
             }
         }
         val iosX64Main by getting

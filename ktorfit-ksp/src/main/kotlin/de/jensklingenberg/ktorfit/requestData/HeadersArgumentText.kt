@@ -3,6 +3,7 @@ package de.jensklingenberg.ktorfit.requestData
 import de.jensklingenberg.ktorfit.*
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.*
+import de.jensklingenberg.ktorfit.utils.anyInstance
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 import de.jensklingenberg.ktorfit.utils.surroundWith
 
@@ -17,7 +18,7 @@ fun getHeadersArgumentText(
 ): String {
     val headerList = mutableListOf<Pair<String, String>>()
 
-    if (functionAnnotations.any { it is FormUrlEncoded }) {
+    if (functionAnnotations.anyInstance<FormUrlEncoded>()) {
         val contentTypeHeader = "\"Content-Type\"" to "\"application/x-www-form-urlencoded\""
         headerList.add(contentTypeHeader)
     }

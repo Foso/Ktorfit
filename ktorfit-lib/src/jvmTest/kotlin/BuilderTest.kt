@@ -17,7 +17,7 @@ class BuilderTest {
     @Test
     fun whenBaseUrlNotEndingWithSlashThrowError() {
         try {
-            val ktorfit = Ktorfit.Builder().baseUrl("http://www.example.com").build()
+           Ktorfit.Builder().baseUrl("http://www.example.com").build()
         } catch (illegal: IllegalStateException) {
             assert(illegal.message == "Base URL needs to end with /")
         }
@@ -26,7 +26,7 @@ class BuilderTest {
     @Test
     fun whenBaseUrlIsEmptyThrowError() {
         try {
-            val ktorfit = Ktorfit.Builder().baseUrl("").build()
+            Ktorfit.Builder().baseUrl("").build()
         } catch (illegal: IllegalStateException) {
             assert(illegal.message == "Base URL required")
         }
@@ -36,7 +36,7 @@ class BuilderTest {
     @Test
     fun whenBaseUrlDontStartsWithHttpThrowError() {
         try {
-            val ktorfit = Ktorfit.Builder().baseUrl("http://www.example.com/").build()
+            Ktorfit.Builder().baseUrl("http://www.example.com/").build()
         } catch (illegal: IllegalStateException) {
             assert(illegal.message == EXPECTED_URL_SCHEME)
         }
