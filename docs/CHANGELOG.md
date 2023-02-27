@@ -3,6 +3,10 @@
 - internal optimizations
 - throw compile error when generated class can not be found
 
+🐛 Bugs fixed
+
+* Timeout throws exception outside of scope of SuspendResponseConverter #127
+
 1.0.0-beta18 (12-02-2023)
 ========================================
 NEW:

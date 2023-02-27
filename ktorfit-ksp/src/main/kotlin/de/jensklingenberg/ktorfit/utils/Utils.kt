@@ -141,3 +141,7 @@ fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
     }
     return this
 }
+
+inline fun <reified T> List<*>.anyInstance(): Boolean {
+    return this.filterIsInstance<T>().isNotEmpty()
+}

@@ -8,6 +8,7 @@ import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.http.content.*
+import io.ktor.util.reflect.*
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
@@ -43,7 +44,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                 typeData = requestData.returnTypeData,
                 requestFunction = {
                     try {
-                        val data = suspendRequest<HttpResponse, HttpResponse>(requestData)
+                        val data = suspendRequest<HttpResponse, HttpResponse>(requestData.copy(returnTypeInfo = typeInfo<HttpResponse>()))
                         Pair(requestData.requestTypeInfo, data)
                     } catch (ex: Exception) {
                         throw ex
@@ -71,15 +72,16 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     ): ReturnType? {
         try {
 
-            if (requestData.returnTypeInfo.type == (HttpStatement::class)) {
+            if (requestData.returnTypeInfo.type == HttpStatement::class) {
                 return httpClient.prepareRequest {
                     requestBuilder(requestData)
                 } as ReturnType
             }
-            val response = httpClient.request {
-                requestBuilder(requestData)
-            }
-            if (requestData.returnTypeInfo.type == (HttpResponse::class)) {
+
+            if (requestData.returnTypeInfo.type == HttpResponse::class) {
+                val response = httpClient.request {
+                    requestBuilder(requestData)
+                }
                 return response as ReturnType
             }
 
@@ -91,11 +93,16 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                 return it.wrapSuspendResponse<RequestType>(
                     typeData = requestData.returnTypeData,
                     requestFunction = {
-                        Pair(requestData.requestTypeInfo, response)
+                        Pair(requestData.requestTypeInfo, httpClient.request {
+                            requestBuilder(requestData)
+                        })
                     }, ktorfit
                 ) as ReturnType
             }
 
+            val response = httpClient.request {
+                requestBuilder(requestData)
+            }
             return response.body(requestData.returnTypeInfo)
 
         } catch (exception: Exception) {

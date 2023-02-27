@@ -5,7 +5,7 @@ import com.google.devtools.ksp.symbol.KSValueParameter
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.RequestBuilder
 import de.jensklingenberg.ktorfit.model.annotations.getParamAnnotationList
-import de.jensklingenberg.ktorfit.utils.getRequestBuilderAnnotation
+import de.jensklingenberg.ktorfit.utils.anyInstance
 import de.jensklingenberg.ktorfit.utils.resolveTypeName
 
 data class ParameterData(
@@ -34,7 +34,7 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
 
     val parameterName = ksValueParameter.name?.asString() ?: ""
     val parameterType = ksValueParameter.type.resolve()
-    val hasRequestBuilderAnno = parameterAnnotations.any(){it is RequestBuilder}
+    val hasRequestBuilderAnno = parameterAnnotations.anyInstance<RequestBuilder>()
 
     if (parameterAnnotations.isEmpty() && !hasRequestBuilderAnno) {
         logger.error(

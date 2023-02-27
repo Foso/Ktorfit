@@ -187,7 +187,7 @@ fun KSFunctionDeclaration.toFunctionData(
                 logger.error(KtorfitError.NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY, funcDeclaration)
             }
 
-            if (functionAnnotationList.any { it is Multipart }) {
+            if (functionAnnotationList.anyInstance<Multipart>()) {
                 logger.error(
                     KtorfitError.MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS,
                     funcDeclaration
