@@ -12,11 +12,7 @@ import io.ktor.util.reflect.*
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
-/**
- * This class will be used by the generated Code
- * Please don't use the class directly
- */
-@InternalKtorfitApi
+
 internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
     private val httpClient: HttpClient = ktorfit.httpClient
@@ -44,7 +40,8 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                 typeData = requestData.returnTypeData,
                 requestFunction = {
                     try {
-                        val data = suspendRequest<HttpResponse, HttpResponse>(requestData.copy(returnTypeInfo = typeInfo<HttpResponse>()))
+                        val data =
+                            suspendRequest<HttpResponse, HttpResponse>(requestData.copy(returnTypeInfo = typeInfo<HttpResponse>()))
                         Pair(requestData.requestTypeInfo, data)
                     } catch (ex: Exception) {
                         throw ex
@@ -353,9 +350,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         }
     }
 
-
     private fun HttpRequestBuilder.encodedParameter(key: String, value: Any): Unit =
         value.let { url.encodedParameters.append(key, it.toString()) }
 
 }
-
