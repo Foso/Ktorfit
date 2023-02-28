@@ -1,13 +1,14 @@
 plugins {
     kotlin("multiplatform")
-    alias(libs.plugins.kspPlugin)
+    id("com.google.devtools.ksp")
     id("kotlinx-serialization")
 }
 apply(plugin = "de.jensklingenberg.ktorfit")
 version = "1.0-SNAPSHOT"
+val ktorVersion = "2.2.4"
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     enabled = true
-    version = libs.versions.ktorfit.compiler.get()
+    version = "1.0.0"
 }
 ksp {
     arg("Ktorfit_Errors", "1")
@@ -47,19 +48,19 @@ kotlin {
         val commonMain by getting {
 
             dependencies {
-                implementation(projects.ktorfitLib)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.ktor.client.serialization)
-                implementation(libs.ktor.client.content.negotiation)
-                implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(project(":ktorfit-lib"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
 
             }
         }
         val linuxX64Main by getting {
             dependencies {
-                implementation(libs.ktor.client.core.native)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.ktor.client.curl)
+                implementation("io.ktor:ktor-client-core-native:1.3.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("io.ktor:ktor-client-curl:2.2.3")
 
             }
         }
@@ -69,13 +70,13 @@ kotlin {
                kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
 
             dependencies {
-                implementation(libs.ktor.client.core.jvm)
-                implementation(libs.kotlinx.coroutines.rx3)
-                implementation(libs.rxjava3)
+                implementation("io.ktor:ktor-client-core-jvm:$ktorVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.6.4")
+                implementation("io.reactivex.rxjava3:rxjava:3.1.6")
 
-                implementation(libs.ktor.client.logging)
-                implementation(libs.logbackClassic)
-                implementation(libs.ktor.serialization.gson)
+                implementation("io.ktor:ktor-client-logging:$ktorVersion")
+                implementation("ch.qos.logback:logback-classic:1.4.5")
+                implementation("io.ktor:ktor-serialization-gson:$ktorVersion")
 
             }
         }
@@ -86,8 +87,8 @@ kotlin {
 
             dependencies {
                 dependsOn(jvmMain)
-                implementation(libs.ktor.client.mock)
-                implementation(libs.junit)
+                implementation("io.ktor:ktor-client-mock:$ktorVersion")
+                implementation("junit:junit:4.13.2")
 
 
             }
@@ -95,9 +96,9 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                implementation(libs.kotlinx.serialization.runtime.js)
-                implementation(libs.ktor.client.serialization)
-                implementation(libs.ktor.client.json.js)
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.20.0")
+                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+                implementation("io.ktor:ktor-client-json-js:$ktorVersion")
 
             }
         }
