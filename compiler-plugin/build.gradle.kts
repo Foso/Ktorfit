@@ -1,9 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val ktorfitVersion: String by project
-val autoService: String by project
-val detektVersion: String by project
+
 val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
 
 plugins {
@@ -13,8 +11,7 @@ plugins {
     `maven-publish`
     signing
     id("org.jetbrains.dokka")
-    id("io.gitlab.arturbosch.detekt").version("1.22.0")
-
+    alias(libs.plugins.detekt)
 }
 
 mavenPublishing {
@@ -26,21 +23,21 @@ mavenPublishing {
 }
 
 group = "de.jensklingenberg.ktorfit"
-version = ktorfitVersion
+version = libs.versions.ktorfit.compiler.get()
 
 dependencies {
-    compileOnly("com.google.auto.service:auto-service:$autoService")
-    kapt("com.google.auto.service:auto-service:$autoService")
-    compileOnly("org.jetbrains.kotlin:kotlin-compiler-embeddable:1.8.0")
-    testImplementation("dev.zacsweers.kctfork:core:0.2.1")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("com.google.truth:truth:1.1.3")
+    compileOnly(libs.autoService)
+    kapt(libs.autoService)
+    compileOnly(libs.kotlin.compiler.embeddable)
+    testImplementation(libs.kctfork.core)
+    testImplementation(libs.junit)
+    testImplementation(libs.truth)
     testImplementation(kotlin("reflect"))
 
 }
 
 detekt {
-    toolVersion = "1.22.0"
+    toolVersion = libs.versions.detekt.get()
     config = files("../detekt-config.yml")
     buildUponDefaultConfig = false
 }

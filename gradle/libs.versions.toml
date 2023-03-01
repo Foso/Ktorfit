@@ -1,0 +1,60 @@
+[versions]
+autoService = "1.0.1"
+coroutines = "1.6.4"
+detekt = "1.22.0"
+kctfork = "0.2.1"
+kotlin = "1.8.0"
+kotlinPoet = "1.12.0"
+kspVersion = "1.8.0-1.0.8"
+ktorfit = "1.0.0-SNAPSHOT"
+ktorfit-compiler = "1.0.0-SNAPSHOT"
+ktorfit-ksp = "1.0.0-SNAPSHOT"
+ktorfit-lib = "1.0.0-SNAPSHOT"
+ktorVersion = "2.2.4"
+
+[libraries]
+android-build-gradle = "com.android.tools.build:gradle:7.4.0-beta02"
+autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
+dokka-gradle-plugin = "org.jetbrains.dokka:dokka-gradle-plugin:1.7.20"
+gradle-maven-publish-plugin = "com.vanniktech:gradle-maven-publish-plugin:0.24.0"
+junit = "junit:junit:4.13.2"
+kctfork-core =  { module = "dev.zacsweers.kctfork:core", version.ref = "kctfork" }
+kctfork-ksp =  { module = "dev.zacsweers.kctfork:ksp", version.ref = "kctfork" }
+kotlin-compiler-embeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
+kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
+kotlinPoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinPoet" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "coroutines" }
+kotlinx-serialization-runtime-js = "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.20.0"
+kspApi = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "kspVersion" }
+
+#Ktor
+ktor-client-cio-jvm = { module = "io.ktor:ktor-client-cio-jvm", version.ref = "ktorVersion" }
+ktor-client-cio-linux = { module = "io.ktor:ktor-client-cio-linuxx64", version.ref = "ktorVersion" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorVersion" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorVersion" }
+ktor-client-core-jvm = { module = "io.ktor:ktor-client-core-jvm", version.ref = "ktorVersion" }
+ktor-client-core-linux = { module = "io.ktor:ktor-client-core-linuxx64", version.ref = "ktorVersion" }
+ktor-client-core-mingwx64 = { module = "io.ktor:ktor-client-core-mingwx64", version.ref = "ktorVersion" }
+ktor-client-core-native = "io.ktor:ktor-client-core-native:1.3.1"
+ktor-client-curl = { module = "io.ktor:ktor-client-curl", version.ref = "ktorVersion" }
+ktor-client-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktorVersion" }
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktorVersion" }
+ktor-client-json-js = { module = "io.ktor:ktor-client-json-js", version.ref = "ktorVersion" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorVersion" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorVersion" }
+ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktorVersion" }
+ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktorVersion" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
+
+licensee-gradle-plugin = "app.cash.licensee:licensee-gradle-plugin:1.6.0"
+logbackClassic = "ch.qos.logback:logback-classic:1.4.5"
+mockito-kotlin = "org.mockito.kotlin:mockito-kotlin:4.1.0"
+rxjava3 = "io.reactivex.rxjava3:rxjava:3.1.6"
+truth = "com.google.truth:truth:1.1.3"
+
+[plugins]
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kspPlugin = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
+
