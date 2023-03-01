@@ -5,6 +5,7 @@ plugins {
 }
 apply(plugin = "de.jensklingenberg.ktorfit")
 version = "1.0-SNAPSHOT"
+
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     enabled = true
     version = libs.versions.ktorfit.compiler.get()
@@ -57,6 +58,7 @@ kotlin {
         }
         val linuxX64Main by getting {
             dependencies {
+
                 implementation(libs.ktor.client.core.native)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.curl)
