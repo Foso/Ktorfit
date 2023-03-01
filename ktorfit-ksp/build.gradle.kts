@@ -1,9 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-val kspVersion: String by project
-val ktorfitVersion: String by project
-val autoService: String by project
-val kotlinPoet: String by project
-val detektVersion: String by project
+
 
 plugins {
     kotlin("jvm")
@@ -11,7 +7,7 @@ plugins {
     `maven-publish`
     signing
     id("org.jetbrains.dokka")
-    id("io.gitlab.arturbosch.detekt").version("1.22.0")
+    alias(libs.plugins.detekt)
     kotlin("kapt")
 }
 java {
@@ -34,23 +30,23 @@ mavenPublishing {
 }
 
 group = "de.jensklingenberg.ktorfit"
-version = ktorfitVersion
+version = libs.versions.ktorfit.ksp.get()
 
 dependencies {
     implementation(projects.ktorfitAnnotations)
-    implementation("com.google.devtools.ksp:symbol-processing-api:$kspVersion")
-    implementation("com.squareup:kotlinpoet:$kotlinPoet")
-    implementation("com.squareup:kotlinpoet-ksp:$kotlinPoet")
+    implementation(libs.kspApi)
+    implementation(libs.kotlinPoet)
+    implementation(libs.kotlinPoet.ksp)
 
-    compileOnly ("com.google.auto.service:auto-service:$autoService")
-    kapt ("com.google.auto.service:auto-service:$autoService")
+    compileOnly (libs.autoService)
+    kapt (libs.autoService)
 
     /* TEST  */
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("com.google.truth:truth:1.1.3")
-    testImplementation("dev.zacsweers.kctfork:core:0.2.1")
-    testImplementation("dev.zacsweers.kctfork:ksp:0.2.1")
-    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation(libs.junit)
+    testImplementation(libs.truth)
+    testImplementation(libs.kctfork.core)
+    testImplementation(libs.kctfork.ksp)
+    testImplementation (libs.mockito.kotlin)
 
 }
 
@@ -59,7 +55,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().con
 }
 
 detekt {
-    toolVersion = "1.22.0"
+    toolVersion = libs.versions.detekt.get()
     config = files("../detekt-config.yml")
     buildUponDefaultConfig = false
 }

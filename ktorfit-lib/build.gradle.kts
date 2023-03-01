@@ -6,7 +6,7 @@ plugins {
     id("com.vanniktech.maven.publish")
     id("org.jetbrains.dokka")
     id("com.android.library")
-    id("io.gitlab.arturbosch.detekt").version("1.22.0")
+    alias(libs.plugins.detekt)
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.0"
     id("app.cash.licensee")
 }
@@ -17,7 +17,7 @@ licensee {
 }
 
 detekt {
-    toolVersion = "1.22.0"
+    toolVersion = libs.versions.detekt.get()
     config = files("../detekt-config.yml")
     buildUponDefaultConfig = false
 }
@@ -26,7 +26,7 @@ val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
 mavenPublishing {
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
-    if(enableSigning){
+    if (enableSigning) {
         signAllPublications()
     }
 }
@@ -34,10 +34,8 @@ mavenPublishing {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
-val ktorfitVersion: String by project
-val ktorVersion: String by project
 
-version = ktorfitVersion
+version = libs.versions.ktorfit.lib.get()
 
 kotlin {
     explicitApi()
@@ -74,49 +72,38 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":ktorfit-annotations"))
-
-                api("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-
+                api(projects.ktorfitAnnotations)
+                api(libs.ktor.client.core)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
         val linuxX64Main by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-core-linuxx64:$ktorVersion")
-                implementation("io.ktor:ktor-client-cio-linuxx64:$ktorVersion")
-
+                implementation(libs.ktor.client.core.linux)
+                implementation(libs.ktor.client.cio.linux)
             }
         }
-
         val mingwX64Main by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-core-mingwx64:$ktorVersion")
-
+                implementation(libs.ktor.client.core.mingwx64)
             }
         }
-        val androidMain by getting{
-
+        val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
-
+                implementation(libs.ktor.client.cio.jvm)
             }
         }
-
         val jvmMain by getting {
-
             dependencies {
-                implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
-
+                implementation(libs.ktor.client.cio.jvm)
             }
         }
         val jvmTest by getting {
-
             dependencies {
                 dependsOn(jvmMain)
-                implementation("io.ktor:ktor-client-mock:$ktorVersion")
-                implementation("junit:junit:4.13.2")
-                implementation ("org.mockito.kotlin:mockito-kotlin:4.1.0")
+                implementation(libs.ktor.client.mock)
+                implementation(libs.junit)
+                implementation(libs.mockito.kotlin)
 
             }
         }
@@ -124,19 +111,18 @@ kotlin {
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val jsMain by getting {
-
             dependencies {
-                implementation("io.ktor:ktor-client-js:$ktorVersion")
+                implementation(libs.ktor.client.js)
             }
         }
 
-        val iosMain by getting{
+        val iosMain by getting {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                implementation("io.ktor:ktor-client-ios:$ktorVersion")
+                implementation(libs.ktor.client.ios)
             }
         }
     }
@@ -160,7 +146,7 @@ publishing {
     publications {
         create<MavenPublication>("default") {
             artifact(tasks["sourcesJar"])
-           // artifact(tasks["javadocJar"])
+            // artifact(tasks["javadocJar"])
 
             pom {
                 name.set(project.name)
@@ -210,6 +196,6 @@ publishing {
     }
 }
 
-rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class){
+rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class) {
     rootProject.the(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class).nodeVersion = "18.0.0"
 }
