@@ -7,6 +7,10 @@
 
 * Timeout throws exception outside of scope of SuspendResponseConverter #127
 
+⬆️ Deps updates
+
+- based on Ktor 2.2.4
+
 1.0.0-beta18 (12-02-2023)
 ========================================
 NEW:
