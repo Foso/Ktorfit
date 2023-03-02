@@ -15,11 +15,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 
-### 🐛 Fixed
+### Fixed
 
 ### Security
 
-### ⬆️ Bumped
+### Bumped
+
+---
 
 1.0.0 - 2023-03-02
 ========================================
@@ -29,12 +31,12 @@ This project is now following [semver](https://semver.org/)
 * internal optimizations
 * throw compile error when generated class can not be found
 
-###  🐛 Fixed
+### Fixed
 
 * Timeout throws exception outside of scope of SuspendResponseConverter #127
 * Fix broken/outdated docs link (#140) by @T-Spoon
 
-### ⬆️ Bumped
+### Bumped
 
 - based on Ktor 2.2.4
 
