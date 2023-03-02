@@ -1,17 +1,40 @@
-1.0.0 (02-03-2023)
+# Changelog
+
+All important changes of this project must be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### 🐛 Fixed
+
+### Security
+
+### ⬆️ Bumped
+
+1.0.0 - 2023-03-02
 ========================================
 This project is now following [semver](https://semver.org/)
 
-NEW:
-- internal optimizations
-- throw compile error when generated class can not be found
+### Added
+* internal optimizations
+* throw compile error when generated class can not be found
 
-🐛 Bugs fixed
+###  🐛 Fixed
 
 * Timeout throws exception outside of scope of SuspendResponseConverter #127
 * Fix broken/outdated docs link (#140) by @T-Spoon
 
-⬆️ Deps updates
+### ⬆️ Bumped
 
 - based on Ktor 2.2.4
 
