@@ -10,7 +10,7 @@ ktorfit = "1.0.0-SNAPSHOT"
 ktorfit-compiler = "1.0.0-SNAPSHOT"
 ktorfit-ksp = "1.0.0-SNAPSHOT"
 ktorfit-lib = "1.0.0-SNAPSHOT"
-ktorVersion = "2.2.4"
+ktorVersion = "2.3.0-eap-617"
 
 [libraries]
 android-build-gradle = "com.android.tools.build:gradle:7.4.0-beta02"
