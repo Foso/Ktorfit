@@ -15,3 +15,12 @@ You can set it in your build.gradle.kts file,
 1: Check for errors
 
 2: Turn errors into warnings
+
+
+# Add your own Ktor client
+You can set your Ktor client instance to the Ktorfit builder:
+
+```kotlin
+val myClient = HttpClient()
+val ktorfit = Ktorfit.Builder().httpClient(myClient).build()
+```

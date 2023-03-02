@@ -12,7 +12,6 @@ val ktorVersion = "2.2.4"
 val ktorfitVersion = "1.0.0"
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
-    enabled = true
     version = ktorfitVersion
 }
 

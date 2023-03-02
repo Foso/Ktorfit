@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import de.jensklingenberg.androidonlyexample.ui.theme.AndroidOnlyExampleTheme
+import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.ktorfit

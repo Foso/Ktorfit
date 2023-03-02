@@ -9,6 +9,7 @@ NEW:
 🐛 Bugs fixed
 
 * Timeout throws exception outside of scope of SuspendResponseConverter #127
+* Fix broken/outdated docs link (#140) by @T-Spoon
 
 ⬆️ Deps updates
 
