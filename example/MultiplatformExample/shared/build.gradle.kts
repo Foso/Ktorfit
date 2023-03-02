@@ -2,21 +2,39 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "1.8.0-1.0.8"
+    id("com.google.devtools.ksp") version "1.8.0-1.0.9"
     id("kotlinx-serialization")
     id("de.jensklingenberg.ktorfit") version "1.0.0"
 }
 
 version = "1.0"
-val ktorVersion = "2.2.3"
-val ktorfitVersion = "1.0.0-beta18"
+val ktorVersion = "2.2.4"
+val ktorfitVersion = "1.0.0"
 
+configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
+    enabled = true
+    version = ktorfitVersion
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
 kotlin {
     android()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    jvm()
+    jvm(){
+        compilations.all {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+    }
     macosX64()
     js(IR) {
         this.nodejs()

@@ -18,7 +18,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-version = libs.versions.ktorfit.ksp.get()
+version = libs.versions.ktorfit.asProvider().get()
 
 kotlin {
 

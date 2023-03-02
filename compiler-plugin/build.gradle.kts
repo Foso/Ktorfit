@@ -23,7 +23,7 @@ mavenPublishing {
 }
 
 group = "de.jensklingenberg.ktorfit"
-version = libs.versions.ktorfit.compiler.get()
+version = libs.versions.ktorfit.asProvider().get()
 
 dependencies {
     compileOnly(libs.autoService)

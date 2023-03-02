@@ -1,5 +1,8 @@
-1.0.0 (not released)
+1.0.0 (02-03-2023)
 ========================================
+This project is now following [semver](https://semver.org/)
+
+NEW:
 - internal optimizations
 - throw compile error when generated class can not be found
 
