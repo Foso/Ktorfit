@@ -30,7 +30,7 @@ mavenPublishing {
 }
 
 group = "de.jensklingenberg.ktorfit"
-version = libs.versions.ktorfit.ksp.get()
+version = libs.versions.ktorfit.asProvider().get()
 
 dependencies {
     implementation(projects.ktorfitAnnotations)

@@ -16,7 +16,7 @@ open class KtorfitGradleConfiguration {
     /**
      * version number of the compiler plugin
      */
-    var version: String = "1.0.0-beta17" // remember to bump this version before any release!
+    var version: String = "1.0.0" // remember to bump this version before any release!
 
     /**
      * used to get debug information from the compiler plugin

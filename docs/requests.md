@@ -162,7 +162,8 @@ All your parameters annotated with @Part wil be combined and send as MultiPartFo
 
 ## JSON
 Ktorfit doesn't parse JSON. You have to install the Json Feature to the Ktor Client that you add to Ktorfit.
-See here : https://ktor.io/docs/serialization-client.html
+
+See here [Add your own Ktor client](../configuration/#add-your-own-ktor-client) and here https://ktor.io/docs/serialization-client.html
 
 ```kotlin
 val ktorClient = HttpClient() {

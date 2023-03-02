@@ -6,10 +6,13 @@
 #### Gradle Plugins
 You need to add KSP and the [Ktorfit Gradle plugin](https://plugins.gradle.org/plugin/de.jensklingenberg.ktorfit)
 ```kotlin
-
 plugins {
   id("com.google.devtools.ksp") version "CURRENT_KSP_VERSION"
   id("de.jensklingenberg.ktorfit") version "1.0.0"
+}
+
+configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
+    version = "1.0.0"
 }
 ```
 
@@ -17,7 +20,7 @@ Next you have to add the Ktorfit KSP Plugin to the common target and every compi
 
 
 ```kotlin
-val ktorfitVersion = "LATEST_KTORFIT_VERSION"
+val ktorfitVersion = "1.0.0"
 
 dependencies {
     add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
@@ -34,7 +37,7 @@ Look here for more information https://kotlinlang.org/docs/ksp-multiplatform.htm
 
 Add the Ktorfit-lib to your common module.
 ```kotlin
-val ktorfitVersion = "LATEST_KTORFIT_VERSION"
+val ktorfitVersion = "1.0.0"
 
 sourceSets {
     val commonMain by getting{
@@ -45,5 +48,5 @@ sourceSets {
 ```
 
 #### Ktor
-Ktorfit is based on Ktor Clients 2.2.3. You don't need to add an extra dependency for the default clients.
-When you want to use Ktor plugins for things like serialization, you need to add the dependencies and they need to be compatible with 2.2.3
+Ktorfit is based on Ktor Clients 2.2.4. You don't need to add an extra dependency for the default clients.
+When you want to use Ktor plugins for things like serialization, you need to add the dependencies, and they need to be compatible with 2.2.4

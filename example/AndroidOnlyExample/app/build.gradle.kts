@@ -6,7 +6,11 @@ plugins {
     id ("de.jensklingenberg.ktorfit") version "1.0.0"
 
 }
+val ktorfit = "1.0.0"
 
+configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
+    version = ktorfit
+}
 android {
     namespace= "de.jensklingenberg.androidonlyexample"
     compileSdk= 33
@@ -49,8 +53,7 @@ android {
         }
     }
 }
-val ktorfit = "1.0.0-beta18"
-val ktor = "2.2.3"
+val ktor = "2.2.4"
 val compose_ui_version = "1.3.3"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")

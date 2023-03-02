@@ -116,7 +116,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         val requestConverter = ktorfit.requestConverters.firstOrNull {
             it.supportedType(parameterType, requestType)
         }
-            ?: throw IllegalArgumentException("No RequestConverter found to convert ${parameterType.qualifiedName} to ${requestType.qualifiedName}")
+            ?: throw IllegalArgumentException("No RequestConverter found to convert ${parameterType.simpleName} to ${requestType.simpleName}")
         return requestType.cast(requestConverter.convert(data))
     }
 
