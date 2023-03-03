@@ -10,9 +10,7 @@ on:
 
 jobs:
   build:
-
     runs-on: macos-latest
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -23,4 +21,4 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build and test with Gradle
-        run: ./gradlew clean :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:test :ktorfit-lib:jvmTest
+        run: ./gradlew clean licensee :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:test :ktorfit-lib:jvmTest

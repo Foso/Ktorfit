@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     alias(libs.plugins.kspPlugin)
     id("kotlinx-serialization")
+    id("app.cash.licensee")
 }
 apply(plugin = "de.jensklingenberg.ktorfit")
 version = "1.0-SNAPSHOT"
@@ -12,6 +13,13 @@ configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
 }
 ksp {
     arg("Ktorfit_Errors", "1")
+}
+
+licensee {
+    allow("Apache-2.0")
+    allow("MIT")
+    allow("EPL-1.0")
+    allow("MIT-0")
 }
 
 java {
