@@ -11,6 +11,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://github.com/Foso/Ktorfit/License/</loc>
+         <lastmod>2023-03-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://github.com/Foso/Ktorfit/architecture/</loc>
          <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
@@ -47,6 +52,11 @@
     </url>
     <url>
          <loc>https://github.com/Foso/Ktorfit/suspendresponseconverter/</loc>
+         <lastmod>2023-03-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://github.com/Foso/Ktorfit/fundamentals/scope/</loc>
          <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
