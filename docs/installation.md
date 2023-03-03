@@ -48,5 +48,5 @@ sourceSets {
 ```
 
 #### Ktor
-Ktorfit is based on Ktor Clients 2.2.4. You don't need to add an extra dependency for the default clients.
+Ktorfit is based on Ktor clients 2.2.4. You don't need to add an extra dependency for the default clients.
 When you want to use Ktor plugins for things like serialization, you need to add the dependencies, and they need to be compatible with 2.2.4

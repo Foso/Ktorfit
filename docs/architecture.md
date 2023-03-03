@@ -33,24 +33,18 @@ The class will also implement **KtorfitService**. The setClient() function will 
 ```kotlin
 @OptIn(InternalKtorfitApi::class)
 public class _ExampleApiImpl : ExampleApi, KtorfitService {
-    private lateinit var client: KtorfitClient
+    private lateinit var ktorfitClient: KtorfitClient
 
     public override suspend fun exampleGet(): People {
         val requestData = RequestData(method="GET",
             relativeUrl="/test",
             returnTypeData=TypeData("com.example.model.People"))
 
-        return client.suspendRequest<People, People>(requestData)!!
-    }
-
-    public override fun setClient(client: KtorfitClient): Unit {
-        this.client = client
+        return ktorfitClient.suspendRequest<People, People>(requestData)!!
     }
 }
 
-@OptIn(InternalKtorfitApi::class)
-public fun Ktorfit.createExampleApi(): ExampleApi = _ExampleApiImpl().also{
-    it.setClient(KtorfitClient(this)) }
+public fun Ktorfit.createExampleApi(): ExampleApi = this.create(_ExampleApiImpl())
 ```
 
 The next part is the compiler plugin which is added by the gradle plugin.
