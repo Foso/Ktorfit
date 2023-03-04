@@ -8,7 +8,21 @@ edit_uri: 'tree/master/docs/'
 
 # Copyright
 copyright: Copyright &copy; Apache v2 License 2022-2023 Jens Klingenberg
-
+extra:
+  manifest: manifest.webmanifest
+  site:
+    images: '../../images'
+  ktorfit:
+    release: "1.0.0"
+  ktor:
+    release: "2.2.4"
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: 'https://github.com/foso'
+    - icon: fontawesome/brands/twitter
+      link: 'https://twitter.com/jklingenberg_'
+    - icon: fontawesome/solid/arrow-up-right-from-square
+      link: 'https://jensklingenberg.de/'
 theme:
   name: 'material'
   language: en
@@ -19,7 +33,6 @@ theme:
   features:
     - navigation.instant
     - navigation.top
-    - toc.integrate
     - search.suggest
     - search.share
   palette:
@@ -38,18 +51,6 @@ theme:
   icon:
     logo: fontawesome/solid/code
     repo: fontawesome/brands/github
-extra:
-  manifest: manifest.webmanifest
-  site:
-    images: '../../images'
-
-  social:
-    - icon: fontawesome/brands/github-alt
-      link: 'https://github.com/foso'
-    - icon: fontawesome/brands/twitter
-      link: 'https://twitter.com/jklingenberg_'
-    - icon: fontawesome/solid/arrow-up-right-from-square
-      link: 'https://jensklingenberg.de/'
 nav:
   - 'Overview': index.md
   - 'Quick start': quick-start.md
