@@ -3,5 +3,14 @@
   "extends": [
     "config:base"
   ],
-  "bumpVersion": "patch"
+    "packageRules": [
+    {
+      "bumpVersion": "patch",
+      "commitMessagePrefix": "chore(deps)",
+      "labels": [
+        "maintenance", 
+        "renovate"
+      ]
+    }
+  ]
 }
