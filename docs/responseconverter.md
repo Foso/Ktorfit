@@ -10,8 +10,8 @@ But now you want to directly wrap your comment list in your data holder class e.
 
 ```kotlin
 sealed class MyOwnResponse<T> {
-    data class Success<T>(val data: T) : Response<T>()
-    class Error(val ex:Throwable) : Response<Nothing>()
+    data class Success<T>(val data: T) : MyOwnResponse<T>()
+    class Error(val ex:Throwable) : MyOwnResponse<Nothing>()
 
     companion object {
         fun <T> success(data: T) = Success(data)
@@ -24,7 +24,7 @@ To enable that, you have to implement a ResponseConverter. This class will be us
 inside your wrapper class.
 
 ```kotlin
-class MyOwnResponseConverter : ResponseConverter {
+class MyOwnResponseConverter : SuspendResponseConverter {
 
     override suspend fun <RequestType> wrapResponse(
         typeData: TypeData,
