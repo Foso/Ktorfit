@@ -5,6 +5,6 @@ import de.jensklingenberg.ktorfit.model.annotations.Body
 
 fun getBodyDataText(params: List<ParameterData>): String {
     return params.firstOrNull { it.hasAnnotation<Body>() }?.let {
-        "bodyData = " + it.name
+        "bodyData = BodyData(" + it.name+", typeInfo<"+it.type.name+">())"
     } ?: ""
 }

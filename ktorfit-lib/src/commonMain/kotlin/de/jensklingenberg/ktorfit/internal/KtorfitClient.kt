@@ -152,9 +152,9 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         }
     }
 
-    private fun HttpRequestBuilder.handleBody(body: Any?) {
+    private fun HttpRequestBuilder.handleBody(body: BodyData?) {
         body?.let {
-            setBody(it)
+            setBody(it.bodyData, it.typeInfo)
         }
     }
 

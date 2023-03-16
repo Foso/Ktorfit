@@ -21,12 +21,12 @@ public data class RequestData(
     val queries: List<DH> = emptyList(),
     val fields: List<DH> = emptyList(),
     val parts: Map<String, Any> = emptyMap(),
-    val bodyData: Any? = null,
+    val bodyData: BodyData? = null,
     val returnTypeData: TypeData,
     val requestBuilder: HttpRequestBuilder.() -> Unit = {},
-    val paths : List<DH> = emptyList(),
-    val requestTypeInfo : TypeInfo,
-    val returnTypeInfo : TypeInfo
+    val paths: List<DH> = emptyList(),
+    val requestTypeInfo: TypeInfo,
+    val returnTypeInfo: TypeInfo
 )
 
-
+public data class BodyData(val bodyData: Any? = null, val typeInfo: TypeInfo)

@@ -1,8 +1,6 @@
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
+import de.jensklingenberg.ktorfit.internal.*
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
-import de.jensklingenberg.ktorfit.internal.RequestData
-import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.content.*
@@ -30,7 +28,7 @@ class BodyTest {
                 method = "GET",
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                bodyData = "testBody",
+                bodyData = BodyData("testBody", typeInfo<String>()),
                 returnTypeInfo = typeInfo<String>(),
                 requestTypeInfo = typeInfo<String>()
             )
