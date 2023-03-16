@@ -135,7 +135,7 @@ interface TestService {
         val expectedFunctionText = """public override suspend fun test(body: String): String {
     val requestData = RequestData(method="GET",
         relativeUrl="user",
-        bodyData = body,
+        bodyData = BodyData(body, typeInfo<String>()),
         returnTypeData = TypeData("kotlin.String"),
         requestTypeInfo=typeInfo<String>(),
         returnTypeInfo = typeInfo<String>()) 

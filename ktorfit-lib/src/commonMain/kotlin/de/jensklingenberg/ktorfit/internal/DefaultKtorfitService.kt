@@ -8,5 +8,5 @@ package de.jensklingenberg.ktorfit.internal
 internal class DefaultKtorfitService : KtorfitService {
     override lateinit var ktorfitClient: Client
 
-    override fun setClient(client: Client) {}
+    override fun setClient(ktorfitClient: Client) {}
 }

@@ -19,9 +19,9 @@ class GetBodyDataTextKtTest{
     @Test
     fun testWithBodyAnnotation() {
         val bodyAnno = Body
-        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String"), annotations = listOf(bodyAnno))
+        val parameterData = ParameterData("test1", ReturnTypeData("Map<*,String>", "kotlin.Map"), annotations = listOf(bodyAnno))
         val params = listOf(parameterData)
         val text = getBodyDataText(params)
-        Assert.assertEquals("bodyData = test1", text)
+        Assert.assertEquals("bodyData = BodyData(test1, typeInfo<Map<*,String>>())", text)
     }
 }

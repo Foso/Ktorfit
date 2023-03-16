@@ -81,7 +81,7 @@ interface TestService {
         )
 
 
-        val expectedBodyDataArgumentText = "bodyData = id"
+        val expectedBodyDataArgumentText = "bodyData = BodyData(id, typeInfo<String>()),"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
