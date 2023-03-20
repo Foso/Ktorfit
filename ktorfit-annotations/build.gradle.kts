@@ -87,7 +87,7 @@ android {
     }
 }
 
-val enableSigning = true
+val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
 
 mavenPublishing {
     publishToMavenCentral()
