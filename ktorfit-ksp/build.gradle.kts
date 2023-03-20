@@ -26,7 +26,7 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
+val enableSigning = true
 mavenPublishing {
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
