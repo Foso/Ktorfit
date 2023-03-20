@@ -22,6 +22,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Bumped
 
+1.0.1 - 2023-03-20
+========================================
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+[Bug]: Post request body serialization doesn't work #202
+
+### Security
+
+### Bumped
+
 ---
 
 1.0.0 - 2023-03-02
