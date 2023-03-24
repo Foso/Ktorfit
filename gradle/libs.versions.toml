@@ -15,7 +15,7 @@ ktorVersion = "2.2.4"
 android-build-gradle = "com.android.tools.build:gradle:7.4.0-beta02"
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 dokka-gradle-plugin = "org.jetbrains.dokka:dokka-gradle-plugin:1.7.20"
-gradle-maven-publish-plugin = "com.vanniktech:gradle-maven-publish-plugin:0.24.0"
+gradle-maven-publish-plugin = "com.vanniktech:gradle-maven-publish-plugin:0.25.1"
 junit = "junit:junit:4.13.2"
 kctfork-core =  { module = "dev.zacsweers.kctfork:core", version.ref = "kctfork" }
 kctfork-ksp =  { module = "dev.zacsweers.kctfork:ksp", version.ref = "kctfork" }
