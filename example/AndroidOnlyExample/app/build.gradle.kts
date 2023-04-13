@@ -53,7 +53,7 @@ android {
         }
     }
 }
-val ktor = "2.2.4"
+val ktor = "2.3.0-eap-653"
 val compose_ui_version = "1.3.3"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")
