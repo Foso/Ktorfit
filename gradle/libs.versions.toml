@@ -9,7 +9,7 @@ kspVersion = "1.8.0-1.0.8"
 ktorfit = "1.0.1"
 ktorfit-compiler = "1.0.1"
 ktorfit-lib = "1.0.1"
-ktorVersion = "2.2.4"
+ktorVersion = "2.3.0-eap-653"
 
 [libraries]
 android-build-gradle = "com.android.tools.build:gradle:7.4.0-beta02"
