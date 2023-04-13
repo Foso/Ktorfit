@@ -58,7 +58,7 @@ val compose_ui_version = "1.3.3"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")
     implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfit")
-    implementation ("androidx.core:core-ktx:1.9.0")
+    implementation ("androidx.core:core-ktx:1.10.0")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation ("androidx.activity:activity-compose:1.6.1")
     implementation ("androidx.compose.ui:ui:$compose_ui_version")
