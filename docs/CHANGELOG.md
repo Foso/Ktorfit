@@ -26,6 +26,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ========================================
 
 ### Added
+From now on there are two versions of the ktorfit-lib. 
+
+"de.jensklingenberg.ktorfit:ktorfit-lib" 
+will stay like before and already includes the platform client dependencies for the clients.
+
+"de.jensklingenberg.ktorfit:ktorfit-lib-light"
+this includes only the client core dependency and not the platform dependencies for the clients.
+This will give you more control over the used clients, but you have to add them yourself. https://ktor.io/docs/http-client-engines.html
+Everything else is the same as "ktorfit-lib"
 
 ### Changed
 

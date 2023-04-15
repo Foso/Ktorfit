@@ -21,9 +21,16 @@ detekt {
     config = files("../detekt-config.yml")
     buildUponDefaultConfig = false
 }
+val light = false
 val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
 
 mavenPublishing {
+
+    coordinates(
+        "de.jensklingenberg.ktorfit",
+        "ktorfit-lib" + if (light) "-light" else "",
+        libs.versions.ktorfit.asProvider().get()
+    )
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {
@@ -35,7 +42,6 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-version = libs.versions.ktorfit.asProvider().get()
 
 kotlin {
     explicitApi()
@@ -79,23 +85,31 @@ kotlin {
         }
         val linuxX64Main by getting {
             dependencies {
-                implementation(libs.ktor.client.core.linux)
-                implementation(libs.ktor.client.cio.linux)
+                if (!light) {
+                    implementation(libs.ktor.client.core.linux)
+                    implementation(libs.ktor.client.cio.linux)
+                }
             }
         }
         val mingwX64Main by getting {
             dependencies {
-                implementation(libs.ktor.client.core.mingwx64)
+                if (!light) {
+                    implementation(libs.ktor.client.core.mingwx64)
+                }
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation(libs.ktor.client.cio.jvm)
+                if (!light) {
+                    implementation(libs.ktor.client.cio.jvm)
+                }
             }
         }
         val jvmMain by getting {
             dependencies {
-                implementation(libs.ktor.client.cio.jvm)
+                if (!light) {
+                    implementation(libs.ktor.client.cio.jvm)
+                }
             }
         }
         val jvmTest by getting {
@@ -112,7 +126,9 @@ kotlin {
         val iosSimulatorArm64Main by getting
         val jsMain by getting {
             dependencies {
-                implementation(libs.ktor.client.js)
+                if (!light) {
+                    implementation(libs.ktor.client.js)
+                }
             }
         }
 
@@ -122,7 +138,9 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                implementation(libs.ktor.client.ios)
+                if (!light) {
+                    implementation(libs.ktor.client.ios)
+                }
             }
         }
     }
