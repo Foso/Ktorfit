@@ -15,7 +15,7 @@ dokkaVersion = "1.8.10"
 android-build-gradle = "com.android.tools.build:gradle:7.4.0"
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokkaVersion" }
-gradle-maven-publish-plugin = "com.vanniktech:gradle-maven-publish-plugin:0.24.0"
+gradle-maven-publish-plugin = "com.vanniktech:gradle-maven-publish-plugin:0.25.2"
 junit = "junit:junit:4.13.2"
 kctfork-core =  { module = "dev.zacsweers.kctfork:core", version.ref = "kctfork" }
 kctfork-ksp =  { module = "dev.zacsweers.kctfork:ksp", version.ref = "kctfork" }
