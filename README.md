@@ -24,7 +24,8 @@ Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.g
 ## 👷 Project Structure
 * <kbd>ktorfit-annotations</kbd> - module with annotations for the Ktorfit
 * <kbd>ktorfit-ksp</kbd> - module with source for the KSP plugin
-* <kbd>ktorfit-lib</kbd> - module with source for the Ktorfit lib
+* <kbd>ktorfit-lib-common</kbd> - module with source for the Ktorfit lib
+* <kbd>ktorfit-lib</kbd> - ktorfit-lib-common + dependencies on platform specific clients
 * <kbd>sandbox</kbd> - experimental test module to try various stuff
 
 * <kbd>example</kbd> - contains example projects that use Ktorfit

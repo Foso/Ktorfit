@@ -1,12 +1,12 @@
 plugins {
     id ("com.android.application")
     id ("org.jetbrains.kotlin.android")
-    id ("com.google.devtools.ksp") version "1.8.0-1.0.9"
-    id ("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
+    id ("com.google.devtools.ksp") version "1.8.20-1.0.10"
+    id ("org.jetbrains.kotlin.plugin.serialization") version "1.8.20"
     id ("de.jensklingenberg.ktorfit") version "1.0.0"
 
 }
-val ktorfit = "1.0.1"
+val ktorfit = "1.1.0"
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     version = ktorfit
@@ -54,16 +54,16 @@ android {
     }
 }
 val ktor = "2.2.4"
-val compose_ui_version = "1.3.3"
+val compose_ui_version = "1.4.0"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")
     implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfit")
-    implementation ("androidx.core:core-ktx:1.9.0")
+    implementation ("androidx.core:core-ktx:1.10.0")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation ("androidx.activity:activity-compose:1.6.1")
+    implementation ("androidx.activity:activity-compose:1.7.0")
     implementation ("androidx.compose.ui:ui:$compose_ui_version")
     implementation ("androidx.compose.ui:ui-tooling-preview:$compose_ui_version")
-    implementation ("androidx.compose.material:material:1.3.1")
+    implementation ("androidx.compose.material:material:1.4.1")
     testImplementation ("junit:junit:4.13.2")
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
@@ -73,5 +73,6 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:$ktor")
     implementation("io.ktor:ktor-client-content-negotiation:$ktor")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
+    //implementation("io.ktor:ktor-client-cio-jvm:2.2.4")
 }
 

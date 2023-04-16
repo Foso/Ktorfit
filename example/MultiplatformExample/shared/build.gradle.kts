@@ -2,14 +2,14 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "1.8.0-1.0.9"
+    id("com.google.devtools.ksp") version "1.8.20-1.0.10"
     id("kotlinx-serialization")
     id("de.jensklingenberg.ktorfit") version "1.0.0"
 }
 
 version = "1.0"
 val ktorVersion = "2.2.4"
-val ktorfitVersion = "1.0.1"
+val ktorfitVersion = "1.1.0"
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     version = ktorfitVersion
@@ -53,6 +53,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
+                //implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:$ktorfitVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
                 //Only needed when you want to use Kotlin Serialization
@@ -68,8 +69,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                //  implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
-
+                //implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
             }
         }
         val jvmMain by getting {
@@ -92,6 +92,9 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            dependencies{
+               // implementation("io.ktor:ktor-client-ios:$ktorVersion")
+            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting
