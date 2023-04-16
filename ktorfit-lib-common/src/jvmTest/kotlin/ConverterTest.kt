@@ -1,23 +1,15 @@
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
-import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
 import de.jensklingenberg.ktorfit.internal.*
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
 import io.ktor.utils.io.errors.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
-import org.mockito.kotlin.any
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.whenever
 
 @OptIn(InternalKtorfitApi::class)
 class ConverterTest {

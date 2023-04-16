@@ -56,7 +56,7 @@ kotlin {
         val commonMain by getting {
 
             dependencies {
-                implementation(projects.ktorfitLib)
+                implementation(projects.ktorfitLibCommon)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.ktor.client.content.negotiation)
@@ -70,13 +70,15 @@ kotlin {
                 implementation(libs.ktor.client.core.native)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.curl)
+                implementation(libs.ktor.client.core.linux)
+                implementation(libs.ktor.client.cio.linux)
 
             }
         }
 
 
         val jvmMain by getting {
-               kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
+            kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
 
             dependencies {
                 implementation(libs.ktor.client.core.jvm)
@@ -86,7 +88,7 @@ kotlin {
                 implementation(libs.ktor.client.logging)
                 implementation(libs.logbackClassic)
                 implementation(libs.ktor.serialization.gson)
-
+                implementation(libs.ktor.client.cio.jvm)
             }
         }
 
@@ -108,6 +110,7 @@ kotlin {
                 implementation(libs.kotlinx.serialization.runtime.js)
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.ktor.client.json.js)
+                implementation(libs.ktor.client.js)
 
             }
         }
@@ -131,8 +134,8 @@ dependencies {
     add("kspJvm", projects.ktorfitKsp)
     add("kspIosX64", projects.ktorfitKsp)
 
-   // add("kspJvmTest", projects.ktorfitKsp)
-    add("kspJs",projects.ktorfitKsp)
+    // add("kspJvmTest", projects.ktorfitKsp)
+    add("kspJs", projects.ktorfitKsp)
     add("kspLinuxX64", projects.ktorfitKsp)
     add("kspMingwX64", projects.ktorfitKsp)
 

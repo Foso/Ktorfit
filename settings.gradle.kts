@@ -33,6 +33,7 @@ includeBuild("gradle-plugin") {
 include(":sandbox")
 include(":ktorfit-ksp")
 include(":compiler-plugin")
+include(":ktorfit-lib-common")
 include(":ktorfit-lib")
 include(":ktorfit-annotations")
 

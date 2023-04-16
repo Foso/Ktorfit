@@ -16,11 +16,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 
 ### Fixed
-[Bug]: Post request body serialization doesn't work #202
 
 ### Security
 
 ### Bumped
+
+1.1.0 - 2023-04-15
+========================================
+
+### Added
+From now on there are two versions of the ktorfit-lib.
+
+"de.jensklingenberg.ktorfit:ktorfit-lib"
+will stay like before and add the platform client dependencies for the clients.
+
+"de.jensklingenberg.ktorfit:ktorfit-lib-light"
+this will only add the client core dependency and not the platform dependencies for the clients.
+This will give you more control over the used clients, but you have to add them yourself. https://ktor.io/docs/http-client-engines.html
+Everything else is the same as "ktorfit-lib"
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+### Bumped
+Kotlin version 1.8.20 is now needed
+KSP version 1.8.20-1.0.10 is now needed
 
 1.0.1 - 2023-03-20
 ========================================
@@ -28,11 +55,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 From now on there are two versions of the ktorfit-lib. 
 
-"de.jensklingenberg.ktorfit:ktorfit-lib" 
-will stay like before and already includes the platform client dependencies for the clients.
+"de.jensklingenberg.ktorfit:ktorfit-lib"
+will stay like before and add the platform client dependencies for the clients.
 
 "de.jensklingenberg.ktorfit:ktorfit-lib-light"
-this includes only the client core dependency and not the platform dependencies for the clients.
+this will only add the client core dependency and not the platform dependencies for the clients.
 This will give you more control over the used clients, but you have to add them yourself. https://ktor.io/docs/http-client-engines.html
 Everything else is the same as "ktorfit-lib"
 

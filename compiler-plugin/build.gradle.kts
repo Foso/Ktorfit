@@ -22,6 +22,7 @@ licensee {
 }
 
 mavenPublishing {
+    coordinates("de.jensklingenberg.ktorfit", "compiler-plugin", libs.versions.ktorfit.asProvider().get())
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {
@@ -29,8 +30,6 @@ mavenPublishing {
     }
 }
 
-group = "de.jensklingenberg.ktorfit"
-version = libs.versions.ktorfit.asProvider().get()
 
 dependencies {
     compileOnly(libs.autoService)

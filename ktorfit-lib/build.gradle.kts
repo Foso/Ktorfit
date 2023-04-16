@@ -1,12 +1,10 @@
 plugins {
     kotlin("multiplatform")
-    id("kotlinx-serialization")
     id("maven-publish")
     id("signing")
     id("com.vanniktech.maven.publish")
     id("org.jetbrains.dokka")
     id("com.android.library")
-    alias(libs.plugins.detekt)
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.0"
     id("app.cash.licensee")
 }
@@ -16,19 +14,14 @@ licensee {
     allow("MIT")
 }
 
-detekt {
-    toolVersion = libs.versions.detekt.get()
-    config = files("../detekt-config.yml")
-    buildUponDefaultConfig = false
-}
-val light = false
+
 val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
 
 mavenPublishing {
 
     coordinates(
         "de.jensklingenberg.ktorfit",
-        "ktorfit-lib" + if (light) "-light" else "",
+        "ktorfit-lib",
         libs.versions.ktorfit.asProvider().get()
     )
     publishToMavenCentral()
@@ -78,57 +71,38 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.ktorfitAnnotations)
-                api(libs.ktor.client.core)
-                implementation(libs.kotlinx.coroutines.core)
+                // api(projects.ktorfitAnnotations)
+                api(projects.ktorfitLibCommon)
             }
         }
         val linuxX64Main by getting {
             dependencies {
-                if (!light) {
-                    implementation(libs.ktor.client.core.linux)
-                    implementation(libs.ktor.client.cio.linux)
-                }
+                implementation(libs.ktor.client.core.linux)
+                implementation(libs.ktor.client.cio.linux)
             }
         }
         val mingwX64Main by getting {
             dependencies {
-                if (!light) {
-                    implementation(libs.ktor.client.core.mingwx64)
-                }
+                implementation(libs.ktor.client.core.mingwx64)
             }
         }
         val androidMain by getting {
             dependencies {
-                if (!light) {
-                    implementation(libs.ktor.client.cio.jvm)
-                }
+                implementation(libs.ktor.client.cio.jvm)
             }
         }
         val jvmMain by getting {
             dependencies {
-                if (!light) {
-                    implementation(libs.ktor.client.cio.jvm)
-                }
+                implementation(libs.ktor.client.cio.jvm)
             }
         }
-        val jvmTest by getting {
-            dependencies {
-                dependsOn(jvmMain)
-                implementation(libs.ktor.client.mock)
-                implementation(libs.junit)
-                implementation(libs.mockito.kotlin)
 
-            }
-        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val jsMain by getting {
             dependencies {
-                if (!light) {
-                    implementation(libs.ktor.client.js)
-                }
+                implementation(libs.ktor.client.js)
             }
         }
 
@@ -138,9 +112,7 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                if (!light) {
-                    implementation(libs.ktor.client.ios)
-                }
+                implementation(libs.ktor.client.ios)
             }
         }
     }

@@ -28,15 +28,14 @@ tasks.withType<KotlinCompile> {
 
 val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
 mavenPublishing {
+    coordinates("de.jensklingenberg.ktorfit", "ktorfit-ksp", libs.versions.ktorfit.asProvider().get())
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
-    if(enableSigning){
+    if (enableSigning) {
         signAllPublications()
     }
 }
 
-group = "de.jensklingenberg.ktorfit"
-version = libs.versions.ktorfit.asProvider().get()
 
 dependencies {
     implementation(projects.ktorfitAnnotations)
@@ -44,15 +43,15 @@ dependencies {
     implementation(libs.kotlinPoet)
     implementation(libs.kotlinPoet.ksp)
 
-    compileOnly (libs.autoService)
-    kapt (libs.autoService)
+    compileOnly(libs.autoService)
+    kapt(libs.autoService)
 
     /* TEST  */
     testImplementation(libs.junit)
     testImplementation(libs.truth)
     testImplementation(libs.kctfork.core)
     testImplementation(libs.kctfork.ksp)
-    testImplementation (libs.mockito.kotlin)
+    testImplementation(libs.mockito.kotlin)
 
 }
 

@@ -1,9 +1,8 @@
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.request.RequestConverter
-import de.jensklingenberg.ktorfit.internal.*
-import io.ktor.client.*
-import io.ktor.client.request.*
-import io.ktor.util.reflect.*
+import de.jensklingenberg.ktorfit.internal.Client
+import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
+import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import org.junit.Assert
 import org.junit.Test
 import kotlin.reflect.KClass
