@@ -36,6 +36,8 @@ This will give you more control over the used clients, but you have to add them 
 Everything else is the same as "ktorfit-lib"
 
 ### Changed
+Kotlin version 1.8.20 is now needed
+KSP version 1.8.20-1.0.10 is now needed
 
 ### Deprecated
 
@@ -46,8 +48,8 @@ Everything else is the same as "ktorfit-lib"
 ### Security
 
 ### Bumped
-Kotlin version 1.8.20 is now needed
-KSP version 1.8.20-1.0.10 is now needed
+Kotlin to 1.8.20
+KSP version to 1.8.20-1.0.10
 
 1.0.1 - 2023-03-20
 ========================================
