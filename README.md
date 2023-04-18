@@ -22,6 +22,7 @@ Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.g
 
 
 ## 👷 Project Structure
+* <kbd>compiler plugin</kbd> - module with source for the compiler plugin
 * <kbd>ktorfit-annotations</kbd> - module with annotations for the Ktorfit
 * <kbd>ktorfit-ksp</kbd> - module with source for the KSP plugin
 * <kbd>ktorfit-lib-common</kbd> - module with source for the Ktorfit lib
