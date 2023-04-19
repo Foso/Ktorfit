@@ -54,7 +54,7 @@ android {
     }
 }
 val ktor = "2.2.4"
-val compose_ui_version = "1.4.0"
+val compose_ui_version = "1.4.2"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")
     implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfit")
