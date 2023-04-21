@@ -1,7 +1,7 @@
 plugins {
     id ("com.android.application")
     id ("org.jetbrains.kotlin.android")
-    id ("com.google.devtools.ksp") version "1.8.20-1.0.10"
+    id ("com.google.devtools.ksp") version "1.8.20-1.0.11"
     id ("org.jetbrains.kotlin.plugin.serialization") version "1.8.20"
     id ("de.jensklingenberg.ktorfit") version "1.0.0"
 
@@ -39,31 +39,33 @@ android {
         targetCompatibility (JavaVersion.VERSION_1_8)
     }
     kotlinOptions {
-        //jvmTarget  '1.8'
+        jvmTarget = "1.8"
     }
     buildFeatures {
         compose= (true)
     }
     composeOptions {
-        kotlinCompilerExtensionVersion= "1.4.5"
+        kotlinCompilerExtensionVersion= "1.4.6"
     }
-    packagingOptions {
-        resources {
+}
 
-        }
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 val ktor = "2.2.4"
-val compose_ui_version = "1.4.0"
+val compose_ui_version = "1.4.2"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")
     implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfit")
+
     implementation ("androidx.core:core-ktx:1.10.0")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation ("androidx.activity:activity-compose:1.7.0")
+    implementation ("androidx.activity:activity-compose:1.7.1")
     implementation ("androidx.compose.ui:ui:$compose_ui_version")
     implementation ("androidx.compose.ui:ui-tooling-preview:$compose_ui_version")
-    implementation ("androidx.compose.material:material:1.4.1")
+    implementation ("androidx.compose.material:material:1.4.2")
     testImplementation ("junit:junit:4.13.2")
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
