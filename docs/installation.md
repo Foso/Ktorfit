@@ -50,3 +50,8 @@ sourceSets {
 #### Ktor
 Ktorfit is based on Ktor clients {{ktor.release}}. You don't need to add an extra dependency for the default clients.
 When you want to use Ktor plugins for things like serialization, you need to add the dependencies, and they need to be compatible with {{ktor.release}}
+
+You can also use "de.jensklingenberg.ktorfit:ktorfit-lib-light"
+this will only add the Ktor client core dependency and not the platform dependencies for the clients.
+This will give you more control over the used clients, but you have to add them yourself. https://ktor.io/docs/http-client-engines.html
+Everything else is the same as "ktorfit-lib"
