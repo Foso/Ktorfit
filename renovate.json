@@ -3,5 +3,9 @@
   "extends": [
     "config:base"
   ],
-  "bumpVersion": "patch"
+  "schedule": [
+
+
+"every weekend"
+  ]
 }
