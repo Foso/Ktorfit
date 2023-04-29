@@ -4,8 +4,6 @@
     "config:base"
   ],
   "schedule": [
-
-
-"every weekend"
+    "every weekend"
   ]
 }
