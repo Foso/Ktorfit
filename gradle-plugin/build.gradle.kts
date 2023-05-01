@@ -3,7 +3,7 @@ plugins {
     kotlin("kapt") version("1.8.20")
     id("java-gradle-plugin")
     `maven-publish`
-    id("com.gradle.plugin-publish") version "1.1.0"
+    id("com.gradle.plugin-publish") version "1.2.0"
 }
 
 group = "de.jensklingenberg.ktorfit"
