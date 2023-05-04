@@ -8,7 +8,7 @@ kotlinPoet = "1.13.1"
 kspVersion = "1.8.20-1.0.10"
 ktorfit = "1.1.0"
 ktorfit-lib = "1.1.0"
-ktorVersion = "2.2.4"
+ktorVersion = "2.3.1-eap-669"
 dokkaVersion = "1.8.10"
 
 [libraries]
