@@ -37,3 +37,4 @@ include(":ktorfit-lib-common")
 include(":ktorfit-lib")
 include(":ktorfit-annotations")
 
+//./gradlew clean :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:publishToMavenLocal :ktorfit-lib:publishToMavenLocal :ktorfit-lib-common:publishToMavenLocal :compiler-plugin:publishToMavenLocal

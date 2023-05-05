@@ -1,6 +1,5 @@
 plugins {
     kotlin("multiplatform")
-    id("kotlinx-serialization")
     id("maven-publish")
     id("signing")
     id("com.vanniktech.maven.publish")
@@ -21,7 +20,7 @@ detekt {
     config = files("../detekt-config.yml")
     buildUponDefaultConfig = false
 }
-val light = false
+
 val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
 
 mavenPublishing {
@@ -80,7 +79,6 @@ kotlin {
             dependencies {
                 api(projects.ktorfitAnnotations)
                 api(libs.ktor.client.core)
-                implementation(libs.kotlinx.coroutines.core)
             }
         }
         val linuxX64Main by getting {
