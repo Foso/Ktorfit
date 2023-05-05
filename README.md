@@ -20,6 +20,13 @@ Ktorfit is a HTTP client/Kotlin Symbol Processor for Kotlin Multiplatform ( Andr
 ## How to use
 Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.github.io/Ktorfit/)
 
+## Compatibility
+
+The latest version of the library uses Kotlin version `1.8.20`.  
+
+| Version       |    Kotlin   |    KSP     |    Ktor     |
+|---------------|:----------:|:----------:|:----------:|
+| **_latest_**  | **1.8.20** | **1.0.10** |  **2.2.4** | 
 
 ## 👷 Project Structure
 * <kbd>compiler plugin</kbd> - module with source for the compiler plugin
