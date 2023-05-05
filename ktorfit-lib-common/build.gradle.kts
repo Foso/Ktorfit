@@ -108,7 +108,7 @@ kotlin {
                 implementation(libs.ktor.client.mock)
                 implementation(libs.junit)
                 implementation(libs.mockito.kotlin)
-
+                implementation(libs.ktor.client.cio.jvm)
             }
         }
         val iosX64Main by getting
