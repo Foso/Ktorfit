@@ -34,6 +34,10 @@ Gradle:
 plugins {
   id("de.jensklingenberg.ktorfit") version "1.0.0"
 }
+
+configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
+    version = "1.2.0"
+}
 ```
 
 KSP:
