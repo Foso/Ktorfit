@@ -8,8 +8,8 @@ plugins {
 }
 
 version = "1.0"
-val ktorVersion = "2.2.4"
-val ktorfitVersion = "1.1.0"
+val ktorVersion = "2.3.0"
+val ktorfitVersion = "1.2.0"
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     version = ktorfitVersion
@@ -83,7 +83,6 @@ kotlin {
 
             }
         }
-        val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting

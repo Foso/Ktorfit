@@ -21,6 +21,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Bumped
 
+1.2.0 - 2023-05-05
+========================================
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+### Bumped
+Now based on Ktor 2.3.0
+
 1.1.0 - 2023-04-15
 ========================================
 

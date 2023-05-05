@@ -22,11 +22,10 @@ Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.g
 
 ## Compatibility
 
-The latest version of the library uses Kotlin version `1.8.20`.  
-
-| Version       |    Kotlin   |    KSP     |    Ktor     |
-|---------------|:----------:|:----------:|:----------:|
-| **_latest_**  | **1.8.20** | **1.0.10** |  **2.2.4** | 
+| Version      |    Kotlin   |    KSP     |   Ktor    |
+|--------------|:----------:|:----------:|:---------:|
+| **_latest_** | **1.8.20** | **1.0.10** | **2.3.0** | 
+| **_1.1.0_**  | **1.8.20** | **1.0.10** | **2.2.4** | 
 
 ## 👷 Project Structure
 * <kbd>compiler plugin</kbd> - module with source for the compiler plugin
