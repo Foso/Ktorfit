@@ -54,8 +54,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
         jvmTarget = "1.8"
     }
 }
-val ktor = "2.2.4"
-val compose_ui_version = "1.4.2"
+val ktor = "2.3.0"
+val compose_ui_version = "1.4.3"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")
     implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfit")
