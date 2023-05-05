@@ -27,6 +27,28 @@ Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.g
 | **_latest_** | **1.8.20** | **1.0.10** | **2.3.0** | 
 | **_1.1.0_**  | **1.8.20** | **1.0.10** | **2.2.4** | 
 
+# Release
+
+Gradle:
+```kotlin
+plugins {
+  id("de.jensklingenberg.ktorfit") version "1.0.0"
+}
+```
+
+KSP:
+```kotlin
+de.jensklingenberg.ktorfit:ktorfit-ksp:1.2.0
+```
+
+Ktorfit-lib/-light:
+```kotlin
+implementation("de.jensklingenberg.ktorfit:ktorfit-lib:1.2.0")
+or
+implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:1.2.0")
+```
+
+
 ## 👷 Project Structure
 * <kbd>compiler plugin</kbd> - module with source for the compiler plugin
 * <kbd>ktorfit-annotations</kbd> - module with annotations for the Ktorfit
