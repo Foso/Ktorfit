@@ -101,7 +101,8 @@ fun KSFunctionDeclaration.toFunctionData(
 
     val returnType = ReturnTypeData(
         resolvedFunctionReturnTypeName,
-        typeData.toString()
+        typeData.toString(),
+        funcDeclaration.returnType
     )
 
     val functionAnnotationList = mutableListOf<FunctionAnnotation>()

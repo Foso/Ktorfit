@@ -7,7 +7,7 @@ import com.tschuchort.compiletesting.kspIncremental
 import com.tschuchort.compiletesting.symbolProcessorProviders
 
 fun getCompilation(sources: List<SourceFile>): KotlinCompilation {
-    return  KotlinCompilation().apply {
+    return KotlinCompilation().apply {
         this.sources = sources
         inheritClassPath = true
         symbolProcessorProviders = listOf(KtorfitProcessorProvider())

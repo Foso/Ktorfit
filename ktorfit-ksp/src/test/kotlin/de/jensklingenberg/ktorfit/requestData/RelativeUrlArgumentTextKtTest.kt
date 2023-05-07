@@ -12,7 +12,7 @@ class RelativeUrlArgumentTextKtTest {
 
     @Test
     fun testWithoutUrlAnnotation() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String"))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
         val text = getRelativeUrlArgumentText(HttpMethodAnnotation("GET", HttpMethod.GET), params)
         Assert.assertEquals("relativeUrl=\"GET\"", text)
@@ -22,7 +22,7 @@ class RelativeUrlArgumentTextKtTest {
     fun testWithPathAndUrlAnnotation() {
         val urlAnnotation = Url
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", "kotlin.String"), annotations = listOf(urlAnnotation))
+            ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(urlAnnotation))
         val params = listOf(parameterData)
         val text = getRelativeUrlArgumentText(HttpMethodAnnotation("posts", HttpMethod.GET), params)
         Assert.assertEquals("relativeUrl=\"posts\"", text)
@@ -32,7 +32,7 @@ class RelativeUrlArgumentTextKtTest {
     fun testWithUrlAnnotation() {
         val urlAnnotation = Url
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", "kotlin.String"), annotations = listOf(urlAnnotation))
+            ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(urlAnnotation))
         val params = listOf(parameterData)
         val text = getRelativeUrlArgumentText(HttpMethodAnnotation("", HttpMethod.GET), params)
         val expected = String.format("relativeUrl=\"%s{test1}\"", "$")

@@ -7,42 +7,65 @@ import de.jensklingenberg.ktorfit.model.annotations.FieldMap
 import org.junit.Assert
 import org.junit.Test
 
-class FieldArgumentsTextKtTest{
+class FieldArgumentsTextKtTest {
 
     @Test
     fun testWithoutFieldAnnotation() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String","kotlin.String"))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
         val text = getFieldArgumentsText(params)
-        Assert.assertEquals("",text)
+        Assert.assertEquals("", text)
     }
 
     @Test
     fun returnFieldWithPartAnnotation() {
         val fieldAnnotation = Field("world")
-        val fieldAnnotationEncoded = Field("world",true)
+        val fieldAnnotationEncoded = Field("world", true)
 
-        val parameterData1 = ParameterData("test1", ReturnTypeData("String","kotlin.String"), annotations = listOf(fieldAnnotation))
-        val parameterData2 = ParameterData("test1", ReturnTypeData("String","kotlin.String"), annotations = listOf(fieldAnnotationEncoded))
+        val parameterData1 = ParameterData(
+            "test1",
+            ReturnTypeData("String", "kotlin.String", null),
+            annotations = listOf(fieldAnnotation)
+        )
+        val parameterData2 = ParameterData(
+            "test1",
+            ReturnTypeData("String", "kotlin.String", null),
+            annotations = listOf(fieldAnnotationEncoded)
+        )
 
-        val params = listOf(parameterData1,parameterData2)
+        val params = listOf(parameterData1, parameterData2)
         val text = getFieldArgumentsText(params)
-        Assert.assertEquals("fields = listOf(DH(\"world\",test1,false), DH(\"world\",test1,true))",text)
+        Assert.assertEquals("fields = listOf(DH(\"world\",test1,false), DH(\"world\",test1,true))", text)
     }
 
     @Test
     fun returnFieldsWithFieldAndFieldMapAnnotation() {
         val fieldAnnotation = Field("world")
-        val fieldAnnotationEncoded = Field("world",true)
+        val fieldAnnotationEncoded = Field("world", true)
         val fieldMapAnnotation = FieldMap(true)
 
 
-        val parameterData1 = ParameterData("test1", ReturnTypeData("String","kotlin.String"), annotations = listOf(fieldAnnotation))
-        val parameterData2 = ParameterData("test2", ReturnTypeData("String","kotlin.String"), annotations = listOf(fieldAnnotationEncoded))
-        val parameterData3 = ParameterData("test3", ReturnTypeData("String","kotlin.String"), annotations = listOf(fieldMapAnnotation))
+        val parameterData1 = ParameterData(
+            "test1",
+            ReturnTypeData("String", "kotlin.String", null),
+            annotations = listOf(fieldAnnotation)
+        )
+        val parameterData2 = ParameterData(
+            "test2",
+            ReturnTypeData("String", "kotlin.String", null),
+            annotations = listOf(fieldAnnotationEncoded)
+        )
+        val parameterData3 = ParameterData(
+            "test3",
+            ReturnTypeData("String", "kotlin.String", null),
+            annotations = listOf(fieldMapAnnotation)
+        )
 
-        val params = listOf(parameterData1,parameterData2,parameterData3)
+        val params = listOf(parameterData1, parameterData2, parameterData3)
         val text = getFieldArgumentsText(params)
-        Assert.assertEquals("fields = listOf(DH(\"world\",test1,false), DH(\"world\",test2,true), DH(\"\",test3,true))",text)
+        Assert.assertEquals(
+            "fields = listOf(DH(\"world\",test1,false), DH(\"world\",test2,true), DH(\"\",test3,true))",
+            text
+        )
     }
 }

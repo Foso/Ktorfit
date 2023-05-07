@@ -2,7 +2,10 @@ package de.jensklingenberg.ktorfit.model.annotations
 
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSType
+import com.google.devtools.ksp.symbol.KSTypeReference
 import com.google.devtools.ksp.symbol.KSValueParameter
+import com.squareup.kotlinpoet.asTypeName
+import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import de.jensklingenberg.ktorfit.utils.*
 
@@ -67,8 +70,6 @@ fun KSValueParameter.getParamAnnotationList( logger: KSPLogger): List<ParameterA
         }
         paramAnnos.add(it)
     }
-
-
 
     ksValueParameter.getHeaderMapAnnotation()?.let {
         //TODO: Find out how isAssignableFrom works
@@ -136,3 +137,18 @@ fun KSValueParameter.getParamAnnotationList( logger: KSPLogger): List<ParameterA
     }
     return paramAnnos
 }
+
+
+private val KSTypeReference.isString get() = toTypeName() == StringType
+private val KSTypeReference.isStringNullable get() = toTypeName() == StringNullableType
+private val KSTypeReference.isList get() = toTypeName() == ListType
+private val KSTypeReference.isListNullable get() = toTypeName() == ListNullableType
+private val KSTypeReference.isArray get() = toTypeName() == ArrayType
+private val KSTypeReference.isArrayNullable get() = toTypeName() == ArrayNullableType
+
+private val StringType = String::class.asTypeName()
+private val StringNullableType = StringType.copy(nullable = true)
+private val ListType = List::class.asTypeName()
+private val ListNullableType = ListType.copy(nullable = true)
+private val ArrayType = Array::class.asTypeName()
+private val ArrayNullableType = ArrayType.copy(nullable = true)

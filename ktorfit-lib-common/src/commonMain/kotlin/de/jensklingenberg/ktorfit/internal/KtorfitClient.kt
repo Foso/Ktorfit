@@ -125,7 +125,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         requestData: RequestData
     ) {
 
-        handleHeaders(requestData.headers)
         handleFields(requestData.fields)
         handleParts(requestData.parts)
         handleQueries(requestData.queries)
@@ -170,40 +169,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         }
 
         return newUrl
-    }
-
-    private fun HttpRequestBuilder.handleHeaders(headers: List<DH>) {
-        headers {
-            headers.forEach {
-                when (val data = it.data) {
-                    is List<*> -> {
-                        data.filterNotNull().forEach { dataEntry ->
-                            append(it.key, dataEntry.toString())
-                        }
-                    }
-
-                    is Array<*> -> {
-                        data.filterNotNull().forEach { dataEntry ->
-                            append(it.key, dataEntry.toString())
-                        }
-                    }
-
-                    is Map<*, *> -> {
-                        for ((key, value) in data.entries) {
-                            append(key.toString(), value.toString())
-                        }
-                    }
-
-                    null -> {
-                        //Ignore this header
-                    }
-
-                    else -> {
-                        append(it.key, it.data.toString())
-                    }
-                }
-            }
-        }
     }
 
     private fun HttpRequestBuilder.handleFields(fields: List<DH>) {

@@ -37,7 +37,7 @@ class RequestConverterTextKtTest {
             }
 
         }
-        val qualifiemockKSName = object : KSName {
+        val qualifiedMockKSName = object : KSName {
             override fun asString(): String {
                 return "com.example.Test"
             }
@@ -52,13 +52,13 @@ class RequestConverterTextKtTest {
 
         }
         whenever(mockDec.packageName).thenAnswer { packagemockKSName }
-        whenever(mockDec.qualifiedName).thenAnswer { qualifiemockKSName }
+        whenever(mockDec.qualifiedName).thenAnswer { qualifiedMockKSName }
         val ksType = mock<KSType>()
         whenever(ksType.declaration).thenAnswer { mockDec }
-        val annos = listOf<ParameterAnnotation>(RequestType(ksType))
-        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String"), annotations = annos)
+        val parameterAnnotations = listOf<ParameterAnnotation>(RequestType(ksType))
+        val parameterData =
+            ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = parameterAnnotations)
         val params = listOf(parameterData)
-
 
 
         val actualSource = FunSpec.builder("TestFunction").addRequestConverterText(params).build().toString()

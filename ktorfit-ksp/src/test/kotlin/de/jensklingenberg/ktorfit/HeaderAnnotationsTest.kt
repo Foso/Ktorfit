@@ -6,6 +6,7 @@ import com.tschuchort.compiletesting.*
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.File
 
@@ -42,10 +43,10 @@ interface TestService {
     """
         )
 
-        val expectedHeadersArgumentText = "headers ="
+        val notExpectedHeadersArgumentText = "headers{"
 
         val compilation = KotlinCompilation().apply {
-            sources = listOf(source2,source)
+            sources = listOf(source2, source)
             inheritClassPath = true
             symbolProcessorProviders = listOf(KtorfitProcessorProvider())
             kspIncremental = true
@@ -59,9 +60,9 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedHeadersArgumentText)).isFalse()
-    }
 
+        Truth.assertThat(generatedFile.readText().contains(notExpectedHeadersArgumentText)).isFalse()
+    }
 
 
     @Test
@@ -84,7 +85,10 @@ interface TestService {
         )
 
 
-        val expectedHeadersArgumentText ="headers = listOf(DH(\"x\",\"y\"), DH(\"a\",\"b\"))"
+        val expectedHeadersArgumentText = "headers{\n" +
+                "        append(\"x\", \"y\")\n" +
+                "        append(\"a\", \"b\")\n" +
+                "        } "
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -95,8 +99,8 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedHeadersArgumentText)).isTrue()
+        assertEquals(true, generatedFile.exists())
+        assertEquals(true, generatedFile.readText().contains(expectedHeadersArgumentText))
     }
 
 
@@ -119,7 +123,81 @@ interface TestService {
         )
 
 
-        val expectedHeadersArgumentText ="headers = listOf(DH(\"testHeader\",testParameter))"
+        val expectedHeadersArgumentText = "headers{\n" +
+                "        append(\"testHeader\", testParameter.toString())} \n" +
+                "        }"
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+        assertEquals(true, generatedFile.exists())
+        assertEquals(true, generatedFile.readText().contains(expectedHeadersArgumentText))
+    }
+
+    @Test
+    fun whenHeaderAnnotationWithListTypeFound_AddHeader() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
+
+interface TestService {
+
+    @GET("posts")
+    suspend fun test(@Header("testHeader") testParameter: List<String>): String
+    
+}
+    """
+        )
+
+
+        val expectedHeadersArgumentText = "headers{\n" +
+                "        testParameter?.filterNotNull()?.forEach { append(\"testHeader\", it.toString()) }} \n" +
+                "        }"
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+        assertEquals(true, generatedFile.exists())
+        assertEquals(true, generatedFile.readText().contains(expectedHeadersArgumentText))
+    }
+
+    @Test
+    fun whenHeaderAnnotationWithArrayTypeFound_AddHeader() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
+
+interface TestService {
+
+    @GET("posts")
+    suspend fun test(@Header("testHeader") testParameter: Array<String>): String
+    
+}
+    """
+        )
+
+
+        val expectedHeadersArgumentText = "headers{\n" +
+                "        testParameter?.filterNotNull()?.forEach { append(\"testHeader\", it.toString()) }} \n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -153,7 +231,9 @@ interface TestService {
         )
 
 
-        val expectedHeadersArgumentText = "headers = listOf(DH(\"\",testParameter))"
+        val expectedHeadersArgumentText = "headers{\n" +
+                "        testParameter?.forEach { append(it.key, it.value.toString()) }\n" +
+                "        } "
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -164,8 +244,9 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedHeadersArgumentText)).isTrue()
+
+        assertEquals(true, generatedFile.exists())
+        assertEquals(true, generatedFile.readText().contains(expectedHeadersArgumentText))
     }
 
     @Test
@@ -215,7 +296,6 @@ interface TestService {
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
         Assert.assertTrue(result.messages.contains(HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING))
     }
-
 
 
 }

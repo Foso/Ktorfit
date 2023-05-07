@@ -12,8 +12,6 @@ import java.io.File
 class FieldAnnotationsTest {
 
 
-
-
     @Test
     fun whenNoFieldAnnotationsFound_KeepFieldsArgumentEmpty() {
 
@@ -45,7 +43,6 @@ interface TestService {
         Truth.assertThat(generatedFile.exists()).isTrue()
         Truth.assertThat(generatedFile.readText().contains(expectedFieldsArgumentText)).isFalse()
     }
-
 
 
     @Test
@@ -162,7 +159,7 @@ interface TestService {
         )
 
 
-        val expectedFieldsArgumentText =  "fields = listOf(DH(\"name\",testField,false), DH(\"\",name,false)),"
+        val expectedFieldsArgumentText = "fields = listOf(DH(\"name\",testField,false), DH(\"\",name,false)),"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -230,7 +227,6 @@ interface TestService {
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
         Assert.assertTrue(result.messages.contains(KtorfitError.FIELD_MAP_KEYS_MUST_BE_OF_TYPE_STRING))
     }
-
 
 
 }

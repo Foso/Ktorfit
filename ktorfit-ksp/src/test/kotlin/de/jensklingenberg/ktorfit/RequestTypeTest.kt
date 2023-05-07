@@ -1,5 +1,7 @@
 import com.google.common.truth.Truth
-import com.tschuchort.compiletesting.*
+import com.tschuchort.compiletesting.KotlinCompilation
+import com.tschuchort.compiletesting.SourceFile
+import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.getCompilation
 import org.junit.Assert
 import org.junit.Test
@@ -48,7 +50,7 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Assert.assertEquals(true,generatedFile.exists())
-        Assert.assertEquals(true,generatedFile.readText().contains(expectedFunctionSource))
+        Assert.assertEquals(true, generatedFile.exists())
+        Assert.assertEquals(true, generatedFile.readText().contains(expectedFunctionSource))
     }
 }

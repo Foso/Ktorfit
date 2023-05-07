@@ -58,7 +58,7 @@ interface HeaderTestApi {
     suspend fun testHeaders(@Path("id") peopleId: Int ): People
 
     @GET("people/{id}/")
-    suspend fun testHeaderMap(@Path("id") peopleId: Int, @HeaderMap() name: Map<String,String>): People
+    suspend fun testHeaderMap(@Path("id") peopleId: Int, @HeaderMap() name: Map<String,String>?): People
 
 
 }

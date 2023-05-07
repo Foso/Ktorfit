@@ -72,7 +72,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         assertThat(generatedFile.exists()).isTrue()
-        Assert.assertEquals(expectedSource,generatedFile.readText())
+        Assert.assertEquals(expectedSource, generatedFile.readText())
     }
 
     @Test
@@ -166,7 +166,8 @@ interface TestService {
 
     @Test
     fun whenMultipleHttpMethodsFound_throwError() {
-        val source = SourceFile.kotlin("Source.kt", """
+        val source = SourceFile.kotlin(
+            "Source.kt", """
       package com.example.api
 
 import com.example.model.github.GithubFollowerResponseItem
@@ -187,7 +188,8 @@ interface GithubService {
     suspend fun test(): String
     
 }
-    """)
+    """
+        )
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
