@@ -1,12 +1,9 @@
 package de.jensklingenberg.ktorfit
 
-import KtorfitProcessorProvider
 import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
-import com.tschuchort.compiletesting.kspIncremental
 import com.tschuchort.compiletesting.kspSourcesDir
-import com.tschuchort.compiletesting.symbolProcessorProviders
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import org.junit.Assert
 import org.junit.Test
