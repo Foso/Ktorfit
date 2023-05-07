@@ -18,7 +18,8 @@ ktorfit-ksp:
   - "ktorfit-ksp/src/**/*"  
 
 ktorfit-lib:
-  - "ktorfit-lib/src/**/*"  
+  - "ktorfit-lib/src/**/*"
+  - "ktorfit-lib-common/src/**/*"
 
 sandbox:
   - "sandbox/src/**/*"  
