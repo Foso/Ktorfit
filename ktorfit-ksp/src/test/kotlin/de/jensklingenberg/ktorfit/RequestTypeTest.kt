@@ -26,12 +26,15 @@ interface TestService {
 
         val expectedFunctionSource = """public override suspend fun test(postId: String): String {
     val postId: Int = ktorfitClient.convertParameterType(postId,postId::class,Int::class)
-    val requestData = RequestData(method="GET",
-        relativeUrl="posts/{postId}/comments",
+    val _ext: HttpRequestBuilder.() -> Unit = {
+        this.method = HttpMethod.parse("GET") 
+        }
+    val requestData = RequestData(relativeUrl="posts/{postId}/comments",
         returnTypeData = TypeData("kotlin.String"),
         paths = listOf(DH("postId",postId,false)),
         requestTypeInfo=typeInfo<String>(),
-        returnTypeInfo = typeInfo<String>()) 
+        returnTypeInfo = typeInfo<String>(),
+        ktorfitRequestBuilder = _ext) 
 
     return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }"""

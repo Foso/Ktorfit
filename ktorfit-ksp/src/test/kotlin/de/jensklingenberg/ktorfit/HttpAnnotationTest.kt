@@ -1,14 +1,11 @@
 package de.jensklingenberg.ktorfit
 
-import KtorfitProcessorProvider
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.KotlinCompilation.ExitCode
 import com.tschuchort.compiletesting.SourceFile
-import com.tschuchort.compiletesting.kspIncremental
 import com.tschuchort.compiletesting.kspSourcesDir
-import com.tschuchort.compiletesting.symbolProcessorProviders
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import org.junit.Assert
 import org.junit.Test
@@ -25,6 +22,8 @@ package com.example.api
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.`internal`.KtorfitService
 import de.jensklingenberg.ktorfit.`internal`.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 import io.ktor.util.reflect.*
 import kotlin.OptIn
 
@@ -33,11 +32,14 @@ public class _TestServiceImpl : TestService, KtorfitService {
   public override lateinit var ktorfitClient: Client
 
   public override suspend fun test(): String {
-    val requestData = RequestData(method="GET",
-        relativeUrl="user",
+    val _ext: HttpRequestBuilder.() -> Unit = {
+        this.method = HttpMethod.parse("GET") 
+        }
+    val requestData = RequestData(relativeUrl="user",
         returnTypeData = TypeData("kotlin.String"),
         requestTypeInfo=typeInfo<String>(),
-        returnTypeInfo = typeInfo<String>()) 
+        returnTypeInfo = typeInfo<String>(),
+        ktorfitRequestBuilder = _ext) 
 
     return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }
@@ -91,12 +93,15 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = """public override suspend fun test(): String {
-    val requestData = RequestData(method="",
-        relativeUrl="user",
+        val expectedFunctionText = """ public override suspend fun test(): String {
+    val _ext: HttpRequestBuilder.() -> Unit = {
+        this.method = HttpMethod.parse("CUSTOM") 
+        }
+    val requestData = RequestData(relativeUrl="user",
         returnTypeData = TypeData("kotlin.String"),
         requestTypeInfo=typeInfo<String>(),
-        returnTypeInfo = typeInfo<String>()) 
+        returnTypeInfo = typeInfo<String>(),
+        ktorfitRequestBuilder = _ext) 
 
     return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }"""
@@ -125,7 +130,7 @@ import de.jensklingenberg.ktorfit.http.Body
 
 interface TestService {
 
-    @HTTP("GET","user",true)
+    @HTTP("GET2","user",true)
     suspend fun test(@Body body: String): String
     
 }"""
@@ -133,12 +138,15 @@ interface TestService {
 
 
         val expectedFunctionText = """public override suspend fun test(body: String): String {
-    val requestData = RequestData(method="GET",
-        relativeUrl="user",
-        bodyData = BodyData(body, typeInfo<String>()),
+    val _ext: HttpRequestBuilder.() -> Unit = {
+        this.method = HttpMethod.parse("GET2")
+        setBody(body) 
+        }
+    val requestData = RequestData(relativeUrl="user",
         returnTypeData = TypeData("kotlin.String"),
         requestTypeInfo=typeInfo<String>(),
-        returnTypeInfo = typeInfo<String>()) 
+        returnTypeInfo = typeInfo<String>(),
+        ktorfitRequestBuilder = _ext) 
 
     return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }"""

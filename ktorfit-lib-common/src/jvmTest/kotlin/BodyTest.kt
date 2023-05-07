@@ -1,9 +1,12 @@
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.internal.*
+import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
+import de.jensklingenberg.ktorfit.internal.RequestData
+import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.content.*
+import io.ktor.http.*
 import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -24,11 +27,14 @@ class BodyTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+                setBody("testBody")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
-                bodyData = BodyData("testBody", typeInfo<String>()),
                 returnTypeInfo = typeInfo<String>(),
                 requestTypeInfo = typeInfo<String>()
             )

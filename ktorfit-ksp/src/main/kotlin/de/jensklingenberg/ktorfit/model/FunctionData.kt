@@ -9,6 +9,7 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeVariableName
 import de.jensklingenberg.ktorfit.model.TypeData.Companion.getMyType
 import de.jensklingenberg.ktorfit.model.annotations.*
+import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
 import de.jensklingenberg.ktorfit.requestData.addRequestConverterText
 import de.jensklingenberg.ktorfit.requestData.getRequestDataArgumentText
 import de.jensklingenberg.ktorfit.utils.*
@@ -41,6 +42,11 @@ data class FunctionData(
                 ParameterSpec(it.name, TypeVariableName(it.type.name))
             })
             .addRequestConverterText(this.parameterDataList)
+            .addStatement(
+                getReqBuilderExtensionText(
+                    this,
+                )
+            )
             .addStatement(
                 getRequestDataArgumentText(
                     this,

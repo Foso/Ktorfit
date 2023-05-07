@@ -15,18 +15,17 @@ import io.ktor.util.reflect.*
  * Because on JS the qualifiedName reflection does not exist, it is inserted as arguments by the Compiler Plugin
  */
 public data class RequestData(
-    val method: String,
     val relativeUrl: String,
     val headers: List<DH> = emptyList(),
     val queries: List<DH> = emptyList(),
     val fields: List<DH> = emptyList(),
     val parts: Map<String, Any> = emptyMap(),
-    val bodyData: BodyData? = null,
     val returnTypeData: TypeData,
     val requestBuilder: HttpRequestBuilder.() -> Unit = {},
     val paths: List<DH> = emptyList(),
     val requestTypeInfo: TypeInfo,
-    val returnTypeInfo: TypeInfo
-)
+    val returnTypeInfo: TypeInfo,
+    val ktorfitRequestBuilder: HttpRequestBuilder.() -> Unit = {},
+    )
 
 public data class BodyData(val bodyData: Any? = null, val typeInfo: TypeInfo)

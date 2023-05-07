@@ -40,11 +40,14 @@ interface TestService {
 
 
         val expectedFunctionText = """public override suspend fun getPostsStreaming(): HttpStatement {
-    val requestData = RequestData(method="GET",
-        relativeUrl="posts",
+    val _ext: HttpRequestBuilder.() -> Unit = {
+        this.method = HttpMethod.parse("GET") 
+        }
+    val requestData = RequestData(relativeUrl="posts",
         returnTypeData = TypeData("io.ktor.client.statement.HttpStatement"),
         requestTypeInfo=typeInfo<HttpStatement>(),
-        returnTypeInfo = typeInfo<HttpStatement>()) 
+        returnTypeInfo = typeInfo<HttpStatement>(),
+        ktorfitRequestBuilder = _ext) 
 
     return ktorfitClient.suspendRequest<HttpStatement, HttpStatement>(requestData)!!
   }"""

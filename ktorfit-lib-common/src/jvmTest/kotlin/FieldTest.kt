@@ -3,6 +3,7 @@ import de.jensklingenberg.ktorfit.internal.*
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
+import io.ktor.http.*
 import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertTrue
@@ -26,8 +27,11 @@ class FieldTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(DH(testKey, testValue, false)),
@@ -52,8 +56,11 @@ class FieldTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(DH(testKey, testValue, true)),
@@ -79,8 +86,11 @@ class FieldTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(DH(testKey, testValue, false)),
@@ -106,8 +116,11 @@ class FieldTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "POST",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(DH(testKey, testMap, false)),

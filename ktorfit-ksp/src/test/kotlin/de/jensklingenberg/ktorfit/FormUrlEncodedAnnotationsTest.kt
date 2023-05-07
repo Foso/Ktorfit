@@ -89,13 +89,16 @@ interface TestService {
         )
 
         val expectedBodyDataArgumentText = """public override suspend fun test(id: String): String? {
-    val requestData = RequestData(method="POST",
-        relativeUrl="user",
+    val _ext: HttpRequestBuilder.() -> Unit = {
+        this.method = HttpMethod.parse("POST") 
+        }
+    val requestData = RequestData(relativeUrl="user",
         headers = listOf(DH("Content-Type","application/x-www-form-urlencoded")),
         fields = listOf(DH("id",id,false)),
         returnTypeData = TypeData("String?"),
         requestTypeInfo=typeInfo<String?>(),
-        returnTypeInfo = typeInfo<String?>()) 
+        returnTypeInfo = typeInfo<String?>(),
+        ktorfitRequestBuilder = _ext) 
 
     return ktorfitClient.suspendRequest<String?, String?>(requestData)!!
   }"""

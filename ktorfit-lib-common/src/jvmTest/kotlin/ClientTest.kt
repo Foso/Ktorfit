@@ -5,6 +5,7 @@ import de.jensklingenberg.ktorfit.internal.RequestData
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -29,8 +30,11 @@ class ClientTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(testBaseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse(expectedHTTPMethod)
+            }
             val requestData = RequestData(
-                method = expectedHTTPMethod,
+                ktorfitRequestBuilder = ext,
                 relativeUrl = testRelativeUrl,
                 returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),
@@ -54,8 +58,11 @@ class ClientTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(testBaseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = testRelativeUrl,
                 returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),
@@ -84,8 +91,11 @@ class ClientTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = relativeUrl,
                 returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),

@@ -6,13 +6,9 @@ import de.jensklingenberg.ktorfit.model.FunctionData
 
 
 fun getRequestDataArgumentText(functionData: FunctionData): String {
-    val methodAnnotation = functionData.httpMethodAnnotation
-    //METHOD
-    val method = "method=\"${methodAnnotation.httpMethod.keyword}\""
     //HEADERS
     val headersText = getHeadersArgumentText(functionData.annotations, functionData.parameterDataList)
-    //BODY
-    val body = getBodyDataText(functionData.parameterDataList)
+
     //URL
     val urlPath = getRelativeUrlArgumentText(functionData.httpMethodAnnotation, functionData.parameterDataList)
     val pathsText = getPathsText(functionData.parameterDataList)
@@ -23,12 +19,10 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
     val requestTypeInfoText = getRequestTypeInfoText(functionData.returnType)
     val returnTypeInfoText = getReturnTypeInfoText(functionData.returnType)
     val qualifiedTypeName = "returnTypeData = ${functionData.returnType.qualifiedName}"
-
+    val ktorfitRequestBuilderText = "ktorfitRequestBuilder = _ext"
     val args = listOf(
-        method,
         urlPath,
         headersText,
-        body,
         queryText,
         fieldsText,
         partsText,
@@ -36,7 +30,8 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
         qualifiedTypeName,
         pathsText,
         requestTypeInfoText,
-        returnTypeInfoText
+        returnTypeInfoText,
+        ktorfitRequestBuilderText
     ).filter { it.isNotEmpty() }.joinToString(",\n") { it }
 
     return "val requestData = ${requestDataClass.name}($args) \n"

@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
+import io.ktor.http.*
 import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertTrue
@@ -25,8 +26,11 @@ class PartsTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 parts = mapOf("description" to "test", "description2" to "test"),
