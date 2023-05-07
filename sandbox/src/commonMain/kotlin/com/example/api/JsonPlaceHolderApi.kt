@@ -21,6 +21,9 @@ interface JsonPlaceHolderApi {
     @GET("posts")
     fun callPosts(): Call<List<Post>>
 
+    @HTTP("GET2","posts")
+    fun callPostsCustomHttp(): Call<List<Post>>
+
     @GET("posts")
     fun suscallPosts(): Call<String>
 
