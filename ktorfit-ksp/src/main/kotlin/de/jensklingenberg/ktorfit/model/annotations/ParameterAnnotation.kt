@@ -137,3 +137,18 @@ fun KSValueParameter.getParamAnnotationList( logger: KSPLogger): List<ParameterA
     }
     return paramAnnos
 }
+
+
+private val KSTypeReference.isString get() = toTypeName() == StringType
+private val KSTypeReference.isStringNullable get() = toTypeName() == StringNullableType
+private val KSTypeReference.isList get() = toTypeName() == ListType
+private val KSTypeReference.isListNullable get() = toTypeName() == ListNullableType
+private val KSTypeReference.isArray get() = toTypeName() == ArrayType
+private val KSTypeReference.isArrayNullable get() = toTypeName() == ArrayNullableType
+
+private val StringType = String::class.asTypeName()
+private val StringNullableType = StringType.copy(nullable = true)
+private val ListType = List::class.asTypeName()
+private val ListNullableType = ListType.copy(nullable = true)
+private val ArrayType = Array::class.asTypeName()
+private val ArrayNullableType = ArrayType.copy(nullable = true)
