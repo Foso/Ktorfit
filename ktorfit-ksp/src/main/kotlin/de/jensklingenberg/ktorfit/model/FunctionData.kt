@@ -119,7 +119,7 @@ fun KSFunctionDeclaration.toFunctionData(
     }
 
     funcDeclaration.getHeaderAnnotation()?.let { headers ->
-        headers.path.forEach {
+        headers.value.forEach {
             //Check if headers are in valid format
             try {
                 val (key, value) = it.split(":")

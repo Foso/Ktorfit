@@ -9,7 +9,9 @@ import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.Body
 import de.jensklingenberg.ktorfit.model.annotations.CustomHttp
 
-
+/**
+ * This will generate the code for the HttpRequestBuilder
+ */
 @OptIn(KspExperimental::class)
 fun getReqBuilderExtensionText(functionData: FunctionData): String {
     val methodAnnotation = functionData.httpMethodAnnotation
