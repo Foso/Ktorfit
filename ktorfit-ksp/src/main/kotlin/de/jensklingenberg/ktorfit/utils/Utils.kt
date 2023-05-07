@@ -1,78 +1,12 @@
 package de.jensklingenberg.ktorfit.utils
 
-import com.google.devtools.ksp.KspExperimental
-import com.google.devtools.ksp.getAnnotationsByType
-import com.google.devtools.ksp.symbol.*
+import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSType
 import com.squareup.kotlinpoet.FileSpec
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.WILDCARDIMPORT
-import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.model.ktorfitClass
 import java.io.File
-
-@OptIn(KspExperimental::class)
-fun KSFunctionDeclaration.getHeadersAnnotation(): Headers? {
-    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Headers::class).firstOrNull()?.let { headers ->
-        return Headers(headers.value.toList())
-    }
-}
-
-@OptIn(KspExperimental::class)
-fun KSFunctionDeclaration.getFormUrlEncodedAnnotation(): FormUrlEncoded? {
-    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.FormUrlEncoded::class).firstOrNull()?.let {
-        return FormUrlEncoded()
-    }
-}
-
-@OptIn(KspExperimental::class)
-fun KSFunctionDeclaration.getStreamingAnnotation(): Streaming? {
-    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Streaming::class).firstOrNull()?.let {
-        return Streaming()
-    }
-}
-
-@OptIn(KspExperimental::class)
-fun KSFunctionDeclaration.getMultipartAnnotation(): Multipart? {
-    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Multipart::class).firstOrNull()?.let {
-        return Multipart()
-    }
-}
-
-@OptIn(KspExperimental::class)
-fun KSFunctionDeclaration.parseHTTPMethodAnno(name: String): HttpMethodAnnotation? {
-    return when (val annotation = this.getAnnotationByName(name)) {
-        null -> {
-            null
-        }
-
-        else -> {
-
-            if (name == "HTTP") {
-                this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.HTTP::class).firstOrNull()?.let {
-                    CustomHttp(it.path,HttpMethod.CUSTOM , it.hasBody,it.method)
-                }
-
-            } else {
-                val value = annotation.getArgumentValueByName<String>("value") ?: ""
-                HttpMethodAnnotation(value, HttpMethod.valueOf(name))
-            }
-
-        }
-    }
-}
-
-fun KSFunctionDeclaration.getAnnotationByName(name: String): KSAnnotation? {
-    return this.annotations.toList().firstOrNull { it.shortName.asString() == name }
-}
-
-fun <T> KSAnnotation.getArgumentValueByName(name: String): T? {
-    return this.arguments.firstOrNull { it.name?.asString() == name }?.value as? T
-}
-
-
-val KSFunctionDeclaration.isSuspend: Boolean
-    get() = (this).modifiers.contains(Modifier.SUSPEND)
-
 
 fun KSType?.resolveTypeName(): String {
     //TODO: Find better way to handle type alias Types

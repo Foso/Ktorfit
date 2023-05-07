@@ -14,9 +14,16 @@ fun KSValueParameter.getPathAnnotation(): Path? {
 }
 
 @OptIn(KspExperimental::class)
-fun KSValueParameter.getHeadersAnnotation(): Header? {
+fun KSValueParameter.getHeaderAnnotation(): Header? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Header::class).firstOrNull()?.let {
         return Header(it.value)
+    }
+}
+
+@OptIn(KspExperimental::class)
+fun KSValueParameter.getHeaderMapAnnotation(): HeaderMap? {
+    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.HeaderMap::class).firstOrNull()?.let {
+        return HeaderMap
     }
 }
 
@@ -31,6 +38,13 @@ fun KSValueParameter.getQueryAnnotation(): Query? {
 fun KSValueParameter.getQueryNameAnnotation(): QueryName? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.QueryName::class).firstOrNull()?.let {
         return QueryName(it.encoded)
+    }
+}
+
+@OptIn(KspExperimental::class)
+fun KSValueParameter.getQueryMapAnnotation(): QueryMap? {
+    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.QueryMap::class).firstOrNull()?.let {
+        return QueryMap(it.encoded)
     }
 }
 
@@ -63,27 +77,10 @@ fun KSValueParameter.getPartMapAnnotation(): PartMap? {
     }
 }
 
-
 @OptIn(KspExperimental::class)
 fun KSValueParameter.getRequestBuilderAnnotation(): RequestBuilder? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.ReqBuilder::class).firstOrNull()?.let {
         return RequestBuilder
-    }
-}
-
-
-@OptIn(KspExperimental::class)
-fun KSValueParameter.getQueryMapAnnotation(): QueryMap? {
-    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.QueryMap::class).firstOrNull()?.let {
-        return QueryMap(it.encoded)
-    }
-}
-
-
-@OptIn(KspExperimental::class)
-fun KSValueParameter.getHeaderMapAnnotation(): HeaderMap? {
-    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.HeaderMap::class).firstOrNull()?.let {
-        return HeaderMap
     }
 }
 

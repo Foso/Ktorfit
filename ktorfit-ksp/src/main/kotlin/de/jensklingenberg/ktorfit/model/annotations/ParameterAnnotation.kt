@@ -36,7 +36,7 @@ fun KSValueParameter.getParamAnnotationList( logger: KSPLogger): List<ParameterA
 
     val paramAnnos = mutableListOf<ParameterAnnotation>()
 
-    ksValueParameter.getHeadersAnnotation()?.let {
+    ksValueParameter.getHeaderAnnotation()?.let {
         paramAnnos.add(it)
     }
     ksValueParameter.getRequestBuilderAnnotation()?.let {
