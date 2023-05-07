@@ -1,12 +1,9 @@
 package de.jensklingenberg.ktorfit
 
-import KtorfitProcessorProvider
 import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
-import com.tschuchort.compiletesting.kspIncremental
 import com.tschuchort.compiletesting.kspSourcesDir
-import com.tschuchort.compiletesting.symbolProcessorProviders
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import org.junit.Assert
 import org.junit.Test
@@ -89,13 +86,16 @@ interface TestService {
         )
 
         val expectedBodyDataArgumentText = """public override suspend fun test(id: String): String? {
-    val requestData = RequestData(method="POST",
-        relativeUrl="user",
+    val _ext: HttpRequestBuilder.() -> Unit = {
+        this.method = HttpMethod.parse("POST") 
+        }
+    val requestData = RequestData(relativeUrl="user",
         headers = listOf(DH("Content-Type","application/x-www-form-urlencoded")),
         fields = listOf(DH("id",id,false)),
         returnTypeData = TypeData("String?"),
         requestTypeInfo=typeInfo<String?>(),
-        returnTypeInfo = typeInfo<String?>()) 
+        returnTypeInfo = typeInfo<String?>(),
+        ktorfitRequestBuilder = _ext) 
 
     return ktorfitClient.suspendRequest<String?, String?>(requestData)!!
   }"""

@@ -2,6 +2,7 @@ import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.internal.*
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -21,8 +22,11 @@ class HeaderTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 headers = listOf(DH("Content-Type", "application/json")),
@@ -43,8 +47,11 @@ class HeaderTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 headers = listOf(DH("Content-Type", null)),
@@ -72,8 +79,11 @@ class HeaderTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 headers = listOf(DH("Accept", testList)),
@@ -101,8 +111,11 @@ class HeaderTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 headers = listOf(DH("Accept", testList)),
@@ -130,8 +143,11 @@ class HeaderTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 headers = listOf(DH("", testMap)),

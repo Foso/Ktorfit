@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.internal.RequestData
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -17,7 +18,7 @@ class BuilderTest {
     @Test
     fun whenBaseUrlNotEndingWithSlashThrowError() {
         try {
-           Ktorfit.Builder().baseUrl("http://www.example.com").build()
+            Ktorfit.Builder().baseUrl("http://www.example.com").build()
         } catch (illegal: IllegalStateException) {
             assert(illegal.message == "Base URL needs to end with /")
         }
@@ -60,8 +61,11 @@ class BuilderTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(testBaseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse(expectedHTTPMethod)
+            }
             val requestData = RequestData(
-                method = expectedHTTPMethod,
+                ktorfitRequestBuilder = ext,
                 relativeUrl = testRelativeUrl,
                 returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),
@@ -89,8 +93,11 @@ class BuilderTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(testBaseUrl, false).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = expectedHTTPMethod,
+                ktorfitRequestBuilder = ext,
                 relativeUrl = testRelativeUrl,
                 returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),
@@ -117,8 +124,11 @@ class BuilderTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(testBaseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = testRelativeUrl,
                 returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),
@@ -147,8 +157,11 @@ class BuilderTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext: HttpRequestBuilder.() -> Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = relativeUrl,
                 returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),

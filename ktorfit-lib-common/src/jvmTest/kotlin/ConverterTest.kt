@@ -4,6 +4,7 @@ import de.jensklingenberg.ktorfit.internal.*
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import io.ktor.http.*
 import io.ktor.util.reflect.*
 import io.ktor.utils.io.errors.*
 import kotlinx.coroutines.flow.Flow
@@ -25,8 +26,11 @@ class ConverterTest {
 
             val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
             runBlocking {
+                val ext: HttpRequestBuilder.() -> Unit = {
+                    method = HttpMethod.parse("GET")
+                }
                 val requestData = RequestData(
-                    method = "GET",
+                    ktorfitRequestBuilder = ext,
                     relativeUrl = "",
                     returnTypeData = TypeData("kotlinx.coroutines.flow.Flow"),
                     headers = listOf(DH("Accept", "application/json")),
@@ -45,16 +49,16 @@ class ConverterTest {
 
         try {
 
-            val test = object : SuspendResponseConverter{
+            val test = object : SuspendResponseConverter {
                 override suspend fun <RequestType> wrapSuspendResponse(
                     typeData: TypeData,
                     requestFunction: suspend () -> Pair<TypeInfo, HttpResponse>,
                     ktorfit: Ktorfit
                 ): Any {
-                   return try {
+                    return try {
                         val (info, response) = requestFunction()
                         return response
-                    }catch (ex: Exception){
+                    } catch (ex: Exception) {
                         Assert.assertTrue(ex is IOException)
                     }
                 }
@@ -68,8 +72,11 @@ class ConverterTest {
 
             val ktorfit = Ktorfit.Builder().baseUrl("http://www.jensklingenberg.de/").responseConverter(test).build()
             runBlocking {
+                val ext: HttpRequestBuilder.() -> Unit = {
+                    method = HttpMethod.parse("GET")
+                }
                 val requestData = RequestData(
-                    method = "GET",
+                    ktorfitRequestBuilder = ext,
                     relativeUrl = "notexisting",
                     returnTypeData = TypeData("kotlinx.coroutines.flow.Flow"),
                     headers = listOf(DH("Accept", "application/json")),

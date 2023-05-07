@@ -124,12 +124,10 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     private fun HttpRequestBuilder.requestBuilder(
         requestData: RequestData
     ) {
-        this.method = HttpMethod.parse(requestData.method)
 
         handleHeaders(requestData.headers)
         handleFields(requestData.fields)
         handleParts(requestData.parts)
-        handleBody(requestData.bodyData)
         handleQueries(requestData.queries)
 
         val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl)
@@ -137,7 +135,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         val requestUrl = getRequestUrl(ktorfit.baseUrl, relativeUrl)
 
         url(requestUrl)
-
+        requestData.ktorfitRequestBuilder(this)
         requestData.requestBuilder(this)
     }
 
@@ -152,11 +150,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         }
     }
 
-    private fun HttpRequestBuilder.handleBody(body: BodyData?) {
-        body?.let {
-            setBody(it.bodyData, it.typeInfo)
-        }
-    }
 
     /**
      * This method replaces all parts of the [relativeUrl] which have curly braces

@@ -1,8 +1,9 @@
 package de.jensklingenberg.ktorfit
 
-import KtorfitProcessorProvider
 import com.google.common.truth.Truth
-import com.tschuchort.compiletesting.*
+import com.tschuchort.compiletesting.KotlinCompilation
+import com.tschuchort.compiletesting.SourceFile
+import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import org.junit.Assert
 import org.junit.Test
@@ -14,11 +15,14 @@ class UrlTest {
     @Test
     fun testFunctionWithGET() {
         val expectedFunctionSource = """public override suspend fun test(): String {
-    val requestData = RequestData(method="GET",
-        relativeUrl="user",
+    val _ext: HttpRequestBuilder.() -> Unit = {
+        this.method = HttpMethod.parse("GET") 
+        }
+    val requestData = RequestData(relativeUrl="user",
         returnTypeData = TypeData("kotlin.String"),
         requestTypeInfo=typeInfo<String>(),
-        returnTypeInfo = typeInfo<String>()) 
+        returnTypeInfo = typeInfo<String>(),
+        ktorfitRequestBuilder = _ext) 
 
     return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }"""
@@ -51,11 +55,14 @@ interface TestService {
     @Test
     fun testFunctionWithGETAndUrlAnno() {
         val expectedFunctionSource = """public override suspend fun test(url: String): String {
-    val requestData = RequestData(method="GET",
-        relativeUrl="$\{url}",
+    val _ext: HttpRequestBuilder.() -> Unit = {
+        this.method = HttpMethod.parse("GET") 
+        }
+    val requestData = RequestData(relativeUrl="$\{url}",
         returnTypeData = TypeData("kotlin.String"),
         requestTypeInfo=typeInfo<String>(),
-        returnTypeInfo = typeInfo<String>()) 
+        returnTypeInfo = typeInfo<String>(),
+        ktorfitRequestBuilder = _ext) 
 
     return ktorfitClient.suspendRequest<String, String>(requestData)!!
   }""".replace("\\{", "{")

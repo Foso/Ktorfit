@@ -124,6 +124,8 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     val ksClassDeclaration = this
     val imports = ksClassDeclaration.getFileImports().toMutableList().also {
         it.add("io.ktor.util.reflect.*")
+        it.add("io.ktor.client.request.*")
+        it.add("io.ktor.http.*")
     }
     val packageName = ksClassDeclaration.packageName.asString()
     val className = ksClassDeclaration.simpleName.asString()

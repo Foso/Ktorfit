@@ -2,6 +2,7 @@ import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.internal.*
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -28,8 +29,11 @@ class QueryTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext : HttpRequestBuilder.()->Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(DH(testKey, testValue, false)),
@@ -53,8 +57,11 @@ class QueryTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext : HttpRequestBuilder.()->Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(DH(testKey, null, false)),
@@ -79,8 +86,11 @@ class QueryTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext : HttpRequestBuilder.()->Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(DH(testKey, testValue, true)),
@@ -101,14 +111,17 @@ class QueryTest {
         val expectedValue = testValue.filterNotNull()
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                assertEquals(expectedValue,data.url.parameters.getAll(testKey))
+                assertEquals(expectedValue, data.url.parameters.getAll(testKey))
             }
         }
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext : HttpRequestBuilder.()->Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(DH(testKey, testValue, false)),
@@ -135,8 +148,11 @@ class QueryTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext : HttpRequestBuilder.()->Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(DH(testKey, testValue, false)),
@@ -161,8 +177,11 @@ class QueryTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext : HttpRequestBuilder.()->Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(DH(testKey, testValue, false)),
@@ -187,8 +206,11 @@ class QueryTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext : HttpRequestBuilder.()->Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(DH(testKey, testValue, false)),
@@ -212,8 +234,11 @@ class QueryTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext : HttpRequestBuilder.()->Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(DH(testKey, testMap, false)),
@@ -237,8 +262,11 @@ class QueryTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(baseUrl).httpClient(HttpClient(engine)).build()
         runBlocking {
+            val ext : HttpRequestBuilder.()->Unit = {
+                method = HttpMethod.parse("GET")
+            }
             val requestData = RequestData(
-                method = "GET",
+                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
                 queries = listOf(DH(testKey, testMap, false)),
