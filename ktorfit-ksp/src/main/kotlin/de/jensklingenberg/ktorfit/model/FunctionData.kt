@@ -117,7 +117,7 @@ fun KSFunctionDeclaration.toFunctionData(
         )
     }
 
-    funcDeclaration.getHeadersAnnotation()?.let { headers ->
+    funcDeclaration.getHeaderAnnotation()?.let { headers ->
         headers.path.forEach {
             //Check if headers are in valid format
             try {
