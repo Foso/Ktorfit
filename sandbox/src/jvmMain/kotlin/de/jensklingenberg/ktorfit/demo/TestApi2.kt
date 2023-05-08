@@ -19,16 +19,18 @@ interface TestApi2 : StarWarsApi,  QueryNameTestApi {
 
 data class Test(val name: String)
 
-interface QueryMapApi {
-    @GET("people/{id}/")
-    suspend fun testQueryMap(@Path("id") peopleId: Int, @QueryMap(true) name: Map<String, Test>?): People
-}
+
 
 interface QueryTestApi {
 
+    @GET("people/{id}/")
+    suspend fun testQueryWithEncodedString(@Path("id") peopleId: Int, @Query("huhu",true) name: String): People
 
     @GET("people/{id}/")
-    suspend fun testQueryWithArray(@Path("id") peopleId: Int, @Query("huhu") name: Array<String?>): People
+    suspend fun testQueryWithString(@Path("id") peopleId: Int, @Query("huhu",false) name: String): People
+
+    @GET("people/{id}/")
+    suspend fun testQueryWithArray(@Path("id") peopleId: Int, @Query("huhu",true) name: Array<String?>): People
 
     @GET("people/{id}/")
     suspend fun testQueryWithList(@Path("id") peopleId: Int, @Query("huhu") name: List<String?>): People
@@ -39,6 +41,9 @@ interface QueryTestApi {
 
     @GET("people/{id}/")
     suspend fun testQueryNameList(@Path("id") peopleId: Int, @QueryName(false) name: List<String?>): People
+
+    @GET("people/{id}/")
+    suspend fun testQueryMap(@Path("id") peopleId: Int, @QueryMap(true) name: Map<String, Test>?): People
 
 
 }

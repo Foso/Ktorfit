@@ -58,8 +58,7 @@ interface JsonPlaceHolderApi {
     @Headers(value = ["Content-Type: application/json"])
     @GET("comments")
     fun getCommentsByPostIdQuery(
-        @QueryName(true) postId: List<String>,
-        @HeaderMap() postId2: Map<String, *>
+        @QueryName(false) postId: List<String>,
     ): Call<String>
 
     @Headers(value = ["Content-Type: application/json"])

@@ -127,7 +127,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
         handleFields(requestData.fields)
         handleParts(requestData.parts)
-        handleQueries(requestData.queries)
+        //handleQueries(requestData.queries)
 
         val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl)
 
@@ -295,7 +295,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
             if (key.isEmpty()) {
                 url.encodedParameters.appendAll(value, emptyList())
             } else {
-                encodedParameter(key, value)
+                value.let{ url.encodedParameters.append(key, it.toString()) }
             }
 
         } else {
