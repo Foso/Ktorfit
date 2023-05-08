@@ -2,7 +2,10 @@ package de.jensklingenberg.ktorfit.model.annotations
 
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSType
+import com.google.devtools.ksp.symbol.KSTypeReference
 import com.google.devtools.ksp.symbol.KSValueParameter
+import com.squareup.kotlinpoet.asTypeName
+import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import de.jensklingenberg.ktorfit.utils.*
 
@@ -67,8 +70,6 @@ fun KSValueParameter.getParamAnnotationList( logger: KSPLogger): List<ParameterA
         }
         paramAnnos.add(it)
     }
-
-
 
     ksValueParameter.getHeaderMapAnnotation()?.let {
         //TODO: Find out how isAssignableFrom works

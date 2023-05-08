@@ -87,10 +87,12 @@ interface TestService {
 
         val expectedBodyDataArgumentText = """public override suspend fun test(id: String): String? {
     val _ext: HttpRequestBuilder.() -> Unit = {
-        this.method = HttpMethod.parse("POST") 
+        this.method = HttpMethod.parse("POST")
+        headers{
+        append("Content-Type", "application/x-www-form-urlencoded")
+        } 
         }
     val requestData = RequestData(relativeUrl="user",
-        headers = listOf(DH("Content-Type","application/x-www-form-urlencoded")),
         fields = listOf(DH("id",id,false)),
         returnTypeData = TypeData("String?"),
         requestTypeInfo=typeInfo<String?>(),
@@ -109,8 +111,8 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Assert.assertEquals(true,generatedFile.exists())
-        Assert.assertEquals(true,generatedFile.readText().contains(expectedBodyDataArgumentText))
+        Assert.assertEquals(true, generatedFile.exists())
+        Assert.assertEquals(true, generatedFile.readText().contains(expectedBodyDataArgumentText))
     }
 
     @Test

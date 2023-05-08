@@ -6,8 +6,6 @@ import de.jensklingenberg.ktorfit.model.FunctionData
 
 
 fun getRequestDataArgumentText(functionData: FunctionData): String {
-    //HEADERS
-    val headersText = getHeadersArgumentText(functionData.annotations, functionData.parameterDataList)
 
     //URL
     val urlPath = getRelativeUrlArgumentText(functionData.httpMethodAnnotation, functionData.parameterDataList)
@@ -22,7 +20,6 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
     val ktorfitRequestBuilderText = "ktorfitRequestBuilder = _ext"
     val args = listOf(
         urlPath,
-        headersText,
         queryText,
         fieldsText,
         partsText,

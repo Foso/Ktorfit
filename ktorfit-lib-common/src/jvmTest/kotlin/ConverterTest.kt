@@ -33,7 +33,6 @@ class ConverterTest {
                     ktorfitRequestBuilder = ext,
                     relativeUrl = "",
                     returnTypeData = TypeData("kotlinx.coroutines.flow.Flow"),
-                    headers = listOf(DH("Accept", "application/json")),
                     requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
                 )
                 KtorfitClient(ktorfit).request<Flow<String>, String>(requestData)
@@ -79,7 +78,6 @@ class ConverterTest {
                     ktorfitRequestBuilder = ext,
                     relativeUrl = "notexisting",
                     returnTypeData = TypeData("kotlinx.coroutines.flow.Flow"),
-                    headers = listOf(DH("Accept", "application/json")),
                     requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
                 )
                 KtorfitClient(ktorfit).suspendRequest<Flow<String>, String>(requestData)

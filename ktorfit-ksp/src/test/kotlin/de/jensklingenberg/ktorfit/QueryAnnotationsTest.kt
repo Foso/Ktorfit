@@ -46,7 +46,6 @@ interface TestService {
     }
 
 
-
     @Test
     fun testQuery() {
 
@@ -206,7 +205,8 @@ interface TestService {
         )
 
 
-        val expectedQueriesArgumentText =  "queries = listOf(DH(\"name\",testQuery,false), DH(\"\",testQueryName,false), DH(\"\",name,false)),"
+        val expectedQueriesArgumentText =
+            "queries = listOf(DH(\"name\",testQuery,false), DH(\"\",testQueryName,false), DH(\"\",name,false)),"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

@@ -10,7 +10,7 @@ class GetPathsTextKtTest {
 
     @Test
     fun testWithoutPathAnnotation() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String"))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
         val text = getPathsText(params)
         Assert.assertEquals("", text)
@@ -20,7 +20,7 @@ class GetPathsTextKtTest {
     fun testWithPathAnnotation() {
         val path = Path("testValue")
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", "kotlin.String"), annotations = listOf(path))
+            ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(path))
         val params = listOf(parameterData)
         val text = getPathsText(params)
         Assert.assertEquals("paths = listOf(DH(\"testValue\",test1,false))", text)
