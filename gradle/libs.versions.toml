@@ -12,7 +12,7 @@ ktorVersion = "2.3.0"
 dokkaVersion = "1.8.10"
 
 [libraries]
-android-build-gradle = "com.android.tools.build:gradle:7.4.0"
+android-build-gradle = "com.android.tools.build:gradle:8.0.1"
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokkaVersion" }
 gradle-maven-publish-plugin = "com.vanniktech:gradle-maven-publish-plugin:0.24.0"
