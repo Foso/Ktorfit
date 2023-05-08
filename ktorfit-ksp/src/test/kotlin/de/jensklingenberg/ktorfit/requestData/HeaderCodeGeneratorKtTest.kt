@@ -13,7 +13,7 @@ import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
-class HeadersArgumentTextKtTest {
+class HeaderCodeGeneratorKtTest {
 
     private val arrayType = mock<KSType>()
     private val listType = mock<KSType>()
@@ -33,8 +33,7 @@ class HeadersArgumentTextKtTest {
             ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(Header("foo")))
         val params = listOf(parameterData)
         val text = getHeadersCode(listOf(), params, listType, arrayType)
-        val expected = "headers{\n" +
-                "append(\"foo\", test1.toString())}"
+        val expected = "headers{\nappend(\"foo\", test1.toString())\n}"
         Assert.assertEquals(expected, text)
     }
 
@@ -54,7 +53,8 @@ class HeadersArgumentTextKtTest {
         val params = listOf(parameterData)
         val text = getHeadersCode(listOf(), params, listType, arrayType)
         val expected = "headers{\n" +
-                "test1?.filterNotNull()?.forEach { append(\"foo\", it.toString()) }}"
+                "test1?.filterNotNull()?.forEach { append(\"foo\", it.toString()) }\n" +
+                "}"
         Assert.assertEquals(expected, text)
     }
 
@@ -74,7 +74,8 @@ class HeadersArgumentTextKtTest {
         val params = listOf(parameterData)
         val text = getHeadersCode(listOf(), params, listType, arrayType)
         val expected = "headers{\n" +
-                "test1?.filterNotNull()?.forEach { append(\"foo\", it.toString()) }}"
+                "test1?.filterNotNull()?.forEach { append(\"foo\", it.toString()) }\n" +
+                "}"
         Assert.assertEquals(expected, text)
     }
 

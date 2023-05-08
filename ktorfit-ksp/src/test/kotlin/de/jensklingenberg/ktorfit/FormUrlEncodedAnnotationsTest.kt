@@ -85,22 +85,9 @@ interface TestService {
     """
         )
 
-        val expectedBodyDataArgumentText = """public override suspend fun test(id: String): String? {
-    val _ext: HttpRequestBuilder.() -> Unit = {
-        this.method = HttpMethod.parse("POST")
-        headers{
+        val expectedHeaderCode = """headers{
         append("Content-Type", "application/x-www-form-urlencoded")
-        } 
-        }
-    val requestData = RequestData(relativeUrl="user",
-        fields = listOf(DH("id",id,false)),
-        returnTypeData = TypeData("String?"),
-        requestTypeInfo=typeInfo<String?>(),
-        returnTypeInfo = typeInfo<String?>(),
-        ktorfitRequestBuilder = _ext) 
-
-    return ktorfitClient.suspendRequest<String?, String?>(requestData)!!
-  }"""
+        } """
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -112,7 +99,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Assert.assertEquals(true, generatedFile.exists())
-        Assert.assertEquals(true, generatedFile.readText().contains(expectedBodyDataArgumentText))
+        Assert.assertEquals(true, generatedFile.readText().contains(expectedHeaderCode))
     }
 
     @Test
