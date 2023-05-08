@@ -24,7 +24,7 @@ fun getHeadersCode(
     val headerAnnotationText =
         parameterDataList
             .filter { it.hasAnnotation<Header>() }
-            .joinToString("\n") { parameterData ->
+            .joinToString("") { parameterData ->
                 val paramName = parameterData.name
 
                 val starProj = parameterData.type.parameterType?.resolve()?.starProjection()
@@ -35,11 +35,11 @@ fun getHeadersCode(
 
                 when {
                     isList || isArray -> {
-                        "${paramName}?.filterNotNull()?.forEach { append(\"${headerName}\", it.toString()) }"
+                        "${paramName}?.filterNotNull()?.forEach { append(\"${headerName}\", it.toString()) }\n"
                     }
 
                     else -> {
-                        "append(\"${headerName}\", ${paramName}.toString())"
+                        "append(\"${headerName}\", ${paramName}.toString())\n"
                     }
                 }
             }
