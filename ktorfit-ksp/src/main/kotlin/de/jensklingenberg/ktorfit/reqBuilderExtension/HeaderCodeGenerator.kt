@@ -18,7 +18,7 @@ fun getHeadersCode(
 ): String {
 
     val contentTypeText = if (functionAnnotations.anyInstance<FormUrlEncoded>()) {
-        "append(\"Content-Type\", \"application/x-www-form-urlencoded\")\n"
+        "append(\"%s\", \"%s\")\n".format("Content-Type", "application/x-www-form-urlencoded")
     } else ""
 
     val headerAnnotationText =
@@ -35,11 +35,11 @@ fun getHeadersCode(
 
                 when {
                     isList || isArray -> {
-                        "${paramName}?.filterNotNull()?.forEach { append(\"${headerName}\", it.toString()) }\n"
+                        "%s?.filterNotNull()?.forEach { append(\"%s\", it.toString()) }\n".format(paramName, headerName)
                     }
 
                     else -> {
-                        "append(\"${headerName}\", ${paramName}.toString())\n"
+                        "append(\"%s\", %s.toString())\n".format(headerName, paramName)
                     }
                 }
             }
@@ -50,7 +50,7 @@ fun getHeadersCode(
         ?.value
         ?.joinToString("") {
             val (key, value) = it.split(":")
-            "append(\"$key\", \"${value.trim()}\")\n"
+            "append(\"%s\", \"%s\")\n".format(key, value.trim())
         } ?: ""
 
     val headerMapAnnotationText = parameterDataList

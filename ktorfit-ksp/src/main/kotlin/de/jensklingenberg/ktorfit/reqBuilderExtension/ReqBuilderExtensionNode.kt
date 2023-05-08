@@ -42,6 +42,6 @@ fun getReqBuilderExtensionText(functionData: FunctionData): String {
 
 fun getBodyDataText(params: List<ParameterData>): String {
     return params.firstOrNull { it.hasAnnotation<Body>() }?.let {
-        "setBody(" + it.name + ")"
+        "setBody(%s)".format(it.name)
     } ?: ""
 }

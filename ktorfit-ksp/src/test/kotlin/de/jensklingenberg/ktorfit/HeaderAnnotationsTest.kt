@@ -23,7 +23,7 @@ import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
 
 
-class Test<T>()
+class Test<T>
 
 interface TestService {
 
@@ -52,16 +52,15 @@ interface TestService {
             kspIncremental = true
         }
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-
-        Truth.assertThat(generatedFile.readText().contains(notExpectedHeadersArgumentText)).isFalse()
+        assertEquals(true, generatedFile.exists())
+        val actualSource = generatedFile.readText()
+        assertEquals(false, actualSource.contains(notExpectedHeadersArgumentText))
     }
 
 
@@ -92,15 +91,15 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         assertEquals(true, generatedFile.exists())
-        assertEquals(true, generatedFile.readText().contains(expectedHeadersArgumentText))
+        val actualSource = generatedFile.readText()
+        assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
     }
 
     @Test
@@ -134,15 +133,15 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         assertEquals(true, generatedFile.exists())
-        assertEquals(true, generatedFile.readText().contains(expectedHeadersArgumentText))
+        val actualSource = generatedFile.readText()
+        assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
     }
 
 
@@ -166,20 +165,20 @@ interface TestService {
 
 
         val expectedHeadersArgumentText = "headers{\n" +
-                "        append(\"testHeader\", testParameter.toString())} \n" +
+                "        append(\"testHeader\", testParameter.toString())\n" +
                 "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         assertEquals(true, generatedFile.exists())
-        assertEquals(true, generatedFile.readText().contains(expectedHeadersArgumentText))
+        val actualSource = generatedFile.readText()
+        assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
     }
 
     @Test
@@ -202,12 +201,12 @@ interface TestService {
 
 
         val expectedHeadersArgumentText = "headers{\n" +
-                "        testParameter?.filterNotNull()?.forEach { append(\"testHeader\", it.toString()) }} \n" +
+                "        testParameter?.filterNotNull()?.forEach { append(\"testHeader\", it.toString()) }\n" +
                 "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
@@ -215,7 +214,8 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         assertEquals(true, generatedFile.exists())
-        assertEquals(true, generatedFile.readText().contains(expectedHeadersArgumentText))
+        val actualSource = generatedFile.readText()
+        assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
     }
 
     @Test
@@ -238,20 +238,21 @@ interface TestService {
 
 
         val expectedHeadersArgumentText = "headers{\n" +
-                "        testParameter?.filterNotNull()?.forEach { append(\"testHeader\", it.toString()) }} \n" +
+                "        testParameter?.filterNotNull()?.forEach { append(\"testHeader\", it.toString()) }\n" +
                 "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedHeadersArgumentText)).isTrue()
+        assertEquals(true, generatedFile.exists())
+        val actualSource = generatedFile.readText()
+        assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
     }
 
     @Test
@@ -279,16 +280,15 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-
         assertEquals(true, generatedFile.exists())
-        assertEquals(true, generatedFile.readText().contains(expectedHeadersArgumentText))
+        val actualSource = generatedFile.readText()
+        assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
     }
 
     @Test
@@ -311,7 +311,8 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+
         Assert.assertTrue(result.messages.contains(HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP))
     }
 
@@ -335,7 +336,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
         Assert.assertTrue(result.messages.contains(HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING))
     }
 
