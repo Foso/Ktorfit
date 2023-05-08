@@ -10,11 +10,12 @@ import de.jensklingenberg.ktorfit.model.toClassData
 @AutoService(SymbolProcessorProvider::class)
 public class KtorfitProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return KtorfitProcessor(environment)
+        return KtorfitProcessor(environment, KtorfitOptions(environment.options))
     }
 }
 
-public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : SymbolProcessor {
+public class KtorfitProcessor(env: SymbolProcessorEnvironment, private val ktorfitOptions: KtorfitOptions) :
+    SymbolProcessor {
     private val codeGenerator: CodeGenerator = env.codeGenerator
     private val logger: KSPLogger = env.logger
     private var invoked = false
@@ -24,7 +25,7 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
     }
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-       val type = (env.options["Ktorfit_Errors"]?.toIntOrNull()) ?: 1
+        val type = ktorfitOptions.errorsLoggingType
         ktorfitResolver = resolver
         if (invoked) {
             return emptyList()
@@ -33,7 +34,7 @@ public class KtorfitProcessor(private val env: SymbolProcessorEnvironment) : Sym
 
         val classDataList = getAnnotatedFunctions(ktorfitResolver).groupBy { it.closestClassDeclaration()!! }
             .map { (classDec) ->
-                classDec.toClassData( KtorfitLogger(logger,type))
+                classDec.toClassData(KtorfitLogger(logger, type))
             }
 
         generateImplClass(classDataList, codeGenerator)
