@@ -13,7 +13,6 @@ import io.ktor.util.reflect.*
  */
 public data class RequestData(
     val relativeUrl: String,
-    val queries: List<DH> = emptyList(),
     val fields: List<DH> = emptyList(),
     val parts: Map<String, Any> = emptyMap(),
     val returnTypeData: TypeData,

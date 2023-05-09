@@ -11,8 +11,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.io.File
 
-class HttpAnnotationTest() {
-
+class HttpAnnotationTest {
 
     @Test
     fun testFunctionWithGET() {
@@ -35,13 +34,13 @@ public class _TestServiceImpl : TestService, KtorfitService {
     val _ext: HttpRequestBuilder.() -> Unit = {
         this.method = HttpMethod.parse("GET") 
         }
-    val requestData = RequestData(relativeUrl="user",
+    val _requestData = RequestData(relativeUrl="user",
         returnTypeData = TypeData("kotlin.String"),
         requestTypeInfo=typeInfo<String>(),
         returnTypeInfo = typeInfo<String>(),
         ktorfitRequestBuilder = _ext) 
 
-    return ktorfitClient.suspendRequest<String, String>(requestData)!!
+    return ktorfitClient.suspendRequest<String, String>(_requestData)!!
   }
 }
 
@@ -97,13 +96,13 @@ interface TestService {
     val _ext: HttpRequestBuilder.() -> Unit = {
         this.method = HttpMethod.parse("CUSTOM") 
         }
-    val requestData = RequestData(relativeUrl="user",
+    val _requestData = RequestData(relativeUrl="user",
         returnTypeData = TypeData("kotlin.String"),
         requestTypeInfo=typeInfo<String>(),
         returnTypeInfo = typeInfo<String>(),
         ktorfitRequestBuilder = _ext) 
 
-    return ktorfitClient.suspendRequest<String, String>(requestData)!!
+    return ktorfitClient.suspendRequest<String, String>(_requestData)!!
   }"""
 
         val compilation = getCompilation(listOf(source))
@@ -142,13 +141,13 @@ interface TestService {
         this.method = HttpMethod.parse("GET2")
         setBody(body) 
         }
-    val requestData = RequestData(relativeUrl="user",
+    val _requestData = RequestData(relativeUrl="user",
         returnTypeData = TypeData("kotlin.String"),
         requestTypeInfo=typeInfo<String>(),
         returnTypeInfo = typeInfo<String>(),
         ktorfitRequestBuilder = _ext) 
 
-    return ktorfitClient.suspendRequest<String, String>(requestData)!!
+    return ktorfitClient.suspendRequest<String, String>(_requestData)!!
   }"""
 
         val compilation = getCompilation(listOf(source))

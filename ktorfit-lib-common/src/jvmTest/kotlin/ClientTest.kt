@@ -34,11 +34,11 @@ class ClientTest {
                 method = HttpMethod.parse(expectedHTTPMethod)
             }
             val requestData = RequestData(
-                ktorfitRequestBuilder = ext,
                 relativeUrl = testRelativeUrl,
                 returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),
-                returnTypeInfo = typeInfo<String>()
+                returnTypeInfo = typeInfo<String>(),
+                ktorfitRequestBuilder = ext
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -62,11 +62,11 @@ class ClientTest {
                 method = HttpMethod.parse("GET")
             }
             val requestData = RequestData(
-                ktorfitRequestBuilder = ext,
                 relativeUrl = testRelativeUrl,
                 returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),
-                returnTypeInfo = typeInfo<String>()
+                returnTypeInfo = typeInfo<String>(),
+                ktorfitRequestBuilder = ext
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -95,11 +95,11 @@ class ClientTest {
                 method = HttpMethod.parse("GET")
             }
             val requestData = RequestData(
-                ktorfitRequestBuilder = ext,
                 relativeUrl = relativeUrl,
                 returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),
-                returnTypeInfo = typeInfo<String>()
+                returnTypeInfo = typeInfo<String>(),
+                ktorfitRequestBuilder = ext
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }

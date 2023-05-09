@@ -105,16 +105,14 @@ interface TestService {
 import de.jensklingenberg.ktorfit.http.GET
 
 interface TestService {
-
     @GET("posts")
     suspend fun test(): String
-    
 }
     """
         )
 
 
-        val expectedBodyDataArgumentText = "bodyData ="
+        val notExpectedBodyDataArgumentText = "setBody"
 
         val compilation = getCompilation(listOf(source))
 
@@ -127,7 +125,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedBodyDataArgumentText)).isFalse()
+        Truth.assertThat(generatedFile.readText().contains(notExpectedBodyDataArgumentText)).isFalse()
     }
 
 

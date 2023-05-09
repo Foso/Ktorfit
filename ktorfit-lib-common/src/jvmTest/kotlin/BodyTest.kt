@@ -32,11 +32,11 @@ class BodyTest {
                 setBody("testBody")
             }
             val requestData = RequestData(
-                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
                 returnTypeData = TypeData("kotlin.String"),
+                requestTypeInfo = typeInfo<String>(),
                 returnTypeInfo = typeInfo<String>(),
-                requestTypeInfo = typeInfo<String>()
+                ktorfitRequestBuilder = ext
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }

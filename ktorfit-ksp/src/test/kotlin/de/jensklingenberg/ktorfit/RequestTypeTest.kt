@@ -31,14 +31,14 @@ interface TestService {
     val _ext: HttpRequestBuilder.() -> Unit = {
         this.method = HttpMethod.parse("GET") 
         }
-    val requestData = RequestData(relativeUrl="posts/{postId}/comments",
+    val _requestData = RequestData(relativeUrl="posts/{postId}/comments",
         returnTypeData = TypeData("kotlin.String"),
         paths = listOf(DH("postId",postId,false)),
         requestTypeInfo=typeInfo<String>(),
         returnTypeInfo = typeInfo<String>(),
         ktorfitRequestBuilder = _ext) 
 
-    return ktorfitClient.suspendRequest<String, String>(requestData)!!
+    return ktorfitClient.suspendRequest<String, String>(_requestData)!!
   }"""
 
         val compilation = getCompilation(listOf(source))
@@ -50,7 +50,6 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Assert.assertEquals(true, generatedFile.exists())
         Assert.assertEquals(true, generatedFile.readText().contains(expectedFunctionSource))
     }
 }

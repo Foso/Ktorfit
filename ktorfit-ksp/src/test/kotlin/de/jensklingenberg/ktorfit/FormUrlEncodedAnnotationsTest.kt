@@ -16,17 +16,14 @@ class FormUrlEncodedAnnotationsTest {
     fun whenFormUrlEncodedUsedWithNonBodyMethod_ThrowCompilationError() {
 
         val source = SourceFile.kotlin(
-            "Source.kt", """
-      package com.example.api
+            "Source.kt", """package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.FormUrlEncoded
 interface TestService {
-
-        @FormUrlEncoded
-    @GET("user")
-    suspend fun test(@Body id: String): String
-    
+@FormUrlEncoded
+@GET("user")
+suspend fun test(@Body id: String): String
 }
     """
         )
@@ -49,11 +46,9 @@ import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.FormUrlEncoded
 interface TestService {
-
-        @FormUrlEncoded
-    @POST("user")
-    suspend fun test(@Body id: String): String
-    
+@FormUrlEncoded
+@POST("user")
+suspend fun test(@Body id: String): String
 }
     """
         )
@@ -78,9 +73,9 @@ import de.jensklingenberg.ktorfit.http.Field
 import de.jensklingenberg.ktorfit.http.FormUrlEncoded
 
 interface TestService {
- @FormUrlEncoded
-   @POST("user")
-    suspend fun test(@Field("id") id: String): String?
+@FormUrlEncoded
+@POST("user")
+suspend fun test(@Field("id") id: String): String?
 }
     """
         )
@@ -98,7 +93,6 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Assert.assertEquals(true, generatedFile.exists())
         Assert.assertEquals(true, generatedFile.readText().contains(expectedHeaderCode))
     }
 
@@ -115,9 +109,9 @@ import de.jensklingenberg.ktorfit.http.Multipart
 
 interface TestService {
 @Multipart
- @FormUrlEncoded
-   @POST("user")
-    suspend fun test(@Field("id") id: String): String
+@FormUrlEncoded
+@POST("user")
+suspend fun test(@Field("id") id: String): String
 }
     """
         )

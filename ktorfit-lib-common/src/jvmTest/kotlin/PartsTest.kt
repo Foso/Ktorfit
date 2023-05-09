@@ -30,11 +30,11 @@ class PartsTest {
                 method = HttpMethod.parse("GET")
             }
             val requestData = RequestData(
-                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
-                returnTypeData = TypeData("kotlin.String"),
                 parts = mapOf("description" to "test", "description2" to "test"),
-                requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
+                returnTypeData = TypeData("kotlin.String"),
+                requestTypeInfo = typeInfo<String>(),
+                returnTypeInfo = typeInfo<String>(), ktorfitRequestBuilder = ext
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }

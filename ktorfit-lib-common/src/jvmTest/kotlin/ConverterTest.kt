@@ -30,10 +30,10 @@ class ConverterTest {
                     method = HttpMethod.parse("GET")
                 }
                 val requestData = RequestData(
-                    ktorfitRequestBuilder = ext,
                     relativeUrl = "",
                     returnTypeData = TypeData("kotlinx.coroutines.flow.Flow"),
-                    requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
+                    requestTypeInfo = typeInfo<String>(),
+                    returnTypeInfo = typeInfo<String>(), ktorfitRequestBuilder = ext
                 )
                 KtorfitClient(ktorfit).request<Flow<String>, String>(requestData)
             }
@@ -75,10 +75,10 @@ class ConverterTest {
                     method = HttpMethod.parse("GET")
                 }
                 val requestData = RequestData(
-                    ktorfitRequestBuilder = ext,
                     relativeUrl = "notexisting",
                     returnTypeData = TypeData("kotlinx.coroutines.flow.Flow"),
-                    requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
+                    requestTypeInfo = typeInfo<String>(),
+                    returnTypeInfo = typeInfo<String>(), ktorfitRequestBuilder = ext
                 )
                 KtorfitClient(ktorfit).suspendRequest<Flow<String>, String>(requestData)
             }

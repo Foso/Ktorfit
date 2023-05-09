@@ -229,43 +229,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         }
     }
 
-    private fun HttpRequestBuilder.handleQueries(queries: List<DH>) {
-        queries.forEach { entry ->
-
-            when (val data = entry.data) {
-                is List<*> -> {
-                    data.filterNotNull().forEach {
-                        setParameter(entry.encoded, entry.key, it.toString())
-                    }
-                }
-
-                is Array<*> -> {
-                    data.filterNotNull().forEach {
-                        setParameter(entry.encoded, entry.key, it.toString())
-                    }
-                }
-
-                is Map<*, *> -> {
-                    for ((key, value) in entry.data as Map<*, *>) {
-                        value?.let {
-                            setParameter(entry.encoded, key.toString(), value.toString())
-                        }
-
-                    }
-                }
-
-                null -> {
-                    //Ignore this query
-                }
-
-                else -> {
-                    setParameter(entry.encoded, entry.key, entry.data.toString())
-                }
-            }
-        }
-
-    }
-
     private fun HttpRequestBuilder.handleParts(parts: Map<String, Any>) {
         if (parts.isNotEmpty()) {
             val partDatas = mutableListOf<PartData>()
@@ -285,30 +248,4 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
             setBody(MultiPartFormDataContent(partDataList))
         }
     }
-
-    private fun HttpRequestBuilder.setParameter(
-        encoded: Boolean,
-        key: String,
-        value: String
-    ) {
-        if (encoded) {
-            if (key.isEmpty()) {
-                url.encodedParameters.appendAll(value, emptyList())
-            } else {
-                value.let{ url.encodedParameters.append(key, it.toString()) }
-            }
-
-        } else {
-            if (key.isEmpty()) {
-                url.parameters.appendAll(value, emptyList())
-            } else {
-                parameter(key, value)
-            }
-
-        }
-    }
-
-    private fun HttpRequestBuilder.encodedParameter(key: String, value: Any): Unit =
-        value.let { url.encodedParameters.append(key, it.toString()) }
-
 }

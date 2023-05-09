@@ -11,20 +11,19 @@ import java.io.File
 
 class UrlTest {
 
-
     @Test
     fun testFunctionWithGET() {
         val expectedFunctionSource = """public override suspend fun test(): String {
     val _ext: HttpRequestBuilder.() -> Unit = {
         this.method = HttpMethod.parse("GET") 
         }
-    val requestData = RequestData(relativeUrl="user",
+    val _requestData = RequestData(relativeUrl="user",
         returnTypeData = TypeData("kotlin.String"),
         requestTypeInfo=typeInfo<String>(),
         returnTypeInfo = typeInfo<String>(),
         ktorfitRequestBuilder = _ext) 
 
-    return ktorfitClient.suspendRequest<String, String>(requestData)!!
+    return ktorfitClient.suspendRequest<String, String>(_requestData)!!
   }"""
 
         val source = SourceFile.kotlin(
@@ -58,14 +57,14 @@ interface TestService {
     val _ext: HttpRequestBuilder.() -> Unit = {
         this.method = HttpMethod.parse("GET") 
         }
-    val requestData = RequestData(relativeUrl="$\{url}",
+    val _requestData = RequestData(relativeUrl="ä{url}",
         returnTypeData = TypeData("kotlin.String"),
         requestTypeInfo=typeInfo<String>(),
         returnTypeInfo = typeInfo<String>(),
         ktorfitRequestBuilder = _ext) 
 
-    return ktorfitClient.suspendRequest<String, String>(requestData)!!
-  }""".replace("\\{", "{")
+    return ktorfitClient.suspendRequest<String, String>(_requestData)!!
+  }""".replace("ä","$")
 
 
         val source = SourceFile.kotlin(
@@ -83,15 +82,15 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFunctionSource)).isTrue()
+
+        val actualSource = generatedFile.readText()
+        Assert.assertEquals(true, actualSource.contains(expectedFunctionSource))
     }
 
 

@@ -8,6 +8,7 @@ import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.*
+import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 /**
  * This will generate the code for the HttpRequestBuilder
@@ -65,10 +66,10 @@ fun getQueryArgumentText2(params: List<ParameterData>, listType: KSType?, arrayT
         val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
         if (isList || isArray) {
-            "%s?.filterNotNull()?.forEach { %s(\"%s\", it.toString()) }\n".format(
+            "%s?.filterNotNull()?.forEach { %s(\"%s\", \"\$it\") }\n".format(
                 parameterData.name,
                 if (encoded) {
-                    "url.encodedParameters.append"
+                    "encodedParameters.append"
                 } else {
                     "parameter"
                 },
@@ -76,9 +77,9 @@ fun getQueryArgumentText2(params: List<ParameterData>, listType: KSType?, arrayT
             )
         } else {
             if (encoded) {
-                "url.encodedParameters.append(\"%s\", %s)".format(query.value, parameterData.name)
+                "encodedParameters.append(\"%s\", \"\$%s\")\n".format(query.value, parameterData.name)
             } else {
-                "parameter(\"%s\", %s)".format(query.value, parameterData.name)
+                "parameter(\"%s\", \"\$%s\")\n".format(query.value, parameterData.name)
             }
         }
 
@@ -95,7 +96,7 @@ fun getQueryArgumentText2(params: List<ParameterData>, listType: KSType?, arrayT
         val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
         if (isList || isArray) {
-            "%s?.filterNotNull()?.forEach { url.%s.appendAll(it, emptyList()) }\n".format(
+            "%s?.filterNotNull()?.forEach { %s.appendAll(\"\$it\", emptyList()) }\n".format(
                 parameterData.name,
                 if (encoded) {
                     "encodedParameters"
@@ -103,12 +104,16 @@ fun getQueryArgumentText2(params: List<ParameterData>, listType: KSType?, arrayT
                     "parameters"
                 }
             )
-        } else {
-            if (encoded) {
-                "url.encodedParameters.appendAll(\"$data\", emptyList())\n"
-            } else {
-                "url.parameters.appendAll(\"$data\", emptyList())\n"
-            }
+        } else {/**/
+            "%s.appendAll(\"\$%s\", emptyList())\n"
+                .format(
+                    if (encoded) {
+                        "encodedParameters"
+                    } else {
+                        "parameters"
+                    },
+                    data
+                )
         }
     }
 
@@ -116,10 +121,10 @@ fun getQueryArgumentText2(params: List<ParameterData>, listType: KSType?, arrayT
         val queryMap = myParam.findAnnotationOrNull<QueryMap>()!!
         val encoded = queryMap.encoded
         val data = myParam.name
-        "%s?.forEach { entry -> entry.value?.let{ %s(entry.key, entry.value.toString()) } }\n".format(
+        "%s?.forEach { entry -> entry.value?.let{ %s(entry.key, \"\${entry.value}\") } }\n".format(
             data,
             if (encoded) {
-                "url.encodedParameters.append"
+                "encodedParameters.append"
             } else {
                 "parameter"
             }
@@ -127,5 +132,5 @@ fun getQueryArgumentText2(params: List<ParameterData>, listType: KSType?, arrayT
 
     }
 
-    return queryText + queryNameText +queryMapStrings//myQueryStrings.joinToString { it.toString() }.surroundIfNotEmpty("queries = listOf(", ")")
+    return (queryText + queryNameText + queryMapStrings).surroundIfNotEmpty("url{\n","}")//myQueryStrings.joinToString { it.toString() }.surroundIfNotEmpty("queries = listOf(", ")")
 }
