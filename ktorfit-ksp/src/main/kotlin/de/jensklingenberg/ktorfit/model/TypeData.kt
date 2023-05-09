@@ -4,14 +4,13 @@ import com.google.devtools.ksp.getClassDeclarationByName
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 
-
 data class TypeData(val qualifiedName: String, val typeArgs: List<TypeData> = emptyList()) {
     override fun toString(): String {
         val typeArgumentsText = typeArgs.joinToString { it.toString() }.surroundIfNotEmpty(",listOf(", ")")
         return """TypeData("$qualifiedName"$typeArgumentsText)"""
     }
 
-    companion object{
+    companion object {
 
         //https://kotlinlang.org/docs/packages.html
         private fun defaultImports() = listOf(

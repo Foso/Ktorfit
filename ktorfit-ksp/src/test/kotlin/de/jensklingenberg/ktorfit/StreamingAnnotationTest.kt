@@ -43,13 +43,13 @@ interface TestService {
     val _ext: HttpRequestBuilder.() -> Unit = {
         this.method = HttpMethod.parse("GET") 
         }
-    val requestData = RequestData(relativeUrl="posts",
+    val _requestData = RequestData(relativeUrl="posts",
         returnTypeData = TypeData("io.ktor.client.statement.HttpStatement"),
         requestTypeInfo=typeInfo<HttpStatement>(),
         returnTypeInfo = typeInfo<HttpStatement>(),
         ktorfitRequestBuilder = _ext) 
 
-    return ktorfitClient.suspendRequest<HttpStatement, HttpStatement>(requestData)!!
+    return ktorfitClient.suspendRequest<HttpStatement, HttpStatement>(_requestData)!!
   }"""
 
         val compilation = KotlinCompilation().apply {

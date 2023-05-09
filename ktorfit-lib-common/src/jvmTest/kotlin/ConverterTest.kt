@@ -1,6 +1,9 @@
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
-import de.jensklingenberg.ktorfit.internal.*
+import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
+import de.jensklingenberg.ktorfit.internal.KtorfitClient
+import de.jensklingenberg.ktorfit.internal.RequestData
+import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -30,10 +33,10 @@ class ConverterTest {
                     method = HttpMethod.parse("GET")
                 }
                 val requestData = RequestData(
-                    ktorfitRequestBuilder = ext,
                     relativeUrl = "",
                     returnTypeData = TypeData("kotlinx.coroutines.flow.Flow"),
-                    requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
+                    requestTypeInfo = typeInfo<String>(),
+                    returnTypeInfo = typeInfo<String>(), ktorfitRequestBuilder = ext
                 )
                 KtorfitClient(ktorfit).request<Flow<String>, String>(requestData)
             }
@@ -75,10 +78,10 @@ class ConverterTest {
                     method = HttpMethod.parse("GET")
                 }
                 val requestData = RequestData(
-                    ktorfitRequestBuilder = ext,
                     relativeUrl = "notexisting",
                     returnTypeData = TypeData("kotlinx.coroutines.flow.Flow"),
-                    requestTypeInfo = typeInfo<String>(), returnTypeInfo = typeInfo<String>()
+                    requestTypeInfo = typeInfo<String>(),
+                    returnTypeInfo = typeInfo<String>(), ktorfitRequestBuilder = ext
                 )
                 KtorfitClient(ktorfit).suspendRequest<Flow<String>, String>(requestData)
             }

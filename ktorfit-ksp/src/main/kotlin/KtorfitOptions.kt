@@ -6,5 +6,5 @@ class KtorfitOptions(options: Map<String, String>) {
      *
      * 2: Turn errors into warnings
      */
-    val errorsLoggingType : Int = (options["Ktorfit_Errors"]?.toIntOrNull()) ?: 1
+    val errorsLoggingType: Int = (options["Ktorfit_Errors"]?.toIntOrNull()) ?: 1
 }

@@ -2,10 +2,7 @@ package de.jensklingenberg.ktorfit.model.annotations
 
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSType
-import com.google.devtools.ksp.symbol.KSTypeReference
 import com.google.devtools.ksp.symbol.KSValueParameter
-import com.squareup.kotlinpoet.asTypeName
-import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import de.jensklingenberg.ktorfit.utils.*
 
@@ -22,7 +19,7 @@ data class QueryMap(val encoded: Boolean = false) : ParameterAnnotation()
 data class Header(val path: String) : ParameterAnnotation()
 object HeaderMap : ParameterAnnotation()
 object Url : ParameterAnnotation()
-data class RequestType(val requestType:KSType) : ParameterAnnotation()
+data class RequestType(val requestType: KSType) : ParameterAnnotation()
 data class Field(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
 data class FieldMap(val encoded: Boolean) : ParameterAnnotation()
 data class Part(val value: String = "", val encoding: String = "binary") : ParameterAnnotation()
@@ -32,7 +29,7 @@ data class PartMap(val encoding: String = "binary") : ParameterAnnotation()
 /**
  *
  */
-fun KSValueParameter.getParamAnnotationList( logger: KSPLogger): List<ParameterAnnotation> {
+fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAnnotation> {
     val ksValueParameter = this
     val KEY_MAP = "Map"
     val KEY_STRING = "String"

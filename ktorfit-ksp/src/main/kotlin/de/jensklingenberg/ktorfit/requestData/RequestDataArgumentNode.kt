@@ -1,8 +1,8 @@
 package de.jensklingenberg.ktorfit.requestData
 
 
-import de.jensklingenberg.ktorfit.model.requestDataClass
 import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.requestDataClass
 
 
 fun getRequestDataArgumentText(functionData: FunctionData): String {
@@ -10,7 +10,6 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
     //URL
     val urlPath = getRelativeUrlArgumentText(functionData.httpMethodAnnotation, functionData.parameterDataList)
     val pathsText = getPathsText(functionData.parameterDataList)
-    val queryText = getQueryArgumentText(functionData.parameterDataList)
     val fieldsText = getFieldArgumentsText(functionData.parameterDataList)
     val partsText = getPartsArgumentText(functionData.parameterDataList)
     val builderText = getRequestBuilderText(functionData.parameterDataList)
@@ -20,7 +19,6 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
     val ktorfitRequestBuilderText = "ktorfitRequestBuilder = _ext"
     val args = listOf(
         urlPath,
-        queryText,
         fieldsText,
         partsText,
         builderText,
@@ -31,5 +29,5 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
         ktorfitRequestBuilderText
     ).filter { it.isNotEmpty() }.joinToString(",\n") { it }
 
-    return "val requestData = ${requestDataClass.name}($args) \n"
+    return "val _requestData = ${requestDataClass.name}($args) \n"
 }

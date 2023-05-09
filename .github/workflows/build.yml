@@ -21,4 +21,4 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build and test with Gradle
-        run: ./gradlew clean licensee :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:test :ktorfit-lib-common:jvmTest :ktorfit-lib-common:apiCheck
+        run: ./gradlew clean licensee :ktorfit-lib-common:apiCheck :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:test :ktorfit-lib-common:jvmTest

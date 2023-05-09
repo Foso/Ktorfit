@@ -13,7 +13,7 @@ fun getPathsText(params: List<ParameterData>): String {
         val pathAnnotation = myParam.findAnnotationOrNull<Path>()!!
         val pathPath = "\"" + pathAnnotation.value + "\""
         val pathEncoded = pathAnnotation.encoded
-        DataHolder(pathPath,paramName,pathEncoded)
+        DataHolder(pathPath, paramName, pathEncoded)
     }.joinToString { it.toString() }
 
     return pathData.surroundIfNotEmpty("paths = listOf(", ")")

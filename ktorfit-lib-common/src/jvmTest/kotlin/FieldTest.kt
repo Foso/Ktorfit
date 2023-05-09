@@ -31,12 +31,12 @@ class FieldTest {
                 method = HttpMethod.parse("GET")
             }
             val requestData = RequestData(
-                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
-                returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(DH(testKey, testValue, false)),
+                returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),
-                returnTypeInfo = typeInfo<String>()
+                returnTypeInfo = typeInfo<String>(),
+                ktorfitRequestBuilder = ext
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -60,12 +60,12 @@ class FieldTest {
                 method = HttpMethod.parse("GET")
             }
             val requestData = RequestData(
-                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
-                returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(DH(testKey, testValue, true)),
+                returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),
-                returnTypeInfo = typeInfo<String>()
+                returnTypeInfo = typeInfo<String>(),
+                ktorfitRequestBuilder = ext
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -90,12 +90,12 @@ class FieldTest {
                 method = HttpMethod.parse("GET")
             }
             val requestData = RequestData(
-                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
-                returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(DH(testKey, testValue, false)),
+                returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),
-                returnTypeInfo = typeInfo<String>()
+                returnTypeInfo = typeInfo<String>(),
+                ktorfitRequestBuilder = ext
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }
@@ -120,12 +120,12 @@ class FieldTest {
                 method = HttpMethod.parse("GET")
             }
             val requestData = RequestData(
-                ktorfitRequestBuilder = ext,
                 relativeUrl = "",
-                returnTypeData = TypeData("kotlin.String"),
                 fields = listOf(DH(testKey, testMap, false)),
+                returnTypeData = TypeData("kotlin.String"),
                 requestTypeInfo = typeInfo<String>(),
-                returnTypeInfo = typeInfo<String>()
+                returnTypeInfo = typeInfo<String>(),
+                ktorfitRequestBuilder = ext
             )
             KtorfitClient(ktorfit).suspendRequest<String, String>(requestData)
         }

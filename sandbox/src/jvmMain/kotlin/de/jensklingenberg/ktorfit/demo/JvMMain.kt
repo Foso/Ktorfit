@@ -5,12 +5,14 @@ import com.example.api.JsonPlaceHolderApi
 import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverter
 import com.example.model.StringToIntRequestConverter
+import de.jensklingenberg.ktorfit.Callback
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -56,17 +58,18 @@ fun main() {
 
         val api = jvmKtorfit.create<JsonPlaceHolderApi>()
 
-        val test = api.getCommentsByPostIdResponse("3")
+        val test = api.getCommentsByPostIdQuery(listOf("2","3","t t"))
 
-        when (test) {
-            is MyOwnResponse.Success -> {
-                test
+        test.onExecute(object :Callback<String>{
+            override fun onResponse(call: String, response: HttpResponse) {
+                call
             }
 
-            else -> {
-                test
+            override fun onError(exception: Throwable) {
+                exception
             }
-        }
+
+        })
 
 
         delay(3000)

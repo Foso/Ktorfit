@@ -13,7 +13,7 @@ data class ParameterData(
     val type: ReturnTypeData,
     val annotations: List<ParameterAnnotation> = emptyList(),
 
-) {
+    ) {
     inline fun <reified T> findAnnotationOrNull(): T? {
         return this.annotations.firstOrNull { it is T } as? T
     }
@@ -30,7 +30,7 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
         logger.error(KtorfitError.VARARG_NOT_SUPPORTED_USE_LIST_OR_ARRAY, ksValueParameter)
     }
 
-    val parameterAnnotations = ksValueParameter.getParamAnnotationList( logger)
+    val parameterAnnotations = ksValueParameter.getParamAnnotationList(logger)
 
     val parameterName = ksValueParameter.name?.asString() ?: ""
     val parameterType = ksValueParameter.type.resolve()

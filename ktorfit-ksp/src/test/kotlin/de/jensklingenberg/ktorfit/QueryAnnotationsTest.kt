@@ -6,48 +6,14 @@ import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.File
 
 class QueryAnnotationsTest {
 
-
     @Test
-    fun whenNoQueryAnnotationsFound_KeepQuerysArgumentEmpty() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """
-      package com.example.api
-import de.jensklingenberg.ktorfit.http.GET
-
-interface TestService {
-
-    @GET("posts")
-    suspend fun test(): String
-    
-}
-    """
-        )
-
-
-        val expectedQueriesArgumentText = "queries ="
-
-        val compilation = getCompilation(listOf(source))
-        val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
-        val generatedSourcesDir = compilation.kspSourcesDir
-        val generatedFile = File(
-            generatedSourcesDir,
-            "/kotlin/com/example/api/_TestServiceImpl.kt"
-        )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedQueriesArgumentText)).isFalse()
-    }
-
-
-    @Test
-    fun testQuery() {
+    fun whenNotEncodedQueryAnnotationAndEncodedFound() {
 
         val source = SourceFile.kotlin(
             "Source.kt", """
@@ -58,30 +24,31 @@ import de.jensklingenberg.ktorfit.http.Query
 interface TestService {
 
     @GET("posts")
-    suspend fun test(@Query("name") testQuery: String)
-    
+    suspend fun test(@Query("name") testQuery: String, @Query("user",true) testQuery2: Int)
 }
     """
         )
 
-
-        val expectedQueriesArgumentText = "queries = listOf(DH(\"name\",testQuery,false))"
+        val expectedQueriesArgumentText = "url{\n" +
+                "        parameter(\"name\", \"\$testQuery\")\n" +
+                "        encodedParameters.append(\"user\", \"\$testQuery2\")\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedQueriesArgumentText)).isTrue()
+
+        val actualSource = generatedFile.readText()
+        assertEquals(true, actualSource.contains(expectedQueriesArgumentText))
     }
 
     @Test
-    fun testEncodedQuery() {
+    fun whenQueryAnnotationWithListFound() {
 
         val source = SourceFile.kotlin(
             "Source.kt", """
@@ -92,30 +59,30 @@ import de.jensklingenberg.ktorfit.http.Query
 interface TestService {
 
     @GET("posts")
-    suspend fun test(@Query("name",true) testQuery: String)
-    
+    suspend fun test(@Query("user",true) testQuery2: List<String>)
 }
     """
         )
 
-
-        val expectedQueriesArgumentText = "queries = listOf(DH(\"name\",testQuery,true))"
+        val expectedQueriesArgumentText = "url{\n" +
+                "        testQuery2?.filterNotNull()?.forEach { encodedParameters.append(\"user\", \"\$it\") }\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedQueriesArgumentText)).isTrue()
+
+        val actualSource = generatedFile.readText()
+        assertEquals(true, actualSource.contains(expectedQueriesArgumentText))
     }
 
     @Test
-    fun testQueryName() {
+    fun whenQueryNamesFound() {
 
         val source = SourceFile.kotlin(
             "Source.kt", """
@@ -124,63 +91,67 @@ import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.QueryName
 
 interface TestService {
-
     @GET("posts")
-    suspend fun test(@QueryName() testQueryName: String)
-    
+    suspend fun test(@QueryName testQueryName: String, @QueryName testQueryName2: String)
 }
     """
         )
 
-
-        val expectedQueriesArgumentText = "queries = listOf(DH(\"\",testQueryName,false))"
+        val expectedQueriesArgumentText = "url{\n" +
+                "        parameters.appendAll(\"\$testQueryName\", emptyList())\n" +
+                "        parameters.appendAll(\"\$testQueryName2\", emptyList())\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedQueriesArgumentText)).isTrue()
+
+        val actualSource = generatedFile.readText()
+        assertEquals(true, actualSource.contains(expectedQueriesArgumentText))
     }
 
 
     @Test
-    fun testQueryMap() {
+    fun whenNotEncodedQueryMapAnnotationAndEncodedFound() {
 
         val source = SourceFile.kotlin(
-            "Source.kt", """
-      package com.example.api
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.QueryMap
-
-interface TestService {
-
-    @GET("posts")
-    suspend fun test(@QueryMap() testQueryMap: Map<String, String>)
-    
-}
-    """
+            "Source.kt", contents = """package com.example.api
+            import de.jensklingenberg.ktorfit.http.GET
+            import de.jensklingenberg.ktorfit.http.QueryMap
+            
+            interface TestService {
+            
+            @GET("posts")
+            suspend fun test(@QueryMap testQueryMap: Map<String, String>,@QueryMap(true) testQueryMap2: Map<String, Int?>)
+                
+            }
+                """
         )
 
 
-        val expectedQueriesArgumentText = "queries = listOf(DH(\"\",testQueryMap,false))"
+        val expectedQueriesArgumentText = "url{\n" +
+                "        testQueryMap?.forEach { entry -> entry.value?.let{ parameter(entry.key, \"\${entry.value}\") }\n" +
+                "            }\n" +
+                "        testQueryMap2?.forEach { entry -> entry.value?.let{ encodedParameters.append(entry.key,\n" +
+                "            \"\${entry.value}\") } }\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedQueriesArgumentText)).isTrue()
+
+        val actualSource = generatedFile.readText()
+        assertEquals(true, actualSource.contains(expectedQueriesArgumentText))
     }
 
 
@@ -188,37 +159,38 @@ interface TestService {
     fun testFunctionWithQueryAndQueryNameAndQueryMap() {
 
         val source = SourceFile.kotlin(
-            "Source.kt", """
-      package com.example.api
+            "Source.kt", """package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.QueryMap
 import de.jensklingenberg.ktorfit.http.Query
 import de.jensklingenberg.ktorfit.http.QueryName
 
 interface TestService {
-
-   @GET("posts")
-   fun example(@Query("name") testQuery: String, @QueryName() testQueryName: String, @QueryMap() name: Map<String, String>)
-    
+@GET("posts")
+fun example(@Query("name") testQuery: String, @QueryName testQueryName: String, @QueryMap(true) name: Map<String, String>) 
 }
     """
         )
 
-
         val expectedQueriesArgumentText =
-            "queries = listOf(DH(\"name\",testQuery,false), DH(\"\",testQueryName,false), DH(\"\",name,false)),"
+            "url{\n" +
+                    "        parameter(\"name\", \"\$testQuery\")\n" +
+                    "        parameters.appendAll(\"\$testQueryName\", emptyList())\n" +
+                    "        name?.forEach { entry -> entry.value?.let{ encodedParameters.append(entry.key,\n" +
+                    "            \"\${entry.value}\") } }\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedQueriesArgumentText)).isTrue()
+
+        val actualSource = generatedFile.readText()
+        assertEquals(true, actualSource.contains(expectedQueriesArgumentText))
     }
 
     @Test
@@ -233,7 +205,7 @@ import de.jensklingenberg.ktorfit.http.QueryMap
 interface TestService {
 
     @GET("posts")
-    suspend fun test(@QueryMap() testQueryMap: String)
+    suspend fun test(@QueryMap testQueryMap: String)
     
 }
     """

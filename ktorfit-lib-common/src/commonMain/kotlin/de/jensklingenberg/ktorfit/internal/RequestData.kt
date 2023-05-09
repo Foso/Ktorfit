@@ -13,7 +13,6 @@ import io.ktor.util.reflect.*
  */
 public data class RequestData(
     val relativeUrl: String,
-    val queries: List<DH> = emptyList(),
     val fields: List<DH> = emptyList(),
     val parts: Map<String, Any> = emptyMap(),
     val returnTypeData: TypeData,
@@ -22,6 +21,6 @@ public data class RequestData(
     val requestTypeInfo: TypeInfo,
     val returnTypeInfo: TypeInfo,
     val ktorfitRequestBuilder: HttpRequestBuilder.() -> Unit = {},
-    )
+)
 
 public data class BodyData(val bodyData: Any? = null, val typeInfo: TypeInfo)

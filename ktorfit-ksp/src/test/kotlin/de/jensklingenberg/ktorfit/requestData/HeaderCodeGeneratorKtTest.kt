@@ -8,7 +8,7 @@ import de.jensklingenberg.ktorfit.model.annotations.Header
 import de.jensklingenberg.ktorfit.model.annotations.HeaderMap
 import de.jensklingenberg.ktorfit.model.annotations.Headers
 import de.jensklingenberg.ktorfit.reqBuilderExtension.getHeadersCode
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -24,7 +24,7 @@ class HeaderCodeGeneratorKtTest {
         val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
         val text = getHeadersCode(listOf(), params, listType, arrayType)
-        Assert.assertEquals("", text)
+        assertEquals("", text)
     }
 
     @Test
@@ -33,8 +33,10 @@ class HeaderCodeGeneratorKtTest {
             ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(Header("foo")))
         val params = listOf(parameterData)
         val text = getHeadersCode(listOf(), params, listType, arrayType)
-        val expected = "headers{\nappend(\"foo\", test1.toString())\n}"
-        Assert.assertEquals(expected, text)
+        val expected = "headers{\n" +
+                "append(\"foo\", \"\$test1\")\n" +
+                "}"
+        assertEquals(expected, text)
     }
 
     @Test
@@ -51,11 +53,9 @@ class HeaderCodeGeneratorKtTest {
             annotations = listOf(Header("foo"))
         )
         val params = listOf(parameterData)
-        val text = getHeadersCode(listOf(), params, listType, arrayType)
-        val expected = "headers{\n" +
-                "test1?.filterNotNull()?.forEach { append(\"foo\", it.toString()) }\n" +
-                "}"
-        Assert.assertEquals(expected, text)
+        val actual = getHeadersCode(listOf(), params, listType, arrayType)
+        val expected = "headers{\ntest1?.filterNotNull()?.forEach { append(\"foo\", \"\$it\") }\n}"
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -72,11 +72,9 @@ class HeaderCodeGeneratorKtTest {
             annotations = listOf(Header("foo"))
         )
         val params = listOf(parameterData)
-        val text = getHeadersCode(listOf(), params, listType, arrayType)
-        val expected = "headers{\n" +
-                "test1?.filterNotNull()?.forEach { append(\"foo\", it.toString()) }\n" +
-                "}"
-        Assert.assertEquals(expected, text)
+        val actual = getHeadersCode(listOf(), params, listType, arrayType)
+        val expected = "headers{\ntest1?.filterNotNull()?.forEach { append(\"foo\", \"\$it\") }\n}"
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -84,12 +82,12 @@ class HeaderCodeGeneratorKtTest {
         val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val funcAnnotation = Headers(listOf("Accept:Content", "foo: bar"))
         val params = listOf(parameterData)
-        val text = getHeadersCode(listOf(funcAnnotation), params, listType, arrayType)
+        val actual = getHeadersCode(listOf(funcAnnotation), params, listType, arrayType)
         val expected = "headers{\n" +
                 "append(\"Accept\", \"Content\")\n" +
                 "append(\"foo\", \"bar\")\n" +
                 "}"
-        Assert.assertEquals(expected, text)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -98,11 +96,11 @@ class HeaderCodeGeneratorKtTest {
             ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(HeaderMap))
         val funcAnnotation = Headers(listOf("Accept:Content"))
         val params = listOf(parameterData)
-        val text = getHeadersCode(listOf(funcAnnotation), params, listType, arrayType)
+        val actual = getHeadersCode(listOf(funcAnnotation), params, listType, arrayType)
         val expected = "headers{\n" +
-                "test1?.forEach { append(it.key, it.value.toString()) }\n" +
+                "test1?.forEach { append(it.key, \"\${it.value}\") }\n" +
                 "append(\"Accept\", \"Content\")\n" +
                 "}"
-        Assert.assertEquals(expected, text)
+        assertEquals(expected, actual)
     }
 }

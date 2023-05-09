@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.internal
 
 
-
 /**
  * DataHolder
  */
