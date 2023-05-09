@@ -21,6 +21,6 @@ public data class RequestData(
     val requestTypeInfo: TypeInfo,
     val returnTypeInfo: TypeInfo,
     val ktorfitRequestBuilder: HttpRequestBuilder.() -> Unit = {},
-    )
+)
 
 public data class BodyData(val bodyData: Any? = null, val typeInfo: TypeInfo)

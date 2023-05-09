@@ -64,7 +64,7 @@ interface TestService {
         ktorfitRequestBuilder = _ext) 
 
     return ktorfitClient.suspendRequest<String, String>(_requestData)!!
-  }""".replace("ä","$")
+  }""".replace("ä", "$")
 
 
         val source = SourceFile.kotlin(

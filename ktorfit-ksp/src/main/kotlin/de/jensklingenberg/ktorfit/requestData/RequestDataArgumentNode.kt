@@ -1,8 +1,8 @@
 package de.jensklingenberg.ktorfit.requestData
 
 
-import de.jensklingenberg.ktorfit.model.requestDataClass
 import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.requestDataClass
 
 
 fun getRequestDataArgumentText(functionData: FunctionData): String {

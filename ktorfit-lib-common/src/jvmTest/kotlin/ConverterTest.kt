@@ -1,6 +1,9 @@
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
-import de.jensklingenberg.ktorfit.internal.*
+import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
+import de.jensklingenberg.ktorfit.internal.KtorfitClient
+import de.jensklingenberg.ktorfit.internal.RequestData
+import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*

@@ -5,8 +5,7 @@ import KtorfitProcessor
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getKotlinClassByName
 import de.jensklingenberg.ktorfit.model.FunctionData
-import de.jensklingenberg.ktorfit.model.ParameterData
-import de.jensklingenberg.ktorfit.model.annotations.*
+import de.jensklingenberg.ktorfit.model.annotations.CustomHttp
 
 /**
  * This will generate the code for the HttpRequestBuilder
@@ -21,7 +20,8 @@ fun getReqBuilderExtensionText(functionData: FunctionData): String {
         methodAnnotation.httpMethod.keyword
     }
     val method = "this.method = HttpMethod.parse(\"${httpMethodValue}\")"
-    val listType =KtorfitProcessor.ktorfitResolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType()
+    val listType =
+        KtorfitProcessor.ktorfitResolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType()
 
     val arrayType = KtorfitProcessor.ktorfitResolver.builtIns.arrayType.starProjection()
     val headers = getHeadersCode(

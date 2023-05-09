@@ -108,7 +108,7 @@ private fun getCreateExtensionFunctionSpec(
 
     return FunSpec.builder("create${classData.name}")
         .addModifiers(classData.modifiers)
-        .addStatement("return this.create(_${classData.name}Impl())",)
+        .addStatement("return this.create(_${classData.name}Impl())")
         .receiver(TypeVariableName(ktorfitClass.name))
         .returns(TypeVariableName(classData.name))
         .build()

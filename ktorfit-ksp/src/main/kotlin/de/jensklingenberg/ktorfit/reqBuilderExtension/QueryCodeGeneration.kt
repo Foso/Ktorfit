@@ -84,5 +84,8 @@ fun getQueryCode(params: List<ParameterData>, listType: KSType?, arrayType: KSTy
 
     }
 
-    return (queryText + queryNameText + queryMapStrings).surroundIfNotEmpty("url{\n","}")//myQueryStrings.joinToString { it.toString() }.surroundIfNotEmpty("queries = listOf(", ")")
+    return (queryText + queryNameText + queryMapStrings).surroundIfNotEmpty(
+        "url{\n",
+        "}"
+    )//myQueryStrings.joinToString { it.toString() }.surroundIfNotEmpty("queries = listOf(", ")")
 }

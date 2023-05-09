@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit
 
 import KtorfitProcessorProvider
-import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.*
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP
@@ -165,7 +164,7 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        
+
         val actualSource = generatedFile.readText()
         assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
     }
@@ -202,7 +201,7 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        
+
         val actualSource = generatedFile.readText()
         assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
     }
@@ -239,7 +238,7 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        
+
         val actualSource = generatedFile.readText()
         assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
     }
@@ -275,7 +274,7 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        
+
         val actualSource = generatedFile.readText()
         assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
     }

@@ -1,10 +1,10 @@
 build:
   maxIssues: 0
   weights:
-    # complexity: 2
-    # LongParameterList: 1
-    # style: 1
-    # comments: 1
+  # complexity: 2
+  # LongParameterList: 1
+  # style: 1
+  # comments: 1
 
 complexity:
   active: true
@@ -16,7 +16,7 @@ complexity:
     threshold: 5
   LongMethod:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**']
+    excludes: [ '**/test/**', '**/androidTest/**' ]
   LongParameterList:
     active: true
     ignoreDefaultParameters: true
