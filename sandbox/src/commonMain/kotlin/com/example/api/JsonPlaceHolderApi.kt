@@ -5,6 +5,7 @@ import com.example.model.MyOwnResponse
 import com.example.model.Post
 import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.http.*
+import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
@@ -35,7 +36,7 @@ interface JsonPlaceHolderApi {
     suspend fun getPostById(@Path("postId") postId: Int = 4): Post
 
     @GET("posts/{postId}/comments")
-    fun getFlowCommentsByPostId(@Path("postId") postId: Int): Flow<List<Comment>>?
+    fun getFlowCommentsByPostId(@Path("postId") postId: Int, @ReqBuilder builder : HttpRequestBuilder.() -> Unit): Flow<List<Comment>>?
 
     @GET("posts/{postId}/comments")
     suspend fun getCommentsByPostId(@Path("postId") postId: Int): List<Comment>?

@@ -12,7 +12,6 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
     val pathsText = getPathsText(functionData.parameterDataList)
     val fieldsText = getFieldArgumentsText(functionData.parameterDataList)
     val partsText = getPartsArgumentText(functionData.parameterDataList)
-    val builderText = getRequestBuilderText(functionData.parameterDataList)
     val requestTypeInfoText = getRequestTypeInfoText(functionData.returnType)
     val returnTypeInfoText = getReturnTypeInfoText(functionData.returnType)
     val qualifiedTypeName = "returnTypeData = ${functionData.returnType.qualifiedName}"
@@ -21,7 +20,6 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
         urlPath,
         fieldsText,
         partsText,
-        builderText,
         qualifiedTypeName,
         pathsText,
         requestTypeInfoText,

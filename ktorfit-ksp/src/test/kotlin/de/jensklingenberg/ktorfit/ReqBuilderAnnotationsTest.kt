@@ -72,7 +72,7 @@ interface TestService {
         )
 
 
-        val expectedRequestBuilderArgumentText = "requestBuilder = builder"
+        val expectedRequestBuilderArgumentText = "builder(this)"
 
         val compilation = KotlinCompilation().apply {
             sources = listOf(httpReqBuilderSource, source)

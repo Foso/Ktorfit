@@ -135,7 +135,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
         url(requestUrl)
         requestData.ktorfitRequestBuilder(this)
-        requestData.requestBuilder(this)
     }
 
     private fun getRequestUrl(
