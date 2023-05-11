@@ -32,7 +32,7 @@ public class _TestServiceImpl : TestService, KtorfitService {
 
   public override suspend fun test(): String {
     val _ext: HttpRequestBuilder.() -> Unit = {
-        this.method = HttpMethod.parse("GET") 
+        method = HttpMethod.parse("GET") 
         }
     val _requestData = RequestData(relativeUrl="user",
         returnTypeData = TypeData("kotlin.String"),
@@ -94,7 +94,7 @@ interface TestService {
 
         val expectedFunctionText = """ public override suspend fun test(): String {
     val _ext: HttpRequestBuilder.() -> Unit = {
-        this.method = HttpMethod.parse("CUSTOM") 
+        method = HttpMethod.parse("CUSTOM") 
         }
     val _requestData = RequestData(relativeUrl="user",
         returnTypeData = TypeData("kotlin.String"),
@@ -138,7 +138,7 @@ interface TestService {
 
         val expectedFunctionText = """public override suspend fun test(body: String): String {
     val _ext: HttpRequestBuilder.() -> Unit = {
-        this.method = HttpMethod.parse("GET2")
+        method = HttpMethod.parse("GET2")
         setBody(body) 
         }
     val _requestData = RequestData(relativeUrl="user",

@@ -29,9 +29,9 @@ fun getQueryCode(params: List<ParameterData>, listType: KSType?, arrayType: KSTy
             )
         } else {
             if (encoded) {
-                "encodedParameters.append(\"%s\", \"\$%s\")\n".format(query.value, parameterData.name)
+                "%s?.let{ encodedParameters.append(\"%s\", \"\$it\") }\n".format(parameterData.name,query.value)
             } else {
-                "parameter(\"%s\", \"\$%s\")\n".format(query.value, parameterData.name)
+                "%s?.let{ parameter(\"%s\", \"\$it\") }\n".format(parameterData.name, query.value)
             }
         }
 

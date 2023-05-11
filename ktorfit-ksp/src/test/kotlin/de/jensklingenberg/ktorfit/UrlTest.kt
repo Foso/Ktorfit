@@ -15,7 +15,7 @@ class UrlTest {
     fun testFunctionWithGET() {
         val expectedFunctionSource = """public override suspend fun test(): String {
     val _ext: HttpRequestBuilder.() -> Unit = {
-        this.method = HttpMethod.parse("GET") 
+        method = HttpMethod.parse("GET") 
         }
     val _requestData = RequestData(relativeUrl="user",
         returnTypeData = TypeData("kotlin.String"),
@@ -48,14 +48,15 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFunctionSource)).isTrue()
+        val actualSource = generatedFile.readText()
+        Truth.assertThat(actualSource.contains(expectedFunctionSource)).isTrue()
     }
 
     @Test
     fun testFunctionWithGETAndUrlAnno() {
         val expectedFunctionSource = """public override suspend fun test(url: String): String {
     val _ext: HttpRequestBuilder.() -> Unit = {
-        this.method = HttpMethod.parse("GET") 
+        method = HttpMethod.parse("GET") 
         }
     val _requestData = RequestData(relativeUrl="ä{url}",
         returnTypeData = TypeData("kotlin.String"),

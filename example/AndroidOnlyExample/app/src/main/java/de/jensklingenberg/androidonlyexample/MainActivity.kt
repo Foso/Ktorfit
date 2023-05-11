@@ -28,7 +28,8 @@ val ktorfit = ktorfit {
             json(Json { isLenient = true; ignoreUnknownKeys = true })
         }
     })
-    responseConverter(FlowResponseConverter()).build()
+    responseConverter(FlowResponseConverter())
+
 }
 val api: StarWarsApi = ktorfit.create<StarWarsApi>()
 

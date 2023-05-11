@@ -124,10 +124,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     private fun HttpRequestBuilder.requestBuilder(
         requestData: RequestData
     ) {
-
-        handleFields(requestData.fields)
         handleParts(requestData.parts)
-        //handleQueries(requestData.queries)
 
         val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl)
 
@@ -168,64 +165,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         }
 
         return newUrl
-    }
-
-    private fun HttpRequestBuilder.handleFields(fields: List<DH>) {
-        if (fields.isNotEmpty()) {
-            val formParameters = Parameters.build {
-
-                fun append(encoded: Boolean, key: String, value: String) {
-                    /**
-                     * This is a workaround.
-                     * Ktor encodes parameters by default and I don't know
-                     * how to deactivate this.
-                     * When the value is not encoded it will be given to Ktor unchanged.
-                     * If it is encoded, it gets decoded, so Ktor can encode it again.
-                     */
-
-                    if (encoded) {
-                        append(key, value.decodeURLQueryComponent(plusIsSpace = true))
-                    } else {
-                        append(key, value)
-                    }
-                }
-
-                fields.forEach { entry ->
-
-                    when (val data = entry.data) {
-                        is List<*> -> {
-                            data.filterNotNull().forEach {
-                                append(entry.encoded, entry.key, it as String)
-                            }
-                        }
-
-                        is Array<*> -> {
-                            data.filterNotNull().forEach {
-                                append(entry.encoded, entry.key, it as String)
-                            }
-                        }
-
-                        is Map<*, *> -> {
-                            for ((key, value) in entry.data as Map<*, *>) {
-                                value?.let {
-                                    append(entry.encoded, key.toString(), value.toString())
-                                }
-                            }
-                        }
-
-                        null -> {
-                            //Ignore this
-                        }
-
-                        else -> {
-                            append(entry.encoded, entry.key, entry.data.toString())
-                        }
-                    }
-                }
-            }
-            setBody(FormDataContent(formParameters))
-
-        }
     }
 
     private fun HttpRequestBuilder.handleParts(parts: Map<String, Any>) {

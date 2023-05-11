@@ -86,19 +86,20 @@ interface TestService {
     """
         )
 
-        val expectedFieldsArgumentText = "fields = listOf(DH(\"name\",testField,false))"
+        val expectedFieldsArgumentText = "val _formParameters = Parameters.build {\n" +
+                "        testField?.let{ append(\"name\", \"ä{it}\") }\n" +
+                "        }".replace("ä","$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFieldsArgumentText)).isTrue()
+        val actualSource = generatedFile.readText()
+        Assert.assertEquals(false, actualSource.contains(expectedFieldsArgumentText))
     }
 
     @Test
@@ -121,7 +122,9 @@ interface TestService {
         )
 
 
-        val expectedFieldsArgumentText = "fields = listOf(DH(\"\",testFieldMap,false))"
+        val expectedFieldsArgumentText = "val _formParameters = Parameters.build {\n" +
+                "        testFieldMap?.forEach { entry -> entry.value?.let{ append(entry.key, \"$"+"{entry.value}\") } }\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -133,7 +136,8 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFieldsArgumentText)).isTrue()
+        val actualSource = generatedFile.readText()
+        Assert.assertEquals(true, actualSource.contains(expectedFieldsArgumentText))
     }
 
 
@@ -158,20 +162,21 @@ interface TestService {
     """
         )
 
-
-        val expectedFieldsArgumentText = "fields = listOf(DH(\"name\",testField,false), DH(\"\",name,false)),"
+        val expectedFieldsArgumentText = "val _formParameters = Parameters.build {\n" +
+                "        testField?.let{ append(\"name\", \"ä{it}\") }\n" +
+                "        name?.forEach { entry -> entry.value?.let{ append(entry.key, \"ä{entry.value}\") } }\n" +
+                "        }".replace("ä","$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFieldsArgumentText)).isTrue()
+        val actualSource = generatedFile.readText()
+        Assert.assertEquals(false, actualSource.contains(expectedFieldsArgumentText))
     }
 
     @Test

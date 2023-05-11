@@ -4,6 +4,7 @@ import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.Field
 import de.jensklingenberg.ktorfit.model.annotations.FieldMap
+import de.jensklingenberg.ktorfit.reqBuilderExtension.getFieldArgumentsText
 import org.junit.Assert
 import org.junit.Test
 
@@ -35,7 +36,12 @@ class FieldArgumentsTextKtTest {
 
         val params = listOf(parameterData1, parameterData2)
         val text = getFieldArgumentsText(params)
-        Assert.assertEquals("fields = listOf(DH(\"world\",test1,false), DH(\"world\",test1,true))", text)
+        val expected = "val _formParameters = Parameters.build {\n" +
+                "test1?.let{ append(\"world\", \"$"+"{it}\") }\n" +
+                "test1?.let{ append(\"world\", \"$"+"{it}\".decodeURLQueryComponent(plusIsSpace = true)) }\n" +
+                "}\n" +
+                "setBody(FormDataContent(_formParameters))\n"
+        Assert.assertEquals(expected, text)
     }
 
     @Test
@@ -63,8 +69,15 @@ class FieldArgumentsTextKtTest {
 
         val params = listOf(parameterData1, parameterData2, parameterData3)
         val text = getFieldArgumentsText(params)
+
+        val expected = "val _formParameters = Parameters.build {\n" +
+                "test1?.let{ append(\"world\", \"$"+"{it}\") }\n" +
+                "test2?.let{ append(\"world\", \"$"+"{it}\".decodeURLQueryComponent(plusIsSpace = true)) }\n" +
+                "test3?.forEach { entry -> entry.value?.let{ append(entry.key, \"$"+"{entry.value}.decodeURLQueryComponent(plusIsSpace = true)\") } }\n" +
+                "}\n" +
+                "setBody(FormDataContent(_formParameters))\n"
         Assert.assertEquals(
-            "fields = listOf(DH(\"world\",test1,false), DH(\"world\",test2,true), DH(\"\",test3,true))",
+            expected,
             text
         )
     }

@@ -1,9 +1,10 @@
 package de.jensklingenberg.ktorfit
 
-import KtorfitProcessorProvider
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
-import com.tschuchort.compiletesting.*
+import com.tschuchort.compiletesting.KotlinCompilation
+import com.tschuchort.compiletesting.SourceFile
+import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import org.junit.Assert
 import org.junit.Test
@@ -41,7 +42,7 @@ interface TestService {
 
         val expectedFunctionText = """public override suspend fun getPostsStreaming(): HttpStatement {
     val _ext: HttpRequestBuilder.() -> Unit = {
-        this.method = HttpMethod.parse("GET") 
+        method = HttpMethod.parse("GET") 
         }
     val _requestData = RequestData(relativeUrl="posts",
         returnTypeData = TypeData("io.ktor.client.statement.HttpStatement"),
@@ -52,12 +53,7 @@ interface TestService {
     return ktorfitClient.suspendRequest<HttpStatement, HttpStatement>(_requestData)!!
   }"""
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(httpStatement, source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(httpStatement, source))
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
 
@@ -67,7 +63,8 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        assertThat(generatedFile.readText().contains(expectedFunctionText)).isTrue()
+        val actualSource = generatedFile.readText()
+        assertThat(actualSource.contains(expectedFunctionText)).isTrue()
     }
 
     @Test
@@ -88,12 +85,7 @@ interface TestService {
     """
         )
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(httpStatement, source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(httpStatement, source))
         val result = compilation.compile()
         Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
         Assert.assertTrue(result.messages.contains(KtorfitError.FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT))
