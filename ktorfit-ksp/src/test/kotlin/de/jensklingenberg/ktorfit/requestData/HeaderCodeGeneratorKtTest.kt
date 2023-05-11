@@ -34,7 +34,7 @@ class HeaderCodeGeneratorKtTest {
         val params = listOf(parameterData)
         val text = getHeadersCode(listOf(), params, listType, arrayType)
         val expected = "headers{\n" +
-                "append(\"foo\", \"\$test1\")\n" +
+                "test1?.let{ append(\"foo\", \"$"+"it\") }\n" +
                 "}"
         assertEquals(expected, text)
     }
