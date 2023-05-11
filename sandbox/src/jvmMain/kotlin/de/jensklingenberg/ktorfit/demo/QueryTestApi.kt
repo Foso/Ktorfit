@@ -7,7 +7,7 @@ import ktorfit.Test
 interface QueryTestApi {
 
     @GET("people/{id}/")
-    suspend fun testQueryWithEncodedString(@Path("id") peopleId: Int, @Query("huhu",true) name: String,@Query("huhu2",false) name2: String): People
+    suspend fun testQueryWithEncodedString(@Path("id") peopleId: Int, @Query("huhu",true) name: String?,@Query("huhu2",false) name2: String): People
 
     @GET("people/{id}/")
     suspend fun testQueryWithEncodedInt(@Path("id") peopleId: Int, @Query("huhu",true) name: Int): People

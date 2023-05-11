@@ -82,18 +82,19 @@ suspend fun test(@Field("id") id: String): String?
 
         val expectedHeaderCode = """headers{
         append("Content-Type", "application/x-www-form-urlencoded")
-        } """
+        }"""
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Assert.assertEquals(true, generatedFile.readText().contains(expectedHeaderCode))
+        val actual = generatedFile.readText()
+        Assert.assertEquals(true, actual.contains(expectedHeaderCode))
     }
 
     @Test

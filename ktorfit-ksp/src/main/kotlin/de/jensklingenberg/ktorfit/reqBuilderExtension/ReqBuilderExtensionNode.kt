@@ -19,7 +19,7 @@ fun getReqBuilderExtensionText(functionData: FunctionData): String {
     } else {
         methodAnnotation.httpMethod.keyword
     }
-    val method = "this.method = HttpMethod.parse(\"${httpMethodValue}\")"
+    val method = "method = HttpMethod.parse(\"${httpMethodValue}\")"
     val listType =
         KtorfitProcessor.ktorfitResolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType()
 
@@ -31,23 +31,24 @@ fun getReqBuilderExtensionText(functionData: FunctionData): String {
         arrayType
     )
 
-    val param = getQueryCode(
+    val queryCode = getQueryCode(
         functionData.parameterDataList,
         listType,
         arrayType
     )
     val body = getBodyDataText(functionData.parameterDataList)
+    val fields = getFieldArgumentsText(functionData.parameterDataList)
+
     val customReqBuilder = getCustomRequestBuilderText(functionData.parameterDataList)
     val args = listOf(
         method,
         body,
         headers,
-        param,
+        queryCode,
+        fields,
         customReqBuilder
     ).filter { it.isNotEmpty() }
         .joinToString("\n") { it }
 
     return "val _ext: HttpRequestBuilder.() -> Unit = {\n$args \n}"
 }
-
-

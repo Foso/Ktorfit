@@ -30,8 +30,8 @@ interface TestService {
         )
 
         val expectedQueriesArgumentText = "url{\n" +
-                "        parameter(\"name\", \"\$testQuery\")\n" +
-                "        encodedParameters.append(\"user\", \"\$testQuery2\")\n" +
+                "        testQuery?.let{ parameter(\"name\", \"$"+"it\") }\n" +
+                "        testQuery2?.let{ encodedParameters.append(\"user\", \"$"+"it\") }\n" +
                 "        }"
 
         val compilation = getCompilation(listOf(source))
@@ -174,10 +174,10 @@ fun example(@Query("name") testQuery: String, @QueryName testQueryName: String, 
 
         val expectedQueriesArgumentText =
             "url{\n" +
-                    "        parameter(\"name\", \"\$testQuery\")\n" +
-                    "        parameters.appendAll(\"\$testQueryName\", emptyList())\n" +
+                    "        testQuery?.let{ parameter(\"name\", \"$"+"it\") }\n" +
+                    "        parameters.appendAll(\"$"+"testQueryName\", emptyList())\n" +
                     "        name?.forEach { entry -> entry.value?.let{ encodedParameters.append(entry.key,\n" +
-                    "            \"\${entry.value}\") } }\n" +
+                    "            \"$"+"{entry.value}\") } }\n" +
                     "        }"
 
         val compilation = getCompilation(listOf(source))

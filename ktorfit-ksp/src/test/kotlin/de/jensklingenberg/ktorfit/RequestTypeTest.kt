@@ -29,7 +29,7 @@ interface TestService {
         val expectedFunctionSource = """public override suspend fun test(postId: String): String {
     val postId: Int = ktorfitClient.convertParameterType(postId,postId::class,Int::class)
     val _ext: HttpRequestBuilder.() -> Unit = {
-        this.method = HttpMethod.parse("GET") 
+        method = HttpMethod.parse("GET") 
         }
     val _requestData = RequestData(relativeUrl="posts/{postId}/comments",
         returnTypeData = TypeData("kotlin.String"),
@@ -50,6 +50,7 @@ interface TestService {
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Assert.assertEquals(true, generatedFile.readText().contains(expectedFunctionSource))
+        val actualSource = generatedFile.readText()
+        Assert.assertEquals(true, actualSource.contains(expectedFunctionSource))
     }
 }
