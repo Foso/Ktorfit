@@ -1,10 +1,10 @@
-package de.jensklingenberg.ktorfit.requestData
+package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.RequestBuilder
 
-fun getRequestBuilderText(parameterDataList: List<ParameterData>): String {
+fun getCustomRequestBuilderText(parameterDataList: List<ParameterData>): String {
     return (parameterDataList.find { it.hasAnnotation<RequestBuilder>() }?.let {
-        "requestBuilder = " + it.name
+        it.name+"(this)"
     } ?: "")
 }

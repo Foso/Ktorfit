@@ -37,17 +37,17 @@ fun getReqBuilderExtensionText(functionData: FunctionData): String {
         arrayType
     )
     val body = getBodyDataText(functionData.parameterDataList)
-
+    val customReqBuilder = getCustomRequestBuilderText(functionData.parameterDataList)
     val args = listOf(
         method,
         body,
         headers,
-        param
+        param,
+        customReqBuilder
     ).filter { it.isNotEmpty() }
         .joinToString("\n") { it }
 
     return "val _ext: HttpRequestBuilder.() -> Unit = {\n$args \n}"
 }
-
 
 

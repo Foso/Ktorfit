@@ -16,7 +16,6 @@ public data class RequestData(
     val fields: List<DH> = emptyList(),
     val parts: Map<String, Any> = emptyMap(),
     val returnTypeData: TypeData,
-    val requestBuilder: HttpRequestBuilder.() -> Unit = {},
     val paths: List<DH> = emptyList(),
     val requestTypeInfo: TypeInfo,
     val returnTypeInfo: TypeInfo,
