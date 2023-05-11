@@ -1,7 +1,8 @@
 package de.jensklingenberg.ktorfit
 
-import KtorfitProcessorProvider
-import com.tschuchort.compiletesting.*
+import com.tschuchort.compiletesting.KotlinCompilation
+import com.tschuchort.compiletesting.SourceFile
+import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import org.junit.Assert
@@ -38,12 +39,7 @@ suspend fun test(): List<Triple<String,Int,String>>
 
         val notExpectedHeadersArgumentText = "headers{"
 
-        val compilation = KotlinCompilation().apply {
-            sources = listOf(source2, source)
-            inheritClassPath = true
-            symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-            kspIncremental = true
-        }
+        val compilation = getCompilation(listOf(source2, source))
         val result = compilation.compile()
         assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
@@ -93,7 +89,7 @@ suspend fun test(): String
     }
 
     @Test
-    fun whenHeadersHeaderMapHeaderAnnotationFound_AddHeader() {
+    fun whenHeadersHeaderMapAndHeaderAnnotationFound_AddHeader() {
 
         val source = SourceFile.kotlin(
             "Source.kt", """package com.example.api
@@ -106,18 +102,18 @@ import de.jensklingenberg.ktorfit.http.HeaderMap
 interface TestService {
 @Headers(value = ["x:y","a:b"])
 @GET("posts")
-suspend fun test(@Header("testHeader") testParameter: String, @HeaderMap("testHeaderMap") testParameter2: Map<String,String>): String
+suspend fun test(@Header("testHeader") testParameter: String?, @HeaderMap("testHeaderMap") testParameter2: Map<String,String>): String
 }
     """
         )
 
 
         val expectedHeadersArgumentText = "headers{\n" +
-                "        append(\"testHeader\", \"\$testParameter\")\n" +
-                "        testParameter2?.forEach { append(it.key, \"\${it.value}\") }\n" +
+                "        testParameter?.let{ append(\"testHeader\", \"$"+"it\") }\n" +
+                "        testParameter2?.forEach { append(it.key, \"$"+"{it.value}\") }\n" +
                 "        append(\"x\", \"y\")\n" +
                 "        append(\"a\", \"b\")\n" +
-                "        }"
+                "        } "
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -153,8 +149,8 @@ interface TestService {
 
 
         val expectedHeadersArgumentText = "headers{\n" +
-                "        append(\"testHeader\", \"\$testParameter\")\n" +
-                "        } "
+                "        testParameter?.let{ append(\"testHeader\", \"$"+"it\") }\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

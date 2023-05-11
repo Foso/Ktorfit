@@ -39,7 +39,7 @@ fun getHeadersCode(
                     }
 
                     else -> {
-                        "append(\"$headerName\", \"\$$paramName\")\n"
+                        "$paramName?.let{ append(\"$headerName\", \"\$it\") }\n"
                     }
                 }
             }
