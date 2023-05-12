@@ -1,34 +1,58 @@
 package de.jensklingenberg.ktorfit.reqBuilderExtension
 
+import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.Field
 import de.jensklingenberg.ktorfit.model.annotations.FieldMap
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 
-fun getFieldArgumentsText(params: List<ParameterData>): String {
-    //Get all Parameter with @Field and add them to a list
+fun getFieldArgumentsText(params: List<ParameterData>, listType: KSType?, arrayType: KSType): String {
 
     val text = params.filter { it.hasAnnotation<Field>() }.joinToString("") { parameterData ->
         val field = parameterData.annotations.filterIsInstance<Field>().first()
         val encoded = field.encoded
-        val data = parameterData.name
+        val paramName = parameterData.name
         val fieldKey = field.value
+        val starProj = parameterData.type.parameterType?.resolve()?.starProjection()
 
-        "$data?.let{ append(\"$fieldKey\", \"\${it}\"%s) }\n".format(
-            if (encoded) {
-                /**
-                 * This is a workaround.
-                 * Ktor encodes parameters by default and I don't know
-                 * how to deactivate this.
-                 * When the value is not encoded it will be given to Ktor unchanged.
-                 * If it is encoded, it gets decoded, so Ktor can encode it again.
-                 */
-                ".decodeURLQueryComponent(plusIsSpace = true)"
-            } else {
-                ""
+        val isList = starProj?.isAssignableFrom(listType!!) ?: false
+        val isArray = starProj?.isAssignableFrom(arrayType) ?: false
+
+        when {
+            isList || isArray -> {
+                "%s?.filterNotNull()?.forEach { append(\"%s\", \"\$it\"%s) }\n".format(paramName, fieldKey,if (encoded) {
+                    /**
+                     * This is a workaround.
+                     * Ktor encodes parameters by default and I don't know
+                     * how to deactivate this.
+                     * When the value is not encoded it will be given to Ktor unchanged.
+                     * If it is encoded, it gets decoded, so Ktor can encode it again.
+                     */
+                    ".decodeURLQueryComponent(plusIsSpace = true)"
+                } else {
+                    ""
+                })
             }
-        )
+
+            else -> {
+                "$paramName?.let{ append(\"$fieldKey\", \"\${it}\"%s) }\n".format(
+                    if (encoded) {
+                        /**
+                         * This is a workaround.
+                         * Ktor encodes parameters by default and I don't know
+                         * how to deactivate this.
+                         * When the value is not encoded it will be given to Ktor unchanged.
+                         * If it is encoded, it gets decoded, so Ktor can encode it again.
+                         */
+                        ".decodeURLQueryComponent(plusIsSpace = true)"
+                    } else {
+                        ""
+                    }
+                )
+            }
+        }
+
 
     }
 

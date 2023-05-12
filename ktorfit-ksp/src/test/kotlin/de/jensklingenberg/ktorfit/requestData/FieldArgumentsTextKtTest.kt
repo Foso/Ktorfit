@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit.requestData
 
+import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.Field
@@ -7,14 +8,18 @@ import de.jensklingenberg.ktorfit.model.annotations.FieldMap
 import de.jensklingenberg.ktorfit.reqBuilderExtension.getFieldArgumentsText
 import org.junit.Assert
 import org.junit.Test
+import org.mockito.kotlin.mock
 
 class FieldArgumentsTextKtTest {
+
+    private val arrayType = mock<KSType>()
+    private val listType = mock<KSType>()
 
     @Test
     fun testWithoutFieldAnnotation() {
         val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
-        val text = getFieldArgumentsText(params)
+        val text = getFieldArgumentsText(params, listType, arrayType)
         Assert.assertEquals("", text)
     }
 
@@ -35,7 +40,7 @@ class FieldArgumentsTextKtTest {
         )
 
         val params = listOf(parameterData1, parameterData2)
-        val text = getFieldArgumentsText(params)
+        val text = getFieldArgumentsText(params, listType, arrayType)
         val expected = "val _formParameters = Parameters.build {\n" +
                 "test1?.let{ append(\"world\", \"$"+"{it}\") }\n" +
                 "test1?.let{ append(\"world\", \"$"+"{it}\".decodeURLQueryComponent(plusIsSpace = true)) }\n" +
@@ -68,7 +73,7 @@ class FieldArgumentsTextKtTest {
         )
 
         val params = listOf(parameterData1, parameterData2, parameterData3)
-        val text = getFieldArgumentsText(params)
+        val text = getFieldArgumentsText(params, listType, arrayType)
 
         val expected = "val _formParameters = Parameters.build {\n" +
                 "test1?.let{ append(\"world\", \"$"+"{it}\") }\n" +
