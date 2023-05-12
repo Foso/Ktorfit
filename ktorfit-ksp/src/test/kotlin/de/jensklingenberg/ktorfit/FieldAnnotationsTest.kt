@@ -11,9 +11,8 @@ import java.io.File
 
 class FieldAnnotationsTest {
 
-
     @Test
-    fun whenNoFieldAnnotationsFound_KeepFieldsArgumentEmpty() {
+    fun whenNoFieldAnnotationsFound_KeepFieldsBuilderEmpty() {
 
         val source = SourceFile.kotlin(
             "Source.kt", """
@@ -29,7 +28,7 @@ interface TestService {
     """
         )
 
-        val expectedFieldsArgumentText = "fields ="
+        val expectedFieldsBuilderText = "val _formParameters ="
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -41,7 +40,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFieldsArgumentText)).isFalse()
+        Truth.assertThat(generatedFile.readText().contains(expectedFieldsBuilderText)).isFalse()
     }
 
 
@@ -69,7 +68,7 @@ interface TestService {
 
 
     @Test
-    fun whenFieldAnnotationFoundAddItToFieldsArgument() {
+    fun whenFieldAnnotationFoundAddItToFieldsBuilder() {
 
         val source = SourceFile.kotlin(
             "Source.kt", """
@@ -86,9 +85,10 @@ interface TestService {
     """
         )
 
-        val expectedFieldsArgumentText = "val _formParameters = Parameters.build {\n" +
-                "        testField?.let{ append(\"name\", \"ä{it}\") }\n" +
-                "        }".replace("ä","$")
+        val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
+        testField?.let{ append("name", "ä{it}") }
+        }
+        setBody(FormDataContent(_formParameters))""".trimMargin().replace("ä", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -99,11 +99,81 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(false, actualSource.contains(expectedFieldsArgumentText))
+        Assert.assertEquals(true, actualSource.contains(expectedFieldsBuilderText))
     }
 
     @Test
-    fun whenFieldMapAnnotationFoundAddItToFieldsArgument() {
+    fun whenFieldAnnotationWithListFoundAddItToFieldsBuilder() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.Field
+import de.jensklingenberg.ktorfit.http.FormUrlEncoded
+
+interface TestService {
+    @FormUrlEncoded
+    @POST("posts")
+    suspend fun test(@Field("name") testField: List<String>)
+}
+    """
+        )
+
+        val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
+        testField?.filterNotNull()?.forEach { append("name", "äit") }
+        }
+        setBody(FormDataContent(_formParameters))""".trimMargin().replace("ä", "$")
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+        val actualSource = generatedFile.readText()
+        Assert.assertEquals(true, actualSource.contains(expectedFieldsBuilderText))
+    }
+
+    @Test
+    fun whenFieldAnnotationWithArrayFoundAddItToFieldsBuilder() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.Field
+import de.jensklingenberg.ktorfit.http.FormUrlEncoded
+
+interface TestService {
+    @FormUrlEncoded
+    @POST("posts")
+    suspend fun test(@Field("name") testField: Array<String>)
+}
+    """
+        )
+
+        val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
+        testField?.filterNotNull()?.forEach { append("name", "äit") }
+        }
+        setBody(FormDataContent(_formParameters))""".trimMargin().replace("ä", "$")
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+        val actualSource = generatedFile.readText()
+        Assert.assertEquals(true, actualSource.contains(expectedFieldsBuilderText))
+    }
+
+    @Test
+    fun whenFieldMapAnnotationFoundAddItToFieldsBuilder() {
 
         val source = SourceFile.kotlin(
             "Source.kt", """
@@ -122,8 +192,8 @@ interface TestService {
         )
 
 
-        val expectedFieldsArgumentText = "val _formParameters = Parameters.build {\n" +
-                "        testFieldMap?.forEach { entry -> entry.value?.let{ append(entry.key, \"$"+"{entry.value}\") } }\n" +
+        val expectedFieldsBuilderText = "val _formParameters = Parameters.build {\n" +
+                "        testFieldMap?.forEach { entry -> entry.value?.let{ append(entry.key, \"$" + "{entry.value}\") } }\n" +
                 "        }"
 
         val compilation = getCompilation(listOf(source))
@@ -137,7 +207,7 @@ interface TestService {
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(true, actualSource.contains(expectedFieldsArgumentText))
+        Assert.assertEquals(true, actualSource.contains(expectedFieldsBuilderText))
     }
 
 
@@ -162,10 +232,11 @@ interface TestService {
     """
         )
 
-        val expectedFieldsArgumentText = "val _formParameters = Parameters.build {\n" +
-                "        testField?.let{ append(\"name\", \"ä{it}\") }\n" +
-                "        name?.forEach { entry -> entry.value?.let{ append(entry.key, \"ä{entry.value}\") } }\n" +
-                "        }".replace("ä","$")
+        val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
+        testField?.let{ append("name", "ä{it}") }
+        name?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}") } }
+        }
+        setBody(FormDataContent(_formParameters))""".trimMargin().replace("ä", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -176,7 +247,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(false, actualSource.contains(expectedFieldsArgumentText))
+        Assert.assertEquals(true, actualSource.contains(expectedFieldsBuilderText))
     }
 
     @Test
