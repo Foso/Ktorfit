@@ -124,7 +124,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     private fun HttpRequestBuilder.requestBuilder(
         requestData: RequestData
     ) {
-        handleParts(requestData.parts)
 
         val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl)
 
@@ -165,25 +164,5 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         }
 
         return newUrl
-    }
-
-    private fun HttpRequestBuilder.handleParts(parts: Map<String, Any>) {
-        if (parts.isNotEmpty()) {
-            val partDatas = mutableListOf<PartData>()
-
-            parts.forEach {
-                if (it.value as? List<PartData> != null) {
-                    partDatas.addAll(it.value as List<PartData>)
-                }
-            }
-
-            val formData = formData {
-                parts.filter { it.value is String }.forEach {
-                    this@formData.append(it.key, it.value.toString())
-                }
-            }
-            val partDataList = formData + partDatas
-            setBody(MultiPartFormDataContent(partDataList))
-        }
     }
 }

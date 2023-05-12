@@ -32,7 +32,8 @@ fun getReqBuilderExtensionText(functionData: FunctionData): String {
     val body = getBodyDataText(functionData.parameterDataList)
     val fields = getFieldArgumentsText(functionData.parameterDataList, listType,
         arrayType)
-   // val parts = getPartsCode(functionData.parameterDataList)
+    val parts = getPartsCode(functionData.parameterDataList,listType,
+        arrayType)
 
     val customReqBuilder = getCustomRequestBuilderText(functionData.parameterDataList)
     val args = listOf(
@@ -41,7 +42,7 @@ fun getReqBuilderExtensionText(functionData: FunctionData): String {
         headers,
         queryCode,
         fields,
-      //  parts,
+        parts,
         customReqBuilder
     ).filter { it.isNotEmpty() }
         .joinToString("\n") { it }

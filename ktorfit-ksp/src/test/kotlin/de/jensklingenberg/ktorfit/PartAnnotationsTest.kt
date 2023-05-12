@@ -11,7 +11,6 @@ import java.io.File
 
 class PartAnnotationsTest {
 
-
     @Test
     fun whenNoPartAnnotationsFound_KeepPartsArgumentEmpty() {
 
@@ -29,7 +28,7 @@ interface TestService {
     """
         )
 
-        val expectedPartsArgumentText = "parts ="
+        val expectedPartsArgumentText = "val _formData = formData"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -61,7 +60,10 @@ interface TestService {
     """
         )
 
-        val expectedPartsArgumentText = "parts = mapOf(\"name\" to testPart)"
+        val expectedPartsArgumentText = """val _formData = formData {
+        testPart?.let{ append("name", "ä{it}") }
+        }
+        setBody(MultiPartFormDataContent(_formData))""".replace("ä","$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -73,7 +75,44 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedPartsArgumentText)).isTrue()
+        val actualSource = generatedFile.readText()
+        Truth.assertThat(actualSource.contains(expectedPartsArgumentText)).isTrue()
+    }
+
+    @Test
+    fun whenPartAnnotationWithListFoundAddItToPartsArgument() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.Part
+
+interface TestService {
+   
+    @POST("posts")
+    suspend fun test(@Part("name") testPart: List<String>)
+}
+    """
+        )
+
+        val expectedPartsArgumentText = """val _formData = formData {
+        testPart?.filterNotNull()?.forEach { append("name", "ä{it}") }
+        }
+        setBody(MultiPartFormDataContent(_formData))""".replace("ä","$")
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+        Truth.assertThat(generatedFile.exists()).isTrue()
+        val actualSource = generatedFile.readText()
+        Truth.assertThat(actualSource.contains(expectedPartsArgumentText)).isTrue()
     }
 
     @Test
@@ -95,7 +134,10 @@ interface TestService {
         )
 
 
-        val expectedPartsArgumentText = "parts = testPartMap"
+        val expectedPartsArgumentText = """val _formData = formData {
+        testPartMap?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}") } }
+        }
+        setBody(MultiPartFormDataContent(_formData))""".replace("ä","$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -107,7 +149,8 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedPartsArgumentText)).isTrue()
+        val actualSource = generatedFile.readText()
+        Truth.assertThat(actualSource.contains(expectedPartsArgumentText)).isTrue()
     }
 
 
@@ -130,8 +173,11 @@ interface TestService {
     """
         )
 
-
-        val expectedPartsArgumentText = "parts = mapOf(\"name\" to testPart)+name"
+        val expectedPartsArgumentText = """val _formData = formData {
+        testPart?.let{ append("name", "ä{it}") }
+        name?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}") } }
+        }
+        setBody(MultiPartFormDataContent(_formData))""".trimMargin().replace("ä","$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -143,7 +189,8 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedPartsArgumentText)).isTrue()
+        val actualSource = generatedFile.readText()
+        Truth.assertThat(actualSource.contains(expectedPartsArgumentText)).isTrue()
     }
 
     @Test

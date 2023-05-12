@@ -10,16 +10,15 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
     //URL
     val urlPath = getRelativeUrlArgumentText(functionData.httpMethodAnnotation, functionData.parameterDataList)
     val pathsText = getPathsText(functionData.parameterDataList)
-    val partsText = getPartsArgumentText(functionData.parameterDataList)
     val requestTypeInfoText = getRequestTypeInfoText(functionData.returnType)
     val returnTypeInfoText = getReturnTypeInfoText(functionData.returnType)
     val qualifiedTypeName = "returnTypeData = ${functionData.returnType.qualifiedName}"
     val ktorfitRequestBuilderText = "ktorfitRequestBuilder = _ext"
     val args = listOf(
         urlPath,
-        partsText,
         qualifiedTypeName,
         pathsText,
+
         requestTypeInfoText,
         returnTypeInfoText,
         ktorfitRequestBuilderText
