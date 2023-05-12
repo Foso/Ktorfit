@@ -25,7 +25,9 @@ interface KtorSamplesApi {
         @Field("username", true) headers: String?,
         @Field("email") email: String,
         @Field("password") password: String,
-        @Field("confirmation") confirmation: String
+        @Field("confirmation") confirmation: String,
+        @Field("names") names: List<String>
+
     ): String
 
 
@@ -39,7 +41,7 @@ interface KtorSamplesApi {
 
     @Multipart
     @POST("upload")
-    suspend fun uploadFile(@Part("description") description: String, @Part("") file: List<PartData>): String
+    suspend fun uploadFile(@Part("description") description: String, @Part("list") file: List<PartData>,@PartMap() map : Map<String,PartData>): String
 
     @POST("upload")
     suspend fun upload(@Body map: MultiPartFormDataContent)

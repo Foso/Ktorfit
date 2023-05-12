@@ -13,7 +13,7 @@ import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 fun getHeadersCode(
     functionAnnotations: List<FunctionAnnotation>,
     parameterDataList: List<ParameterData>,
-    listType: KSType?,
+    listType: KSType,
     arrayType: KSType
 ): String {
 
@@ -28,7 +28,7 @@ fun getHeadersCode(
                 val paramName = parameterData.name
 
                 val starProj = parameterData.type.parameterType?.resolve()?.starProjection()
-                val isList = starProj?.isAssignableFrom(listType!!) ?: false
+                val isList = starProj?.isAssignableFrom(listType) ?: false
                 val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
                 val headerName = parameterData.findAnnotationOrNull<Header>()?.path ?: ""

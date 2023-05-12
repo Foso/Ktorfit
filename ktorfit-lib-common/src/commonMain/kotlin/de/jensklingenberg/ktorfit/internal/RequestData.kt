@@ -5,7 +5,6 @@ import io.ktor.util.reflect.*
 
 /**
  * @param relativeUrl This is the request relative url path e.g. "posts/1"
- * @param queries list of query parameters that will be added to the requested url
  * @param fields list of fields parameters that will be added to the formData Body
  * @param returnTypeData This is the qualifiedName of requested return type
  * It will be used by [ResponseConverter] to check if they support the type
@@ -14,7 +13,6 @@ import io.ktor.util.reflect.*
 public data class RequestData(
     val relativeUrl: String,
     val fields: List<DH> = emptyList(),
-    val parts: Map<String, Any> = emptyMap(),
     val returnTypeData: TypeData,
     val paths: List<DH> = emptyList(),
     val requestTypeInfo: TypeInfo,

@@ -1,19 +1,25 @@
 package de.jensklingenberg.ktorfit.requestData
 
+import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.Part
 import de.jensklingenberg.ktorfit.model.annotations.PartMap
+import de.jensklingenberg.ktorfit.reqBuilderExtension.getPartsCode
 import org.junit.Assert
 import org.junit.Test
+import org.mockito.kotlin.mock
 
 class PartsArgumentTextKtTest {
+
+    private val arrayType = mock<KSType>()
+    private val listType = mock<KSType>()
 
     @Test
     fun testWithoutPartAnnotation() {
         val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
-        val text = getPartsArgumentText(params)
+        val text = getPartsCode(params, listType, arrayType)
         Assert.assertEquals("", text)
     }
 
@@ -26,8 +32,14 @@ class PartsArgumentTextKtTest {
             annotations = listOf(partAnnotation)
         )
         val params = listOf(parameterData)
-        val text = getPartsArgumentText(params)
-        Assert.assertEquals("parts = mapOf(\"world\" to test1)", text)
+        val text = getPartsCode(params, listType, arrayType)
+        val expected = """val _formData = formData {
+test1?.let{ append("world", "ä{it}") }
+}
+setBody(MultiPartFormDataContent(_formData))
+
+""".trimMargin().replace("ä", "$")
+        Assert.assertEquals(expected, text)
     }
 
     @Test
@@ -41,8 +53,14 @@ class PartsArgumentTextKtTest {
         val parameterData2 = ParameterData("test2", ReturnTypeData("String", "kotlin.String", null))
 
         val params = listOf(parameterData1, parameterData2)
-        val text = getPartsArgumentText(params)
-        Assert.assertEquals("parts = test1", text)
+        val text = getPartsCode(params, listType, arrayType)
+        val expected = """val _formData = formData {
+test1?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}") } }
+}
+setBody(MultiPartFormDataContent(_formData))
+
+""".trimMargin().replace("ä","$")
+        Assert.assertEquals(expected, text)
     }
 
     @Test
@@ -62,7 +80,15 @@ class PartsArgumentTextKtTest {
         )
 
         val params = listOf(parameterData1, parameterData2)
-        val text = getPartsArgumentText(params)
-        Assert.assertEquals("parts = mapOf(\"world\" to test2)+test1", text)
+        val text = getPartsCode(params, listType, arrayType)
+        val expected = """val _formData = formData {
+test2?.let{ append("world", "ä{it}") }
+test1?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}") } }
+}
+setBody(MultiPartFormDataContent(_formData))
+
+""".trimMargin().replace("ä", "$")
+
+        Assert.assertEquals(expected, text)
     }
 }

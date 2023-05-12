@@ -7,8 +7,7 @@ import de.jensklingenberg.ktorfit.model.annotations.QueryMap
 import de.jensklingenberg.ktorfit.model.annotations.QueryName
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
-fun getQueryCode(params: List<ParameterData>, listType: KSType?, arrayType: KSType): String {
-    //Get all Parameter with @Query and add them to a list
+fun getQueryCode(params: List<ParameterData>, listType: KSType, arrayType: KSType): String {
 
     val queryText = params.filter { it.hasAnnotation<Query>() }.joinToString(separator = "") { parameterData ->
         val query = parameterData.annotations.filterIsInstance<Query>().first()
