@@ -5,23 +5,16 @@ import KtorfitProcessor
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getKotlinClassByName
 import de.jensklingenberg.ktorfit.model.FunctionData
-import de.jensklingenberg.ktorfit.model.annotations.CustomHttp
 
 /**
  * This will generate the code for the HttpRequestBuilder
  */
 @OptIn(KspExperimental::class)
 fun getReqBuilderExtensionText(functionData: FunctionData): String {
-    val methodAnnotation = functionData.httpMethodAnnotation
-    //METHOD
-    val httpMethodValue = if (methodAnnotation is CustomHttp) {
-        methodAnnotation.customValue
-    } else {
-        methodAnnotation.httpMethod.keyword
-    }
-    val method = "method = HttpMethod.parse(\"${httpMethodValue}\")"
+
+    val method = getMethodCode(functionData.httpMethodAnnotation)
     val listType =
-        KtorfitProcessor.ktorfitResolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType()
+        KtorfitProcessor.ktorfitResolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType()!!
 
     val arrayType = KtorfitProcessor.ktorfitResolver.builtIns.arrayType.starProjection()
     val headers = getHeadersCode(
@@ -37,7 +30,9 @@ fun getReqBuilderExtensionText(functionData: FunctionData): String {
         arrayType
     )
     val body = getBodyDataText(functionData.parameterDataList)
-    val fields = getFieldArgumentsText(functionData.parameterDataList)
+    val fields = getFieldArgumentsText(functionData.parameterDataList, listType,
+        arrayType)
+   // val parts = getPartsCode(functionData.parameterDataList)
 
     val customReqBuilder = getCustomRequestBuilderText(functionData.parameterDataList)
     val args = listOf(
@@ -46,9 +41,11 @@ fun getReqBuilderExtensionText(functionData: FunctionData): String {
         headers,
         queryCode,
         fields,
+      //  parts,
         customReqBuilder
     ).filter { it.isNotEmpty() }
         .joinToString("\n") { it }
 
     return "val _ext: HttpRequestBuilder.() -> Unit = {\n$args \n}"
 }
+

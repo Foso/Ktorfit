@@ -7,7 +7,7 @@ import de.jensklingenberg.ktorfit.model.annotations.FieldMap
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 
-fun getFieldArgumentsText(params: List<ParameterData>, listType: KSType?, arrayType: KSType): String {
+fun getFieldArgumentsText(params: List<ParameterData>, listType: KSType, arrayType: KSType): String {
 
     val text = params.filter { it.hasAnnotation<Field>() }.joinToString("") { parameterData ->
         val field = parameterData.annotations.filterIsInstance<Field>().first()
