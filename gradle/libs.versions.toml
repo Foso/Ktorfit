@@ -1,6 +1,6 @@
 [versions]
 autoService = "1.0.1"
-coroutines = "1.7.0"
+coroutines = "1.7.1"
 detekt = "1.22.0"
 kctfork = "0.2.1"
 kotlin = "1.8.20"
