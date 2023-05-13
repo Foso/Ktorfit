@@ -1,5 +1,7 @@
-import de.jensklingenberg.ktorfit.Ktorfit
+package de.jensklingenberg.ktorfit
+
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
+import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import de.jensklingenberg.ktorfit.internal.RequestData
@@ -15,7 +17,14 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
 
-@OptIn(InternalKtorfitApi::class)
+interface ConverterTestApi{
+    @GET("posts")
+    fun converterMissing() : Flow<String>
+
+    @GET("posts")
+    suspend fun clientException() : Flow<String>
+}
+
 class ConverterTest {
 
     @Test
@@ -29,19 +38,13 @@ class ConverterTest {
 
             val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
             runBlocking {
-                val ext: HttpRequestBuilder.() -> Unit = {
-                    method = HttpMethod.parse("GET")
-                }
-                val requestData = RequestData(
-                    relativeUrl = "",
-                    returnTypeData = TypeData("kotlinx.coroutines.flow.Flow"),
-                    requestTypeInfo = typeInfo<String>(),
-                    returnTypeInfo = typeInfo<String>(), ktorfitRequestBuilder = ext
-                )
-                KtorfitClient(ktorfit).request<Flow<String>, String>(requestData)
+                ktorfit.create<ConverterTestApi>(_ConverterTestApiImpl()).converterMissing()
+
             }
         } catch (exception: Exception) {
             Assert.assertTrue(exception is IllegalArgumentException)
+            Assert.assertTrue(exception.message?.startsWith("Add a RequestConverter") ?: false)
+
         }
     }
 
@@ -74,16 +77,8 @@ class ConverterTest {
 
             val ktorfit = Ktorfit.Builder().baseUrl("http://www.jensklingenberg.de/").responseConverter(test).build()
             runBlocking {
-                val ext: HttpRequestBuilder.() -> Unit = {
-                    method = HttpMethod.parse("GET")
-                }
-                val requestData = RequestData(
-                    relativeUrl = "notexisting",
-                    returnTypeData = TypeData("kotlinx.coroutines.flow.Flow"),
-                    requestTypeInfo = typeInfo<String>(),
-                    returnTypeInfo = typeInfo<String>(), ktorfitRequestBuilder = ext
-                )
-                KtorfitClient(ktorfit).suspendRequest<Flow<String>, String>(requestData)
+                ktorfit.create<ConverterTestApi>(_ConverterTestApiImpl()).clientException()
+
             }
         } catch (exception: Exception) {
             Assert.assertTrue(exception is IllegalArgumentException)
@@ -93,5 +88,3 @@ class ConverterTest {
 
 
 }
-
-

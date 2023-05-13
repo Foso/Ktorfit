@@ -16,13 +16,7 @@ import kotlin.reflect.cast
 internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
     private val httpClient: HttpClient = ktorfit.httpClient
-
-    /**
-     * Converts [value] to an URL encoded value
-     */
-    private fun encode(value: Any): String {
-        return value.toString().encodeURLParameter()
-    }
+    override var baseUrl: String = ktorfit.baseUrl
 
     /**
      * This will handle all requests for functions without suspend modifier
@@ -120,49 +114,10 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         return requestType.cast(requestConverter.convert(data))
     }
 
-
     private fun HttpRequestBuilder.requestBuilder(
         requestData: RequestData
     ) {
-
-        val relativeUrl = getRelativeUrl(requestData.paths, requestData.relativeUrl)
-
-        val requestUrl = getRequestUrl(ktorfit.baseUrl, relativeUrl)
-
-        url(requestUrl)
         requestData.ktorfitRequestBuilder(this)
     }
 
-    private fun getRequestUrl(
-        baseUrl: String,
-        relativeUrl: String
-    ): String {
-        return if (relativeUrl.startsWith("http")) {
-            relativeUrl
-        } else {
-            baseUrl + relativeUrl
-        }
-    }
-
-
-    /**
-     * This method replaces all parts of the [relativeUrl] which have curly braces
-     * with their corresponding value
-     * @return the relative URL with replaced values
-     */
-    private fun getRelativeUrl(paths: List<DH>, relativeUrl: String): String {
-        var newUrl = relativeUrl
-        paths.forEach {
-
-            val newPathValue = if (it.encoded) {
-                it.data.toString()
-            } else {
-                encode(it.data.toString())
-            }
-
-            newUrl = newUrl.replace("{${it.key}}", newPathValue)
-        }
-
-        return newUrl
-    }
 }

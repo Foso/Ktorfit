@@ -1,5 +1,9 @@
+import de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration
+
 plugins {
     kotlin("multiplatform")
+    alias(libs.plugins.kspPlugin)
+
     id("maven-publish")
     id("signing")
     id("com.vanniktech.maven.publish")
@@ -8,7 +12,19 @@ plugins {
     alias(libs.plugins.detekt)
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.1"
     id("app.cash.licensee")
+
 }
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
 
 licensee {
     allow("Apache-2.0")
@@ -102,7 +118,10 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
+                kotlin.srcDir("build/generated/ksp/jvm/jvmTest/")
+
                 dependsOn(jvmMain)
+
                 implementation(libs.ktor.client.mock)
                 implementation(libs.junit)
                 implementation(libs.mockito.kotlin)
@@ -200,4 +219,14 @@ publishing {
 
 rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class) {
     rootProject.the(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class).nodeVersion = "18.0.0"
+}
+
+dependencies {
+    add(
+        "kspCommonMainMetadata", projects.ktorfitKsp
+    )
+    add("kspJvm", projects.ktorfitKsp)
+     add("kspJvmTest", projects.ktorfitKsp)
+
+
 }

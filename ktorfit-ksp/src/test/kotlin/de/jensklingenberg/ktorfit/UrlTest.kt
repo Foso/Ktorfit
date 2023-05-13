@@ -13,18 +13,7 @@ class UrlTest {
 
     @Test
     fun testFunctionWithGET() {
-        val expectedFunctionSource = """public override suspend fun test(): String {
-    val _ext: HttpRequestBuilder.() -> Unit = {
-        method = HttpMethod.parse("GET") 
-        }
-    val _requestData = RequestData(relativeUrl="user",
-        returnTypeData = TypeData("kotlin.String"),
-        requestTypeInfo=typeInfo<String>(),
-        returnTypeInfo = typeInfo<String>(),
-        ktorfitRequestBuilder = _ext) 
-
-    return ktorfitClient.suspendRequest<String, String>(_requestData)!!
-  }"""
+        val expectedFunctionSource = """url(ktorfitClient.baseUrl + "user") """
 
         val source = SourceFile.kotlin(
             "Source.kt", """
@@ -53,19 +42,43 @@ interface TestService {
     }
 
     @Test
-    fun testFunctionWithGETAndUrlAnno() {
-        val expectedFunctionSource = """public override suspend fun test(url: String): String {
-    val _ext: HttpRequestBuilder.() -> Unit = {
-        method = HttpMethod.parse("GET") 
-        }
-    val _requestData = RequestData(relativeUrl="ä{url}",
-        returnTypeData = TypeData("kotlin.String"),
-        requestTypeInfo=typeInfo<String>(),
-        returnTypeInfo = typeInfo<String>(),
-        ktorfitRequestBuilder = _ext) 
+    fun testFunctionWithGETAndPath() {
 
-    return ktorfitClient.suspendRequest<String, String>(_requestData)!!
-  }""".replace("ä", "$")
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Path
+
+interface TestService {
+
+    @GET("user/{id}")
+    suspend fun test(@Path("id") id: String): String
+    
+}
+    """
+        )
+
+
+        val expectedFunctionText = """url(ktorfitClient.baseUrl + "user/ä{"äid".encodeURLPath()}") """.replace("ä","$")
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+        Truth.assertThat(generatedFile.exists()).isTrue()
+        val actualSource = generatedFile.readText()
+        Truth.assertThat(actualSource.contains(expectedFunctionText)).isTrue()
+    }
+
+    @Test
+    fun testFunctionWithGETAndUrlAnno() {
+        val expectedFunctionSource = """url((ktorfitClient.baseUrl.takeIf{ !url.startsWith("http")} ?: "") + "ä{url}") """.replace("ä", "$")
 
 
         val source = SourceFile.kotlin(
@@ -143,6 +156,90 @@ interface TestService {
         Assert.assertTrue(result.messages.contains(KtorfitError.MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND))
     }
 
+    @Test
+    fun testFunctionWithGETAndAlreadyEncodedPath() {
 
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Path
+
+interface TestService {
+
+    @GET("user/{id}")
+    suspend fun test(@Path("id",true) id: String): String
+    
+}
+    """
+        )
+
+        val expectedFunctionText = """url(ktorfitClient.baseUrl + "user/ä{"äid"}") """.replace("ä","$")
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+        Truth.assertThat(generatedFile.exists()).isTrue()
+        val actualSource = generatedFile.readText()
+        Truth.assertThat(actualSource.contains(expectedFunctionText)).isTrue()
+    }
+
+    @Test
+    fun whenPathParameterNullable_ThrowCompilationError() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Path
+
+interface TestService {
+
+    @GET("user/{id}")
+    suspend fun test(@Path("id") id: String?): String
+    
+}
+    """
+        )
+
+
+        val compilation = getCompilation(listOf(source))
+
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        Assert.assertTrue(result.messages.contains(KtorfitError.PATH_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE))
+    }
+
+    @Test
+    fun whenPathUsedWithEmptyHttpAnnotationValue_ThrowCompilationError() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Path
+
+interface TestService {
+
+    @GET("")
+    suspend fun test(@Path("id") id: String): String
+    
+}
+    """
+        )
+
+
+        val compilation = getCompilation(listOf(source))
+
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        Assert.assertTrue(result.messages.contains(KtorfitError.PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON))
+    }
 }
 

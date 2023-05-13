@@ -9,6 +9,6 @@ import de.jensklingenberg.ktorfit.model.ReturnTypeData
 
 fun getRequestTypeInfoText(returnType: ReturnTypeData): String {
     val typeWithoutOuterType = returnType.innerTypeName
-    return "requestTypeInfo=typeInfo<$typeWithoutOuterType>()"
+    return "requestTypeInfo = typeInfo<$typeWithoutOuterType>()"
 }
 
