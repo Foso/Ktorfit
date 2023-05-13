@@ -9,6 +9,6 @@ class RequestTypeInfoKtTest {
     @Test
     fun testWithRequestTypeInfo() {
         val text = getRequestTypeInfoText(ReturnTypeData("String", "kotlin.String", null))
-        Assert.assertEquals("requestTypeInfo=typeInfo<String>()", text)
+        Assert.assertEquals("requestTypeInfo = typeInfo<String>()", text)
     }
 }

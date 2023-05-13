@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit
 
+import de.jensklingenberg.ktorfit.Strings.Companion.BASE_URL_REQUIRED
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
@@ -59,7 +60,7 @@ public class Ktorfit private constructor(
          */
         public fun baseUrl(url: String, checkUrl: Boolean = true): Builder = apply {
             if (checkUrl && url.isEmpty()) {
-                throw IllegalStateException("Base URL required")
+                throw IllegalStateException(BASE_URL_REQUIRED)
             }
 
             if (checkUrl && !url.endsWith("/")) {

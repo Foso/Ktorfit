@@ -1,3 +1,5 @@
+package de.jensklingenberg.ktorfit
+
 import io.ktor.client.engine.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -40,4 +42,3 @@ open class TestEngine() : HttpClientEngineBase("ktor-mock") {
     }
 
 }
-

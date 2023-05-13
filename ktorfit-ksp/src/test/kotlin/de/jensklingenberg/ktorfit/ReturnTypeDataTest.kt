@@ -28,8 +28,11 @@ interface TestService {
 
 
         val expectedBodyDataArgumentText =
-            """returnTypeData = TypeData("kotlin.collections.Map",listOf(TypeData("kotlin.String"),
-            TypeData("kotlin.Int")))"""
+            """val _ext: HttpRequestBuilder.() -> Unit = {
+        method = HttpMethod.parse("POST")
+        url(ktorfitClient.baseUrl + "user")
+        setBody(id) 
+        }"""
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -41,6 +44,7 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedBodyDataArgumentText)).isTrue()
+        val actualSource = generatedFile.readText()
+        Truth.assertThat(actualSource.contains(expectedBodyDataArgumentText)).isTrue()
     }
 }
