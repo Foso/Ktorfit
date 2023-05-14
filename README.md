@@ -29,7 +29,7 @@ Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.g
 
 # Release
 
-Gradle:
+build.gradle.kts:
 ```kotlin
 plugins {
   id("de.jensklingenberg.ktorfit") version "1.0.0"
@@ -39,6 +39,18 @@ configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     version = "1.2.0"
 }
 ```
+
+build.gradle
+```kotlin
+plugins {
+    id ("de.jensklingenberg.ktorfit") version "1.0.0"
+}
+
+ktorfit{
+    version = "1.2.0"
+}
+```
+
 
 KSP:
 ```kotlin
