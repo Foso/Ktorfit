@@ -34,7 +34,6 @@ class KtorfitError {
             "@Body parameters cannot be used with form or multi-part encoding"
         const val FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT =
             "For streaming the return type must be io.ktor.client.statement.HttpStatement"
-        const val COULD_NOT_FIND_ANY_KTORFIT_ANNOTATIONS_IN_CLASS = "Could not find any Ktorfit annotations in class"
         fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) =
             "Missing either @$keyword URL or @Url parameter"
 
@@ -58,5 +57,7 @@ class KtorfitError {
         fun NO_HTTP_ANNOTATION_AT(functionName: String) = "No Http annotation at $functionName"
         fun URL_CAN_ONLY_BE_USED_WITH_EMPY(keyword: String) = "@Url can only be used with empty @${keyword} URL value"
         const val HEADERS_VALUE_MUST_BE_IN_FORM = "@Headers value must be in the form \"Name: Value\". Found: "
+        const val PROPERTIES_NOT_SUPPORTED = "throw IllegalStateException(\"Properties not supported by Ktorfit\")"
+
     }
 }

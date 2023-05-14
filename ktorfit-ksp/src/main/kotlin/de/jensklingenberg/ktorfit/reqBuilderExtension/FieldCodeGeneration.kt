@@ -9,19 +9,19 @@ import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 fun getFieldArgumentsText(params: List<ParameterData>, listType: KSType, arrayType: KSType): String {
 
-    val text = params.filter { it.hasAnnotation<Field>() }.joinToString("") { parameterData ->
+    val fieldText = params.filter { it.hasAnnotation<Field>() }.joinToString("") { parameterData ->
         val field = parameterData.annotations.filterIsInstance<Field>().first()
         val encoded = field.encoded
         val paramName = parameterData.name
-        val fieldKey = field.value
+        val fieldValue = field.value
         val starProj = parameterData.type.parameterType?.resolve()?.starProjection()
 
-        val isList = starProj?.isAssignableFrom(listType!!) ?: false
+        val isList = starProj?.isAssignableFrom(listType) ?: false
         val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
         when {
             isList || isArray -> {
-                "%s?.filterNotNull()?.forEach { append(\"%s\", \"\$it\"%s) }\n".format(paramName, fieldKey,if (encoded) {
+                "$paramName?.filterNotNull()?.forEach { append(\"$fieldValue\", \"\$it\"%s) }\n".format(if (encoded) {
                     /**
                      * This is a workaround.
                      * Ktor encodes parameters by default and I don't know
@@ -36,15 +36,8 @@ fun getFieldArgumentsText(params: List<ParameterData>, listType: KSType, arrayTy
             }
 
             else -> {
-                "$paramName?.let{ append(\"$fieldKey\", \"\${it}\"%s) }\n".format(
+                "$paramName?.let{ append(\"$fieldValue\", \"\${it}\"%s) }\n".format(
                     if (encoded) {
-                        /**
-                         * This is a workaround.
-                         * Ktor encodes parameters by default and I don't know
-                         * how to deactivate this.
-                         * When the value is not encoded it will be given to Ktor unchanged.
-                         * If it is encoded, it gets decoded, so Ktor can encode it again.
-                         */
                         ".decodeURLQueryComponent(plusIsSpace = true)"
                     } else {
                         ""
@@ -71,7 +64,7 @@ fun getFieldArgumentsText(params: List<ParameterData>, listType: KSType, arrayTy
         )
     }
 
-    return (text + fieldMapStrings).surroundIfNotEmpty(
+    return (fieldText + fieldMapStrings).surroundIfNotEmpty(
         "val _formParameters = Parameters.build {\n", "}\nsetBody(FormDataContent(_formParameters))\n"
     )
 }

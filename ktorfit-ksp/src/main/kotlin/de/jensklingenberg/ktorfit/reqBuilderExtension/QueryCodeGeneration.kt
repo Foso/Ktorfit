@@ -13,7 +13,7 @@ fun getQueryCode(params: List<ParameterData>, listType: KSType, arrayType: KSTyp
         val query = parameterData.annotations.filterIsInstance<Query>().first()
         val encoded = query.encoded
         val starProj = parameterData.type.parameterType?.resolve()?.starProjection()
-        val isList = starProj?.isAssignableFrom(listType!!) ?: false
+        val isList = starProj?.isAssignableFrom(listType) ?: false
         val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
         if (isList || isArray) {
@@ -40,22 +40,22 @@ fun getQueryCode(params: List<ParameterData>, listType: KSType, arrayType: KSTyp
     val queryNameText = params.filter { it.hasAnnotation<QueryName>() }.joinToString(separator = "") { parameterData ->
         val queryName = parameterData.annotations.filterIsInstance<QueryName>().first()
         val encoded = queryName.encoded
-        val data = parameterData.name
+        val name = parameterData.name
 
         val starProj = parameterData.type.parameterType?.resolve()?.starProjection()
-        val isList = starProj?.isAssignableFrom(listType!!) ?: false
+        val isList = starProj?.isAssignableFrom(listType) ?: false
         val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
         if (isList || isArray) {
             "%s?.filterNotNull()?.forEach { %s.appendAll(\"\$it\", emptyList()) }\n".format(
-                parameterData.name,
+                name,
                 if (encoded) {
                     "encodedParameters"
                 } else {
                     "parameters"
                 }
             )
-        } else {/**/
+        } else {
             "%s.appendAll(\"\$%s\", emptyList())\n"
                 .format(
                     if (encoded) {
@@ -63,15 +63,15 @@ fun getQueryCode(params: List<ParameterData>, listType: KSType, arrayType: KSTyp
                     } else {
                         "parameters"
                     },
-                    data
+                    name
                 )
         }
     }
 
-    val queryMapStrings = params.filter { it.hasAnnotation<QueryMap>() }.joinToString(separator = "") { myParam ->
-        val queryMap = myParam.findAnnotationOrNull<QueryMap>()!!
+    val queryMapStrings = params.filter { it.hasAnnotation<QueryMap>() }.joinToString(separator = "") { parameterData ->
+        val queryMap = parameterData.findAnnotationOrNull<QueryMap>()!!
         val encoded = queryMap.encoded
-        val data = myParam.name
+        val data = parameterData.name
         "%s?.forEach { entry -> entry.value?.let{ %s(entry.key, \"\${entry.value}\") } }\n".format(
             data,
             if (encoded) {
@@ -86,5 +86,5 @@ fun getQueryCode(params: List<ParameterData>, listType: KSType, arrayType: KSTyp
     return (queryText + queryNameText + queryMapStrings).surroundIfNotEmpty(
         "url{\n",
         "}"
-    )//myQueryStrings.joinToString { it.toString() }.surroundIfNotEmpty("queries = listOf(", ")")
+    )
 }

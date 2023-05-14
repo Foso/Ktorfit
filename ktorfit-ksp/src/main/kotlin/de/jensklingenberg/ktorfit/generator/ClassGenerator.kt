@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.generator
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
+import com.google.devtools.ksp.processing.Resolver
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.getImplClassFileSource
 import java.io.OutputStreamWriter
@@ -10,9 +11,9 @@ import java.io.OutputStreamWriter
 /**
  * Generate the Impl class for every interface used for Ktorfit
  */
-fun generateImplClass(classDataList: List<ClassData>, codeGenerator: CodeGenerator) {
+fun generateImplClass(classDataList: List<ClassData>, codeGenerator: CodeGenerator, resolver: Resolver) {
     classDataList.forEach { classData ->
-        val fileSource = classData.getImplClassFileSource()
+        val fileSource = classData.getImplClassFileSource(resolver)
 
         val packageName = classData.packageName
         val className = classData.name

@@ -37,7 +37,7 @@ public class KtorfitProcessor(env: SymbolProcessorEnvironment, private val ktorf
                 classDec.toClassData(KtorfitLogger(logger, type))
             }
 
-        generateImplClass(classDataList, codeGenerator)
+        generateImplClass(classDataList, codeGenerator, resolver)
 
         return emptyList()
     }

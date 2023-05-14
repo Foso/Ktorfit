@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.model
 
 import KtorfitProcessor
 import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -23,7 +24,7 @@ data class FunctionData(
     val httpMethodAnnotation: HttpMethodAnnotation
 ) {
 
-    fun toFunSpec(): FunSpec {
+    fun toFunSpec(resolver: Resolver): FunSpec {
         val returnTypeName = this.returnType.name
         val innerReturnType = this.returnType.innerTypeName
         val nullableText = if (this.returnType.isNullable) {
@@ -45,6 +46,7 @@ data class FunctionData(
             .addStatement(
                 getReqBuilderExtensionText(
                     this,
+                    resolver
                 )
             )
             .addStatement(

@@ -1,22 +1,23 @@
 package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 
-import KtorfitProcessor
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getKotlinClassByName
+import com.google.devtools.ksp.processing.Resolver
 import de.jensklingenberg.ktorfit.model.FunctionData
 
 /**
  * This will generate the code for the HttpRequestBuilder
  */
 @OptIn(KspExperimental::class)
-fun getReqBuilderExtensionText(functionData: FunctionData): String {
+fun getReqBuilderExtensionText(functionData: FunctionData, resolver: Resolver): String {
 
     val method = getMethodCode(functionData.httpMethodAnnotation)
     val listType =
-        KtorfitProcessor.ktorfitResolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType()!!
+        resolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType()!!
 
-    val arrayType = KtorfitProcessor.ktorfitResolver.builtIns.arrayType.starProjection()
+    val arrayType = resolver.builtIns.arrayType.starProjection()
+
     val headers = getHeadersCode(
         functionData.annotations,
         functionData.parameterDataList,

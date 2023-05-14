@@ -8,10 +8,10 @@ import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 fun getPartsCode(params: List<ParameterData>, listType: KSType, arrayType: KSType): String {
 
-    val text = params.filter { it.hasAnnotation<Part>() }.joinToString("") { parameterData ->
-        val field = parameterData.annotations.filterIsInstance<Part>().first()
-        val data = parameterData.name
-        val fieldKey = field.value
+    val partText = params.filter { it.hasAnnotation<Part>() }.joinToString("") { parameterData ->
+        val part = parameterData.annotations.filterIsInstance<Part>().first()
+        val name = parameterData.name
+        val partValue = part.value
 
         val starProj = parameterData.type.parameterType?.resolve()?.starProjection()
         val isList = starProj?.isAssignableFrom(listType) ?: false
@@ -19,21 +19,20 @@ fun getPartsCode(params: List<ParameterData>, listType: KSType, arrayType: KSTyp
 
         when {
             isList || isArray -> {
-                "$data?.filterNotNull()?.forEach { append(\"$fieldKey\", \"\${it}\") }\n"
+                "$name?.filterNotNull()?.forEach { append(\"$partValue\", \"\${it}\") }\n"
             }
 
             else -> {
-                "$data?.let{ append(\"$fieldKey\", \"\${it}\") }\n"
+                "$name?.let{ append(\"$partValue\", \"\${it}\") }\n"
             }
         }
     }
 
-    val fieldMapStrings = params.filter { it.hasAnnotation<PartMap>() }.joinToString("") { parameterData ->
-
+    val partMapStrings = params.filter { it.hasAnnotation<PartMap>() }.joinToString("") { parameterData ->
         "${parameterData.name}?.forEach { entry -> entry.value?.let{ append(entry.key, \"\${entry.value}\") } }\n"
     }
 
-    return (text + fieldMapStrings).surroundIfNotEmpty(
+    return (partText + partMapStrings).surroundIfNotEmpty(
         "val _formData = formData {\n", "}\nsetBody(MultiPartFormDataContent(_formData))\n"
     )
 }

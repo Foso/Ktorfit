@@ -35,7 +35,7 @@ fun getHeadersCode(
 
                 when {
                     isList || isArray -> {
-                        "%s?.filterNotNull()?.forEach { append(\"%s\", \"\$it\") }\n".format(paramName, headerName)
+                        "$paramName?.filterNotNull()?.forEach { append(\"$headerName\", \"\$it\") }\n"
                     }
 
                     else -> {
@@ -56,7 +56,6 @@ fun getHeadersCode(
     val headerMapAnnotationText = parameterDataList
         .filter { it.hasAnnotation<HeaderMap>() }
         .joinToString("") {
-
             "${it.name}?.forEach { append(it.key, \"\${it.value}\") }\n"
         }
 

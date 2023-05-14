@@ -17,15 +17,14 @@ fun getUrlCode(params: List<ParameterData>, methodAnnotation: HttpMethodAnnotati
     val baseUrl = if (methodAnnotation.path.startsWith("http")) {
         ""
     } else {
-        params.firstOrNull { it.hasAnnotation<Url>() }?.let {
-            "(ktorfitClient.baseUrl.takeIf{ !${it.name}.startsWith(\"http\")} ?: \"\") + "
+        params.firstOrNull { it.hasAnnotation<Url>() }?.let { parameterData ->
+            "(ktorfitClient.baseUrl.takeIf{ !${parameterData.name}.startsWith(\"http\")} ?: \"\") + "
         } ?: "ktorfitClient.baseUrl + "
     }
 
-
-    params.filter { it.hasAnnotation<Path>() }.forEach { myParam ->
-        val paramName = myParam.name
-        val pathAnnotation = myParam.findAnnotationOrNull<Path>()!!
+    params.filter { it.hasAnnotation<Path>() }.forEach { parameterData ->
+        val paramName = parameterData.name
+        val pathAnnotation = parameterData.findAnnotationOrNull<Path>()!!
         val pathEncoded = if (!pathAnnotation.encoded) {
             ".encodeURLPath()"
         } else {

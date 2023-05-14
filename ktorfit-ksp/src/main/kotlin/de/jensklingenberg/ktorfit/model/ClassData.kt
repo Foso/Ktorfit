@@ -2,10 +2,12 @@ package de.jensklingenberg.ktorfit.model
 
 import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
+import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.annotations.RequestType
 import de.jensklingenberg.ktorfit.utils.addImports
 import de.jensklingenberg.ktorfit.utils.getFileImports
@@ -30,7 +32,7 @@ const val WILDCARDIMPORT = "WILDCARDIMPORT"
 /**
  * Transform a [ClassData] to a [FileSpec] for KotlinPoet
  */
-fun ClassData.getImplClassFileSource(): String {
+fun ClassData.getImplClassFileSource(resolver: Resolver): String {
     val classData = this
     val optinAnnotation = AnnotationSpec.builder(ClassName("kotlin", "OptIn"))
         .addMember("InternalKtorfitApi::class")
@@ -49,7 +51,7 @@ fun ClassData.getImplClassFileSource(): String {
             .mutable(property.isMutable)
             .getter(
                 FunSpec.getterBuilder()
-                    .addStatement("throw IllegalStateException(\"Properties not supported by Ktorfit\")")
+                    .addStatement(PROPERTIES_NOT_SUPPORTED)
                     .build()
             )
 
@@ -84,7 +86,7 @@ fun ClassData.getImplClassFileSource(): String {
         .addSuperinterface(ClassName(classData.packageName, classData.name))
         .addSuperinterface(ktorfitServiceClassName)
         .addKtorfitSuperInterface(classData.superClasses)
-        .addFunctions(classData.functions.map { it.toFunSpec() })
+        .addFunctions(classData.functions.map { it.toFunSpec(resolver) })
         .addProperty(
             clientProperty
         )
