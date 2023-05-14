@@ -33,14 +33,17 @@ The class will also implement **KtorfitService**. The setClient() function will 
 ```kotlin
 @OptIn(InternalKtorfitApi::class)
 public class _ExampleApiImpl : ExampleApi, KtorfitService {
-    private lateinit var ktorfitClient: KtorfitClient
+    public override suspend fun exampleGet(): String {
+        val _ext: HttpRequestBuilder.() -> Unit = {
+            method = HttpMethod.parse("GET")
+            url(ktorfitClient.baseUrl + "/test")
+        }
+        val _requestData = RequestData(returnTypeData = TypeData("kotlin.String"),
+            requestTypeInfo = typeInfo<String>(),
+            returnTypeInfo = typeInfo<String>(),
+            ktorfitRequestBuilder = _ext)
 
-    public override suspend fun exampleGet(): People {
-        val requestData = RequestData(method="GET",
-            relativeUrl="/test",
-            returnTypeData=TypeData("com.example.model.People"))
-
-        return ktorfitClient.suspendRequest<People, People>(requestData)!!
+        return ktorfitClient.suspendRequest<String, String>(_requestData)!!
     }
 }
 
