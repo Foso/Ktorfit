@@ -25,12 +25,13 @@ fun getUrlCode(params: List<ParameterData>, methodAnnotation: HttpMethodAnnotati
     params.filter { it.hasAnnotation<Path>() }.forEach { parameterData ->
         val paramName = parameterData.name
         val pathAnnotation = parameterData.findAnnotationOrNull<Path>()!!
+
         val pathEncoded = if (!pathAnnotation.encoded) {
             ".encodeURLPath()"
         } else {
             ""
         }
-        urlPath = urlPath.replace("{$paramName}", "\${\"\$${paramName}\"$pathEncoded}")
+        urlPath = urlPath.replace("{${pathAnnotation.value}}", "\${\"\$${paramName}\"$pathEncoded}")
     }
 
 

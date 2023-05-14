@@ -16,11 +16,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 
 ### Fixed
+
+### Security
+
+### Bumped
+
+1.3.0 - 2023-05-14
+========================================
+
+### Added
+
+### Changed
+* Optimized generated code, the generated code that is used for a request will 
+ now directly set the Ktor code instead of delegating it to a Ktorfit class. This will
+ make the code easier to understand.
+
+* KSP version 1.0.11 is now needed
+
+### Deprecated
+
+### Removed
+
+### Fixed
 [Bug]: IllegalArgumentException with Custom Http Annotation #274
 
 ### Security
 
 ### Bumped
+KSP version to 1.0.11
 
 1.2.0 - 2023-05-05
 ========================================

@@ -53,14 +53,14 @@ import de.jensklingenberg.ktorfit.http.Path
 interface TestService {
 
     @GET("user/{id}")
-    suspend fun test(@Path("id") id: String): String
+    suspend fun test(@Path("id") userId: String): String
     
 }
     """
         )
 
 
-        val expectedFunctionText = """url(ktorfitClient.baseUrl + "user/ä{"äid".encodeURLPath()}") """.replace("ä","$")
+        val expectedFunctionText = """url(ktorfitClient.baseUrl + "user/ä{"äuserId".encodeURLPath()}")""".replace("ä","$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

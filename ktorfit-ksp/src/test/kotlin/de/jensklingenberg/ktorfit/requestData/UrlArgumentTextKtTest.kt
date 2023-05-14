@@ -55,7 +55,7 @@ class UrlArgumentTextKtTest {
         val parameterData =
             ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(path))
         val params = listOf(parameterData)
-        val text = getUrlCode(params,HttpMethodAnnotation("user/{test1}",HttpMethod.GET))
+        val text = getUrlCode(params,HttpMethodAnnotation("user/{testValue}",HttpMethod.GET))
         Assert.assertEquals("""url(ktorfitClient.baseUrl + "user/ä{"ätest1".encodeURLPath()}")""".replace("ä","$"), text)
     }
 }
