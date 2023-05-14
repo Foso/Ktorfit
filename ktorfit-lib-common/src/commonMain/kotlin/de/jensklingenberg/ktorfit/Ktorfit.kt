@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit
 
 import de.jensklingenberg.ktorfit.Strings.Companion.BASE_URL_REQUIRED
+import de.jensklingenberg.ktorfit.Strings.Companion.ENABLE_GRADLE_PLUGIN
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
@@ -33,7 +34,7 @@ public class Ktorfit private constructor(
      */
     public fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
         if (ktorfitService is DefaultKtorfitService) {
-            throw IllegalArgumentException("You need to enable the Ktorfit Gradle Plugin")
+            throw IllegalArgumentException(ENABLE_GRADLE_PLUGIN)
         }
         ktorfitService.setClient(KtorfitClient(this))
         return ktorfitService as T
