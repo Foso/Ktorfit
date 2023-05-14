@@ -33,6 +33,8 @@ The class will also implement **KtorfitService**. The setClient() function will 
 ```kotlin
 @OptIn(InternalKtorfitApi::class)
 public class _ExampleApiImpl : ExampleApi, KtorfitService {
+    public override lateinit var ktorfitClient: Client
+
     public override suspend fun exampleGet(): String {
         val _ext: HttpRequestBuilder.() -> Unit = {
             method = HttpMethod.parse("GET")
