@@ -15,8 +15,9 @@ public interface SuspendResponseConverter : CoreResponseConverter {
 
     /**
      * @param typeData is the qualified name of the outer type of
-     * @param requestFunction a suspend function that will return a typeInfo of Ktor's requested type and the [HttpResponse]
      * the return type. e.g. for Flow<String> it will be kotlinx.coroutines.flow.Flow
+     *
+     * @param requestFunction a suspend function that will return a typeInfo of Ktor's requested type and the [HttpResponse]
      * @return the wrapped response
      */
     public suspend fun <RequestType : Any?> wrapSuspendResponse(
