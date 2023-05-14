@@ -35,14 +35,13 @@ fun getReqBuilderExtensionText(functionData: FunctionData, resolver: Resolver): 
         arrayType)
     val parts = getPartsCode(functionData.parameterDataList,listType,
         arrayType)
-    val url = getUrlCode(functionData.parameterDataList,functionData.httpMethodAnnotation)
+    val url = getUrlCode(functionData.parameterDataList,functionData.httpMethodAnnotation, queryCode)
     val customReqBuilder = getCustomRequestBuilderText(functionData.parameterDataList)
     val args = listOf(
         method,
         url,
         body,
         headers,
-        queryCode,
         fields,
         parts,
         customReqBuilder

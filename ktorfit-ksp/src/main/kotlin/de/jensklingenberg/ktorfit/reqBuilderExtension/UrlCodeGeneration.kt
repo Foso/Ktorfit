@@ -6,7 +6,7 @@ import de.jensklingenberg.ktorfit.model.annotations.Path
 import de.jensklingenberg.ktorfit.model.annotations.Url
 
 
-fun getUrlCode(params: List<ParameterData>, methodAnnotation: HttpMethodAnnotation): String {
+fun getUrlCode(params: List<ParameterData>, methodAnnotation: HttpMethodAnnotation, queryCode: String): String {
 
     var urlPath = methodAnnotation.path.ifEmpty {
         params.firstOrNull { it.hasAnnotation<Url>() }?.let {
@@ -34,6 +34,5 @@ fun getUrlCode(params: List<ParameterData>, methodAnnotation: HttpMethodAnnotati
         urlPath = urlPath.replace("{${pathAnnotation.value}}", "\${\"\$${paramName}\"$pathEncoded}")
     }
 
-
-    return "url(${baseUrl}\"$urlPath\")"
+    return "url(${baseUrl}\"$urlPath\")" + queryCode
 }

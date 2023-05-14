@@ -79,7 +79,6 @@ public abstract interface class de/jensklingenberg/ktorfit/internal/Client {
 	public abstract fun convertParameterType (Ljava/lang/Object;Lkotlin/reflect/KClass;Lkotlin/reflect/KClass;)Ljava/lang/Object;
 	public abstract fun getBaseUrl ()Ljava/lang/String;
 	public abstract fun request (Lde/jensklingenberg/ktorfit/internal/RequestData;)Ljava/lang/Object;
-	public abstract fun setBaseUrl (Ljava/lang/String;)V
 	public abstract fun suspendRequest (Lde/jensklingenberg/ktorfit/internal/RequestData;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
