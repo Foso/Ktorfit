@@ -20,5 +20,9 @@ public interface Client {
      * @return converted [data]
      */
     public fun <T : Any> convertParameterType(data: Any, parameterType: KClass<*>, requestType: KClass<T>): T
-    public var baseUrl: String
+
+    /**
+     * Set baseUrl of the client
+     */
+    public val baseUrl: String
 }
