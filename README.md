@@ -30,7 +30,7 @@ Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.g
 
 # Release
 
-Gradle:
+build.gradle.kts:
 ```kotlin
 plugins {
   id("de.jensklingenberg.ktorfit") version "1.0.0"
@@ -40,6 +40,18 @@ configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     version = "1.2.0"
 }
 ```
+
+build.gradle
+```kotlin
+plugins {
+    id ("de.jensklingenberg.ktorfit") version "1.0.0"
+}
+
+ktorfit{
+    version = "1.2.0"
+}
+```
+
 
 KSP:
 ```kotlin
@@ -69,6 +81,8 @@ implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:1.2.0")
 
 Feel free to send feedback on [Twitter](https://twitter.com/jklingenberg_) or [file an issue](https://github.com/foso/Ktorfit/issues/new). Feature requests/Pull Requests are always welcome. 
 
+## Acknowledgments
+Some parts of this project are reusing ideas that are originally coming from [Retrofit](https://square.github.io/retrofit/) from [Square](https://github.com/square). Thank you for Retrofit! 
 
 ## Credits
 
