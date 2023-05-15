@@ -88,7 +88,8 @@ private fun getHttpMethodAnnotations(ksFunctionDeclaration: KSFunctionDeclaratio
 fun KSFunctionDeclaration.toFunctionData(
     logger: KSPLogger,
     imports: List<String>,
-    packageName: String
+    packageName: String,
+    resolver: Resolver
 ): FunctionData {
     val funcDeclaration = this
     val functionName = funcDeclaration.simpleName.asString()
@@ -98,7 +99,7 @@ fun KSFunctionDeclaration.toFunctionData(
         resolvedFunctionReturnTypeName.removeWhiteSpaces(),
         imports,
         packageName,
-        KtorfitProcessor.ktorfitResolver
+        resolver
     )
 
     val returnType = ReturnTypeData(
