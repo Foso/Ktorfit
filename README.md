@@ -84,6 +84,8 @@ Feel free to send feedback on [Twitter](https://twitter.com/jklingenberg_) or [f
 ## Acknowledgments
 Some parts of this project are reusing ideas that are originally coming from [Retrofit](https://square.github.io/retrofit/) from [Square](https://github.com/square). Thank you for Retrofit! 
 
+Thanks to JetBrains for Ktor and Kotlin!
+
 ## Credits
 
 Ktorfit is brought to you by these [contributors](https://github.com/Foso/Ktorfit/graphs/contributors).
