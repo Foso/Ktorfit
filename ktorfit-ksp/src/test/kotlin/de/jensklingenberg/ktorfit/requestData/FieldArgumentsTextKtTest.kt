@@ -42,8 +42,8 @@ class FieldArgumentsTextKtTest {
         val params = listOf(parameterData1, parameterData2)
         val text = getFieldArgumentsText(params, listType, arrayType)
         val expected = "val _formParameters = Parameters.build {\n" +
-                "test1?.let{ append(\"world\", \"$"+"{it}\") }\n" +
-                "test1?.let{ append(\"world\", \"$"+"{it}\".decodeURLQueryComponent(plusIsSpace = true)) }\n" +
+                "test1?.let{ append(\"world\", \"$" + "{it}\") }\n" +
+                "test1?.let{ append(\"world\", \"$" + "{it}\".decodeURLQueryComponent(plusIsSpace = true)) }\n" +
                 "}\n" +
                 "setBody(FormDataContent(_formParameters))\n"
         Assert.assertEquals(expected, text)
@@ -76,9 +76,9 @@ class FieldArgumentsTextKtTest {
         val text = getFieldArgumentsText(params, listType, arrayType)
 
         val expected = "val _formParameters = Parameters.build {\n" +
-                "test1?.let{ append(\"world\", \"$"+"{it}\") }\n" +
-                "test2?.let{ append(\"world\", \"$"+"{it}\".decodeURLQueryComponent(plusIsSpace = true)) }\n" +
-                "test3?.forEach { entry -> entry.value?.let{ append(entry.key, \"$"+"{entry.value}.decodeURLQueryComponent(plusIsSpace = true)\") } }\n" +
+                "test1?.let{ append(\"world\", \"$" + "{it}\") }\n" +
+                "test2?.let{ append(\"world\", \"$" + "{it}\".decodeURLQueryComponent(plusIsSpace = true)) }\n" +
+                "test3?.forEach { entry -> entry.value?.let{ append(entry.key, \"$" + "{entry.value}.decodeURLQueryComponent(plusIsSpace = true)\") } }\n" +
                 "}\n" +
                 "setBody(FormDataContent(_formParameters))\n"
         Assert.assertEquals(

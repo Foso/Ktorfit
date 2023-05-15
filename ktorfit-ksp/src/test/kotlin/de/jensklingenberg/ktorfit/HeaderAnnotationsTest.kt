@@ -109,8 +109,8 @@ suspend fun test(@Header("testHeader") testParameter: String?, @HeaderMap("testH
 
 
         val expectedHeadersArgumentText = "headers{\n" +
-                "        testParameter?.let{ append(\"testHeader\", \"$"+"it\") }\n" +
-                "        testParameter2?.forEach { append(it.key, \"$"+"{it.value}\") }\n" +
+                "        testParameter?.let{ append(\"testHeader\", \"$" + "it\") }\n" +
+                "        testParameter2?.forEach { append(it.key, \"$" + "{it.value}\") }\n" +
                 "        append(\"x\", \"y\")\n" +
                 "        append(\"a\", \"b\")\n" +
                 "        } "
@@ -149,7 +149,7 @@ interface TestService {
 
 
         val expectedHeadersArgumentText = "headers{\n" +
-                "        testParameter?.let{ append(\"testHeader\", \"$"+"it\") }\n" +
+                "        testParameter?.let{ append(\"testHeader\", \"$" + "it\") }\n" +
                 "        }"
 
         val compilation = getCompilation(listOf(source))

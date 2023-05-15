@@ -63,7 +63,7 @@ interface TestService {
         val expectedPartsArgumentText = """val _formData = formData {
         testPart?.let{ append("name", "ä{it}") }
         }
-        setBody(MultiPartFormDataContent(_formData))""".replace("ä","$")
+        setBody(MultiPartFormDataContent(_formData))""".replace("ä", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -99,7 +99,7 @@ interface TestService {
         val expectedPartsArgumentText = """val _formData = formData {
         testPart?.filterNotNull()?.forEach { append("name", "ä{it}") }
         }
-        setBody(MultiPartFormDataContent(_formData))""".replace("ä","$")
+        setBody(MultiPartFormDataContent(_formData))""".replace("ä", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -137,7 +137,7 @@ interface TestService {
         val expectedPartsArgumentText = """val _formData = formData {
         testPartMap?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}") } }
         }
-        setBody(MultiPartFormDataContent(_formData))""".replace("ä","$")
+        setBody(MultiPartFormDataContent(_formData))""".replace("ä", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -177,7 +177,7 @@ interface TestService {
         testPart?.let{ append("name", "ä{it}") }
         name?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}") } }
         }
-        setBody(MultiPartFormDataContent(_formData))""".trimMargin().replace("ä","$")
+        setBody(MultiPartFormDataContent(_formData))""".trimMargin().replace("ä", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

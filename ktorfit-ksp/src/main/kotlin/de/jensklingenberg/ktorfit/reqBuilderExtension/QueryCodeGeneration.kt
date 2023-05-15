@@ -83,8 +83,5 @@ fun getQueryCode(params: List<ParameterData>, listType: KSType, arrayType: KSTyp
 
     }
 
-    return (queryText + queryNameText + queryMapStrings).surroundIfNotEmpty(
-        "{\n",
-        "}"
-    )
+    return (queryText + queryNameText + queryMapStrings)
 }

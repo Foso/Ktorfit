@@ -59,7 +59,7 @@ test1?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}")
 }
 setBody(MultiPartFormDataContent(_formData))
 
-""".trimMargin().replace("ä","$")
+""".trimMargin().replace("ä", "$")
         Assert.assertEquals(expected, text)
     }
 

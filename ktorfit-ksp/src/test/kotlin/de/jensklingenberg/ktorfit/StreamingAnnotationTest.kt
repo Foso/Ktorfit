@@ -42,7 +42,9 @@ interface TestService {
 
         val expectedFunctionText = """val _ext: HttpRequestBuilder.() -> Unit = {
         method = HttpMethod.parse("GET")
-        url(ktorfitClient.baseUrl + "posts") 
+        url{
+        takeFrom(ktorfitClient.baseUrl + "posts")
+        } 
         }"""
 
         val compilation = getCompilation(listOf(httpStatement, source))

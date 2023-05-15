@@ -13,7 +13,9 @@ class UrlTest {
 
     @Test
     fun testFunctionWithGET() {
-        val expectedFunctionSource = """url(ktorfitClient.baseUrl + "user") """
+        val expectedFunctionSource = """url{
+        takeFrom(ktorfitClient.baseUrl + "user")
+        }"""
 
         val source = SourceFile.kotlin(
             "Source.kt", """
@@ -60,7 +62,9 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = """url(ktorfitClient.baseUrl + "user/ä{"äuserId".encodeURLPath()}")""".replace("ä","$")
+        val expectedFunctionText = """url{
+        takeFrom(ktorfitClient.baseUrl + "user/ä{"äuserId".encodeURLPath()}")
+        } """.replace("ä", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -78,7 +82,9 @@ interface TestService {
 
     @Test
     fun testFunctionWithGETAndUrlAnno() {
-        val expectedFunctionSource = """url((ktorfitClient.baseUrl.takeIf{ !url.startsWith("http")} ?: "") + "ä{url}") """.replace("ä", "$")
+        val expectedFunctionSource = """url{
+        takeFrom((ktorfitClient.baseUrl.takeIf{ !url.startsWith("http")} ?: "") + "ä{url}")
+        }""".replace("ä", "$")
 
 
         val source = SourceFile.kotlin(
@@ -174,7 +180,9 @@ interface TestService {
     """
         )
 
-        val expectedFunctionText = """url(ktorfitClient.baseUrl + "user/ä{"äid"}") """.replace("ä","$")
+        val expectedFunctionText = """url{
+        takeFrom(ktorfitClient.baseUrl + "user/ä{"äid"}")
+        }""".replace("ä", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

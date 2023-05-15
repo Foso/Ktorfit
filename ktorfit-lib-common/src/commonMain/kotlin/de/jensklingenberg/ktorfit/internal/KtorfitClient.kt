@@ -117,6 +117,9 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     private fun HttpRequestBuilder.requestBuilder(
         requestData: RequestData
     ) {
+        url(){
+takeFrom("")
+        }
         requestData.ktorfitRequestBuilder(this)
     }
 

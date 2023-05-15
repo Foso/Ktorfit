@@ -17,7 +17,11 @@ class UrlArgumentTextKtTest {
         val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("GET", HttpMethod.GET), "")
-        Assert.assertEquals("url(ktorfitClient.baseUrl + \"GET\")", text)
+        Assert.assertEquals(
+            "url{\n" +
+                    "takeFrom(ktorfitClient.baseUrl + \"GET\")\n" +
+                    "}", text
+        )
     }
 
     @Test
@@ -28,7 +32,9 @@ class UrlArgumentTextKtTest {
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         Assert.assertEquals(
-            "url((ktorfitClient.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"posts\")",
+            "url{\n" +
+                    "takeFrom((ktorfitClient.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"posts\")\n" +
+                    "}",
             text
         )
     }
@@ -41,7 +47,9 @@ class UrlArgumentTextKtTest {
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
         val expected = String.format(
-            "url((ktorfitClient.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"%s{test1}\")",
+            "url{\n" +
+                    "takeFrom((ktorfitClient.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"%s{test1}\")\n" +
+                    "}",
             "$"
         )
         Assert.assertEquals(expected, text)
@@ -52,7 +60,7 @@ class UrlArgumentTextKtTest {
         val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
-        Assert.assertEquals("url(ktorfitClient.baseUrl + \"\")", text)
+        Assert.assertEquals("url{\ntakeFrom(ktorfitClient.baseUrl + \"\")\n}", text)
     }
 
     @Test
@@ -63,7 +71,9 @@ class UrlArgumentTextKtTest {
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("user/{testValue}", HttpMethod.GET), "")
         Assert.assertEquals(
-            """url(ktorfitClient.baseUrl + "user/ä{"ätest1".encodeURLPath()}")""".replace("ä", "$"),
+            """url{
+takeFrom(ktorfitClient.baseUrl + "user/ä{"ätest1".encodeURLPath()}")
+}""".replace("ä", "$"),
             text
         )
     }
