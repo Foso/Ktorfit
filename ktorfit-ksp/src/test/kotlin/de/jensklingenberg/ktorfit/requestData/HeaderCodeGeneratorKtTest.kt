@@ -33,9 +33,9 @@ class HeaderCodeGeneratorKtTest {
             ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(Header("foo")))
         val params = listOf(parameterData)
         val text = getHeadersCode(listOf(), params, listType, arrayType)
-        val expected = "headers{\n" +
-                "test1?.let{ append(\"foo\", \"$" + "it\") }\n" +
-                "}"
+        val expected = """|headers{
+                        |test1?.let{ append("foo", "äit") }
+                        |}""".replace("ä","$").trimMargin()
         assertEquals(expected, text)
     }
 
@@ -54,7 +54,9 @@ class HeaderCodeGeneratorKtTest {
         )
         val params = listOf(parameterData)
         val actual = getHeadersCode(listOf(), params, listType, arrayType)
-        val expected = "headers{\ntest1?.filterNotNull()?.forEach { append(\"foo\", \"\$it\") }\n}"
+        val expected = """|headers{
+                        |test1?.filterNotNull()?.forEach { append("foo", "äit") }
+                        |}""".replace("ä","$").trimMargin()
         assertEquals(expected, actual)
     }
 
@@ -73,7 +75,11 @@ class HeaderCodeGeneratorKtTest {
         )
         val params = listOf(parameterData)
         val actual = getHeadersCode(listOf(), params, listType, arrayType)
-        val expected = "headers{\ntest1?.filterNotNull()?.forEach { append(\"foo\", \"\$it\") }\n}"
+        val expected = """|headers{
+                        |test1?.filterNotNull()?.forEach { append("foo", "äit") }
+                        |}"""
+            .replace("ä", "$")
+            .trimMargin()
         assertEquals(expected, actual)
     }
 
@@ -83,10 +89,10 @@ class HeaderCodeGeneratorKtTest {
         val funcAnnotation = Headers(listOf("Accept:Content", "foo: bar"))
         val params = listOf(parameterData)
         val actual = getHeadersCode(listOf(funcAnnotation), params, listType, arrayType)
-        val expected = "headers{\n" +
-                "append(\"Accept\", \"Content\")\n" +
-                "append(\"foo\", \"bar\")\n" +
-                "}"
+        val expected = """|headers{
+                        |append("Accept", "Content")
+                        |append("foo", "bar")
+                        |}""".trimMargin()
         assertEquals(expected, actual)
     }
 
@@ -97,10 +103,10 @@ class HeaderCodeGeneratorKtTest {
         val funcAnnotation = Headers(listOf("Accept:Content"))
         val params = listOf(parameterData)
         val actual = getHeadersCode(listOf(funcAnnotation), params, listType, arrayType)
-        val expected = "headers{\n" +
-                "test1?.forEach { append(it.key, \"\${it.value}\") }\n" +
-                "append(\"Accept\", \"Content\")\n" +
-                "}"
+        val expected = """|headers{
+                        |test1?.forEach { append(it.key, "ä{it.value}") }
+                        |append("Accept", "Content")
+                        |}""".replace("ä", "$").trimMargin()
         assertEquals(expected, actual)
     }
 }
