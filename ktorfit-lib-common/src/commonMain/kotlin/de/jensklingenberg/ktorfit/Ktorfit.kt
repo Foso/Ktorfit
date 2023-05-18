@@ -1,9 +1,10 @@
 package de.jensklingenberg.ktorfit
 
+import de.jensklingenberg.ktorfit.Strings.Companion.BASE_URL_NEEDS_TO_END_WITH
 import de.jensklingenberg.ktorfit.Strings.Companion.BASE_URL_REQUIRED
 import de.jensklingenberg.ktorfit.Strings.Companion.ENABLE_GRADLE_PLUGIN
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
-import de.jensklingenberg.ktorfit.converter.DefaultSuspendConverter
+import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverter
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.RequestConverter
@@ -96,7 +97,8 @@ public class Ktorfit private constructor(
             }
 
             if (checkUrl && !url.endsWith("/")) {
-                throw IllegalStateException("Base URL needs to end with /")
+
+                throw IllegalStateException(BASE_URL_NEEDS_TO_END_WITH)
             }
             if (checkUrl && !url.startsWith("http") && !url.startsWith("https")) {
                 throw IllegalStateException(EXPECTED_URL_SCHEME)
@@ -178,7 +180,7 @@ public class Ktorfit private constructor(
          */
         public fun build(): Ktorfit {
             return Ktorfit(_baseUrl, _httpClient, _responseConverter, _suspendResponseConverter.also { it.add(
-                DefaultSuspendConverter()
+                DefaultSuspendResponseConverter()
             ) }, requestConverters = _requestConverter)
         }
     }

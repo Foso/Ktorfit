@@ -136,7 +136,7 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger, resolver: Resolver): Class
 
     val functionDataList: List<FunctionData> =
         ksClassDeclaration.getDeclaredFunctions().toList().map { funcDeclaration ->
-            return@map funcDeclaration.toFunctionData(logger, imports, packageName, resolver)
+            return@map funcDeclaration.toFunctionData(logger)
         }
 
 

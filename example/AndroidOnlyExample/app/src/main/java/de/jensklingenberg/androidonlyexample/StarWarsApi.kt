@@ -11,6 +11,9 @@ interface StarWarsApi {
     @GET("people/{id}/")
     suspend fun getPerson(@Path("id") personId: Int): Person
 
+    @GET("people/{id}/")
+    suspend fun getPerson2(@Path("id") personId: Int): Map<String,String>
+
     @GET("people")
     fun getPeopleFlow(@Query("page") page: Int): Flow<Person>
 
