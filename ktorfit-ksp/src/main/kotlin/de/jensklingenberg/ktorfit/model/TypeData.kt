@@ -4,10 +4,10 @@ import com.google.devtools.ksp.getClassDeclarationByName
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 
-data class TypeData(val qualifiedName: String, val typeArgs: List<TypeData> = emptyList()) {
+data class TypeData(val qualifiedName: String, val typeArgs: List<TypeData> = emptyList(), val returnTypeInfo: String) {
     override fun toString(): String {
         val typeArgumentsText = typeArgs.joinToString { it.toString() }.surroundIfNotEmpty(",listOf(", ")")
-        return """TypeData("$qualifiedName"$typeArgumentsText)"""
+        return """TypeData("$qualifiedName"$typeArgumentsText, typeInfo = typeInfo<$returnTypeInfo>())"""
     }
 
     companion object {
@@ -83,7 +83,7 @@ data class TypeData(val qualifiedName: String, val typeArgs: List<TypeData> = em
                 ""
             }
 
-            return TypeData(className + nullable, argumentsTypes)
+            return TypeData(className + nullable, argumentsTypes, text)
         }
     }
 }

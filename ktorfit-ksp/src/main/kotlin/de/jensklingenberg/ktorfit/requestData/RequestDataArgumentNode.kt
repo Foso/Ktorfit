@@ -9,13 +9,11 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
 
     //URL
     val requestTypeInfoText = getRequestTypeInfoText(functionData.returnType)
-    val returnTypeInfoText = getReturnTypeInfoText(functionData.returnType)
     val qualifiedTypeName = "returnTypeData = ${functionData.returnType.qualifiedName}"
     val ktorfitRequestBuilderText = "ktorfitRequestBuilder = _ext"
     val args = listOf(
         qualifiedTypeName,
         requestTypeInfoText,
-        returnTypeInfoText,
         ktorfitRequestBuilderText
     ).filter { it.isNotEmpty() }.joinToString(",\n") { it }
 

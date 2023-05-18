@@ -11,6 +11,5 @@ import io.ktor.util.reflect.*
 public data class RequestData(
     val returnTypeData: TypeData,
     val requestTypeInfo: TypeInfo,
-    val returnTypeInfo: TypeInfo,
     val ktorfitRequestBuilder: HttpRequestBuilder.() -> Unit = {},
 )

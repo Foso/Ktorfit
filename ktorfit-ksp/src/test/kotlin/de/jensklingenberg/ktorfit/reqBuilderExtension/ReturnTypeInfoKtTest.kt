@@ -1,7 +1,6 @@
-package de.jensklingenberg.ktorfit.reqBuilderExtension
+package de.jensklingenberg.ktorfit.requestData
 
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
-import de.jensklingenberg.ktorfit.requestData.getReturnTypeInfoText
 import org.junit.Assert
 import org.junit.Test
 

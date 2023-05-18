@@ -2,12 +2,8 @@ package de.jensklingenberg.ktorfit.internal
 
 import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.http.content.*
 import io.ktor.util.reflect.*
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
@@ -25,17 +21,13 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         requestData: RequestData
     ): ReturnType? {
 
-        ktorfit.responseConverters.firstOrNull { converter ->
-            converter.supportedType(
-                requestData.returnTypeData, false
-            )
-        }?.let { requestConverter ->
+        ktorfit.nextResponseConverter(null,requestData.returnTypeData)?.let { requestConverter ->
             return requestConverter.wrapResponse<RequestType?>(
                 typeData = requestData.returnTypeData,
                 requestFunction = {
                     try {
                         val data =
-                            suspendRequest<HttpResponse, HttpResponse>(requestData.copy(returnTypeInfo = typeInfo<HttpResponse>()))
+                            suspendRequest<HttpResponse, HttpResponse>(requestData.copy(returnTypeData = requestData.returnTypeData.copy(typeInfo = typeInfo<HttpResponse>())))
                         Pair(requestData.requestTypeInfo, data)
                     } catch (ex: Exception) {
                         throw ex
@@ -63,24 +55,20 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     ): ReturnType? {
         try {
 
-            if (requestData.returnTypeInfo.type == HttpStatement::class) {
+            if (requestData.returnTypeData.typeInfo.type == HttpStatement::class) {
                 return httpClient.prepareRequest {
                     requestBuilder(requestData)
                 } as ReturnType
             }
 
-            if (requestData.returnTypeInfo.type == HttpResponse::class) {
+            if (requestData.returnTypeData.typeInfo.type == HttpResponse::class) {
                 val response = httpClient.request {
                     requestBuilder(requestData)
                 }
                 return response as ReturnType
             }
 
-            ktorfit.suspendResponseConverters.firstOrNull { converter ->
-                converter.supportedType(
-                    requestData.returnTypeData, true
-                )
-            }?.let {
+            ktorfit.nextSuspendResponseConverter(null, requestData.returnTypeData)?.let {
                 return it.wrapSuspendResponse<RequestType>(
                     typeData = requestData.returnTypeData,
                     requestFunction = {
@@ -89,12 +77,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                         })
                     }, ktorfit
                 ) as ReturnType
-            }
-
-            val response = httpClient.request {
-                requestBuilder(requestData)
-            }
-            return response.body(requestData.returnTypeInfo)
+            } ?: throw IllegalStateException("No SuspendResponseConverter found for "+requestData.returnTypeData.qualifiedName)
 
         } catch (exception: Exception) {
             val typeIsNullable = requestData.returnTypeData.isNullable
@@ -117,9 +100,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     private fun HttpRequestBuilder.requestBuilder(
         requestData: RequestData
     ) {
-        url(){
-takeFrom("")
-        }
         requestData.ktorfitRequestBuilder(this)
     }
 

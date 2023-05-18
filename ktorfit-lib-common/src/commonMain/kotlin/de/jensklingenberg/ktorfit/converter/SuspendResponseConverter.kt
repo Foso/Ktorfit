@@ -19,6 +19,7 @@ public interface SuspendResponseConverter : CoreResponseConverter {
      *
      * @param requestFunction a suspend function that will return a typeInfo of Ktor's requested type and the [HttpResponse]
      * @return the wrapped response
+     * pair typeinfo that will be requested from Ktor
      */
     public suspend fun <RequestType : Any?> wrapSuspendResponse(
         typeData: TypeData,

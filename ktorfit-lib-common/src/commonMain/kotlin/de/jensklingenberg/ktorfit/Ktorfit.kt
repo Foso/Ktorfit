@@ -3,6 +3,7 @@ package de.jensklingenberg.ktorfit
 import de.jensklingenberg.ktorfit.Strings.Companion.BASE_URL_REQUIRED
 import de.jensklingenberg.ktorfit.Strings.Companion.ENABLE_GRADLE_PLUGIN
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
+import de.jensklingenberg.ktorfit.converter.DefaultSuspendConverter
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.RequestConverter
@@ -10,6 +11,7 @@ import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
 import de.jensklingenberg.ktorfit.internal.DefaultKtorfitService
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import de.jensklingenberg.ktorfit.internal.KtorfitService
+import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.engine.*
 
@@ -25,6 +27,35 @@ public class Ktorfit private constructor(
     public val requestConverters: Set<RequestConverter>
 ) {
 
+    /**
+     * Returns the next ResponseConverter after [skipPast] that can handle [type]
+     * or null if no one found
+     */
+    public fun nextResponseConverter(skipPast: ResponseConverter?, type: TypeData): ResponseConverter? {
+        val start = responseConverters.indexOf(skipPast) + 1
+        (start until responseConverters.size).forEach {
+            val converter = responseConverters.toList()[it]
+            if(converter.supportedType(type, false)){
+                return converter
+            }
+        }
+        return null
+    }
+
+    /**
+     * Returns the next SuspendResponseConverter after [skipPast] that can handle [type]
+     * or null if no one found
+     */
+    public fun nextSuspendResponseConverter(skipPast: SuspendResponseConverter?, type: TypeData): SuspendResponseConverter? {
+        val start = suspendResponseConverters.indexOf(skipPast) + 1
+        (start until suspendResponseConverters.size).forEach {
+            val converter = suspendResponseConverters.toList()[it]
+            if(converter.supportedType(type, true)){
+                return converter
+            }
+        }
+        return null
+    }
 
     /**
      * This will return an implementation of [T] if [T] is an interface
@@ -146,7 +177,9 @@ public class Ktorfit private constructor(
          * Creates an instance of Ktorfit with specified baseUrl and HttpClient.
          */
         public fun build(): Ktorfit {
-            return Ktorfit(_baseUrl, _httpClient, _responseConverter, _suspendResponseConverter, _requestConverter)
+            return Ktorfit(_baseUrl, _httpClient, _responseConverter, _suspendResponseConverter.also { it.add(
+                DefaultSuspendConverter()
+            ) }, requestConverters = _requestConverter)
         }
     }
 }
