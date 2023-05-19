@@ -11,4 +11,3 @@ val ktorfitClass = KtorfitClass("Ktorfit", "de.jensklingenberg.ktorfit", "")
 val requestDataClass = KtorfitClass("RequestData", "de.jensklingenberg.ktorfit.internal", "_requestData")
 val ktorfitServiceClassName = ClassName("de.jensklingenberg.ktorfit.internal", "KtorfitService")
 
-fun KtorfitClass.toClassName() = ClassName(this.packageName, this.name)

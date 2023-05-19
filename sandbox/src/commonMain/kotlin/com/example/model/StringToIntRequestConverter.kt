@@ -14,3 +14,15 @@ class StringToIntRequestConverter : RequestConverter {
         return (data as String).toInt()
     }
 }
+
+class StringToIntRequestConverter2 : RequestConverter {
+    override fun supportedType(parameterType: KClass<*>, requestType: KClass<*>): Boolean {
+        val parameterIsString = parameterType == Int::class
+        val requestIsInt = requestType == String::class
+        return parameterIsString && requestIsInt
+    }
+
+    override fun convert(data: Any): Any {
+        return "5"
+    }
+}

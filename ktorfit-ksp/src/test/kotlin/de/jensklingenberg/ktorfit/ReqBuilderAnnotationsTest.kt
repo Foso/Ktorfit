@@ -1,6 +1,5 @@
 package de.jensklingenberg.ktorfit
 
-import KtorfitProcessorProvider
 import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.*
 import de.jensklingenberg.ktorfit.model.KtorfitError

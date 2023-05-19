@@ -8,7 +8,6 @@ import de.jensklingenberg.ktorfit.utils.removeWhiteSpaces
 
 fun getRequestDataArgumentText(functionData: FunctionData): String {
 
-    //URL
     val ktorfitRequestBuilderText = "ktorfitRequestBuilder = _ext"
     val returnTypeName = "returnTypeName = \"${functionData.returnType.qualifiedName.removeWhiteSpaces()}\""
     val returnTypeInfo = getReturnTypeInfoText(functionData.returnType.name)

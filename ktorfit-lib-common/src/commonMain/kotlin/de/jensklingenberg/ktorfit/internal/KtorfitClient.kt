@@ -23,6 +23,9 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         val returnTypeData = requestData.getTypeData()
         val requestTypeInfo = returnTypeData.typeArgs.firstOrNull()?.typeInfo ?: returnTypeData.typeInfo
 
+        /**
+         * Keeping this for compatibility
+         */
         ktorfit.responseConverters.firstOrNull { converter ->
             converter.supportedType(
                 returnTypeData, false
@@ -102,6 +105,9 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                 return response as ReturnType
             }
 
+            /**
+             * Keeping this for compatibility
+             */
             ktorfit.suspendResponseConverters.firstOrNull { converter ->
                 converter.supportedType(
                     returnTypeData, true

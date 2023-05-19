@@ -5,7 +5,6 @@ import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.Query
 import de.jensklingenberg.ktorfit.model.annotations.QueryMap
 import de.jensklingenberg.ktorfit.model.annotations.QueryName
-import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 fun getQueryCode(params: List<ParameterData>, listType: KSType, arrayType: KSType): String {
 
@@ -28,7 +27,7 @@ fun getQueryCode(params: List<ParameterData>, listType: KSType, arrayType: KSTyp
             )
         } else {
             if (encoded) {
-                "%s?.let{ encodedParameters.append(\"%s\", \"\$it\") }\n".format(parameterData.name,query.value)
+                "%s?.let{ encodedParameters.append(\"%s\", \"\$it\") }\n".format(parameterData.name, query.value)
             } else {
                 "%s?.let{ parameter(\"%s\", \"\$it\") }\n".format(parameterData.name, query.value)
             }

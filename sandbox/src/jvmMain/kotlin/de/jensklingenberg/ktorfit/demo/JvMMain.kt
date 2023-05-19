@@ -5,6 +5,7 @@ import com.example.api.JsonPlaceHolderApi
 import com.example.model.Comment
 import com.example.model.MyOwnResponseConverter
 import com.example.model.StringToIntRequestConverter
+import com.example.model.StringToIntRequestConverter2
 import de.jensklingenberg.ktorfit.Callback
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.Converter
@@ -47,7 +48,8 @@ val jvmKtorfit = ktorfit {
     baseUrl(JsonPlaceHolderApi.baseUrl)
     httpClient(jvmClient)
     requestConverter(
-        StringToIntRequestConverter()
+        StringToIntRequestConverter(),
+        StringToIntRequestConverter2()
     )
     converterFactories(
         CallConverterFactory(),
@@ -77,6 +79,11 @@ fun main() {
     })
     runBlocking {
 
+        val test2 = api.getPostById(3)
+
+        test2?.let {
+            it
+        }
 
         delay(3000)
     }

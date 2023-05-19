@@ -28,7 +28,7 @@ public class Ktorfit private constructor(
     public val responseConverters: Set<ResponseConverter>,
     public val suspendResponseConverters: Set<SuspendResponseConverter>,
     public val requestConverters: Set<RequestConverter>,
-    public val converterFactories: Set<Converter.Factory>
+    private val converterFactories: List<Converter.Factory>
 ) {
 
     /**
@@ -41,7 +41,7 @@ public class Ktorfit private constructor(
     ): Converter.ResponseConverter<HttpResponse, *>? {
         val start = converterFactories.indexOf(skipPast) + 1
         (start until converterFactories.size).forEach {
-            val converter = converterFactories.toList()[it].responseConverter(type, this)
+            val converter = converterFactories[it].responseConverter(type, this)
             if (converter != null) {
                 return converter
             }
@@ -59,7 +59,7 @@ public class Ktorfit private constructor(
     ): Converter.SuspendResponseConverter<HttpResponse, *>? {
         val start = converterFactories.indexOf(skipPast) + 1
         (start until converterFactories.size).forEach {
-            val converter = converterFactories.toList()[it].suspendResponseConverter(type, this)
+            val converter = converterFactories[it].suspendResponseConverter(type, this)
             if (converter != null) {
                 return converter
             }
@@ -163,7 +163,7 @@ public class Ktorfit private constructor(
         /**
          * Use this to add [ResponseConverter] or [SuspendResponseConverter] for unsupported return types of requests
          */
-        @Deprecated("Add factories")
+        @Deprecated("Use ConverterFactories instead")
         public fun responseConverter(vararg converters: CoreResponseConverter): Builder = apply {
             converters.forEach { converter ->
                 if (converter is ResponseConverter) {
@@ -175,6 +175,9 @@ public class Ktorfit private constructor(
             }
         }
 
+        /**
+         * Run after CoreResposneConverters
+         */
         public fun converterFactories(vararg converters: Converter.Factory): Builder = apply {
             this._factories.addAll(converters)
         }
@@ -200,7 +203,7 @@ public class Ktorfit private constructor(
                 requestConverters = _requestConverter,
                 _factories.also {
                     it.add(DefaultSuspendResponseConverterFactory())
-                })
+                }.toList())
         }
     }
 }

@@ -1,18 +1,19 @@
 package de.jensklingenberg.ktorfit.converter.request
 
+import de.jensklingenberg.ktorfit.converter.Converter
 import kotlin.reflect.KClass
 
-public interface RequestConverter {
+public interface RequestConverter : Converter.RequestConverter {
 
     /**
      * Check if converter supports the types
      * @return true if this converter can convert [parameterType] to [requestType]
      */
-    public fun supportedType(parameterType: KClass<*>, requestType: KClass<*>): Boolean
+    public override fun supportedType(parameterType: KClass<*>, requestType: KClass<*>): Boolean
 
     /**
      * Convert given [data]
      * @return the converted [data]
      */
-    public fun convert(data: Any): Any
+    public override fun convert(data: Any): Any
 }

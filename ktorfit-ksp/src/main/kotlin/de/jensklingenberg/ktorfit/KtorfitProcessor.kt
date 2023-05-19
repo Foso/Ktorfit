@@ -1,3 +1,5 @@
+package de.jensklingenberg.ktorfit
+
 import com.google.auto.service.AutoService
 import com.google.devtools.ksp.closestClassDeclaration
 import com.google.devtools.ksp.processing.*
@@ -8,13 +10,13 @@ import de.jensklingenberg.ktorfit.http.*
 import de.jensklingenberg.ktorfit.model.toClassData
 
 @AutoService(SymbolProcessorProvider::class)
-public class KtorfitProcessorProvider : SymbolProcessorProvider {
+class KtorfitProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
         return KtorfitProcessor(environment, KtorfitOptions(environment.options))
     }
 }
 
-public class KtorfitProcessor(env: SymbolProcessorEnvironment, private val ktorfitOptions: KtorfitOptions) :
+class KtorfitProcessor(env: SymbolProcessorEnvironment, private val ktorfitOptions: KtorfitOptions) :
     SymbolProcessor {
     private val codeGenerator: CodeGenerator = env.codeGenerator
     private val logger: KSPLogger = env.logger
