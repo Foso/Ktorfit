@@ -17,14 +17,17 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     /**
      * This will handle all requests for functions without suspend modifier
      */
-
     override fun <ReturnType, RequestType : Any?> request(
         requestData: RequestData
     ): ReturnType? {
         val returnTypeData = requestData.getTypeData()
         val requestTypeInfo = returnTypeData.typeArgs.firstOrNull()?.typeInfo ?: returnTypeData.typeInfo
 
-        ktorfit.nextResponseConverter(null, returnTypeData)?.let { requestConverter ->
+        ktorfit.responseConverters.firstOrNull { converter ->
+            converter.supportedType(
+                returnTypeData, false
+            )
+        }?.let { requestConverter ->
             return requestConverter.wrapResponse<RequestType?>(
                 typeData = returnTypeData,
                 requestFunction = {
@@ -46,6 +49,25 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
             ) as ReturnType?
         }
 
+        ktorfit.nextResponseConverter(null, returnTypeData)?.let { requestConverter ->
+
+            return requestConverter.convert {
+                try {
+                    val data =
+                        suspendRequest<HttpResponse, HttpResponse>(
+                            RequestData(
+                                ktorfitRequestBuilder = requestData.ktorfitRequestBuilder,
+                                returnTypeName = "io.ktor.client.statement.HttpResponse",
+                                returnTypeInfo = typeInfo<HttpResponse>()
+                            )
+                        )
+                    data!!
+                } catch (ex: Exception) {
+                    throw ex
+                }
+            } as ReturnType?
+        }
+
         val typeIsNullable = returnTypeData.isNullable
         return if (typeIsNullable) {
             null
@@ -54,6 +76,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         }
 
     }
+
 
     /**
      * This will handle all requests for functions with suspend modifier
@@ -79,16 +102,27 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                 return response as ReturnType
             }
 
-            ktorfit.nextSuspendResponseConverter(null, returnTypeData)?.let {
+            ktorfit.suspendResponseConverters.firstOrNull { converter ->
+                converter.supportedType(
+                    returnTypeData, true
+                )
+            }?.let {
                 return it.wrapSuspendResponse<RequestType>(
                     typeData = returnTypeData,
                     requestFunction = {
                         Pair(requestTypeInfo, httpClient.request {
                             requestBuilder(requestData)
                         })
-                    },
-                    ktorfit = ktorfit
+                    }, ktorfit
                 ) as ReturnType
+            }
+
+            ktorfit.nextSuspendResponseConverter(null, returnTypeData)?.let {
+
+                val response = httpClient.request {
+                    requestBuilder(requestData)
+                }
+                return it.convert(response) as ReturnType?
             }
                 ?: throw IllegalStateException("No SuspendResponseConverter found for " + returnTypeData.qualifiedName)
 

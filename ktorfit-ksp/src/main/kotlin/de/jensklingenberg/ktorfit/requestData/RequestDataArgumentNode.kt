@@ -11,7 +11,7 @@ fun getRequestDataArgumentText(functionData: FunctionData): String {
     //URL
     val ktorfitRequestBuilderText = "ktorfitRequestBuilder = _ext"
     val returnTypeName = "returnTypeName = \"${functionData.returnType.qualifiedName.removeWhiteSpaces()}\""
-    val returnTypeInfo = "returnTypeInfo = typeInfo<${functionData.returnType.name}>()"
+    val returnTypeInfo = getReturnTypeInfoText(functionData.returnType.name)
     val args = listOf(
         ktorfitRequestBuilderText,
         returnTypeName,

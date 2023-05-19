@@ -4,8 +4,9 @@ import de.jensklingenberg.ktorfit.Strings.Companion.BASE_URL_NEEDS_TO_END_WITH
 import de.jensklingenberg.ktorfit.Strings.Companion.BASE_URL_REQUIRED
 import de.jensklingenberg.ktorfit.Strings.Companion.ENABLE_GRADLE_PLUGIN
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
-import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverter
+import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.RequestConverter
 import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
@@ -15,6 +16,7 @@ import de.jensklingenberg.ktorfit.internal.KtorfitService
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.engine.*
+import io.ktor.client.statement.*
 
 
 /**
@@ -25,18 +27,22 @@ public class Ktorfit private constructor(
     public val httpClient: HttpClient = HttpClient(),
     public val responseConverters: Set<ResponseConverter>,
     public val suspendResponseConverters: Set<SuspendResponseConverter>,
-    public val requestConverters: Set<RequestConverter>
+    public val requestConverters: Set<RequestConverter>,
+    public val converterFactories: Set<Converter.Factory>
 ) {
 
     /**
      * Returns the next ResponseConverter after [skipPast] that can handle [type]
      * or null if no one found
      */
-    public fun nextResponseConverter(skipPast: ResponseConverter?, type: TypeData): ResponseConverter? {
-        val start = responseConverters.indexOf(skipPast) + 1
-        (start until responseConverters.size).forEach {
-            val converter = responseConverters.toList()[it]
-            if(converter.supportedType(type, false)){
+    public fun nextResponseConverter(
+        skipPast: Converter.Factory?,
+        type: TypeData
+    ): Converter.ResponseConverter<HttpResponse, *>? {
+        val start = converterFactories.indexOf(skipPast) + 1
+        (start until converterFactories.size).forEach {
+            val converter = converterFactories.toList()[it].responseConverter(type, this)
+            if (converter != null) {
                 return converter
             }
         }
@@ -47,11 +53,14 @@ public class Ktorfit private constructor(
      * Returns the next SuspendResponseConverter after [skipPast] that can handle [type]
      * or null if no one found
      */
-    public fun nextSuspendResponseConverter(skipPast: SuspendResponseConverter?, type: TypeData): SuspendResponseConverter? {
-        val start = suspendResponseConverters.indexOf(skipPast) + 1
-        (start until suspendResponseConverters.size).forEach {
-            val converter = suspendResponseConverters.toList()[it]
-            if(converter.supportedType(type, true)){
+    public fun nextSuspendResponseConverter(
+        skipPast: Converter.Factory?,
+        type: TypeData
+    ): Converter.SuspendResponseConverter<HttpResponse, *>? {
+        val start = converterFactories.indexOf(skipPast) + 1
+        (start until converterFactories.size).forEach {
+            val converter = converterFactories.toList()[it].suspendResponseConverter(type, this)
+            if (converter != null) {
                 return converter
             }
         }
@@ -85,6 +94,7 @@ public class Ktorfit private constructor(
         private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf()
         private var _suspendResponseConverter: MutableSet<SuspendResponseConverter> = mutableSetOf()
         private var _requestConverter: MutableSet<RequestConverter> = mutableSetOf()
+        private var _factories: MutableSet<Converter.Factory> = mutableSetOf()
 
         /**
          * That will be used for every request with object
@@ -97,7 +107,6 @@ public class Ktorfit private constructor(
             }
 
             if (checkUrl && !url.endsWith("/")) {
-
                 throw IllegalStateException(BASE_URL_NEEDS_TO_END_WITH)
             }
             if (checkUrl && !url.startsWith("http") && !url.startsWith("https")) {
@@ -154,6 +163,7 @@ public class Ktorfit private constructor(
         /**
          * Use this to add [ResponseConverter] or [SuspendResponseConverter] for unsupported return types of requests
          */
+        @Deprecated("Add factories")
         public fun responseConverter(vararg converters: CoreResponseConverter): Builder = apply {
             converters.forEach { converter ->
                 if (converter is ResponseConverter) {
@@ -165,10 +175,13 @@ public class Ktorfit private constructor(
             }
         }
 
+        public fun converterFactories(vararg converters: Converter.Factory): Builder = apply {
+            this._factories.addAll(converters)
+        }
+
         public fun requestConverter(vararg converters: RequestConverter): Builder = apply {
             this._requestConverter.addAll(converters)
         }
-
 
         /**
          * Apply changes to builder and get the Ktorfit instance without the need of calling [build] afterwards.
@@ -179,9 +192,15 @@ public class Ktorfit private constructor(
          * Creates an instance of Ktorfit with specified baseUrl and HttpClient.
          */
         public fun build(): Ktorfit {
-            return Ktorfit(_baseUrl, _httpClient, _responseConverter, _suspendResponseConverter.also { it.add(
-                DefaultSuspendResponseConverter()
-            ) }, requestConverters = _requestConverter)
+            return Ktorfit(
+                _baseUrl,
+                _httpClient,
+                _responseConverter,
+                _suspendResponseConverter,
+                requestConverters = _requestConverter,
+                _factories.also {
+                    it.add(DefaultSuspendResponseConverterFactory())
+                })
         }
     }
 }

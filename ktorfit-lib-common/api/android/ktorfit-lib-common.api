@@ -8,16 +8,17 @@ public abstract interface class de/jensklingenberg/ktorfit/Callback {
 }
 
 public final class de/jensklingenberg/ktorfit/Ktorfit {
-	public synthetic fun <init> (Ljava/lang/String;Lio/ktor/client/HttpClient;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Lio/ktor/client/HttpClient;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;Ljava/util/Set;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun create (Lde/jensklingenberg/ktorfit/internal/KtorfitService;)Ljava/lang/Object;
 	public static synthetic fun create$default (Lde/jensklingenberg/ktorfit/Ktorfit;Lde/jensklingenberg/ktorfit/internal/KtorfitService;ILjava/lang/Object;)Ljava/lang/Object;
 	public final fun getBaseUrl ()Ljava/lang/String;
+	public final fun getConverterFactories ()Ljava/util/Set;
 	public final fun getHttpClient ()Lio/ktor/client/HttpClient;
 	public final fun getRequestConverters ()Ljava/util/Set;
 	public final fun getResponseConverters ()Ljava/util/Set;
 	public final fun getSuspendResponseConverters ()Ljava/util/Set;
-	public final fun nextResponseConverter (Lde/jensklingenberg/ktorfit/converter/request/ResponseConverter;Lde/jensklingenberg/ktorfit/internal/TypeData;)Lde/jensklingenberg/ktorfit/converter/request/ResponseConverter;
-	public final fun nextSuspendResponseConverter (Lde/jensklingenberg/ktorfit/converter/SuspendResponseConverter;Lde/jensklingenberg/ktorfit/internal/TypeData;)Lde/jensklingenberg/ktorfit/converter/SuspendResponseConverter;
+	public final fun nextResponseConverter (Lde/jensklingenberg/ktorfit/internal/Converter$Factory;Lde/jensklingenberg/ktorfit/internal/TypeData;)Lde/jensklingenberg/ktorfit/internal/Converter;
+	public final fun nextSuspendResponseConverter (Lde/jensklingenberg/ktorfit/internal/Converter$Factory;Lde/jensklingenberg/ktorfit/internal/TypeData;)Lde/jensklingenberg/ktorfit/internal/Converter;
 }
 
 public final class de/jensklingenberg/ktorfit/Ktorfit$Builder {
@@ -37,7 +38,7 @@ public final class de/jensklingenberg/ktorfit/Ktorfit$Builder {
 }
 
 public final class de/jensklingenberg/ktorfit/KtorfitKt {
-	public static final synthetic fun create (Lde/jensklingenberg/ktorfit/Ktorfit;Lde/jensklingenberg/ktorfit/internal/KtorfitService;)Ljava/lang/Object;
+	public static final fun create (Lde/jensklingenberg/ktorfit/Ktorfit;Lde/jensklingenberg/ktorfit/internal/KtorfitService;)Ljava/lang/Object;
 	public static synthetic fun create$default (Lde/jensklingenberg/ktorfit/Ktorfit;Lde/jensklingenberg/ktorfit/internal/KtorfitService;ILjava/lang/Object;)Ljava/lang/Object;
 	public static final fun ktorfit (Lkotlin/jvm/functions/Function1;)Lde/jensklingenberg/ktorfit/Ktorfit;
 	public static final fun ktorfitBuilder (Lkotlin/jvm/functions/Function1;)Lde/jensklingenberg/ktorfit/Ktorfit$Builder;
@@ -92,6 +93,22 @@ public abstract interface class de/jensklingenberg/ktorfit/internal/Client {
 	public abstract fun suspendRequest (Lde/jensklingenberg/ktorfit/internal/RequestData;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
+public abstract interface class de/jensklingenberg/ktorfit/internal/Converter {
+	public abstract fun convert (Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public abstract fun convertSuspend (Lkotlin/jvm/functions/Function0;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class de/jensklingenberg/ktorfit/internal/Converter$DefaultImpls {
+	public static fun convert (Lde/jensklingenberg/ktorfit/internal/Converter;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static fun convertSuspend (Lde/jensklingenberg/ktorfit/internal/Converter;Lkotlin/jvm/functions/Function0;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract class de/jensklingenberg/ktorfit/internal/Converter$Factory {
+	public fun <init> ()V
+	public fun responseConverter (Lde/jensklingenberg/ktorfit/internal/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/internal/Converter;
+	public fun suspendResponseConverter (Lde/jensklingenberg/ktorfit/internal/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/internal/Converter;
+}
+
 public abstract interface annotation class de/jensklingenberg/ktorfit/internal/InternalKtorfitApi : java/lang/annotation/Annotation {
 }
 
@@ -117,7 +134,6 @@ public final class de/jensklingenberg/ktorfit/internal/RequestData {
 	public final fun getKtorfitRequestBuilder ()Lkotlin/jvm/functions/Function1;
 	public final fun getReturnTypeInfo ()Lio/ktor/util/reflect/TypeInfo;
 	public final fun getReturnTypeName ()Ljava/lang/String;
-	public final fun getTypeData ()Lde/jensklingenberg/ktorfit/internal/TypeData;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

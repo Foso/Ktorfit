@@ -34,7 +34,7 @@ public class KtorfitProcessor(env: SymbolProcessorEnvironment, private val ktorf
 
         val classDataList = getAnnotatedFunctions(ktorfitResolver).groupBy { it.closestClassDeclaration()!! }
             .map { (classDec) ->
-                classDec.toClassData(KtorfitLogger(logger, type), resolver)
+                classDec.toClassData(KtorfitLogger(logger, type))
             }
 
         generateImplClass(classDataList, codeGenerator, resolver)

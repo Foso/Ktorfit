@@ -1,9 +1,8 @@
 package de.jensklingenberg.ktorfit
 
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
-import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
-import de.jensklingenberg.ktorfit.internal.KtorfitClient
+import de.jensklingenberg.ktorfit.internal.RequestData
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
@@ -100,12 +99,9 @@ class KtorfitTest {
     @Test
     fun testTypeDataCreator() {
 
-        val typeData = KtorfitClient(Ktorfit.Builder().build()).createTypeData(
-            "kotlin.Map<kotlin.String?, kotlin.Int?>",
-            typeInfo<Map<String, Int?>>()
-        )
+        val typeData =  RequestData({},"kotlin.Map<kotlin.String?, kotlin.Int?>",typeInfo<Map<String, Int?>>()).getTypeData()
 
-        Assert.assertEquals("kotlin.Map<kotlin.String?, kotlin.Int?>", typeData.qualifiedName)
+        Assert.assertEquals("kotlin.Map", typeData.qualifiedName)
         Assert.assertTrue(typeData.typeInfo.type == Map::class)
         Assert.assertTrue(typeData.typeArgs[0].typeInfo.type == String::class)
 
