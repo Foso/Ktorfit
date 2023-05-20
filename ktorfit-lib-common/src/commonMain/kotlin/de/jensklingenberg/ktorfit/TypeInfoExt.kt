@@ -6,7 +6,7 @@ import kotlin.reflect.KClass
 /**
  * This will return the upper bound type.
  *
- * Example: Response<String> will return String as TypeInfo
+ * Example: Response<String> will return String as TypeInfo with upperBoundType(0)
  */
 public fun TypeInfo.upperBoundType(index: Int = 0): TypeInfo? {
     val parentType = this.kotlinType ?: return null

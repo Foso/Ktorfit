@@ -67,7 +67,7 @@ fun main() {
 
     val test = api.getCommentsByPostIdQuery(listOf("2", "3", "t t"))
 
-    test.onExecute(object :Callback<Comment>{
+    test?.onExecute(object :Callback<Comment>{
         override fun onResponse(call: Comment, response: HttpResponse) {
             println(call)
         }
@@ -79,11 +79,6 @@ fun main() {
     })
     runBlocking {
 
-        val test2 = api.getPostById(3)
-
-        test2?.let {
-            it
-        }
 
         delay(3000)
     }
@@ -98,10 +93,10 @@ class CommentFactory : Converter.Factory {
         ktorfit: Ktorfit
     ): Converter.SuspendResponseConverter<HttpResponse, *>? {
         return if (typeData.typeInfo.type == Comment::class) {
-            object : Converter.SuspendResponseConverter<HttpResponse, Any> {
-                override suspend fun convert(response: HttpResponse): Any {
+            object : Converter.SuspendResponseConverter<HttpResponse, Any?> {
+                override suspend fun convert(response: HttpResponse): Any? {
                     val data = response.body<List<Comment>>(typeInfo<List<Comment>>())
-                    return data.first()
+                    return null
                 }
             }
         } else {

@@ -7,6 +7,7 @@ import io.ktor.client.statement.*
 
 /**
  * Will be used when no other suspend converter was found
+ * It is automatically applied last
  */
 internal class DefaultSuspendResponseConverterFactory : Converter.Factory {
 

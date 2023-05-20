@@ -5,8 +5,7 @@ import io.ktor.util.reflect.*
 import kotlin.reflect.KClass
 
 /**
- * It will be used by [ResponseConverter] to check if they support the type
- * Because on JS the qualifiedName reflection does not exist, it is inserted as arguments by the Compiler Plugin
+ * This class is used by the generated code to pass the request information to [KtorfitClient]
  */
 @InternalKtorfitApi
 public data class RequestData(

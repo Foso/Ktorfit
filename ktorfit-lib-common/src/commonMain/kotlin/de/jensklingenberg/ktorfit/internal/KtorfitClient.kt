@@ -75,7 +75,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         return if (typeIsNullable) {
             null
         } else {
-            throw IllegalArgumentException("Add a RequestConverter for " + returnTypeData.qualifiedName + " or make function suspend")
+            throw IllegalArgumentException("Add a ResponseConverter for " + returnTypeData.qualifiedName + " or make function suspend")
         }
 
     }

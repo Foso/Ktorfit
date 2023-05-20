@@ -8,10 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Added
+ConverterFactories
+TypeData now contains TypeInfo
 
 ### Changed
 
 ### Deprecated
+ResponseConverter, SuspendConverters,
 
 ### Removed
 
