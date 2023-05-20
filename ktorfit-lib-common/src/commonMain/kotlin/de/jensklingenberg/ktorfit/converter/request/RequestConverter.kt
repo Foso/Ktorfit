@@ -3,7 +3,8 @@ package de.jensklingenberg.ktorfit.converter.request
 import de.jensklingenberg.ktorfit.converter.Converter
 import kotlin.reflect.KClass
 
-public interface RequestConverter : Converter.RequestConverter {
+@Deprecated("Use Converter.RequestParameterConverter")
+public interface RequestConverter : Converter.RequestParameterConverter {
 
     /**
      * Check if converter supports the types

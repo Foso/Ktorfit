@@ -1,15 +1,13 @@
 package de.jensklingenberg.ktorfit
 
+import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
-import de.jensklingenberg.ktorfit.internal.KtorfitClient
-import de.jensklingenberg.ktorfit.internal.RequestData
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import io.ktor.http.*
 import io.ktor.util.reflect.*
 import io.ktor.utils.io.errors.*
 import kotlinx.coroutines.flow.Flow
@@ -17,12 +15,12 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
 
-interface ConverterTestApi{
+interface ConverterTestApi {
     @GET("posts")
-    fun converterMissing() : Flow<String>
+    fun converterMissing(): Flow<String>
 
     @GET("posts")
-    suspend fun clientException() : Flow<String>
+    suspend fun clientException(): Flow<String>
 }
 
 class ConverterTest {
@@ -43,8 +41,7 @@ class ConverterTest {
             }
         } catch (exception: Exception) {
             Assert.assertTrue(exception is IllegalArgumentException)
-            Assert.assertTrue(exception.message?.startsWith("Add a RequestConverter") ?: false)
-
+            Assert.assertTrue(exception.message?.startsWith("Add a ResponseConverter") ?: false)
         }
     }
 
@@ -53,7 +50,10 @@ class ConverterTest {
     fun whenClientExceptionOccurs_HandleItInsideSuspendConverter() {
 
         try {
-
+            val engine = object : TestEngine() {
+                override fun getRequestData(data: HttpRequestData) {
+                }
+            }
             val test = object : SuspendResponseConverter {
                 override suspend fun <RequestType> wrapSuspendResponse(
                     typeData: TypeData,
@@ -75,7 +75,7 @@ class ConverterTest {
             }
 
 
-            val ktorfit = Ktorfit.Builder().baseUrl("http://www.jensklingenberg.de/").responseConverter(test).build()
+            val ktorfit = Ktorfit.Builder().httpClient(engine).baseUrl("http://www.jensklingenberg.de/").responseConverter(test).build()
             runBlocking {
                 ktorfit.create<ConverterTestApi>(_ConverterTestApiImpl()).clientException()
 
@@ -85,6 +85,8 @@ class ConverterTest {
 
         }
     }
+
+
 
 
 }

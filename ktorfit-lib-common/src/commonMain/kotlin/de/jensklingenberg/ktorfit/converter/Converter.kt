@@ -10,7 +10,7 @@ public interface Converter<F, T> {
     /**
      * Converter that transform the HTTPResponse within a non-suspend request
      * e.g. fun getPost(): Call<Post>
-     * Here a converter for Call is needed because Ktor relies on Coroutines for doing requests
+     * This is only needed for the return type of a non-suspend request, for every other case use [SuspendResponseConverter]
      */
     public interface ResponseConverter<F : HttpResponse, T> : Converter<HttpResponse, T> {
         public fun convert(getResponse: suspend () -> HttpResponse): T
@@ -24,7 +24,7 @@ public interface Converter<F, T> {
         public suspend fun convert(response: HttpResponse): T
     }
 
-    public interface RequestConverter : Converter<Any, Any> {
+    public interface RequestParameterConverter : Converter<Any, Any> {
 
         /**
          * Check if converter supports the types
@@ -54,7 +54,7 @@ public interface Converter<F, T> {
             return null
         }
 
-        public fun requestConverter(): RequestConverter? {
+        public fun requestParameterConverter(): RequestParameterConverter? {
             return null
         }
 

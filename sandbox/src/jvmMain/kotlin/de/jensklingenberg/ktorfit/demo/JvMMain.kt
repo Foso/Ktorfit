@@ -54,7 +54,7 @@ val jvmKtorfit = ktorfit {
     converterFactories(
         CallConverterFactory(),
         FlowConverterFactory(),
-        CommentFactory()
+       // CommentFactory()
     )
 }
 
@@ -67,8 +67,8 @@ fun main() {
 
     val test = api.getCommentsByPostIdQuery(listOf("2", "3", "t t"))
 
-    test?.onExecute(object :Callback<Comment>{
-        override fun onResponse(call: Comment, response: HttpResponse) {
+    test?.onExecute(object :Callback<List<Comment>>{
+        override fun onResponse(call: List<Comment>, response: HttpResponse) {
             println(call)
         }
 
@@ -96,7 +96,7 @@ class CommentFactory : Converter.Factory {
             object : Converter.SuspendResponseConverter<HttpResponse, Any?> {
                 override suspend fun convert(response: HttpResponse): Any? {
                     val data = response.body<List<Comment>>(typeInfo<List<Comment>>())
-                    return null
+                    return data
                 }
             }
         } else {

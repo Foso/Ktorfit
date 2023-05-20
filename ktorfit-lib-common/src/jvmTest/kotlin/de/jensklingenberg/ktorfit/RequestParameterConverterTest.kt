@@ -6,7 +6,7 @@ import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import org.junit.Assert
 import org.junit.Test
 
-class RequestConverterTest {
+class RequestParameterConverterTest {
 
     @Test
     fun testRequestConverter() {
