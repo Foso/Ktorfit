@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "context": {
+    "loginUser": {
+      "id": 1,
+      "name": "Robert Diggs"
+    },
+    "requestToken": "ac350somegdgdfhdhstuffb9250cb6fa",
+    "sessionToken": "JSESSIONID=baYBletcstufflVAH"
+  }
+}
