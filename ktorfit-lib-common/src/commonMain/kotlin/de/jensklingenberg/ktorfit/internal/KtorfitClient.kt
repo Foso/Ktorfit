@@ -65,8 +65,9 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         requestData: RequestData
     ): ReturnType? {
         val returnTypeData = requestData.getTypeData()
-        val requestTypeInfo = returnTypeData.typeArgs.firstOrNull()?.typeInfo ?: returnTypeData.typeInfo
-
+        httpClient.attributes.allKeys.forEach {
+            println(it)
+        }
         try {
             if (returnTypeData.typeInfo.type == HttpStatement::class) {
                 return httpClient.prepareRequest {

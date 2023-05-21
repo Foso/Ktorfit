@@ -181,7 +181,7 @@ public class Ktorfit private constructor(
         }
 
         /**
-         * Use this to add [ResponseConverter] or [SuspendResponseConverter] for unsupported return types of requests
+         * Use this to add [ResponseConverter] or [SuspendResponseConverter] for unsupported return types of requests.
          */
         @Deprecated("Use converterFactories() instead")
         public fun responseConverter(vararg converters: CoreResponseConverter): Builder = apply {
@@ -196,7 +196,8 @@ public class Ktorfit private constructor(
         }
 
         /**
-         * Run after CoreResposneConverters
+         * Add [Converter.Factory] with converters for unsupported return types of requests.
+         * The converters coming from the factories will be used after added the [CoreResponseConverter]s
          */
         public fun converterFactories(vararg converters: Converter.Factory): Builder = apply {
             this._factories.addAll(converters)

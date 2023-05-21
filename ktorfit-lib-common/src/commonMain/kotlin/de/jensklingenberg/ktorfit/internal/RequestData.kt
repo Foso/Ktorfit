@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit.internal
 
+import de.jensklingenberg.ktorfit.internal.TypeData.Companion.createTypeData
 import io.ktor.client.request.*
 import io.ktor.util.reflect.*
 import kotlin.reflect.KClass
@@ -15,20 +16,5 @@ public data class RequestData(
 ) {
 
     internal fun getTypeData(): TypeData = createTypeData(returnTypeName, returnTypeInfo)
-    internal fun createTypeData(qualifiedTypename: String, typeInfo: TypeInfo): TypeData {
 
-        val typeArgument = qualifiedTypename.substringAfter("<").substringBeforeLast(">")
-        val spilt = typeArgument.split(",")
-        val args = mutableListOf<TypeData>()
-        typeInfo.kotlinType?.arguments?.forEachIndexed { index, kTypeProjection ->
-            val cleaned = spilt[index].trim()
-
-            val modelKType = kTypeProjection.type
-            val modelClass = (modelKType?.classifier as? KClass<*>?)!!
-
-            args.add(createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType)))
-        }
-
-        return TypeData(qualifiedTypename.substringBefore("<"), args, typeInfo = typeInfo)
-    }
 }

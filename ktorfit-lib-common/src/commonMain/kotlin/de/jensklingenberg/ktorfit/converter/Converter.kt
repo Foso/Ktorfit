@@ -11,16 +11,30 @@ public interface Converter<F, T> {
      * Converter that transform the HTTPResponse within a non-suspend request
      * e.g. fun getPost(): Call<Post>
      * This is only needed for the return type of a non-suspend request, for every other case use [SuspendResponseConverter]
+     * @since 1.4.0
+     * @return the converted [HttpResponse]
      */
     public interface ResponseConverter<F : HttpResponse, T> : Converter<HttpResponse, T> {
+
+        /**
+         *
+         * @return the converted [HttpResponse]
+         */
         public fun convert(getResponse: suspend () -> HttpResponse): T
     }
 
     /**
      * Converter that transform the HTTPResponse within a suspend request
      * e.g. suspend fun getPost(): Post
+     * @since 1.4.0
+     * @return the converted [HttpResponse]
      */
     public interface SuspendResponseConverter<F : HttpResponse, T> : Converter<HttpResponse, T> {
+
+        /**
+         *
+         * @return the converted [HttpResponse]
+         */
         public suspend fun convert(response: HttpResponse): T
     }
 

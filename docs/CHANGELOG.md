@@ -8,13 +8,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Added
-ConverterFactories
-TypeData now contains TypeInfo
+* Converter.Factory
+* TypeData now has a field "typeInfo" can be used to convert the Ktor HttpResponse body to the wanted type
+* CallConverterFactory
+* FlowConverterFactory
 
 ### Changed
 
+
 ### Deprecated
-ResponseConverter, SuspendConverters,
+* ResponseConverter, use Converter.ResponseConverter instead
+* SuspendResponseConverter, use Converter.SuspendResponseConverter instead
+* RequestConverter, use Converter.RequestParameterConverter instead
 
 ### Removed
 

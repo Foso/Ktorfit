@@ -1,19 +1,29 @@
 package de.jensklingenberg.ktorfit.demo
 
 
+import com.example.UserFactory
 import com.example.api.JsonPlaceHolderApi
 import com.example.model.Comment
+import com.example.model.ExampleApi
 import de.jensklingenberg.ktorfit.Callback
+import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.internal.TypeData
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.*
+import io.ktor.util.reflect.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
+import kotlin.reflect.full.createType
+import kotlin.reflect.full.defaultType
 
 
 val jvmClient = HttpClient {
@@ -40,27 +50,25 @@ val jvmKtorfit = ktorfit {
 }
 
 
+
+val userKtorfit = ktorfit {
+    baseUrl("https://foso.github.io/Ktorfit/")
+    httpClient(jvmClient)
+    converterFactories(UserFactory())
+}
+
+
+
 fun main() {
 
-    val api = jvmKtorfit.create<JsonPlaceHolderApi>()
-
-    // val str = api.getPostById(3)
-
-    val test = api.getCommentsByPostIdQuery(listOf("2", "3", "t t"))
-
-    test?.onExecute(object :Callback<List<Comment>>{
-        override fun onResponse(call: List<Comment>, response: HttpResponse) {
-            println(call)
-        }
-
-        override fun onError(exception: Throwable) {
-            exception
-        }
-
-    })
+Ktorfit.Builder().converterFactories(UserFactory()).baseUrl("foo").build()
     runBlocking {
 
+       val user = userKtorfit.create<ExampleApi>().getUser()
 
+        user?.let {
+            println(user.name)
+        }
         delay(3000)
     }
 

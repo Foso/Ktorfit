@@ -13,7 +13,7 @@ extra:
   site:
     images: '../../images'
   ktorfit:
-    release: "1.3.0"
+    release: "1.4.0"
   ktor:
     release: "2.3.0"
   social:
@@ -56,8 +56,11 @@ nav:
   - 'Quick start': quick-start.md
   - 'Installation': installation.md
   - 'Requests': requests.md
-  - 'ResponseConverter': responseconverter.md
-  - 'SuspendResponseConverter': suspendresponseconverter.md
+  - 'Converters':
+      - 'Converters': converters/converters.md
+      - 'ResponseConverter': converters/responseconverter.md
+      - 'SuspendResponseConverter': converters/suspendresponseconverter.md
+      - 'Example1': converters/example1.md
   - 'Configuration': configuration.md
   - 'Fundamentals' :
       - 'Scope' : fundamentals/scope.md
