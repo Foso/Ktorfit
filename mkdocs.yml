@@ -60,6 +60,7 @@ nav:
       - 'Converters': converters/converters.md
       - 'ResponseConverter': converters/responseconverter.md
       - 'SuspendResponseConverter': converters/suspendresponseconverter.md
+      - 'RequestParameterConverter' : converters/requestparameterconverter.md
       - 'Example1': converters/example1.md
   - 'Configuration': configuration.md
   - 'Fundamentals' :

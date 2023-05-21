@@ -23,7 +23,11 @@ class StringToIntRequestConverterFactory : Converter.Factory {
         requestType: KClass<*>
     ): Converter.RequestParameterConverter? {
         if (supportedType(parameterType, requestType)) {
-            return StringToIntRequestConverter()
+            return object : Converter.RequestParameterConverter {
+                override fun convert(data: Any): Any {
+                    return (data as String).toInt()
+                }
+            }
         }
         return null
     }
