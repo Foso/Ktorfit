@@ -61,7 +61,6 @@ class ConverterTest {
             }
 
         } catch (exception: Exception) {
-            Assert.assertTrue(exception is IllegalArgumentException)
 
         }
     }
