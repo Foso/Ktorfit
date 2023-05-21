@@ -1,11 +1,7 @@
 {
   "success": true,
-  "context": {
-    "loginUser": {
+  "loginUser": {
       "id": 1,
-      "name": "Robert Diggs"
-    },
-    "requestToken": "ac350somegdgdfhdhstuffb9250cb6fa",
-    "sessionToken": "JSESSIONID=baYBletcstufflVAH"
-  }
+      "name": "Jens Klingenberg"
+    }
 }
