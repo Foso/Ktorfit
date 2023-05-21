@@ -1,6 +1,6 @@
 {
   "success": true,
-  "loginUser": {
+  "user": {
       "id": 1,
       "name": "Jens Klingenberg"
     }
