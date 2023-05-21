@@ -44,14 +44,23 @@ public interface Converter<F, T> {
 
     public interface Factory {
 
+        /**
+         * Return a [ResponseConverter] that can handle [typeData] or else null
+         */
         public fun responseConverter(typeData: TypeData, ktorfit: Ktorfit): ResponseConverter<HttpResponse, *>? {
             return null
         }
 
+        /**
+         * Return a [RequestParameterConverter] that can handle [parameterType] and [requestType] or else null
+         */
         public fun requestParameterConverter(parameterType: KClass<*>, requestType: KClass<*>): RequestParameterConverter? {
             return null
         }
 
+        /**
+         * Return a [SuspendResponseConverter] that can handle [typeData] or else null
+         */
         public fun suspendResponseConverter(
             typeData: TypeData,
             ktorfit: Ktorfit

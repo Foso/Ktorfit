@@ -69,12 +69,13 @@ public class Ktorfit private constructor(
     }
 
     /**
-     * Returns the next [RequestParameterConverter] after [currentFactory] that can handle [type]
+     * Returns the next [RequestParameterConverter] after [currentFactory] that can handle [parameterType] and [requestType]
      * or null if no one found
      */
     internal fun nextRequestParameterConverter(
         currentFactory: Converter.Factory?,
-        parameterType: KClass<*>, requestType: KClass<*>
+        parameterType: KClass<*>,
+        requestType: KClass<*>
     ): Converter.RequestParameterConverter? {
         val start = converterFactories.indexOf(currentFactory) + 1
         (start until converterFactories.size).forEach {
