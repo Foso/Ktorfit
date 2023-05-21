@@ -17,6 +17,7 @@ import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.statement.*
+import kotlin.reflect.KClass
 
 
 /**
@@ -32,14 +33,14 @@ public class Ktorfit private constructor(
 ) {
 
     /**
-     * Returns the next ResponseConverter after [skipPast] that can handle [type]
+     * Returns the next ResponseConverter after [currentFactory] that can handle [type]
      * or null if no one found
      */
     public fun nextResponseConverter(
-        skipPast: Converter.Factory?,
+        currentFactory: Converter.Factory?,
         type: TypeData
     ): Converter.ResponseConverter<HttpResponse, *>? {
-        val start = converterFactories.indexOf(skipPast) + 1
+        val start = converterFactories.indexOf(currentFactory) + 1
         (start until converterFactories.size).forEach {
             val converter = converterFactories[it].responseConverter(type, this)
             if (converter != null) {
@@ -50,16 +51,34 @@ public class Ktorfit private constructor(
     }
 
     /**
-     * Returns the next SuspendResponseConverter after [skipPast] that can handle [type]
+     * Returns the next [SuspendResponseConverter] after [currentFactory] that can handle [type]
      * or null if no one found
      */
     public fun nextSuspendResponseConverter(
-        skipPast: Converter.Factory?,
+        currentFactory: Converter.Factory?,
         type: TypeData
     ): Converter.SuspendResponseConverter<HttpResponse, *>? {
-        val start = converterFactories.indexOf(skipPast) + 1
+        val start = converterFactories.indexOf(currentFactory) + 1
         (start until converterFactories.size).forEach {
             val converter = converterFactories[it].suspendResponseConverter(type, this)
+            if (converter != null) {
+                return converter
+            }
+        }
+        return null
+    }
+
+    /**
+     * Returns the next [RequestParameterConverter] after [currentFactory] that can handle [type]
+     * or null if no one found
+     */
+    internal fun nextRequestParameterConverter(
+        currentFactory: Converter.Factory?,
+        parameterType: KClass<*>, requestType: KClass<*>
+    ): Converter.RequestParameterConverter? {
+        val start = converterFactories.indexOf(currentFactory) + 1
+        (start until converterFactories.size).forEach {
+            val converter = converterFactories[it].requestParameterConverter(parameterType, requestType)
             if (converter != null) {
                 return converter
             }
@@ -163,7 +182,7 @@ public class Ktorfit private constructor(
         /**
          * Use this to add [ResponseConverter] or [SuspendResponseConverter] for unsupported return types of requests
          */
-        @Deprecated("Use ConverterFactories instead")
+        @Deprecated("Use converterFactories() instead")
         public fun responseConverter(vararg converters: CoreResponseConverter): Builder = apply {
             converters.forEach { converter ->
                 if (converter is ResponseConverter) {
@@ -182,6 +201,7 @@ public class Ktorfit private constructor(
             this._factories.addAll(converters)
         }
 
+        @Deprecated("Use converterFactories() instead")
         public fun requestConverter(vararg converters: RequestConverter): Builder = apply {
             this._requestConverter.addAll(converters)
         }
@@ -200,10 +220,11 @@ public class Ktorfit private constructor(
                 _httpClient,
                 _responseConverter,
                 _suspendResponseConverter,
-                requestConverters = _requestConverter,
+                _requestConverter,
                 _factories.also {
                     it.add(DefaultSuspendResponseConverterFactory())
-                }.toList())
+                }.toList()
+            )
         }
     }
 }

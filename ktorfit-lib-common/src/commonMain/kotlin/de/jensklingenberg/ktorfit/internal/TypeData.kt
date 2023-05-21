@@ -16,4 +16,8 @@ public data class TypeData(
     public val typeArgs: List<TypeData> = emptyList(),
     public val isNullable: Boolean = qualifiedName.endsWith("?"),
     val typeInfo: TypeInfo,
-)
+){
+    internal companion object{
+
+    }
+}

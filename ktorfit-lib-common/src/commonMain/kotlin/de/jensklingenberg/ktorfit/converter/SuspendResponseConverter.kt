@@ -1,10 +1,14 @@
 package de.jensklingenberg.ktorfit.converter
 
+import de.jensklingenberg.ktorfit.Call
+import de.jensklingenberg.ktorfit.Callback
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 /**
  * Implement this to support wrapping for custom types

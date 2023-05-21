@@ -27,12 +27,6 @@ public interface Converter<F, T> {
     public interface RequestParameterConverter : Converter<Any, Any> {
 
         /**
-         * Check if converter supports the types
-         * @return true if this converter can convert [parameterType] to [requestType]
-         */
-        public fun supportedType(parameterType: KClass<*>, requestType: KClass<*>): Boolean
-
-        /**
          * Convert given [data]
          * @return the converted [data]
          */
@@ -54,7 +48,7 @@ public interface Converter<F, T> {
             return null
         }
 
-        public fun requestParameterConverter(): RequestParameterConverter? {
+        public fun requestParameterConverter(parameterType: KClass<*>, requestType: KClass<*>): RequestParameterConverter? {
             return null
         }
 

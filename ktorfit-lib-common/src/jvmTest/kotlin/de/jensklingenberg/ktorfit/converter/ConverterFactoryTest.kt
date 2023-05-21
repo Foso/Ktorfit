@@ -1,12 +1,11 @@
-package de.jensklingenberg.ktorfit
+package de.jensklingenberg.ktorfit.converter
 
-import de.jensklingenberg.ktorfit.converter.Converter
+import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.TestEngine
 import de.jensklingenberg.ktorfit.internal.TypeData
-import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import io.ktor.content.*
 import io.ktor.util.reflect.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -19,7 +18,6 @@ class ConverterFactoryTest {
     @Test
     fun whenClientExceptionOccurs_HandleItInsideSuspendConverter() {
 
-        try {
             val engine = object : TestEngine() {
                 override fun getRequestData(data: HttpRequestData) {
                 }
@@ -45,16 +43,17 @@ class ConverterFactoryTest {
                 }
             }
 
+            val ktorfit = Ktorfit.Builder()
+                .httpClient(engine)
+                .baseUrl("http://www.jensklingenberg.de/")
+                .converterFactories(test)
+                .build()
 
-            val ktorfit = Ktorfit.Builder().httpClient(engine).baseUrl("http://www.jensklingenberg.de/").converterFactories(test).build()
             runBlocking {
                 ktorfit.create<ConverterTestApi>(_ConverterTestApiImpl()).clientException()
-
             }
-        } catch (exception: Exception) {
-            Assert.assertTrue(exception is IllegalArgumentException)
 
-        }
+
     }
 
 
