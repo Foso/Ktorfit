@@ -7,6 +7,9 @@ import io.ktor.client.statement.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
+/**
+ * Factory that enables the use of Flow<T> as return type
+ */
 public class FlowConverterFactory : Converter.Factory {
 
     override fun responseConverter(

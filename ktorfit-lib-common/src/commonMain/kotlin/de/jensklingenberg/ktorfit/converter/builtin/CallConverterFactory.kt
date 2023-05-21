@@ -8,6 +8,9 @@ import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.statement.*
 import kotlinx.coroutines.launch
 
+/**
+ * Factory that enables the use of Call<T> as return type
+ */
 public class CallConverterFactory : Converter.Factory {
 
     private class CallResponseConverter(val typeData: TypeData, val ktorfit: Ktorfit) :

@@ -88,7 +88,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                 return it
             }
 
-
             ktorfit.nextSuspendResponseConverter(null, returnTypeData)?.let {
 
                 val response = httpClient.request {
@@ -158,7 +157,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                         requestBuilder(requestData)
                     })
                 }, ktorfit
-            ) as ReturnType
+            ) as ReturnType?
         }
         return null
     }

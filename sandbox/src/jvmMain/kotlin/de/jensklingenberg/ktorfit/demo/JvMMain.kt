@@ -3,11 +3,8 @@ package de.jensklingenberg.ktorfit.demo
 
 import com.example.api.JsonPlaceHolderApi
 import com.example.model.Comment
-import com.example.model.StringToIntRequestConverterFactory
 import de.jensklingenberg.ktorfit.Callback
-import de.jensklingenberg.ktorfit.converter.builtin.CallConverterFactory
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
-import de.jensklingenberg.ktorfit.converter.builtin.FlowConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
