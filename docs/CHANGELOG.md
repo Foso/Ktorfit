@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Added
+* #85 Added a Response class that can be used as a wrapper around the API Response, the converter for it is automatically applied. thx to @vovahost, @DATL4G
+
+e.g. "suspend fun getUser(): Response<User>"
+
+val user = userKtorfit.create<ExampleApi>().getUser()
+    
+  if(user.isSuccessful){
+      user.body()
+  }else{
+      user.errorBody()
+  }
+
 * Converter.Factory
 * TypeData now has a field "typeInfo" can be used to convert the Ktor HttpResponse body to the wanted type
 * CallConverterFactory
