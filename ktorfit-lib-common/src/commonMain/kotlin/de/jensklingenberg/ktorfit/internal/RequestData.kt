@@ -3,7 +3,6 @@ package de.jensklingenberg.ktorfit.internal
 import de.jensklingenberg.ktorfit.internal.TypeData.Companion.createTypeData
 import io.ktor.client.request.*
 import io.ktor.util.reflect.*
-import kotlin.reflect.KClass
 
 /**
  * This class is used by the generated code to pass the request information to [KtorfitClient]
