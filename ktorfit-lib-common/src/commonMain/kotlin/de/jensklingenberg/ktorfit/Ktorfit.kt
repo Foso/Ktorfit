@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.Strings.Companion.ENABLE_GRADLE_PLUGIN
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.DefaultResponseClassConverterFactory
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.RequestConverter
@@ -28,7 +29,7 @@ public class Ktorfit private constructor(
     public val httpClient: HttpClient = HttpClient(),
     public val responseConverters: Set<ResponseConverter>,
     public val suspendResponseConverters: Set<SuspendResponseConverter>,
-    public val requestConverters: Set<RequestConverter>,
+    internal val requestConverters: Set<RequestConverter>,
     private val converterFactories: List<Converter.Factory>
 ) {
 
@@ -224,6 +225,7 @@ public class Ktorfit private constructor(
                 _suspendResponseConverter,
                 _requestConverter,
                 _factories.also {
+                    it.add(DefaultResponseClassConverterFactory())
                     it.add(DefaultSuspendResponseConverterFactory())
                 }.toList()
             )
