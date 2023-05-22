@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.internal
 
 import kotlin.reflect.KClass
 
+@OptIn(InternalKtorfitApi::class)
 public interface Client {
 
     /**

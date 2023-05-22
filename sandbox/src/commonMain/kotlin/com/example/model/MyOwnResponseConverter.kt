@@ -1,6 +1,7 @@
 package com.example.model
 
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.call.*
@@ -24,5 +25,26 @@ class MyOwnResponseConverter : SuspendResponseConverter {
 
     override fun supportedType(typeData: TypeData, isSuspend: Boolean): Boolean {
         return typeData.qualifiedName == "com.example.model.MyOwnResponse"
+    }
+}
+
+class MyOwnResponseConverterFactory : Converter.Factory{
+
+    override fun suspendResponseConverter(
+        typeData: TypeData,
+        ktorfit: Ktorfit
+    ): Converter.SuspendResponseConverter<HttpResponse, *>? {
+        if(typeData.typeInfo.type == MyOwnResponse::class) {
+            return object : Converter.SuspendResponseConverter<HttpResponse, Any> {
+                override suspend fun convert(response: HttpResponse): Any {
+                    return try {
+                        MyOwnResponse.success(response.body(typeData.typeArgs.first().typeInfo))
+                    } catch (ex: Throwable) {
+                        MyOwnResponse.error(ex)
+                    }
+                }
+            }
+        }
+        return null
     }
 }

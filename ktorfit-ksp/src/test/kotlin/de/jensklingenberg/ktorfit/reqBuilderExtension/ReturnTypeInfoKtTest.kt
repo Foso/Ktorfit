@@ -9,7 +9,7 @@ class ReturnTypeInfoKtTest {
 
     @Test
     fun testWithReturnTypeInfo() {
-        val text = getReturnTypeInfoText(ReturnTypeData("String", "kotlin.String", null))
+        val text = getReturnTypeInfoText("String")
         Assert.assertEquals("returnTypeInfo = typeInfo<String>()", text)
     }
 }

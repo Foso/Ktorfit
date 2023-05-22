@@ -60,7 +60,7 @@ interface JsonPlaceHolderApi {
     @GET("comments")
     fun getCommentsByPostIdQuery(
         @QueryName(false) postId: List<String>,
-    ): Call<String>
+    ): Call<List<Comment>>
 
     @Headers(value = ["Content-Type: application/json"])
     @POST("posts")

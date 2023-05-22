@@ -21,18 +21,20 @@ fun getFieldArgumentsText(params: List<ParameterData>, listType: KSType, arrayTy
 
         when {
             isList || isArray -> {
-                "$paramName?.filterNotNull()?.forEach { append(\"$fieldValue\", \"\$it\"%s) }\n".format(if (encoded) {
-                    /**
-                     * This is a workaround.
-                     * Ktor encodes parameters by default and I don't know
-                     * how to deactivate this.
-                     * When the value is not encoded it will be given to Ktor unchanged.
-                     * If it is encoded, it gets decoded, so Ktor can encode it again.
-                     */
-                    ".decodeURLQueryComponent(plusIsSpace = true)"
-                } else {
-                    ""
-                })
+                "$paramName?.filterNotNull()?.forEach { append(\"$fieldValue\", \"\$it\"%s) }\n".format(
+                    if (encoded) {
+                        /**
+                         * This is a workaround.
+                         * Ktor encodes parameters by default and I don't know
+                         * how to deactivate this.
+                         * When the value is not encoded it will be given to Ktor unchanged.
+                         * If it is encoded, it gets decoded, so Ktor can encode it again.
+                         */
+                        ".decodeURLQueryComponent(plusIsSpace = true)"
+                    } else {
+                        ""
+                    }
+                )
             }
 
             else -> {

@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.reqBuilderExtension
+package de.jensklingenberg.ktorfit
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSName

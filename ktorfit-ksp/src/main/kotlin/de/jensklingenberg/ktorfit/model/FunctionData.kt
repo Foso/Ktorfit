@@ -1,6 +1,5 @@
 package de.jensklingenberg.ktorfit.model
 
-import KtorfitProcessor
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
@@ -8,7 +7,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeVariableName
-import de.jensklingenberg.ktorfit.model.TypeData.Companion.getMyType
+import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
 import de.jensklingenberg.ktorfit.requestData.addRequestConverterText
@@ -86,26 +85,18 @@ private fun getHttpMethodAnnotations(ksFunctionDeclaration: KSFunctionDeclaratio
 }
 
 fun KSFunctionDeclaration.toFunctionData(
-    logger: KSPLogger,
-    imports: List<String>,
-    packageName: String,
-    resolver: Resolver
+    logger: KSPLogger
 ): FunctionData {
     val funcDeclaration = this
     val functionName = funcDeclaration.simpleName.asString()
     val functionParameters = funcDeclaration.parameters.map { it.createParameterData(logger) }
-    val resolvedFunctionReturnTypeName = funcDeclaration.returnType?.resolve().resolveTypeName()
-    val typeData = getMyType(
-        resolvedFunctionReturnTypeName.removeWhiteSpaces(),
-        imports,
-        packageName,
-        resolver
-    )
+
+    val resolvedReturnType = funcDeclaration.returnType?.resolve()
 
     val returnType = ReturnTypeData(
-        resolvedFunctionReturnTypeName,
-        typeData.toString(),
-        funcDeclaration.returnType
+        name = resolvedReturnType.resolveTypeName(),
+        qualifiedName = resolvedReturnType?.toTypeName().toString(),
+        parameterType = funcDeclaration.returnType
     )
 
     val functionAnnotationList = mutableListOf<FunctionAnnotation>()

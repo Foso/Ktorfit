@@ -1,17 +1,23 @@
 package de.jensklingenberg.ktorfit
 
+import de.jensklingenberg.ktorfit.Strings.Companion.BASE_URL_NEEDS_TO_END_WITH
 import de.jensklingenberg.ktorfit.Strings.Companion.BASE_URL_REQUIRED
 import de.jensklingenberg.ktorfit.Strings.Companion.ENABLE_GRADLE_PLUGIN
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
+import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.RequestConverter
 import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
 import de.jensklingenberg.ktorfit.internal.DefaultKtorfitService
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import de.jensklingenberg.ktorfit.internal.KtorfitService
+import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.engine.*
+import io.ktor.client.statement.*
+import kotlin.reflect.KClass
 
 
 /**
@@ -22,9 +28,64 @@ public class Ktorfit private constructor(
     public val httpClient: HttpClient = HttpClient(),
     public val responseConverters: Set<ResponseConverter>,
     public val suspendResponseConverters: Set<SuspendResponseConverter>,
-    public val requestConverters: Set<RequestConverter>
+    public val requestConverters: Set<RequestConverter>,
+    private val converterFactories: List<Converter.Factory>
 ) {
 
+    /**
+     * Returns the next ResponseConverter after [currentFactory] that can handle [type]
+     * or null if no one found
+     */
+    public fun nextResponseConverter(
+        currentFactory: Converter.Factory?,
+        type: TypeData
+    ): Converter.ResponseConverter<HttpResponse, *>? {
+        val start = converterFactories.indexOf(currentFactory) + 1
+        (start until converterFactories.size).forEach {
+            val converter = converterFactories[it].responseConverter(type, this)
+            if (converter != null) {
+                return converter
+            }
+        }
+        return null
+    }
+
+    /**
+     * Returns the next [SuspendResponseConverter] after [currentFactory] that can handle [type]
+     * or null if no one found
+     */
+    public fun nextSuspendResponseConverter(
+        currentFactory: Converter.Factory?,
+        type: TypeData
+    ): Converter.SuspendResponseConverter<HttpResponse, *>? {
+        val start = converterFactories.indexOf(currentFactory) + 1
+        (start until converterFactories.size).forEach {
+            val converter = converterFactories[it].suspendResponseConverter(type, this)
+            if (converter != null) {
+                return converter
+            }
+        }
+        return null
+    }
+
+    /**
+     * Returns the next [RequestParameterConverter] after [currentFactory] that can handle [parameterType] and [requestType]
+     * or null if no one found
+     */
+    internal fun nextRequestParameterConverter(
+        currentFactory: Converter.Factory?,
+        parameterType: KClass<*>,
+        requestType: KClass<*>
+    ): Converter.RequestParameterConverter? {
+        val start = converterFactories.indexOf(currentFactory) + 1
+        (start until converterFactories.size).forEach {
+            val converter = converterFactories[it].requestParameterConverter(parameterType, requestType)
+            if (converter != null) {
+                return converter
+            }
+        }
+        return null
+    }
 
     /**
      * This will return an implementation of [T] if [T] is an interface
@@ -53,6 +114,7 @@ public class Ktorfit private constructor(
         private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf()
         private var _suspendResponseConverter: MutableSet<SuspendResponseConverter> = mutableSetOf()
         private var _requestConverter: MutableSet<RequestConverter> = mutableSetOf()
+        private var _factories: MutableSet<Converter.Factory> = mutableSetOf()
 
         /**
          * That will be used for every request with object
@@ -65,7 +127,7 @@ public class Ktorfit private constructor(
             }
 
             if (checkUrl && !url.endsWith("/")) {
-                throw IllegalStateException("Base URL needs to end with /")
+                throw IllegalStateException(BASE_URL_NEEDS_TO_END_WITH)
             }
             if (checkUrl && !url.startsWith("http") && !url.startsWith("https")) {
                 throw IllegalStateException(EXPECTED_URL_SCHEME)
@@ -119,8 +181,9 @@ public class Ktorfit private constructor(
         }
 
         /**
-         * Use this to add [ResponseConverter] or [SuspendResponseConverter] for unsupported return types of requests
+         * Use this to add [ResponseConverter] or [SuspendResponseConverter] for unsupported return types of requests.
          */
+        @Deprecated("Use converterFactories() instead")
         public fun responseConverter(vararg converters: CoreResponseConverter): Builder = apply {
             converters.forEach { converter ->
                 if (converter is ResponseConverter) {
@@ -132,10 +195,18 @@ public class Ktorfit private constructor(
             }
         }
 
+        /**
+         * Add [Converter.Factory] with converters for unsupported return types of requests.
+         * The converters coming from the factories will be used after added the [CoreResponseConverter]s
+         */
+        public fun converterFactories(vararg converters: Converter.Factory): Builder = apply {
+            this._factories.addAll(converters)
+        }
+
+        @Deprecated("Use converterFactories() instead")
         public fun requestConverter(vararg converters: RequestConverter): Builder = apply {
             this._requestConverter.addAll(converters)
         }
-
 
         /**
          * Apply changes to builder and get the Ktorfit instance without the need of calling [build] afterwards.
@@ -146,7 +217,16 @@ public class Ktorfit private constructor(
          * Creates an instance of Ktorfit with specified baseUrl and HttpClient.
          */
         public fun build(): Ktorfit {
-            return Ktorfit(_baseUrl, _httpClient, _responseConverter, _suspendResponseConverter, _requestConverter)
+            return Ktorfit(
+                _baseUrl,
+                _httpClient,
+                _responseConverter,
+                _suspendResponseConverter,
+                _requestConverter,
+                _factories.also {
+                    it.add(DefaultSuspendResponseConverterFactory())
+                }.toList()
+            )
         }
     }
 }

@@ -9,6 +9,20 @@ on:
     branches: [ master ]
 
 jobs:
+  api_check:
+    name: API check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 17
+      - uses: gradle/gradle-build-action@v2
+      - name: API check
+        run: ./gradlew apiCheck
   build:
     runs-on: macos-latest
     steps:
@@ -18,7 +32,16 @@ jobs:
         with:
           java-version: 11
           distribution: 'zulu'
+      - name: Cache Gradle and wrapper
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-    
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build and test with Gradle
-        run: ./gradlew clean licensee :ktorfit-lib-common:apiCheck :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:test :ktorfit-lib-common:jvmTest
+        run: ./gradlew clean licensee :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:test :ktorfit-lib-common:jvmTest

@@ -122,7 +122,7 @@ private fun getCreateExtensionFunctionSpec(
  * @param logger used to log errors
  * @return the transformed classdata
  */
-fun KSClassDeclaration.toClassData(logger: KSPLogger, resolver: Resolver): ClassData {
+fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     val ksClassDeclaration = this
     val imports = ksClassDeclaration.getFileImports().toMutableList().also {
         it.add("io.ktor.util.reflect.*")
@@ -136,7 +136,7 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger, resolver: Resolver): Class
 
     val functionDataList: List<FunctionData> =
         ksClassDeclaration.getDeclaredFunctions().toList().map { funcDeclaration ->
-            return@map funcDeclaration.toFunctionData(logger, imports, packageName, resolver)
+            return@map funcDeclaration.toFunctionData(logger)
         }
 
 
