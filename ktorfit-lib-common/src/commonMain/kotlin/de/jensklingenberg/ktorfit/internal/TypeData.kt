@@ -16,7 +16,7 @@ public data class TypeData(
     public val qualifiedName: String,
     public val typeArgs: List<TypeData> = emptyList(),
     public val isNullable: Boolean = qualifiedName.endsWith("?"),
-    val typeInfo: TypeInfo,
+    public val typeInfo: TypeInfo,
 ){
     public companion object{
         public fun createTypeData(qualifiedTypename: String, typeInfo: TypeInfo): TypeData {

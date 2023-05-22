@@ -61,7 +61,6 @@ val userKtorfit = ktorfit {
 
 fun main() {
 
-Ktorfit.Builder().converterFactories(UserFactory()).baseUrl("foo").build()
     runBlocking {
 
        val user = userKtorfit.create<ExampleApi>().getUser()
