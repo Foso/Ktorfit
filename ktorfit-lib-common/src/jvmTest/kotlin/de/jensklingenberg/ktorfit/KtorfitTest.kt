@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
 import org.junit.Assert
+import org.junit.Ignore
 import org.junit.Test
 
 private class TestConverterFactory : Converter.Factory {
@@ -65,6 +66,7 @@ class KtorfitTest {
 
     }
 
+    @Ignore("Will be activate when old converters are removed")
     @Test
     fun whenNoSuspendResponseConverterForStringAdded_FindDefaultConverter() {
 

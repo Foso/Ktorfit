@@ -198,7 +198,7 @@ public class Ktorfit private constructor(
 
         /**
          * Add [Converter.Factory] with converters for unsupported return types of requests.
-         * The converters coming from the factories will be used after added the [CoreResponseConverter]s
+         * The converters coming from the factories will be used before the added [CoreResponseConverter]s
          */
         public fun converterFactories(vararg converters: Converter.Factory): Builder = apply {
             this._factories.addAll(converters)
@@ -222,11 +222,12 @@ public class Ktorfit private constructor(
                 _baseUrl,
                 _httpClient,
                 _responseConverter,
-                _suspendResponseConverter,
+                _suspendResponseConverter.also {
+                    it.add(DefaultSuspendResponseConverterFactory())
+                },
                 _requestConverter,
                 _factories.also {
                     it.add(DefaultResponseClassConverterFactory())
-                    it.add(DefaultSuspendResponseConverterFactory())
                 }.toList()
             )
         }

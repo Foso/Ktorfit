@@ -22,13 +22,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     ): ReturnType? {
         val returnTypeData = requestData.getTypeData()
 
-        /**
-         * Keeping this for compatibility
-         */
-        handleDeprecatedResponseConverters<ReturnType, RequestType>(requestData)?.let {
-            return it
-        }
-
         ktorfit.nextResponseConverter(null, returnTypeData)?.let { responseConverter ->
 
             return responseConverter.convert {
@@ -46,6 +39,13 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                     throw ex
                 }
             } as ReturnType?
+        }
+
+        /**
+         * Keeping this for compatibility
+         */
+        handleDeprecatedResponseConverters<ReturnType, RequestType>(requestData)?.let {
+            return it
         }
 
         val typeIsNullable = returnTypeData.isNullable
@@ -80,13 +80,6 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                 return response as ReturnType
             }
 
-            /**
-             * Keeping this for compatibility
-             */
-            handleDeprecatedSuspendResponseConverters<ReturnType, RequestType>(requestData)?.let {
-                return it
-            }
-
             ktorfit.nextSuspendResponseConverter(null, returnTypeData)?.let {
 
                 val response = httpClient.request {
@@ -94,7 +87,13 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                 }
                 return it.convert(response) as ReturnType?
             }
-                ?: throw IllegalStateException("No SuspendResponseConverter found for " + returnTypeData.qualifiedName)
+
+            /**
+             * Keeping this for compatibility
+             */
+            handleDeprecatedSuspendResponseConverters<ReturnType, RequestType>(requestData)?.let {
+                return it
+            } ?: throw IllegalStateException("No SuspendResponseConverter found for " + returnTypeData.qualifiedName)
 
         } catch (exception: Exception) {
             val typeIsNullable = returnTypeData.isNullable

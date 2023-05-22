@@ -47,11 +47,11 @@ public class CallConverterFactory : Converter.Factory {
     }
 
     private class CallSuspendResponseConverter(val typeData: TypeData, val ktorfit: Ktorfit) :
-        Converter.SuspendResponseConverter<HttpResponse, Call<Any>> {
-        override suspend fun convert(response: HttpResponse): Call<Any> {
+        Converter.SuspendResponseConverter<HttpResponse, Call<Any?>> {
+        override suspend fun convert(response: HttpResponse): Call<Any?> {
 
-            return object : Call<Any> {
-                override fun onExecute(callBack: Callback<Any>) {
+            return object : Call<Any?> {
+                override fun onExecute(callBack: Callback<Any?>) {
                     ktorfit.httpClient.launch {
                         try {
                             val data = ktorfit.nextSuspendResponseConverter(
