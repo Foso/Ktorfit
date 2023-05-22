@@ -10,7 +10,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.io.File
 
-class StreamingAnnotationTest() {
+class StreamingAnnotationTest {
     private val httpStatement = SourceFile.kotlin(
         "HttpStatement.kt", """
       package io.ktor.client.statement
