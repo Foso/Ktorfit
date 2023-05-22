@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.requestData
+package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
@@ -6,7 +6,6 @@ import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.Path
 import de.jensklingenberg.ktorfit.model.annotations.Url
-import de.jensklingenberg.ktorfit.reqBuilderExtension.getUrlCode
 import org.junit.Assert
 import org.junit.Test
 

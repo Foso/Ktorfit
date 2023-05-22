@@ -40,12 +40,7 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = """val _ext: HttpRequestBuilder.() -> Unit = {
-        method = HttpMethod.parse("GET")
-        url{
-        takeFrom(ktorfitClient.baseUrl + "posts")
-        } 
-        }"""
+        val expectedFunctionText = """return ktorfitClient.suspendRequest<HttpStatement, HttpStatement>(_requestData)!!"""
 
         val compilation = getCompilation(listOf(httpStatement, source))
         val result = compilation.compile()

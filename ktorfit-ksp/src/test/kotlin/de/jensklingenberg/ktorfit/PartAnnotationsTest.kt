@@ -227,7 +227,7 @@ interface TestService {
 
 interface TestService {
    @POST("posts")
-   fun example(@Part() name: String?)
+   fun example(@Part name: String?)
 }
     """
         )

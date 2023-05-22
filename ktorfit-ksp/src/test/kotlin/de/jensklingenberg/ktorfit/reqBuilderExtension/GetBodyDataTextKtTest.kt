@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.requestData
+package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData

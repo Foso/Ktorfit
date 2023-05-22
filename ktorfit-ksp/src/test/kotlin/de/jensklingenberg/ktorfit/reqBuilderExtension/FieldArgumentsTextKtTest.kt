@@ -1,11 +1,10 @@
-package de.jensklingenberg.ktorfit.requestData
+package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.Field
 import de.jensklingenberg.ktorfit.model.annotations.FieldMap
-import de.jensklingenberg.ktorfit.reqBuilderExtension.getFieldArgumentsText
 import org.junit.Assert
 import org.junit.Test
 import org.mockito.kotlin.mock
