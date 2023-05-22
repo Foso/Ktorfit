@@ -73,7 +73,7 @@ public class CallConverterFactory : Converter.Factory {
         ktorfit: Ktorfit
     ): Converter.SuspendResponseConverter<HttpResponse, *>? {
         if (typeData.typeInfo.type == Call::class) {
-            return CallSuspendResponseConverter(typeData,ktorfit)
+            return CallSuspendResponseConverter(typeData, ktorfit)
         }
         return null
     }

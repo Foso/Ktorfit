@@ -68,7 +68,10 @@ public interface Converter<F, T> {
         /**
          * Return a [RequestParameterConverter] that can handle [parameterType] and [requestType] or else null
          */
-        public fun requestParameterConverter(parameterType: KClass<*>, requestType: KClass<*>): RequestParameterConverter? {
+        public fun requestParameterConverter(
+            parameterType: KClass<*>,
+            requestType: KClass<*>
+        ): RequestParameterConverter? {
             return null
         }
 

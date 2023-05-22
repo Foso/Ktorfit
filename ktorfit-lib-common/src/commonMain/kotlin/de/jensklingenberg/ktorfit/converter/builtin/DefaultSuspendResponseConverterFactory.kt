@@ -11,7 +11,8 @@ import io.ktor.client.statement.*
  */
 internal class DefaultSuspendResponseConverterFactory : Converter.Factory {
 
-    class DefaultSuspendResponseConverter(val typeData: TypeData) : Converter.SuspendResponseConverter<HttpResponse, Any> {
+    class DefaultSuspendResponseConverter(val typeData: TypeData) :
+        Converter.SuspendResponseConverter<HttpResponse, Any> {
         override suspend fun convert(response: HttpResponse): Any {
             return try {
                 response.call.body(typeData.typeInfo)
