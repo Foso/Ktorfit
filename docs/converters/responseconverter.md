@@ -28,7 +28,7 @@ override fun responseConverter(
 ): Converter.ResponseConverter<HttpResponse, *>? {
 ```
 
-Inside **responseConverter** you can decide if you want to return a converter. In our case we a converter for the
+Inside **responseConverter** you can decide if you want to return a converter. In our case we want a converter for the
 type Flow.
 We can check that case with the typeData that we get as a parameter.
 
@@ -72,7 +72,8 @@ if (typeData.typeInfo.type == User::class) {
 
 ```
 
-Inside of **convert** we get the HttpResponse from getResponse() and we return a Flow.
+Inside of **convert** we get the HttpResponse from getResponse(). We use nextSuspendResponseConverter to find the next converter that can 
+convert the response. Then we put the converted response in the Flow and return it.
 
 Finally, add your converter factory to the Ktorfit Builder
 
