@@ -6,7 +6,9 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ * ]
+    branches:
+      - 'master'
+      - 'release/**'
 
 jobs:
   api_check:
