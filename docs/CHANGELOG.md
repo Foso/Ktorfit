@@ -10,9 +10,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 * #85 Added a Response class that can be used as a wrapper around the API Response, the converter for it is automatically applied. thx to @vovahost, @DATL4G
 
-e.g. "suspend fun getUser(): Response<User>"
+e.g.
 
 ```kotlin title=""
+interface ExampleApi{
+  suspend fun getUser(): Response<User>
+}
+
 val user = userKtorfit.create<ExampleApi>().getUser()
     
 if(user.isSuccessful){
