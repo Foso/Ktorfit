@@ -25,6 +25,10 @@ val user = userKtorfit.create<ExampleApi>().getUser()
 * CallConverterFactory
 * FlowConverterFactory
 
+* Added support for targets:
+macosArm64, tvosArm64, tvosX64, tvosSimulatorArm64, watchosSimulatorArm64
+
+
 ### Changed
 
 
