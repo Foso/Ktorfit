@@ -8,6 +8,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+1.4.0 - 2023-05-27
+========================================
+
+### Added
 * #85 Added a Response class that can be used as a wrapper around the API Response, the converter for it is automatically applied. thx to @vovahost, @DATL4G
 
 e.g.
@@ -33,7 +48,7 @@ if(user.isSuccessful){
 * FlowConverterFactory for replacement of FlowResponseConverter
 
 * Added support for targets:
-macosArm64, tvosArm64, tvosX64, tvosSimulatorArm64, watchosSimulatorArm64
+macosArm64, tvosArm64, tvosX64, tvosSimulatorArm64, watchosSimulatorArm64 #315
 
 ### Changed
 - Upgrade dependencies: Kotlin 1.8.21
