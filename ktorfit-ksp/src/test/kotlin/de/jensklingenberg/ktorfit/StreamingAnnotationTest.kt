@@ -10,7 +10,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.io.File
 
-class StreamingAnnotationTest() {
+class StreamingAnnotationTest {
     private val httpStatement = SourceFile.kotlin(
         "HttpStatement.kt", """
       package io.ktor.client.statement
@@ -40,12 +40,7 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = """val _ext: HttpRequestBuilder.() -> Unit = {
-        method = HttpMethod.parse("GET")
-        url{
-        takeFrom(ktorfitClient.baseUrl + "posts")
-        } 
-        }"""
+        val expectedFunctionText = """return ktorfitClient.suspendRequest<HttpStatement, HttpStatement>(_requestData)!!"""
 
         val compilation = getCompilation(listOf(httpStatement, source))
         val result = compilation.compile()

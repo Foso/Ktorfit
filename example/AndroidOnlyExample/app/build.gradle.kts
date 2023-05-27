@@ -1,12 +1,12 @@
 plugins {
     id ("com.android.application")
     id ("org.jetbrains.kotlin.android")
-    id ("com.google.devtools.ksp") version "1.8.20-1.0.11"
-    id ("org.jetbrains.kotlin.plugin.serialization") version "1.8.20"
+    id ("com.google.devtools.ksp") version "1.8.21-1.0.11"
+    id ("org.jetbrains.kotlin.plugin.serialization") version "1.8.21"
     id ("de.jensklingenberg.ktorfit") version "1.0.0"
 
 }
-val ktorfit = "1.3.0"
+val ktorfit = "1.4.0"
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     version = ktorfit
@@ -62,7 +62,7 @@ dependencies {
 
     implementation ("androidx.core:core-ktx:1.10.1")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation ("androidx.activity:activity-compose:1.7.1")
+    implementation ("androidx.activity:activity-compose:1.7.2")
     implementation ("androidx.compose.ui:ui:$compose_ui_version")
     implementation ("androidx.compose.ui:ui-tooling-preview:$compose_ui_version")
     implementation ("androidx.compose.material:material:1.4.3")

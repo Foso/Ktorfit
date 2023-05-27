@@ -1,18 +1,15 @@
 package de.jensklingenberg.ktorfit.demo
 
 
+import com.example.UserFactory
 import com.example.api.JsonPlaceHolderApi
-import com.example.model.MyOwnResponse
-import com.example.model.MyOwnResponseConverter
-import com.example.model.StringToIntRequestConverter
-import de.jensklingenberg.ktorfit.Callback
+import com.example.model.ExampleApi
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
-import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.FlowConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
-import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -22,7 +19,7 @@ import kotlinx.serialization.json.Json
 val jvmClient = HttpClient {
 
     install(Logging) {
-        level = LogLevel.ALL
+        //level = LogLevel.ALL
     }
 
     install(ContentNegotiation) {
@@ -39,40 +36,33 @@ val jvmClient = HttpClient {
 val jvmKtorfit = ktorfit {
     baseUrl(JsonPlaceHolderApi.baseUrl)
     httpClient(jvmClient)
-    responseConverter(
-        FlowResponseConverter(),
-        RxRequestConverter(),
-        CallResponseConverter(),
-        MyOwnResponseConverter()
-    )
-    requestConverter(
-        StringToIntRequestConverter()
-    )
+    responseConverter(CallResponseConverter())
 }
+
+
+
+val userKtorfit = ktorfit {
+    baseUrl("https://foso.github.io/Ktorfit/")
+    httpClient(jvmClient)
+
+    converterFactories(FlowConverterFactory(),UserFactory())
+}
+
 
 
 fun main() {
 
-
     runBlocking {
 
-        val api = jvmKtorfit.create<JsonPlaceHolderApi>()
+       val user = userKtorfit.create<ExampleApi>().getUser()
 
-        val test = api.getCommentsByPostIdQuery(listOf("2","3","t t"))
-
-        test.onExecute(object :Callback<String>{
-            override fun onResponse(call: String, response: HttpResponse) {
-                call
-            }
-
-            override fun onError(exception: Throwable) {
-                exception
-            }
-
-        })
-
-
+        if(user.isSuccessful){
+            user.body()
+        }else{
+            user.errorBody()
+        }
         delay(3000)
     }
 
 }
+

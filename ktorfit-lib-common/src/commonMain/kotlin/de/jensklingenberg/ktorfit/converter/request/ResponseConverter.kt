@@ -9,6 +9,7 @@ import io.ktor.util.reflect.*
  * Implement this to support wrapping for custom types
  *  e.g. fun test() : MyCustomType<String>
  */
+@Deprecated("Use Converter.ResponseConverter")
 public interface ResponseConverter : CoreResponseConverter {
 
     /**

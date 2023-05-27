@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.converter.request
 
 import de.jensklingenberg.ktorfit.internal.TypeData
 
+@Deprecated("Use Converter.Factory")
 public interface CoreResponseConverter {
 
     /**

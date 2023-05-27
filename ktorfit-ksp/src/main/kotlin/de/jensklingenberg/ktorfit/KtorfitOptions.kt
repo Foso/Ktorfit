@@ -1,3 +1,5 @@
+package de.jensklingenberg.ktorfit
+
 class KtorfitOptions(options: Map<String, String>) {
     /**
      * 0: Turn off all Ktorfit related error checking

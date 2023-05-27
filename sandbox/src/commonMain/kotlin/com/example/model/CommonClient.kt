@@ -1,8 +1,7 @@
 package com.example.model
 
 import com.example.api.JsonPlaceHolderApi
-import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
-import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.CallConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -22,13 +21,8 @@ val commonClient = HttpClient() {
 val commonKtorfit = ktorfit {
     baseUrl(JsonPlaceHolderApi.baseUrl)
     httpClient(commonClient)
-    responseConverter(
-        CallResponseConverter(),
-        FlowResponseConverter(),
-        MyOwnResponseConverter()
-    )
-    requestConverter(
-        StringToIntRequestConverter()
+    converterFactories(
+        CallConverterFactory()
     )
 }
 

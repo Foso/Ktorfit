@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.requestData
+package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
@@ -6,7 +6,6 @@ import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.Path
 import de.jensklingenberg.ktorfit.model.annotations.Url
-import de.jensklingenberg.ktorfit.reqBuilderExtension.getUrlCode
 import org.junit.Assert
 import org.junit.Test
 
@@ -16,11 +15,12 @@ class UrlArgumentTextKtTest {
     fun testWithoutUrlAnnotation() {
         val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
-        val text = getUrlCode(params, HttpMethodAnnotation("GET", HttpMethod.GET), "")
+        val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
+        val expected = "url{\n" +
+                "takeFrom(ktorfitClient.baseUrl + \"posts\")\n" +
+                "}".trimMargin()
         Assert.assertEquals(
-            "url{\n" +
-                    "takeFrom(ktorfitClient.baseUrl + \"GET\")\n" +
-                    "}", text
+            expected, text
         )
     }
 

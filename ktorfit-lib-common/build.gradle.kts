@@ -60,18 +60,35 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 kotlin {
     explicitApi()
-    android {
-        publishLibraryVariants("release", "debug")
-    }
     jvm {
 
     }
-    macosX64()
+    js(IR) {
+        this.nodejs()
+        binaries.executable() // not applicable to BOTH, see details below
+    }
+    android {
+        publishLibraryVariants("release", "debug")
+    }
+    iosArm64()
+    iosX64()
+    iosSimulatorArm64()
+
+    watchosArm32()
     watchosArm64()
     watchosX64()
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    watchosSimulatorArm64()
+    tvosArm64()
+    tvosX64()
+    tvosSimulatorArm64()
+    macosX64()
+    macosArm64()
+    linuxX64 {
+        binaries {
+            executable()
+        }
+    }
+
     ios("ios") {
         binaries {
             framework {
@@ -81,15 +98,6 @@ kotlin {
     }
     mingwX64()
 
-    js(IR) {
-        this.nodejs()
-        binaries.executable() // not applicable to BOTH, see details below
-    }
-    linuxX64 {
-        binaries {
-            executable()
-        }
-    }
     sourceSets {
         val commonMain by getting {
             dependencies {

@@ -1,3 +1,4 @@
+!!! warning "ResponseConverter is deprecated, use [Converter.ResponseConverter](./converters/responseconverter.md) instead"
 
 Let`s say you have a function that requests a list of comments
 
@@ -24,7 +25,7 @@ To enable that, you have to implement a ResponseConverter. This class will be us
 inside your wrapper class.
 
 ```kotlin
-class MyOwnResponseConverter : SuspendResponseConverter {
+class MyOwnResponseConverter : ResponseConverter {
 
     override suspend fun <RequestType> wrapResponse(
         typeData: TypeData,

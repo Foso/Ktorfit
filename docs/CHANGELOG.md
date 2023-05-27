@@ -19,7 +19,51 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Security
 
-### Bumped
+1.4.0 - 2023-05-27
+========================================
+
+### Added
+* #85 Added a Response class that can be used as a wrapper around the API Response, the converter for it is automatically applied. thx to @vovahost, @DATL4G
+
+e.g.
+
+```kotlin title=""
+interface ExampleApi{
+  suspend fun getUser(): Response<User>
+}
+
+val user = userKtorfit.create<ExampleApi>().getUser()
+    
+if(user.isSuccessful){
+  user.body()
+}else{
+  user.errorBody()
+}
+```
+
+* Ktorfit is now using converters factories to apply the converters, similar to Retrofit 
+ see more here https://foso.github.io/Ktorfit/converters/converters/
+* TypeData now has a field "typeInfo" can be used to convert the Ktor HttpResponse body to the wanted type
+* CallConverterFactory for replacement of CallResponseConverter
+* FlowConverterFactory for replacement of FlowResponseConverter
+
+* Added support for targets:
+macosArm64, tvosArm64, tvosX64, tvosSimulatorArm64, watchosSimulatorArm64 #315
+
+### Changed
+- Upgrade dependencies: Kotlin 1.8.21
+
+### Deprecated
+* ResponseConverter, use Converter.ResponseConverter instead
+* SuspendResponseConverter, use Converter.SuspendResponseConverter instead
+* RequestConverter, use Converter.RequestParameterConverter instead
+* See also: https://foso.github.io/Ktorfit/converters/migration/
+
+### Removed
+
+### Fixed
+
+### Security
 
 1.3.0 - 2023-05-14
 ========================================

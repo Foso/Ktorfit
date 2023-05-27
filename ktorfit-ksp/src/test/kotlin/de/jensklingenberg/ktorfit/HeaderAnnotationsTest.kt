@@ -26,7 +26,7 @@ class Test<T>
 
 interface TestService {
 @GET("posts")
-suspend fun test(): List<Triple<String,Int,String>>
+suspend fun test(): List<Triple<String,Int?,String>>
 }
     """
         )

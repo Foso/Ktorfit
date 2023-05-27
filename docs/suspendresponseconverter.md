@@ -1,3 +1,5 @@
+!!! warning "SuspendResponseConverter is deprecated, use [Converter.SuspendResponseConverter](./converters/suspendresponseconverter.md) instead"
+
 Because Ktor relies on Coroutines by default your functions need to have the suspend modifier.
 
 To change this, you need to use a SuspendResponseConverter, you add your own or use [Flow](#flow) or [Call](#call)

@@ -1,16 +1,19 @@
 package de.jensklingenberg.ktorfit.internal
 
+import de.jensklingenberg.ktorfit.internal.TypeData.Companion.createTypeData
 import io.ktor.client.request.*
 import io.ktor.util.reflect.*
 
 /**
- * @param returnTypeData This is the qualifiedName of requested return type
- * It will be used by [ResponseConverter] to check if they support the type
- * Because on JS the qualifiedName reflection does not exist, it is inserted as arguments by the Compiler Plugin
+ * This class is used by the generated code to pass the request information to [KtorfitClient]
  */
+@InternalKtorfitApi
 public data class RequestData(
-    val returnTypeData: TypeData,
-    val requestTypeInfo: TypeInfo,
-    val returnTypeInfo: TypeInfo,
     val ktorfitRequestBuilder: HttpRequestBuilder.() -> Unit = {},
-)
+    val returnTypeName: String,
+    val returnTypeInfo: TypeInfo
+) {
+
+    internal fun getTypeData(): TypeData = createTypeData(returnTypeName, returnTypeInfo)
+
+}

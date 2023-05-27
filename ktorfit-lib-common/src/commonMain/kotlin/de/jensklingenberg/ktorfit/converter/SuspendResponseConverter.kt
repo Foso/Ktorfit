@@ -11,14 +11,13 @@ import io.ktor.util.reflect.*
  *  e.g. fun test() : MyCustomType<String>
  *    suspend  fun test() : MyCustomType<String>
  */
+@Deprecated("Use Converter.SuspendResponseConverter")
 public interface SuspendResponseConverter : CoreResponseConverter {
 
     /**
-     * @param typeData is the qualified name of the outer type of
-     * the return type. e.g. for Flow<String> it will be kotlinx.coroutines.flow.Flow
-     *
+     * @param typeData contains information about the type that is being requested
      * @param requestFunction a suspend function that will return a typeInfo of Ktor's requested type and the [HttpResponse]
-     * @return the wrapped response
+     * @return the converted response
      */
     public suspend fun <RequestType : Any?> wrapSuspendResponse(
         typeData: TypeData,
