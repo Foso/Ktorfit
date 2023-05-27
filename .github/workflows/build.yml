@@ -9,7 +9,6 @@ on:
     branches:
       - 'master'
       - 'release/**'
-
 jobs:
   api_check:
     name: API check
@@ -35,7 +34,7 @@ jobs:
           java-version: 11
           distribution: 'zulu'
       - name: Cache Gradle and wrapper
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
