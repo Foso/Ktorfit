@@ -5,6 +5,7 @@ import de.jensklingenberg.ktorfit.Callback
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.internal.TypeData
+import io.ktor.client.call.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.launch
 
@@ -23,9 +24,12 @@ public class CallConverterFactory : Converter.Factory {
                         try {
                             val response = getResponse()
 
-                            val data =
-                                ktorfit.nextSuspendResponseConverter(null, typeData.typeArgs.first())?.convert(response)
-                            callBack.onResponse(data, response)
+                            val convertedBody = ktorfit.nextSuspendResponseConverter(
+                                null,
+                                typeData.typeArgs.first()
+                            )?.convert(response)
+                                ?: response.body(typeData.typeArgs.first().typeInfo)
+                            callBack.onResponse(convertedBody, response)
                         } catch (ex: Exception) {
                             println(ex)
                             callBack.onError(ex)

@@ -5,6 +5,7 @@ import com.example.UserFactory
 import com.example.api.JsonPlaceHolderApi
 import com.example.model.ExampleApi
 import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
+import de.jensklingenberg.ktorfit.converter.builtin.FlowConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -44,7 +45,7 @@ val userKtorfit = ktorfit {
     baseUrl("https://foso.github.io/Ktorfit/")
     httpClient(jvmClient)
 
-    converterFactories(UserFactory())
+    converterFactories(FlowConverterFactory(),UserFactory())
 }
 
 

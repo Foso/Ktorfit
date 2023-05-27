@@ -1,6 +1,7 @@
 package com.example.ktorfittest
 
 import de.jensklingenberg.ktorfit.Call
+import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
@@ -19,4 +20,7 @@ interface StarWarsApi {
 
     @GET("people/{id}/")
     fun queryTest(@Path("id") peopleId: Int, @Query("hello") world: String?): Call<Person>
+
+    @GET("people/{id}/")
+    suspend fun getPersonResponse(@Path("id") personId: Int): Response<Person>
 }

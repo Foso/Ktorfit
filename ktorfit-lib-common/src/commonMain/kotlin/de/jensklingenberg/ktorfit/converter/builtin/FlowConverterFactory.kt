@@ -1,8 +1,10 @@
 package de.jensklingenberg.ktorfit.converter.builtin
 
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.internal.TypeData
+import io.ktor.client.call.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,8 +21,8 @@ public class FlowConverterFactory : Converter.Factory {
 
         if (typeData.typeInfo.type == Flow::class) {
 
-            return object : Converter.ResponseConverter<HttpResponse, Flow<Any>> {
-                override fun convert(getResponse: suspend () -> HttpResponse): Flow<Any> {
+            return object : Converter.ResponseConverter<HttpResponse, Flow<Any?>> {
+                override fun convert(getResponse: suspend () -> HttpResponse): Flow<Any?> {
                     val requestType = typeData.typeArgs.first()
                     return flow {
                         try {
@@ -28,9 +30,14 @@ public class FlowConverterFactory : Converter.Factory {
                             if (requestType.typeInfo.type == HttpResponse::class) {
                                 emit(response)
                             } else {
-                                val data = ktorfit.nextSuspendResponseConverter(this@FlowConverterFactory, requestType)
-                                    ?.convert(response)
-                                emit(data!!)
+                                val convertedBody = ktorfit.nextSuspendResponseConverter(
+                                    this@FlowConverterFactory,
+                                    typeData.typeArgs.first()
+                                )?.convert(response)
+                                    ?: response.body(typeData.typeArgs.first().typeInfo)
+                                Response.success(convertedBody, response)
+
+                                emit(convertedBody)
                             }
                         } catch (exception: Exception) {
                             throw exception

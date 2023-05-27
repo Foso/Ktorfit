@@ -6,15 +6,14 @@ import de.jensklingenberg.ktorfit.Strings.Companion.ENABLE_GRADLE_PLUGIN
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
-import de.jensklingenberg.ktorfit.converter.builtin.DefaultResponseClassConverterFactory
+import de.jensklingenberg.ktorfit.converter.builtin.KtorfitDefaultConverterFactory
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.RequestConverter
 import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
+import de.jensklingenberg.ktorfit.internal.*
 import de.jensklingenberg.ktorfit.internal.DefaultKtorfitService
 import de.jensklingenberg.ktorfit.internal.KtorfitClient
-import de.jensklingenberg.ktorfit.internal.KtorfitService
-import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.statement.*
@@ -219,16 +218,14 @@ public class Ktorfit private constructor(
          */
         public fun build(): Ktorfit {
             return Ktorfit(
-                _baseUrl,
-                _httpClient,
-                _responseConverter,
-                _suspendResponseConverter.also {
+                baseUrl = _baseUrl,
+                httpClient = _httpClient,
+                responseConverters = _responseConverter,
+                suspendResponseConverters = _suspendResponseConverter.also {
                     it.add(DefaultSuspendResponseConverterFactory())
                 },
-                _requestConverter,
-                _factories.also {
-                    it.add(DefaultResponseClassConverterFactory())
-                }.toList()
+                requestConverters = _requestConverter,
+                converterFactories = listOf(KtorfitDefaultConverterFactory()) + _factories.toList()
             )
         }
     }
@@ -245,14 +242,13 @@ public fun ktorfit(builder: Ktorfit.Builder.() -> Unit): Ktorfit = Ktorfit.Build
 public fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit): Ktorfit.Builder = Ktorfit.Builder().apply(builder)
 
 @Deprecated("Use the non-Extension function")
-public
-        /**
+/**
          * This will return an implementation of [T] if [T] is an interface
          * with Ktorfit annotations.
          * @param ktorfitService Please keep the default parameter, it will be replaced
          * by the compiler plugin
          */
-fun <T> Ktorfit.create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
+public fun <T> Ktorfit.create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
     return this.create(ktorfitService)
 }
 
