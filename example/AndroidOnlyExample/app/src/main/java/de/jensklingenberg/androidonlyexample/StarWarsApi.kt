@@ -9,6 +9,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface StarWarsApi {
 
+    companion object {
+        const val baseUrl = "https://swapi.dev/api/"
+    }
+
     @GET("people/{id}/")
     suspend fun getPerson(@Path("id") personId: Int): Person
 

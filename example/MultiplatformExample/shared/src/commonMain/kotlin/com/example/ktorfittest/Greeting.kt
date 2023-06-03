@@ -1,20 +1,17 @@
 package com.example.ktorfittest
 
 import de.jensklingenberg.ktorfit.converter.builtin.CallConverterFactory
-import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowConverterFactory
-import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
-import de.jensklingenberg.ktorfit.create
 import de.jensklingenberg.ktorfit.ktorfit
-import io.ktor.client.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
 val ktorfit = ktorfit {
-    baseUrl("https://swapi.dev/api/")
+    baseUrl(StarWarsApi.baseUrl)
     httpClient(HttpClient {
         install(ContentNegotiation) {
             json(Json { isLenient = true; ignoreUnknownKeys = true })
