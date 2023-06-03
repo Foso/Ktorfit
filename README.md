@@ -24,7 +24,8 @@ Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.g
 
 | Version      |    Kotlin   |    KSP     |   Ktor    |
 |--------------|:----------:|:----------:|:---------:|
-| **_latest_** | **1.8.20** | **1.0.11** | **2.3.0** |
+| **_latest_** | **1.8.20** | **1.0.11** | **2.3.1** |
+| **_1.4.0_**  | **1.8.20** | **1.0.11** | **2.3.0** |
 | **_1.2.0_**  | **1.8.20** | **1.0.10** | **2.3.0** | 
 | **_1.1.0_**  | **1.8.20** | **1.0.10** | **2.2.4** | 
 
@@ -37,7 +38,7 @@ plugins {
 }
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
-    version = "1.4.0"
+    version = "1.4.1"
 }
 ```
 
@@ -48,21 +49,21 @@ plugins {
 }
 
 ktorfit{
-    version = "1.4.0"
+    version = "1.4.1"
 }
 ```
 
 
 KSP:
 ```kotlin
-de.jensklingenberg.ktorfit:ktorfit-ksp:1.4.0
+de.jensklingenberg.ktorfit:ktorfit-ksp:1.4.1
 ```
 
 Ktorfit-lib/-light:
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-lib:1.4.0")
+implementation("de.jensklingenberg.ktorfit:ktorfit-lib:1.4.1")
 or
-implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:1.4.0")
+implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:1.4.1")
 ```
 
 
