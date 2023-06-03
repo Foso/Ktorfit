@@ -18,7 +18,7 @@ class RequestConverterTextKtTest {
 
     @Test
     fun generateCorrectFunction() {
-        val expected = """public fun TestFunction(): kotlin.Unit {
+        val expected = """public fun TestFunction() {
   val test1: com.example.Test = ktorfitClient.convertParameterType(test1,test1::class,com.example.Test::class)
 }
 """
