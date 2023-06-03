@@ -14,6 +14,6 @@ jobs:
       - name: Enforce Changelog
         uses: dangoslen/changelog-enforcer@v3
         with:
-          changeLogPath: ''./docs/CHANGELOG.md'
+          changeLogPath: './docs/CHANGELOG.md'
           skipLabels: no-changelog
           missingUpdateErrorMessage: Please add an entry in CHANGELOG.md or apply the 'no-changelog' label to skip this check.
