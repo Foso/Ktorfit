@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.internal
 
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -93,6 +94,11 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
              */
             handleDeprecatedSuspendResponseConverters<ReturnType, RequestType>(requestData)?.let {
                 return it
+            } ?: DefaultSuspendResponseConverterFactory().suspendResponseConverter(returnTypeData, ktorfit)?.let {
+                val response = httpClient.request {
+                    requestBuilder(requestData)
+                }
+                return it.convert(response) as ReturnType?
             } ?: throw IllegalStateException("No SuspendResponseConverter found for " + returnTypeData.qualifiedName)
 
         } catch (exception: Exception) {

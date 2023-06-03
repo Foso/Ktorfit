@@ -221,9 +221,7 @@ public class Ktorfit private constructor(
                 baseUrl = _baseUrl,
                 httpClient = _httpClient,
                 responseConverters = _responseConverter,
-                suspendResponseConverters = _suspendResponseConverter.also {
-                    it.add(DefaultSuspendResponseConverterFactory())
-                },
+                suspendResponseConverters = _suspendResponseConverter,
                 requestConverters = _requestConverter,
                 converterFactories = listOf(KtorfitDefaultConverterFactory()) + _factories.toList()
             )
