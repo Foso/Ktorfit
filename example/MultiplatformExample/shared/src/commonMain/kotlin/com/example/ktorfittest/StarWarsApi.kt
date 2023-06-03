@@ -8,6 +8,10 @@ import de.jensklingenberg.ktorfit.http.Query
 import kotlinx.coroutines.flow.Flow
 
 interface StarWarsApi {
+    companion object {
+        const val baseUrl = "https://swapi.dev/api/"
+    }
+
     @GET("people/{id}/")
     suspend fun getPersonByIdResponse(@Path("id") peopleId: Int): Person
 
