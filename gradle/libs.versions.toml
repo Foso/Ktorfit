@@ -37,7 +37,7 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorVer
 ktor-client-core-jvm = { module = "io.ktor:ktor-client-core-jvm", version.ref = "ktorVersion" }
 ktor-client-core-linux = { module = "io.ktor:ktor-client-core-linuxx64", version.ref = "ktorVersion" }
 ktor-client-core-mingwx64 = { module = "io.ktor:ktor-client-core-mingwx64", version.ref = "ktorVersion" }
-ktor-client-core-native = "io.ktor:ktor-client-core-native:1.3.1"
+ktor-client-core-native = "io.ktor:ktor-client-core-native:1.3.2"
 ktor-client-curl = { module = "io.ktor:ktor-client-curl", version.ref = "ktorVersion" }
 ktor-client-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktorVersion" }
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktorVersion" }
