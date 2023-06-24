@@ -10,7 +10,7 @@ plugins {
     id("org.jetbrains.dokka")
     id("com.android.library")
     alias(libs.plugins.detekt)
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.1"
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.2"
     id("app.cash.licensee")
 
 }
@@ -103,6 +103,11 @@ kotlin {
             dependencies {
                 api(projects.ktorfitAnnotations)
                 api(libs.ktor.client.core)
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
             }
         }
         val linuxX64Main by getting {
