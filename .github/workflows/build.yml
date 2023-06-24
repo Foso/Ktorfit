@@ -10,6 +10,20 @@ on:
       - 'master'
       - 'release/**'
 jobs:
+  api_check:
+    name: API check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 17
+      - uses: gradle/gradle-build-action@v2
+      - name: API check
+        run: ./gradlew apiCheck
   build:
     runs-on: macos-latest
     steps:
@@ -31,4 +45,4 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build and test with Gradle
-        run: ./gradlew apiCheck licensee :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:test :ktorfit-lib-common:jvmTest
+        run: ./gradlew clean licensee :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:test :ktorfit-lib-common:jvmTest
