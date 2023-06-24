@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.internal
 
 import de.jensklingenberg.ktorfit.*
-import de.jensklingenberg.ktorfit.converter.ConverterTestApi
 import de.jensklingenberg.ktorfit.http.GET
 import io.ktor.client.*
 import io.ktor.client.request.*

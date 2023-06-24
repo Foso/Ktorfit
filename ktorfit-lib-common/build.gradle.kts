@@ -105,6 +105,11 @@ kotlin {
                 api(libs.ktor.client.core)
             }
         }
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+        }
         val linuxX64Main by getting {
             dependencies {
             }
