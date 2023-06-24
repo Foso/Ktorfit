@@ -1,0 +1,19 @@
+name: "Check Changelog"
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: false
+      - name: Enforce Changelog
+        uses: dangoslen/changelog-enforcer@v3
+        with:
+          changeLogPath: './docs/CHANGELOG.md'
+          skipLabels: no-changelog
+          missingUpdateErrorMessage: Please add an entry in CHANGELOG.md or apply the 'no-changelog' label to skip this check.

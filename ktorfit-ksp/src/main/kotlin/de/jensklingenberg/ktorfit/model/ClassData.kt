@@ -8,7 +8,7 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
-import de.jensklingenberg.ktorfit.model.annotations.RequestType
+import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.utils.addImports
 import de.jensklingenberg.ktorfit.utils.getFileImports
 
@@ -139,6 +139,10 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             return@map funcDeclaration.toFunctionData(logger)
         }
 
+    if (functionDataList.any { it -> it.annotations.any { it is FormUrlEncoded || it is Multipart } ||
+                it.parameterDataList.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<Part>() } }) {
+        imports.add("io.ktor.client.request.forms.*")
+    }
 
     if (functionDataList.any { it.parameterDataList.any { param -> param.hasAnnotation<RequestType>() } }) {
         imports.add("kotlin.reflect.cast")
