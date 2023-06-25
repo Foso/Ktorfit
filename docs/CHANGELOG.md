@@ -16,6 +16,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Security
 
+1.4.2 - 2023-06-25
+========================================
+
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+#323 Code generation issue for @Multipart / @FormUrlEncoded by @Ph1ll1pp
+
+### Security
+
 1.4.1 - 2023-06-03
 ========================================
 
