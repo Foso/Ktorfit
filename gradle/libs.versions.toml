@@ -13,7 +13,7 @@ dokkaVersion = "1.8.20"
 gradleMavenPublishPlugin = "0.24.0"
 
 [libraries]
-android-build-gradle = "com.android.tools.build:gradle:7.4.0"
+android-build-gradle = "com.android.tools.build:gradle:8.0.2"
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokkaVersion" }
 gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
