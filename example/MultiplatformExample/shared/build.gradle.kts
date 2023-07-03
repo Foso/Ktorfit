@@ -8,7 +8,7 @@ plugins {
 }
 
 version = "1.0"
-val ktorVersion = "2.3.1"
+val ktorVersion = "2.3.3-eap-713"
 val ktorfitVersion = "1.4.2"
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
