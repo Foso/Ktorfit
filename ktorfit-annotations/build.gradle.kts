@@ -92,6 +92,7 @@ android {
         minSdk = 21
         targetSdk = 33
     }
+    namespace = "de.jensklingenberg.ktorfit.annotations"
 }
 
 val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")

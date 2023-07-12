@@ -134,6 +134,7 @@ android {
         minSdk = 21
         targetSdk = 33
     }
+    namespace = "de.jensklingenberg.ktorfit"
 }
 
 
