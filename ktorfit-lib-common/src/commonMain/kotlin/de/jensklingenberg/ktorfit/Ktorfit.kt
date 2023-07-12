@@ -110,7 +110,7 @@ public class Ktorfit private constructor(
      */
     public class Builder {
         private var _baseUrl: String = ""
-        private var _httpClient = HttpClient()
+        private var _httpClient: HttpClient? = null
         private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf()
         private var _suspendResponseConverter: MutableSet<SuspendResponseConverter> = mutableSetOf()
         private var _requestConverter: MutableSet<RequestConverter> = mutableSetOf()
@@ -160,7 +160,7 @@ public class Ktorfit private constructor(
          * Client-Builder that will be used for every request with object
          */
         public fun httpClient(config: HttpClientConfig<*>.() -> Unit): Builder = apply {
-            this._httpClient = HttpClient(this._httpClient.engine, config)
+            this._httpClient = HttpClient(config)
         }
 
         /**
@@ -219,7 +219,7 @@ public class Ktorfit private constructor(
         public fun build(): Ktorfit {
             return Ktorfit(
                 baseUrl = _baseUrl,
-                httpClient = _httpClient,
+                httpClient = _httpClient ?: HttpClient(),
                 responseConverters = _responseConverter,
                 suspendResponseConverters = _suspendResponseConverter,
                 requestConverters = _requestConverter,

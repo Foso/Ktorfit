@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Deprecated
 ### Removed
 ### Fixed
+#372 Crash with Xiaomi on create Ktorfit.Builder by @princeparadoxes
 
 ### Security
 
