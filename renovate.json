@@ -1,9 +1,14 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:base"],
   "schedule": [
     "every weekend"
+  ],
+  "packageRules": [
+    {
+      "groupName": "Ktor Client",
+      "matchPackagePatterns": ["^io\\.ktor:ktor-client(-[^:]+)?$"],
+      "rangeStrategy": "major",
+      "updateTypes": ["minor", "patch"]
+    }
   ]
 }
