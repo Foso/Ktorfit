@@ -5,7 +5,19 @@ All important changes of this project must be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+
 ## [Unreleased]
+
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+
+
+1.4.3 - 2023-07-13
+========================================
 
 ### Added
 ### Changed
