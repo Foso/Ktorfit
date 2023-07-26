@@ -15,6 +15,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Security
 
+1.4.4 - 2023-07-26
+========================================
+
+### Added
+### Changed
+- Upgrade dependencies: Ktor 2.3.2
+
+### Deprecated
+### Removed
+### Fixed
+### Security
 
 1.4.3 - 2023-07-13
 ========================================
