@@ -7,7 +7,7 @@
     {
       "groupName": "Ktor Client",
       "matchPackagePatterns": ["^io\\.ktor:ktor-client(-[^:]+)?$"],
-      "updateTypes": ["minor", "major"]
+      "allowedVersions": "!/\-eap-.*"
     }
   ]
 }
