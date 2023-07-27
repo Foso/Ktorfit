@@ -11,6 +11,7 @@ ktorfit-lib = "1.4.4"
 ktorVersion = "2.3.2"
 dokkaVersion = "1.8.20"
 gradleMavenPublishPlugin = "0.24.0"
+vannikMavenPublish = "0.25.3"
 
 [libraries]
 android-build-gradle = "com.android.tools.build:gradle:7.4.0"
@@ -58,4 +59,5 @@ truth = "com.google.truth:truth:1.1.5"
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kspPlugin = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
+vannikMavenPublish = { id = "com.google.devtools.ksp", version.ref = "vannikMavenPublish" }
 
