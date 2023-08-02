@@ -1,5 +1,6 @@
 
 
+import com.example.model.Comment
 import com.example.model.MyOwnResponse
 import com.example.model.jsonPlaceHolderApi
 import kotlinx.coroutines.GlobalScope
@@ -12,15 +13,15 @@ fun main() {
     GlobalScope.launch {
         println("Launch")
 
-        val test = jsonPlaceHolderApi.getCommentsByPostIdResponse("3")
-
-        when (test) {
+        when (val test = jsonPlaceHolderApi.getCommentsByPostIdResponse("3")) {
             is MyOwnResponse.Success -> {
-                println(test)
+               val list =  test.data as List<Comment>
+                println(list.size)
             }
 
             else -> {
-                println(test)
+                val error = (test as MyOwnResponse.Error)
+                println(error.ex)
             }
         }
 

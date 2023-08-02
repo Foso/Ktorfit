@@ -1,6 +1,7 @@
 package de.jensklingenberg
 
 import com.google.common.truth.Truth
+import com.tschuchort.compiletesting.JvmCompilationResult
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.PluginOption
 import com.tschuchort.compiletesting.SourceFile
@@ -109,7 +110,7 @@ fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
     ): KotlinCompilation {
         return KotlinCompilation().apply {
             workingDir = temporaryFolder.root
-            componentRegistrars = listOf(CommonCompilerPluginRegistrar())
+            compilerPluginRegistrars = listOf(CommonCompilerPluginRegistrar())
             val processor = ExampleCommandLineProcessor()
             pluginOptions = listOf(
                 PluginOption("ktorfitPlugin", "enabled", true.toString()),
@@ -121,13 +122,12 @@ fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
             verbose = false
             jvmTarget = JvmTarget.fromString(System.getProperty("rdt.jvmTarget", "1.8"))!!.description
             supportsK2 = false
-            this.useK2 = false
         }
     }
 
     private fun compile(
         sourceFiles: List<SourceFile>
-    ): KotlinCompilation.Result {
+    ): JvmCompilationResult {
         return prepareCompilation(sourceFiles).compile()
     }
 }
