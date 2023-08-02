@@ -45,7 +45,7 @@ kotlin {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
     }
-    android {
+    androidTarget {
         publishLibraryVariants("release", "debug")
     }
     iosArm64()

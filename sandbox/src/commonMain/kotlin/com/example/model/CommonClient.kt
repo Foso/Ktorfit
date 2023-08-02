@@ -22,7 +22,9 @@ val commonKtorfit = ktorfit {
     baseUrl(JsonPlaceHolderApi.baseUrl)
     httpClient(commonClient)
     converterFactories(
-        CallConverterFactory()
+        CallConverterFactory(),
+                StringToIntRequestConverterFactory(),
+        MyOwnResponseConverterFactory()
     )
 }
 

@@ -57,7 +57,7 @@ fun main() {
        val user = userKtorfit.create<ExampleApi>().getUser()
 
         if(user.isSuccessful){
-            user.body()
+            println(user.body())
         }else{
             user.errorBody()
         }

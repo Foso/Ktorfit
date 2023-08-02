@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 ### Changed
+* KSP version 1.9.0-1.0.13 is now needed
+
 ### Deprecated
 ### Removed
 ### Fixed
