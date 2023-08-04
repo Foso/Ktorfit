@@ -1,6 +1,8 @@
 package de.jensklingenberg.androidonlyexample
 
-@kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Person(
     val films: List<String?>? = null,
     val homeworld: String? = null,
