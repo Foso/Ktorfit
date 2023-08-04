@@ -2,12 +2,13 @@
 autoService = "1.1.1"
 coroutines = "1.7.3"
 detekt = "1.23.0"
+gradlePlugin = "1.0.0"
 kctfork = "0.3.1"
 kotlin = "1.9.0"
 kotlinPoet = "1.14.2"
 kspVersion = "1.9.0-1.0.13"
-ktorfit = "1.4.4"
-ktorfit-lib = "1.4.4"
+ktorfit = "1.5.0"
+ktorfit-lib = "1.5.0"
 ktorVersion = "2.3.2"
 dokkaVersion = "1.8.20"
 gradleMavenPublishPlugin = "0.24.0"
@@ -18,6 +19,7 @@ android-build-gradle = "com.android.tools.build:gradle:7.4.2"
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokkaVersion" }
 gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
+gradle-plugin = { module = "de.jensklingenberg.ktorfit:gradle-plugin", version.ref = "gradlePlugin" }
 junit = "junit:junit:4.13.2"
 kctfork-core =  { module = "dev.zacsweers.kctfork:core", version.ref = "kctfork" }
 kctfork-ksp =  { module = "dev.zacsweers.kctfork:ksp", version.ref = "kctfork" }

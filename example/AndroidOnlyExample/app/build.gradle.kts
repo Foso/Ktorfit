@@ -1,12 +1,12 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp") version "1.8.21-1.0.11"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.21"
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
     id("de.jensklingenberg.ktorfit") version "1.0.0"
 
 }
-val ktorfit = "1.4.4"
+val ktorfit = "1.5.0"
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     version = ktorfit
@@ -45,7 +45,7 @@ android {
         compose = (true)
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.8"
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
 }
 
@@ -54,7 +54,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
         jvmTarget = "1.8"
     }
 }
-val ktor = "2.3.1"
+val ktor = "2.3.2"
 val compose_ui_version = "1.4.3"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")
