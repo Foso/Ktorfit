@@ -39,7 +39,7 @@ plugins {
 }
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
-    version = "1.4.4"
+    version = "1.5.0"
 }
 ```
 
@@ -50,21 +50,21 @@ plugins {
 }
 
 ktorfit{
-    version = "1.4.4"
+    version = "1.5.0"
 }
 ```
 
 
 KSP:
 ```kotlin
-de.jensklingenberg.ktorfit:ktorfit-ksp:1.4.4
+de.jensklingenberg.ktorfit:ktorfit-ksp:1.5.0
 ```
 
 Ktorfit-lib/-light:
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-lib:1.4.4")
+implementation("de.jensklingenberg.ktorfit:ktorfit-lib:1.5.0")
 or
-implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:1.4.4")
+implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:1.5.0")
 ```
 
 
