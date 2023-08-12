@@ -1,7 +1,7 @@
 [versions]
 autoService = "1.1.1"
 coroutines = "1.7.3"
-detekt = "1.23.0"
+detekt = "1.23.1"
 gradlePlugin = "1.0.0"
 kctfork = "0.3.2"
 kotlin = "1.9.0"
