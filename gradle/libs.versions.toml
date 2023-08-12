@@ -53,7 +53,7 @@ ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
 
 licensee-gradle-plugin = "app.cash.licensee:licensee-gradle-plugin:1.7.0"
-logbackClassic = "ch.qos.logback:logback-classic:1.4.8"
+logbackClassic = "ch.qos.logback:logback-classic:1.4.11"
 mockito-kotlin = "org.mockito.kotlin:mockito-kotlin:4.1.0"
 rxjava3 = "io.reactivex.rxjava3:rxjava:3.1.6"
 truth = "com.google.truth:truth:1.1.5"
