@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
 
 plugins {
     kotlin("jvm")
@@ -26,7 +27,6 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
 mavenPublishing {
     coordinates("de.jensklingenberg.ktorfit", "ktorfit-ksp", libs.versions.ktorfit.asProvider().get())
     publishToMavenCentral()

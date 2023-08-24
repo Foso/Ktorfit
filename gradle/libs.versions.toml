@@ -1,21 +1,23 @@
 [versions]
 autoService = "1.1.1"
+autoServiceKsp = "1.10"
 coroutines = "1.7.3"
 detekt = "1.23.0"
 gradlePlugin = "1.0.0"
-kctfork = "0.3.2"
-kotlin = "1.9.0"
+kctfork = "0.3.1"
+kotlin = "1.9.10"
 kotlinPoet = "1.14.2"
-kspVersion = "1.9.0-1.0.13"
-ktorfit = "1.5.0"
-ktorfit-lib = "1.5.0"
-ktorVersion = "2.3.2"
+kspVersion = "1.9.10-1.0.13"
+ktorfit = "1.6.0"
+ktorfit-lib = "1.6.0"
+ktorVersion = "2.3.3"
 dokkaVersion = "1.8.20"
-gradleMavenPublishPlugin = "0.24.0"
+gradleMavenPublishPlugin = "0.25.3"
 vannikMavenPublish = "0.25.3"
 
 [libraries]
 android-build-gradle = "com.android.tools.build:gradle:7.4.2"
+auto-service-ksp = { module = "dev.zacsweers.autoservice:auto-service-ksp", version.ref = "autoServiceKsp" }
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokkaVersion" }
 gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }

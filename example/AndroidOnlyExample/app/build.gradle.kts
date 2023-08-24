@@ -6,7 +6,7 @@ plugins {
     id("de.jensklingenberg.ktorfit") version "1.0.0"
 
 }
-val ktorfit = "1.5.0"
+val ktorfit = "1.6.0"
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     version = ktorfit
@@ -54,7 +54,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
         jvmTarget = "1.8"
     }
 }
-val ktor = "2.3.2"
+val ktor = "2.3.3"
 val compose_ui_version = "1.4.3"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")

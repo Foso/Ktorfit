@@ -1,6 +1,5 @@
 package de.jensklingenberg.ktorfit
 
-import com.google.auto.service.AutoService
 import com.google.devtools.ksp.closestClassDeclaration
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.KSAnnotated
@@ -9,7 +8,6 @@ import de.jensklingenberg.ktorfit.generator.generateImplClass
 import de.jensklingenberg.ktorfit.http.*
 import de.jensklingenberg.ktorfit.model.toClassData
 
-@AutoService(SymbolProcessorProvider::class)
 class KtorfitProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
         return KtorfitProcessor(environment, KtorfitOptions(environment.options))
