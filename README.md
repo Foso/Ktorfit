@@ -24,11 +24,10 @@ Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.g
 
 | Version      |   Kotlin   |    KSP     |   Ktor    |
 |--------------|:----------:|:----------:|:---------:|
-| **_latest_** | **1.8.22** | **1.0.11** | **2.3.2** |
+| **_latest_** | **1.9.10** | **1.0.13** | **2.3.3** |
+| **_1.5.0_**  | **1.9.0**  | **1.0.13** | **2.3.2** |
 | **_1.4.3_**  | **1.8.20** | **1.0.11** | **2.3.1** |
-| **_1.4.0_**  | **1.8.20** | **1.0.11** | **2.3.0** |
-| **_1.2.0_**  | **1.8.20** | **1.0.10** | **2.3.0** | 
-| **_1.1.0_**  | **1.8.20** | **1.0.10** | **2.2.4** | 
+
 
 # Release
 
@@ -39,7 +38,7 @@ plugins {
 }
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
-    version = "1.5.0"
+    version = "1.6.0"
 }
 ```
 
@@ -50,21 +49,21 @@ plugins {
 }
 
 ktorfit{
-    version = "1.5.0"
+    version = "1.6.0"
 }
 ```
 
 
 KSP:
 ```kotlin
-de.jensklingenberg.ktorfit:ktorfit-ksp:1.5.0
+de.jensklingenberg.ktorfit:ktorfit-ksp:1.6.0
 ```
 
 Ktorfit-lib/-light:
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-lib:1.5.0")
+implementation("de.jensklingenberg.ktorfit:ktorfit-lib:1.6.0")
 or
-implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:1.5.0")
+implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:1.6.0")
 ```
 
 

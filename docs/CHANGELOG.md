@@ -14,7 +14,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 ### Security
 
+1.6.0 - 2023-08-24
+========================================
+
+### Added
+### Changed
+* KSP version 1.9.10-1.0.13 is now required
+- Upgrade dependencies: Ktor 2.3.3
+
+### Deprecated
+### Removed
+### Fixed
+### Security
+
 1.5.0 - 2023-08-04
+========================================
 
 ### Added
 ### Changed
