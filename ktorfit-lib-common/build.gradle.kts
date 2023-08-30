@@ -1,27 +1,12 @@
-import de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration
-
 plugins {
-    kotlin("multiplatform")
+    id("ktorfit.kotlinMP")
     alias(libs.plugins.kspPlugin)
-
     id("maven-publish")
     id("signing")
     id("com.vanniktech.maven.publish")
     id("org.jetbrains.dokka")
-    id("com.android.library")
     alias(libs.plugins.detekt)
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.2"
-
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
 }
 
 detekt {
@@ -46,51 +31,8 @@ mavenPublishing {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
-
-
 kotlin {
     explicitApi()
-    jvm {
-
-    }
-    js(IR) {
-        this.nodejs()
-        binaries.executable() // not applicable to BOTH, see details below
-    }
-    androidTarget {
-        publishLibraryVariants("release", "debug")
-    }
-    iosArm64()
-    iosX64()
-    iosSimulatorArm64()
-
-    watchosArm32()
-    watchosArm64()
-    watchosX64()
-    watchosSimulatorArm64()
-    tvosArm64()
-    tvosX64()
-    tvosSimulatorArm64()
-    macosX64()
-    macosArm64()
-    linuxX64 {
-        binaries {
-            executable()
-        }
-    }
-
-    ios("ios") {
-        binaries {
-            framework {
-                baseName = "library"
-            }
-        }
-    }
-    mingwX64()
-
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -103,53 +45,14 @@ kotlin {
                 implementation(libs.kotlin.test)
             }
         }
-        val linuxX64Main by getting {
-            dependencies {
-            }
-        }
-        val mingwX64Main by getting {
-            dependencies {
-
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-
-            }
-        }
-        val jvmMain by getting {
-            dependencies {
-
-            }
-        }
         val jvmTest by getting {
             dependencies {
                 kotlin.srcDir("build/generated/ksp/jvm/jvmTest/")
-
-                dependsOn(jvmMain)
 
                 implementation(libs.ktor.client.mock)
                 implementation(libs.junit)
                 implementation(libs.mockito.kotlin)
                 implementation(libs.ktor.client.cio.jvm)
-            }
-        }
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val jsMain by getting {
-            dependencies {
-
-            }
-        }
-
-        val iosMain by getting {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-            dependencies {
-
             }
         }
     }
@@ -159,16 +62,8 @@ val javadocJar by tasks.registering(Jar::class) {
 }
 
 android {
-    compileSdk = 33
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        minSdk = 21
-        targetSdk = 33
-    }
     namespace = "de.jensklingenberg.ktorfit.common"
 }
-
-
 
 publishing {
     publications {
@@ -224,16 +119,8 @@ publishing {
     }
 }
 
-rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class) {
-    rootProject.the(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class).nodeVersion = "18.0.0"
-}
-
 dependencies {
-    add(
-        "kspCommonMainMetadata", projects.ktorfitKsp
-    )
+    add("kspCommonMainMetadata", projects.ktorfitKsp)
     add("kspJvm", projects.ktorfitKsp)
-     add("kspJvmTest", projects.ktorfitKsp)
-
-
+    add("kspJvmTest", projects.ktorfitKsp)
 }

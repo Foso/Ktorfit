@@ -1,24 +1,13 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-
 val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
 
 plugins {
-    kotlin("jvm")
+    id("ktorfit.kotlinJVM")
     kotlin("kapt")
     id("com.vanniktech.maven.publish")
     `maven-publish`
     signing
     id("org.jetbrains.dokka")
     alias(libs.plugins.detekt)
-    id("app.cash.licensee")
-
-}
-
-licensee {
-    allow("Apache-2.0")
-    allow("MIT")
 }
 
 mavenPublishing {
@@ -110,17 +99,3 @@ publishing {
         }
     }
 }
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
-tasks.withType<KotlinCompilationTask<*>>().configureEach {
-    compilerOptions.freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
-}
-

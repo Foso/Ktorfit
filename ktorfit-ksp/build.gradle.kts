@@ -3,22 +3,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
 
 plugins {
-    kotlin("jvm")
+    id("ktorfit.kotlinJVM")
     id("com.vanniktech.maven.publish")
     `maven-publish`
     signing
     id("org.jetbrains.dokka")
     alias(libs.plugins.detekt)
     kotlin("kapt")
-}
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
 }
 
 mavenPublishing {
@@ -47,10 +38,6 @@ dependencies {
     testImplementation(libs.kctfork.ksp)
     testImplementation(libs.mockito.kotlin)
 
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
-    compilerOptions.freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
 }
 
 detekt {
