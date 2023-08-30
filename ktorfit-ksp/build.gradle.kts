@@ -10,17 +10,11 @@ plugins {
     id("org.jetbrains.dokka")
     alias(libs.plugins.detekt)
     kotlin("kapt")
-    id("app.cash.licensee")
 }
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(8))
     }
-}
-
-licensee {
-    allow("Apache-2.0")
-    allow("MIT")
 }
 
 tasks.withType<KotlinCompile> {

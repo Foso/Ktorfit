@@ -6,12 +6,6 @@ plugins {
     id("org.jetbrains.dokka")
     id("com.android.library")
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.2"
-    id("app.cash.licensee")
-}
-
-licensee {
-    allow("Apache-2.0")
-    allow("MIT")
 }
 
 java {

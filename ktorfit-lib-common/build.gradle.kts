@@ -11,7 +11,6 @@ plugins {
     id("com.android.library")
     alias(libs.plugins.detekt)
     id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.2"
-    id("app.cash.licensee")
 
 }
 
@@ -23,12 +22,6 @@ java {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
-}
-
-
-licensee {
-    allow("Apache-2.0")
-    allow("MIT")
 }
 
 detekt {

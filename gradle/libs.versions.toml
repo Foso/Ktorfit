@@ -16,7 +16,6 @@ gradleMavenPublishPlugin = "0.25.3"
 vannikMavenPublish = "0.25.3"
 
 [libraries]
-android-build-gradle = "com.android.tools.build:gradle:7.4.2"
 auto-service-ksp = { module = "dev.zacsweers.autoservice:auto-service-ksp", version.ref = "autoServiceKsp" }
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 dokka-gradle-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokkaVersion" }
@@ -54,7 +53,7 @@ ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", vers
 ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktorVersion" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
 
-licensee-gradle-plugin = "app.cash.licensee:licensee-gradle-plugin:1.7.0"
+licensee-gradlePlugin = "app.cash.licensee:licensee-gradle-plugin:1.7.0"
 logbackClassic = "ch.qos.logback:logback-classic:1.4.8"
 mockito-kotlin = "org.mockito.kotlin:mockito-kotlin:4.1.0"
 rxjava3 = "io.reactivex.rxjava3:rxjava:3.1.6"
@@ -64,4 +63,5 @@ truth = "com.google.truth:truth:1.1.5"
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kspPlugin = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 vannikMavenPublish = { id = "com.google.devtools.ksp", version.ref = "vannikMavenPublish" }
-
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+android-library =  { id = "com.android.library", version = "8.0.2" }

@@ -1,5 +1,4 @@
 plugins {
-    kotlin("multiplatform") apply false
     id("com.vanniktech.maven.publish") version libs.versions.vannikMavenPublish.get() apply false
 }
 
@@ -18,8 +17,6 @@ buildscript {
         classpath(libs.gradle.maven.publish.plugin)
         classpath(libs.dokka.gradle.plugin)
         classpath(libs.kotlin.serialization)
-        classpath(libs.android.build.gradle)
-        classpath (libs.licensee.gradle.plugin)
         classpath(libs.gradle.plugin)
     }
 }
@@ -29,9 +26,9 @@ subprojects {
         google()
         mavenLocal()
         mavenCentral()
-
     }
 
+    apply(plugin = "ktorfit.licensee")
 }
 
 // ./gradlew clean :sandbox:compileKotlinJvm --no-daemon -Dorg.gradle.debug=true -Dkotlin.compiler.execution.strategy="in-process" -Dkotlin.daemon.jvm.options="-Xdebug,-Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n"
