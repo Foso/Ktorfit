@@ -1,14 +1,19 @@
 package com.example.ktorfittest
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class KtorfitTest {
     @Test
     fun test() {
-        println("test")
-        val starWarsApi = ktorfit.create<TestApi>()
-        // Compile ERROR 👇👇
-        // > Task :shared:compileTestKotlinJvm FAILED
-        // e: java.lang.IllegalStateException: _TestApiImpl() not found, did you apply the Ksp Ktorfit plugin?
+        GlobalScope.launch {
+            ktorfit.create<TestApi>()
+                .getPersonByIdResponse(3)
+                .collect {
+                    assertEquals(it.name, "R2-D2")
+                }
+        }
     }
 }
