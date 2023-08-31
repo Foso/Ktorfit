@@ -8,7 +8,7 @@ plugins {
 }
 
 version = "1.0"
-val ktorVersion = "2.3.3"
+val ktorVersion = "2.3.4"
 val ktorfitVersion = "1.6.0"
 
 ktorfit {
