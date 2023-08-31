@@ -11,29 +11,20 @@ version = "1.0"
 val ktorVersion = "2.3.3"
 val ktorfitVersion = "1.6.0"
 
-configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
+ktorfit {
     version = ktorfitVersion
+    logging = true
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
 kotlin {
-    android()
+    jvmToolchain(8)
+    targetHierarchy.default()
+
+    jvm()
+    androidTarget()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    jvm(){
-        compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
-        }
-    }
     macosX64()
     js(IR) {
         this.nodejs()
@@ -67,43 +58,11 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting {
-            dependencies {
-                //implementation("io.ktor:ktor-client-cio-jvm:$ktorVersion")
-            }
-        }
-        val jvmMain by getting {
-            dependencies {
-
-
-            }
-        }
-        val jsMain by getting {
-            dependencies {
-
-            }
-        }
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-            dependencies{
-               // implementation("io.ktor:ktor-client-ios:$ktorVersion")
-            }
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
-        }
+        val androidMain by getting
+        val jvmMain by getting
+        val jsMain by getting
+        val iosMain by getting
+        val macosX64Main by getting
     }
 }
 
@@ -117,11 +76,20 @@ android {
 }
 
 dependencies {
-    add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
-    add("kspJvm", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
-    add("kspAndroid", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
-    add("kspIosX64", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
-    add("kspJs", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
-    add("kspIosSimulatorArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
+    with("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion") {
+        add("kspCommonMainMetadata", this)
+        add("kspJvm", this)
+        add("kspJvmTest", this)
+        add("kspAndroid", this)
+        add("kspAndroidTest", this)
+        add("kspIosX64", this)
+        add("kspIosX64Test", this)
+        add("kspIosSimulatorArm64", this)
+        add("kspIosSimulatorArm64Test", this)
+        add("kspIosArm64", this)
+        add("kspIosArm64Test", this)
+        add("kspJs", this)
+        add("kspJsTest", this)
+    }
 }
 
