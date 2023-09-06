@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Added
+- Added a compiler type checks if the type used for the create function is an interface
+
 ### Changed
 ### Deprecated
 ### Removed

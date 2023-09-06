@@ -10,6 +10,7 @@ import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.types.defaultType
 import org.jetbrains.kotlin.ir.types.impl.originalKotlinType
 import org.jetbrains.kotlin.ir.util.constructors
+import org.jetbrains.kotlin.ir.util.isInterface
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
@@ -25,8 +26,12 @@ class CreateFuncTransformer(
     IrElementTransformerVoidWithContext() {
 
     companion object {
+        fun ERROR_TYPE_ARGUMENT_NOT_INTERFACE(implName: String)=
+            "create<${implName}> argument is not supported. Type argument needs to be an interface"
+
         fun ERROR_IMPL_NOT_FOUND(implName: String) =
             "_${implName}Impl() not found, did you apply the Ksp Ktorfit plugin?"
+
         private const val KTORFIT_PACKAGE = "de.jensklingenberg.ktorfit.Ktorfit"
         private const val KTORFIT_CREATE = "create"
 
@@ -51,9 +56,12 @@ class CreateFuncTransformer(
 
                 //Get T from create<T>()
                 val argumentType = irCall.getTypeArgument(0) ?: return expression
-
                 val classFqName = argumentType.classFqName
-                    ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
+                if (!argumentType.isInterface()) throw IllegalStateException(ERROR_TYPE_ARGUMENT_NOT_INTERFACE(argumentType.originalKotlinType.toString()))
+
+                if (classFqName == null) {
+                    throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
+                }
 
                 val packageName = classFqName.packageName
                 val className = classFqName.shortName().toString()

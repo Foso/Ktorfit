@@ -63,7 +63,7 @@ fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
     }
 
     @Test
-    fun throwCompileErrorWhenGenericTypeUsed() {
+    fun throwCompileErrorWhenNonInterfaceTypeArgumentIsUsed() {
         val source = SourceFile.kotlin(
             "Ktorfit.kt", """
 package de.jensklingenberg.ktorfit
@@ -102,7 +102,7 @@ fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
 
         val result = compile(listOf(source2, source))
         Assert.assertEquals(KotlinCompilation.ExitCode.INTERNAL_ERROR,result.exitCode)
-        Truth.assertThat(result.messages.contains(CreateFuncTransformer.ERROR_IMPL_NOT_FOUND("T"))).isEqualTo(true)
+        Truth.assertThat(result.messages.contains(CreateFuncTransformer.ERROR_TYPE_ARGUMENT_NOT_INTERFACE("T"))).isEqualTo(true)
     }
 
     private fun prepareCompilation(
