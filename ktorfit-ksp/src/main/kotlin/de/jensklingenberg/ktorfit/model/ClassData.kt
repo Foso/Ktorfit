@@ -144,6 +144,10 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         imports.add("io.ktor.client.request.forms.*")
     }
 
+    if (functionDataList.any { it -> it.annotations.any { it is Timeout }}) {
+        imports.add("io.ktor.client.plugins.timeout")
+    }
+
     if (functionDataList.any { it.parameterDataList.any { param -> param.hasAnnotation<RequestType>() } }) {
         imports.add("kotlin.reflect.cast")
     }

@@ -124,6 +124,10 @@ fun KSFunctionDeclaration.toFunctionData(
         functionAnnotationList.add(headers)
     }
 
+    funcDeclaration.getTimeoutAnnotation()?.let { timeout ->
+        functionAnnotationList.add(timeout)
+    }
+
     funcDeclaration.getFormUrlEncodedAnnotation()?.let { formUrlEncoded ->
         val isWithoutFieldOrFieldMap =
             functionParameters.none { it.hasAnnotation<Field>() || it.hasAnnotation<FieldMap>() }
