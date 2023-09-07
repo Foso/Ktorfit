@@ -10,7 +10,6 @@ plugins {
     id("com.vanniktech.maven.publish")
     `maven-publish`
     signing
-    id("org.jetbrains.dokka")
     alias(libs.plugins.detekt)
     id("app.cash.licensee")
 
