@@ -47,21 +47,10 @@ detekt {
     buildUponDefaultConfig = false
 }
 
-tasks.register("sourcesJar", Jar::class) {
-    group = "build"
-    description = "Assembles Kotlin sources"
-
-    archiveClassifier.set("sources")
-    from(sourceSets.main.get().allSource)
-    dependsOn(tasks.classes)
-}
-
 publishing {
     publications {
         create<MavenPublication>("default") {
             from(components["java"])
-            artifact(tasks["sourcesJar"])
-            //artifact(tasks["dokkaJar"])
 
             pom {
                 name.set("ktorfit-compiler-plugin")
