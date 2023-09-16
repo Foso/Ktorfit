@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version("1.8.22")
-    kotlin("kapt") version("1.8.22")
+    kotlin("jvm") version("1.9.10")
+    kotlin("kapt") version("1.9.10")
     id("java-gradle-plugin")
     `maven-publish`
     id("com.gradle.plugin-publish") version "1.2.1"
@@ -31,7 +31,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.8.22")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.9.10")
 }
 
 gradlePlugin {
