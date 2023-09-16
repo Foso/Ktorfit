@@ -63,7 +63,6 @@ publishing {
         create<MavenPublication>("default") {
             from(components["java"])
             artifact(tasks["sourcesJar"])
-            //artifact(tasks["dokkaJar"])
 
             pom {
                 name.set("ktorfit-gradle-plugin")

@@ -86,7 +86,7 @@ kotlin {
                 implementation(libs.rxjava3)
 
                 implementation(libs.ktor.client.logging)
-                implementation(libs.logbackClassic)
+               // implementation(libs.logbackClassic)
                 implementation(libs.ktor.serialization.gson)
                 implementation(libs.ktor.client.cio.jvm)
             }
@@ -127,16 +127,18 @@ kotlin {
 
 
 dependencies {
+    with(projects.ktorfitKsp) {
+        add(
+            "kspCommonMainMetadata", this
+        )
+        add("kspJvm", this)
+        add("kspIosX64", this)
 
-    add(
-        "kspCommonMainMetadata", projects.ktorfitKsp
-    )
-    add("kspJvm", projects.ktorfitKsp)
-    add("kspIosX64", projects.ktorfitKsp)
+        // add("kspJvmTest", this)
+        add("kspJs", this)
+        add("kspLinuxX64", this)
+        add("kspMingwX64", this)
+    }
 
-    // add("kspJvmTest", projects.ktorfitKsp)
-    add("kspJs", projects.ktorfitKsp)
-    add("kspLinuxX64", projects.ktorfitKsp)
-    add("kspMingwX64", projects.ktorfitKsp)
 
 }

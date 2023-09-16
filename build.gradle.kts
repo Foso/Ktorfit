@@ -16,7 +16,6 @@ buildscript {
     }
     dependencies {
         classpath(libs.gradle.maven.publish.plugin)
-        classpath(libs.dokka.gradle.plugin)
         classpath(libs.kotlin.serialization)
         classpath(libs.android.build.gradle)
         classpath (libs.licensee.gradle.plugin)

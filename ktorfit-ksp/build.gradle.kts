@@ -7,7 +7,6 @@ plugins {
     id("com.vanniktech.maven.publish")
     `maven-publish`
     signing
-    id("org.jetbrains.dokka")
     alias(libs.plugins.detekt)
     kotlin("kapt")
     id("app.cash.licensee")
@@ -79,7 +78,6 @@ publishing {
         create<MavenPublication>("default") {
             from(components["java"])
             artifact(tasks["sourcesJar"])
-            //artifact(tasks["dokkaJar"])
 
             pom {
                 name.set(project.name)
