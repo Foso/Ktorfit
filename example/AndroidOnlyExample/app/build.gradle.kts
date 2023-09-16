@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp") version "1.9.10-1.0.13"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
-    id("de.jensklingenberg.ktorfit") version "1.0.0"
+    id("de.jensklingenberg.ktorfit") version "1.7.0"
 
 }
 val ktorfit = "1.6.0"
