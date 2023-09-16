@@ -10,7 +10,7 @@ kotlinPoet = "1.14.2"
 kspVersion = "1.9.10-1.0.13"
 ktorfit = "1.7.0"
 ktorfit-lib = "1.7.0"
-ktorVersion = "2.3.4"
+ktorVersion = "3.0.0-eap-800"
 gradleMavenPublishPlugin = "0.25.3"
 vannikMavenPublish = "0.25.3"
 
