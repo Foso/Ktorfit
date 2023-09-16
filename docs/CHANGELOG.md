@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ========================================
 # Gradle plugin
 From now on with every Ktorfit release there will also be a Gradle plugin with the same version.
-That means that drop you can drop the Gradle extension block where you previously set the version number and just bump the number of the Gradle plugin.
+That means that drop you can drop the Gradle extension block where you previously set the version number and just bump the number of the Gradle plugin. https://foso.github.io/Ktorfit/installation/
 
 ```kotlin
 plugins {
