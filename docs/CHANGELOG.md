@@ -5,12 +5,24 @@ All important changes of this project must be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+1.7.0 - 2023-09-16
+========================================
+# Gradle plugin
+From now on with every Ktorfit release there will also be a Gradle plugin with the same version.
+That means that drop you can drop the Gradle extension block where you previously set the version number and just bump the number of the Gradle plugin.
+
+```kotlin
+plugins {
+id("de.jensklingenberg.ktorfit") version "1.7.0"
+}
+```
 
 ### Added
 - Added a compiler type checks if the type used for the create function is an interface
 
 ### Changed
+- Upgrade dependencies: Ktor 2.3.4
+
 ### Deprecated
 ### Removed
 ### Fixed

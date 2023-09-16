@@ -3,14 +3,10 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp") version "1.9.10-1.0.13"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
-    id("de.jensklingenberg.ktorfit") version "1.0.0"
-
+    id("de.jensklingenberg.ktorfit") version "1.7.0"
 }
-val ktorfit = "1.6.0"
 
-configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
-    version = ktorfit
-}
+
 android {
     namespace = "de.jensklingenberg.androidonlyexample"
     compileSdk = 34
@@ -54,6 +50,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
         jvmTarget = "1.8"
     }
 }
+
+val ktorfit = "1.7.0"
 val ktor = "2.3.4"
 val compose_ui_version = "1.5.1"
 dependencies {
