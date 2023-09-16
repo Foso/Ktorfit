@@ -61,4 +61,3 @@ truth = "com.google.truth:truth:1.1.5"
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kspPlugin = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
-vannikMavenPublish = { id = "com.google.devtools.ksp", version.ref = "vannikMavenPublish" }
