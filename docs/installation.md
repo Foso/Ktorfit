@@ -8,11 +8,7 @@ You need to add KSP and the [Ktorfit Gradle plugin](https://plugins.gradle.org/p
 ```kotlin
 plugins {
   id("com.google.devtools.ksp") version "CURRENT_KSP_VERSION"
-  id("de.jensklingenberg.ktorfit") version "1.0.0"
-}
-
-configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
-    version = "{{ktorfit.release}}"
+  id("de.jensklingenberg.ktorfit") version "{{ktorfit.release}}"
 }
 ```
 
