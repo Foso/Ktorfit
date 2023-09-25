@@ -24,7 +24,7 @@ import de.jensklingenberg.ktorfit.http.Query
 interface TestService {
 
     @GET("posts")
-    suspend fun test(@Query("name") testQuery: String, @Query("user",true) testQuery2: Int)
+    suspend fun test(@Query("name") testQuery: String, @Query(encoded = true) testQuery2: Int)
 }
     """
         )
@@ -32,7 +32,7 @@ interface TestService {
         val expectedQueriesArgumentText = "url{\n" +
                 "        takeFrom(ktorfitClient.baseUrl + \"posts\")\n" +
                 "        testQuery?.let{ parameter(\"name\", \"\$it\") }\n" +
-                "        testQuery2?.let{ encodedParameters.append(\"user\", \"\$it\") }\n" +
+                "        testQuery2?.let{ encodedParameters.append(\"testQuery2\", \"\$it\") }\n" +
                 "        }"
 
         val compilation = getCompilation(listOf(source))
