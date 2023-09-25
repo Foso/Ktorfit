@@ -55,9 +55,6 @@ fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAn
     }
 
     ksValueParameter.getBodyAnnotation()?.let {
-        if (ksValueParameter.type.resolve().isMarkedNullable) {
-            logger.error(KtorfitError.BODY_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE, ksValueParameter.type)
-        }
         paramAnnos.add(it)
     }
 
