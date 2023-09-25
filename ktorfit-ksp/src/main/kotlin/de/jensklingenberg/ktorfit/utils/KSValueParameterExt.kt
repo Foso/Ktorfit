@@ -4,12 +4,17 @@ import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSValueParameter
-import de.jensklingenberg.ktorfit.model.annotations.*
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
+
+/**
+ * Default value used for annotation parameters because they can't be nullable
+ */
+private const val KTORFIT_DEFAULT_VALUE = "KTORFIT_DEFAULT_VALUE"
 
 @OptIn(KspExperimental::class)
 fun KSValueParameter.getPathAnnotation(): Path? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Path::class).firstOrNull()?.let {
-        return Path(it.value, it.encoded)
+        return Path(it.value.replace(KTORFIT_DEFAULT_VALUE, this.name.safeString()), it.encoded)
     }
 }
 

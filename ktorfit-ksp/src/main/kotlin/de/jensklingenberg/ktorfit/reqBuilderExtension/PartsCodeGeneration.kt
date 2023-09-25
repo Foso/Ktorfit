@@ -2,8 +2,8 @@ package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.model.ParameterData
-import de.jensklingenberg.ktorfit.model.annotations.Part
-import de.jensklingenberg.ktorfit.model.annotations.PartMap
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Part
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.PartMap
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 

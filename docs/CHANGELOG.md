@@ -12,6 +12,7 @@ Unreleased
 
 ### Changed
 -  Allow nullable body type #424
+-  Use @Path parameter name as default value #426
 
 ### Deprecated
 ### Removed

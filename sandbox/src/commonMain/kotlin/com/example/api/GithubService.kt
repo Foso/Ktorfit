@@ -39,6 +39,6 @@ interface GithubService {
         "Content-Type: application/json"
     )
     @GET("repos/{owner}/{repo}/commits")
-    fun listCommits(@Path("owner") owner: String, @Path("repo") repo: String): Flow<List<TestReeeItem>>
+    fun listCommits(@Path owner: String, @Path repo: String): Flow<List<TestReeeItem>>
 
 }

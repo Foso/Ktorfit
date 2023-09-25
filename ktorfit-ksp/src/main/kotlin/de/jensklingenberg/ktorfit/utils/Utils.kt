@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.utils
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSName
 import com.google.devtools.ksp.symbol.KSType
 import com.squareup.kotlinpoet.FileSpec
 import de.jensklingenberg.ktorfit.model.FunctionData
@@ -78,4 +79,8 @@ fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
 
 inline fun <reified T> List<*>.anyInstance(): Boolean {
     return this.filterIsInstance<T>().isNotEmpty()
+}
+
+fun KSName?.safeString(): String {
+    return this?.asString() ?: ""
 }

@@ -9,21 +9,23 @@ import de.jensklingenberg.ktorfit.utils.*
 /**
  * Annotation at a parameter
  */
-sealed class ParameterAnnotation
-object Body : ParameterAnnotation()
-object RequestBuilder : ParameterAnnotation()
-data class Path(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
-data class Query(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
-data class QueryName(val encoded: Boolean = false) : ParameterAnnotation()
-data class QueryMap(val encoded: Boolean = false) : ParameterAnnotation()
-data class Header(val path: String) : ParameterAnnotation()
-object HeaderMap : ParameterAnnotation()
-object Url : ParameterAnnotation()
-data class RequestType(val requestType: KSType) : ParameterAnnotation()
-data class Field(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
-data class FieldMap(val encoded: Boolean) : ParameterAnnotation()
-data class Part(val value: String = "", val encoding: String = "binary") : ParameterAnnotation()
-data class PartMap(val encoding: String = "binary") : ParameterAnnotation()
+sealed class ParameterAnnotation{
+    data object Body : ParameterAnnotation()
+    data object RequestBuilder : ParameterAnnotation()
+    data class Path(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
+    data class Query(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
+    data class QueryName(val encoded: Boolean = false) : ParameterAnnotation()
+    data class QueryMap(val encoded: Boolean = false) : ParameterAnnotation()
+    data class Header(val path: String) : ParameterAnnotation()
+    data object HeaderMap : ParameterAnnotation()
+    data object Url : ParameterAnnotation()
+    data class RequestType(val requestType: KSType) : ParameterAnnotation()
+    data class Field(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
+    data class FieldMap(val encoded: Boolean) : ParameterAnnotation()
+    data class Part(val value: String = "", val encoding: String = "binary") : ParameterAnnotation()
+    data class PartMap(val encoding: String = "binary") : ParameterAnnotation()
+}
+
 
 
 /**

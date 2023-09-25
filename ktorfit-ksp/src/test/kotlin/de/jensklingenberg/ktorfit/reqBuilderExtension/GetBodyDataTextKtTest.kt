@@ -2,8 +2,7 @@ package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
-import de.jensklingenberg.ktorfit.model.annotations.Body
-import de.jensklingenberg.ktorfit.reqBuilderExtension.getBodyDataText
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Body
 import org.junit.Assert
 import org.junit.Test
 

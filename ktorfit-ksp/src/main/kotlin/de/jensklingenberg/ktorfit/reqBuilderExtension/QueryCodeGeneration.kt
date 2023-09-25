@@ -2,9 +2,7 @@ package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.model.ParameterData
-import de.jensklingenberg.ktorfit.model.annotations.Query
-import de.jensklingenberg.ktorfit.model.annotations.QueryMap
-import de.jensklingenberg.ktorfit.model.annotations.QueryName
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
 
 fun getQueryCode(params: List<ParameterData>, listType: KSType, arrayType: KSType): String {
 
