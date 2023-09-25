@@ -103,6 +103,41 @@ interface TestService {
     }
 
     @Test
+    fun whenFieldAnnotationWitDefaultValueFoundAddItToFieldsBuilder() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.Field
+import de.jensklingenberg.ktorfit.http.FormUrlEncoded
+
+interface TestService {
+    @FormUrlEncoded
+    @POST("posts")
+    suspend fun test(@Field name: String)
+}
+    """
+        )
+
+        val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
+        name?.let{ append("name", "ä{it}") }
+        }
+        setBody(FormDataContent(_formParameters))""".trimMargin().replace("ä", "$")
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+        val actualSource = generatedFile.readText()
+        Assert.assertEquals(true, actualSource.contains(expectedFieldsBuilderText))
+    }
+
+    @Test
     fun whenFieldAnnotationWithListFoundAddItToFieldsBuilder() {
 
         val source = SourceFile.kotlin(

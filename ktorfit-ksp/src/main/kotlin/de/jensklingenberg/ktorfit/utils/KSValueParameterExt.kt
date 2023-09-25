@@ -56,7 +56,7 @@ fun KSValueParameter.getQueryMapAnnotation(): QueryMap? {
 @OptIn(KspExperimental::class)
 fun KSValueParameter.getFieldAnnotation(): Field? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Field::class).firstOrNull()?.let {
-        return Field(it.value, it.encoded)
+        return Field(it.value.replace(KTORFIT_DEFAULT_VALUE, this.name.safeString()), it.encoded)
     }
 }
 
