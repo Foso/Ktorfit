@@ -33,7 +33,7 @@ interface JsonPlaceHolderApi {
     suspend fun getPostsStreaming(@QueryMap test: Map<String, String>): HttpStatement
 
     @GET("posts/{postId}")
-    suspend fun getPostById(@Path("postId") postId: Int = 4): Post
+    suspend fun getPostById(@Path postId: Int = 4): Post
 
     @GET("posts/{postId}/comments")
     fun getFlowCommentsByPostId(@Path("postId") postId: Int, @ReqBuilder builder : HttpRequestBuilder.() -> Unit): Flow<List<Comment>>?

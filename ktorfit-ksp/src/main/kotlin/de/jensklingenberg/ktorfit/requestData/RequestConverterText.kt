@@ -3,7 +3,7 @@ package de.jensklingenberg.ktorfit.requestData
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ksp.toClassName
 import de.jensklingenberg.ktorfit.model.ParameterData
-import de.jensklingenberg.ktorfit.model.annotations.RequestType
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestType
 
 fun FunSpec.Builder.addRequestConverterText(parameterDataList: List<ParameterData>) = apply {
     if (parameterDataList.any { it.hasAnnotation<RequestType>() }) {

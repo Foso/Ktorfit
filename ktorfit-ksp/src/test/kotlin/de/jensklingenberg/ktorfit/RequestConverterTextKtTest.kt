@@ -7,7 +7,7 @@ import com.squareup.kotlinpoet.FunSpec
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
-import de.jensklingenberg.ktorfit.model.annotations.RequestType
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestType
 import de.jensklingenberg.ktorfit.requestData.addRequestConverterText
 import org.junit.Assert
 import org.junit.Test

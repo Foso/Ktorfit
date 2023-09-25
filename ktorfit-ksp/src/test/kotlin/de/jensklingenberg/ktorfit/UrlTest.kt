@@ -81,6 +81,43 @@ interface TestService {
     }
 
     @Test
+    fun testFunctionWithGETAndPathWithDefault() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Path
+
+interface TestService {
+
+    @GET("user/{userId}")
+    suspend fun test(@Path userId: String): String
+    
+}
+    """
+        )
+
+
+        val expectedFunctionText = """url{
+        takeFrom(ktorfitClient.baseUrl + "user/ä{"äuserId".encodeURLPath()}")
+        } """.replace("ä", "$")
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+        Truth.assertThat(generatedFile.exists()).isTrue()
+        val actualSource = generatedFile.readText()
+        Truth.assertThat(actualSource.contains(expectedFunctionText)).isTrue()
+    }
+
+    @Test
     fun testFunctionWithGETAndUrlAnno() {
         val expectedFunctionSource = """url{
         takeFrom((ktorfitClient.baseUrl.takeIf{ !url.startsWith("http")} ?: "") + "ä{url}")

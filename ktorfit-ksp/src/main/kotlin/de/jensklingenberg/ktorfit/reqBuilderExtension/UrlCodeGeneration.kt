@@ -2,8 +2,8 @@ package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
-import de.jensklingenberg.ktorfit.model.annotations.Path
-import de.jensklingenberg.ktorfit.model.annotations.Url
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Path
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Url
 
 
 fun getUrlCode(params: List<ParameterData>, methodAnnotation: HttpMethodAnnotation, queryCode: String): String {
