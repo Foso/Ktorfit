@@ -13,7 +13,7 @@ interface JvmPlaceHolderApi : StarWarsApi {
     suspend fun getPersonById2(@Path("id") peopleId: Int): People
 
     @GET("people/{id}/")
-    suspend fun testQuery(@Path("id") peopleId: Int, @Query("hello") world: String? = "World"): People
+    suspend fun testQuery(@Path("id") peopleId: Int, @Query world: String? = "World"): People
 
     @GET("people/{id}/")
     suspend fun testQueryName(@Path("id") peopleId: Int, @QueryName na : List<String?>?): People

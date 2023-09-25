@@ -11,9 +11,9 @@ Unreleased
 ### Added
 
 ### Changed
--  Allow nullable body type #424
--  Use @Path parameter name as default value #426
-
+- Allow nullable body type #424
+- Use @Path parameter name as default value #426
+- Use @Query parameter name as default value #428
 ### Deprecated
 ### Removed
 ### Fixed

@@ -35,7 +35,7 @@ fun KSValueParameter.getHeaderMapAnnotation(): HeaderMap? {
 @OptIn(KspExperimental::class)
 fun KSValueParameter.getQueryAnnotation(): Query? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Query::class).firstOrNull()?.let {
-        return Query(it.value, it.encoded)
+        return Query(it.value.replace(KTORFIT_DEFAULT_VALUE, this.name.safeString()), it.encoded)
     }
 }
 
