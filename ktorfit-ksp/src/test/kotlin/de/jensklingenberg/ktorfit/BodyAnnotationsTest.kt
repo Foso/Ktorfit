@@ -75,7 +75,7 @@ import de.jensklingenberg.ktorfit.http.Body
 
 interface TestService {
    @POST("user")
-    suspend fun test(@Body id: String): String
+    suspend fun test(@Body id: String?): String
 }
     """
         )

@@ -5,6 +5,19 @@ All important changes of this project must be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+Unreleased
+========================================
+
+### Added
+
+### Changed
+-  Allow nullable body type #424
+
+### Deprecated
+### Removed
+### Fixed
+### Security
+
 1.7.0 - 2023-09-16
 ========================================
 # Gradle plugin
