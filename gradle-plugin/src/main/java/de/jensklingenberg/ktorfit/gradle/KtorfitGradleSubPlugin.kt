@@ -1,11 +1,18 @@
 package de.jensklingenberg.ktorfit.gradle
 
+import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.findByType
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilerPluginSupportPlugin
 import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
+
 
 open class KtorfitGradleConfiguration {
     /**
@@ -16,6 +23,7 @@ open class KtorfitGradleConfiguration {
     /**
      * version number of the compiler plugin
      */
+    @Deprecated("Update the Gradle plugin instead of updating this version")
     var version: String = "1.7.0" // remember to bump this version before any release!
 
     /**
@@ -23,7 +31,6 @@ open class KtorfitGradleConfiguration {
      */
     var logging: Boolean = false
 }
-
 
 class KtorfitGradleSubPlugin : KotlinCompilerPluginSupportPlugin {
 
@@ -49,13 +56,39 @@ class KtorfitGradleSubPlugin : KotlinCompilerPluginSupportPlugin {
         }
     }
 
+    private val Project.kotlinExtension: KotlinProjectExtension?
+        get() = this.extensions.findByType<KotlinProjectExtension>()
+
     private fun Project.getKtorfitConfig() =
         this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
 
-    override fun apply(target: Project) {
-        target.extensions.create(GRADLE_TASKNAME, KtorfitGradleConfiguration::class.java)
-        myproject = target
-        super.apply(target)
+    override fun apply(project: Project) {
+        myproject = project
+
+        with(project) {
+            extensions.create(KtorfitGradleSubPlugin.GRADLE_TASKNAME, KtorfitGradleConfiguration::class.java)
+
+            when (val kotlinExtension = this.kotlinExtension) {
+                is KotlinSingleTargetExtension<*> -> {
+                    dependencies {
+                        add("implementation", "de.jensklingenberg.ktorfit:ktorfit-converters-flow:1.8.0")
+                    }
+                }
+
+                is KotlinMultiplatformExtension -> {
+                    dependencies {
+                        add("commonMainImplementation", "de.jensklingenberg.ktorfit:ktorfit-converters-flow:1.8.0")
+                    }
+                }
+
+                else -> { /* Do nothing */
+                }
+            }
+
+
+        }
+
+
     }
 
     override fun getCompilerPluginId(): String = COMPILER_PLUGIN_ID

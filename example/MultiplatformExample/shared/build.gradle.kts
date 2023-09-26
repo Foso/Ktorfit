@@ -4,12 +4,12 @@ plugins {
     id("com.android.library")
     id("com.google.devtools.ksp") version "1.9.10-1.0.13"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "1.7.0"
+    id("de.jensklingenberg.ktorfit") version "1.8.0"
 }
 
 version = "1.0"
 val ktorVersion = "2.3.4"
-val ktorfitVersion = "1.7.0"
+val ktorfitVersion = "1.8.0"
 
 kotlin {
     jvmToolchain(8)
@@ -41,7 +41,7 @@ kotlin {
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
                 //implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:$ktorfitVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-
+                //implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:1.8.0")
                 //Only needed when you want to use Kotlin Serialization
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
