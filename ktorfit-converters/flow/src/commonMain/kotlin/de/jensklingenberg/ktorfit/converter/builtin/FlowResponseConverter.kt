@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.flow
 /**
  * Converter to enable the use of Flow<> as return type
  */
+@Deprecated("Use FlowConverterFactory")
 public class FlowResponseConverter : ResponseConverter {
 
     override fun supportedType(typeData: TypeData, isSuspend: Boolean): Boolean {

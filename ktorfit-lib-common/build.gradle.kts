@@ -102,7 +102,6 @@ kotlin {
             dependencies {
                 api(projects.ktorfitAnnotations)
                 api(libs.ktor.client.core)
-                //api("de.jensklingenberg.ktorfit:ktorfit-converters-flow:1.8.0")
             }
         }
         val commonTest by getting {
@@ -110,25 +109,10 @@ kotlin {
                 implementation(libs.kotlin.test)
             }
         }
-        val linuxX64Main by getting {
-            dependencies {
-            }
-        }
-        val mingwX64Main by getting {
-            dependencies {
-
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-
-            }
-        }
-        val jvmMain by getting {
-            dependencies {
-
-            }
-        }
+        val linuxX64Main by getting
+        val mingwX64Main by getting
+        val androidMain by getting
+        val jvmMain by getting
         val jvmTest by getting {
             dependencies {
                 kotlin.srcDir("build/generated/ksp/jvm/jvmTest/")
@@ -144,20 +128,13 @@ kotlin {
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val jsMain by getting {
-            dependencies {
-
-            }
-        }
-
+        val jsMain by getting
         val iosMain by getting {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
-            dependencies {
-
-            }
+            dependencies {}
         }
     }
 }

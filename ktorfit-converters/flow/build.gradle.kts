@@ -136,7 +136,7 @@ publishing {
 
             pom {
                 name.set(project.name)
-                description.set("Ktorfit Client Library")
+                description.set("Flow Converter for Ktorfit")
                 url.set("https://github.com/Foso/Ktorfit")
 
                 licenses {

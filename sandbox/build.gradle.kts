@@ -130,9 +130,8 @@ kotlin {
 
 dependencies {
     configurations
-        .filter { it.name.startsWith("ksp") && !it.name.endsWith("Metadata")  }
+        .filter { it.name.startsWith("ksp")   }
         .forEach {
-            println(it.name)
             add(it.name, projects.ktorfitKsp)
         }
 }
