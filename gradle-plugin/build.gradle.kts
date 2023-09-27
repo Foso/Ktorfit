@@ -3,6 +3,7 @@ plugins {
     kotlin("kapt") version("1.9.10")
     id("java-gradle-plugin")
     `maven-publish`
+    `kotlin-dsl`
     id("com.gradle.plugin-publish") version "1.2.1"
 }
 
@@ -26,6 +27,10 @@ java {
     }
 }
 
+dependencies {
+    add("compileOnly", kotlin("gradle-plugin"))
+}
+
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
@@ -41,7 +46,7 @@ gradlePlugin {
 
         create("ktorfitPlugin") {
             id = "de.jensklingenberg.ktorfit" // users will do `apply plugin: "de.jensklingenberg.ktorfit"`
-            implementationClass = "de.jensklingenberg.ktorfit.gradle.KtorfitGradleSubPlugin" // entry-point class
+            implementationClass = "de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin" // entry-point class
             displayName = "Ktorfit Gradle Plugin"
             description = "Gradle Plugin for Ktorfit"
             tags.set(listOf("http","kotlin","kotlin-mpp","ktor","rest"))
@@ -49,20 +54,13 @@ gradlePlugin {
     }
 }
 
-tasks.register("sourcesJar", Jar::class) {
-    group = "build"
-    description = "Assembles Kotlin sources"
 
-    archiveClassifier.set("sources")
-    from(sourceSets.main.get().allSource)
-    dependsOn(tasks.classes)
-}
 
 publishing {
     publications {
         create<MavenPublication>("default") {
             from(components["java"])
-            artifact(tasks["sourcesJar"])
+
 
             pom {
                 name.set("ktorfit-gradle-plugin")

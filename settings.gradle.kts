@@ -27,7 +27,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Ktorfit"
 includeBuild("gradle-plugin") {
     dependencySubstitution {
-        substitute(module("de.jensklingenberg.ktorfit:gradle-plugin:1.0.0")).using(project(":"))
+        substitute(module("de.jensklingenberg.ktorfit:gradle-plugin:1.7.0")).using(project(":"))
     }
 }
 include(":sandbox")
@@ -36,5 +36,6 @@ include(":compiler-plugin")
 include(":ktorfit-lib-common")
 include(":ktorfit-lib")
 include(":ktorfit-annotations")
+include(":ktorfit-converters:flow")
 
 //./gradlew clean :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:publishToMavenLocal :ktorfit-lib:publishToMavenLocal :ktorfit-lib-common:publishToMavenLocal :compiler-plugin:publishToMavenLocal

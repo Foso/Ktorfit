@@ -7,31 +7,12 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinCompilerPluginSupportPlugin
 import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
-open class KtorfitGradleConfiguration {
-    /**
-     * If the compiler plugin should be active
-     */
-    var enabled: Boolean = true
-
-    /**
-     * version number of the compiler plugin
-     */
-    var version: String = "1.7.0" // remember to bump this version before any release!
-
-    /**
-     * used to get debug information from the compiler plugin
-     */
-    var logging: Boolean = false
-}
-
-
-class KtorfitGradleSubPlugin : KotlinCompilerPluginSupportPlugin {
+internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
 
     companion object {
         const val SERIALIZATION_GROUP_NAME = "de.jensklingenberg.ktorfit"
         const val ARTIFACT_NAME = "compiler-plugin"
         const val COMPILER_PLUGIN_ID = "ktorfitPlugin"
-        const val GRADLE_TASKNAME = "ktorfit"
     }
 
     private lateinit var myproject: Project
@@ -52,10 +33,8 @@ class KtorfitGradleSubPlugin : KotlinCompilerPluginSupportPlugin {
     private fun Project.getKtorfitConfig() =
         this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
 
-    override fun apply(target: Project) {
-        target.extensions.create(GRADLE_TASKNAME, KtorfitGradleConfiguration::class.java)
-        myproject = target
-        super.apply(target)
+    override fun apply(project: Project) {
+        myproject = project
     }
 
     override fun getCompilerPluginId(): String = COMPILER_PLUGIN_ID

@@ -4,7 +4,6 @@ package de.jensklingenberg.ktorfit.demo
 import com.example.UserFactory
 import com.example.api.JsonPlaceHolderApi
 import com.example.model.ExampleApi
-import de.jensklingenberg.ktorfit.converter.builtin.CallResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.FlowConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
@@ -36,7 +35,6 @@ val jvmClient = HttpClient {
 val jvmKtorfit = ktorfit {
     baseUrl(JsonPlaceHolderApi.baseUrl)
     httpClient(jvmClient)
-    responseConverter(CallResponseConverter())
 }
 
 
