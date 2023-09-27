@@ -1,6 +1,7 @@
 [versions]
 autoService = "1.1.1"
 autoServiceKsp = "1.10"
+binaryCompatibilityValidator = "0.13.2"
 coroutines = "1.7.3"
 detekt = "1.23.1"
 gradlePlugin = "1.7.0"
@@ -21,8 +22,8 @@ autoService = { module = "com.google.auto.service:auto-service", version.ref = "
 gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
 gradle-plugin = { module = "de.jensklingenberg.ktorfit:gradle-plugin", version.ref = "gradlePlugin" }
 junit = "junit:junit:4.13.2"
-kctfork-core =  { module = "dev.zacsweers.kctfork:core", version.ref = "kctfork" }
-kctfork-ksp =  { module = "dev.zacsweers.kctfork:ksp", version.ref = "kctfork" }
+kctfork-core = { module = "dev.zacsweers.kctfork:core", version.ref = "kctfork" }
+kctfork-ksp = { module = "dev.zacsweers.kctfork:ksp", version.ref = "kctfork" }
 kotlin-compiler-embeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
 kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
@@ -59,5 +60,6 @@ rxjava3 = "io.reactivex.rxjava3:rxjava:3.1.6"
 truth = "com.google.truth:truth:1.1.5"
 
 [plugins]
+binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibilityValidator" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kspPlugin = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }

@@ -8,8 +8,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 
-
-
 class KtorfitGradlePlugin : Plugin<Project> {
     companion object {
         const val GRADLE_TASKNAME = "ktorfit"
@@ -24,16 +22,20 @@ class KtorfitGradlePlugin : Plugin<Project> {
             extensions.create(GRADLE_TASKNAME, KtorfitGradleConfiguration::class.java)
 
             val flowConverterDependencyNotation = "de.jensklingenberg.ktorfit:ktorfit-converters-flow:1.7.0"
+            val callConverterDependencyNotation = "de.jensklingenberg.ktorfit:ktorfit-converters-call:1.7.0"
+
             when (kotlinExtension) {
                 is KotlinSingleTargetExtension<*> -> {
                     dependencies {
                         add("implementation", flowConverterDependencyNotation)
+                        add("implementation", callConverterDependencyNotation)
                     }
                 }
 
                 is KotlinMultiplatformExtension -> {
                     dependencies {
                         add("commonMainImplementation", flowConverterDependencyNotation)
+                        add("commonMainImplementation", callConverterDependencyNotation)
                     }
                 }
 

@@ -38,25 +38,23 @@ val jvmKtorfit = ktorfit {
 }
 
 
-
 val userKtorfit = ktorfit {
     baseUrl("https://foso.github.io/Ktorfit/")
     httpClient(jvmClient)
 
-    converterFactories(FlowConverterFactory(),UserFactory())
+    converterFactories(FlowConverterFactory(), UserFactory())
 }
-
 
 
 fun main() {
 
     runBlocking {
 
-       val user = userKtorfit.create<ExampleApi>().getUser()
+        val user = userKtorfit.create<ExampleApi>().getUser()
 
-        if(user.isSuccessful){
+        if (user.isSuccessful) {
             println(user.body())
-        }else{
+        } else {
             user.errorBody()
         }
         delay(3000)

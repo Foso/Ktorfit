@@ -14,13 +14,13 @@ licensee {
 }
 
 
-val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
+val enableSigning = true
 
 mavenPublishing {
 
     coordinates(
         "de.jensklingenberg.ktorfit",
-        "ktorfit-lib",
+        "ktorfit-converters-call",
         libs.versions.ktorfit.asProvider().get()
     )
     publishToMavenCentral()
@@ -77,47 +77,24 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.ktorfitLibCommon)
+                implementation(projects.ktorfitLibCommon)
             }
         }
-        val linuxX64Main by getting {
-            dependencies {
-                implementation(libs.ktor.client.core.linux)
-                implementation(libs.ktor.client.cio.linux)
-            }
-        }
-        val mingwX64Main by getting {
-            dependencies {
-                implementation(libs.ktor.client.core.mingwx64)
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.cio.jvm)
-            }
-        }
-        val jvmMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.cio.jvm)
-            }
-        }
-
+        val linuxX64Main by getting
+        val mingwX64Main by getting
+        val androidMain by getting
+        val jvmMain by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val jsMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.js)
-            }
-        }
-
+        val jsMain by getting
         val iosMain by getting {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                implementation(libs.ktor.client.ios)
+
             }
         }
     }
@@ -133,7 +110,7 @@ android {
         minSdk = 21
         targetSdk = 33
     }
-    namespace = "de.jensklingenberg.ktorfit"
+    namespace = "de.jensklingenberg.ktorfit.converters.call"
 }
 
 
@@ -146,7 +123,7 @@ publishing {
 
             pom {
                 name.set(project.name)
-                description.set("Ktorfit Client Library")
+                description.set("Flow Converter for Ktorfit")
                 url.set("https://github.com/Foso/Ktorfit")
 
                 licenses {

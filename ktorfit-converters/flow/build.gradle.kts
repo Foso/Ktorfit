@@ -4,7 +4,7 @@ plugins {
     id("signing")
     id("com.vanniktech.maven.publish")
     id("com.android.library")
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.2"
+    alias(libs.plugins.binaryCompatibilityValidator)
     id("app.cash.licensee")
 }
 

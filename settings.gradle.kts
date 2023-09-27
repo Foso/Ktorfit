@@ -37,5 +37,6 @@ include(":ktorfit-lib-common")
 include(":ktorfit-lib")
 include(":ktorfit-annotations")
 include(":ktorfit-converters:flow")
+include(":ktorfit-converters:call")
 
 //./gradlew clean :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:publishToMavenLocal :ktorfit-lib:publishToMavenLocal :ktorfit-lib-common:publishToMavenLocal :compiler-plugin:publishToMavenLocal
