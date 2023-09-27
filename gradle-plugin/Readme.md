@@ -5,7 +5,7 @@ Add this plugin from Gradle plugin portal:
 
 ```kotlin
 plugins {
-    id "de.jensklingenberg.ktorfit" version "1.0.0"
+    id "de.jensklingenberg.ktorfit" version "LATEST_VERSION"
 }
 ```
 
@@ -13,7 +13,5 @@ The plugin can be configured:
 
 ```kotlin
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
-    enabled = true
-    version = "1.0.0-beta17"
 }
 ```
