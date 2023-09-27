@@ -1,0 +1,14 @@
+public final class de/jensklingenberg/ktorfit/converter/builtin/CallConverterFactory : de/jensklingenberg/ktorfit/converter/Converter$Factory {
+	public fun <init> ()V
+	public fun requestParameterConverter (Lkotlin/reflect/KClass;Lkotlin/reflect/KClass;)Lde/jensklingenberg/ktorfit/converter/Converter$RequestParameterConverter;
+	public fun responseConverter (Lde/jensklingenberg/ktorfit/internal/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/converter/Converter$ResponseConverter;
+	public fun suspendResponseConverter (Lde/jensklingenberg/ktorfit/internal/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/converter/Converter$SuspendResponseConverter;
+}
+
+public final class de/jensklingenberg/ktorfit/converter/builtin/CallResponseConverter : de/jensklingenberg/ktorfit/converter/SuspendResponseConverter, de/jensklingenberg/ktorfit/converter/request/ResponseConverter {
+	public fun <init> ()V
+	public fun supportedType (Lde/jensklingenberg/ktorfit/internal/TypeData;Z)Z
+	public fun wrapResponse (Lde/jensklingenberg/ktorfit/internal/TypeData;Lkotlin/jvm/functions/Function1;Lde/jensklingenberg/ktorfit/Ktorfit;)Ljava/lang/Object;
+	public fun wrapSuspendResponse (Lde/jensklingenberg/ktorfit/internal/TypeData;Lkotlin/jvm/functions/Function1;Lde/jensklingenberg/ktorfit/Ktorfit;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
