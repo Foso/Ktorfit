@@ -3,13 +3,12 @@ import de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.kspPlugin)
-
     id("maven-publish")
     id("signing")
     id("com.vanniktech.maven.publish")
     id("com.android.library")
     alias(libs.plugins.detekt)
-    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.2"
+    alias(libs.plugins.binaryCompatibilityValidator)
     id("app.cash.licensee")
 
 }

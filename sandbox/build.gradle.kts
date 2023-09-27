@@ -58,6 +58,7 @@ kotlin {
             dependencies {
                 implementation(projects.ktorfitLibCommon)
                 implementation(projects.ktorfitConverters.flow)
+                implementation(projects.ktorfitConverters.call)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.ktor.client.content.negotiation)
