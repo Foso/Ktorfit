@@ -80,27 +80,14 @@ kotlin {
                 implementation(projects.ktorfitLibCommon)
             }
         }
-        val linuxX64Main by getting {
-
-        }
-        val mingwX64Main by getting {
-
-        }
-        val androidMain by getting {
-
-        }
-        val jvmMain by getting {
-        }
-
+        val linuxX64Main by getting
+        val mingwX64Main by getting
+        val androidMain by getting
+        val jvmMain by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val jsMain by getting {
-            dependencies {
-
-            }
-        }
-
+        val jsMain by getting
         val iosMain by getting {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)

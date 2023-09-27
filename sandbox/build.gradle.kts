@@ -57,8 +57,7 @@ kotlin {
 
             dependencies {
                 implementation(projects.ktorfitLibCommon)
-              //  implementation(projects.ktorfitConverters.flow)
-                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:1.8.0")
+                implementation(projects.ktorfitConverters.flow)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.ktor.client.content.negotiation)
@@ -129,9 +128,18 @@ kotlin {
 
 
 dependencies {
-    configurations
-        .filter { it.name.startsWith("ksp")   }
-        .forEach {
-            add(it.name, projects.ktorfitKsp)
-        }
+    with(projects.ktorfitKsp) {
+        add(
+            "kspCommonMainMetadata", this
+        )
+        add("kspJvm", this)
+        add("kspIosX64", this)
+
+        // add("kspJvmTest", this)
+        add("kspJs", this)
+        add("kspLinuxX64", this)
+        add("kspMingwX64", this)
+    }
+
+
 }

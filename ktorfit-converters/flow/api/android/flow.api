@@ -1,0 +1,20 @@
+public final class de/jensklingenberg/ktorfit/converter/builtin/FlowConverterFactory : de/jensklingenberg/ktorfit/converter/Converter$Factory {
+	public fun <init> ()V
+	public fun requestParameterConverter (Lkotlin/reflect/KClass;Lkotlin/reflect/KClass;)Lde/jensklingenberg/ktorfit/converter/Converter$RequestParameterConverter;
+	public fun responseConverter (Lde/jensklingenberg/ktorfit/internal/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/converter/Converter$ResponseConverter;
+	public fun suspendResponseConverter (Lde/jensklingenberg/ktorfit/internal/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/converter/Converter$SuspendResponseConverter;
+}
+
+public final class de/jensklingenberg/ktorfit/converter/builtin/FlowResponseConverter : de/jensklingenberg/ktorfit/converter/request/ResponseConverter {
+	public fun <init> ()V
+	public fun supportedType (Lde/jensklingenberg/ktorfit/internal/TypeData;Z)Z
+	public fun wrapResponse (Lde/jensklingenberg/ktorfit/internal/TypeData;Lkotlin/jvm/functions/Function1;Lde/jensklingenberg/ktorfit/Ktorfit;)Ljava/lang/Object;
+}
+
+public final class de/jensklingenberg/ktorfit/converters/flow/BuildConfig {
+	public static final field BUILD_TYPE Ljava/lang/String;
+	public static final field DEBUG Z
+	public static final field LIBRARY_PACKAGE_NAME Ljava/lang/String;
+	public fun <init> ()V
+}
+

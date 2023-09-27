@@ -12,6 +12,7 @@ import io.ktor.util.reflect.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
+@Deprecated("Use CallConverterFactory")
 public class CallResponseConverter : SuspendResponseConverter, ResponseConverter {
 
     override suspend fun <RequestType> wrapSuspendResponse(
