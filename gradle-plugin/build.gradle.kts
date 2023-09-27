@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "de.jensklingenberg.ktorfit"
-version = "1.8.0"
+version = "1.7.0"
 
 
 allprojects {
@@ -29,7 +29,6 @@ java {
 
 dependencies {
     add("compileOnly", kotlin("gradle-plugin"))
-    add("compileOnly", kotlin("gradle-plugin-api"))
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
