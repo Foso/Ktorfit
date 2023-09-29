@@ -11,55 +11,62 @@
 
 ## Introduction
 
-Ktorfit is a HTTP client/Kotlin Symbol Processor for Kotlin Multiplatform ( Android, iOS, Js, Jvm,  Linux) using [KSP](https://github.com/google/ksp) and [Ktor clients](https://ktor.io/docs/getting-started-ktor-client.html) inspired by [Retrofit](https://square.github.io/retrofit/)
+Ktorfit is a HTTP client/Kotlin Symbol Processor for Kotlin Multiplatform ( Android, iOS, Js, Jvm, Linux)
+using [KSP](https://github.com/google/ksp) and [Ktor clients](https://ktor.io/docs/getting-started-ktor-client.html)
+inspired by [Retrofit](https://square.github.io/retrofit/)
 
 ## Show some :heart: and star the repo to support the project
 
 [![GitHub stars](https://img.shields.io/github/stars/Foso/Ktorfit.svg?style=social&label=Star)](https://github.com/Foso/Ktorfit) [![GitHub forks](https://img.shields.io/github/forks/Foso/Ktorfit.svg?style=social&label=Fork)](https://github.com/Foso/Ktorfit/fork) [![Twitter Follow](https://img.shields.io/twitter/follow/jklingenberg_.svg?style=social)](https://twitter.com/jklingenberg_)
 
 ## How to use
+
 Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.github.io/Ktorfit/)
 
 ## Compatibility
 
-| Version      |   Kotlin   |    KSP     |   Ktor    |
-|--------------|:----------:|:----------:|:---------:|
-| **_latest_** | **1.9.10** | **1.0.13** | **2.3.4** |
-| **_1.6.0_**  | **1.9.10** | **1.0.13** | **2.3.3** |
-| **_1.5.0_**  | **1.9.0**  | **1.0.13** | **2.3.2** |
-| **_1.4.3_**  | **1.8.20** | **1.0.11** | **2.3.1** |
-
+| Version                  |      Kotlin      |           KSP           |   Ktor    |
+|--------------------------|:----------------:|:-----------------------:|:---------:|
+| **_1.7.0-1.9.20-Beta2_** | **1.9.20-Beta2** | **1.9.20-Beta2-1.0.13** | **2.3.4** |
+| **_1.7.0_**              |    **1.9.10**    |       **1.0.13**        | **2.3.4** |
+| **_1.6.0_**              |    **1.9.10**    |       **1.0.13**        | **2.3.3** |
+| **_1.5.0_**              |    **1.9.0**     |       **1.0.13**        | **2.3.2** |
+| **_1.4.3_**              |    **1.8.20**    |       **1.0.11**        | **2.3.1** |
 
 # Release
 
 build.gradle.kts:
+
 ```kotlin
 plugins {
-  id("de.jensklingenberg.ktorfit") version "1.7.0"
+    id("de.jensklingenberg.ktorfit") version "1.7.0"
 }
 ```
 
 build.gradle
+
 ```kotlin
 plugins {
-    id ("de.jensklingenberg.ktorfit") version "1.7.0"
+    id("de.jensklingenberg.ktorfit") version "1.7.0"
 }
 ```
 
 KSP:
+
 ```kotlin
-de.jensklingenberg.ktorfit:ktorfit-ksp:1.7.0
+de.jensklingenberg.ktorfit:ktorfit - ksp:1.7.0
 ```
 
 Ktorfit-lib/-light:
+
 ```kotlin
 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:1.7.0")
 or
 implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:1.7.0")
 ```
 
-
 ## 👷 Project Structure
+
 * <kbd>compiler plugin</kbd> - module with source for the compiler plugin
 * <kbd>ktorfit-annotations</kbd> - module with annotations for the Ktorfit
 * <kbd>ktorfit-ksp</kbd> - module with source for the KSP plugin
@@ -72,10 +79,13 @@ implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:1.7.0")
 
 ## ✍️ Feedback
 
-Feel free to send feedback on [Twitter](https://twitter.com/jklingenberg_) or [file an issue](https://github.com/foso/Ktorfit/issues/new). Feature requests/Pull Requests are always welcome. 
+Feel free to send feedback on [Twitter](https://twitter.com/jklingenberg_)
+or [file an issue](https://github.com/foso/Ktorfit/issues/new). Feature requests/Pull Requests are always welcome.
 
 ## Acknowledgments
-Some parts of this project are reusing ideas that are originally coming from [Retrofit](https://square.github.io/retrofit/) from [Square](https://github.com/square). Thank you for Retrofit! 
+
+Some parts of this project are reusing ideas that are originally coming
+from [Retrofit](https://square.github.io/retrofit/) from [Square](https://github.com/square). Thank you for Retrofit!
 
 Thanks to JetBrains for Ktor and Kotlin!
 
@@ -83,8 +93,8 @@ Thanks to JetBrains for Ktor and Kotlin!
 
 Ktorfit is brought to you by these [contributors](https://github.com/Foso/Ktorfit/graphs/contributors).
 
-
 ## 📜 License
 
-This project is licensed under the Apache License, Version 2.0 - see the [LICENSE.md](https://github.com/Foso/Ktorfit/blob/master/LICENSE) file for details
+This project is licensed under the Apache License, Version 2.0 - see
+the [LICENSE.md](https://github.com/Foso/Ktorfit/blob/master/LICENSE) file for details
 

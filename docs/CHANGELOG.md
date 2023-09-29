@@ -21,6 +21,10 @@ Unreleased
 ### Fixed
 ### Security
 
+1.7.0-1.9.20-Beta2 - 2023-09-16
+========================================
+Version of 1.7.0 that is compatible with Kotlin 1.9.20-Beta2
+
 1.7.0 - 2023-09-16
 ========================================
 # Gradle plugin
