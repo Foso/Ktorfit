@@ -52,7 +52,7 @@ ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", vers
 ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktorVersion" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
 
-licensee-gradle-plugin = "app.cash.licensee:licensee-gradle-plugin:1.7.0"
+licensee-gradle-plugin = "app.cash.licensee:licensee-gradle-plugin:1.8.0"
 logbackClassic = "ch.qos.logback:logback-classic:1.4.11"
 mockito-kotlin = "org.mockito.kotlin:mockito-kotlin:4.1.0"
 rxjava3 = "io.reactivex.rxjava3:rxjava:3.1.6"
