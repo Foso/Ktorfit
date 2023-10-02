@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
-val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
+val enableSigning = project.hasProperty("signingInMemoryKey")
 
 plugins {
     kotlin("jvm")
@@ -21,7 +21,7 @@ licensee {
 }
 
 mavenPublishing {
-    coordinates("de.jensklingenberg.ktorfit", "compiler-plugin", libs.versions.ktorfit.asProvider().get())
+    coordinates("de.jensklingenberg.ktorfit", "compiler-plugin", libs.versions.ktorfit.get())
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {

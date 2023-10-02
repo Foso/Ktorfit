@@ -35,14 +35,14 @@ detekt {
     buildUponDefaultConfig = false
 }
 
-val enableSigning = project.hasProperty("ORG_GRADLE_PROJECT_signingInMemoryKey")
+val enableSigning = project.hasProperty("signingInMemoryKey")
 
 mavenPublishing {
 
     coordinates(
         "de.jensklingenberg.ktorfit",
         "ktorfit-lib-light",
-        libs.versions.ktorfit.asProvider().get()
+        libs.versions.ktorfit.get()
     )
     publishToMavenCentral()
     //  publishToMavenCentral(SonatypeHost.S01) // for publishing through s01.oss.sonatype.org

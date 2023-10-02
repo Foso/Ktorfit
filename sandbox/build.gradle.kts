@@ -9,7 +9,7 @@ version = "1.0-SNAPSHOT"
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     enabled = true
-    version = libs.versions.ktorfit.asProvider().get()
+    version = libs.versions.ktorfit.get()
 }
 ksp {
     arg("Ktorfit_Errors", "1")
