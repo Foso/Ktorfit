@@ -42,18 +42,29 @@ public class CallConverterFactory : Converter.Factory {
     private class CallSuspendResponseConverter(val typeData: TypeData, val ktorfit: Ktorfit) :
         Converter.SuspendResponseConverter<HttpResponse, Call<Any?>> {
         override suspend fun convert(response: HttpResponse): Call<Any?> {
+            return convert(Result.success(response))
+        }
 
+        override suspend fun convert(result: Result<HttpResponse>): Call<Any?> {
             return object : Call<Any?> {
                 override fun onExecute(callBack: Callback<Any?>) {
-                    ktorfit.httpClient.launch {
-                        try {
-                            val data = ktorfit.nextSuspendResponseConverter(
-                                null,
-                                typeData.typeArgs.first()
-                            )?.convert(response)
-                            callBack.onResponse(data!!, response)
-                        } catch (ex: Exception) {
-                            callBack.onError(ex)
+                    if (result.isSuccess) {
+                        val response = result.getOrThrow()
+                        ktorfit.httpClient.launch {
+                            try {
+                                val data = ktorfit.nextSuspendResponseConverter(
+                                    null,
+                                    typeData.typeArgs.first()
+                                )?.convert(response)
+                                callBack.onResponse(data!!, response)
+                            } catch (ex: Exception) {
+                                callBack.onError(ex)
+                            }
+                        }
+                    }
+                    if (result.isFailure) {
+                        result.exceptionOrNull()?.let {
+                            callBack.onError(it)
                         }
                     }
                 }

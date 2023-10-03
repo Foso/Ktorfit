@@ -35,7 +35,17 @@ public interface Converter<F, T> {
          *
          * @return the converted [HttpResponse]
          */
+        @Deprecated("Use convert(result: Result<HttpResponse>)")
         public suspend fun convert(response: HttpResponse): T
+
+        public suspend fun convert(result: Result<HttpResponse>): T {
+            return if(result.isSuccess){
+                convert(result.getOrThrow())
+            }else{
+                throw result.exceptionOrNull()!!
+            }
+        }
+
     }
 
     public interface RequestParameterConverter : Converter<Any, Any> {

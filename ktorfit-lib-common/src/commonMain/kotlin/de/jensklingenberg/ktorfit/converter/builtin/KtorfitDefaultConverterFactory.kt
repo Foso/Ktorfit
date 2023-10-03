@@ -12,7 +12,7 @@ import io.ktor.client.statement.*
  */
 internal class KtorfitDefaultConverterFactory : Converter.Factory {
 
-    open class DefaultResponseClassSuspendConverter(val typeData: TypeData, val ktorfit: Ktorfit) :
+    class DefaultResponseClassSuspendConverter(val typeData: TypeData, val ktorfit: Ktorfit) :
         Converter.SuspendResponseConverter<HttpResponse, Response<Any?>> {
         override suspend fun convert(response: HttpResponse): Response<Any?> {
             val typeInfo = typeData.typeArgs.first().typeInfo
@@ -39,6 +39,36 @@ internal class KtorfitDefaultConverterFactory : Converter.Factory {
                         ?: rawResponse.body(typeInfo)
                     Response.success(convertedBody, rawResponse)
                 }
+            }
+        }
+
+        override suspend fun convert(result: Result<HttpResponse>): Response<Any?> {
+            val typeInfo = typeData.typeArgs.first().typeInfo
+            return if(result.isSuccess) {
+                val rawResponse = result.getOrThrow()
+
+                val code: Int = rawResponse.status.value
+                when {
+                    code < 200 || code >= 300 -> {
+                        val errorBody = rawResponse.body<Any>()
+                        Response.error(errorBody, rawResponse)
+                    }
+
+                    code == 204 || code == 205 -> {
+                        Response.success<Any>(null, rawResponse)
+                    }
+
+                    else -> {
+                        val convertedBody = ktorfit.nextSuspendResponseConverter(
+                            null,
+                            typeData.typeArgs.first()
+                        )?.convert(result)
+                            ?: rawResponse.body<Any>(typeInfo)
+                        Response.success(convertedBody, rawResponse)
+                    }
+                }
+            } else {
+                Response.error(null,result.getOrThrow())
             }
         }
     }

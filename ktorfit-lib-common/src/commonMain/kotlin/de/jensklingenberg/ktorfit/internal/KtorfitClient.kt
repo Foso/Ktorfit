@@ -72,10 +72,14 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
             ktorfit.nextSuspendResponseConverter(null, returnTypeData)?.let {
 
-                val response = httpClient.request {
-                    requestBuilder(requestData)
+                val result: Result<HttpResponse> = try {
+                    Result.success(httpClient.request {
+                        requestBuilder(requestData)
+                    })
+                } catch (exception: Exception) {
+                    Result.failure(exception)
                 }
-                return it.convert(response) as ReturnType?
+                return it.convert(result) as ReturnType?
             }
 
             /**

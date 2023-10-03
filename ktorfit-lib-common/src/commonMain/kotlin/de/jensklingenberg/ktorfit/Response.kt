@@ -35,12 +35,12 @@ public class Response<T> private constructor(
     public val isSuccessful: Boolean
         get() = status.isSuccess()
 
-    /** The deserialized response body of a [successful][.isSuccessful] response.  */
+    /** The deserialized response body of a [isSuccessful] response.  */
     public fun body(): T? {
         return body
     }
 
-    /** The raw response body of an [unsuccessful][.isSuccessful] response.  */
+    /** The raw response body of an [unsuccessful] response.  */
     public fun errorBody(): Any? {
         return errorBody
     }
@@ -61,7 +61,7 @@ public class Response<T> private constructor(
         }
 
         /** Create an error response from `rawResponse` with `body` as the error body.  */
-        public fun <T> error(body: Any, rawResponse: HttpResponse): Response<T?> {
+        public fun <T> error(body: Any?, rawResponse: HttpResponse): Response<T?> {
             require(!rawResponse.status.isSuccess()) { "rawResponse should not be successful response" }
             return Response(rawResponse, null, body)
         }
