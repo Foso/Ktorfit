@@ -35,17 +35,21 @@ public interface Converter<F, T> {
          *
          * @return the converted [HttpResponse]
          */
-        @Deprecated("Use convert(result: Result<HttpResponse>)")
+        @Deprecated("Use convert(ktorfitResponse: KtorfitResponse)")
         public suspend fun convert(response: HttpResponse): T
 
-        public suspend fun convert(result: Result<HttpResponse>): T {
-            return if(result.isSuccess){
-                convert(result.getOrThrow())
-            }else{
-                throw result.exceptionOrNull()!!
-            }
-        }
+        public suspend fun convert(ktorfitResponse: KtorfitResponse): T {
+            return when (ktorfitResponse) {
+                is KtorfitResponse.Failed -> {
+                    throw ktorfitResponse.throwable
+                }
 
+                is KtorfitResponse.Success -> {
+                    convert(ktorfitResponse.response)
+                }
+            }
+
+        }
     }
 
     public interface RequestParameterConverter : Converter<Any, Any> {

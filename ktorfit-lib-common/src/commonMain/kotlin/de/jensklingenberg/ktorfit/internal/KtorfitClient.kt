@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.internal
 
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.converter.KtorfitResponse
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -72,12 +73,12 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
             ktorfit.nextSuspendResponseConverter(null, returnTypeData)?.let {
 
-                val result: Result<HttpResponse> = try {
-                    Result.success(httpClient.request {
+                val result: KtorfitResponse = try {
+                    KtorfitResponse.Success(httpClient.request {
                         requestBuilder(requestData)
                     })
                 } catch (exception: Exception) {
-                    Result.failure(exception)
+                    KtorfitResponse.Failed(exception)
                 }
                 return it.convert(result) as ReturnType?
             }

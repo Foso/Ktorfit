@@ -54,18 +54,13 @@ fun main() {
 
     runBlocking {
 
-        val user = userKtorfit.create<ExampleApi>().getCallUser()
+        val user = userKtorfit.create<ExampleApi>().getUser()
 
-        user.onExecute(object : Callback<User>{
-            override fun onResponse(call: User, response: HttpResponse) {
-                call
-            }
-
-            override fun onError(exception: Throwable) {
-               exception
-            }
-
-        })
+        if (user.isSuccessful) {
+            println(user.body())
+        } else {
+            user.errorBody()
+        }
         delay(3000)
     }
 
