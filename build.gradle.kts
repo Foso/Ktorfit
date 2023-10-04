@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform") apply false
-    id("com.vanniktech.maven.publish") version libs.versions.vannikMavenPublish.get() apply false
+    alias(libs.plugins.mavenPublish) apply false
 }
 
 buildscript {
