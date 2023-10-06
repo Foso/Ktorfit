@@ -16,31 +16,29 @@ internal class KtorfitDefaultConverterFactory : Converter.Factory {
         Converter.SuspendResponseConverter<HttpResponse, Response<Any?>> {
         override suspend fun convert(response: HttpResponse): Response<Any?> {
             val typeInfo = typeData.typeArgs.first().typeInfo
-            return try {
-                val rawResponse = response
 
-                val code: Int = rawResponse.status.value
-                when {
-                    code < 200 || code >= 300 -> {
-                        val errorBody = rawResponse.body<Any>()
-                        Response.error(errorBody, rawResponse)
-                    }
+            val rawResponse = response
 
-                    code == 204 || code == 205 -> {
-                        Response.success<Any>(null, rawResponse)
-                    }
+            val code: Int = rawResponse.status.value
 
-                    else -> {
-                        val convertedBody = ktorfit.nextSuspendResponseConverter(
-                            null,
-                            typeData.typeArgs.first()
-                        )?.convert(rawResponse)
-                            ?: rawResponse.body<Any>(typeInfo)
-                        Response.success(convertedBody, rawResponse)
-                    }
+            return when {
+                code < 200 || code >= 300 -> {
+                    val errorBody = rawResponse.body<Any>()
+                    Response.error(errorBody, rawResponse)
                 }
-            } catch (exception: Exception) {
-                throw exception
+
+                code == 204 || code == 205 -> {
+                    Response.success<Any>(null, rawResponse)
+                }
+
+                else -> {
+                    val convertedBody = ktorfit.nextSuspendResponseConverter(
+                        null,
+                        typeData.typeArgs.first()
+                    )?.convert(rawResponse)
+                        ?: rawResponse.body(typeInfo)
+                    Response.success(convertedBody, rawResponse)
+                }
             }
         }
     }

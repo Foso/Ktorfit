@@ -1,13 +1,16 @@
 Releasing
 =========
 
- 1. Change the version in `gradle.properties` to a non-SNAPSHOT version.
- 2. Update the `CHANGELOG.md` for the impending release.
- 3. `git commit -am "Prepare for release X.Y.Z."` (where X.Y.Z is the new version)
- 4. `git tag -a X.Y.Z -m "Version X.Y.Z"` (where X.Y.Z is the new version)
- 5. `./gradlew clean publish --no-daemon --no-parallel && ./gradlew closeAndReleaseRepository`
- 6. Update the `gradle.properties` to the next SNAPSHOT version.
- 7. `git commit -am "Prepare next development version."`
- 8. `git push && git push --tags`
+# Publish new version
 
-//publishAllPublicationsToMavenCentralRepository
+1. Create new branch `release/X.Y.Z` from `master` branch
+2. Update **ktorfit** version inside `gradle/libs.versions.toml`
+3. Update Compatibility table in Readme.md
+4. Update ktorfit release version in mkdocs.yml
+5. `git commit -am "Release X.Y.Z."` (where X.Y.Z is the new version)
+6. Push and create a PR to the `master` branch
+7. When all checks successful, run GitHub Action `Publish Release` from your branch
+8. Set the Git tag `git tag -a X.Y.Z -m "X.Y.Z"` (where X.Y.Z is the new version)
+9. Merge the PR
+10. Create a new release with for the Tag on GitHub
+11. Put the relevant changelog in the release description

@@ -18,10 +18,6 @@ fun getHeadersCode(
     arrayType: KSType
 ): String {
 
-    val contentTypeText = if (functionAnnotations.anyInstance<FormUrlEncoded>()) {
-        "append(\"Content-Type\", \"application/x-www-form-urlencoded\")\n"
-    } else ""
-
     val headerAnnotationText =
         parameterDataList
             .filter { it.hasAnnotation<Header>() }
@@ -59,6 +55,10 @@ fun getHeadersCode(
         .joinToString("") {
             "${it.name}?.forEach { append(it.key, \"\${it.value}\") }\n"
         }
+
+    val contentTypeText = if (functionAnnotations.anyInstance<FormUrlEncoded>()) {
+        "append(\"Content-Type\", \"application/x-www-form-urlencoded\")\n"
+    } else ""
 
     return "$contentTypeText$headerAnnotationText$headerMapAnnotationText$headersAnnotationText".surroundIfNotEmpty(
         "headers{\n",

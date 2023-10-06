@@ -22,11 +22,10 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
             ?: KtorfitGradleConfiguration()
 
         return kotlinCompilation.target.project.provider {
-            val options = mutableListOf(
+            listOf(
                 SubpluginOption("enabled", gradleExtension.enabled.toString()),
                 SubpluginOption("logging", gradleExtension.logging.toString())
             )
-            options
         }
     }
 
