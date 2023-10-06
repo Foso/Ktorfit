@@ -6,19 +6,10 @@ import io.ktor.http.*
 /** An HTTP response.  */
 @Suppress("MemberVisibilityCanBePrivate")
 public class Response<T> private constructor(
-    rawResponse: HttpResponse,
-    body: T?,
-    errorBody: Any?,
+    private val rawResponse: HttpResponse,
+    private val body: T?,
+    private val errorBody: Any?,
 ) {
-    private val rawResponse: HttpResponse
-    private val body: T?
-    private val errorBody: Any?
-
-    init {
-        this.rawResponse = rawResponse
-        this.body = body
-        this.errorBody = errorBody
-    }
 
     /** The raw response from the HTTP client.  */
     public fun raw(): HttpResponse {

@@ -7,13 +7,10 @@ import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.KtorfitDefaultConverterFactory
-import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
 import de.jensklingenberg.ktorfit.converter.request.RequestConverter
 import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
 import de.jensklingenberg.ktorfit.internal.*
-import de.jensklingenberg.ktorfit.internal.DefaultKtorfitService
-import de.jensklingenberg.ktorfit.internal.KtorfitClient
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.statement.*
@@ -26,9 +23,9 @@ import kotlin.reflect.KClass
 public class Ktorfit private constructor(
     public val baseUrl: String,
     public val httpClient: HttpClient = HttpClient(),
-    public val responseConverters: Set<ResponseConverter>,
-    public val suspendResponseConverters: Set<SuspendResponseConverter>,
-    internal val requestConverters: Set<RequestConverter>,
+    @Deprecated("Use converterFactories") public val responseConverters: Set<ResponseConverter>,
+    @Deprecated("Use converterFactories") public val suspendResponseConverters: Set<SuspendResponseConverter>,
+    @Deprecated("Use converterFactories") internal val requestConverters: Set<RequestConverter>,
     private val converterFactories: List<Converter.Factory>
 ) {
 
@@ -41,13 +38,9 @@ public class Ktorfit private constructor(
         type: TypeData
     ): Converter.ResponseConverter<HttpResponse, *>? {
         val start = converterFactories.indexOf(currentFactory) + 1
-        (start until converterFactories.size).forEach {
-            val converter = converterFactories[it].responseConverter(type, this)
-            if (converter != null) {
-                return converter
-            }
-        }
-        return null
+        return converterFactories
+            .subList(start, converterFactories.size)
+            .firstNotNullOfOrNull { it.responseConverter(type, this) }
     }
 
     /**
@@ -59,13 +52,9 @@ public class Ktorfit private constructor(
         type: TypeData
     ): Converter.SuspendResponseConverter<HttpResponse, *>? {
         val start = converterFactories.indexOf(currentFactory) + 1
-        (start until converterFactories.size).forEach {
-            val converter = converterFactories[it].suspendResponseConverter(type, this)
-            if (converter != null) {
-                return converter
-            }
-        }
-        return null
+        return converterFactories
+            .subList(start, converterFactories.size)
+            .firstNotNullOfOrNull { it.suspendResponseConverter(type, this) }
     }
 
     /**
@@ -78,13 +67,9 @@ public class Ktorfit private constructor(
         requestType: KClass<*>
     ): Converter.RequestParameterConverter? {
         val start = converterFactories.indexOf(currentFactory) + 1
-        (start until converterFactories.size).forEach {
-            val converter = converterFactories[it].requestParameterConverter(parameterType, requestType)
-            if (converter != null) {
-                return converter
-            }
-        }
-        return null
+        return converterFactories
+            .subList(start, converterFactories.size)
+            .firstNotNullOfOrNull { it.requestParameterConverter(parameterType, requestType) }
     }
 
     /**
@@ -241,11 +226,11 @@ public fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit): Ktorfit.Builder 
 
 @Deprecated("Use the non-Extension function")
 /**
-         * This will return an implementation of [T] if [T] is an interface
-         * with Ktorfit annotations.
-         * @param ktorfitService Please keep the default parameter, it will be replaced
-         * by the compiler plugin
-         */
+ * This will return an implementation of [T] if [T] is an interface
+ * with Ktorfit annotations.
+ * @param ktorfitService Please keep the default parameter, it will be replaced
+ * by the compiler plugin
+ */
 public fun <T> Ktorfit.create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
     return this.create(ktorfitService)
 }
