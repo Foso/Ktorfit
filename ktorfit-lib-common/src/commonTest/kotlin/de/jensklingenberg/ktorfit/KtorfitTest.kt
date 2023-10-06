@@ -3,6 +3,7 @@ package de.jensklingenberg.ktorfit
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.internal.TypeData
+import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
 import kotlin.test.DefaultAsserter.assertEquals
@@ -16,8 +17,14 @@ class KtorfitTest {
     @Test
     fun whenSuspendResponseConverterForStringAdded_FindIt() {
 
+        val engine = object : TestEngine() {
+            override fun getRequestData(data: HttpRequestData) {
+            }
+        }
+
         val ktorfit =
             Ktorfit.Builder()
+                .httpClient(engine)
                 .baseUrl("http://test.de/")
                 .converterFactories(TestConverterFactory())
                 .build()
@@ -45,9 +52,14 @@ class KtorfitTest {
 
     @Test
     fun whenResponseConverterForStringAdded_FindIt() {
+        val engine = object : TestEngine() {
+            override fun getRequestData(data: HttpRequestData) {
+            }
+        }
 
         val ktorfit =
             Ktorfit.Builder()
+                .httpClient(engine)
                 .baseUrl("http://test.de/")
                 .converterFactories(TestConverterFactory())
                 .build()
@@ -60,9 +72,14 @@ class KtorfitTest {
 
     @Test
     fun whenNoResponseConverterForStringAdded_ReturnNull() {
+        val engine = object : TestEngine() {
+            override fun getRequestData(data: HttpRequestData) {
+            }
+        }
 
         val ktorfit =
             Ktorfit.Builder()
+                .httpClient(engine)
                 .baseUrl("http://test.de/")
                 .build()
 

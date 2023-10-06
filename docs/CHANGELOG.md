@@ -43,88 +43,45 @@ id("de.jensklingenberg.ktorfit") version "1.7.0"
 ### Changed
 - Upgrade dependencies: Ktor 2.3.4
 
-### Deprecated
-### Removed
-### Fixed
-### Security
-
 1.6.0 - 2023-08-24
 ========================================
 
-### Added
 ### Changed
 * KSP version 1.9.10-1.0.13 is now required
 - Upgrade dependencies: Ktor 2.3.3
 
-### Deprecated
-### Removed
-### Fixed
-### Security
-
 1.5.0 - 2023-08-04
 ========================================
 
-### Added
 ### Changed
 * KSP version 1.9.0-1.0.13 is now needed
-
-### Deprecated
-### Removed
-### Fixed
-### Security
 
 1.4.4 - 2023-07-26
 ========================================
 
-### Added
 ### Changed
 - Upgrade dependencies: Ktor 2.3.2
-
-### Deprecated
-### Removed
-### Fixed
-### Security
 
 1.4.3 - 2023-07-13
 ========================================
 
-### Added
-### Changed
-### Deprecated
-### Removed
 ### Fixed
 #372 Crash with Xiaomi on create Ktorfit.Builder by @princeparadoxes
-
-### Security
 
 1.4.2 - 2023-06-25
 ========================================
 
-### Added
-### Changed
-### Deprecated
-### Removed
 ### Fixed
 #323 Code generation issue for @Multipart / @FormUrlEncoded by @Ph1ll1pp
-
-### Security
 
 1.4.1 - 2023-06-03
 ========================================
 
-### Added
-
 ### Changed
 - Upgrade dependencies: Ktor 2.3.1
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 #236 Parsing error for list/array
-
-### Security
 
 1.4.0 - 2023-05-27
 ========================================
@@ -166,16 +123,8 @@ macosArm64, tvosArm64, tvosX64, tvosSimulatorArm64, watchosSimulatorArm64 #315
 * RequestConverter, use Converter.RequestParameterConverter instead
 * See also: https://foso.github.io/Ktorfit/converters/migration/
 
-### Removed
-
-### Fixed
-
-### Security
-
 1.3.0 - 2023-05-14
 ========================================
-
-### Added
 
 ### Changed
 * Optimized generated code, the generated code that is used for a request will 
@@ -184,32 +133,14 @@ macosArm64, tvosArm64, tvosX64, tvosSimulatorArm64, watchosSimulatorArm64 #315
 
 * KSP version 1.0.11 is now needed
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 [Bug]: IllegalArgumentException with Custom Http Annotation #274
-
-### Security
 
 ### Bumped
 KSP version to 1.0.11
 
 1.2.0 - 2023-05-05
 ========================================
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 
 ### Bumped
 Now based on Ktor 2.3.0
@@ -232,14 +163,6 @@ Everything else is the same as "ktorfit-lib"
 * Kotlin version 1.8.20 is now needed
 * KSP version 1.8.20-1.0.10 is now needed
 
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
-
 ### Bumped
 * Kotlin to 1.8.20
 * KSP version to 1.8.20-1.0.10
@@ -258,18 +181,8 @@ this will only add the client core dependency and not the platform dependencies 
 This will give you more control over the used clients, but you have to add them yourself. https://ktor.io/docs/http-client-engines.html
 Everything else is the same as "ktorfit-lib"
 
-### Changed
-
-### Deprecated
-
-### Removed
-
 ### Fixed
 [Bug]: Post request body serialization doesn't work #202
-
-### Security
-
-### Bumped
 
 ---
 
