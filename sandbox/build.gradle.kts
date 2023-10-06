@@ -68,8 +68,6 @@ kotlin {
         }
         val linuxX64Main by getting {
             dependencies {
-
-                implementation(libs.ktor.client.core.native)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.curl)
                 implementation(libs.ktor.client.core.linux)
@@ -85,7 +83,7 @@ kotlin {
             dependencies {
                 implementation(libs.ktor.client.core.jvm)
                 implementation(libs.kotlinx.coroutines.rx3)
-                implementation(libs.rxjava3)
+                implementation("io.reactivex.rxjava3:rxjava:3.1.7")
 
                 implementation(libs.ktor.client.logging)
                // implementation(libs.logbackClassic)

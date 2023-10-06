@@ -34,10 +34,8 @@ public class CallResponseConverter : SuspendResponseConverter, ResponseConverter
                     } catch (ex: Exception) {
                         callBack.onError(ex)
                     }
-
                 }
             }
-
         }
     }
 
