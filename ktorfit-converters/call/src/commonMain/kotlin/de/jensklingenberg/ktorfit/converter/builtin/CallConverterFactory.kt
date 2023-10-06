@@ -18,6 +18,8 @@ public class CallConverterFactory : Converter.Factory {
     private class CallResponseConverter(val typeData: TypeData, val ktorfit: Ktorfit) :
         Converter.ResponseConverter<HttpResponse, Call<Any?>> {
 
+
+
         override fun convert(getResponse: suspend () -> HttpResponse): Call<Any?> {
             return object : Call<Any?> {
                 override fun onExecute(callBack: Callback<Any?>) {

@@ -72,7 +72,7 @@ internal class KtorfitDefaultConverterFactory : Converter.Factory {
                 }
 
                 is KtorfitResponse.Failed -> {
-                    throw ktorfitResponse.throwable
+                    Response.error(null,null,ktorfitResponse.throwable)
                 }
             }
         }
