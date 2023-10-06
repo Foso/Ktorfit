@@ -6,7 +6,6 @@ import com.google.devtools.ksp.symbol.KSType
 import com.squareup.kotlinpoet.FileSpec
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.WILDCARDIMPORT
-import de.jensklingenberg.ktorfit.model.ktorfitClass
 import java.io.File
 
 fun KSType?.resolveTypeName(): String {
@@ -14,11 +13,9 @@ fun KSType?.resolveTypeName(): String {
     return this.toString().removePrefix("[typealias ").removeSuffix("]")
 }
 
-
 inline fun <reified T> FunctionData.findAnnotationOrNull(): T? {
     return this.annotations.firstOrNull { it is T } as? T
 }
-
 
 fun String.prefixIfNotEmpty(s: String): String {
     return (s + this).takeIf { this.isNotEmpty() } ?: this
@@ -32,28 +29,17 @@ fun String.surroundIfNotEmpty(prefix: String = "", postFix: String = ""): String
     return this.prefixIfNotEmpty(prefix).postfixIfNotEmpty(postFix)
 }
 
-
-fun String.surroundWith(s: String): String {
-    return s + this + s
-}
-
 /**
  * Gets the imports of a class by reading the imports from the file
  * which contains the class
  *  TODO: Find better way to get imports
  */
 fun KSClassDeclaration.getFileImports(): List<String> {
-    val importList =
-        File(this.containingFile!!.filePath)
-            .readLines()
-            .filter { it.trimStart().startsWith("import") }
-            .filter { !it.startsWith("import de.jensklingenberg.ktorfit.http.") }
-            .toMutableSet()
-
-    importList.add(ktorfitClass.packageName + "." + ktorfitClass.name)
-    importList.add("de.jensklingenberg.ktorfit.internal.*")
-
-    return importList.map { it.removePrefix("import ") }
+    return File(this.containingFile!!.filePath)
+        .readLines()
+        .filter { it.trimStart().startsWith("import") && !it.startsWith("import de.jensklingenberg.ktorfit.http.") }
+        .toMutableSet()
+        .map { it.removePrefix("import ") }
 }
 
 

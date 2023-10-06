@@ -14,7 +14,7 @@ licensee {
 }
 
 
-val enableSigning = true
+val enableSigning = project.hasProperty("signingInMemoryKey")
 
 mavenPublishing {
 

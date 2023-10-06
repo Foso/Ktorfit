@@ -39,9 +39,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
         .addMember("InternalKtorfitApi::class")
         .build()
 
-
     val createExtensionFunctionSpec = getCreateExtensionFunctionSpec(classData)
-
 
     val properties = classData.properties.map { property ->
         val propBuilder = PropertySpec.builder(
@@ -108,7 +106,6 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
 private fun getCreateExtensionFunctionSpec(
     classData: ClassData
 ): FunSpec {
-
     return FunSpec.builder("create${classData.name}")
         .addModifiers(classData.modifiers)
         .addStatement("return this.create(_${classData.name}Impl())")
@@ -125,11 +122,14 @@ private fun getCreateExtensionFunctionSpec(
  */
 fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     val ksClassDeclaration = this
-    val imports = ksClassDeclaration.getFileImports().toMutableList().also {
-        it.add("io.ktor.util.reflect.*")
-        it.add("io.ktor.client.request.*")
-        it.add("io.ktor.http.*")
+    val imports = ksClassDeclaration.getFileImports().toMutableList().apply {
+        add("io.ktor.util.reflect.*")
+        add("io.ktor.client.request.*")
+        add("io.ktor.http.*")
+        add(ktorfitClass.packageName + "." + ktorfitClass.name)
+        add("de.jensklingenberg.ktorfit.internal.*")
     }
+
     val packageName = ksClassDeclaration.packageName.asString()
     val className = ksClassDeclaration.simpleName.asString()
 
@@ -140,8 +140,10 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             return@map funcDeclaration.toFunctionData(logger)
         }
 
-    if (functionDataList.any { it -> it.annotations.any { it is FormUrlEncoded || it is Multipart } ||
-                it.parameterDataList.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<Part>() } }) {
+    if (functionDataList.any { it ->
+            it.annotations.any { it is FormUrlEncoded || it is Multipart } ||
+                    it.parameterDataList.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<Part>() }
+        }) {
         imports.add("io.ktor.client.request.forms.*")
     }
 
@@ -156,7 +158,6 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         }
     val properties = ksClassDeclaration.getAllProperties().toList()
 
-
     return ClassData(
         name = className,
         packageName = packageName,
@@ -165,7 +166,7 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         superClasses = filteredSupertypes,
         properties = properties,
         modifiers = ksClassDeclaration.modifiers.mapNotNull { it.toKModifier() },
-        ksFile = this.getKsFile()
+        ksFile = ksClassDeclaration.getKsFile()
     )
 }
 
@@ -173,11 +174,13 @@ private fun checkClassForErrors(ksClassDeclaration: KSClassDeclaration, logger: 
     val isJavaClass = ksClassDeclaration.origin.name == "JAVA"
     if (isJavaClass) {
         logger.error(KtorfitError.JAVA_INTERFACES_ARE_NOT_SUPPORTED, ksClassDeclaration)
+        return
     }
 
     val isInterface = ksClassDeclaration.classKind == ClassKind.INTERFACE
     if (!isInterface) {
         logger.error(KtorfitError.API_DECLARATIONS_MUST_BE_INTERFACES, ksClassDeclaration)
+        return
     }
 
     val hasTypeParameters = ksClassDeclaration.typeParameters.isNotEmpty()
@@ -186,10 +189,12 @@ private fun checkClassForErrors(ksClassDeclaration: KSClassDeclaration, logger: 
             KtorfitError.TYPE_PARAMETERS_ARE_UNSUPPORTED_ON + " ${ksClassDeclaration.simpleName.asString()}",
             ksClassDeclaration
         )
+        return
     }
 
     if (ksClassDeclaration.packageName.asString().isEmpty()) {
         logger.error(KtorfitError.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE, ksClassDeclaration)
+        return
     }
 }
 

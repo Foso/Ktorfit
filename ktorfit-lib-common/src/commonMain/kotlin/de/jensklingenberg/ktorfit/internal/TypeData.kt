@@ -23,15 +23,14 @@ public data class TypeData(
 
             val typeArgument = qualifiedTypename.substringAfter("<").substringBeforeLast(">")
             val spilt = typeArgument.split(",")
-            val args = mutableListOf<TypeData>()
-            typeInfo.kotlinType?.arguments?.forEachIndexed { index, kTypeProjection ->
+            val args = typeInfo.kotlinType?.arguments?.mapIndexed { index, kTypeProjection ->
                 val cleaned = spilt[index].trim()
 
                 val modelKType = kTypeProjection.type
                 val modelClass = (modelKType?.classifier as? KClass<*>?)!!
 
-                args.add(createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType)))
-            }
+                createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType))
+            }.orEmpty()
 
             return TypeData(qualifiedTypename.substringBefore("<"), args, typeInfo = typeInfo)
         }

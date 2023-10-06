@@ -1,7 +1,13 @@
 package de.jensklingenberg.ktorfit.model.annotations
 
 enum class HttpMethod(val keyword: String) {
-    GET("GET"), POST("POST"), PUT("PUT"), DELETE("DELETE"), HEAD("HEAD"), PATCH("PATCH"), CUSTOM("")
+    GET("GET"),
+    POST("POST"),
+    PUT("PUT"),
+    DELETE("DELETE"),
+    HEAD("HEAD"),
+    PATCH("PATCH"),
+    CUSTOM("")
 }
 
 

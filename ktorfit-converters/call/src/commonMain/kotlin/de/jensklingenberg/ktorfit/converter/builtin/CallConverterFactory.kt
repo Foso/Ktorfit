@@ -31,23 +31,12 @@ public class CallConverterFactory : Converter.Factory {
                                 ?: response.body(typeData.typeArgs.first().typeInfo)
                             callBack.onResponse(convertedBody, response)
                         } catch (ex: Exception) {
-                            println(ex)
                             callBack.onError(ex)
                         }
                     }
                 }
             }
         }
-    }
-
-    override fun responseConverter(
-        typeData: TypeData,
-        ktorfit: Ktorfit
-    ): Converter.ResponseConverter<HttpResponse, *>? {
-        if (typeData.typeInfo.type == Call::class) {
-            return CallResponseConverter(typeData, ktorfit)
-        }
-        return null
     }
 
     private class CallSuspendResponseConverter(val typeData: TypeData, val ktorfit: Ktorfit) :
@@ -71,6 +60,17 @@ public class CallConverterFactory : Converter.Factory {
             }
         }
     }
+
+    override fun responseConverter(
+        typeData: TypeData,
+        ktorfit: Ktorfit
+    ): Converter.ResponseConverter<HttpResponse, *>? {
+        if (typeData.typeInfo.type == Call::class) {
+            return CallResponseConverter(typeData, ktorfit)
+        }
+        return null
+    }
+
 
     override fun suspendResponseConverter(
         typeData: TypeData,

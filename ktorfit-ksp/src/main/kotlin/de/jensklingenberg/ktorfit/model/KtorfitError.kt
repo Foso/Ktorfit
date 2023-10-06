@@ -1,6 +1,6 @@
 package de.jensklingenberg.ktorfit.model
 
-class KtorfitError {
+internal class KtorfitError {
 
     companion object {
         const val FUNCTION_OR_PARAMETERS_TYPES_MUST_NOT_INCLUDE_ATYPE_VARIABLE_OR_WILDCARD =
@@ -12,7 +12,6 @@ class KtorfitError {
         const val QUERY_MAP_PARAMETER_TYPE_MUST_BE_MAP = "@QueryMap parameter type must be Map."
         const val QUERY_MAP_KEYS_MUST_BE_OF_TYPE_STRING = "@QueryMap keys must be of type String:"
         const val URL_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE = "Url parameter type may not be nullable"
-
         const val FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP = "@FieldMap parameter type must be Map."
         const val FIELD_MAP_KEYS_MUST_BE_OF_TYPE_STRING = "@FieldMap keys must be of type String:"
         const val ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED = "Only one RequestBuilder is allowed."
@@ -26,22 +25,12 @@ class KtorfitError {
         const val PART_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE = "Part parameter type may not be nullable"
         const val PATH_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE = "Path parameter type may not be nullable"
         const val API_DECLARATIONS_MUST_BE_INTERFACES = "API declarations must be interfaces."
-
         const val PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON = "@Path can only be used with relative url on "
         const val NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY = "Non-body HTTP method cannot contain @Body"
         const val BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING =
             "@Body parameters cannot be used with form or multi-part encoding"
         const val FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT =
             "For streaming the return type must be io.ktor.client.statement.HttpStatement"
-
-        fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) =
-            "Missing either @$keyword URL or @Url parameter"
-
-        fun NO_KTORFIT_ANNOTATION_FOUND_AT(parameterName: String): String {
-            return "No Ktorfit Annotation found at $parameterName"
-        }
-
-        fun MISSING_X_IN_RELATIVE_URL_PATH(keyword: String) = "Missing {${keyword}} in relative url path"
         const val JAVA_INTERFACES_ARE_NOT_SUPPORTED = "Java Interfaces are not supported"
         const val INTERFACE_NEEDS_TO_HAVE_A_PACKAGE = "Interface needs to have a package"
         const val ONLY_ONE_HTTP_METHOD_IS_ALLOWED = "Only one HTTP method is allowed."
@@ -53,11 +42,13 @@ class KtorfitError {
         const val MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS =
             "Multipart can only be specified on HTTP methods with request body (e.g., @POST)"
         const val VARARG_NOT_SUPPORTED_USE_LIST_OR_ARRAY = "vararg not supported use List or Array"
-        const val NULLABLE_PARAMETERS_ARE_NOT_SUPPORTED = "Nullable Parameters Are Not Supported"
-        fun NO_HTTP_ANNOTATION_AT(functionName: String) = "No Http annotation at $functionName"
-        fun URL_CAN_ONLY_BE_USED_WITH_EMPY(keyword: String) = "@Url can only be used with empty @${keyword} URL value"
         const val HEADERS_VALUE_MUST_BE_IN_FORM = "@Headers value must be in the form \"Name: Value\". Found: "
         const val PROPERTIES_NOT_SUPPORTED = "throw IllegalStateException(\"Properties not supported by Ktorfit\")"
 
+        fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) = "Missing either @$keyword URL or @Url parameter"
+        fun NO_KTORFIT_ANNOTATION_FOUND_AT(parameterName: String): String = "No Ktorfit Annotation found at $parameterName"
+        fun MISSING_X_IN_RELATIVE_URL_PATH(keyword: String) = "Missing {${keyword}} in relative url path"
+        fun NO_HTTP_ANNOTATION_AT(functionName: String) = "No Http annotation at $functionName"
+        fun URL_CAN_ONLY_BE_USED_WITH_EMPY(keyword: String) = "@Url can only be used with empty @${keyword} URL value"
     }
 }

@@ -25,7 +25,6 @@ public class FlowConverterFactory : Converter.Factory {
                 override fun convert(getResponse: suspend () -> HttpResponse): Flow<Any?> {
                     val requestType = typeData.typeArgs.first()
                     return flow {
-                        try {
                             val response = getResponse()
                             if (requestType.typeInfo.type == HttpResponse::class) {
                                 emit(response)
@@ -35,13 +34,8 @@ public class FlowConverterFactory : Converter.Factory {
                                     typeData.typeArgs.first()
                                 )?.convert(response)
                                     ?: response.body(typeData.typeArgs.first().typeInfo)
-                                Response.success(convertedBody, response)
-
                                 emit(convertedBody)
                             }
-                        } catch (exception: Exception) {
-                            throw exception
-                        }
                     }
                 }
             }

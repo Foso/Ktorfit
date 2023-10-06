@@ -10,10 +10,8 @@ import io.ktor.util.reflect.*
 @InternalKtorfitApi
 public data class RequestData(
     val ktorfitRequestBuilder: HttpRequestBuilder.() -> Unit = {},
-    val returnTypeName: String,
-    val returnTypeInfo: TypeInfo
+    private val returnTypeName: String,
+    private val returnTypeInfo: TypeInfo
 ) {
-
     internal fun getTypeData(): TypeData = createTypeData(returnTypeName, returnTypeInfo)
-
 }
