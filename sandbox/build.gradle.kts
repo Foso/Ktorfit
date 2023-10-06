@@ -83,7 +83,7 @@ kotlin {
             dependencies {
                 implementation(libs.ktor.client.core.jvm)
                 implementation(libs.kotlinx.coroutines.rx3)
-                implementation("io.reactivex.rxjava3:rxjava:3.1.7")
+                implementation("io.reactivex.rxjava3:rxjava:3.1.8")
 
                 implementation(libs.ktor.client.logging)
                // implementation(libs.logbackClassic)
