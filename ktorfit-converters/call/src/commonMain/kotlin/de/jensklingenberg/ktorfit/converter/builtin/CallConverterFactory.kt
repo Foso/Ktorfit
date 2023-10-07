@@ -4,7 +4,7 @@ import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.Callback
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.Converter
-import de.jensklingenberg.ktorfit.converter.KtorfitResponse
+import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
@@ -17,8 +17,6 @@ public class CallConverterFactory : Converter.Factory {
 
     private class CallResponseConverter(val typeData: TypeData, val ktorfit: Ktorfit) :
         Converter.ResponseConverter<HttpResponse, Call<Any?>> {
-
-
 
         override fun convert(getResponse: suspend () -> HttpResponse): Call<Any?> {
             return object : Call<Any?> {
@@ -45,15 +43,15 @@ public class CallConverterFactory : Converter.Factory {
     private class CallSuspendResponseConverter(val typeData: TypeData, val ktorfit: Ktorfit) :
         Converter.SuspendResponseConverter<HttpResponse, Call<Any?>> {
         override suspend fun convert(response: HttpResponse): Call<Any?> {
-            return convert(KtorfitResponse.Success(response))
+            return convert(KtorfitResult.Success(response))
         }
 
-        override suspend fun convert(ktorfitResponse: KtorfitResponse): Call<Any?> {
+        override suspend fun convert(ktorfitResult: KtorfitResult): Call<Any?> {
             return object : Call<Any?> {
                 override fun onExecute(callBack: Callback<Any?>) {
-                    when (ktorfitResponse) {
-                        is KtorfitResponse.Success -> {
-                            val response = ktorfitResponse.response
+                    when (ktorfitResult) {
+                        is KtorfitResult.Success -> {
+                            val response = ktorfitResult.response
                             ktorfit.httpClient.launch {
                                 try {
                                     val data = ktorfit.nextSuspendResponseConverter(
@@ -67,12 +65,11 @@ public class CallConverterFactory : Converter.Factory {
                             }
                         }
 
-                        is KtorfitResponse.Failed -> {
-                            ktorfitResponse.throwable.let {
+                        is KtorfitResult.Failed -> {
+                            ktorfitResult.throwable.let {
                                 callBack.onError(it)
                             }
                         }
-
                     }
                 }
             }

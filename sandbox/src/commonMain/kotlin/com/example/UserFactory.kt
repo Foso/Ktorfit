@@ -4,7 +4,7 @@ import com.example.model.Envelope
 import com.example.model.User
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.Converter
-import de.jensklingenberg.ktorfit.converter.KtorfitResponse
+import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
@@ -22,13 +22,13 @@ class UserFactory : Converter.Factory {
                     return envelope.user
                 }
 
-                override suspend fun convert(ktorfitResponse: KtorfitResponse): Any {
-                   return when(ktorfitResponse){
-                        is KtorfitResponse.Failed -> {
-
+                override suspend fun convert(ktorfitResult: KtorfitResult): Any {
+                   return when(ktorfitResult){
+                        is KtorfitResult.Failed -> {
+                            throw ktorfitResult.throwable
                         }
-                        is KtorfitResponse.Success -> {
-                            convert(ktorfitResponse.response)
+                        is KtorfitResult.Success -> {
+                            convert(ktorfitResult.response)
                         }
                     }
                 }

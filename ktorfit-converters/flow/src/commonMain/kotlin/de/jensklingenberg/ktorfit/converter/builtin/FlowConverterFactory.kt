@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.converter.builtin
 
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.call.*
@@ -25,17 +24,17 @@ public class FlowConverterFactory : Converter.Factory {
                 override fun convert(getResponse: suspend () -> HttpResponse): Flow<Any?> {
                     val requestType = typeData.typeArgs.first()
                     return flow {
-                            val response = getResponse()
-                            if (requestType.typeInfo.type == HttpResponse::class) {
-                                emit(response)
-                            } else {
-                                val convertedBody = ktorfit.nextSuspendResponseConverter(
-                                    this@FlowConverterFactory,
-                                    typeData.typeArgs.first()
-                                )?.convert(response)
-                                    ?: response.body(typeData.typeArgs.first().typeInfo)
-                                emit(convertedBody)
-                            }
+                        val response = getResponse()
+                        if (requestType.typeInfo.type == HttpResponse::class) {
+                            emit(response)
+                        } else {
+                            val convertedBody = ktorfit.nextSuspendResponseConverter(
+                                this@FlowConverterFactory,
+                                typeData.typeArgs.first()
+                            )?.convert(response)
+                                ?: response.body(typeData.typeArgs.first().typeInfo)
+                            emit(convertedBody)
+                        }
                     }
                 }
             }

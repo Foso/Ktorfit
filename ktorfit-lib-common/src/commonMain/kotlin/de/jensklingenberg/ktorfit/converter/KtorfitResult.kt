@@ -3,17 +3,17 @@ package de.jensklingenberg.ktorfit.converter
 import io.ktor.client.statement.*
 
 /**
- * Represents the response from a Ktorfit request. */
-public sealed interface KtorfitResponse {
+ * Represents the result from a Ktorfit request. */
+public sealed interface KtorfitResult {
     /**
      * Represents a successful response.
      * @property response The HTTP response.
      */
-    public class Success(public val response: HttpResponse) : KtorfitResponse
+    public class Success(public val response: HttpResponse) : KtorfitResult
 
     /**
      * Represents a failed response.
      * @property throwable The throwable associated with the failure.
      */
-    public class Failed(public val throwable: Throwable) : KtorfitResponse
+    public class Failed(public val throwable: Throwable) : KtorfitResult
 }

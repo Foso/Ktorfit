@@ -30,8 +30,11 @@ public class Ktorfit private constructor(
 ) {
 
     /**
-     * Returns the next ResponseConverter after [currentFactory] that can handle [type]
-     * or null if no one found
+     * Returns the next response converter from the list of converter factories,
+     * starting from the specified current factory and matching the given type.
+     * @param currentFactory The current converter factory.
+     * @param type The type data to match.
+     * @return The next response converter, or null if not found.
      */
     public fun nextResponseConverter(
         currentFactory: Converter.Factory?,
@@ -44,8 +47,11 @@ public class Ktorfit private constructor(
     }
 
     /**
-     * Returns the next [SuspendResponseConverter] after [currentFactory] that can handle [type]
-     * or null if no one found
+     * Returns the next [SuspendResponseConverter] from the list of converter factories,
+     * starting from the specified current factory and matching the given type.
+     * @param currentFactory The current converter factory.
+     * @param type The type data to match.
+     * @return The next [SuspendResponseConverter], or null if not found.
      */
     public fun nextSuspendResponseConverter(
         currentFactory: Converter.Factory?,
@@ -122,6 +128,8 @@ public class Ktorfit private constructor(
 
         /**
          * Client that will be used for every request with object
+         * @param client The HTTP client to be used.
+         * @return The updated Builder instance.
          */
         public fun httpClient(client: HttpClient): Builder = apply {
             this._httpClient = client

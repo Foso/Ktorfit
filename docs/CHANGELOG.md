@@ -15,8 +15,11 @@ Unreleased
 - Use @Path parameter name as default value #426
 - Use @Query parameter name as default value #428
 - Use @Field parameter name as default value #430
+- You can now also get exceptions like NetworkException with SuspendResponseConverter.  
 
 ### Deprecated
+- Deprecated the `convert` function in the `SuspendResponseConverter` interface, use the new convert(ktorfitResponse: KtorfitResponse) function
+
 ### Removed
 ### Fixed
 ### Security
