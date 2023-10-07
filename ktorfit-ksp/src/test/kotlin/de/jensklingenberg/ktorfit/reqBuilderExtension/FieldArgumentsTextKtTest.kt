@@ -5,7 +5,7 @@ import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.FieldMap
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.kotlin.mock
 
@@ -19,7 +19,7 @@ class FieldArgumentsTextKtTest {
         val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
         val text = getFieldArgumentsText(params, listType, arrayType)
-        Assert.assertEquals("", text)
+        assertEquals("", text)
     }
 
     @Test
@@ -41,12 +41,12 @@ class FieldArgumentsTextKtTest {
         val params = listOf(parameterData1, parameterData2)
         val text = getFieldArgumentsText(params, listType, arrayType)
         val expected = """|val _formParameters = Parameters.build {
-                                |test1?.let{ append("world", "ä{it}") }
-                                |test1?.let{ append("world", "ä{it}".decodeURLQueryComponent(plusIsSpace = true)) }
+                                |test1?.let{ append("world", "$/{it}") }
+                                |test1?.let{ append("world", "$/{it}".decodeURLQueryComponent(plusIsSpace = true)) }
                                 |}
                                 |setBody(FormDataContent(_formParameters))
-                                |""".replace("ä","$").trimMargin()
-        Assert.assertEquals(expected, text)
+                                |""".replace("$/","$").trimMargin()
+        assertEquals(expected, text)
     }
 
     @Test
@@ -76,13 +76,13 @@ class FieldArgumentsTextKtTest {
         val text = getFieldArgumentsText(params, listType, arrayType)
 
         val expected = """|val _formParameters = Parameters.build {
-                                |test1?.let{ append("world", "ä{it}") }
-                                |test2?.let{ append("world", "ä{it}".decodeURLQueryComponent(plusIsSpace = true)) }
-                                |test3?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}.decodeURLQueryComponent(plusIsSpace = true)") } }
+                                |test1?.let{ append("world", "$/{it}") }
+                                |test2?.let{ append("world", "$/{it}".decodeURLQueryComponent(plusIsSpace = true)) }
+                                |test3?.forEach { entry -> entry.value?.let{ append(entry.key, "$/{entry.value}.decodeURLQueryComponent(plusIsSpace = true)") } }
                                 |}
                                 |setBody(FormDataContent(_formParameters))
-|""".replace("ä", "$").trimMargin()
-        Assert.assertEquals(
+|""".replace("$/", "$").trimMargin()
+        assertEquals(
             expected,
             text
         )

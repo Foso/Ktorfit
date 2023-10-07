@@ -14,9 +14,8 @@ class KtorfitProcessorProvider : SymbolProcessorProvider {
     }
 }
 
-class KtorfitProcessor(env: SymbolProcessorEnvironment, private val ktorfitOptions: KtorfitOptions) :
+class KtorfitProcessor(private val env: SymbolProcessorEnvironment, private val ktorfitOptions: KtorfitOptions) :
     SymbolProcessor {
-    private val codeGenerator: CodeGenerator = env.codeGenerator
     private val logger: KSPLogger = env.logger
     private var invoked = false
 
@@ -25,6 +24,7 @@ class KtorfitProcessor(env: SymbolProcessorEnvironment, private val ktorfitOptio
     }
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
+        val codeGenerator: CodeGenerator = env.codeGenerator
         val type = ktorfitOptions.errorsLoggingType
         ktorfitResolver = resolver
         if (invoked) {

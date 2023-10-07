@@ -9,7 +9,7 @@ import org.junit.Test
 class GetRequestBuilderTextKtTest {
 
     @Test
-    fun testWithoutBodyAnnotation() {
+    fun testWithoutRequestBuilderAnnotation() {
         val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
         val text = getCustomRequestBuilderText(params)
@@ -17,7 +17,7 @@ class GetRequestBuilderTextKtTest {
     }
 
     @Test
-    fun testWithBodyAnnotation() {
+    fun testWithRequestBuilderAnnotation() {
         val bodyAnno = RequestBuilder
         val parameterData =
             ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(bodyAnno))
