@@ -1,13 +1,13 @@
 package de.jensklingenberg.ktorfit
 
-import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import de.jensklingenberg.ktorfit.model.KtorfitError
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class CompilationErrorsTest() {
+class CompilationErrorsTest {
 
     @Test
     fun whenJavaInterface_ThrowCompilationError() {
@@ -26,8 +26,8 @@ class CompilationErrorsTest() {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.JAVA_INTERFACES_ARE_NOT_SUPPORTED))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.JAVA_INTERFACES_ARE_NOT_SUPPORTED))
     }
 
     @Test
@@ -60,8 +60,8 @@ interface GithubService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE))
     }
 
 
@@ -95,8 +95,8 @@ interface GithubService<T> {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.TYPE_PARAMETERS_ARE_UNSUPPORTED_ON))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.TYPE_PARAMETERS_ARE_UNSUPPORTED_ON))
     }
 
 }

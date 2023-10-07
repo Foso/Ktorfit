@@ -5,7 +5,7 @@ import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Part
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.PartMap
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.kotlin.mock
 
@@ -19,7 +19,7 @@ class PartsArgumentTextKtTest {
         val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
         val text = getPartsCode(params, listType, arrayType)
-        Assert.assertEquals("", text)
+        assertEquals("", text)
     }
 
     @Test
@@ -33,12 +33,12 @@ class PartsArgumentTextKtTest {
         val params = listOf(parameterData)
         val text = getPartsCode(params, listType, arrayType)
         val expected = """|val _formData = formData {
-                            |test1?.let{ append("world", "ä{it}") }
+                            |test1?.let{ append("world", "$/{it}") }
                             |}
                             |setBody(MultiPartFormDataContent(_formData))
                             |
-                            """.trimMargin().replace("ä", "$")
-        Assert.assertEquals(expected, text)
+                            """.trimMargin().replace("$/", "$")
+        assertEquals(expected, text)
     }
 
     @Test
@@ -54,12 +54,12 @@ class PartsArgumentTextKtTest {
         val params = listOf(parameterData1, parameterData2)
         val text = getPartsCode(params, listType, arrayType)
         val expected = """val _formData = formData {
-test1?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}") } }
+test1?.forEach { entry -> entry.value?.let{ append(entry.key, "$/{entry.value}") } }
 }
 setBody(MultiPartFormDataContent(_formData))
 
-""".trimMargin().replace("ä", "$")
-        Assert.assertEquals(expected, text)
+""".trimMargin().replace("$/", "$")
+        assertEquals(expected, text)
     }
 
     @Test
@@ -81,13 +81,13 @@ setBody(MultiPartFormDataContent(_formData))
         val params = listOf(parameterData1, parameterData2)
         val text = getPartsCode(params, listType, arrayType)
         val expected = """|val _formData = formData {
-                            |test2?.let{ append("world", "ä{it}") }
-                            |test1?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}") } }
+                            |test2?.let{ append("world", "$/{it}") }
+                            |test1?.forEach { entry -> entry.value?.let{ append(entry.key, "$/{entry.value}") } }
                             |}
                             |setBody(MultiPartFormDataContent(_formData))
                             |
-                            """.trimMargin().replace("ä", "$")
+                            """.trimMargin().replace("$/", "$")
 
-        Assert.assertEquals(expected, text)
+        assertEquals(expected, text)
     }
 }

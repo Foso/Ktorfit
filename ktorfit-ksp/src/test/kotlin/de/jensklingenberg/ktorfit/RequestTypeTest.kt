@@ -1,9 +1,10 @@
-import com.google.common.truth.Truth
+
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.getCompilation
 import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Test
 import java.io.File
 
@@ -30,7 +31,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
@@ -38,6 +39,6 @@ interface TestService {
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(true, actualSource.contains(expectedFunctionSource))
+        assertTrue(actualSource.contains(expectedFunctionSource))
     }
 }

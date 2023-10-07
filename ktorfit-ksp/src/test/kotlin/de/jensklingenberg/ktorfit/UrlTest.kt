@@ -1,11 +1,11 @@
 package de.jensklingenberg.ktorfit
 
-import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.model.KtorfitError
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
@@ -31,16 +31,18 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertTrue(generatedFile.exists())
+
         val actualSource = generatedFile.readText()
-        Truth.assertThat(actualSource.contains(expectedFunctionSource)).isTrue()
+        assertTrue(actualSource.contains(expectedFunctionSource))
     }
 
     @Test
@@ -68,16 +70,18 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertTrue(generatedFile.exists())
+
         val actualSource = generatedFile.readText()
-        Truth.assertThat(actualSource.contains(expectedFunctionText)).isTrue()
+        assertTrue(actualSource.contains(expectedFunctionText))
     }
 
     @Test
@@ -105,16 +109,18 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertTrue(generatedFile.exists())
+
         val actualSource = generatedFile.readText()
-        Truth.assertThat(actualSource.contains(expectedFunctionText)).isTrue()
+        assertTrue(actualSource.contains(expectedFunctionText))
     }
 
     @Test
@@ -139,7 +145,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
@@ -147,7 +153,7 @@ interface TestService {
         )
 
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(true, actualSource.contains(expectedFunctionSource))
+        assertTrue(actualSource.contains(expectedFunctionSource))
     }
 
 
@@ -171,8 +177,8 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER("GET")))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR,result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER("GET")))
     }
 
     @Test
@@ -195,8 +201,8 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR,result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND))
     }
 
     @Test
@@ -223,16 +229,18 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertTrue(generatedFile.exists())
+
         val actualSource = generatedFile.readText()
-        Truth.assertThat(actualSource.contains(expectedFunctionText)).isTrue()
+        assertTrue(actualSource.contains(expectedFunctionText))
     }
 
     @Test
@@ -257,8 +265,8 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.PATH_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR,result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.PATH_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE))
     }
 
     @Test
@@ -283,8 +291,8 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR,result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON))
     }
 }
 

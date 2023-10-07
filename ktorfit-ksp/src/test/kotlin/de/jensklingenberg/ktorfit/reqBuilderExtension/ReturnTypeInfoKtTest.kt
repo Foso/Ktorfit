@@ -1,7 +1,7 @@
 package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import de.jensklingenberg.ktorfit.requestData.getReturnTypeInfoText
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ReturnTypeInfoKtTest {
@@ -9,6 +9,6 @@ class ReturnTypeInfoKtTest {
     @Test
     fun testWithReturnTypeInfo() {
         val text = getReturnTypeInfoText("String")
-        Assert.assertEquals("returnTypeInfo = typeInfo<String>()", text)
+        assertEquals("returnTypeInfo = typeInfo<String>()", text)
     }
 }

@@ -1,13 +1,12 @@
 package de.jensklingenberg.ktorfit
 
-import com.google.common.truth.Truth
-import com.google.common.truth.Truth.assertThat
-import com.tschuchort.compiletesting.KotlinCompilation
+
 import com.tschuchort.compiletesting.KotlinCompilation.ExitCode
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.model.KtorfitError
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
@@ -33,16 +32,15 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertThat(result.exitCode).isEqualTo(ExitCode.OK)
-
+        assertEquals(ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        assertThat(generatedFile.exists()).isTrue()
+        assertTrue(generatedFile.exists())
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(true, actualSource.contains(expectedSource))
+        assertTrue(actualSource.contains(expectedSource))
     }
 
     @Test
@@ -67,15 +65,14 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(true, actualSource.contains(expectedSource))
+        assertTrue(actualSource.contains(expectedSource))
     }
 
     @Test
@@ -106,16 +103,15 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertTrue(generatedFile.exists())
         val actualSource = generatedFile.readText()
-        assertThat(actualSource.contains(expectedFunctionText)).isTrue()
+        assertTrue(actualSource.contains(expectedFunctionText))
     }
 
     @Test
@@ -147,7 +143,7 @@ interface GithubService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertThat(result.exitCode).isEqualTo(ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.ONLY_ONE_HTTP_METHOD_IS_ALLOWED))
+        assertEquals(ExitCode.COMPILATION_ERROR, result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.ONLY_ONE_HTTP_METHOD_IS_ALLOWED))
     }
 }
