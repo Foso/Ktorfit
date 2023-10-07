@@ -80,10 +80,22 @@ kotlin {
                 implementation(projects.ktorfitLibCommon)
             }
         }
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+        }
         val linuxX64Main by getting
         val mingwX64Main by getting
         val androidMain by getting
         val jvmMain by getting
+        val jvmTest by getting {
+            dependencies {
+                implementation(libs.ktor.client.mock)
+                implementation(libs.mockk)
+                implementation(libs.mockito.kotlin)
+            }
+        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -123,7 +135,7 @@ publishing {
 
             pom {
                 name.set(project.name)
-                description.set("Flow Converter for Ktorfit")
+                description.set("Call Converter for Ktorfit")
                 url.set("https://github.com/Foso/Ktorfit")
 
                 licenses {

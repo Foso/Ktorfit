@@ -5,12 +5,15 @@ binaryCompatibilityValidator = "0.13.2"
 coroutines = "1.7.3"
 detekt = "1.23.1"
 gradlePlugin = "1.7.0"
+junit = "4.13.2"
 kctfork = "0.3.2"
 kotlin = "1.9.10"
 kotlinPoet = "1.14.2"
 kspVersion = "1.9.10-1.0.13"
 ktorfit = "1.8.0-SNAPSHOT"
 ktorVersion = "2.3.4"
+mockk = "1.13.8"
+mockito-kotlin = "4.1.0"
 gradleMavenPublishPlugin = "0.25.3"
 vannikMavenPublish = "0.25.3"
 
@@ -20,7 +23,7 @@ auto-service-ksp = { module = "dev.zacsweers.autoservice:auto-service-ksp", vers
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
 gradle-plugin = { module = "de.jensklingenberg.ktorfit:gradle-plugin", version.ref = "gradlePlugin" }
-junit = "junit:junit:4.13.2"
+junit = { module = "junit:junit", version.ref = "junit" }
 kctfork-core = { module = "dev.zacsweers.kctfork:core", version.ref = "kctfork" }
 kctfork-ksp = { module = "dev.zacsweers.kctfork:ksp", version.ref = "kctfork" }
 kotlin-compiler-embeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
@@ -53,7 +56,8 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 
 licensee-gradle-plugin = "app.cash.licensee:licensee-gradle-plugin:1.8.0"
 logbackClassic = "ch.qos.logback:logback-classic:1.4.11"
-mockito-kotlin = "org.mockito.kotlin:mockito-kotlin:4.1.0"
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 truth = "com.google.truth:truth:1.1.5"
 
 [plugins]

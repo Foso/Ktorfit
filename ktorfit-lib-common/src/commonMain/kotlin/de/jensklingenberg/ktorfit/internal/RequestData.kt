@@ -13,5 +13,5 @@ public data class RequestData(
     private val returnTypeName: String,
     private val returnTypeInfo: TypeInfo
 ) {
-    internal fun getTypeData(): TypeData = createTypeData(returnTypeName, returnTypeInfo)
+    internal fun getTypeData(): TypeData = createTypeData(qualifiedTypename = returnTypeName, typeInfo = returnTypeInfo)
 }

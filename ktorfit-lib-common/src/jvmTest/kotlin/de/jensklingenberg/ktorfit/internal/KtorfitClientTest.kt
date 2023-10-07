@@ -38,14 +38,11 @@ class ClientTest {
         }
 
         val ktorfit = Ktorfit.Builder().baseUrl(testBaseUrl).httpClient(HttpClient(engine)).build()
-        try {
-            runBlocking {
-                ktorfit.create<ClientTestApi>(_ClientTestApiImpl()).checkCorrectHttpMethod()
 
-            }
-        } catch (exception: Exception) {
-            exception
+        runBlocking {
+            ktorfit.create<ClientTestApi>(_ClientTestApiImpl()).checkCorrectHttpMethod()
         }
+
     }
 
     @Test
