@@ -7,6 +7,7 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 
@@ -63,8 +64,8 @@ class BuilderTest {
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                Assert.assertEquals(expectedHTTPMethod, data.method.value)
-                Assert.assertEquals(expectedUrl, data.url.toString())
+                assertEquals(expectedHTTPMethod, data.method.value)
+                assertEquals(expectedUrl, data.url.toString())
             }
         }
 

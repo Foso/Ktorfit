@@ -1,11 +1,10 @@
 package de.jensklingenberg.ktorfit
 
-import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.model.KtorfitError
-import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Test
 import java.io.File
 
@@ -32,15 +31,15 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedFieldsBuilderText)).isFalse()
+        assertTrue(generatedFile.exists())
+        assertFalse(generatedFile.readText().contains(expectedFieldsBuilderText))
     }
 
 
@@ -62,8 +61,8 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING))
     }
 
 
@@ -86,20 +85,20 @@ interface TestService {
         )
 
         val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
-        testField?.let{ append("name", "ä{it}") }
+        testField?.let{ append("name", "$/{it}") }
         }
-        setBody(FormDataContent(_formParameters))""".trimMargin().replace("ä", "$")
+        setBody(FormDataContent(_formParameters))""".trimMargin().replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(true, actualSource.contains(expectedFieldsBuilderText))
+        assertTrue( actualSource.contains(expectedFieldsBuilderText))
     }
 
     @Test
@@ -121,20 +120,20 @@ interface TestService {
         )
 
         val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
-        name?.let{ append("name", "ä{it}") }
+        name?.let{ append("name", "$/{it}") }
         }
-        setBody(FormDataContent(_formParameters))""".trimMargin().replace("ä", "$")
+        setBody(FormDataContent(_formParameters))""".trimMargin().replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(true, actualSource.contains(expectedFieldsBuilderText))
+        assertTrue(actualSource.contains(expectedFieldsBuilderText))
     }
 
     @Test
@@ -156,20 +155,20 @@ interface TestService {
         )
 
         val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
-        testField?.filterNotNull()?.forEach { append("name", "äit") }
+        testField?.filterNotNull()?.forEach { append("name", "$/it") }
         }
-        setBody(FormDataContent(_formParameters))""".trimMargin().replace("ä", "$")
+        setBody(FormDataContent(_formParameters))""".trimMargin().replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(true, actualSource.contains(expectedFieldsBuilderText))
+        assertTrue(actualSource.contains(expectedFieldsBuilderText))
     }
 
     @Test
@@ -191,20 +190,20 @@ interface TestService {
         )
 
         val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
-        testField?.filterNotNull()?.forEach { append("name", "äit") }
+        testField?.filterNotNull()?.forEach { append("name", "$/it") }
         }
-        setBody(FormDataContent(_formParameters))""".trimMargin().replace("ä", "$")
+        setBody(FormDataContent(_formParameters))""".trimMargin().replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(true, actualSource.contains(expectedFieldsBuilderText))
+        assertTrue(actualSource.contains(expectedFieldsBuilderText))
     }
 
     @Test
@@ -233,16 +232,15 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertTrue(generatedFile.exists())
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(true, actualSource.contains(expectedFieldsBuilderText))
+        assertTrue(actualSource.contains(expectedFieldsBuilderText))
     }
 
 
@@ -268,21 +266,21 @@ interface TestService {
         )
 
         val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
-        testField?.let{ append("name", "ä{it}") }
-        name?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}") } }
+        testField?.let{ append("name", "$/{it}") }
+        name?.forEach { entry -> entry.value?.let{ append(entry.key, "$/{entry.value}") } }
         }
-        setBody(FormDataContent(_formParameters))""".trimMargin().replace("ä", "$")
+        setBody(FormDataContent(_formParameters))""".trimMargin().replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         val actualSource = generatedFile.readText()
-        Assert.assertEquals(true, actualSource.contains(expectedFieldsBuilderText))
+        assertTrue(actualSource.contains(expectedFieldsBuilderText))
     }
 
     @Test
@@ -308,8 +306,8 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP))
     }
 
     @Test
@@ -335,10 +333,9 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.FIELD_MAP_KEYS_MUST_BE_OF_TYPE_STRING))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.FIELD_MAP_KEYS_MUST_BE_OF_TYPE_STRING))
     }
-
 
 }
 

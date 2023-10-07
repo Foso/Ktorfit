@@ -47,7 +47,6 @@ dependencies {
 
     /* TEST  */
     testImplementation(libs.junit)
-    testImplementation(libs.truth)
     testImplementation(libs.kctfork.core)
     testImplementation(libs.kctfork.ksp)
     testImplementation(libs.mockito.kotlin)

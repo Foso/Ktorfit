@@ -1,9 +1,10 @@
 package de.jensklingenberg.ktorfit
 
-import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
@@ -38,15 +39,17 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertTrue(generatedFile.exists())
+
         val actualSource = generatedFile.readText()
-        Truth.assertThat(actualSource.contains(expectedBodyDataArgumentText)).isTrue()
+        assertTrue(actualSource.contains(expectedBodyDataArgumentText))
     }
 }

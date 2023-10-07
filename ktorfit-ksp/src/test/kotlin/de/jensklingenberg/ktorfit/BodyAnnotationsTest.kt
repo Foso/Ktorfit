@@ -1,11 +1,11 @@
 package de.jensklingenberg.ktorfit
 
-import com.google.common.truth.Truth
+
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.model.KtorfitError
-import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Test
 import java.io.File
 
@@ -30,12 +30,11 @@ interface TestService {
     """
         )
 
-
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY))
     }
 
     @Test
@@ -60,8 +59,8 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR,result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING))
     }
 
     @Test
@@ -85,15 +84,14 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK,result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedBodyDataArgumentText)).isTrue()
+        assertTrue(generatedFile.exists())
+        assertTrue(generatedFile.readText().contains(expectedBodyDataArgumentText))
     }
 
     @Test
@@ -117,15 +115,15 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK,result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(notExpectedBodyDataArgumentText)).isFalse()
+
+        assertTrue(generatedFile.exists())
+        assertFalse(generatedFile.readText().contains(notExpectedBodyDataArgumentText))
     }
 
 

@@ -1,9 +1,9 @@
 package de.jensklingenberg.ktorfit
 
-import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.*
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Test
 import java.io.File
 
@@ -41,15 +41,16 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedRequestBuilderArgumentText)).isFalse()
+        assertTrue(generatedFile.exists())
+        assertFalse(generatedFile.readText().contains(expectedRequestBuilderArgumentText))
     }
 
 
@@ -80,15 +81,17 @@ interface TestService {
             kspIncremental = true
         }
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedRequestBuilderArgumentText)).isTrue()
+        assertTrue(generatedFile.exists())
+
+        assertTrue(generatedFile.readText().contains(expectedRequestBuilderArgumentText))
     }
 
     @Test
@@ -118,8 +121,8 @@ interface TestService {
         }
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR,result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED))
     }
 
     @Test
@@ -149,8 +152,8 @@ interface TestService {
         }
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.REQ_BUILDER_PARAMETER_TYPE_NEEDS_TO_BE_HTTP_REQUEST_BUILDER))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR,result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.REQ_BUILDER_PARAMETER_TYPE_NEEDS_TO_BE_HTTP_REQUEST_BUILDER))
     }
 
 }

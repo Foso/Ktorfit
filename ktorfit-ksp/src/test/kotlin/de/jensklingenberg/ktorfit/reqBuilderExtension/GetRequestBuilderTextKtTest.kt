@@ -4,6 +4,7 @@ import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestBuilder
 import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Test
 
 class GetRequestBuilderTextKtTest {
@@ -13,7 +14,7 @@ class GetRequestBuilderTextKtTest {
         val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
         val text = getCustomRequestBuilderText(params)
-        Assert.assertEquals("", text)
+        assertEquals("", text)
     }
 
     @Test
@@ -23,6 +24,6 @@ class GetRequestBuilderTextKtTest {
             ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(bodyAnno))
         val params = listOf(parameterData)
         val text = getCustomRequestBuilderText(params)
-        Assert.assertEquals("test1(this)", text)
+        assertEquals("test1(this)", text)
     }
 }

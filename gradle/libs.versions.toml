@@ -58,7 +58,6 @@ licensee-gradle-plugin = "app.cash.licensee:licensee-gradle-plugin:1.8.0"
 logbackClassic = "ch.qos.logback:logback-classic:1.4.11"
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-truth = "com.google.truth:truth:1.1.5"
 
 [plugins]
 binaryCompatibilityValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryCompatibilityValidator" }

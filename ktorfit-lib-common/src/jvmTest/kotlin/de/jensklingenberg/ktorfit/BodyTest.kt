@@ -7,6 +7,8 @@ import io.ktor.client.request.*
 import io.ktor.content.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 interface BodyTestApi {
@@ -22,8 +24,8 @@ class BodyTest {
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                Assert.assertEquals(true, (data.body is TextContent))
-                Assert.assertEquals("testBody", (data.body as TextContent).text)
+                assertTrue((data.body is TextContent))
+                assertEquals("testBody", (data.body as TextContent).text)
 
                 return
             }

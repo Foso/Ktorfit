@@ -1,11 +1,10 @@
 package de.jensklingenberg.ktorfit
 
-import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.model.KtorfitError
-import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Test
 import java.io.File
 
@@ -32,15 +31,14 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
-        Truth.assertThat(generatedFile.readText().contains(expectedPartsArgumentText)).isFalse()
+        assertTrue(generatedFile.exists())
+        assertFalse(generatedFile.readText().contains(expectedPartsArgumentText))
     }
 
     @Test
@@ -67,16 +65,17 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertTrue(generatedFile.exists())
+
         val actualSource = generatedFile.readText()
-        Truth.assertThat(actualSource.contains(expectedPartsArgumentText)).isTrue()
+        assertTrue(actualSource.contains(expectedPartsArgumentText))
     }
 
     @Test
@@ -103,16 +102,18 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertTrue(generatedFile.exists())
+
         val actualSource = generatedFile.readText()
-        Truth.assertThat(actualSource.contains(expectedPartsArgumentText)).isTrue()
+        assertTrue(actualSource.contains(expectedPartsArgumentText))
     }
 
     @Test
@@ -141,16 +142,18 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertTrue(generatedFile.exists())
+
         val actualSource = generatedFile.readText()
-        Truth.assertThat(actualSource.contains(expectedPartsArgumentText)).isTrue()
+        assertTrue(actualSource.contains(expectedPartsArgumentText))
     }
 
 
@@ -181,16 +184,18 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile = File(
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
-        Truth.assertThat(generatedFile.exists()).isTrue()
+        assertTrue(generatedFile.exists())
+
         val actualSource = generatedFile.readText()
-        Truth.assertThat(actualSource.contains(expectedPartsArgumentText)).isTrue()
+        assertTrue(actualSource.contains(expectedPartsArgumentText))
     }
 
     @Test
@@ -212,8 +217,8 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.PART_MAP_PARAMETER_TYPE_MUST_BE_MAP))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.PART_MAP_PARAMETER_TYPE_MUST_BE_MAP))
     }
 
     @Test
@@ -235,8 +240,8 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        Assert.assertTrue(result.messages.contains(KtorfitError.PART_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE))
+        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+        assertTrue(result.messages.contains(KtorfitError.PART_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE))
     }
 
 

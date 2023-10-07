@@ -36,7 +36,6 @@ dependencies {
     compileOnly(libs.kotlin.compiler.embeddable)
     testImplementation(libs.kctfork.core)
     testImplementation(libs.junit)
-    testImplementation(libs.truth)
     testImplementation(kotlin("reflect"))
 
 }

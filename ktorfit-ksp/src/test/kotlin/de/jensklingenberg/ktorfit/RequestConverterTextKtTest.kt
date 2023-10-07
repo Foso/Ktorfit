@@ -9,7 +9,7 @@ import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestType
 import de.jensklingenberg.ktorfit.requestData.addRequestConverterText
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -64,6 +64,6 @@ class RequestConverterTextKtTest {
 
         val actualSource = FunSpec.builder("TestFunction").addRequestConverterText(params).build().toString()
 
-        Assert.assertEquals(expected, actualSource)
+        assertEquals(expected, actualSource)
     }
 }

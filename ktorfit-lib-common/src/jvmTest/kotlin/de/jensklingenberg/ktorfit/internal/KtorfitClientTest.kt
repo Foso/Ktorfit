@@ -7,6 +7,8 @@ import io.ktor.client.request.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 interface ClientTestApi {
@@ -32,8 +34,8 @@ class ClientTest {
 
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
-                Assert.assertEquals(expectedHTTPMethod, data.method.value)
-                Assert.assertEquals(expectedUrl, data.url.toString())
+                assertEquals(expectedHTTPMethod, data.method.value)
+                assertEquals(expectedUrl, data.url.toString())
             }
         }
 
@@ -60,8 +62,8 @@ class ClientTest {
             }
 
         } catch (exception: Exception) {
-            Assert.assertTrue(exception is IllegalArgumentException)
-            Assert.assertTrue(exception.message?.startsWith("Add a ResponseConverter") ?: false)
+            assertTrue(exception is IllegalArgumentException)
+            assertTrue(exception.message?.startsWith("Add a ResponseConverter") ?: false)
         }
     }
 
@@ -72,11 +74,11 @@ class ClientTest {
             val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").build()
 
             val converted = (KtorfitClient(ktorfit) as Client).convertParameterType("4", String::class, Int::class)
-            Assert.assertEquals(4, converted)
+            assertEquals(4, converted)
 
         } catch (ex: Exception) {
-            Assert.assertTrue(ex is IllegalArgumentException)
-            Assert.assertEquals(true, ex.message!!.contains("No RequestConverter found to convert "))
+            assertTrue(ex is IllegalArgumentException)
+            assertEquals(true, ex.message!!.contains("No RequestConverter found to convert "))
         }
     }
 
@@ -89,7 +91,7 @@ class ClientTest {
         val engine = object : TestEngine() {
             override fun getRequestData(data: HttpRequestData) {
                 val url = data.url.toString()
-                Assert.assertEquals(expectedUrl, url)
+                assertEquals(expectedUrl, url)
             }
         }
 

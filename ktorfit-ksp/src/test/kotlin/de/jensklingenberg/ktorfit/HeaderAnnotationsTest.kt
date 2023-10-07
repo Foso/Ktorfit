@@ -5,8 +5,7 @@ import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP
-import org.junit.Assert
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Test
 import java.io.File
 
@@ -48,7 +47,7 @@ suspend fun test(): List<Triple<String,Int?,String>>
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         val actualSource = generatedFile.readText()
-        assertEquals(false, actualSource.contains(notExpectedHeadersArgumentText))
+        assertFalse(actualSource.contains(notExpectedHeadersArgumentText))
     }
 
 
@@ -85,7 +84,7 @@ suspend fun test(): String
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
         val actualSource = generatedFile.readText()
-        assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
 
     @Test
@@ -125,7 +124,7 @@ suspend fun test(@Header("testHeader") testParameter: String?, @HeaderMap("testH
         )
 
         val actualSource = generatedFile.readText()
-        assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
 
 
@@ -162,7 +161,7 @@ interface TestService {
         )
 
         val actualSource = generatedFile.readText()
-        assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
 
     @Test
@@ -199,7 +198,7 @@ interface TestService {
         )
 
         val actualSource = generatedFile.readText()
-        assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
 
     @Test
@@ -236,7 +235,7 @@ interface TestService {
         )
 
         val actualSource = generatedFile.readText()
-        assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
 
     @Test
@@ -272,7 +271,7 @@ interface TestService {
         )
 
         val actualSource = generatedFile.readText()
-        assertEquals(true, actualSource.contains(expectedHeadersArgumentText))
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
 
     @Test
@@ -297,7 +296,7 @@ interface TestService {
         val result = compilation.compile()
         assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
 
-        Assert.assertTrue(result.messages.contains(HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP))
+        assertTrue(result.messages.contains(HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP))
     }
 
     @Test
@@ -321,7 +320,7 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
         assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
-        Assert.assertTrue(result.messages.contains(HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING))
+        assertTrue(result.messages.contains(HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING))
     }
 
 

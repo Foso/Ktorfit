@@ -1,12 +1,14 @@
 package de.jensklingenberg.ktorfit
 
-import com.google.common.truth.Truth
+
 import com.tschuchort.compiletesting.JvmCompilationResult
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.PluginOption
 import com.tschuchort.compiletesting.SourceFile
 import org.jetbrains.kotlin.config.JvmTarget
 import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -54,8 +56,9 @@ fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
 
         val result = compile(listOf(source2, source))
 
-        Truth.assertThat(result.exitCode).isEqualTo(KotlinCompilation.ExitCode.OK)
-        Truth.assertThat(result.messages.contains("_TestServiceImpl")).isEqualTo(true)
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
+        assertTrue(result.messages.contains("_TestServiceImpl"))
 
     }
 
@@ -98,8 +101,8 @@ fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
         )
 
         val result = compile(listOf(source2, source))
-        Assert.assertEquals(KotlinCompilation.ExitCode.INTERNAL_ERROR,result.exitCode)
-        Truth.assertThat(result.messages.contains(CreateFuncTransformer.ERROR_TYPE_ARGUMENT_NOT_INTERFACE("T"))).isEqualTo(true)
+        assertEquals(KotlinCompilation.ExitCode.INTERNAL_ERROR,result.exitCode)
+        assertTrue(result.messages.contains(CreateFuncTransformer.ERROR_TYPE_ARGUMENT_NOT_INTERFACE("T")))
     }
 
     private fun prepareCompilation(
