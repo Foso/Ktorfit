@@ -1,13 +1,10 @@
-package de.jensklingenberg
+package de.jensklingenberg.ktorfit
 
 import com.google.common.truth.Truth
 import com.tschuchort.compiletesting.JvmCompilationResult
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.PluginOption
 import com.tschuchort.compiletesting.SourceFile
-import de.jensklingenberg.ktorfit.CommonCompilerPluginRegistrar
-import de.jensklingenberg.ktorfit.CreateFuncTransformer
-import de.jensklingenberg.ktorfit.ExampleCommandLineProcessor
 import org.jetbrains.kotlin.config.JvmTarget
 import org.junit.Assert
 import org.junit.Rule
