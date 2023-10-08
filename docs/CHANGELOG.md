@@ -18,6 +18,7 @@ Unreleased
 - Use @Query parameter name as default value #428
 - Use @Field parameter name as default value #430
 - You can now also get exceptions like NetworkException with SuspendResponseConverter. #389  
+- Bump Ktor to 2.3.5
 
 ### Deprecated
 - Deprecated the `convert` function in the `SuspendResponseConverter` interface

@@ -86,7 +86,6 @@ kotlin {
                 implementation("io.reactivex.rxjava3:rxjava:3.1.8")
 
                 implementation(libs.ktor.client.logging)
-               // implementation(libs.logbackClassic)
                 implementation(libs.ktor.serialization.gson)
                 implementation(libs.ktor.client.cio.jvm)
             }

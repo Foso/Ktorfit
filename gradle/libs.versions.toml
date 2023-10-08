@@ -11,7 +11,7 @@ kotlin = "1.9.10"
 kotlinPoet = "1.14.2"
 kspVersion = "1.9.10-1.0.13"
 ktorfit = "1.8.0-SNAPSHOT"
-ktorVersion = "2.3.4"
+ktorVersion = "2.3.5"
 mockk = "1.13.8"
 mockito-kotlin = "4.1.0"
 gradleMavenPublishPlugin = "0.25.3"
@@ -55,7 +55,6 @@ ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
 
 licensee-gradle-plugin = "app.cash.licensee:licensee-gradle-plugin:1.8.0"
-logbackClassic = "ch.qos.logback:logback-classic:1.4.11"
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
