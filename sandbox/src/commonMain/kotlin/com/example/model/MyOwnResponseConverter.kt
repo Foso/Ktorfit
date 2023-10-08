@@ -18,26 +18,27 @@ class MyOwnResponseConverterFactory : Converter.Factory {
 
             return object : Converter.SuspendResponseConverter<HttpResponse, Any> {
                 override suspend fun convert(response: HttpResponse): Any {
-                    return try {
-                        val convertedBody = ktorfit.nextSuspendResponseConverter(
-                            null,
-                            typeData.typeArgs.first()
-                        )?.convert(response)
-                            ?: response.body(typeData.typeArgs.first().typeInfo)
-                        MyOwnResponse.success(convertedBody)
-                    } catch (ex: Throwable) {
-                        MyOwnResponse.error(ex)
-                    }
+                    return convert(KtorfitResult.Success(response))
                 }
 
-                override suspend fun convert(ktorfitResult: KtorfitResult): Any {
-                    return when (ktorfitResult) {
+                override suspend fun convert(result: KtorfitResult): Any {
+                    return when (result) {
                         is KtorfitResult.Failed -> {
-                            MyOwnResponse.error(ktorfitResult.throwable)
+                            MyOwnResponse.error(result.throwable)
                         }
 
                         is KtorfitResult.Success -> {
-                            convert(ktorfitResult.response)
+                            val response = result.response
+                            return try {
+                                val convertedBody = ktorfit.nextSuspendResponseConverter(
+                                    null,
+                                    typeData.typeArgs.first()
+                                )?.convert(result)
+                                    ?: response.body(typeData.typeArgs.first().typeInfo)
+                                MyOwnResponse.success(convertedBody)
+                            } catch (ex: Throwable) {
+                                MyOwnResponse.error(ex)
+                            }
                         }
                     }
                 }

@@ -46,12 +46,12 @@ public class CallConverterFactory : Converter.Factory {
             return convert(KtorfitResult.Success(response))
         }
 
-        override suspend fun convert(ktorfitResult: KtorfitResult): Call<Any?> {
+        override suspend fun convert(result: KtorfitResult): Call<Any?> {
             return object : Call<Any?> {
                 override fun onExecute(callBack: Callback<Any?>) {
-                    when (ktorfitResult) {
+                    when (result) {
                         is KtorfitResult.Success -> {
-                            val response = ktorfitResult.response
+                            val response = result.response
                             ktorfit.httpClient.launch {
                                 try {
                                     val data = ktorfit.nextSuspendResponseConverter(
@@ -66,7 +66,7 @@ public class CallConverterFactory : Converter.Factory {
                         }
 
                         is KtorfitResult.Failed -> {
-                            ktorfitResult.throwable.let {
+                            result.throwable.let {
                                 callBack.onError(it)
                             }
                         }

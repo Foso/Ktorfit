@@ -23,15 +23,6 @@ inspired by [Retrofit](https://square.github.io/retrofit/)
 
 Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.github.io/Ktorfit/)
 
-## Compatibility
-
-| Version                  |      Kotlin      |           KSP           |   Ktor    |
-|--------------------------|:----------------:|:-----------------------:|:---------:|
-| **_1.7.0-1.9.20-Beta2_** | **1.9.20-Beta2** | **1.9.20-Beta2-1.0.13** | **2.3.4** |
-| **_1.7.0_**              |    **1.9.10**    |       **1.0.13**        | **2.3.4** |
-| **_1.6.0_**              |    **1.9.10**    |       **1.0.13**        | **2.3.3** |
-| **_1.5.0_**              |    **1.9.0**     |       **1.0.13**        | **2.3.2** |
-| **_1.4.3_**              |    **1.8.20**    |       **1.0.11**        | **2.3.1** |
 
 # Release
 

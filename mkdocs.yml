@@ -67,6 +67,7 @@ nav:
   - 'Fundamentals' :
       - 'Scope' : fundamentals/scope.md
       - 'Architecture': architecture.md
+  - 'Migration': migration.md
   - 'Changelog': CHANGELOG.md
   - 'License': License.md
 markdown_extensions:

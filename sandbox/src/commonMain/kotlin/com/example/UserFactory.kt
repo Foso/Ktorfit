@@ -18,17 +18,18 @@ class UserFactory : Converter.Factory {
         if (typeData.typeInfo.type == User::class) {
             return object : Converter.SuspendResponseConverter<HttpResponse, Any> {
                 override suspend fun convert(response: HttpResponse): Any {
-                    val envelope = response.body<Envelope>()
-                    return envelope.user
+                    return convert(KtorfitResult.Success(response))
                 }
 
-                override suspend fun convert(ktorfitResult: KtorfitResult): Any {
-                   return when(ktorfitResult){
-                        is KtorfitResult.Failed -> {
-                            throw ktorfitResult.throwable
-                        }
+                override suspend fun convert(result: KtorfitResult): Any {
+                    return when (result) {
                         is KtorfitResult.Success -> {
-                            convert(ktorfitResult.response)
+                            val response = result.response
+                            val envelope = response.body<Envelope>()
+                            return envelope.user
+                        }
+                        is KtorfitResult.Failed -> {
+                            throw result.throwable
                         }
                     }
                 }

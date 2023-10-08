@@ -36,17 +36,16 @@ public interface Converter<F, T> {
         @Deprecated("Use convert(ktorfitResponse: KtorfitResponse)")
         public suspend fun convert(response: HttpResponse): T
 
-        public suspend fun convert(ktorfitResult: KtorfitResult): T {
-            return when (ktorfitResult) {
+        public suspend fun convert(result: KtorfitResult): T {
+            return when (result) {
                 is KtorfitResult.Failed -> {
-                    throw ktorfitResult.throwable
+                    throw result.throwable
                 }
 
                 is KtorfitResult.Success -> {
-                    convert(ktorfitResult.response)
+                    convert(result.response)
                 }
             }
-
         }
     }
 
