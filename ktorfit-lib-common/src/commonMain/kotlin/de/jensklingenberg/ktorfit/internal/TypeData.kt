@@ -22,9 +22,9 @@ public data class TypeData(
         public fun createTypeData(qualifiedTypename: String, typeInfo: TypeInfo): TypeData {
 
             val typeArgument = qualifiedTypename.substringAfter("<").substringBeforeLast(">")
-            val spilt = typeArgument.split(",")
+            val split = typeArgument.split(",")
             val args = typeInfo.kotlinType?.arguments?.mapIndexed { index, kTypeProjection ->
-                val cleaned = spilt[index].trim()
+                val cleaned = split[index].trim()
 
                 val modelKType = kTypeProjection.type
                 val modelClass = (modelKType?.classifier as? KClass<*>?)!!

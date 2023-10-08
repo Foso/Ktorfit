@@ -33,7 +33,7 @@ class ConverterFactoryTest {
                 override fun getRequestData(data: HttpRequestData) {
                 }
             }
-            val test = object : Converter.Factory {
+            val testConverterFactory = object : Converter.Factory {
 
                 override fun suspendResponseConverter(
                     typeData: TypeData,
@@ -57,7 +57,7 @@ class ConverterFactoryTest {
             val ktorfit = Ktorfit.Builder()
                 .httpClient(engine)
                 .baseUrl("http://www.jensklingenberg.de/")
-                .converterFactories(test)
+                .converterFactories(testConverterFactory)
                 .build()
 
             runBlocking {

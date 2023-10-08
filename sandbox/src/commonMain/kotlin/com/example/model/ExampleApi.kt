@@ -6,4 +6,7 @@ import de.jensklingenberg.ktorfit.http.GET
 interface ExampleApi {
     @GET("example.json")
     suspend fun getUser(): Response<User>
+
+    @GET("example.json")
+    suspend fun getUserResponse(): MyOwnResponse<User>
 }

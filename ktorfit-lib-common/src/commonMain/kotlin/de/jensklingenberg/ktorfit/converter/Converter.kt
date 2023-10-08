@@ -12,12 +12,11 @@ public interface Converter<F, T> {
      * e.g. fun getPost(): Call<Post>
      * This is only needed for the return type of a non-suspend request, for every other case use [SuspendResponseConverter]
      * @since 1.4.0
-     * @return the converted [HttpResponse]
      */
     public interface ResponseConverter<F : HttpResponse, T> : Converter<HttpResponse, T> {
 
         /**
-         *
+         * @param getResponse A suspend function that returns the HttpResponse to be converted.
          * @return the converted [HttpResponse]
          */
         public fun convert(getResponse: suspend () -> HttpResponse): T
@@ -27,7 +26,6 @@ public interface Converter<F, T> {
      * Converter that transform the HTTPResponse within a suspend request
      * e.g. suspend fun getPost(): Post
      * @since 1.4.0
-     * @return the converted [HttpResponse]
      */
     public interface SuspendResponseConverter<F : HttpResponse, T> : Converter<HttpResponse, T> {
 
@@ -35,7 +33,20 @@ public interface Converter<F, T> {
          *
          * @return the converted [HttpResponse]
          */
+        @Deprecated("Use convert(ktorfitResponse: KtorfitResponse)")
         public suspend fun convert(response: HttpResponse): T
+
+        public suspend fun convert(result: KtorfitResult): T {
+            return when (result) {
+                is KtorfitResult.Failure -> {
+                    throw result.throwable
+                }
+
+                is KtorfitResult.Success -> {
+                    convert(result.response)
+                }
+            }
+        }
     }
 
     public interface RequestParameterConverter : Converter<Any, Any> {

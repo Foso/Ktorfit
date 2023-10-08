@@ -3,7 +3,9 @@
 All important changes of this project must be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+and this project orients towards [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
+But there is no intent to bump the Ktorfit major version for every KSP update. 
 
 Unreleased
 ========================================
@@ -15,8 +17,12 @@ Unreleased
 - Use @Path parameter name as default value #426
 - Use @Query parameter name as default value #428
 - Use @Field parameter name as default value #430
+- You can now also get exceptions like NetworkException with SuspendResponseConverter. #389  
 
 ### Deprecated
+- Deprecated the `convert` function in the `SuspendResponseConverter` interface
+See: https://foso.github.io/migration/#from-170-to-180
+
 ### Removed
 ### Fixed
 ### Security

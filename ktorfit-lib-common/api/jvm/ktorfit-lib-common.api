@@ -95,11 +95,26 @@ public final class de/jensklingenberg/ktorfit/converter/Converter$ResponseConver
 }
 
 public abstract interface class de/jensklingenberg/ktorfit/converter/Converter$SuspendResponseConverter : de/jensklingenberg/ktorfit/converter/Converter {
+	public abstract fun convert (Lde/jensklingenberg/ktorfit/converter/KtorfitResult;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun convert (Lio/ktor/client/statement/HttpResponse;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class de/jensklingenberg/ktorfit/converter/Converter$SuspendResponseConverter$DefaultImpls {
+	public static fun convert (Lde/jensklingenberg/ktorfit/converter/Converter$SuspendResponseConverter;Lde/jensklingenberg/ktorfit/converter/KtorfitResult;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static fun getUpperBoundType (Lde/jensklingenberg/ktorfit/converter/Converter$SuspendResponseConverter;ILde/jensklingenberg/ktorfit/internal/TypeData;)Lde/jensklingenberg/ktorfit/internal/TypeData;
+}
+
+public abstract interface class de/jensklingenberg/ktorfit/converter/KtorfitResult {
+}
+
+public final class de/jensklingenberg/ktorfit/converter/KtorfitResult$Failure : de/jensklingenberg/ktorfit/converter/KtorfitResult {
+	public fun <init> (Ljava/lang/Throwable;)V
+	public final fun getThrowable ()Ljava/lang/Throwable;
+}
+
+public final class de/jensklingenberg/ktorfit/converter/KtorfitResult$Success : de/jensklingenberg/ktorfit/converter/KtorfitResult {
+	public fun <init> (Lio/ktor/client/statement/HttpResponse;)V
+	public final fun getResponse ()Lio/ktor/client/statement/HttpResponse;
 }
 
 public abstract interface class de/jensklingenberg/ktorfit/converter/SuspendResponseConverter : de/jensklingenberg/ktorfit/converter/request/CoreResponseConverter {

@@ -4,11 +4,16 @@ package de.jensklingenberg.ktorfit.demo
 import com.example.UserFactory
 import com.example.api.JsonPlaceHolderApi
 import com.example.model.ExampleApi
+import com.example.model.MyOwnResponse
+import com.example.model.MyOwnResponseConverterFactory
+import de.jensklingenberg.ktorfit.converter.builtin.CallConverterFactory
 import de.jensklingenberg.ktorfit.converter.builtin.FlowConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -42,7 +47,12 @@ val userKtorfit = ktorfit {
     baseUrl("https://foso.github.io/Ktorfit/")
     httpClient(jvmClient)
 
-    converterFactories(FlowConverterFactory(), UserFactory())
+    converterFactories(
+        FlowConverterFactory(),
+        MyOwnResponseConverterFactory(),
+        UserFactory(),
+        CallConverterFactory()
+    )
 }
 
 
@@ -50,12 +60,16 @@ fun main() {
 
     runBlocking {
 
-        val user = userKtorfit.create<ExampleApi>().getUser()
+        val user = userKtorfit.create<ExampleApi>().getUserResponse()
 
-        if (user.isSuccessful) {
-            println(user.body())
-        } else {
-            user.errorBody()
+        when (user) {
+            is MyOwnResponse.Success -> {
+                println(user.data)
+            }
+
+            is MyOwnResponse.Error<*> -> {
+                println(user.ex)
+            }
         }
         delay(3000)
     }

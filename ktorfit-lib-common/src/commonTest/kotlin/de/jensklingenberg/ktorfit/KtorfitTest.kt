@@ -103,7 +103,7 @@ private class TestConverterFactory : Converter.Factory {
 
     class ResponseConverter : Converter.ResponseConverter<HttpResponse, Any> {
 
-        override fun convert(getResponse: suspend () -> HttpResponse): Any {
+        override fun convert(getKtorfitResponse: suspend () -> HttpResponse): Any {
             return ""
         }
     }

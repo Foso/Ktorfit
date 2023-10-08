@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.internal
 
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -13,7 +14,7 @@ import kotlin.reflect.cast
 internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
     private val httpClient: HttpClient = ktorfit.httpClient
-    override var baseUrl: String = ktorfit.baseUrl
+    override val baseUrl: String = ktorfit.baseUrl
 
     /**
      * This will handle all requests for functions without suspend modifier
@@ -26,15 +27,13 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         ktorfit.nextResponseConverter(null, returnTypeData)?.let { responseConverter ->
 
             return responseConverter.convert {
-                val data =
-                    suspendRequest<HttpResponse, HttpResponse>(
-                        RequestData(
-                            ktorfitRequestBuilder = requestData.ktorfitRequestBuilder,
-                            returnTypeName = "io.ktor.client.statement.HttpResponse",
-                            returnTypeInfo = typeInfo<HttpResponse>()
-                        )
+                suspendRequest<HttpResponse, HttpResponse>(
+                    RequestData(
+                        ktorfitRequestBuilder = requestData.ktorfitRequestBuilder,
+                        returnTypeName = "io.ktor.client.statement.HttpResponse",
+                        returnTypeInfo = typeInfo<HttpResponse>()
                     )
-                data!!
+                )!!
             } as ReturnType?
         }
 
@@ -72,10 +71,14 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
             ktorfit.nextSuspendResponseConverter(null, returnTypeData)?.let {
 
-                val response = httpClient.request {
-                    requestBuilder(requestData)
+                val result: KtorfitResult = try {
+                    KtorfitResult.Success(httpClient.request {
+                        requestBuilder(requestData)
+                    })
+                } catch (exception: Exception) {
+                    KtorfitResult.Failure(exception)
                 }
-                return it.convert(response) as ReturnType?
+                return it.convert(result) as ReturnType?
             }
 
             /**
