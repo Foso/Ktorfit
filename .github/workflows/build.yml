@@ -4,8 +4,16 @@ name: build
 on:
   workflow_dispatch:
   push:
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+      - 'mkdocs.yml'
     branches: [ master ]
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+      - 'mkdocs.yml'
     branches:
       - 'master'
       - 'release/**'
