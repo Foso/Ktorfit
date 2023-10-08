@@ -65,7 +65,7 @@ public class CallConverterFactory : Converter.Factory {
                             }
                         }
 
-                        is KtorfitResult.Failed -> {
+                        is KtorfitResult.Failure -> {
                             callBack.onError(result.throwable)
                         }
                     }

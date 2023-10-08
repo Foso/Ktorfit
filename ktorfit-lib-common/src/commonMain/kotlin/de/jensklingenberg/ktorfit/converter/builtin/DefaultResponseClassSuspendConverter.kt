@@ -41,7 +41,7 @@ internal class DefaultResponseClassSuspendConverter(private val typeData: TypeDa
                 }
             }
 
-            is KtorfitResult.Failed -> {
+            is KtorfitResult.Failure -> {
                 throw result.throwable
             }
         }

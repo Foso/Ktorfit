@@ -28,7 +28,7 @@ class UserFactory : Converter.Factory {
                             val envelope = response.body<Envelope>()
                             return envelope.user
                         }
-                        is KtorfitResult.Failed -> {
+                        is KtorfitResult.Failure -> {
                             throw result.throwable
                         }
                     }

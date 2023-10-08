@@ -15,5 +15,5 @@ public sealed interface KtorfitResult {
      * Represents a failed response.
      * @property throwable The throwable associated with the failure.
      */
-    public class Failed(public val throwable: Throwable) : KtorfitResult
+    public class Failure(public val throwable: Throwable) : KtorfitResult
 }

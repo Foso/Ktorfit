@@ -9,7 +9,7 @@ Implement **override suspend fun convert(result: KtorfitResult)**
 ```kotlin
 public suspend fun convert(result: KtorfitResult): T {
     return when (result) {
-        is KtorfitResult.Failed -> {
+        is KtorfitResult.Failure -> {
             throw result.throwable // Or do something with the throwable
         }
 

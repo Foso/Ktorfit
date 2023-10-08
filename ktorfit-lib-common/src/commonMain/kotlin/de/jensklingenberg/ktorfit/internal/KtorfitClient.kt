@@ -76,7 +76,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                         requestBuilder(requestData)
                     })
                 } catch (exception: Exception) {
-                    KtorfitResult.Failed(exception)
+                    KtorfitResult.Failure(exception)
                 }
                 return it.convert(result) as ReturnType?
             }

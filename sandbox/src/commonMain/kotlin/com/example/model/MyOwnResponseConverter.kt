@@ -23,7 +23,7 @@ class MyOwnResponseConverterFactory : Converter.Factory {
 
                 override suspend fun convert(result: KtorfitResult): Any {
                     return when (result) {
-                        is KtorfitResult.Failed -> {
+                        is KtorfitResult.Failure -> {
                             MyOwnResponse.error(result.throwable)
                         }
 
