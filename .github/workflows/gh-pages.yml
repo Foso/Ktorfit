@@ -1,4 +1,4 @@
-name: build and deploy mkdocs to github pages
+name: Deploy to GitHub pages
 on:
   # schedule:
   # - cron:  '30 5,17 * * *'
