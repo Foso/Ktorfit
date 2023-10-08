@@ -107,7 +107,7 @@ public final class de/jensklingenberg/ktorfit/converter/Converter$SuspendRespons
 public abstract interface class de/jensklingenberg/ktorfit/converter/KtorfitResult {
 }
 
-public final class de/jensklingenberg/ktorfit/converter/KtorfitResult$Failed : de/jensklingenberg/ktorfit/converter/KtorfitResult {
+public final class de/jensklingenberg/ktorfit/converter/KtorfitResult$Failure : de/jensklingenberg/ktorfit/converter/KtorfitResult {
 	public fun <init> (Ljava/lang/Throwable;)V
 	public final fun getThrowable ()Ljava/lang/Throwable;
 }

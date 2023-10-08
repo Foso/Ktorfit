@@ -23,6 +23,8 @@ inspired by [Retrofit](https://square.github.io/retrofit/)
 
 Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.github.io/Ktorfit/)
 
+## Compatibility
+See https://foso.github.io/Ktorfit/#compatibility
 
 # Release
 
