@@ -61,7 +61,7 @@ public class Response<T> private constructor(
         }
 
         /** Create an error response from `rawResponse` with `body` as the error body.  */
-        public fun <T> error(body: Any?, rawResponse: HttpResponse): Response<T?> {
+        public fun <T> error(body: Any, rawResponse: HttpResponse): Response<T?> {
             require(!rawResponse.status.isSuccess()) { "rawResponse should not be successful response" }
             return Response(rawResponse, null, body)
         }

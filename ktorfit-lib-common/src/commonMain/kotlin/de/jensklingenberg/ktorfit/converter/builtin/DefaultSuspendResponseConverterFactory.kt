@@ -25,8 +25,7 @@ internal class DefaultSuspendResponseConverterFactory : Converter.Factory {
                 }
 
                 is KtorfitResult.Success -> {
-                    val response = result.response
-                    response.call.body(typeData.typeInfo)
+                    result.response.call.body(typeData.typeInfo)
                 }
             }
         }
