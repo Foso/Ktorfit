@@ -8,5 +8,5 @@ interface ExampleApi {
     suspend fun getUser(): Response<User>
 
     @GET("example.json")
-    suspend fun getUserMy(): MyOwnResponse<User>
+    suspend fun getUserResponse(): MyOwnResponse<User>
 }

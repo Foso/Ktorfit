@@ -50,7 +50,8 @@ val userKtorfit = ktorfit {
     converterFactories(
         FlowConverterFactory(),
         MyOwnResponseConverterFactory(),
-        UserFactory(), CallConverterFactory()
+        UserFactory(),
+        CallConverterFactory()
     )
 }
 
@@ -59,7 +60,7 @@ fun main() {
 
     runBlocking {
 
-        val user = userKtorfit.create<ExampleApi>().getUserMy()
+        val user = userKtorfit.create<ExampleApi>().getUserResponse()
 
         when (user) {
             is MyOwnResponse.Success -> {
