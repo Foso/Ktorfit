@@ -11,10 +11,3 @@ public final class de/jensklingenberg/ktorfit/converter/builtin/FlowResponseConv
 	public fun wrapResponse (Lde/jensklingenberg/ktorfit/internal/TypeData;Lkotlin/jvm/functions/Function1;Lde/jensklingenberg/ktorfit/Ktorfit;)Ljava/lang/Object;
 }
 
-public final class de/jensklingenberg/ktorfit/converters/flow/BuildConfig {
-	public static final field BUILD_TYPE Ljava/lang/String;
-	public static final field DEBUG Z
-	public static final field LIBRARY_PACKAGE_NAME Ljava/lang/String;
-	public fun <init> ()V
-}
-
