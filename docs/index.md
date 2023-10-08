@@ -10,6 +10,17 @@
 # Introduction
 Ktorfit is a HTTP client/Kotlin Symbol Processor for Kotlin Multiplatform (Js, Jvm, Android, iOS, Linux) using [KSP](https://github.com/google/ksp) and [Ktor clients](https://ktor.io/docs/getting-started-ktor-client.html) inspired by [Retrofit](https://square.github.io/retrofit/)
 
+## Compatibility
+
+| Ktorfit-version          |      Kotlin      |           KSP           |   Ktor    |
+|--------------------------|:----------------:|:-----------------------:|:---------:|
+| **_1.7.0-1.9.20-Beta2_** | **1.9.20-Beta2** | **1.9.20-Beta2-1.0.13** | **2.3.4** |
+| **_1.7.0_**              |    **1.9.10**    |       **1.0.13**        | **2.3.4** |
+| **_1.6.0_**              |    **1.9.10**    |       **1.0.13**        | **2.3.3** |
+| **_1.5.0_**              |    **1.9.0**     |       **1.0.13**        | **2.3.2** |
+| **_1.4.3_**              |    **1.8.20**    |       **1.0.11**        | **2.3.1** |
+
+
 # Installation
 Please see [Installation](./installation.md)
 
