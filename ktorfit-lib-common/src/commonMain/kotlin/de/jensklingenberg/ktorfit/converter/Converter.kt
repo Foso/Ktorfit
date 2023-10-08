@@ -33,7 +33,7 @@ public interface Converter<F, T> {
          *
          * @return the converted [HttpResponse]
          */
-        @Deprecated("Use convert(ktorfitResponse: KtorfitResponse)")
+        @Deprecated("Use convert(result: KtorfitResult)")
         public suspend fun convert(response: HttpResponse): T
 
         public suspend fun convert(result: KtorfitResult): T {
