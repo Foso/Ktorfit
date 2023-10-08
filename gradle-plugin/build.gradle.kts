@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version("1.9.10")
-    kotlin("kapt") version("1.9.10")
+    kotlin("jvm") version ("1.9.10")
+    kotlin("kapt") version ("1.9.10")
     id("java-gradle-plugin")
     `maven-publish`
     `kotlin-dsl`
@@ -49,7 +49,7 @@ gradlePlugin {
             implementationClass = "de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin" // entry-point class
             displayName = "Ktorfit Gradle Plugin"
             description = "Gradle Plugin for Ktorfit"
-            tags.set(listOf("http","kotlin","kotlin-mpp","ktor","rest"))
+            tags.set(listOf("http", "kotlin", "kotlin-mpp", "ktor", "rest"))
         }
     }
 }
@@ -61,11 +61,10 @@ publishing {
         create<MavenPublication>("default") {
             from(components["java"])
 
-
             pom {
                 name.set("ktorfit-gradle-plugin")
                 description.set("Gradle plugin for Ktorfit")
-                url.set("https://github.com/Foso/KotlinCompilerPluginExample")
+                url.set("https://github.com/Foso/Ktorfit")
 
                 licenses {
                     license {
