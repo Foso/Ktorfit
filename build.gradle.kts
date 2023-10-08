@@ -19,7 +19,7 @@ buildscript {
         classpath(libs.kotlin.serialization)
         classpath(libs.android.build.gradle)
         classpath (libs.licensee.gradle.plugin)
-        classpath(libs.gradle.plugin)
+        classpath(libs.ktorfit.gradle.plugin)
     }
 }
 
