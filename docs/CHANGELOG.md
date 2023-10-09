@@ -13,15 +13,18 @@ Unreleased
 ### Added
 
 ### Changed
-- Allow nullable body type #424
-- Use @Path parameter name as default value #426
-- Use @Query parameter name as default value #428
-- Use @Field parameter name as default value #430
-- You can now also get exceptions like NetworkException with SuspendResponseConverter. #389  
+- Allow nullable body type [#424](https://github.com/Foso/Ktorfit/issues/424)
+- Use @Path parameter name as default value [#426](https://github.com/Foso/Ktorfit/issues/426)
+- Use @Query parameter name as default value [#428](https://github.com/Foso/Ktorfit/issues/428)
+- Use @Field parameter name as default value [#430](https://github.com/Foso/Ktorfit/issues/428)
+- You can now also get exceptions like NetworkException with SuspendResponseConverter.[#389](https://github.com/Foso/Ktorfit/issues/389)
 
 ### Deprecated
 - Deprecated the `convert` function in the `SuspendResponseConverter` interface
 See: https://foso.github.io/migration/#from-170-to-180
+
+! When you still use the deprecated converters because there are use cases which you can't do with the converter factories, please write a GitHub Issue.
+The deprecated converters will be removed in one of the upcoming versions
 
 ### Removed
 ### Fixed

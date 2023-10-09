@@ -9,8 +9,8 @@ open class KtorfitGradleConfiguration {
     /**
      * version number of the compiler plugin
      */
-    @Deprecated("Update the this Gradle plugin instead of updating this version")
-    var version: String = "1.8.0-SNAPSHOT" // remember to bump this version before any release!
+    @Deprecated("Update the Gradle plugin instead of updating this version")
+    var version: String = "1.8.0" // remember to bump this version before any release!
 
     /**
      * used to get debug information from the compiler plugin

@@ -8,26 +8,32 @@
 </p>
 
 # Introduction
-Ktorfit is a HTTP client/Kotlin Symbol Processor for Kotlin Multiplatform (Js, Jvm, Android, iOS, Linux) using [KSP](https://github.com/google/ksp) and [Ktor clients](https://ktor.io/docs/getting-started-ktor-client.html) inspired by [Retrofit](https://square.github.io/retrofit/)
+
+Ktorfit is a HTTP client/Kotlin Symbol Processor for Kotlin Multiplatform (Js, Jvm, Android, iOS, Linux)
+using [KSP](https://github.com/google/ksp) and [Ktor clients](https://ktor.io/docs/getting-started-ktor-client.html)
+inspired by [Retrofit](https://square.github.io/retrofit/)
 
 ## Compatibility
 
-| Ktorfit-version          |      Kotlin      |           KSP           |   Ktor    |
-|--------------------------|:----------------:|:-----------------------:|:---------:|
-| **_1.7.0-1.9.20-Beta2_** | **1.9.20-Beta2** | **1.9.20-Beta2-1.0.13** | **2.3.4** |
-| **_1.7.0_**              |    **1.9.10**    |       **1.0.13**        | **2.3.4** |
-| **_1.6.0_**              |    **1.9.10**    |       **1.0.13**        | **2.3.3** |
-| **_1.5.0_**              |    **1.9.0**     |       **1.0.13**        | **2.3.2** |
-| **_1.4.3_**              |    **1.8.20**    |       **1.0.11**        | **2.3.1** |
-
+| Ktorfit-version          |          Kotlin           |           KSP           |   Ktor    |
+|--------------------------|:-------------------------:|:-----------------------:|:---------:|
+| **_1.8.0_**              | **1.9.10 / 1.9.20-Beta2** |       **1.0.13**        | **2.3.4** |
+| **_1.7.0-1.9.20-Beta2_** |     **1.9.20-Beta2**      | **1.9.20-Beta2-1.0.13** | **2.3.4** |
+| **_1.7.0_**              |        **1.9.10**         |       **1.0.13**        | **2.3.4** |
+| **_1.6.0_**              |        **1.9.10**         |       **1.0.13**        | **2.3.3** |
+| **_1.5.0_**              |         **1.9.0**         |       **1.0.13**        | **2.3.2** |
+| **_1.4.3_**              |        **1.8.20**         |       **1.0.11**        | **2.3.1** |
 
 # Installation
+
 Please see [Installation](./installation.md)
 
 # Quick start
+
 Please see [Quick start](./quick-start.md)
 
 ## Requests
+
 See [Requests](./requests.md)
 
 ## Converters
@@ -35,12 +41,16 @@ See [Requests](./requests.md)
 See documentation [Here](./converters/converters.md)
 
 ## Changelog
+
 See [changelog](./CHANGELOG.md)
 
 ## Acknowledgments
-Some parts of this project are reusing ideas that are originally coming from [Retrofit](https://square.github.io/retrofit/) from [Square](https://github.com/square). Thank you for Retrofit!
+
+Some parts of this project are reusing ideas that are originally coming
+from [Retrofit](https://square.github.io/retrofit/) from [Square](https://github.com/square). Thank you for Retrofit!
 
 Thanks to JetBrains for Ktor and Kotlin!
 
 ## Contributions
+
 When you find unexpected behaviour please write an [issue](https://github.com/Foso/Ktorfit/issues/new/choose)
