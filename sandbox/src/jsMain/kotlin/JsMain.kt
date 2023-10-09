@@ -20,7 +20,7 @@ fun main() {
             }
 
             else -> {
-                val error = (test as MyOwnResponse.Error)
+                val error = (test as MyOwnResponse.Error<*>)
                 println(error.ex)
             }
         }
