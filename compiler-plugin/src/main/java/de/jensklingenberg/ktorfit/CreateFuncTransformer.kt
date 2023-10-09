@@ -91,7 +91,7 @@ class CreateFuncTransformer(
                 //Set _ExampleApiImpl() as argument for create<ExampleApi>()
                 irCall.putValueArgument(0, newCall)
                 debugLogger.log(
-                    "Transformed " + argumentType.toIrBasedKotlinType().toString() + " to _$className" + "Impl"
+                    "Transformed " + argumentType.originalKotlinType.toString() + " to _$className" + "Impl"
                 )
                 return super.visitExpression(irCall)
             }
