@@ -22,7 +22,7 @@ Compatible with KSP 1.0.13 and Kotlin 1.9.10/1.9.20-Beta2
 
 ### Deprecated
 - Deprecated the `convert` function in the `SuspendResponseConverter` interface
-See: https://foso.github.io/Ktorfit/migration/#from-170-to-180
+See: https://foso.github.io/Ktorfit/migration/#from-170-to-181
 
 ! When you still use the deprecated converters because there are use cases which you can't do with the converter factories, please write a GitHub Issue.
 The deprecated converters will be removed in one of the upcoming versions
