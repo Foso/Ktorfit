@@ -7,8 +7,9 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
-1.8.0 - 2023-09-16
+1.8.1 - 2023-09-16
 ========================================
+Compatible with KSP 1.0.13 and Kotlin 1.9.10/1.9.20-Beta2
 
 ### Added
 
@@ -29,6 +30,10 @@ The deprecated converters will be removed in one of the upcoming versions
 ### Removed
 ### Fixed
 ### Security
+
+1.8.0 - 2023-09-16
+========================================
+Skip this version, it had an issue with Kotlin 1.9.20
 
 1.7.0-1.9.20-Beta2 - 2023-09-16
 ========================================
