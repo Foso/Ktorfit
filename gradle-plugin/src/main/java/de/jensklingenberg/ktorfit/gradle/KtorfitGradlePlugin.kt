@@ -21,8 +21,8 @@ class KtorfitGradlePlugin : Plugin<Project> {
         with(project) {
             extensions.create(GRADLE_TASKNAME, KtorfitGradleConfiguration::class.java)
 
-            val flowConverterDependencyNotation = "de.jensklingenberg.ktorfit:ktorfit-converters-flow:1.8.0"
-            val callConverterDependencyNotation = "de.jensklingenberg.ktorfit:ktorfit-converters-call:1.8.0"
+            val flowConverterDependencyNotation = "de.jensklingenberg.ktorfit:ktorfit-converters-flow:1.8.1"
+            val callConverterDependencyNotation = "de.jensklingenberg.ktorfit:ktorfit-converters-call:1.8.1"
 
             when (kotlinExtension) {
                 is KotlinSingleTargetExtension<*> -> {
