@@ -7,7 +7,7 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
-Unreleased
+1.8.0 - 2023-09-16
 ========================================
 
 ### Added
@@ -21,7 +21,7 @@ Unreleased
 
 ### Deprecated
 - Deprecated the `convert` function in the `SuspendResponseConverter` interface
-See: https://foso.github.io/migration/#from-170-to-180
+See: https://foso.github.io/Ktorfit/migration/#from-170-to-180
 
 ! When you still use the deprecated converters because there are use cases which you can't do with the converter factories, please write a GitHub Issue.
 The deprecated converters will be removed in one of the upcoming versions

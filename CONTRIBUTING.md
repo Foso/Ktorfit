@@ -1,9 +1,19 @@
 # Contributing guidelines
 
-We love external contributions! 
+Thank you for your interest in contributing to Ktorfit! 
+Before submitting a pull request, we kindly request that you follow these guidelines:
 
-Here are some guidelines to streamline the process.
+1) Feature Requests: If you have an idea for a new feature or enhancement, please create a feature request in GitHub [Issues](https://github.com/Foso/Ktorfit/issues/new?assignees=&labels=enhancement&projects=Ktorfit&template=feature_request.md&title=). This allows the community to discuss and provide feedback on the proposed changes before any code is written.
 
+2) Reporting Bugs
+
+If you encounter a bug or have a specific issue to report, please follow these steps:
+
+GitHub Issue Tracker: Use the GitHub Issue Tracker to report the bug. Provide as much detail as possible, including steps to reproduce the issue, expected behavior, and any relevant error messages or logs.
+
+Search for Existing Issues: Before creating a new issue, search the existing issues to see if the bug has already been reported. If you find a similar issue, you can add any additional information or reproduce the issue on that existing thread.
+
+When you already know how to fix the bug, feel free to send a Pull Request for it.
 
 ## Coding
 
@@ -14,7 +24,7 @@ Here are some guidelines to streamline the process.
     - Dependency updates should be standalone PRs whenever possible
     - Implement tests if applicable
 4. Do a round of manual QA
-5. Update `CHANGELOG.md` if applicable
+5. Update `docs/changelog.md` if applicable
 6. Update documentation if applicable
 7. Push to your fork's branch, open a PR
 
