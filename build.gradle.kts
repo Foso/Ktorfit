@@ -18,7 +18,7 @@ buildscript {
         classpath(libs.gradle.maven.publish.plugin)
         classpath(libs.kotlin.serialization)
         classpath(libs.android.build.gradle)
-        classpath (libs.licensee.gradle.plugin)
+        classpath(libs.licensee.gradle.plugin)
         classpath(libs.ktorfit.gradle.plugin)
     }
 }

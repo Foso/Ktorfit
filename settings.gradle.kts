@@ -27,7 +27,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Ktorfit"
 includeBuild("gradle-plugin") {
     dependencySubstitution {
-        substitute(module("de.jensklingenberg.ktorfit:gradle-plugin:1.7.0")).using(project(":"))
+        substitute(module("de.jensklingenberg.ktorfit:gradle-plugin")).using(project(":"))
     }
 }
 include(":sandbox")
