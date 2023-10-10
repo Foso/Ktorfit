@@ -1,7 +1,7 @@
 # Migration
 Here is how to migrate from deprecated code:
 
-## From 1.7.0 to 1.8.0
+## From 1.7.0 to 1.8.1
 
 ### SuspendResponseConverter
 Implement **override suspend fun convert(result: KtorfitResult)**
