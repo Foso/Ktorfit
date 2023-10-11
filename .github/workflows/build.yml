@@ -16,9 +16,9 @@ on:
     branches:
       - 'master'
       - 'release/**'
-concurrency:
-  group: ${{ github.head_ref }}
-  cancel-in-progress: true
+env:
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
+  
 jobs:
   api_check:
     name: API check
