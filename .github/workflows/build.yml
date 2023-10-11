@@ -17,7 +17,7 @@ on:
       - 'master'
       - 'release/**'
 env:
-  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
+  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx8g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
   
 jobs:
   api_check:
