@@ -17,8 +17,10 @@ on:
     branches:
       - 'master'
       - 'release/**'
+
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx6g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
+
 concurrency:
   group: ${{ github.head_ref }}
   cancel-in-progress: true
