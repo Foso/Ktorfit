@@ -10,7 +10,7 @@ import io.ktor.util.reflect.*
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
-@OptIn(InternalKtorfitApi::class)
+@InternalKtorfitApi
 internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
 
     private val httpClient: HttpClient = ktorfit.httpClient
@@ -19,28 +19,21 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     /**
      * This will handle all requests for functions without suspend modifier
      */
-    override fun <ReturnType, RequestType : Any?> request(
-        requestData: RequestData
+    override fun <ReturnType, RequestType> request(
+        returnTypeData: TypeData,
+        requestBuilder: HttpRequestBuilder.() -> Unit
     ): ReturnType? {
-        val returnTypeData = requestData.getTypeData()
-
-        ktorfit.nextResponseConverter(null, returnTypeData)?.let { responseConverter ->
-
-            return responseConverter.convert {
-                suspendRequest<HttpResponse, HttpResponse>(
-                    RequestData(
-                        ktorfitRequestBuilder = requestData.ktorfitRequestBuilder,
-                        returnTypeName = "io.ktor.client.statement.HttpResponse",
-                        returnTypeInfo = typeInfo<HttpResponse>()
-                    )
-                )!!
-            } as ReturnType?
-        }
+        ktorfit.nextResponseConverter(null, returnTypeData)?.convert {
+            suspendRequest<HttpResponse, HttpResponse>(
+                TypeData.createTypeData("io.ktor.client.statement.HttpResponse", typeInfo<HttpResponse>()),
+                requestBuilder
+            )!!
+        } as ReturnType?
 
         /**
          * Keeping this for compatibility
          */
-        handleDeprecatedResponseConverters<ReturnType, RequestType>(requestData, ktorfit)?.let {
+        handleDeprecatedResponseConverters<ReturnType, RequestType>(returnTypeData, ktorfit, requestBuilder)?.let {
             return it
         }
 
@@ -48,7 +41,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         return if (typeIsNullable) {
             null
         } else {
-            throw IllegalArgumentException("Add a ResponseConverter for " + returnTypeData.qualifiedName + " or make function suspend")
+            throw IllegalStateException("Add a ResponseConverter for " + returnTypeData.qualifiedName + " or make function suspend")
         }
 
     }
@@ -57,23 +50,22 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    override suspend fun <ReturnType, RequestType : Any?> suspendRequest(
-        requestData: RequestData
+    override suspend fun <ReturnType, RequestType> suspendRequest(
+        typeData: TypeData,
+        requestBuilder: HttpRequestBuilder.() -> Unit
     ): ReturnType? {
-        val returnTypeData = requestData.getTypeData()
 
         try {
-            if (returnTypeData.typeInfo.type == HttpStatement::class) {
+            if (typeData.typeInfo.type == HttpStatement::class) {
                 return httpClient.prepareRequest {
-                    requestBuilder(requestData)
+                    requestBuilder(this)
                 } as ReturnType
             }
 
-            ktorfit.nextSuspendResponseConverter(null, returnTypeData)?.let {
-
+            ktorfit.nextSuspendResponseConverter(null, typeData)?.let {
                 val result: KtorfitResult = try {
                     KtorfitResult.Success(httpClient.request {
-                        requestBuilder(requestData)
+                        requestBuilder(this)
                     })
                 } catch (exception: Exception) {
                     KtorfitResult.Failure(exception)
@@ -84,17 +76,26 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
             /**
              * Keeping this for compatibility
              */
-            handleDeprecatedSuspendResponseConverters<ReturnType, RequestType>(requestData, httpClient, ktorfit)?.let {
+            handleDeprecatedSuspendResponseConverters<ReturnType, RequestType>(
+                typeData,
+                httpClient,
+                ktorfit,
+                requestBuilder
+            )?.let {
                 return it
-            } ?: DefaultSuspendResponseConverterFactory().suspendResponseConverter(returnTypeData, ktorfit).let {
-                val response = httpClient.request {
-                    requestBuilder(requestData)
+            } ?: DefaultSuspendResponseConverterFactory().suspendResponseConverter(typeData, ktorfit).let {
+                val result: KtorfitResult = try {
+                    KtorfitResult.Success(httpClient.request {
+                        requestBuilder(this)
+                    })
+                } catch (exception: Exception) {
+                    KtorfitResult.Failure(exception)
                 }
-                return it.convert(response) as ReturnType?
+                return it.convert(result) as ReturnType?
             }
 
         } catch (exception: Exception) {
-            val typeIsNullable = returnTypeData.typeInfo.kotlinType?.isMarkedNullable ?: false
+            val typeIsNullable = typeData.typeInfo.kotlinType?.isMarkedNullable ?: false
             return if (typeIsNullable) {
                 null
             } else {
@@ -111,13 +112,9 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         val requestConverter = ktorfit.requestConverters.firstOrNull {
             it.supportedType(parameterType, requestType)
         }
-            ?: throw IllegalArgumentException("No RequestConverter found to convert ${parameterType.simpleName} to ${requestType.simpleName}")
+            ?: throw IllegalStateException("No RequestConverter found to convert ${parameterType.simpleName} to ${requestType.simpleName}")
         return requestType.cast(requestConverter.convert(data))
     }
 
-    private fun HttpRequestBuilder.requestBuilder(
-        requestData: RequestData
-    ) {
-        requestData.ktorfitRequestBuilder(this)
-    }
+
 }

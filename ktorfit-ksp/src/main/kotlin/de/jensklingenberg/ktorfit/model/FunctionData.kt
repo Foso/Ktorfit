@@ -12,7 +12,7 @@ import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
 import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
 import de.jensklingenberg.ktorfit.requestData.addRequestConverterText
-import de.jensklingenberg.ktorfit.requestData.getRequestDataArgumentText
+import de.jensklingenberg.ktorfit.requestData.getTypeDataArgumentText
 import de.jensklingenberg.ktorfit.utils.*
 
 data class FunctionData(
@@ -50,12 +50,12 @@ data class FunctionData(
                 )
             )
             .addStatement(
-                getRequestDataArgumentText(
+                getTypeDataArgumentText(
                     this,
                 )
             )
             .addStatement(
-                "return %L.%L<${returnTypeName}, ${innerReturnType}>(${requestDataClass.objectName})$nullableText",
+                "return %L.%L<${returnTypeName}, ${innerReturnType}>(${typeDataClass.objectName},__ext)$nullableText",
                 ktorfitClientClass.objectName,
                 if (this.isSuspend) {
                     "suspendRequest"

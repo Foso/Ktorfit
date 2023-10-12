@@ -1,20 +1,27 @@
 package de.jensklingenberg.ktorfit.internal
 
+import io.ktor.client.request.*
 import kotlin.reflect.KClass
 
-@OptIn(InternalKtorfitApi::class)
+@InternalKtorfitApi
 public interface Client {
 
     /**
      * This will handle all requests for functions without suspend modifier
      */
-    public fun <ReturnType, RequestType> request(requestData: RequestData): ReturnType?
+    public fun <ReturnType, RequestType> request(
+        returnTypeData: TypeData,
+        requestBuilder: HttpRequestBuilder.() -> Unit
+    ): ReturnType?
 
     /**
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    public suspend fun <ReturnType, RequestType> suspendRequest(requestData: RequestData): ReturnType?
+    public suspend fun <ReturnType, RequestType> suspendRequest(
+        typeData: TypeData,
+        requestBuilder: HttpRequestBuilder.() -> Unit
+    ): ReturnType?
 
     /**
      * Convert [data] of type [parameterType] to [requestType]

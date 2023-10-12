@@ -52,6 +52,6 @@ fun getReqBuilderExtensionText(functionData: FunctionData, resolver: Resolver): 
     ).filter { it.isNotEmpty() }
         .joinToString("\n") { it }
 
-    return "val _ext: HttpRequestBuilder.() -> Unit = {\n$args \n}"
+    return "val __ext: HttpRequestBuilder.() -> Unit = {\n$args \n}"
 }
 

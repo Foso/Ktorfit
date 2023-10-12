@@ -67,7 +67,7 @@ fun getFieldArgumentsText(params: List<ParameterData>, listType: KSType, arrayTy
     }
 
     return (fieldText + fieldMapStrings).surroundIfNotEmpty(
-        "val _formParameters = Parameters.build {\n", "}\nsetBody(FormDataContent(_formParameters))\n"
+        "val __formParameters = Parameters.build {\n", "}\nsetBody(FormDataContent(__formParameters))\n"
     )
 }
 
