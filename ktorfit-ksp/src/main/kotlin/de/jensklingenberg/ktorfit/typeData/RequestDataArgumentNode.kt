@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.requestData
+package de.jensklingenberg.ktorfit.typeData
 
 
 import de.jensklingenberg.ktorfit.model.FunctionData

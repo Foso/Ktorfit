@@ -21,7 +21,7 @@ interface HttpStatement
     )
 
     @Test
-    fun whenStreamingAnnotationFound_SetHttpStatementAsFunctionReturnType() {
+    fun whenStreamingAnnotationFound_ThenSetHttpStatementAsFunctionReturnType() {
 
         val source = SourceFile.kotlin(
             "Source.kt", """
@@ -39,7 +39,7 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = """return ktorfitClient.suspendRequest<HttpStatement, HttpStatement>(_requestData)!!"""
+        val expectedFunctionText = """return ktorfitClient.suspendRequest<HttpStatement, HttpStatement>(__typeData,__ext)!!"""
 
         val compilation = getCompilation(listOf(httpStatement, source))
         val result = compilation.compile()

@@ -31,17 +31,16 @@ data class ClassData(
 
 const val WILDCARDIMPORT = "WILDCARDIMPORT"
 
-@Suppress("LocalVariableName")
-        /**
-         * Transform a [ClassData] to a [FileSpec] for KotlinPoet
-         */
+/**
+ * Transform a [ClassData] to a [FileSpec] for KotlinPoet
+ */
 fun ClassData.getImplClassFileSource(resolver: Resolver): String {
     val classData = this
     val optinAnnotation = AnnotationSpec.builder(ClassName("kotlin", "OptIn"))
         .addMember("InternalKtorfitApi::class")
         .build()
 
-    val optinAnnotation2 = AnnotationSpec.builder(ClassName("kotlin", "Suppress"))
+    val suppressAnnotation = AnnotationSpec.builder(ClassName("kotlin", "Suppress"))
         .addMember("\"LocalVariableName\"")
         .addMember("\"UNNECESSARY_SAFE_CALL\"")
         .build()
@@ -88,7 +87,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
         .addAnnotation(
             optinAnnotation
         )
-        .addAnnotation(optinAnnotation2)
+        .addAnnotation(suppressAnnotation)
         .addModifiers(classData.modifiers)
         .addSuperinterface(ClassName(classData.packageName, classData.name))
         .addSuperinterface(ktorfitServiceClassName)

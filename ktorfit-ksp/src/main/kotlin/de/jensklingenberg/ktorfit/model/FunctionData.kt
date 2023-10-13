@@ -11,8 +11,8 @@ import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
 import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
-import de.jensklingenberg.ktorfit.requestData.addRequestConverterText
-import de.jensklingenberg.ktorfit.requestData.getTypeDataArgumentText
+import de.jensklingenberg.ktorfit.typeData.addRequestConverterText
+import de.jensklingenberg.ktorfit.typeData.getTypeDataArgumentText
 import de.jensklingenberg.ktorfit.utils.*
 
 data class FunctionData(

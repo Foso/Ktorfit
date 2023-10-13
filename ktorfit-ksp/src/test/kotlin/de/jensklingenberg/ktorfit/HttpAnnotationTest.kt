@@ -93,7 +93,7 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = """val _ext: HttpRequestBuilder.() -> Unit = {
+        val expectedFunctionText = """val __ext: HttpRequestBuilder.() -> Unit = {
         method = HttpMethod.parse("GET2")
         url{
         takeFrom(ktorfitClient.baseUrl + "user")

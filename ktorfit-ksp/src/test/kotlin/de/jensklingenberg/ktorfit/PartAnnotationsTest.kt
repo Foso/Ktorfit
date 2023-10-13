@@ -58,10 +58,10 @@ interface TestService {
     """
         )
 
-        val expectedPartsArgumentText = """val _formData = formData {
-        testPart?.let{ append("name", "ä{it}") }
+        val expectedPartsArgumentText = """val __formData = formData {
+        testPart?.let{ append("name", "$/{it}") }
         }
-        setBody(MultiPartFormDataContent(_formData))""".replace("ä", "$")
+        setBody(MultiPartFormDataContent(__formData))""".replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -95,10 +95,10 @@ interface TestService {
     """
         )
 
-        val expectedPartsArgumentText = """val _formData = formData {
-        testPart?.filterNotNull()?.forEach { append("name", "ä{it}") }
+        val expectedPartsArgumentText = """val __formData = formData {
+        testPart?.filterNotNull()?.forEach { append("name", "$/{it}") }
         }
-        setBody(MultiPartFormDataContent(_formData))""".replace("ä", "$")
+        setBody(MultiPartFormDataContent(__formData))""".replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -135,10 +135,10 @@ interface TestService {
         )
 
 
-        val expectedPartsArgumentText = """val _formData = formData {
-        testPartMap?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}") } }
+        val expectedPartsArgumentText = """val __formData = formData {
+        testPartMap?.forEach { entry -> entry.value?.let{ append(entry.key, "$/{entry.value}") } }
         }
-        setBody(MultiPartFormDataContent(_formData))""".replace("ä", "$")
+        setBody(MultiPartFormDataContent(__formData))""".replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -176,11 +176,11 @@ interface TestService {
     """
         )
 
-        val expectedPartsArgumentText = """val _formData = formData {
-        testPart?.let{ append("name", "ä{it}") }
-        name?.forEach { entry -> entry.value?.let{ append(entry.key, "ä{entry.value}") } }
+        val expectedPartsArgumentText = """val __formData = formData {
+        testPart?.let{ append("name", "$/{it}") }
+        name?.forEach { entry -> entry.value?.let{ append(entry.key, "$/{entry.value}") } }
         }
-        setBody(MultiPartFormDataContent(_formData))""".trimMargin().replace("ä", "$")
+        setBody(MultiPartFormDataContent(__formData))""".trimMargin().replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

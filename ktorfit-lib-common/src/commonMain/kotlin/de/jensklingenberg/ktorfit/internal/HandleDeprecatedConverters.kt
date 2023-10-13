@@ -19,22 +19,24 @@ internal fun <ReturnType, RequestType : Any?> KtorfitClient.handleDeprecatedResp
         converter.supportedType(
             returnTypeData, false
         )
-    }?.wrapResponse<RequestType?>(
-        typeData = returnTypeData,
-        requestFunction = {
-            try {
-                val data =
-                    suspendRequest<HttpResponse, HttpResponse>(
-                        TypeData.createTypeData("io.ktor.client.statement.HttpResponse", typeInfo<HttpResponse>()),
-                        requestBuilder
-                    )
-                Pair(requestTypeInfo, data)
-            } catch (ex: Exception) {
-                throw ex
-            }
-        },
-        ktorfit = ktorfit
-    ) as ReturnType?
+    }?.let {
+        return it.wrapResponse<RequestType?>(
+            typeData = returnTypeData,
+            requestFunction = {
+                try {
+                    val data =
+                        suspendRequest<HttpResponse, HttpResponse>(
+                            TypeData.createTypeData("io.ktor.client.statement.HttpResponse", typeInfo<HttpResponse>()),
+                            requestBuilder
+                        )
+                    Pair(requestTypeInfo, data)
+                } catch (ex: Exception) {
+                    throw ex
+                }
+            },
+            ktorfit = ktorfit
+        ) as ReturnType?
+    }
 
     return null
 }
@@ -51,14 +53,17 @@ internal suspend fun <ReturnType, RequestType : Any?> handleDeprecatedSuspendRes
         converter.supportedType(
             returnTypeData, true
         )
-    }?.wrapSuspendResponse<RequestType>(
-        typeData = returnTypeData,
-        requestFunction = {
-            Pair(requestTypeInfo, httpClient.request {
-                requestBuilder(this)
-            })
-        }, ktorfit
-    ) as ReturnType?
+    }?.let {
+        return it.wrapSuspendResponse<RequestType>(
+            typeData = returnTypeData,
+            requestFunction = {
+                Pair(requestTypeInfo, httpClient.request {
+                    requestBuilder(this)
+                })
+            }, ktorfit
+        ) as ReturnType?
+    }
+
 
     return null
 }
