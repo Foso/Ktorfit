@@ -19,16 +19,19 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
     /**
      * This will handle all requests for functions without suspend modifier
      */
-    override fun <ReturnType, RequestType> request(
+    override fun <ReturnType, RequestType : Any?> request(
         returnTypeData: TypeData,
         requestBuilder: HttpRequestBuilder.() -> Unit
     ): ReturnType? {
-        ktorfit.nextResponseConverter(null, returnTypeData)?.convert {
-            suspendRequest<HttpResponse, HttpResponse>(
-                TypeData.createTypeData("io.ktor.client.statement.HttpResponse", typeInfo<HttpResponse>()),
-                requestBuilder
-            )!!
-        } as ReturnType?
+
+        ktorfit.nextResponseConverter(null, returnTypeData)?.let { responseConverter ->
+            return responseConverter.convert {
+                suspendRequest<HttpResponse, HttpResponse>(
+                    TypeData.createTypeData("io.ktor.client.statement.HttpResponse", typeInfo<HttpResponse>()),
+                    requestBuilder
+                )!!
+            } as ReturnType?
+        }
 
         /**
          * Keeping this for compatibility
@@ -50,7 +53,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    override suspend fun <ReturnType, RequestType> suspendRequest(
+    override suspend fun <ReturnType, RequestType : Any?> suspendRequest(
         typeData: TypeData,
         requestBuilder: HttpRequestBuilder.() -> Unit
     ): ReturnType? {

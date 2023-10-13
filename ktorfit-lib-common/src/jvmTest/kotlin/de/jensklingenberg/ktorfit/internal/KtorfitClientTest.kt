@@ -3,10 +3,12 @@ package de.jensklingenberg.ktorfit.internal
 import de.jensklingenberg.ktorfit.*
 import de.jensklingenberg.ktorfit.http.GET
 import io.ktor.client.*
+import io.ktor.client.engine.mock.*
 import io.ktor.client.request.*
+import io.ktor.http.*
+import io.ktor.utils.io.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -49,20 +51,27 @@ class ClientTest {
 
     @Test
     fun throwExceptionWhenResponseConverterMissing() {
-
         try {
-            val engine = object : TestEngine() {
-                override fun getRequestData(data: HttpRequestData) {
-                }
+
+            val mockResponseContent = """{"ip":"127.0.0.1"}"""
+
+            val mockEngine = MockEngine { _ ->
+                respond(
+                    content = ByteReadChannel(mockResponseContent),
+                    status = HttpStatusCode.OK,
+                    headers = headersOf(HttpHeaders.ContentType, "application/json")
+                )
             }
 
-            val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(HttpClient(engine)).build()
+            val client = HttpClient(mockEngine) {}
+
+            val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(client).build()
             runBlocking {
                 ktorfit.create<ClientTestApi>(_ClientTestApiImpl()).converterMissing()
             }
 
         } catch (exception: Exception) {
-            assertTrue(exception is IllegalArgumentException)
+            assertTrue(exception is IllegalStateException)
             assertTrue(exception.message?.startsWith("Add a ResponseConverter") ?: false)
         }
     }
@@ -77,7 +86,7 @@ class ClientTest {
             assertEquals(4, converted)
 
         } catch (ex: Exception) {
-            assertTrue(ex is IllegalArgumentException)
+            assertTrue(ex is IllegalStateException)
             assertEquals(true, ex.message!!.contains("No RequestConverter found to convert "))
         }
     }
