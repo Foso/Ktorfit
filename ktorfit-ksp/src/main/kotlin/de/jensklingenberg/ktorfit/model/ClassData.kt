@@ -8,7 +8,8 @@ import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
-import de.jensklingenberg.ktorfit.model.annotations.*
+import de.jensklingenberg.ktorfit.model.annotations.FormUrlEncoded
+import de.jensklingenberg.ktorfit.model.annotations.Multipart
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
 import de.jensklingenberg.ktorfit.utils.addImports
 import de.jensklingenberg.ktorfit.utils.getFileImports
@@ -37,6 +38,11 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
     val classData = this
     val optinAnnotation = AnnotationSpec.builder(ClassName("kotlin", "OptIn"))
         .addMember("InternalKtorfitApi::class")
+        .build()
+
+    val suppressAnnotation = AnnotationSpec.builder(ClassName("kotlin", "Suppress"))
+        .addMember("\"LocalVariableName\"")
+        .addMember("\"UNNECESSARY_SAFE_CALL\"")
         .build()
 
     val createExtensionFunctionSpec = getCreateExtensionFunctionSpec(classData)
@@ -81,6 +87,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
         .addAnnotation(
             optinAnnotation
         )
+        .addAnnotation(suppressAnnotation)
         .addModifiers(classData.modifiers)
         .addSuperinterface(ClassName(classData.packageName, classData.name))
         .addSuperinterface(ktorfitServiceClassName)

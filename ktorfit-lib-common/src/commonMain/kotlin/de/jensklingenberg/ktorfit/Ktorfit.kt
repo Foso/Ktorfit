@@ -84,6 +84,7 @@ public class Ktorfit private constructor(
      * @param ktorfitService Please keep the default parameter, it will be replaced
      * by the compiler plugin
      */
+    @OptIn(InternalKtorfitApi::class)
     public fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
         if (ktorfitService is DefaultKtorfitService) {
             throw IllegalArgumentException(ENABLE_GRADLE_PLUGIN)
@@ -232,6 +233,7 @@ public fun ktorfit(builder: Ktorfit.Builder.() -> Unit): Ktorfit = Ktorfit.Build
  */
 public fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit): Ktorfit.Builder = Ktorfit.Builder().apply(builder)
 
+@OptIn(InternalKtorfitApi::class)
 @Deprecated("Use the non-Extension function")
 /**
  * This will return an implementation of [T] if [T] is an interface

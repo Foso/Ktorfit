@@ -80,7 +80,7 @@ class ConverterFactoryTest {
                 typeData: TypeData,
                 ktorfit: Ktorfit
             ): Converter.ResponseConverter<HttpResponse, *>? {
-                if (typeData.qualifiedName == "kotlinx.coroutines.flow.Flow") {
+                if (typeData.typeInfo.type == Flow::class) {
                     return object : Converter.ResponseConverter<HttpResponse, Flow<Any>> {
 
                         override fun convert(getResponse: suspend () -> HttpResponse): Flow<Any> {

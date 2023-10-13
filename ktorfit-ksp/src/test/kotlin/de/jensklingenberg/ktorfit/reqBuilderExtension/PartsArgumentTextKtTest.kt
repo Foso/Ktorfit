@@ -32,10 +32,10 @@ class PartsArgumentTextKtTest {
         )
         val params = listOf(parameterData)
         val text = getPartsCode(params, listType, arrayType)
-        val expected = """|val _formData = formData {
+        val expected = """|val __formData = formData {
                             |test1?.let{ append("world", "$/{it}") }
                             |}
-                            |setBody(MultiPartFormDataContent(_formData))
+                            |setBody(MultiPartFormDataContent(__formData))
                             |
                             """.trimMargin().replace("$/", "$")
         assertEquals(expected, text)
@@ -53,10 +53,10 @@ class PartsArgumentTextKtTest {
 
         val params = listOf(parameterData1, parameterData2)
         val text = getPartsCode(params, listType, arrayType)
-        val expected = """val _formData = formData {
+        val expected = """val __formData = formData {
 test1?.forEach { entry -> entry.value?.let{ append(entry.key, "$/{entry.value}") } }
 }
-setBody(MultiPartFormDataContent(_formData))
+setBody(MultiPartFormDataContent(__formData))
 
 """.trimMargin().replace("$/", "$")
         assertEquals(expected, text)
@@ -80,11 +80,11 @@ setBody(MultiPartFormDataContent(_formData))
 
         val params = listOf(parameterData1, parameterData2)
         val text = getPartsCode(params, listType, arrayType)
-        val expected = """|val _formData = formData {
+        val expected = """|val __formData = formData {
                             |test2?.let{ append("world", "$/{it}") }
                             |test1?.forEach { entry -> entry.value?.let{ append(entry.key, "$/{entry.value}") } }
                             |}
-                            |setBody(MultiPartFormDataContent(_formData))
+                            |setBody(MultiPartFormDataContent(__formData))
                             |
                             """.trimMargin().replace("$/", "$")
 

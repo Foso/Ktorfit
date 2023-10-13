@@ -8,10 +8,10 @@ import io.ktor.util.reflect.*
 
 @OptIn(InternalKtorfitApi::class)
 internal fun <ReturnType, RequestType : Any?> KtorfitClient.handleDeprecatedResponseConverters(
-    requestData: RequestData,
-    ktorfit: Ktorfit
+    returnTypeData: TypeData,
+    ktorfit: Ktorfit,
+    requestBuilder: HttpRequestBuilder.() -> Unit
 ): ReturnType? {
-    val returnTypeData = requestData.getTypeData()
 
     val requestTypeInfo = returnTypeData.typeArgs.firstOrNull()?.typeInfo ?: returnTypeData.typeInfo
 
@@ -19,18 +19,15 @@ internal fun <ReturnType, RequestType : Any?> KtorfitClient.handleDeprecatedResp
         converter.supportedType(
             returnTypeData, false
         )
-    }?.let { requestConverter ->
-        return requestConverter.wrapResponse<RequestType?>(
+    }?.let {
+        return it.wrapResponse<RequestType?>(
             typeData = returnTypeData,
             requestFunction = {
                 try {
                     val data =
                         suspendRequest<HttpResponse, HttpResponse>(
-                            RequestData(
-                                ktorfitRequestBuilder = requestData.ktorfitRequestBuilder,
-                                returnTypeName = "io.ktor.client.statement.HttpResponse",
-                                returnTypeInfo = typeInfo<HttpResponse>()
-                            )
+                            TypeData.createTypeData("io.ktor.client.statement.HttpResponse", typeInfo<HttpResponse>()),
+                            requestBuilder
                         )
                     Pair(requestTypeInfo, data)
                 } catch (ex: Exception) {
@@ -44,13 +41,12 @@ internal fun <ReturnType, RequestType : Any?> KtorfitClient.handleDeprecatedResp
     return null
 }
 
-@OptIn(InternalKtorfitApi::class)
 internal suspend fun <ReturnType, RequestType : Any?> handleDeprecatedSuspendResponseConverters(
-    requestData: RequestData,
+    returnTypeData: TypeData,
     httpClient: HttpClient,
-    ktorfit: Ktorfit
+    ktorfit: Ktorfit,
+    requestBuilder: HttpRequestBuilder.() -> Unit
 ): ReturnType? {
-    val returnTypeData = requestData.getTypeData()
 
     val requestTypeInfo = returnTypeData.typeArgs.firstOrNull()?.typeInfo ?: returnTypeData.typeInfo
     ktorfit.suspendResponseConverters.firstOrNull { converter ->
@@ -62,10 +58,12 @@ internal suspend fun <ReturnType, RequestType : Any?> handleDeprecatedSuspendRes
             typeData = returnTypeData,
             requestFunction = {
                 Pair(requestTypeInfo, httpClient.request {
-                    requestData.ktorfitRequestBuilder(this)
+                    requestBuilder(this)
                 })
             }, ktorfit
         ) as ReturnType?
     }
+
+
     return null
 }

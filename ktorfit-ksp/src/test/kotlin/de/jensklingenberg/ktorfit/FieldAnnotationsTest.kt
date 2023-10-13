@@ -84,10 +84,10 @@ interface TestService {
     """
         )
 
-        val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
+        val expectedFieldsBuilderText = """val __formParameters = Parameters.build {
         testField?.let{ append("name", "$/{it}") }
         }
-        setBody(FormDataContent(_formParameters))""".trimMargin().replace("$/", "$")
+        setBody(FormDataContent(__formParameters))""".trimMargin().replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -119,10 +119,10 @@ interface TestService {
     """
         )
 
-        val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
+        val expectedFieldsBuilderText = """val __formParameters = Parameters.build {
         name?.let{ append("name", "$/{it}") }
         }
-        setBody(FormDataContent(_formParameters))""".trimMargin().replace("$/", "$")
+        setBody(FormDataContent(__formParameters))""".trimMargin().replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -154,10 +154,10 @@ interface TestService {
     """
         )
 
-        val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
+        val expectedFieldsBuilderText = """val __formParameters = Parameters.build {
         testField?.filterNotNull()?.forEach { append("name", "$/it") }
         }
-        setBody(FormDataContent(_formParameters))""".trimMargin().replace("$/", "$")
+        setBody(FormDataContent(__formParameters))""".trimMargin().replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -189,10 +189,10 @@ interface TestService {
     """
         )
 
-        val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
+        val expectedFieldsBuilderText = """val __formParameters = Parameters.build {
         testField?.filterNotNull()?.forEach { append("name", "$/it") }
         }
-        setBody(FormDataContent(_formParameters))""".trimMargin().replace("$/", "$")
+        setBody(FormDataContent(__formParameters))""".trimMargin().replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -226,7 +226,7 @@ interface TestService {
         )
 
 
-        val expectedFieldsBuilderText = "val _formParameters = Parameters.build {\n" +
+        val expectedFieldsBuilderText = "val __formParameters = Parameters.build {\n" +
                 "        testFieldMap?.forEach { entry -> entry.value?.let{ append(entry.key, \"$" + "{entry.value}\") } }\n" +
                 "        }"
 
@@ -265,11 +265,11 @@ interface TestService {
     """
         )
 
-        val expectedFieldsBuilderText = """val _formParameters = Parameters.build {
+        val expectedFieldsBuilderText = """val __formParameters = Parameters.build {
         testField?.let{ append("name", "$/{it}") }
         name?.forEach { entry -> entry.value?.let{ append(entry.key, "$/{entry.value}") } }
         }
-        setBody(FormDataContent(_formParameters))""".trimMargin().replace("$/", "$")
+        setBody(FormDataContent(__formParameters))""".trimMargin().replace("$/", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

@@ -34,7 +34,7 @@ fun getPartsCode(params: List<ParameterData>, listType: KSType, arrayType: KSTyp
     }
 
     return (partText + partMapStrings).surroundIfNotEmpty(
-        "val _formData = formData {\n", "}\nsetBody(MultiPartFormDataContent(_formData))\n"
+        "val __formData = formData {\n", "}\nsetBody(MultiPartFormDataContent(__formData))\n"
     )
 }
 

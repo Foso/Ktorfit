@@ -10,7 +10,7 @@ class RequestDataTest {
     @Test
     fun testTypeDataCreator() {
 
-        val typeData =  RequestData({},"kotlin.Map<kotlin.String?, kotlin.Int?>", typeInfo<Map<String, Int?>>()).getTypeData()
+        val typeData = TypeData.createTypeData("kotlin.Map<kotlin.String?, kotlin.Int?>", typeInfo<Map<String, Int?>>())
 
         assertEquals("kotlin.Map", typeData.qualifiedName)
         assertTrue(typeData.typeInfo.type == Map::class)

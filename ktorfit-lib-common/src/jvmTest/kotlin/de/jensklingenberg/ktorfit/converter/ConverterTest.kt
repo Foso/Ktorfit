@@ -40,7 +40,7 @@ class ConverterTest {
             }
 
             override fun supportedType(typeData: TypeData, isSuspend: Boolean): Boolean {
-                return typeData.qualifiedName == "kotlinx.coroutines.flow.Flow"
+                return typeData.typeInfo.type == Flow::class
             }
 
         }
