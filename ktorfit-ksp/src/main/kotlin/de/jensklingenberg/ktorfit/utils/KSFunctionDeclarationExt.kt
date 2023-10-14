@@ -15,6 +15,13 @@ fun KSFunctionDeclaration.getHeaderAnnotation(): Headers? {
 }
 
 @OptIn(KspExperimental::class)
+fun KSFunctionDeclaration.getTimeoutAnnotation(): Timeout? {
+    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Timeout::class).firstOrNull()?.let { timeout ->
+        return Timeout(timeout.requestTimeout,timeout.connectTimeout,timeout.socketTimeout)
+    }
+}
+
+@OptIn(KspExperimental::class)
 fun KSFunctionDeclaration.getFormUrlEncodedAnnotation(): FormUrlEncoded? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.FormUrlEncoded::class).firstOrNull()?.let {
         return FormUrlEncoded()

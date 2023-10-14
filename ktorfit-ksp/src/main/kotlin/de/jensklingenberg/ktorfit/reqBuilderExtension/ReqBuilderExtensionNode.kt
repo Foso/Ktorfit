@@ -41,6 +41,7 @@ fun getReqBuilderExtensionText(functionData: FunctionData, resolver: Resolver): 
     )
     val url = getUrlCode(functionData.parameterDataList, functionData.httpMethodAnnotation, queryCode)
     val customReqBuilder = getCustomRequestBuilderText(functionData.parameterDataList)
+    val timeout = getTimeoutCode(functionData.annotations)
     val args = listOf(
         method,
         url,
@@ -48,7 +49,8 @@ fun getReqBuilderExtensionText(functionData: FunctionData, resolver: Resolver): 
         headers,
         fields,
         parts,
-        customReqBuilder
+        customReqBuilder,
+        timeout
     ).filter { it.isNotEmpty() }
         .joinToString("\n") { it }
 

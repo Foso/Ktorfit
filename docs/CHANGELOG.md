@@ -53,6 +53,7 @@ id("de.jensklingenberg.ktorfit") version "1.7.0"
 
 ### Added
 - Added a compiler type checks if the type used for the create function is an interface
+- Added timeout annotation to a request. include requestTimeout/connectTimeout/socketTimeout
 
 ### Changed
 - Upgrade dependencies: Ktor 2.3.4
