@@ -16,13 +16,16 @@ class KtorfitGradlePlugin : Plugin<Project> {
     private val Project.kotlinExtension: KotlinProjectExtension?
         get() = this.extensions.findByType<KotlinProjectExtension>()
 
+    private fun Project.getKtorfitConfig() =
+        this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
+
     override fun apply(project: Project) {
 
         with(project) {
             extensions.create(GRADLE_TASKNAME, KtorfitGradleConfiguration::class.java)
 
-            val flowConverterDependencyNotation = "de.jensklingenberg.ktorfit:ktorfit-converters-flow:1.8.1"
-            val callConverterDependencyNotation = "de.jensklingenberg.ktorfit:ktorfit-converters-call:1.8.1"
+            val flowConverterDependencyNotation = "de.jensklingenberg.ktorfit:ktorfit-converters-flow:"+project.getKtorfitConfig().version
+            val callConverterDependencyNotation = "de.jensklingenberg.ktorfit:ktorfit-converters-call:"+project.getKtorfitConfig().version
 
             when (kotlinExtension) {
                 is KotlinSingleTargetExtension<*> -> {

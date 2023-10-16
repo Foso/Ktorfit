@@ -1,14 +1,12 @@
 plugins {
-    kotlin("jvm") version ("1.9.10")
-    kotlin("kapt") version ("1.9.10")
+    kotlin("jvm")
+    kotlin("kapt")
     id("java-gradle-plugin")
     `maven-publish`
     `kotlin-dsl`
     id("com.gradle.plugin-publish") version "1.2.1"
+    id("com.vanniktech.maven.publish")
 }
-
-group = "de.jensklingenberg.ktorfit"
-version = "1.8.1"
 
 
 allprojects {
@@ -54,7 +52,21 @@ gradlePlugin {
     }
 }
 
+val enableSigning = project.hasProperty("signingInMemoryKey")
 
+mavenPublishing {
+
+    coordinates(
+        "de.jensklingenberg.ktorfit",
+        "ktorfit-gradle-plugin",
+        libs.versions.ktorfit.get()
+    )
+    publishToMavenCentral()
+    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
+    if (enableSigning) {
+        signAllPublications()
+    }
+}
 
 publishing {
     publications {

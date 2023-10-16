@@ -55,7 +55,6 @@ val userKtorfit = ktorfit {
     )
 }
 
-
 fun main() {
 
     runBlocking {
