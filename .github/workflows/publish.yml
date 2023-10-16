@@ -88,7 +88,7 @@ jobs:
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_IN_MEMORY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
-  publish-ktorfit-lib-common:
+  publish-gradle:
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -103,7 +103,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Publish release
-        run: ./gradlew :ktorfit-lib-common:publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew :gradle-plugin:publishAllPublicationsToMavenCentralRepository
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
@@ -124,7 +124,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Publish release
-        run: ./gradlew :ktorfit-lib:publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew :ktorfit-lib:publishAllPublicationsToMavenCentralRepository :ktorfit-lib-common:publishAllPublicationsToMavenCentralRepository
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}

@@ -17,19 +17,21 @@ pluginManagement {
             // your repos
         }
     }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "de.jensklingenberg.ktorfit") {
+                useModule("de.jensklingenberg.ktorfit:gradle-plugin:${requested.version}")
+            }
+        }
 
+    }
 
 }
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-//./gradlew clean :sandbox:compileKotlinJvm --no-daemon -Dorg.gradle.debug=true -Dkotlin.compiler.execution.strategy="in-process" -Dkotlin.daemon.jvm.options="-Xdebug,-Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n"
 
 rootProject.name = "Ktorfit"
-includeBuild("gradle-plugin") {
-    dependencySubstitution {
-        substitute(module("de.jensklingenberg.ktorfit:gradle-plugin")).using(project(":"))
-    }
-}
+include("gradle-plugin")
 include(":sandbox")
 include(":ktorfit-ksp")
 include(":compiler-plugin")
@@ -38,5 +40,3 @@ include(":ktorfit-lib")
 include(":ktorfit-annotations")
 include(":ktorfit-converters:flow")
 include(":ktorfit-converters:call")
-
-//./gradlew clean :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:publishToMavenLocal :ktorfit-lib:publishToMavenLocal :ktorfit-lib-common:publishToMavenLocal :compiler-plugin:publishToMavenLocal
