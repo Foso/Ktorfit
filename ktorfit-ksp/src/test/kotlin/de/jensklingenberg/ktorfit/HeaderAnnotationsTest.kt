@@ -101,7 +101,48 @@ import de.jensklingenberg.ktorfit.http.HeaderMap
 interface TestService {
 @Headers(value = ["x:y","a:b"])
 @GET("posts")
-suspend fun test(@Header("testHeader") testParameter: String?, @HeaderMap("testHeaderMap") testParameter2: Map<String,String>): String
+suspend fun test(@Header("testHeader") testParameterNonNullable: String?, @Header("testHeader") testParameterNullable: String?, @HeaderMap("testHeaderMap") testParameter2: Map<String,String>): String
+}
+    """
+        )
+
+
+        val expectedHeadersArgumentText = "headers{\n" +
+                "        testParameter?.let{ append(\"testHeader\", \"$" + "it\") }\n" +
+                "        testParameter2?.forEach { append(it.key, \"$" + "{it.value}\") }\n" +
+                "        append(\"x\", \"y\")\n" +
+                "        append(\"a\", \"b\")\n" +
+                "        } "
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+
+        val actualSource = generatedFile.readText()
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
+    }
+
+
+    @Test
+    fun wheen() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Headers
+import de.jensklingenberg.ktorfit.http.Header
+import de.jensklingenberg.ktorfit.http.HeaderMap
+
+
+interface TestService {
+@Headers(value = ["x:y","a:b"])
+@GET("posts")
+suspend fun test(@Header("testHeader") testParameterNonNullable: List<String?>?, @HeaderMap("testHeaderMap") testParameter2: Map<String,String>): String
 }
     """
         )

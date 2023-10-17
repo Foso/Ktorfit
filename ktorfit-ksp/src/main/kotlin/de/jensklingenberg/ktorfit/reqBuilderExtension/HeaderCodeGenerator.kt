@@ -29,14 +29,45 @@ fun getHeadersCode(
                 val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
                 val headerName = parameterData.findAnnotationOrNull<Header>()?.path ?: ""
+                val isStringType = parameterData.type.qualifiedName == "kotlin.String"
 
                 when {
                     isList || isArray -> {
-                        "$paramName?.filterNotNull()?.forEach { append(\"$headerName\", \"\$it\") }\n"
+                        val hasNullableInnerType = parameterData.type.innerTypeName.endsWith("?")
+                        val isStringList = when (parameterData.type.innerTypeName) {
+                            "String", "String?" -> true
+                            else -> false
+                        }
+                        var text: String = paramName+ if (parameterData.type.isNullable) {
+                            "?"
+                        } else {
+                            ""
+                        }
+                        text += if (hasNullableInnerType) {
+                            ".filterNotNull()" + ("?".takeIf { parameterData.type.isNullable }
+                                ?: "")
+                        } else {
+                            ""
+                        }
+                        text += ".forEach{ append(\"$headerName\"," + if (isStringList) {
+                            " it "
+                        } else {
+                            " \"\$it\""
+                        } + ")}\n"
+                        
+                        text
                     }
 
                     else -> {
-                        "$paramName?.let{ append(\"$headerName\", \"\$it\") }\n"
+                        if (parameterData.type.isNullable) {
+                            val headerValue =
+                                if (isStringType) paramName else "\$$paramName.toString()"
+                            "$paramName?.let{ append(\"$headerName\", $headerValue) }\n"
+                        } else {
+                            val headerValue =
+                                if (isStringType) paramName else "\$$paramName.toString()"
+                            "append(\"$headerName\", $headerValue) \n"
+                        }
                     }
                 }
             }
