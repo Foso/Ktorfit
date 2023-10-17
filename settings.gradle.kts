@@ -1,8 +1,5 @@
 pluginManagement {
-    val kotlinVersion: String by settings
-    plugins {
-        kotlin("multiplatform") version kotlinVersion apply false
-    }
+
     repositories {
         google()
         mavenLocal()
@@ -20,7 +17,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.id == "de.jensklingenberg.ktorfit") {
-                useModule("de.jensklingenberg.ktorfit:gradle-plugin:${requested.version}")
+                useModule("de.jensklingenberg.ktorfit:de.jensklingenberg.ktorfit.gradle.plugin:${requested.version}")
             }
         }
 

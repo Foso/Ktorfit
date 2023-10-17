@@ -1,5 +1,5 @@
 plugins {
-    kotlin("multiplatform") apply false
+    kotlin("multiplatform") version libs.versions.kotlin apply false
     alias(libs.plugins.mavenPublish) apply false
 }
 
@@ -28,6 +28,9 @@ subprojects {
         google()
         mavenLocal()
         mavenCentral()
+        maven {
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+        }
     }
 }
 
