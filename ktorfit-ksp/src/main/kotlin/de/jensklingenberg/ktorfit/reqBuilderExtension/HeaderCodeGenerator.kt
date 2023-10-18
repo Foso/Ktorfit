@@ -113,22 +113,22 @@ fun getHeadersCode(
             val hasNullableKeyType = mapValueType.endsWith("?")
             headerMapStringBuilder.append(
                 if (hasNullableKeyType) {
-                    "parameterData.value?.let{ value -> "
+                    "it.value?.let{ value -> "
                 } else {
                     ""
                 }
             )
 
-            headerMapStringBuilder.append(" append(parameterData.key , ")
+            headerMapStringBuilder.append(" append(it.key , ")
             headerMapStringBuilder.append(
                 if (valueIsString && hasNullableKeyType) {
                     "value) }"
                 } else if (valueIsString && !hasNullableKeyType) {
-                    "parameterData.value)"
+                    "it.value)"
                 } else if (hasNullableKeyType) {
                     "\"\$value\") }"
                 } else {
-                    "\"\${parameterData.value}\")"
+                    "\"\${it.value}\")"
                 }
             )
             headerMapStringBuilder.append("}\n")
