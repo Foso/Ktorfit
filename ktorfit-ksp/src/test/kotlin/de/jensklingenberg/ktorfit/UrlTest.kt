@@ -55,18 +55,16 @@ import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
 
 interface TestService {
-
     @GET("user/{id}")
     suspend fun test(@Path("id") userId: String): String
-    
 }
     """
         )
 
 
         val expectedFunctionText = """url{
-        takeFrom(ktorfitClient.baseUrl + "user/ä{"äuserId".encodeURLPath()}")
-        } """.replace("ä", "$")
+        takeFrom(ktorfitClient.baseUrl + "user/$\{"$\userId".encodeURLPath()}")
+        } """.replace("$\\", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -104,8 +102,8 @@ interface TestService {
 
 
         val expectedFunctionText = """url{
-        takeFrom(ktorfitClient.baseUrl + "user/ä{"äuserId".encodeURLPath()}")
-        } """.replace("ä", "$")
+        takeFrom(ktorfitClient.baseUrl + "user/$\{"$\userId".encodeURLPath()}")
+        } """.replace("$\\", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -126,8 +124,8 @@ interface TestService {
     @Test
     fun testFunctionWithGETAndUrlAnno() {
         val expectedFunctionSource = """url{
-        takeFrom((ktorfitClient.baseUrl.takeIf{ !url.startsWith("http")} ?: "") + "ä{url}")
-        }""".replace("ä", "$")
+        takeFrom((ktorfitClient.baseUrl.takeIf{ !url.startsWith("http")} ?: "") + "$\{url}")
+        }""".replace("$\\", "$")
 
 
         val source = SourceFile.kotlin(
@@ -215,17 +213,15 @@ import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
 
 interface TestService {
-
     @GET("user/{id}")
     suspend fun test(@Path("id",true) id: String): String
-    
 }
     """
         )
 
         val expectedFunctionText = """url{
-        takeFrom(ktorfitClient.baseUrl + "user/ä{"äid"}")
-        }""".replace("ä", "$")
+        takeFrom(ktorfitClient.baseUrl + "user/$\{"$\id"}")
+        }""".replace("$\\", "$")
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

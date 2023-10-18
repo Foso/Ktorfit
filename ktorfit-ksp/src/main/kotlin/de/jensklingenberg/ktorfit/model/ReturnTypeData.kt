@@ -8,7 +8,7 @@ data class ReturnTypeData(
     val qualifiedName: String,
     val parameterType: KSTypeReference?
 ) {
-    val isNullable: Boolean = qualifiedName.endsWith("?")
+    val isNullable: Boolean = name.endsWith("?")
     val innerTypeName = name.substringAfter("<").substringBeforeLast(">")
 }
 

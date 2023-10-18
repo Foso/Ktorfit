@@ -20,7 +20,6 @@ class HeaderAnnotationsTest {
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
 
-
 class Test<T>
 
 interface TestService {
@@ -52,84 +51,7 @@ suspend fun test(): List<Triple<String,Int?,String>>
 
 
     @Test
-    fun whenHeadersAnnotationFound_AddHeader() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """
-      package com.example.api
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.Headers
-
-interface TestService {
-
-@Headers(value = ["x:y","a:b"])
-@GET("posts")
-suspend fun test(): String
-}
-    """
-        )
-
-
-        val expectedHeadersArgumentText = "headers{\n" +
-                "        append(\"x\", \"y\")\n" +
-                "        append(\"a\", \"b\")\n" +
-                "        } "
-
-        val compilation = getCompilation(listOf(source))
-        val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
-        val generatedSourcesDir = compilation.kspSourcesDir
-        val generatedFile = File(
-            generatedSourcesDir,
-            "/kotlin/com/example/api/_TestServiceImpl.kt"
-        )
-        val actualSource = generatedFile.readText()
-        assertTrue(actualSource.contains(expectedHeadersArgumentText))
-    }
-
-    @Test
-    fun whenHeadersHeaderMapAndHeaderAnnotationFound_AddHeader() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """package com.example.api
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.Headers
-import de.jensklingenberg.ktorfit.http.Header
-import de.jensklingenberg.ktorfit.http.HeaderMap
-
-
-interface TestService {
-@Headers(value = ["x:y","a:b"])
-@GET("posts")
-suspend fun test(@Header("testHeader") testParameter: String?, @HeaderMap("testHeaderMap") testParameter2: Map<String,String>): String
-}
-    """
-        )
-
-
-        val expectedHeadersArgumentText = "headers{\n" +
-                "        testParameter?.let{ append(\"testHeader\", \"$" + "it\") }\n" +
-                "        testParameter2?.forEach { append(it.key, \"$" + "{it.value}\") }\n" +
-                "        append(\"x\", \"y\")\n" +
-                "        append(\"a\", \"b\")\n" +
-                "        } "
-
-        val compilation = getCompilation(listOf(source))
-        val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
-        val generatedSourcesDir = compilation.kspSourcesDir
-        val generatedFile = File(
-            generatedSourcesDir,
-            "/kotlin/com/example/api/_TestServiceImpl.kt"
-        )
-
-        val actualSource = generatedFile.readText()
-        assertTrue(actualSource.contains(expectedHeadersArgumentText))
-    }
-
-
-    @Test
-    fun whenHeaderAnnotationFound_AddHeader() {
+    fun whenHeaderAnnotationWithNonNullableStringFound_AddHeader() {
 
         val source = SourceFile.kotlin(
             "Source.kt", """
@@ -138,18 +60,114 @@ import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
 
 interface TestService {
-
     @GET("posts")
     suspend fun test(@Header("testHeader") testParameter: String): String
-    
 }
     """
         )
 
+        val expectedHeadersArgumentText = "headers{\n" +
+                "        append(\"testHeader\", testParameter)\n" +
+                "        }"
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+
+        val actualSource = generatedFile.readText()
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
+    }
+
+    @Test
+    fun whenHeaderAnnotationWithNullableStringFound_AddHeader() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
+
+interface TestService {
+    @GET("posts")
+    suspend fun test(@Header("testHeader") testParameter: String?): String
+}
+    """
+        )
 
         val expectedHeadersArgumentText = "headers{\n" +
-                "        testParameter?.let{ append(\"testHeader\", \"$" + "it\") }\n" +
+                "        testParameter?.let{ append(\"testHeader\", testParameter) }\n" +
                 "        }"
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+
+        val actualSource = generatedFile.readText()
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
+    }
+
+    @Test
+    fun whenHeaderAnnotationWithNonNullableIntFound_AddHeader() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
+
+interface TestService {
+    @GET("posts")
+    suspend fun test(@Header("testHeader") testParameter: Int): String
+}
+    """
+        )
+
+        val expectedHeadersArgumentText = """headers{
+        append("testHeader", "${"$"}testParameter")
+        }"""
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+
+        val actualSource = generatedFile.readText()
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
+    }
+
+    @Test
+    fun whenHeaderAnnotationWithNullableIntFound_AddHeader() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
+
+interface TestService {
+    @GET("posts")
+    suspend fun test(@Header("testHeader") testParameter: Int?): String
+}
+    """
+        )
+
+        val expectedHeadersArgumentText = """headers{
+        testParameter?.let{ append("testHeader", "${"$"}testParameter") }
+        }"""
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -174,18 +192,83 @@ import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
 
 interface TestService {
-
     @GET("posts")
-    suspend fun test(@Header("testHeader") testParameter: List<String>): String
-    
+    suspend fun test(@Header("testHeader") testParameter: List<Int>): String
 }
     """
         )
 
+        val expectedHeadersArgumentText = "headers{\n" +
+                "        testParameter.forEach{ append(\"testHeader\", \"\$it\")}\n" +
+                "        }"
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+
+        val actualSource = generatedFile.readText()
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
+    }
+
+    @Test
+    fun whenHeaderAnnotationWithNullableListTypeFound_AddHeader() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
+
+interface TestService {
+    @GET("posts")
+    suspend fun test(@Header("testHeader") testParameter: List<Int>?): String
+}
+    """
+        )
 
         val expectedHeadersArgumentText = "headers{\n" +
-                "        testParameter?.filterNotNull()?.forEach { append(\"testHeader\", \"\$it\") }\n" +
-                "        } "
+                "        testParameter?.forEach{ append(\"testHeader\", \"\$it\")}\n" +
+                "        }"
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile = File(
+            generatedSourcesDir,
+            "/kotlin/com/example/api/_TestServiceImpl.kt"
+        )
+
+        val actualSource = generatedFile.readText()
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
+    }
+
+    @Test
+    fun whenHeaderAnnotationWithNullableListTypeAndNullableIntFound_AddHeader() {
+
+        val source = SourceFile.kotlin(
+            "Source.kt", """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Header
+
+interface TestService {
+    @GET("posts")
+    suspend fun test(@Header("testHeader") testParameter: List<Int?>?): String
+}
+    """
+        )
+
+        val expectedHeadersArgumentText = "headers{\n" +
+                "        testParameter?.filterNotNull()?.forEach{ append(\"testHeader\", \"\$it\")}\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -220,9 +303,9 @@ interface TestService {
         )
 
 
-        val expectedHeadersArgumentText = "headers{\n" +
-                "        testParameter?.filterNotNull()?.forEach { append(\"testHeader\", \"\$it\") }\n" +
-                "        }"
+        val expectedHeadersArgumentText = """headers{
+        testParameter.forEach{ append("testHeader", it)}
+        }"""
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -238,90 +321,9 @@ interface TestService {
         assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
 
-    @Test
-    fun whenHeaderMapAnnotationFound_AddHeader() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """
-      package com.example.api
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.HeaderMap
-
-interface TestService {
-
-    @GET("posts")
-    suspend fun test(@HeaderMap("testHeader") testParameter: Map<String,String>): String
-    
-}
-    """
-        )
 
 
-        val expectedHeadersArgumentText = "headers{\n" +
-                "        testParameter?.forEach { append(it.key, \"\${it.value}\") }\n" +
-                "        }"
 
-        val compilation = getCompilation(listOf(source))
-        val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
-        val generatedSourcesDir = compilation.kspSourcesDir
-        val generatedFile = File(
-            generatedSourcesDir,
-            "/kotlin/com/example/api/_TestServiceImpl.kt"
-        )
-
-        val actualSource = generatedFile.readText()
-        assertTrue(actualSource.contains(expectedHeadersArgumentText))
-    }
-
-    @Test
-    fun whenHeaderMapTypeIsNotMap_ThrowCompilationError() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """
-      package com.example.api
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.HeaderMap
-
-interface TestService {
-
-    @GET("posts")
-    suspend fun test(@HeaderMap("testHeader") testParameter: String): String
-    
-}
-    """
-        )
-
-        val compilation = getCompilation(listOf(source))
-        val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
-
-        assertTrue(result.messages.contains(HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP))
-    }
-
-    @Test
-    fun whenHeaderMapKeysIsNotString_ThrowCompilationError() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """
-      package com.example.api
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.HeaderMap
-
-interface TestService {
-
-    @GET("posts")
-    suspend fun test(@HeaderMap("testHeader") testParameter: Map<Int,String>): String
-    
-}
-    """
-        )
-
-        val compilation = getCompilation(listOf(source))
-        val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
-        assertTrue(result.messages.contains(HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING))
-    }
 
 
 }
