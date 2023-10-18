@@ -19,7 +19,7 @@ interface GithubService {
         "Content-Type: application/json"
     )
     @POST("repos/foso/experimental/issues")
-    suspend fun createIssue(@Body body: Map<*,String>, @Header("Acci") headi: String, @Header("AcciList") headiList: List<String>, @Header("AcciList2") headiList2: List<String>?,@Header("AcciList23") headiList23: List<String?>?,@Header("AcciList233") headiList233: List<Int?>?,): String
+    suspend fun createIssue(@Body body: Map<*,String>, @Header("Acci") headi: String?): String
 
     @POST("repos/foso/experimental/issues")
     suspend fun createIssue2(@Body body: Issuedata, @Header("Acci") headi: String?): Call<Map<String?, Int>>
