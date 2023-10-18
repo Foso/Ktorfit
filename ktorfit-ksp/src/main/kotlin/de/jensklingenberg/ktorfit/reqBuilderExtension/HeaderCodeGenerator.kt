@@ -97,38 +97,38 @@ fun getHeadersCode(
 
     val headerMapAnnotationText = parameterDataList
         .filter { it.hasAnnotation<HeaderMap>() }
-        .joinToString("") {
-            val mapValueType = it.type.innerTypeName.split(",")[1].trim()
+        .joinToString("") { parameterData ->
+            val mapValueType = parameterData.type.innerTypeName.split(",")[1].trim()
             val valueIsString = (mapValueType == "String" || mapValueType == "String?")
 
             val headerMapStringBuilder = StringBuilder()
             headerMapStringBuilder.append(
-                if (it.type.isNullable) {
-                    "${it.name}?"
+                if (parameterData.type.isNullable) {
+                    "${parameterData.name}?"
                 } else {
-                    it.name
+                    parameterData.name
                 }
             )
             headerMapStringBuilder.append(".forEach{")
             val hasNullableKeyType = mapValueType.endsWith("?")
             headerMapStringBuilder.append(
                 if (hasNullableKeyType) {
-                    "it.value?.let{ value -> "
+                    "parameterData.value?.let{ value -> "
                 } else {
                     ""
                 }
             )
 
-            headerMapStringBuilder.append(" append(it.key , ")
+            headerMapStringBuilder.append(" append(parameterData.key , ")
             headerMapStringBuilder.append(
                 if (valueIsString && hasNullableKeyType) {
                     "value) }"
                 } else if (valueIsString && !hasNullableKeyType) {
-                    "it.value)"
+                    "parameterData.value)"
                 } else if (hasNullableKeyType) {
                     "\"\$value\") }"
                 } else {
-                    "\"\${it.value}\")"
+                    "\"\${parameterData.value}\")"
                 }
             )
             headerMapStringBuilder.append("}\n")
