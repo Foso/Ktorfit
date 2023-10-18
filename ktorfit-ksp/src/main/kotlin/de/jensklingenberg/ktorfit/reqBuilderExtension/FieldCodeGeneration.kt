@@ -52,6 +52,7 @@ fun getFieldArgumentsText(params: List<ParameterData>, listType: KSType, arrayTy
     }
 
     val fieldMapStrings = params.filter { it.hasAnnotation<FieldMap>() }.joinToString("") { parameterData ->
+
         val fieldMap = parameterData.findAnnotationOrNull<FieldMap>()!!
         val encoded = fieldMap.encoded
         val data = parameterData.name

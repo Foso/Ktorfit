@@ -28,63 +28,111 @@ fun getHeadersCode(
                 val isList = starProj?.isAssignableFrom(listType) ?: false
                 val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
-                val headerName = parameterData.findAnnotationOrNull<Header>()?.path ?: ""
+                val headerName = parameterData.findAnnotationOrNull<Header>()?.path.orEmpty()
                 val isStringType = parameterData.type.qualifiedName == "kotlin.String"
 
                 when {
                     isList || isArray -> {
                         val hasNullableInnerType = parameterData.type.innerTypeName.endsWith("?")
-                        val isStringList = when (parameterData.type.innerTypeName) {
+                        val isStringListOrArray = when (parameterData.type.innerTypeName) {
                             "String", "String?" -> true
                             else -> false
                         }
-                        var text: String = paramName+ if (parameterData.type.isNullable) {
-                            "?"
-                        } else {
-                            ""
+                        val headerListStringBuilder = StringBuilder()
+
+                        headerListStringBuilder.append(
+                            if (parameterData.type.isNullable) {
+                                "$paramName?"
+                            } else {
+                                paramName
+                            }
+                        )
+
+                        if (hasNullableInnerType) {
+                            headerListStringBuilder.append(
+                                if (parameterData.type.isNullable) {
+                                    ".filterNotNull()?"
+                                } else {
+                                    ".filterNotNull()"
+                                }
+                            )
                         }
-                        text += if (hasNullableInnerType) {
-                            ".filterNotNull()" + ("?".takeIf { parameterData.type.isNullable }
-                                ?: "")
-                        } else {
-                            ""
-                        }
-                        text += ".forEach{ append(\"$headerName\"," + if (isStringList) {
-                            " it "
-                        } else {
-                            " \"\$it\""
-                        } + ")}\n"
-                        
-                        text
+                        headerListStringBuilder.append(".forEach{ append(\"$headerName\", ")
+                        headerListStringBuilder.append(
+                            if (isStringListOrArray) {
+                                "it"
+                            } else {
+                                "\"\$it\""
+                            }
+                        )
+                        headerListStringBuilder.append(")}\n")
+
+                        headerListStringBuilder.toString()
                     }
 
                     else -> {
+                        val headerValue =
+                            if (isStringType) paramName else "\"\$$paramName\""
+
                         if (parameterData.type.isNullable) {
-                            val headerValue =
-                                if (isStringType) paramName else "\$$paramName.toString()"
-                            "$paramName?.let{ append(\"$headerName\", $headerValue) }\n"
+                            "%s?.let{ append(\"%s\", %s) }\n".format(
+                                paramName,
+                                headerName,
+                                headerValue
+                            )
                         } else {
-                            val headerValue =
-                                if (isStringType) paramName else "\$$paramName.toString()"
-                            "append(\"$headerName\", $headerValue) \n"
+                            "append(\"%s\", %s)\n".format(headerName, headerValue)
                         }
                     }
                 }
             }
 
     val headersAnnotationText = functionAnnotations
-        .filterIsInstance<Headers>()
-        .firstOrNull()
+        .firstNotNullOfOrNull { it as? Headers }
         ?.value
         ?.joinToString("") {
             val (key, value) = it.split(":")
-            "append(\"%s\", \"%s\")\n".format(key, value.trim())
-        } ?: ""
+            "append(\"%s\", \"%s\")\n".format(key.trim(), value.trim())
+        }.orEmpty()
 
     val headerMapAnnotationText = parameterDataList
         .filter { it.hasAnnotation<HeaderMap>() }
         .joinToString("") {
-            "${it.name}?.forEach { append(it.key, \"\${it.value}\") }\n"
+            val mapValueType = it.type.innerTypeName.split(",")[1].trim()
+            val valueIsString = (mapValueType == "String" || mapValueType == "String?")
+
+            val headerMapStringBuilder = StringBuilder()
+            headerMapStringBuilder.append(
+                if (it.type.isNullable) {
+                    "${it.name}?"
+                } else {
+                    it.name
+                }
+            )
+            headerMapStringBuilder.append(".forEach{")
+            val hasNullableKeyType = mapValueType.endsWith("?")
+            headerMapStringBuilder.append(
+                if (hasNullableKeyType) {
+                    "it.value?.let{ value -> "
+                } else {
+                    ""
+                }
+            )
+
+            headerMapStringBuilder.append(" append(it.key , ")
+            headerMapStringBuilder.append(
+                if (valueIsString && hasNullableKeyType) {
+                    "value) }"
+                } else if (valueIsString && !hasNullableKeyType) {
+                    "it.value)"
+                } else if (hasNullableKeyType) {
+                    "\"\$value\") }"
+                } else {
+                    "\"\${it.value}\")"
+                }
+            )
+            headerMapStringBuilder.append("}\n")
+            headerMapStringBuilder.toString()
         }
 
     val contentTypeText = if (functionAnnotations.anyInstance<FormUrlEncoded>()) {
