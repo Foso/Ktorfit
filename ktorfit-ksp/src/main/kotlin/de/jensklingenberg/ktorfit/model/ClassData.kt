@@ -42,6 +42,11 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
 
     val suppressAnnotation = AnnotationSpec.builder(ClassName("kotlin", "Suppress"))
         .addMember("\"LocalVariableName\"")
+        .addMember("\"UNNECESSARY_SAFE_CALL\"")
+        .addMember("\"RemoveSingleExpressionStringTemplate\"")
+        .addMember("\"ClassName\"")
+        .addMember("\"NAME_SHADOWING\"")
+        .addMember("\"UNUSED_PARAMETER\"")
         .build()
 
     val createExtensionFunctionSpec = getCreateExtensionFunctionSpec(classData)
