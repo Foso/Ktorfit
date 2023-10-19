@@ -2,7 +2,7 @@ name: Publish Annotations
 
 on:
   workflow_dispatch:
-
+  workflow_call:
 jobs:
   publish-annotations:
     runs-on: macos-latest
