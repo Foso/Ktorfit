@@ -56,7 +56,7 @@ kotlin {
         val commonMain by getting {
 
             dependencies {
-                implementation(projects.ktorfitLibCommon)
+                implementation(projects.ktorfitLibCore)
                 implementation(projects.ktorfitConverters.flow)
                 implementation(projects.ktorfitConverters.call)
                 implementation(libs.kotlinx.coroutines.core)

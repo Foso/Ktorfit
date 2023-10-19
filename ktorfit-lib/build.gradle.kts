@@ -77,7 +77,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.ktorfitLibCommon)
+                api(projects.ktorfitLibCore)
             }
         }
         val linuxX64Main by getting {

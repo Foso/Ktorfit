@@ -3,10 +3,9 @@ package de.jensklingenberg.ktorfit
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.internal.TypeData
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.util.reflect.*
-import kotlin.test.DefaultAsserter.assertEquals
+import io.ktor.client.request.HttpRequestData
+import io.ktor.client.statement.HttpResponse
+import io.ktor.util.reflect.typeInfo
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals

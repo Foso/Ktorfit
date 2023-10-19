@@ -63,8 +63,8 @@ implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:1.8.1")
 * <kbd>compiler plugin</kbd> - module with source for the compiler plugin
 * <kbd>ktorfit-annotations</kbd> - module with annotations for the Ktorfit
 * <kbd>ktorfit-ksp</kbd> - module with source for the KSP plugin
-* <kbd>ktorfit-lib-common</kbd> - module with source for the Ktorfit lib
-* <kbd>ktorfit-lib</kbd> - ktorfit-lib-common + dependencies on platform specific clients
+* <kbd>ktorfit-lib-core</kbd> - module with source for the Ktorfit lib
+* <kbd>ktorfit-lib</kbd> - ktorfit-lib-core + dependencies on platform specific clients
 * <kbd>sandbox</kbd> - experimental test module to try various stuff
 
 * <kbd>example</kbd> - contains example projects that use Ktorfit
