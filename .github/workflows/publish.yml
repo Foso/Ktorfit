@@ -5,14 +5,32 @@ on:
 
 jobs:
   publish-annotations:
+    permissions:
+      contents: write
+      packages: write
     uses: ./.github/workflows/publish-annotations.yml
   publish-ksp:
+    permissions:
+      contents: write
+      packages: write
     uses: ./.github/workflows/publish-ksp.yml
   publish-converters:
+    permissions:
+      contents: write
+      packages: write
     uses: ./.github/workflows/publish-converters.yml
   publish-compiler-plugin:
+    permissions:
+      contents: write
+      packages: write
     uses: ./.github/workflows/publish-compiler-plugin.yml
   publish-gradle:
+    permissions:
+      contents: write
+      packages: write
     uses: ./.github/workflows/publish-gradle.yml
   publish-ktorfit-lib:
+    permissions:
+      contents: write
+      packages: write
     uses: ./.github/workflows/publish-ktorfit-lib.yml
