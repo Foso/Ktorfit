@@ -2,7 +2,7 @@ name: Publish Converters
 
 on:
   workflow_dispatch:
-
+  workflow_call:
 jobs:
   publish-converters:
     runs-on: macos-latest
