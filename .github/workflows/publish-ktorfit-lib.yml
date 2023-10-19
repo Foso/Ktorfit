@@ -2,7 +2,7 @@ name: Publish Ktorfit Lib
 
 on:
   workflow_dispatch:
-
+  workflow_call:
 jobs:
   publish-ktorfit-lib:
     runs-on: macos-latest

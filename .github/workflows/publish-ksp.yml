@@ -2,7 +2,7 @@ name: Publish Ksp
 
 on:
   workflow_dispatch:
-
+  workflow_call:
 jobs:
 
   publish-ksp:

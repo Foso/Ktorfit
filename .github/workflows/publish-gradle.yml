@@ -2,7 +2,7 @@ name: Publish Gradle
 
 on:
   workflow_dispatch:
-
+  workflow_call:
 jobs:
   publish-gradle:
     runs-on: ubuntu-latest
