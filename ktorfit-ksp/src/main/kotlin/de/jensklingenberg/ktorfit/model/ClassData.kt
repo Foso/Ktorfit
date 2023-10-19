@@ -47,6 +47,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
         .addMember("\"ClassName\"")
         .addMember("\"NAME_SHADOWING\"")
         .addMember("\"UNUSED_PARAMETER\"")
+        .addMember("\"RemoveCurlyBracesFromTemplate\"")
         .build()
 
     val createExtensionFunctionSpec = getCreateExtensionFunctionSpec(classData)
