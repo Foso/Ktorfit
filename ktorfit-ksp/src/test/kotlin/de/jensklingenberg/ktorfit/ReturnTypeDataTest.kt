@@ -29,7 +29,7 @@ interface TestService {
 
 
         val expectedBodyDataArgumentText =
-            """val __ext: HttpRequestBuilder.() -> Unit = {
+            """val _ext: HttpRequestBuilder.() -> Unit = {
         method = HttpMethod.parse("POST")
         url{
         takeFrom(ktorfitClient.baseUrl + "user")

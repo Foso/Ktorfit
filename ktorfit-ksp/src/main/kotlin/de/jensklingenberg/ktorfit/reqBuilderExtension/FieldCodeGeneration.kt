@@ -4,6 +4,7 @@ import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.FieldMap
+import de.jensklingenberg.ktorfit.model.formParameters
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 
@@ -68,7 +69,7 @@ fun getFieldArgumentsText(params: List<ParameterData>, listType: KSType, arrayTy
     }
 
     return (fieldText + fieldMapStrings).surroundIfNotEmpty(
-        "val __formParameters = Parameters.build {\n", "}\nsetBody(FormDataContent(__formParameters))\n"
+        "val ${formParameters.objectName} = Parameters.build {\n", "}\nsetBody(FormDataContent(${formParameters.objectName}))\n"
     )
 }
 

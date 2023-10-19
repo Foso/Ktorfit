@@ -5,6 +5,7 @@ import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getKotlinClassByName
 import com.google.devtools.ksp.processing.Resolver
 import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.extDataClass
 
 /**
  * This will generate the code for the HttpRequestBuilder
@@ -52,6 +53,6 @@ fun getReqBuilderExtensionText(functionData: FunctionData, resolver: Resolver): 
     ).filter { it.isNotEmpty() }
         .joinToString("\n") { it }
 
-    return "val __ext: HttpRequestBuilder.() -> Unit = {\n$args \n}"
+    return "val ${extDataClass.objectName}: HttpRequestBuilder.() -> Unit = {\n$args \n}"
 }
 

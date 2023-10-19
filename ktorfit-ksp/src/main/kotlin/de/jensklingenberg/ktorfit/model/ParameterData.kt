@@ -59,7 +59,7 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
     } else {
         ReturnTypeData(
             parameterType.resolveTypeName(),
-            parameterType.declaration.qualifiedName?.asString() ?: "",
+            parameterType.declaration.qualifiedName?.asString().orEmpty(),
             ksValueParameter.type,
         )
     }
