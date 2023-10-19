@@ -55,7 +55,7 @@ data class FunctionData(
                 )
             )
             .addStatement(
-                "return %L.%L<${returnTypeName}, ${innerReturnType}>(${typeDataClass.objectName},__ext)$nullableText",
+                "return %L.%L<${returnTypeName}, ${innerReturnType}>(${typeDataClass.objectName},${extDataClass.objectName})$nullableText",
                 ktorfitClientClass.objectName,
                 if (this.isSuspend) {
                     "suspendRequest"

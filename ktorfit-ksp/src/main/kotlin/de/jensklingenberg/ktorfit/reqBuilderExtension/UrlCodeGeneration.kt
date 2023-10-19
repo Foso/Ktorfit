@@ -4,6 +4,7 @@ import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Path
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Url
+import de.jensklingenberg.ktorfit.model.ktorfitClientClass
 
 
 fun getUrlCode(params: List<ParameterData>, methodAnnotation: HttpMethodAnnotation, queryCode: String): String {
@@ -11,15 +12,15 @@ fun getUrlCode(params: List<ParameterData>, methodAnnotation: HttpMethodAnnotati
     var urlPath = methodAnnotation.path.ifEmpty {
         params.firstOrNull { it.hasAnnotation<Url>() }?.let {
             "\${${it.name}}"
-        } ?: ""
+        }.orEmpty()
     }
 
     val baseUrl = if (methodAnnotation.path.startsWith("http")) {
         ""
     } else {
         params.firstOrNull { it.hasAnnotation<Url>() }?.let { parameterData ->
-            "(ktorfitClient.baseUrl.takeIf{ !${parameterData.name}.startsWith(\"http\")} ?: \"\") + "
-        } ?: "ktorfitClient.baseUrl + "
+            "(${ktorfitClientClass.objectName}.baseUrl.takeIf{ !${parameterData.name}.startsWith(\"http\")} ?: \"\") + "
+        } ?: "${ktorfitClientClass.objectName}.baseUrl + "
     }
 
     params.filter { it.hasAnnotation<Path>() }.forEach { parameterData ->

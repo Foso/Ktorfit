@@ -93,8 +93,6 @@ fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAn
         paramAnnos.add(it)
     }
 
-
-
     ksValueParameter.getFieldMapAnnotation()?.let {
         if (!ksValueParameter.type.toString().endsWith(KEY_MAP)) {
             logger.error(KtorfitError.FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP, ksValueParameter)

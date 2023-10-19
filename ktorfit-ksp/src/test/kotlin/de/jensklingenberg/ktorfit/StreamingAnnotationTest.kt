@@ -39,7 +39,7 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = """return ktorfitClient.suspendRequest<HttpStatement, HttpStatement>(__typeData,__ext)!!"""
+        val expectedFunctionText = """return ktorfitClient.suspendRequest<HttpStatement, HttpStatement>(_typeData,_ext)!!"""
 
         val compilation = getCompilation(listOf(httpStatement, source))
         val result = compilation.compile()

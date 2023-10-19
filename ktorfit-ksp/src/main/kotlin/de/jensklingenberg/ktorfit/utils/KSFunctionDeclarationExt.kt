@@ -50,7 +50,7 @@ fun KSFunctionDeclaration.parseHTTPMethodAnno(name: String): HttpMethodAnnotatio
                 }
 
             } else {
-                val value = annotation.getArgumentValueByName<String>("value") ?: ""
+                val value = annotation.getArgumentValueByName<String>("value").orEmpty()
                 HttpMethodAnnotation(value, HttpMethod.valueOf(name))
             }
 

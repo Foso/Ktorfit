@@ -74,7 +74,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
 
     val clientProperty = PropertySpec
         .builder(
-            "ktorfitClient",
+            clientClass.objectName,
             TypeVariableName(clientClass.name),
             listOf(KModifier.OVERRIDE, KModifier.LATEINIT)
         )
@@ -103,7 +103,9 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
         .addImports(classData.imports)
         .addType(implClassSpec)
         .addFunction(createExtensionFunctionSpec)
-        .build().toString().replace(WILDCARDIMPORT, "*")
+        .build()
+        .toString()
+        .replace(WILDCARDIMPORT, "*")
 }
 
 /**
