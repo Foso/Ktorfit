@@ -8,30 +8,27 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
-class HeadersAnnotationsTest {
+class TagAnnotationsTest {
 
     @Test
-    fun whenHeadersAnnotationFound_AddHeader() {
+    fun whenTagsAnnotationFound_AddThemAsAttributeKey() {
 
         val source = SourceFile.kotlin(
             "Source.kt", """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.Headers
+import de.jensklingenberg.ktorfit.http.Tag
 
 interface TestService {
-
-@Headers(value = ["x:y","a:b"])
-@GET("posts")
-suspend fun test(): String
+    @GET("posts")
+    suspend fun test(@Tag myTag1 : String, @Tag("myTag2") someParameter: Int?): String
 }
     """
         )
 
-        val expectedHeadersArgumentText = "headers{\n" +
-                "        append(\"x\", \"y\")\n" +
-                "        append(\"a\", \"b\")\n" +
-                "        } "
+        val expectedHeadersArgumentText =
+            """attributes.put(io.ktor.util.AttributeKey("myTag1"), myTag1)
+        someParameter?.let{ attributes.put(io.ktor.util.AttributeKey("myTag2"), it) } """
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -41,10 +38,8 @@ suspend fun test(): String
             generatedSourcesDir,
             "/kotlin/com/example/api/_TestServiceImpl.kt"
         )
+
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
-
-
 }
-

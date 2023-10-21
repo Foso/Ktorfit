@@ -3,8 +3,8 @@ import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.getCompilation
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
@@ -19,10 +19,8 @@ class RequestTypeTest {
 import de.jensklingenberg.ktorfit.http.*
 
 interface TestService {
-
     @GET("posts/{postId}/comments")
     suspend fun test(@RequestType(Int::class) @Path("postId") postId: String): String
-    
 }
     """
         )

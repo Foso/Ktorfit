@@ -9,6 +9,9 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 
 ## [Unreleased]
 ========================================
+### Added
+- Add support for Tag annotation https://foso.github.io/Ktorfit/requests/#tag
+
 ### Changed
 - Removed unnecessary safe call warnings from generated code for the Headers [#460](https://github.com/Foso/Ktorfit/issues/460) 
 
