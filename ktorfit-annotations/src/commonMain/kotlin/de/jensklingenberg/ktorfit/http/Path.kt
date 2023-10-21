@@ -10,10 +10,10 @@ package de.jensklingenberg.ktorfit.http
  * <p>Path parameters type may not be nullable.
  *
  *
-<pre><code>
-@GET("post/{postId}")
-suspend fun getPosts(@Path("postId") postId: Int): List< Post>
-</code></pre>
+ * ```
+ * @GET("post/{postId}")
+ * suspend fun getPosts(@Path("postId") postId: Int): List< Post>
+ * ```
  */
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
