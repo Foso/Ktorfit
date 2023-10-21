@@ -7,12 +7,12 @@ package de.jensklingenberg.ktorfit.http
  * When the URL of an HTTP Method Annotation contains curly braces, they will be replaced with the value of
  * the corresponding parameter that has a matching [value].
  * @param encoded true means that this value is already URL encoded and will not be encoded again
- * <p>Path parameters type may not be nullable.
+ * Path parameters type may not be nullable.
  *
  *
  * ```
  * @GET("post/{postId}")
- * suspend fun getPosts(@Path("postId") postId: Int): List< Post>
+ * suspend fun getPosts(@Path("postId") postId: Int): List<Post>
  * ```
  */
 

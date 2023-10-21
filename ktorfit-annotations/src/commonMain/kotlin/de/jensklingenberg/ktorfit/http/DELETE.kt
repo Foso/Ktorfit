@@ -4,7 +4,7 @@ package de.jensklingenberg.ktorfit.http
  *
  * ```
  * @DELETE("deleteIssue")
- * fun deleteIssue(@Query("id") id: String)
+ * suspend fun deleteIssue(@Query("id") id: String)
  * ```
  * @param value relative url path, if empty, you need to have a parameter with [Url]
  *
