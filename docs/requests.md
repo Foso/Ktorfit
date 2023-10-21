@@ -119,7 +119,7 @@ fun getPosts(@Tag("myTag") tag: String): List<Post>
 You can then access the tag from the attributes of a Ktor HttpClientCall
 
 ```kotlin
-val test = response.call.attributes[AttributeKey("myTag")] 
+val myTag = response.call.attributes[AttributeKey("myTag")] 
 ```
 ## Multipart
 To send Multipart data you have two options:
