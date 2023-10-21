@@ -2,4 +2,4 @@
 Gradle task: plugin portal> publishPlugins
 
 # Publish local
-:gradle-plugin:publishToMavenLocal
+:ktorfit-gradle-plugin:publishToMavenLocal

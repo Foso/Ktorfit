@@ -28,10 +28,10 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 
 rootProject.name = "Ktorfit"
-include("gradle-plugin")
+include(":ktorfit-gradle-plugin")
 include(":sandbox")
 include(":ktorfit-ksp")
-include(":compiler-plugin")
+include(":ktorfit-compiler-plugin")
 include(":ktorfit-lib-core")
 include(":ktorfit-lib")
 include(":ktorfit-annotations")

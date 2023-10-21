@@ -148,7 +148,7 @@ dependencies {
 configurations.all {
     resolutionStrategy.dependencySubstitution {
         substitute(module("de.jensklingenberg.ktorfit:compiler-plugin"))
-            .using(project(":compiler-plugin")).because("we work with the unreleased development version")
+            .using(project(":ktorfit-compiler-plugin")).because("we work with the unreleased development version")
         substitute(module("de.jensklingenberg.ktorfit:converters-flow"))
             .using(project(":ktorfit-converters:flow")).because("we work with the unreleased development version")
         substitute(module("de.jensklingenberg.ktorfit:converters-call"))
