@@ -5,7 +5,7 @@ package de.jensklingenberg.ktorfit.http
  *
  * ```
  * @POST("createIssue")
- * suspend fun upload(@Body issue: Issue)
+ * fun upload(@Body issue: Issue)
  * ```
  */
 @Target(AnnotationTarget.VALUE_PARAMETER)
