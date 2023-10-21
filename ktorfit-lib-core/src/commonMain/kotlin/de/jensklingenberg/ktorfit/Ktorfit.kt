@@ -84,7 +84,6 @@ public class Ktorfit private constructor(
      * @param ktorfitService Please keep the default parameter, it will be replaced
      * by the compiler plugin
      */
-    @OptIn(InternalKtorfitApi::class)
     public fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
         if (ktorfitService is DefaultKtorfitService) {
             throw IllegalArgumentException(ENABLE_GRADLE_PLUGIN)
