@@ -1,9 +1,14 @@
 package de.jensklingenberg.ktorfit
 
-import com.tschuchort.compiletesting.*
+import com.tschuchort.compiletesting.KotlinCompilation
+import com.tschuchort.compiletesting.SourceFile
+import com.tschuchort.compiletesting.kspIncremental
+import com.tschuchort.compiletesting.kspSourcesDir
+import com.tschuchort.compiletesting.symbolProcessorProviders
 import de.jensklingenberg.ktorfit.model.KtorfitError
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 

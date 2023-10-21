@@ -24,6 +24,7 @@ sealed class ParameterAnnotation{
     data class FieldMap(val encoded: Boolean) : ParameterAnnotation()
     data class Part(val value: String = "", val encoding: String = "binary") : ParameterAnnotation()
     data class PartMap(val encoding: String = "binary") : ParameterAnnotation()
+    data class Tag(val value: String) : ParameterAnnotation()
 }
 
 
@@ -57,6 +58,10 @@ fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAn
     }
 
     ksValueParameter.getBodyAnnotation()?.let {
+        paramAnnos.add(it)
+    }
+
+    ksValueParameter.getTagAnnotation()?.let {
         paramAnnos.add(it)
     }
 

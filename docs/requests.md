@@ -108,7 +108,19 @@ suspend fun signup(
 
 To send FormData you can use @Field or @FieldMap. Your function needs to be annotated with @FormUrlEncoded.
 
+## Tag
+Tag can be used to add a tag to a request.
 
+```kotlin
+@GET("posts")
+fun getPosts(@Tag("myTag") tag: String): List<Post>
+```
+
+You can then access the tag from the attributes of a Ktor HttpClientCall
+
+```kotlin
+val test = response.call.attributes[AttributeKey("myTag")] 
+```
 ## Multipart
 To send Multipart data you have two options:
 
