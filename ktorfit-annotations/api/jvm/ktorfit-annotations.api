@@ -97,6 +97,10 @@ public abstract interface annotation class de/jensklingenberg/ktorfit/http/Reque
 public abstract interface annotation class de/jensklingenberg/ktorfit/http/Streaming : java/lang/annotation/Annotation {
 }
 
+public abstract interface annotation class de/jensklingenberg/ktorfit/http/Tag : java/lang/annotation/Annotation {
+	public abstract fun value ()Ljava/lang/String;
+}
+
 public abstract interface annotation class de/jensklingenberg/ktorfit/http/Url : java/lang/annotation/Annotation {
 }
 
