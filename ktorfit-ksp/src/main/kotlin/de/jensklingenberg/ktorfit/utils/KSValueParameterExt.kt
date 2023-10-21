@@ -103,6 +103,13 @@ fun KSValueParameter.getBodyAnnotation(): Body? {
     }
 }
 
+@OptIn(KspExperimental::class)
+fun KSValueParameter.getTagAnnotation(): Tag? {
+    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Tag::class).firstOrNull()?.let {
+        return Tag(it.value.replace(KTORFIT_DEFAULT_VALUE, this.name.safeString()))
+    }
+}
+
 fun KSValueParameter.getRequestTypeAnnotation(): RequestType? {
     val requestTypeClazz = de.jensklingenberg.ktorfit.http.RequestType::class
     val filteredAnnotations = this.annotations.filter {
