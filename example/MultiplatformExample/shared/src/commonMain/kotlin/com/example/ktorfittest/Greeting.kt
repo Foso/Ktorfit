@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
@@ -36,6 +37,7 @@ class Greeting {
 
 }
 
+@OptIn(DelicateCoroutinesApi::class)
 fun loadData() {
     GlobalScope.launch {
         val response = starWarsApi.getPersonByIdResponse(3)

@@ -34,7 +34,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.9.10")
+    implementation(libs.kotlin.gradle.plugin.api)
 }
 
 gradlePlugin {

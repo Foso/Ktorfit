@@ -4,12 +4,12 @@ plugins {
     id("com.android.library")
     id("com.google.devtools.ksp") version "1.9.10-1.0.13"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "1.8.1"
+    id("de.jensklingenberg.ktorfit") version "1.9.1"
 }
 
 version = "1.0"
 val ktorVersion = "2.3.4"
-val ktorfitVersion = "1.8.1"
+val ktorfitVersion = "1.9.1"
 
 kotlin {
     jvmToolchain(8)
@@ -90,3 +90,17 @@ dependencies {
     }
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        allWarningsAsErrors = true
+    }
+}
+
+allprojects {
+    repositories {
+        maven {
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+        }
+    }
+}

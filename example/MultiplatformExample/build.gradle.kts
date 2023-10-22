@@ -4,6 +4,9 @@ buildscript {
         google()
       //  mavenLocal()
         mavenCentral()
+        maven {
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+        }
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
@@ -18,5 +21,8 @@ allprojects {
         google()
        // mavenLocal()
         mavenCentral()
+        maven {
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+        }
     }
 }
