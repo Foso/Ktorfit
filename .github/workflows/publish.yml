@@ -19,7 +19,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Publish release
-        run: ./gradlew :ktorfit-annotations:publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew :ktorfit-annotations:publishDefaultPublicationsToMavenCentralRepository
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
@@ -40,7 +40,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Publish release
-        run: ./gradlew :ktorfit-ksp:publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew :ktorfit-ksp:publishDefaultPublicationsToMavenCentralRepository
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
@@ -61,7 +61,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Publish release
-        run: ./gradlew :ktorfit-converters:call:publishAllPublicationsToMavenCentralRepository :ktorfit-converters:flow:publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew :ktorfit-converters:call:publishDefaultPublicationsToMavenCentralRepository :ktorfit-converters:flow:publishDefaultPublicationsToMavenCentralRepository
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
@@ -82,7 +82,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Publish release
-        run: ./gradlew :ktorfit-compiler-plugin:publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew :ktorfit-compiler-plugin:publishDefaultPublicationsToMavenCentralRepository
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
@@ -103,7 +103,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Publish release
-        run: ./gradlew :ktorfit-gradle-plugin:publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew :ktorfit-gradle-plugin:publishDefaultPublicationsToMavenCentralRepository
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
@@ -124,7 +124,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Publish release
-        run: ./gradlew :ktorfit-lib:publishAllPublicationsToMavenCentralRepository :ktorfit-lib-core:publishAllPublicationsToMavenCentralRepository
+        run: ./gradlew :ktorfit-lib:publishDefaultPublicationsToMavenCentralRepository :ktorfit-lib-core:publishDefaultPublicationsToMavenCentralRepository
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}

@@ -7,13 +7,16 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
-## [Unreleased]
+## 1.9.0 - 2023-10-22
 ========================================
+Compatible with KSP 1.0.13 and Kotlin 1.9.10/1.9.20-RC
+When you are still using the Ktorfit Gradle plugin in version 1.0.0, please also update this to 1.9.0
+
 ### Added
-- Add support for Tag annotation https://foso.github.io/Ktorfit/requests/#tag
+- Add Tag annotation https://foso.github.io/Ktorfit/requests/#tag
 
 ### Changed
-- Optimized generated code and suppressed unnecessary safe call warnings
+- The generated code will not produce warnings anymore
 
 
 1.8.1 - 2023-10-09

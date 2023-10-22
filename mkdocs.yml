@@ -13,7 +13,7 @@ extra:
   site:
     images: '../../images'
   ktorfit:
-    release: "1.8.1"
+    release: "1.9.0"
   ktor:
     release: "2.3.4"
   social:
