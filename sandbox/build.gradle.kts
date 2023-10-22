@@ -3,8 +3,8 @@ plugins {
     alias(libs.plugins.kspPlugin)
     id("kotlinx-serialization")
     id("app.cash.licensee")
+    id("de.jensklingenberg.ktorfit")
 }
-apply(plugin = "de.jensklingenberg.ktorfit")
 version = "1.0-SNAPSHOT"
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
