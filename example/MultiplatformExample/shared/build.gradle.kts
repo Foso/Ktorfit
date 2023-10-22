@@ -9,7 +9,7 @@ plugins {
 
 version = "1.0"
 val ktorVersion = "2.3.4"
-val ktorfitVersion = "1.9.0"
+val ktorfitVersion = "1.9.1"
 
 kotlin {
     jvmToolchain(8)
