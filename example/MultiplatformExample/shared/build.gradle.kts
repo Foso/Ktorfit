@@ -4,7 +4,7 @@ plugins {
     id("com.android.library")
     id("com.google.devtools.ksp") version "1.9.10-1.0.13"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "1.9.0"
+    id("de.jensklingenberg.ktorfit") version "1.9.1"
 }
 
 version = "1.0"
