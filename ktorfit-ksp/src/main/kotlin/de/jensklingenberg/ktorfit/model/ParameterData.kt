@@ -32,7 +32,7 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
 
     val parameterAnnotations = ksValueParameter.getParamAnnotationList(logger)
 
-    val parameterName = ksValueParameter.name?.asString() ?: ""
+    val parameterName = ksValueParameter.name?.asString().orEmpty()
     val parameterType = ksValueParameter.type.resolve()
     val hasRequestBuilderAnno = parameterAnnotations.anyInstance<RequestBuilder>()
 
