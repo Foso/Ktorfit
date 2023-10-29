@@ -12,5 +12,5 @@ val api = jvmKtorfit.create<ExampleApi>()
 will be transformed to:
 
 ```kotlin
-val api = jvmKtorfit.create<ExampleApi>(_ExampleApiImpl())
+val api = jvmKtorfit.create<ExampleApi>(_ExampleApiImpl(jvmKtorfit))
 ```

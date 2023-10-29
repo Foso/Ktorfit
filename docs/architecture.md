@@ -28,28 +28,29 @@ Let`s say we have a interface like this.
 At compile time Ktorfit/KSP checks for all functions that are annotated with Ktorfit annotations like @GET.
 
 Then it looks at the parent interfaces of that functions and generates, the source code of a Kotlin class that implements the interface. The classes are named like the interfaces but with an underscore at the beginning and "Impl" at the end, and they have the same package as the interfaces. In this case a class named _ExampleApiImpl will be generated.
-The class will also implement **KtorfitService**. The setClient() function will be used to add the http client at runtime.
 
 ```kotlin
 @OptIn(InternalKtorfitApi::class)
-public class _ExampleApiImpl : ExampleApi, KtorfitService {
-    public override lateinit var ktorfitClient: Client
+public class _ExampleApiImpl(
+    private val _ktorfit: Ktorfit,
+) : ExampleApi {
+    public val _converter: KtorfitConverterHelper = KtorfitConverterHelper(_ktorfit)
 
-    public override suspend fun exampleGet(): String {
+    override suspend fun exampleGet(): People {
         val _ext: HttpRequestBuilder.() -> Unit = {
             method = HttpMethod.parse("GET")
-            url(ktorfitClient.baseUrl + "/test")
+            url{
+                takeFrom(_ktorfit.baseUrl + "/test")
+            }
         }
-        val _requestData = RequestData(returnTypeData = TypeData("kotlin.String"),
-            requestTypeInfo = typeInfo<String>(),
-            returnTypeInfo = typeInfo<String>(),
-            ktorfitRequestBuilder = _ext)
+        val _typeData = TypeData.createTypeData(qualifiedTypename = "com.example.model.People",
+            typeInfo = typeInfo<People>())
 
-        return ktorfitClient.suspendRequest<String, String>(_requestData)!!
+        return _converter.suspendRequest<People, People>(_typeData,_ext)!!
     }
 }
 
-public fun Ktorfit.createExampleApi(): ExampleApi = this.create(_ExampleApiImpl())
+public fun Ktorfit.createExampleApi(): ExampleApi = this.create(_ExampleApiImpl(this))
 ```
 
 The next part is the compiler plugin which is added by the gradle plugin.
@@ -64,18 +65,16 @@ val api = jvmKtorfit.create<ExampleApi>()
 will be transformed to: 
 
 ```kotlin
-val api = jvmKtorfit.create<ExampleApi>(_ExampleApiImpl())
+val api = jvmKtorfit.create<ExampleApi>(_ExampleApiImpl(jvmKtorfit))
 ```
 
-When the create() function is used, the object is cast to a KtorfitService and the client will be added.
-Then it is cast to requested type < T >
+The create() function is used, checks that the compiler plugin replaced the default value
 
 ```kotlin
-fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
-        if (ktorfitService is DefaultKtorfitService) {
-            throw IllegalArgumentException("You need to enable the Ktorfit Gradle Plugin")
-        }
-        ktorfitService.setClient(KtorfitClient(this))
-        return ktorfitService as T
+public fun <T> create(data: T? = null): T {
+    if (data == null) {
+        throw IllegalArgumentException(ENABLE_GRADLE_PLUGIN)
     }
+    return data
+}
 ```

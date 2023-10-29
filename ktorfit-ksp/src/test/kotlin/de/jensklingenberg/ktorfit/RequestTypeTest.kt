@@ -25,7 +25,7 @@ interface TestService {
     """
         )
 
-        val expectedFunctionSource = """val postId: Int = ktorfitClient.convertParameterType(postId,postId::class,Int::class)"""
+        val expectedFunctionSource = """val postId: Int = _converter.convertParameterType(postId,postId::class,Int::class)"""
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

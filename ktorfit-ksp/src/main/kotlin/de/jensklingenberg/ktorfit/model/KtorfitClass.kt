@@ -4,11 +4,11 @@ import com.squareup.kotlinpoet.ClassName
 
 data class KtorfitClass(val name: String, val packageName: String, val objectName: String)
 
-val ktorfitClientClass = KtorfitClass("KtorfitClient", "de.jensklingenberg.ktorfit.internal", "ktorfitClient")
-val clientClass = KtorfitClass("Client", "de.jensklingenberg.ktorfit.internal", "ktorfitClient")
-val ktorfitClass = KtorfitClass("Ktorfit", "de.jensklingenberg.ktorfit", "")
+val ktorfitClass = KtorfitClass("Ktorfit", "de.jensklingenberg.ktorfit", "_ktorfit")
 val typeDataClass = KtorfitClass("TypeData", "de.jensklingenberg.ktorfit.internal", "_typeData")
-val ktorfitServiceClassName = ClassName("de.jensklingenberg.ktorfit.internal", "KtorfitService")
-val extDataClass = KtorfitClass("", "", "_ext")
+val extDataClass = KtorfitClass("HttpRequestBuilder.() -> Unit", "", "_ext")
 val formParameters = KtorfitClass("", "", "__formParameters")
+val internalApi = ClassName("de.jensklingenberg.ktorfit.internal", "InternalKtorfitApi")
+val internalKtorfitClientType = ClassName("de.jensklingenberg.ktorfit.internal", "KtorfitConverterHelper")
 
+fun KtorfitClass.toClassName() = ClassName(packageName, name)

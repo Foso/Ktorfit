@@ -3,23 +3,28 @@ package de.jensklingenberg.ktorfit.internal
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
-import io.ktor.client.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.util.reflect.*
+import io.ktor.client.HttpClient
+import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.prepareRequest
+import io.ktor.client.request.request
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.HttpStatement
+import io.ktor.util.reflect.typeInfo
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
+/**
+ * Cant make this internal because it is used by generated code
+ */
 @InternalKtorfitApi
-internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
+public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
 
     private val httpClient: HttpClient = ktorfit.httpClient
-    override val baseUrl: String = ktorfit.baseUrl
 
     /**
      * This will handle all requests for functions without suspend modifier
      */
-    override fun <ReturnType, RequestType : Any?> request(
+    public fun <ReturnType, RequestType : Any?> request(
         returnTypeData: TypeData,
         requestBuilder: HttpRequestBuilder.() -> Unit
     ): ReturnType? {
@@ -27,7 +32,10 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         ktorfit.nextResponseConverter(null, returnTypeData)?.let { responseConverter ->
             return responseConverter.convert {
                 suspendRequest<HttpResponse, HttpResponse>(
-                    TypeData.createTypeData("io.ktor.client.statement.HttpResponse", typeInfo<HttpResponse>()),
+                    TypeData.createTypeData(
+                        "io.ktor.client.statement.HttpResponse",
+                        typeInfo<HttpResponse>()
+                    ),
                     requestBuilder
                 )!!
             } as ReturnType?
@@ -36,7 +44,11 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         /**
          * Keeping this for compatibility
          */
-        handleDeprecatedResponseConverters<ReturnType, RequestType>(returnTypeData, ktorfit, requestBuilder)?.let {
+        handleDeprecatedResponseConverters<ReturnType, RequestType>(
+            returnTypeData,
+            ktorfit,
+            requestBuilder
+        )?.let {
             return it
         }
 
@@ -53,7 +65,7 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    override suspend fun <ReturnType, RequestType : Any?> suspendRequest(
+    public suspend fun <ReturnType, RequestType : Any?> suspendRequest(
         typeData: TypeData,
         requestBuilder: HttpRequestBuilder.() -> Unit
     ): ReturnType? {
@@ -86,7 +98,10 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
                 requestBuilder
             )?.let {
                 return it
-            } ?: DefaultSuspendResponseConverterFactory().suspendResponseConverter(typeData, ktorfit).let {
+            } ?: DefaultSuspendResponseConverterFactory().suspendResponseConverter(
+                typeData,
+                ktorfit
+            ).let {
                 val result: KtorfitResult = try {
                     KtorfitResult.Success(httpClient.request {
                         requestBuilder(this)
@@ -107,7 +122,11 @@ internal class KtorfitClient(private val ktorfit: Ktorfit) : Client {
         }
     }
 
-    override fun <T : Any> convertParameterType(data: Any, parameterType: KClass<*>, requestType: KClass<T>): T {
+    public fun <T : Any> convertParameterType(
+        data: Any,
+        parameterType: KClass<*>,
+        requestType: KClass<T>
+    ): T {
         ktorfit.nextRequestParameterConverter(null, parameterType, requestType)?.let {
             return requestType.cast(it.convert(data))
         }

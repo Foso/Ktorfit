@@ -83,9 +83,11 @@ class CreateFuncTransformer(
                     symbol = newConstructor,
                     0,
                     0,
-                    0,
+                    1,
                     null
-                )
+                ).apply {
+                    this.putValueArgument(0, expression.dispatchReceiver)
+                }
 
                 //Set _ExampleApiImpl() as argument for create<ExampleApi>()
                 irCall.putValueArgument(0, newCall)
