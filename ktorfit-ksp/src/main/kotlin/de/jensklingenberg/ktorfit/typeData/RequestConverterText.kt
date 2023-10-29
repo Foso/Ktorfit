@@ -4,7 +4,6 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ksp.toClassName
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestType
-import de.jensklingenberg.ktorfit.model.ktorfitClass
 
 fun FunSpec.Builder.addRequestConverterText(parameterDataList: List<ParameterData>) = apply {
     if (parameterDataList.any { it.hasAnnotation<RequestType>() }) {

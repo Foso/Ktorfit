@@ -34,9 +34,9 @@ data class FunctionData(
                     it.add(KModifier.SUSPEND)
                 }
             })
-            .returns(TypeVariableName(returnTypeName))
+            .returns(returnType.parameterType!!.toTypeName())
             .addParameters(this.parameterDataList.map {
-                ParameterSpec(it.name, TypeVariableName(it.type.name))
+                ParameterSpec(it.name, it.type.parameterType!!.toTypeName())
             })
             .addRequestConverterText(this.parameterDataList)
             .addStatement(

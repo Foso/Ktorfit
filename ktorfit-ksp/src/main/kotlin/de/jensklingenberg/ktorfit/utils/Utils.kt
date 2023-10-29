@@ -29,20 +29,6 @@ fun String.surroundIfNotEmpty(prefix: String = "", postFix: String = ""): String
     return this.prefixIfNotEmpty(prefix).postfixIfNotEmpty(postFix)
 }
 
-/**
- * Gets the imports of a class by reading the imports from the file
- * which contains the class
- *  TODO: Find better way to get imports
- */
-fun KSClassDeclaration.getFileImports(): List<String> {
-    return File(this.containingFile!!.filePath)
-        .readLines()
-        .filter { it.trimStart().startsWith("import") && !it.startsWith("import de.jensklingenberg.ktorfit.http.") }
-        .toMutableSet()
-        .map { it.removePrefix("import ") }
-}
-
-
 fun String.removeWhiteSpaces(): String {
     return this.replace("\\s".toRegex(), "")
 }

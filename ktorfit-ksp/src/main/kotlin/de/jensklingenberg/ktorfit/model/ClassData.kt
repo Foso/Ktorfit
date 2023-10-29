@@ -3,16 +3,30 @@ package de.jensklingenberg.ktorfit.model
 import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
-import com.google.devtools.ksp.symbol.*
-import com.squareup.kotlinpoet.*
+import com.google.devtools.ksp.symbol.ClassKind
+import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSFile
+import com.google.devtools.ksp.symbol.KSPropertyDeclaration
+import com.google.devtools.ksp.symbol.KSTypeReference
+import com.squareup.kotlinpoet.ANY
+import com.squareup.kotlinpoet.AnnotationSpec
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.PropertySpec
+import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.annotations.FormUrlEncoded
 import de.jensklingenberg.ktorfit.model.annotations.Multipart
-import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Part
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestType
 import de.jensklingenberg.ktorfit.utils.addImports
-import de.jensklingenberg.ktorfit.utils.getFileImports
 
 /**
  * @param name of the interface that contains annotations
@@ -141,13 +155,13 @@ private fun getCreateExtensionFunctionSpec(
  */
 fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     val ksClassDeclaration = this
-    val imports = ksClassDeclaration.getFileImports().toMutableList().apply {
-        add("io.ktor.util.reflect.*")
-        add("io.ktor.client.request.*")
-        add("io.ktor.http.*")
-        add(ktorfitClass.packageName + "." + ktorfitClass.name)
-        add("de.jensklingenberg.ktorfit.internal.*")
-    }
+    val imports = mutableListOf(
+        "io.ktor.util.reflect.*",
+        "io.ktor.client.request.*",
+        "io.ktor.http.*",
+        ktorfitClass.packageName + "." + ktorfitClass.name,
+        "de.jensklingenberg.ktorfit.internal.*"
+    )
 
     val packageName = ksClassDeclaration.packageName.asString()
     val className = ksClassDeclaration.simpleName.asString()
@@ -163,7 +177,9 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             it.annotations.any { it is FormUrlEncoded || it is Multipart } ||
                     it.parameterDataList.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<Part>() }
         }) {
-        imports.add("io.ktor.client.request.forms.*")
+        imports.add("io.ktor.client.request.forms.FormDataContent")
+        imports.add("io.ktor.client.request.forms.MultiPartFormDataContent")
+        imports.add("io.ktor.client.request.forms.formData")
     }
 
     if (functionDataList.any { it.parameterDataList.any { param -> param.hasAnnotation<RequestType>() } }) {
