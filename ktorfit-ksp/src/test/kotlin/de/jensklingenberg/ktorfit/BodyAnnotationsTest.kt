@@ -110,7 +110,7 @@ interface TestService {
         )
 
 
-        val notExpectedBodyDataArgumentText = "setBody"
+        val notExpectedBodyDataArgumentText = "setBody("
 
         val compilation = getCompilation(listOf(source))
 

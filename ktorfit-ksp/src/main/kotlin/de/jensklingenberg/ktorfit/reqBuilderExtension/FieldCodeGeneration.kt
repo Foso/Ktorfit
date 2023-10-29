@@ -15,7 +15,7 @@ fun getFieldArgumentsText(params: List<ParameterData>, listType: KSType, arrayTy
         val encoded = field.encoded
         val paramName = parameterData.name
         val fieldValue = field.value
-        val starProj = parameterData.type.parameterType?.resolve()?.starProjection()
+        val starProj = parameterData.type.parameterType?.starProjection()
 
         val isList = starProj?.isAssignableFrom(listType) ?: false
         val isArray = starProj?.isAssignableFrom(arrayType) ?: false

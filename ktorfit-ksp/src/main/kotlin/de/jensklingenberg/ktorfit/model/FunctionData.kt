@@ -6,7 +6,6 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
-import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
@@ -47,17 +46,18 @@ data class FunctionData(
             )
             .addStatement(
                 getTypeDataArgumentText(
-                    this,
+                    this.returnType,
                 )
             )
             .addStatement(
-                "return %L.%L<${returnTypeName}, ${innerReturnType}>(${typeDataClass.objectName},${extDataClass.objectName})%L",
-                "_converter",
+                "return %L.%L<${returnTypeName}, ${innerReturnType}>(%L,${extDataClass.objectName})%L",
+                converterHelper.objectName,
                 if (this.isSuspend) {
                     "suspendRequest"
                 } else {
                     "request"
                 },
+                typeDataClass.objectName,
                 if (this.returnType.isNullable) {
                     ""
                 } else {
@@ -98,7 +98,7 @@ fun KSFunctionDeclaration.toFunctionData(
     val returnType = ReturnTypeData(
         name = resolvedReturnType.resolveTypeName(),
         qualifiedName = resolvedReturnType?.toTypeName().toString(),
-        parameterType = funcDeclaration.returnType
+        parameterType = funcDeclaration.returnType?.resolve()
     )
 
     val functionAnnotationList = mutableListOf<FunctionAnnotation>()
@@ -217,7 +217,7 @@ fun KSFunctionDeclaration.toFunctionData(
         val pathAnnotation = it.findAnnotationOrNull<Path>()
         if (!firstHttpMethodAnnotation.path.contains("{${pathAnnotation?.value ?: ""}}")) {
             logger.error(
-                KtorfitError.MISSING_X_IN_RELATIVE_URL_PATH(pathAnnotation?.value ?: ""),
+                KtorfitError.MISSING_X_IN_RELATIVE_URL_PATH(pathAnnotation?.value.orEmpty()),
                 funcDeclaration
             )
         }

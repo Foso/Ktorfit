@@ -14,7 +14,7 @@ fun getPartsCode(params: List<ParameterData>, listType: KSType, arrayType: KSTyp
         val name = parameterData.name
         val partValue = part.value
 
-        val starProj = parameterData.type.parameterType?.resolve()?.starProjection()
+        val starProj = parameterData.type.parameterType?.starProjection()
         val isList = starProj?.isAssignableFrom(listType) ?: false
         val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 

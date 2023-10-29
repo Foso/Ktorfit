@@ -1,12 +1,9 @@
 package de.jensklingenberg.ktorfit.utils
 
-import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSName
 import com.google.devtools.ksp.symbol.KSType
 import com.squareup.kotlinpoet.FileSpec
 import de.jensklingenberg.ktorfit.model.FunctionData
-import de.jensklingenberg.ktorfit.model.WILDCARDIMPORT
-import java.io.File
 
 fun KSType?.resolveTypeName(): String {
     //TODO: Find better way to handle type alias Types
@@ -42,7 +39,7 @@ fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
          * after Kotlin Poet generated the source code
          */
         val packageName = it.substringBeforeLast(".")
-        val className = it.substringAfterLast(".").replace("*", WILDCARDIMPORT)
+        val className = it.substringAfterLast(".")
 
         this.addImport(packageName, className)
     }

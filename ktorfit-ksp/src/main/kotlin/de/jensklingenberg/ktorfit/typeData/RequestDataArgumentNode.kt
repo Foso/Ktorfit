@@ -1,14 +1,14 @@
 package de.jensklingenberg.ktorfit.typeData
 
 
-import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.typeDataClass
 import de.jensklingenberg.ktorfit.utils.removeWhiteSpaces
 
-fun getTypeDataArgumentText(functionData: FunctionData): String {
+fun getTypeDataArgumentText(returnTypeData: ReturnTypeData): String {
 
-    val returnTypeName = "qualifiedTypename = \"${functionData.returnType.qualifiedName.removeWhiteSpaces()}\""
-    val returnTypeInfo = getReturnTypeInfoText(functionData.returnType.name)
+    val returnTypeName = "qualifiedTypename = \"${returnTypeData.qualifiedName.removeWhiteSpaces()}\""
+    val returnTypeInfo = getReturnTypeInfoText(returnTypeData.name)
     val args = listOf(
         returnTypeName,
         returnTypeInfo
