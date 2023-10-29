@@ -54,13 +54,13 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
         ReturnTypeData(
             "HttpRequestBuilder.()->Unit",
             "HttpRequestBuilder.()->Unit",
-            ksValueParameter.type,
+            parameterType,
         )
     } else {
         ReturnTypeData(
             parameterType.resolveTypeName(),
             parameterType.declaration.qualifiedName?.asString().orEmpty(),
-            ksValueParameter.type,
+            parameterType,
         )
     }
 

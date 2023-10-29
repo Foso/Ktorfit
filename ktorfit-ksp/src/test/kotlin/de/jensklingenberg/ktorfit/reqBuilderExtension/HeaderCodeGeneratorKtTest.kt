@@ -52,7 +52,7 @@ class HeaderCodeGeneratorKtTest {
 
         val parameterData = ParameterData(
             "test1",
-            ReturnTypeData("List<String>", "kotlin.collections.List", typeRef),
+            ReturnTypeData("List<String>", "kotlin.collections.List", typeRef.resolve()),
             annotations = listOf(Header("foo"))
         )
         val params = listOf(parameterData)
@@ -73,7 +73,7 @@ class HeaderCodeGeneratorKtTest {
 
         val parameterData = ParameterData(
             "test1",
-            ReturnTypeData("Array<String>", "kotlin.Array", typeRef),
+            ReturnTypeData("Array<String>", "kotlin.Array", typeRef.resolve()),
             annotations = listOf(Header("foo"))
         )
         val params = listOf(parameterData)

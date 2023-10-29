@@ -24,7 +24,7 @@ fun getHeadersCode(
             .joinToString("") { parameterData ->
                 val paramName = parameterData.name
 
-                val starProj = parameterData.type.parameterType?.resolve()?.starProjection()
+                val starProj = parameterData.type.parameterType?.starProjection()
                 val isList = starProj?.isAssignableFrom(listType) ?: false
                 val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 

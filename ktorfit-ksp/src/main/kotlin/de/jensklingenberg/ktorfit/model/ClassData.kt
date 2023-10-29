@@ -17,7 +17,6 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
@@ -42,8 +41,6 @@ data class ClassData(
     val modifiers: List<KModifier> = emptyList(),
     val ksFile: KSFile
 )
-
-const val WILDCARDIMPORT = "WILDCARDIMPORT"
 
 /**
  * Transform a [ClassData] to a [FileSpec] for KotlinPoet
@@ -100,9 +97,10 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
         .addModifiers(KModifier.PRIVATE)
         .build()
 
-    val converterProperty = PropertySpec.builder("_converter", internalKtorfitClientType)
-        .initializer("%T(${ktorfitClass.objectName})", internalKtorfitClientType)
-        .build()
+    val converterProperty =
+        PropertySpec.builder(converterHelper.objectName, converterHelper.toClassName())
+            .initializer("%T(${ktorfitClass.objectName})", converterHelper.toClassName())
+            .build()
 
     val implClassSpec = TypeSpec.classBuilder(implClassName)
         .primaryConstructor(
@@ -116,10 +114,8 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
         .addModifiers(classData.modifiers)
         .addSuperinterface(ClassName(classData.packageName, classData.name))
         .addKtorfitSuperInterface(classData.superClasses)
+        .addProperties(listOf(converterProperty, ktorfitProperty) + properties)
         .addFunctions(classData.functions.map { it.toFunSpec(resolver) })
-        .addProperty(converterProperty)
-        .addProperty(ktorfitProperty)
-        .addProperties(properties)
         .build()
 
     return FileSpec.builder(classData.packageName, implClassName)
@@ -130,7 +126,6 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
         .addFunction(createExtensionFunctionSpec)
         .build()
         .toString()
-        .replace(WILDCARDIMPORT, "*")
 }
 
 /**
@@ -143,7 +138,7 @@ private fun getCreateExtensionFunctionSpec(
         .addModifiers(classData.modifiers)
         .addStatement("return this.create(_${classData.name}Impl(this))")
         .receiver(ktorfitClass.toClassName())
-        .returns(TypeVariableName(classData.name))
+        .returns(ClassName(classData.packageName, classData.name))
         .build()
 }
 
@@ -156,11 +151,17 @@ private fun getCreateExtensionFunctionSpec(
 fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     val ksClassDeclaration = this
     val imports = mutableListOf(
-        "io.ktor.util.reflect.*",
-        "io.ktor.client.request.*",
-        "io.ktor.http.*",
-        ktorfitClass.packageName + "." + ktorfitClass.name,
-        "de.jensklingenberg.ktorfit.internal.*"
+        "io.ktor.util.reflect.typeInfo",
+        "io.ktor.client.request.HttpRequestBuilder",
+        "io.ktor.client.request.setBody",
+        "io.ktor.client.request.headers",
+        "io.ktor.client.request.parameter",
+        "io.ktor.http.URLBuilder",
+        "io.ktor.http.HttpMethod",
+        "io.ktor.http.takeFrom",
+        "io.ktor.http.decodeURLQueryComponent",
+        "io.ktor.http.encodeURLPath",
+        typeDataClass.packageName + "." + typeDataClass.name,
     )
 
     val packageName = ksClassDeclaration.packageName.asString()
@@ -241,7 +242,7 @@ private fun KSClassDeclaration.getKsFile(): KSFile {
  * Support for extending multiple interfaces, is done with Kotlin delegation. Ktorfit interfaces can only extend other Ktorfit interfaces, so there will
  * be a generated implementation for each interface that we can use.
  */
-fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeReference>): TypeSpec.Builder {
+private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeReference>): TypeSpec.Builder {
     (superClasses).forEach { superClassReference ->
         val superClassDeclaration = superClassReference.resolve().declaration
         val superTypeClassName = superClassDeclaration.simpleName.asString()

@@ -40,7 +40,7 @@ private fun getQueryNameText(
     val encoded = queryName.encoded
     val name = parameterData.name
 
-    val starProj = parameterData.type.parameterType?.resolve()?.starProjection()
+    val starProj = parameterData.type.parameterType?.starProjection()
     val isList = starProj?.isAssignableFrom(listType) ?: false
     val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
@@ -73,7 +73,7 @@ private fun getQueryText(
 ) = params.filter { it.hasAnnotation<Query>() }.joinToString(separator = "") { parameterData ->
     val query = parameterData.annotations.filterIsInstance<Query>().first()
     val encoded = query.encoded
-    val starProj = parameterData.type.parameterType?.resolve()?.starProjection()
+    val starProj = parameterData.type.parameterType?.starProjection()
     val isList = starProj?.isAssignableFrom(listType) ?: false
     val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
