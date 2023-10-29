@@ -44,7 +44,7 @@ class ClientTest {
         val ktorfit = Ktorfit.Builder().baseUrl(testBaseUrl).httpClient(HttpClient(engine)).build()
 
         runBlocking {
-            ktorfit.create<ClientTestApi>(_ClientTestApiImpl()).checkCorrectHttpMethod()
+            ktorfit.create<ClientTestApi>(_ClientTestApiImpl(ktorfit)).checkCorrectHttpMethod()
         }
 
     }
@@ -67,7 +67,7 @@ class ClientTest {
 
             val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").httpClient(client).build()
             runBlocking {
-                ktorfit.create<ClientTestApi>(_ClientTestApiImpl()).converterMissing()
+                ktorfit.create<ClientTestApi>(_ClientTestApiImpl(ktorfit)).converterMissing()
             }
 
         } catch (exception: Exception) {
@@ -82,7 +82,7 @@ class ClientTest {
 
             val ktorfit = Ktorfit.Builder().baseUrl("http://www.test.de/").build()
 
-            val converted = (KtorfitClient(ktorfit) as Client).convertParameterType("4", String::class, Int::class)
+            val converted = KtorfitConverterHelper(ktorfit).convertParameterType("4", String::class, Int::class)
             assertEquals(4, converted)
 
         } catch (ex: Exception) {
@@ -107,7 +107,7 @@ class ClientTest {
         val ktorfit = Ktorfit.Builder().baseUrl("http://www.example1.com/").httpClient(HttpClient(engine)).build()
         try {
             runBlocking {
-                ktorfit.create<ClientTestApi>(_ClientTestApiImpl()).whenUrlValueContainsBaseUrl_ThenRemoveBaseUrl()
+                ktorfit.create<ClientTestApi>(_ClientTestApiImpl(ktorfit)).whenUrlValueContainsBaseUrl_ThenRemoveBaseUrl()
 
             }
         } catch (ex: Exception) {

@@ -81,15 +81,14 @@ public class Ktorfit private constructor(
     /**
      * This will return an implementation of [T] if [T] is an interface
      * with Ktorfit annotations.
-     * @param ktorfitService Please keep the default parameter, it will be replaced
+     * @param data Please keep the default parameter, it will be replaced
      * by the compiler plugin
      */
-    public fun <T> create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
-        if (ktorfitService is DefaultKtorfitService) {
+    public fun <T> create(data: T? = null): T {
+        if (data == null) {
             throw IllegalArgumentException(ENABLE_GRADLE_PLUGIN)
         }
-        ktorfitService.setClient(KtorfitClient(this))
-        return ktorfitService as T
+        return data
     }
 
 
@@ -232,15 +231,4 @@ public fun ktorfit(builder: Ktorfit.Builder.() -> Unit): Ktorfit = Ktorfit.Build
  */
 public fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit): Ktorfit.Builder = Ktorfit.Builder().apply(builder)
 
-@OptIn(InternalKtorfitApi::class)
-@Deprecated("Use the non-Extension function")
-/**
- * This will return an implementation of [T] if [T] is an interface
- * with Ktorfit annotations.
- * @param ktorfitService Please keep the default parameter, it will be replaced
- * by the compiler plugin
- */
-public fun <T> Ktorfit.create(ktorfitService: KtorfitService = DefaultKtorfitService()): T {
-    return this.create(ktorfitService)
-}
 

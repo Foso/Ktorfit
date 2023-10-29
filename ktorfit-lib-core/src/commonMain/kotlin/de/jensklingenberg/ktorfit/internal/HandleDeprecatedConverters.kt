@@ -7,7 +7,7 @@ import io.ktor.client.statement.*
 import io.ktor.util.reflect.*
 
 @OptIn(InternalKtorfitApi::class)
-internal fun <ReturnType, RequestType : Any?> KtorfitClient.handleDeprecatedResponseConverters(
+internal fun <ReturnType, RequestType : Any?> KtorfitConverterHelper.handleDeprecatedResponseConverters(
     returnTypeData: TypeData,
     ktorfit: Ktorfit,
     requestBuilder: HttpRequestBuilder.() -> Unit

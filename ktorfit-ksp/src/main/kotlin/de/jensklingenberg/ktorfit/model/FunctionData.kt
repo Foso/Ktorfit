@@ -27,11 +27,7 @@ data class FunctionData(
     fun toFunSpec(resolver: Resolver): FunSpec {
         val returnTypeName = this.returnType.name
         val innerReturnType = this.returnType.innerTypeName
-        val nullableText = if (this.returnType.isNullable) {
-            ""
-        } else {
-            "!!"
-        }
+
         return FunSpec.builder(this.name)
             .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
                 if (this.isSuspend) {
@@ -55,12 +51,17 @@ data class FunctionData(
                 )
             )
             .addStatement(
-                "return %L.%L<${returnTypeName}, ${innerReturnType}>(${typeDataClass.objectName},${extDataClass.objectName})$nullableText",
-                ktorfitClientClass.objectName,
+                "return %L.%L<${returnTypeName}, ${innerReturnType}>(${typeDataClass.objectName},${extDataClass.objectName})%L",
+                "_converter",
                 if (this.isSuspend) {
                     "suspendRequest"
                 } else {
                     "request"
+                },
+                if (this.returnType.isNullable) {
+                    ""
+                } else {
+                    "!!"
                 }
             )
             .build()

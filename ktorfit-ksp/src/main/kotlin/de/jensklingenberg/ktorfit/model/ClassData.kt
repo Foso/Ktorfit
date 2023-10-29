@@ -36,8 +36,12 @@ const val WILDCARDIMPORT = "WILDCARDIMPORT"
  */
 fun ClassData.getImplClassFileSource(resolver: Resolver): String {
     val classData = this
-    val optinAnnotation = AnnotationSpec.builder(ClassName("kotlin", "OptIn"))
-        .addMember("InternalKtorfitApi::class")
+    val optinAnnotation = AnnotationSpec
+        .builder(ClassName("kotlin", "OptIn"))
+        .addMember(
+            "%T::class",
+            internalApi
+        )
         .build()
 
     val suppressAnnotation = AnnotationSpec.builder(ClassName("kotlin", "Suppress"))
@@ -72,29 +76,35 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
 
     val implClassName = "_${classData.name}Impl"
 
-    val clientProperty = PropertySpec
+    val ktorfitProperty = PropertySpec
         .builder(
-            clientClass.objectName,
-            TypeVariableName(clientClass.name),
-            listOf(KModifier.OVERRIDE, KModifier.LATEINIT)
+            name = ktorfitClass.objectName,
+            type = ktorfitClass.toClassName()
         )
-        .mutable(true)
+        .initializer(ktorfitClass.objectName)
+        .mutable(false)
+        .addModifiers(KModifier.PRIVATE)
         .build()
 
+    val converterProperty = PropertySpec.builder("_converter", internalKtorfitClientType)
+        .initializer("%T(${ktorfitClass.objectName})", internalKtorfitClientType)
+        .build()
 
     val implClassSpec = TypeSpec.classBuilder(implClassName)
+        .primaryConstructor(
+            FunSpec.constructorBuilder()
+                .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
+                .build()
+        )
         .addAnnotation(
             optinAnnotation
         )
-
         .addModifiers(classData.modifiers)
         .addSuperinterface(ClassName(classData.packageName, classData.name))
-        .addSuperinterface(ktorfitServiceClassName)
         .addKtorfitSuperInterface(classData.superClasses)
         .addFunctions(classData.functions.map { it.toFunSpec(resolver) })
-        .addProperty(
-            clientProperty
-        )
+        .addProperty(converterProperty)
+        .addProperty(ktorfitProperty)
         .addProperties(properties)
         .build()
 
@@ -117,8 +127,8 @@ private fun getCreateExtensionFunctionSpec(
 ): FunSpec {
     return FunSpec.builder("create${classData.name}")
         .addModifiers(classData.modifiers)
-        .addStatement("return this.create(_${classData.name}Impl())")
-        .receiver(TypeVariableName(ktorfitClass.name))
+        .addStatement("return this.create(_${classData.name}Impl(this))")
+        .receiver(ktorfitClass.toClassName())
         .returns(TypeVariableName(classData.name))
         .build()
 }
@@ -222,7 +232,12 @@ fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeReference
         val superTypePackage = superClassDeclaration.packageName.asString()
         this.addSuperinterface(
             ClassName(superTypePackage, superTypeClassName),
-            CodeBlock.of("%L._%LImpl()", superTypePackage, superTypeClassName)
+            CodeBlock.of(
+                "%L._%LImpl(%L)",
+                superTypePackage,
+                superTypeClassName,
+                ktorfitClass.objectName
+            )
         )
     }
 

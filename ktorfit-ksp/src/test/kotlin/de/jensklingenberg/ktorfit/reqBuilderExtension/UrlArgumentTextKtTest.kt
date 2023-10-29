@@ -17,7 +17,7 @@ class UrlArgumentTextKtTest {
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         val expected = "url{\n" +
-                "takeFrom(ktorfitClient.baseUrl + \"posts\")\n" +
+                "takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
                 "}".trimMargin()
         assertEquals(
             expected, text
@@ -33,7 +33,7 @@ class UrlArgumentTextKtTest {
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         assertEquals(
             "url{\n" +
-                    "takeFrom((ktorfitClient.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"posts\")\n" +
+                    "takeFrom((_ktorfit.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"posts\")\n" +
                     "}",
             text
         )
@@ -48,7 +48,7 @@ class UrlArgumentTextKtTest {
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
         val expected = String.format(
             "url{\n" +
-                    "takeFrom((ktorfitClient.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"%s{test1}\")\n" +
+                    "takeFrom((_ktorfit.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"%s{test1}\")\n" +
                     "}",
             "$"
         )
@@ -60,7 +60,7 @@ class UrlArgumentTextKtTest {
         val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
-        assertEquals("url{\ntakeFrom(ktorfitClient.baseUrl + \"\")\n}", text)
+        assertEquals("url{\ntakeFrom(_ktorfit.baseUrl + \"\")\n}", text)
     }
 
     @Test
@@ -72,7 +72,7 @@ class UrlArgumentTextKtTest {
         val text = getUrlCode(params, HttpMethodAnnotation("user/{testValue}", HttpMethod.GET), "")
         assertEquals(
             """url{
-takeFrom(ktorfitClient.baseUrl + "user/$/{"$/test1".encodeURLPath()}")
+takeFrom(_ktorfit.baseUrl + "user/$/{"$/test1".encodeURLPath()}")
 }""".replace("$/", "$"),
             text
         )
