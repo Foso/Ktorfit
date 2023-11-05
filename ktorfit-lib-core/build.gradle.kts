@@ -87,14 +87,23 @@ kotlin {
         }
     }
 
-    ios("ios") {
-        binaries {
-            framework {
-                baseName = "library"
-            }
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+        watchosArm32(),
+        watchosArm64(),
+        watchosSimulatorArm64(),
+        tvosArm64(),
+        tvosX64(),
+        tvosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "library"
         }
     }
     mingwX64()
+    applyDefaultHierarchyTemplate()
 
     sourceSets {
         val commonMain by getting {
@@ -108,9 +117,7 @@ kotlin {
                 implementation(libs.kotlin.test)
             }
         }
-        val linuxX64Main by getting
-        val mingwX64Main by getting
-        val androidMain by getting
+
         val jvmMain by getting
         val jvmTest by getting {
             dependencies {
@@ -142,11 +149,11 @@ val javadocJar by tasks.registering(Jar::class) {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
     }
     namespace = "de.jensklingenberg.ktorfit.common"
 }
