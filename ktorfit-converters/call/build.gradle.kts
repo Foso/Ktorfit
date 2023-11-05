@@ -65,7 +65,11 @@ kotlin {
             executable()
         }
     }
-
+    linuxArm64{
+        binaries {
+            executable()
+        }
+    }
     listOf(
         iosX64(),
         iosArm64(),

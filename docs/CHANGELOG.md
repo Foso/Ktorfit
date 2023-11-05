@@ -9,6 +9,8 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 
 Unreleased
 ========================================
+### Added
+-  LinuxArm64 support [#475](https://github.com/Foso/Ktorfit/issues/475)
 
 ### Changed
 - KSP 1.0.14 required

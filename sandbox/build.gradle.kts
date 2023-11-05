@@ -49,6 +49,11 @@ kotlin {
             executable()
         }
     }
+    linuxArm64() {
+        binaries {
+            executable()
+        }
+    }
 
    // macosX64()
     mingwX64()
@@ -71,8 +76,8 @@ kotlin {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.curl)
-                implementation(libs.ktor.client.core.linux)
-                implementation(libs.ktor.client.cio.linux)
+                implementation(libs.ktor.client.core.linuxX64)
+                implementation(libs.ktor.client.cio.linuxX64)
 
             }
         }

@@ -86,7 +86,11 @@ kotlin {
             executable()
         }
     }
-
+    linuxArm64{
+        binaries {
+            executable()
+        }
+    }
     listOf(
         iosX64(),
         iosArm64(),
@@ -118,12 +122,11 @@ kotlin {
             }
         }
 
-        val jvmMain by getting
         val jvmTest by getting {
             dependencies {
                 kotlin.srcDir("build/generated/ksp/jvm/jvmTest/")
 
-                dependsOn(jvmMain)
+                dependsOn(jvmMain.get())
 
                 implementation(libs.ktor.client.mock)
                 implementation(libs.junit)
@@ -134,7 +137,7 @@ kotlin {
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val jsMain by getting
+
         val iosMain by getting {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
