@@ -65,6 +65,11 @@ kotlin {
             executable()
         }
     }
+    linuxArm64{
+        binaries {
+            executable()
+        }
+    }
 
     listOf(
         iosX64(),
@@ -91,10 +96,17 @@ kotlin {
         }
         val linuxX64Main by getting {
             dependencies {
-                implementation(libs.ktor.client.core.linux)
-                implementation(libs.ktor.client.cio.linux)
+                implementation(libs.ktor.client.core.linuxX64)
+                implementation(libs.ktor.client.cio.linuxX64)
             }
         }
+        val linuxArm64Main by getting {
+            dependencies {
+                implementation(libs.ktor.client.core.linuxArm64)
+                implementation(libs.ktor.client.cio.linuxArm64)
+            }
+        }
+
         val mingwX64Main by getting {
             dependencies {
                 implementation(libs.ktor.client.core.mingwx64)

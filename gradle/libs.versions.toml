@@ -39,11 +39,15 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 
 #Ktor
 ktor-client-cio-jvm = { module = "io.ktor:ktor-client-cio-jvm", version.ref = "ktorVersion" }
-ktor-client-cio-linux = { module = "io.ktor:ktor-client-cio-linuxx64", version.ref = "ktorVersion" }
+ktor-client-cio-linuxX64 = { module = "io.ktor:ktor-client-cio-linuxx64", version.ref = "ktorVersion" }
+ktor-client-cio-linuxArm64 = { module = "io.ktor:ktor-client-cio-linuxarm64", version.ref = "ktorVersion" }
+
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorVersion" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorVersion" }
 ktor-client-core-jvm = { module = "io.ktor:ktor-client-core-jvm", version.ref = "ktorVersion" }
-ktor-client-core-linux = { module = "io.ktor:ktor-client-core-linuxx64", version.ref = "ktorVersion" }
+ktor-client-core-linuxX64 = { module = "io.ktor:ktor-client-core-linuxx64", version.ref = "ktorVersion" }
+ktor-client-core-linuxArm64 = { module = "io.ktor:ktor-client-core-linuxarm64", version.ref = "ktorVersion" }
+
 ktor-client-core-mingwx64 = { module = "io.ktor:ktor-client-core-mingwx64", version.ref = "ktorVersion" }
 ktor-client-curl = { module = "io.ktor:ktor-client-curl", version.ref = "ktorVersion" }
 ktor-client-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktorVersion" }
