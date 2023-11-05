@@ -7,6 +7,12 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+Unreleased
+========================================
+
+### Changed
+- KSP 1.0.14 required
+
 1.9.1 - 2023-10-22
 ========================================
 Compatible with KSP 1.0.13 and Kotlin 1.9.10/1.9.20-RC
