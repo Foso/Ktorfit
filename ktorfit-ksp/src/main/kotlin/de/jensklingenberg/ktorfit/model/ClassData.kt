@@ -100,6 +100,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
     val converterProperty =
         PropertySpec.builder(converterHelper.objectName, converterHelper.toClassName())
             .initializer("%T(${ktorfitClass.objectName})", converterHelper.toClassName())
+            .addModifiers(KModifier.PRIVATE)
             .build()
 
     val implClassSpec = TypeSpec.classBuilder(implClassName)
