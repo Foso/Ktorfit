@@ -182,6 +182,7 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         imports.add("io.ktor.client.request.forms.FormDataContent")
         imports.add("io.ktor.client.request.forms.MultiPartFormDataContent")
         imports.add("io.ktor.client.request.forms.formData")
+        imports.add("io.ktor.http.Parameters")
     }
 
     if (functionDataList.any { it.parameterDataList.any { param -> param.hasAnnotation<RequestType>() } }) {

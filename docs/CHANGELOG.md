@@ -7,6 +7,12 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+1.10.1 - 2023-11-15
+========================================
+
+### Fixed 
+- Using @FieldMap generates uncompiled code due to missing import #479
+
 1.10.0 - 2023-11-06
 ========================================
 Compatible with KSP 1.0.14 and Kotlin 1.9.20
