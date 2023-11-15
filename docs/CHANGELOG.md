@@ -11,7 +11,7 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 ========================================
 
 ### Fixed 
-- Using @FieldMap generates uncompiled code due to missing import #479
+- Using @FieldMap generates uncompiled code due to missing import [#479](https://github.com/Foso/Ktorfit/issues/479)
 
 1.10.0 - 2023-11-06
 ========================================
