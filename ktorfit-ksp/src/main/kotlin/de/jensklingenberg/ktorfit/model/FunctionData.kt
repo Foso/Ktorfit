@@ -6,12 +6,12 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
 import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
 import de.jensklingenberg.ktorfit.typeData.addRequestConverterText
-import de.jensklingenberg.ktorfit.typeData.getTypeDataArgumentText
 import de.jensklingenberg.ktorfit.utils.*
 
 data class FunctionData(
@@ -24,8 +24,9 @@ data class FunctionData(
 ) {
 
     fun toFunSpec(resolver: Resolver): FunSpec {
-        val returnTypeName = this.returnType.name
-        val innerReturnType = this.returnType.innerTypeName
+        val returnTypeName = this.returnType.parameterType?.toTypeName()
+        val innerReturnType =
+            (returnTypeName as? ParameterizedTypeName)?.typeArguments?.first()?.toString() ?: returnTypeName
 
         return FunSpec.builder(this.name)
             .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
@@ -45,10 +46,13 @@ data class FunctionData(
                 )
             )
             .addStatement(
-                getTypeDataArgumentText(
-                    this.returnType,
-                )
+                "val ${typeDataClass.objectName} = ${typeDataClass.name}.createTypeData("
             )
+            .addStatement(
+                "qualifiedTypename = \"%L\",",
+                this.returnType.parameterType.toTypeName().toString().removeWhiteSpaces()
+            )
+            .addStatement("typeInfo = typeInfo<%L>())\n", this.returnType.parameterType.toTypeName())
             .addStatement(
                 "return %L.%L<${returnTypeName}, ${innerReturnType}>(%L,${extDataClass.objectName})%L",
                 converterHelper.objectName,
@@ -58,7 +62,7 @@ data class FunctionData(
                     "request"
                 },
                 typeDataClass.objectName,
-                if (this.returnType.isNullable) {
+                if (this.returnType.parameterType.isMarkedNullable) {
                     ""
                 } else {
                     "!!"
@@ -97,7 +101,6 @@ fun KSFunctionDeclaration.toFunctionData(
 
     val returnType = ReturnTypeData(
         name = resolvedReturnType.resolveTypeName(),
-        qualifiedName = resolvedReturnType?.toTypeName().toString(),
         parameterType = funcDeclaration.returnType?.resolve()
     )
 

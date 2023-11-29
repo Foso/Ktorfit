@@ -53,13 +53,11 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
     val type = if (hasRequestBuilderAnno) {
         ReturnTypeData(
             "HttpRequestBuilder.()->Unit",
-            "HttpRequestBuilder.()->Unit",
             parameterType,
         )
     } else {
         ReturnTypeData(
             parameterType.resolveTypeName(),
-            parameterType.declaration.qualifiedName?.asString().orEmpty(),
             parameterType,
         )
     }

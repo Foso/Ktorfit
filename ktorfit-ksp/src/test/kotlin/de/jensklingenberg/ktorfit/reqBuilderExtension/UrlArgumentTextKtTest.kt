@@ -13,7 +13,7 @@ class UrlArgumentTextKtTest {
 
     @Test
     fun testWithoutUrlAnnotation() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", null))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         val expected = "url{\n" +
@@ -28,7 +28,7 @@ class UrlArgumentTextKtTest {
     fun testWithPathAndUrlAnnotation() {
         val urlAnnotation = Url
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(urlAnnotation))
+            ParameterData("test1", ReturnTypeData("String", null), annotations = listOf(urlAnnotation))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         assertEquals(
@@ -43,7 +43,7 @@ class UrlArgumentTextKtTest {
     fun testWithUrlAnnotation() {
         val urlAnnotation = Url
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(urlAnnotation))
+            ParameterData("test1", ReturnTypeData("String", null), annotations = listOf(urlAnnotation))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
         val expected = String.format(
@@ -57,7 +57,7 @@ class UrlArgumentTextKtTest {
 
     @Test
     fun testWithoutPathAnnotation() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", null))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
         assertEquals("url{\ntakeFrom(_ktorfit.baseUrl + \"\")\n}", text)
@@ -67,7 +67,7 @@ class UrlArgumentTextKtTest {
     fun testWithPathAnnotation() {
         val path = Path("testValue")
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(path))
+            ParameterData("test1", ReturnTypeData("String", null), annotations = listOf(path))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("user/{testValue}", HttpMethod.GET), "")
         assertEquals(

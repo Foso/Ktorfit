@@ -1,9 +1,14 @@
 package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import com.google.devtools.ksp.symbol.KSType
+import com.squareup.kotlinpoet.ParameterizedTypeName
+import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.ParameterData
-import de.jensklingenberg.ktorfit.model.annotations.*
-import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
+import de.jensklingenberg.ktorfit.model.annotations.FormUrlEncoded
+import de.jensklingenberg.ktorfit.model.annotations.FunctionAnnotation
+import de.jensklingenberg.ktorfit.model.annotations.Headers
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Header
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.HeaderMap
 import de.jensklingenberg.ktorfit.utils.anyInstance
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
@@ -29,19 +34,27 @@ fun getHeadersCode(
                 val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
                 val headerName = parameterData.findAnnotationOrNull<Header>()?.path.orEmpty()
-                val isStringType = parameterData.type.qualifiedName == "kotlin.String"
+
+                val isStringType = (parameterData.type.parameterType?.toTypeName().toString() == "kotlin.String") || (parameterData.type.parameterType?.toTypeName().toString() == "kotlin.String?")
 
                 when {
                     isList || isArray -> {
-                        val hasNullableInnerType = parameterData.type.innerTypeName.endsWith("?")
-                        val isStringListOrArray = when (parameterData.type.innerTypeName) {
-                            "String", "String?" -> true
-                            else -> false
-                        }
+
+                        val innerType =
+                            (parameterData.type.parameterType?.toTypeName() as? ParameterizedTypeName)?.typeArguments?.joinToString { it.toString() }
+                                .orEmpty()
+                        val hasNullableInnerType =
+                            innerType.endsWith("?")
+                        val isStringListOrArray =
+                            when ((parameterData.type.parameterType?.toTypeName() as? ParameterizedTypeName)?.typeArguments?.joinToString { it.toString() }
+                                .orEmpty()) {
+                                "kotlin.String", "kotlin.String?" -> true
+                                else -> false
+                            }
                         val headerListStringBuilder = StringBuilder()
 
                         headerListStringBuilder.append(
-                            if (parameterData.type.isNullable) {
+                            if (parameterData.type.parameterType?.isMarkedNullable ?: false) {
                                 "$paramName?"
                             } else {
                                 paramName
@@ -50,7 +63,7 @@ fun getHeadersCode(
 
                         if (hasNullableInnerType) {
                             headerListStringBuilder.append(
-                                if (parameterData.type.isNullable) {
+                                if (parameterData.type.parameterType?.isMarkedNullable ?: false) {
                                     ".filterNotNull()?"
                                 } else {
                                     ".filterNotNull()"
@@ -74,7 +87,7 @@ fun getHeadersCode(
                         val headerValue =
                             if (isStringType) paramName else "\"\$$paramName\""
 
-                        if (parameterData.type.isNullable) {
+                        if (parameterData.type.parameterType?.isMarkedNullable ?: false) {
                             "%s?.let{ append(\"%s\", %s) }\n".format(
                                 paramName,
                                 headerName,
@@ -98,12 +111,14 @@ fun getHeadersCode(
     val headerMapAnnotationText = parameterDataList
         .filter { it.hasAnnotation<HeaderMap>() }
         .joinToString("") { parameterData ->
-            val mapValueType = parameterData.type.innerTypeName.split(",")[1].trim()
-            val valueIsString = (mapValueType == "String" || mapValueType == "String?")
+            val mapValueType =
+                (parameterData.type.parameterType?.toTypeName() as? ParameterizedTypeName)?.typeArguments?.joinToString { it.toString() }
+                    .orEmpty().split(",").getOrNull(1)?.trim().orEmpty()
+            val valueIsString = (mapValueType == "kotlin.String" || mapValueType == "kotlin.String?")
 
             val headerMapStringBuilder = StringBuilder()
             headerMapStringBuilder.append(
-                if (parameterData.type.isNullable) {
+                if (parameterData.type.parameterType?.isMarkedNullable ?: false) {
                     "${parameterData.name}?"
                 } else {
                     parameterData.name
