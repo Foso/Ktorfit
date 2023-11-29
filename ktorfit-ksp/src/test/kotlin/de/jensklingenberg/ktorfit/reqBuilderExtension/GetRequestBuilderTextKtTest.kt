@@ -10,7 +10,7 @@ class GetRequestBuilderTextKtTest {
 
     @Test
     fun testWithoutRequestBuilderAnnotation() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", null))
         val params = listOf(parameterData)
         val text = getCustomRequestBuilderText(params)
         assertEquals("", text)
@@ -20,7 +20,7 @@ class GetRequestBuilderTextKtTest {
     fun testWithRequestBuilderAnnotation() {
         val bodyAnno = RequestBuilder
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", "kotlin.String", null), annotations = listOf(bodyAnno))
+            ParameterData("test1", ReturnTypeData("String", null), annotations = listOf(bodyAnno))
         val params = listOf(parameterData)
         val text = getCustomRequestBuilderText(params)
         assertEquals("test1(this)", text)

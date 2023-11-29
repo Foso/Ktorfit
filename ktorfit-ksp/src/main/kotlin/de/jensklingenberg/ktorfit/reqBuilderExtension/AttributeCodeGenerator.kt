@@ -7,7 +7,7 @@ fun getAttributeCode(parameterDataList: List<ParameterData>): String {
     return parameterDataList.filter { it.hasAnnotation<ParameterAnnotation.Tag>() }
         .joinToString("\n") {
             val tag = it.findAnnotationOrNull<ParameterAnnotation.Tag>()!!
-            if (it.type.isNullable) {
+            if (it.type.parameterType?.isMarkedNullable == true) {
                 "${it.name}?.let{ attributes.put(io.ktor.util.AttributeKey(\"${tag.value}\"), it) }"
             } else {
                 "attributes.put(io.ktor.util.AttributeKey(\"${tag.value}\"), ${it.name})"

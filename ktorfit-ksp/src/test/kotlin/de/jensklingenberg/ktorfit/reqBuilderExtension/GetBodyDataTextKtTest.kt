@@ -10,7 +10,7 @@ class GetBodyDataTextKtTest {
 
     @Test
     fun testWithoutBodyAnnotation() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", null))
         val params = listOf(parameterData)
         val text = getBodyDataText(params)
         assertEquals("", text)
@@ -20,7 +20,7 @@ class GetBodyDataTextKtTest {
     fun testWithBodyAnnotation() {
         val bodyAnno = Body
         val parameterData =
-            ParameterData("test1", ReturnTypeData("Map<*,String>", "kotlin.Map", null), annotations = listOf(bodyAnno))
+            ParameterData("test1", ReturnTypeData("Map<*,String>", null), annotations = listOf(bodyAnno))
         val params = listOf(parameterData)
         val text = getBodyDataText(params)
         assertEquals("setBody(test1)", text)

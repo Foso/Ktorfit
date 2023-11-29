@@ -153,6 +153,8 @@ dependencies {
 
 configurations.all {
     resolutionStrategy.dependencySubstitution {
+        substitute(module("de.jensklingenberg.ktorfit:gradle-plugin"))
+            .using(project(":ktorfit-gradle-plugin")).because("we work with the unreleased development version")
         substitute(module("de.jensklingenberg.ktorfit:compiler-plugin"))
             .using(project(":ktorfit-compiler-plugin")).because("we work with the unreleased development version")
         substitute(module("de.jensklingenberg.ktorfit:converters-flow"))

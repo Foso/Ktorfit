@@ -16,7 +16,7 @@ class PartsArgumentTextKtTest {
 
     @Test
     fun whenNoPartAnnotationFoundThenKeepPartsCodeEmpty() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", null))
         val params = listOf(parameterData)
         val text = getPartsCode(params, listType, arrayType)
         assertEquals("", text)
@@ -27,7 +27,7 @@ class PartsArgumentTextKtTest {
         val partAnnotation = Part("world")
         val parameterData = ParameterData(
             "test1",
-            ReturnTypeData("String", "kotlin.String", null),
+            ReturnTypeData("String", null),
             annotations = listOf(partAnnotation)
         )
         val params = listOf(parameterData)
@@ -46,10 +46,10 @@ class PartsArgumentTextKtTest {
         val partMapAnnotation = PartMap()
         val parameterData1 = ParameterData(
             "test1",
-            ReturnTypeData("String", "kotlin.String", null),
+            ReturnTypeData("String", null),
             annotations = listOf(partMapAnnotation)
         )
-        val parameterData2 = ParameterData("test2", ReturnTypeData("String", "kotlin.String", null))
+        val parameterData2 = ParameterData("test2", ReturnTypeData("String", null))
 
         val params = listOf(parameterData1, parameterData2)
         val text = getPartsCode(params, listType, arrayType)
@@ -69,12 +69,12 @@ setBody(MultiPartFormDataContent(__formData))
 
         val parameterData1 = ParameterData(
             "test1",
-            ReturnTypeData("String", "kotlin.String", null),
+            ReturnTypeData("String", null),
             annotations = listOf(partMapAnnotation)
         )
         val parameterData2 = ParameterData(
             "test2",
-            ReturnTypeData("String", "kotlin.String", null),
+            ReturnTypeData("String", null),
             annotations = listOf(partAnnotation)
         )
 

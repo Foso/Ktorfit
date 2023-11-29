@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import com.google.devtools.ksp.symbol.KSType
+import de.jensklingenberg.ktorfit.createKsType
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
@@ -16,7 +17,8 @@ class FieldArgumentsTextKtTest {
 
     @Test
     fun testWithoutFieldAnnotation() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", "kotlin.String", null))
+        val stringType = createKsType("String", "kotlin")
+        val parameterData = ParameterData("test1", ReturnTypeData("String", stringType))
         val params = listOf(parameterData)
         val text = getFieldArgumentsText(params, listType, arrayType)
         assertEquals("", text)
@@ -29,12 +31,12 @@ class FieldArgumentsTextKtTest {
 
         val parameterData1 = ParameterData(
             "test1",
-            ReturnTypeData("String", "kotlin.String", null),
+            ReturnTypeData("String", null),
             annotations = listOf(fieldAnnotation)
         )
         val parameterData2 = ParameterData(
             "test1",
-            ReturnTypeData("String", "kotlin.String", null),
+            ReturnTypeData("String", null),
             annotations = listOf(fieldAnnotationEncoded)
         )
 
@@ -58,17 +60,17 @@ class FieldArgumentsTextKtTest {
 
         val parameterData1 = ParameterData(
             "test1",
-            ReturnTypeData("String", "kotlin.String", null),
+            ReturnTypeData("String", null),
             annotations = listOf(fieldAnnotation)
         )
         val parameterData2 = ParameterData(
             "test2",
-            ReturnTypeData("String", "kotlin.String", null),
+            ReturnTypeData("String", null),
             annotations = listOf(fieldAnnotationEncoded)
         )
         val parameterData3 = ParameterData(
             "test3",
-            ReturnTypeData("String", "kotlin.String", null),
+            ReturnTypeData("String", null),
             annotations = listOf(fieldMapAnnotation)
         )
 
