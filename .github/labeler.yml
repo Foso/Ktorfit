@@ -1,25 +1,33 @@
 build:
-  - "**/*.gradle"
-  - "**/*.gradle.kts"
+- changed-files:
+  - any-glob-to-any-file: '**/*.gradle'
+  - any-glob-to-any-file: '**/*.gradle.kts'
 
 ci:
-  - ".github/*"
+- changed-files:
+  - any-glob-to-any-file: '.github/*'
   
 compiler-plugin:
-  - "compiler-plugin/src/**/*"
+- changed-files:
+  - any-glob-to-any-file: 'compiler-plugin/src/**/*'
   
 documentation:
-  - "docs/*.md"
+- changed-files:
+  - any-glob-to-any-file: 'docs/*.md'
 
 ktorfit-gradle-plugin:
-  - "ktorfit-gradle-plugin/src/**/*"
+- changed-files:
+  - any-glob-to-any-file: 'ktorfit-gradle-plugin/src/**/*'
   
 ktorfit-ksp:
-  - "ktorfit-ksp/src/**/*"  
+- changed-files:
+  - any-glob-to-any-file: 'ktorfit-ksp/src/**/*'
 
 ktorfit-lib:
-  - "ktorfit-lib/src/**/*"
-  - "ktorfit-lib-core/src/**/*"
+- changed-files:
+  - any-glob-to-any-file: 'ktorfit-lib/src/**/*'
+  - any-glob-to-any-file: 'ktorfit-lib-core/src/**/*'
 
 sandbox:
-  - "sandbox/src/**/*"  
+- changed-files:
+  - any-glob-to-any-file: 'sandbox/src/**/*'
