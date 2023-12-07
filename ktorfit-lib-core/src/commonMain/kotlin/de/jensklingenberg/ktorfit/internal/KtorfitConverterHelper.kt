@@ -24,14 +24,14 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
     /**
      * This will handle all requests for functions without suspend modifier
      */
-    public fun <ReturnType, RequestType : Any?> request(
+    public fun <ReturnType> request(
         returnTypeData: TypeData,
         requestBuilder: HttpRequestBuilder.() -> Unit
     ): ReturnType? {
 
         ktorfit.nextResponseConverter(null, returnTypeData)?.let { responseConverter ->
             return responseConverter.convert {
-                suspendRequest<HttpResponse, HttpResponse>(
+                suspendRequest<HttpResponse>(
                     TypeData.createTypeData(
                         "io.ktor.client.statement.HttpResponse",
                         typeInfo<HttpResponse>()
@@ -54,7 +54,7 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
-    public suspend fun <ReturnType, RequestType : Any?> suspendRequest(
+    public suspend fun <ReturnType> suspendRequest(
         typeData: TypeData,
         requestBuilder: HttpRequestBuilder.() -> Unit
     ): ReturnType? {

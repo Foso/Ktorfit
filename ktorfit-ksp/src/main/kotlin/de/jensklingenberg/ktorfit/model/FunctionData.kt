@@ -54,7 +54,7 @@ data class FunctionData(
             )
             .addStatement("typeInfo = typeInfo<%L>())\n", this.returnType.parameterType.toTypeName())
             .addStatement(
-                "return %L.%L<${returnTypeName}, ${innerReturnType}>(%L,${extDataClass.objectName})%L",
+                "return %L.%L<${returnTypeName}>(%L,${extDataClass.objectName})%L",
                 converterHelper.objectName,
                 if (this.isSuspend) {
                     "suspendRequest"
