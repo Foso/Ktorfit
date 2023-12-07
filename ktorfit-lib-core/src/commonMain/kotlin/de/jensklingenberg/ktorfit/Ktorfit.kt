@@ -5,11 +5,7 @@ import de.jensklingenberg.ktorfit.Strings.Companion.BASE_URL_REQUIRED
 import de.jensklingenberg.ktorfit.Strings.Companion.ENABLE_GRADLE_PLUGIN
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.converter.Converter
-import de.jensklingenberg.ktorfit.converter.SuspendResponseConverter
 import de.jensklingenberg.ktorfit.converter.builtin.KtorfitDefaultConverterFactory
-import de.jensklingenberg.ktorfit.converter.request.CoreResponseConverter
-import de.jensklingenberg.ktorfit.converter.request.RequestConverter
-import de.jensklingenberg.ktorfit.converter.request.ResponseConverter
 import de.jensklingenberg.ktorfit.internal.*
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -23,9 +19,6 @@ import kotlin.reflect.KClass
 public class Ktorfit private constructor(
     public val baseUrl: String,
     public val httpClient: HttpClient = HttpClient(),
-    @Deprecated("Use converterFactories") internal val responseConverters: Set<ResponseConverter>,
-    @Deprecated("Use converterFactories") internal val suspendResponseConverters: Set<SuspendResponseConverter>,
-    @Deprecated("Use converterFactories") internal val requestConverters: Set<RequestConverter>,
     private val converterFactories: List<Converter.Factory>
 ) {
 
@@ -47,11 +40,11 @@ public class Ktorfit private constructor(
     }
 
     /**
-     * Returns the next [SuspendResponseConverter] from the list of converter factories,
+     * Returns the next [Converter.SuspendResponseConverter] from the list of converter factories,
      * starting from the specified current factory and matching the given type.
      * @param currentFactory The current converter factory.
      * @param type The type data to match.
-     * @return The next [SuspendResponseConverter], or null if not found.
+     * @return The next [Converter.SuspendResponseConverter], or null if not found.
      */
     public fun nextSuspendResponseConverter(
         currentFactory: Converter.Factory?,
@@ -101,9 +94,6 @@ public class Ktorfit private constructor(
     public class Builder {
         private var _baseUrl: String = ""
         private var _httpClient: HttpClient? = null
-        private var _responseConverter: MutableSet<ResponseConverter> = mutableSetOf()
-        private var _suspendResponseConverter: MutableSet<SuspendResponseConverter> = mutableSetOf()
-        private var _requestConverter: MutableSet<RequestConverter> = mutableSetOf()
         private var _factories: MutableSet<Converter.Factory> = mutableSetOf()
 
         /**
@@ -192,9 +182,6 @@ public class Ktorfit private constructor(
             return Ktorfit(
                 baseUrl = _baseUrl,
                 httpClient = _httpClient ?: HttpClient(),
-                responseConverters = _responseConverter,
-                suspendResponseConverters = _suspendResponseConverter,
-                requestConverters = _requestConverter,
                 converterFactories = listOf(KtorfitDefaultConverterFactory()) + _factories.toList()
             )
         }

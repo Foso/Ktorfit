@@ -41,17 +41,6 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
             } as ReturnType?
         }
 
-        /**
-         * Keeping this for compatibility
-         */
-        handleDeprecatedResponseConverters<ReturnType, RequestType>(
-            returnTypeData,
-            ktorfit,
-            requestBuilder
-        )?.let {
-            return it
-        }
-
         val typeIsNullable = returnTypeData.typeInfo.kotlinType?.isMarkedNullable ?: false
         return if (typeIsNullable) {
             null
@@ -88,17 +77,7 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
                 return it.convert(result) as ReturnType?
             }
 
-            /**
-             * Keeping this for compatibility
-             */
-            handleDeprecatedSuspendResponseConverters<ReturnType, RequestType>(
-                typeData,
-                httpClient,
-                ktorfit,
-                requestBuilder
-            )?.let {
-                return it
-            } ?: DefaultSuspendResponseConverterFactory().suspendResponseConverter(
+            DefaultSuspendResponseConverterFactory().suspendResponseConverter(
                 typeData,
                 ktorfit
             ).let {
@@ -131,11 +110,7 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
             return requestType.cast(it.convert(data))
         }
 
-        val requestConverter = ktorfit.requestConverters.firstOrNull {
-            it.supportedType(parameterType, requestType)
-        }
-            ?: throw IllegalStateException("No RequestConverter found to convert ${parameterType.simpleName} to ${requestType.simpleName}")
-        return requestType.cast(requestConverter.convert(data))
+        throw IllegalStateException("No RequestConverter found to convert ${parameterType.simpleName} to ${requestType.simpleName}")
     }
 
 
