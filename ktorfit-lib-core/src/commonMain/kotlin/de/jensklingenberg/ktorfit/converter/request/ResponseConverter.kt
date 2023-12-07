@@ -10,7 +10,7 @@ import io.ktor.util.reflect.*
  *  e.g. fun test() : MyCustomType<String>
  */
 @Deprecated("Use Converter.ResponseConverter")
-public interface ResponseConverter : CoreResponseConverter {
+internal interface ResponseConverter : CoreResponseConverter {
 
     /**
      * @param typeData is the qualified name of the outer type of

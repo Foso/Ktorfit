@@ -3,7 +3,7 @@ package de.jensklingenberg.ktorfit.converter.request
 import de.jensklingenberg.ktorfit.internal.TypeData
 
 @Deprecated("Use Converter.Factory")
-public interface CoreResponseConverter {
+internal interface CoreResponseConverter {
 
     /**
      * Check if this converter supports the return type

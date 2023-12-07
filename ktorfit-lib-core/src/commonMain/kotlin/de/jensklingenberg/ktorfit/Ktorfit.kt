@@ -23,8 +23,8 @@ import kotlin.reflect.KClass
 public class Ktorfit private constructor(
     public val baseUrl: String,
     public val httpClient: HttpClient = HttpClient(),
-    @Deprecated("Use converterFactories") public val responseConverters: Set<ResponseConverter>,
-    @Deprecated("Use converterFactories") public val suspendResponseConverters: Set<SuspendResponseConverter>,
+    @Deprecated("Use converterFactories") internal val responseConverters: Set<ResponseConverter>,
+    @Deprecated("Use converterFactories") internal val suspendResponseConverters: Set<SuspendResponseConverter>,
     @Deprecated("Use converterFactories") internal val requestConverters: Set<RequestConverter>,
     private val converterFactories: List<Converter.Factory>
 ) {

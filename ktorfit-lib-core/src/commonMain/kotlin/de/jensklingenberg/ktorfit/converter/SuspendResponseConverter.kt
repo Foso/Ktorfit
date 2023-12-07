@@ -12,7 +12,7 @@ import io.ktor.util.reflect.*
  *    suspend  fun test() : MyCustomType<String>
  */
 @Deprecated("Use Converter.SuspendResponseConverter")
-public interface SuspendResponseConverter : CoreResponseConverter {
+internal interface SuspendResponseConverter : CoreResponseConverter {
 
     /**
      * @param typeData contains information about the type that is being requested
