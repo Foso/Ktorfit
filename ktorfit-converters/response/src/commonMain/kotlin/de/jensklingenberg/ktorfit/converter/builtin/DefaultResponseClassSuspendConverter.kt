@@ -8,7 +8,7 @@ import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
 
-internal class DefaultResponseClassSuspendConverter(private val typeData: TypeData, private val ktorfit: Ktorfit) :
+public class DefaultResponseClassSuspendConverter(private val typeData: TypeData, private val ktorfit: Ktorfit) :
     Converter.SuspendResponseConverter<HttpResponse, Response<Any?>> {
     override suspend fun convert(response: HttpResponse): Response<Any?> {
         return convert(KtorfitResult.Success(response))
