@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.converter
 
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.statement.*
 import kotlin.reflect.KClass
 

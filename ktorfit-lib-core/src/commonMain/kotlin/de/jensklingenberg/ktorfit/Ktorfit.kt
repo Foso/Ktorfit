@@ -5,6 +5,7 @@ import de.jensklingenberg.ktorfit.Strings.Companion.BASE_URL_REQUIRED
 import de.jensklingenberg.ktorfit.Strings.Companion.ENABLE_GRADLE_PLUGIN
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.converter.Converter
+import de.jensklingenberg.ktorfit.converter.TypeData
 import de.jensklingenberg.ktorfit.internal.*
 import io.ktor.client.*
 import io.ktor.client.engine.*

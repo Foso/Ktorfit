@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.internal
 
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
+import de.jensklingenberg.ktorfit.converter.TypeData
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder

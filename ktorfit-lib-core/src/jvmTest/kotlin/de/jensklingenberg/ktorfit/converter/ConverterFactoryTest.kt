@@ -3,7 +3,6 @@ package de.jensklingenberg.ktorfit.converter
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.TestEngine
 import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*

@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.internal
+package de.jensklingenberg.ktorfit.converter
 
 import io.ktor.util.reflect.*
 import kotlin.reflect.KClass
