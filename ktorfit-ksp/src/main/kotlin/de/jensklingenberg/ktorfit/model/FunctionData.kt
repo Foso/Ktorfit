@@ -25,8 +25,6 @@ data class FunctionData(
 
     fun toFunSpec(resolver: Resolver): FunSpec {
         val returnTypeName = this.returnType.parameterType?.toTypeName()
-        val innerReturnType =
-            (returnTypeName as? ParameterizedTypeName)?.typeArguments?.first()?.toString() ?: returnTypeName
 
         return FunSpec.builder(this.name)
             .addModifiers(mutableListOf(KModifier.OVERRIDE).also {

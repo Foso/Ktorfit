@@ -182,7 +182,7 @@ public class Ktorfit private constructor(
             return Ktorfit(
                 baseUrl = _baseUrl,
                 httpClient = _httpClient ?: HttpClient(),
-                converterFactories = listOf(KtorfitDefaultConverterFactory()) + _factories.toList()
+                converterFactories = _factories.toList()
             )
         }
     }
