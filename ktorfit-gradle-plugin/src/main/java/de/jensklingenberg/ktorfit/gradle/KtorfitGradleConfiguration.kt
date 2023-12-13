@@ -4,7 +4,7 @@ open class KtorfitGradleConfiguration {
     /**
      * If the compiler plugin should be active
      */
-    var enabled: Boolean = true
+    internal var enabled: Boolean = true
 
     /**
      * version number of the compiler plugin

@@ -1,4 +1,5 @@
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     kotlin("multiplatform")
@@ -81,6 +82,8 @@ kotlin {
     tvosSimulatorArm64()
     macosX64()
     macosArm64()
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs()
     linuxX64 {
         binaries {
             executable()

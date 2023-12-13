@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
 plugins {
     kotlin("multiplatform")
     id("maven-publish")
@@ -50,7 +52,8 @@ kotlin {
     iosArm64()
     iosX64()
     iosSimulatorArm64()
-
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs()
     watchosArm32()
     watchosArm64()
     watchosX64()

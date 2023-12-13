@@ -10,7 +10,8 @@ kotlin = "1.9.21"
 kotlinPoet = "1.15.1"
 kspVersion = "1.9.21-1.0.15"
 ktorfit = "2.0.0-SNAPSHOT"
-ktorfitGradlePlugin = "1.10.1"
+ktorfitGradlePlugin = "2.0.0-SNAPSHOT"
+
 ktorVersion = "3.0.0-beta-1"
 mockk = "1.13.8"
 mockito-kotlin = "4.1.0"
@@ -52,6 +53,9 @@ ktor-client-core-mingwx64 = { module = "io.ktor:ktor-client-core-mingwx64", vers
 ktor-client-curl = { module = "io.ktor:ktor-client-curl", version.ref = "ktorVersion" }
 ktor-client-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktorVersion" }
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktorVersion" }
+ktor-client-wasm-js = "io.ktor:ktor-client-js-wasm-js:3.0.0-wasm2"
+ktor-client-wasm-json-js = "io.ktor:ktor-client-json-wasm-js:3.0.0-wasm2"
+
 ktor-client-json-js = { module = "io.ktor:ktor-client-json-js", version.ref = "ktorVersion" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorVersion" }
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorVersion" }

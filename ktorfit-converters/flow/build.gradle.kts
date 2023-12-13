@@ -44,6 +44,10 @@ kotlin {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
     }
+    wasmJs(){
+
+    }
+
     androidTarget {
         publishLibraryVariants("release", "debug")
     }

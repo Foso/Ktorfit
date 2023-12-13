@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
 plugins {
     kotlin("multiplatform")
     id("maven-publish")
@@ -45,6 +47,8 @@ kotlin {
     tvosArm64()
     tvosX64()
     tvosSimulatorArm64()
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs()
     macosX64()
     macosArm64()
     linuxX64 {

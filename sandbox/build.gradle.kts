@@ -7,10 +7,7 @@ plugins {
 }
 version = "1.0-SNAPSHOT"
 
-configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
-    enabled = true
-    version = libs.versions.ktorfit.get()
-}
+
 ksp {
     arg("Ktorfit_Errors", "1")
 }
@@ -55,7 +52,7 @@ kotlin {
         }
     }
 
-   // macosX64()
+    // macosX64()
     mingwX64()
     applyDefaultHierarchyTemplate()
     sourceSets {
@@ -93,7 +90,7 @@ kotlin {
                 implementation("io.reactivex.rxjava3:rxjava:3.1.8")
 
                 implementation(libs.ktor.client.logging)
-               // implementation(libs.logbackClassic)
+                // implementation(libs.logbackClassic)
                 implementation(libs.ktor.serialization.gson)
                 implementation(libs.ktor.client.cio.jvm)
             }
@@ -121,6 +118,11 @@ kotlin {
 
             }
         }
+        val wasmJsMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.wasm.json.js)
+            }
+        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosMain by getting {
@@ -143,6 +145,7 @@ dependencies {
 
         // add("kspJvmTest", this)
         add("kspJs", this)
+        add("kspWasmJs", this)
         add("kspLinuxX64", this)
         add("kspMingwX64", this)
     }
