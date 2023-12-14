@@ -32,20 +32,7 @@ public interface Converter<F, T> {
          *
          * @return the converted [HttpResponse]
          */
-        @Deprecated("Use convert(result: KtorfitResult)")
-        public suspend fun convert(response: HttpResponse): T
-
-        public suspend fun convert(result: KtorfitResult): T {
-            return when (result) {
-                is KtorfitResult.Failure -> {
-                    throw result.throwable
-                }
-
-                is KtorfitResult.Success -> {
-                    convert(result.response)
-                }
-            }
-        }
+        public suspend fun convert(result: KtorfitResult): T
     }
 
     public interface RequestParameterConverter : Converter<Any, Any> {

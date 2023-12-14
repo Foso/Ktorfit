@@ -14,9 +14,6 @@ internal class DefaultSuspendResponseConverterFactory : Converter.Factory {
 
     class DefaultSuspendResponseConverter(val typeData: TypeData) :
         Converter.SuspendResponseConverter<HttpResponse, Any> {
-        override suspend fun convert(response: HttpResponse): Any {
-            return convert(KtorfitResult.Success(response))
-        }
 
         override suspend fun convert(result: KtorfitResult): Any {
             return when (result) {

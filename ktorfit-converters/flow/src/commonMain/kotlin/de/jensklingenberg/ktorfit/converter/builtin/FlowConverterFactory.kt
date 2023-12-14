@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.converter.builtin
 
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.Converter
+import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.converter.TypeData
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
@@ -31,7 +32,7 @@ public class FlowConverterFactory : Converter.Factory {
                             val convertedBody = ktorfit.nextSuspendResponseConverter(
                                 this@FlowConverterFactory,
                                 typeData.typeArgs.first()
-                            )?.convert(response)
+                            )?.convert(KtorfitResult.Success(response))
                                 ?: response.body(typeData.typeArgs.first().typeInfo)
                             emit(convertedBody)
                         }

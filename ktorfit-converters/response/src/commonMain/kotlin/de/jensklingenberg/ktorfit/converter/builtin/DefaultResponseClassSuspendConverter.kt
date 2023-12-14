@@ -10,9 +10,6 @@ import io.ktor.client.statement.*
 
 internal class DefaultResponseClassSuspendConverter(private val typeData: TypeData, private val ktorfit: Ktorfit) :
     Converter.SuspendResponseConverter<HttpResponse, Response<Any?>> {
-    override suspend fun convert(response: HttpResponse): Response<Any?> {
-        return convert(KtorfitResult.Success(response))
-    }
 
     override suspend fun convert(result: KtorfitResult): Response<Any?> {
         return when (result) {
@@ -34,7 +31,7 @@ internal class DefaultResponseClassSuspendConverter(private val typeData: TypeDa
                         val convertedBody = ktorfit.nextSuspendResponseConverter(
                             null,
                             typeData.typeArgs.first()
-                        )?.convert(rawResponse)
+                        )?.convert(result)
                             ?: rawResponse.body(typeInfo)
                         Response.success(convertedBody, rawResponse)
                     }

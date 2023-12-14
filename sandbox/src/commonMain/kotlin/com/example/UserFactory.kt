@@ -17,9 +17,6 @@ class UserFactory : Converter.Factory {
     ): Converter.SuspendResponseConverter<HttpResponse, *>? {
         if (typeData.typeInfo.type == User::class) {
             return object : Converter.SuspendResponseConverter<HttpResponse, Any> {
-                override suspend fun convert(response: HttpResponse): Any {
-                    return convert(KtorfitResult.Success(response))
-                }
 
                 override suspend fun convert(result: KtorfitResult): Any {
                     return when (result) {

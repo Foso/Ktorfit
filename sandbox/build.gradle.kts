@@ -118,11 +118,7 @@ kotlin {
 
             }
         }
-        val wasmJsMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.wasm.json.js)
-            }
-        }
+
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosMain by getting {
@@ -145,7 +141,6 @@ dependencies {
 
         // add("kspJvmTest", this)
         add("kspJs", this)
-        add("kspWasmJs", this)
         add("kspLinuxX64", this)
         add("kspMingwX64", this)
     }
