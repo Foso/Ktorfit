@@ -62,8 +62,7 @@ kotlin {
     tvosSimulatorArm64()
     macosX64()
     macosArm64()
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs()
+
     linuxX64 {
         binaries {
             executable()
@@ -127,11 +126,7 @@ kotlin {
             }
         }
 
-        val wasmJsMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.wasm.js)
-            }
-        }
+
 
         val iosX64Main by getting
         val iosArm64Main by getting
