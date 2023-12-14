@@ -10,7 +10,7 @@ kotlin = "1.9.21"
 kotlinPoet = "1.15.1"
 kspVersion = "1.9.21-1.0.15"
 ktorfit = "2.0.0-SNAPSHOT"
-ktorfitGradlePlugin = "2.0.0-SNAPSHOT"
+ktorfitGradlePlugin = "1.11.0"
 
 ktorVersion = "3.0.0-beta-1"
 mockk = "1.13.8"
