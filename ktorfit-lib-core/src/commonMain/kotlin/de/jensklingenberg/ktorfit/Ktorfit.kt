@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.Strings.Companion.ENABLE_GRADLE_PLUGIN
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.TypeData
+import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.internal.*
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -182,7 +183,7 @@ public class Ktorfit private constructor(
             return Ktorfit(
                 baseUrl = _baseUrl,
                 httpClient = _httpClient ?: HttpClient(),
-                converterFactories = _factories.toList()
+                converterFactories = _factories.toList() + listOf(DefaultSuspendResponseConverterFactory())
             )
         }
     }

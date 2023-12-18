@@ -78,19 +78,7 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
                 return it.convert(result) as ReturnType?
             }
 
-            DefaultSuspendResponseConverterFactory().suspendResponseConverter(
-                typeData,
-                ktorfit
-            ).let {
-                val result: KtorfitResult = try {
-                    KtorfitResult.Success(httpClient.request {
-                        requestBuilder(this)
-                    })
-                } catch (exception: Exception) {
-                    KtorfitResult.Failure(exception)
-                }
-                return it.convert(result) as ReturnType?
-            }
+            throw IllegalStateException("No SuspendResponseConverter found to convert ${typeData.qualifiedName}")
 
         } catch (exception: Exception) {
             val typeIsNullable = typeData.typeInfo.kotlinType?.isMarkedNullable ?: false

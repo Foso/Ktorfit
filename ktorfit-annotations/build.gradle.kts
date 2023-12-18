@@ -47,6 +47,8 @@ kotlin {
     tvosArm64()
     tvosX64()
     tvosSimulatorArm64()
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs()
     macosX64()
     macosArm64()
     linuxX64 {
