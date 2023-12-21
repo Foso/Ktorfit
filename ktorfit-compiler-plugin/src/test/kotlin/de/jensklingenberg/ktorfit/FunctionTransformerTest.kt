@@ -24,15 +24,15 @@ class FunctionTransformerTest {
             "Ktorfit.kt", """
 package de.jensklingenberg.ktorfit
 
-class Ktorfit()
+class Ktorfit(){
+    fun <T> create(ktorfitService: KtorfitService? = null): T {
+        return ktorfitService as T
+    }
+}
 
 interface KtorfitService
 
 class Default : KtorfitService
-
-fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
-    return this.create(ktorfitService)
-}
 
      """
         )
@@ -40,7 +40,7 @@ fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
             "Main.kt", """
                 package com.example.api
                 import de.jensklingenberg.ktorfit.Ktorfit
-                import de.jensklingenberg.ktorfit.create
+                
                 import de.jensklingenberg.ktorfit.KtorfitService
                 
                 interface TestService
