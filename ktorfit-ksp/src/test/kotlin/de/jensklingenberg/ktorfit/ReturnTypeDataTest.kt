@@ -32,7 +32,7 @@ interface TestService {
             """val _ext: HttpRequestBuilder.() -> Unit = {
         method = HttpMethod.parse("POST")
         url{
-        takeFrom(_ktorfit.baseUrl + "user")
+        takeFrom(_converter.baseUrl + "user")
         }
         setBody(id) 
         }"""

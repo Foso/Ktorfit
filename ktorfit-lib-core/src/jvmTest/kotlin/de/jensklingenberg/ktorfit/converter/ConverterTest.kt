@@ -57,7 +57,7 @@ class ConverterTest {
                 Ktorfit.Builder().httpClient(engine).baseUrl("http://www.jensklingenberg.de/").responseConverter(test)
                     .build()
             runBlocking {
-                ktorfit.create<ConverterTestApi>(_ConverterTestApiImpl(ktorfit)).clientException().collect()
+                ktorfit.create<ConverterTestApi>(_ConverterTestApiImpl()).clientException().collect()
             }
 
         } catch (exception: Exception) {

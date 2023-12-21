@@ -8,15 +8,7 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSTypeReference
-import com.squareup.kotlinpoet.ANY
-import com.squareup.kotlinpoet.AnnotationSpec
-import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.CodeBlock
-import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.PropertySpec
-import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
@@ -87,35 +79,26 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
 
     val implClassName = "_${classData.name}Impl"
 
-    val ktorfitProperty = PropertySpec
-        .builder(
-            name = ktorfitClass.objectName,
-            type = ktorfitClass.toClassName()
-        )
-        .initializer(ktorfitClass.objectName)
-        .mutable(false)
-        .addModifiers(KModifier.PRIVATE)
-        .build()
+
 
     val converterProperty =
         PropertySpec.builder(converterHelper.objectName, converterHelper.toClassName())
-            .initializer("%T(${ktorfitClass.objectName})", converterHelper.toClassName())
-            .addModifiers(KModifier.PRIVATE)
+            .addModifiers(KModifier.LATEINIT, KModifier.OVERRIDE)
+            .mutable(true)
             .build()
 
+
+
     val implClassSpec = TypeSpec.classBuilder(implClassName)
-        .primaryConstructor(
-            FunSpec.constructorBuilder()
-                .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
-                .build()
-        )
+
         .addAnnotation(
             optinAnnotation
         )
         .addModifiers(classData.modifiers)
         .addSuperinterface(ClassName(classData.packageName, classData.name))
+        .addSuperinterface(ktorfitInterface.toClassName())
         .addKtorfitSuperInterface(classData.superClasses)
-        .addProperties(listOf(converterProperty, ktorfitProperty) + properties)
+        .addProperties(listOf(converterProperty) + properties)
         .addFunctions(classData.functions.map { it.toFunSpec(resolver) })
         .build()
 
@@ -135,9 +118,10 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
 private fun getCreateExtensionFunctionSpec(
     classData: ClassData
 ): FunSpec {
-    return FunSpec.builder("create${classData.name}")
+    val functionName = "create${classData.name}"
+    return FunSpec.builder(functionName)
         .addModifiers(classData.modifiers)
-        .addStatement("return this.create(_${classData.name}Impl(this))")
+        .addStatement("return this.create(_${classData.name}Impl().apply { ${converterHelper.objectName}= ${converterHelper.name}(this@$functionName) })")
         .receiver(ktorfitClass.toClassName())
         .returns(ClassName(classData.packageName, classData.name))
         .build()
@@ -252,10 +236,9 @@ private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeR
         this.addSuperinterface(
             ClassName(superTypePackage, superTypeClassName),
             CodeBlock.of(
-                "%L._%LImpl(%L)",
+                "%L._%LImpl()",
                 superTypePackage,
-                superTypeClassName,
-                ktorfitClass.objectName
+                superTypeClassName
             )
         )
     }
