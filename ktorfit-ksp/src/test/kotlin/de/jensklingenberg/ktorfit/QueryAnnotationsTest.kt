@@ -30,7 +30,7 @@ interface TestService {
         )
 
         val expectedQueriesArgumentText = "url{\n" +
-                "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
+                "        takeFrom(_converter.baseUrl + \"posts\")\n" +
                 "        testQuery?.let{ parameter(\"name\", \"\$it\") }\n" +
                 "        testQuery2?.let{ encodedParameters.append(\"testQuery2\", \"\$it\") }\n" +
                 "        }"
@@ -66,7 +66,7 @@ interface TestService {
         )
 
         val expectedQueriesArgumentText = "url{\n" +
-                "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
+                "        takeFrom(_converter.baseUrl + \"posts\")\n" +
                 "        testQuery2?.filterNotNull()?.forEach { encodedParameters.append(\"user\", \"\$it\") }\n" +
                 "        }"
 
@@ -100,7 +100,7 @@ interface TestService {
         )
 
         val expectedQueriesArgumentText = "url{\n" +
-                "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
+                "        takeFrom(_converter.baseUrl + \"posts\")\n" +
                 "        parameters.appendAll(\"\$testQueryName\", emptyList())\n" +
                 "        parameters.appendAll(\"\$testQueryName2\", emptyList())\n" +
                 "        }"
@@ -138,7 +138,7 @@ interface TestService {
 
 
         val expectedQueriesArgumentText = "url{\n" +
-                "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
+                "        takeFrom(_converter.baseUrl + \"posts\")\n" +
                 "        testQueryMap?.forEach { entry -> entry.value?.let{ parameter(entry.key, \"\${entry.value}\") }\n" +
                 "            }\n" +
                 "        testQueryMap2?.forEach { entry -> entry.value?.let{ encodedParameters.append(entry.key,\n" +
@@ -178,7 +178,7 @@ fun example(@Query("name") testQuery: String, @QueryName testQueryName: String, 
 
         val expectedQueriesArgumentText =
             "url{\n" +
-                    "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
+                    "        takeFrom(_converter.baseUrl + \"posts\")\n" +
                     "        testQuery?.let{ parameter(\"name\", \"\$it\") }\n" +
                     "        parameters.appendAll(\"\$testQueryName\", emptyList())\n" +
                     "        name?.forEach { entry -> entry.value?.let{ encodedParameters.append(entry.key,\n" +

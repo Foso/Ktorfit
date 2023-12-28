@@ -21,6 +21,7 @@ import kotlin.reflect.cast
 public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
 
     private val httpClient: HttpClient = ktorfit.httpClient
+    public val baseUrl: String = ktorfit.baseUrl
 
     /**
      * This will handle all requests for functions without suspend modifier

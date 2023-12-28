@@ -78,11 +78,12 @@ public class Ktorfit private constructor(
      * @param data Please keep the default parameter, it will be replaced
      * by the compiler plugin
      */
-    public fun <T> create(data: T? = null): T {
+    public fun <T> create(data: KtorfitInterface? = null): T {
         if (data == null) {
             throw IllegalArgumentException(ENABLE_GRADLE_PLUGIN)
         }
-        return data
+        data._converter = KtorfitConverterHelper(this)
+        return data as T
     }
 
 
@@ -198,5 +199,4 @@ public fun ktorfit(builder: Ktorfit.Builder.() -> Unit): Ktorfit = Ktorfit.Build
  * Creates a Ktorfit Builder instance using Kotlin-DSL.
  */
 public fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit): Ktorfit.Builder = Ktorfit.Builder().apply(builder)
-
 
