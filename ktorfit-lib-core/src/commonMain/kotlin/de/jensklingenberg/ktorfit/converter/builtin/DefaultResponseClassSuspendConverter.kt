@@ -7,6 +7,7 @@ import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
+import io.ktor.http.content.NullBody
 
 internal class DefaultResponseClassSuspendConverter(private val typeData: TypeData, private val ktorfit: Ktorfit) :
     Converter.SuspendResponseConverter<HttpResponse, Response<Any?>> {
@@ -27,7 +28,7 @@ internal class DefaultResponseClassSuspendConverter(private val typeData: TypeDa
                     }
 
                     code == 204 || code == 205 -> {
-                        Response.success(null, rawResponse)
+                        Response.success(NullBody, rawResponse)
                     }
 
                     else -> {
