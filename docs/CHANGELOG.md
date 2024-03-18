@@ -7,7 +7,7 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
-1.13.0 - XX
+1.13.0 - 2024-03-18
 ========================================
 - Build with KSP 1.0.19, Kotlin 1.9.23, Ktor 2.3.9
 
