@@ -13,9 +13,9 @@ extra:
   site:
     images: '../../images'
   ktorfit:
-    release: "1.10.1"
+    release: "1.14.0"
   ktor:
-    release: "2.3.4"
+    release: "2.3.10"
   social:
     - icon: fontawesome/brands/github-alt
       link: 'https://github.com/foso'

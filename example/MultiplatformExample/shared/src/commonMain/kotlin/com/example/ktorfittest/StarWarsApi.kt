@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface StarWarsApi {
     companion object {
-        const val baseUrl = "https://swapi.dev/api/"
+        const val baseUrl = "https://swapi.info/api/"
     }
 
     @GET("people/{id}/")

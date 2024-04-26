@@ -1,9 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp") version "1.9.20-1.0.14"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.10"
-    id("de.jensklingenberg.ktorfit") version "1.11.1"
+    id("com.google.devtools.ksp") version "1.9.23-1.0.20"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
+    id("de.jensklingenberg.ktorfit") version "1.14.0"
 }
 
 
@@ -41,7 +41,7 @@ android {
         compose = (true)
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = "1.5.11"
     }
 }
 
@@ -51,8 +51,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     }
 }
 
-val ktorfit = "1.11.1"
-val ktor = "2.3.6"
+val ktorfit = "1.14.0"
+val ktor = "2.3.10"
 val compose_ui_version = "1.5.1"
 dependencies {
     ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")

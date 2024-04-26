@@ -2,14 +2,14 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "1.9.21-1.0.15"
+    id("com.google.devtools.ksp") version "1.9.23-1.0.20"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "1.11.1"
+    id("de.jensklingenberg.ktorfit") version "1.14.0"
 }
 
 version = "1.0"
-val ktorVersion = "2.3.6"
-val ktorfitVersion = "1.11.1"
+val ktorVersion = "2.3.10"
+val ktorfitVersion = "1.14.0"
 
 kotlin {
     jvmToolchain(8)
@@ -40,7 +40,7 @@ kotlin {
             dependencies {
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
                 //implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:$ktorfitVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
 
                 //Only needed when you want to use Kotlin Serialization
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
