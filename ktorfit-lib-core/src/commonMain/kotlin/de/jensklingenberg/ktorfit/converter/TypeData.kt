@@ -5,7 +5,7 @@ import kotlin.reflect.KClass
 
 /**
  * This class contains information about the requested response type
- * e.g for Map<String, Int>
+ * e.g. for Map<String, Int>
  * @param qualifiedName will contain kotlin.collections.Map
  * @param typeArgs contains the type arguments as TypeData (String, Int)
  * @param isNullable is true if the type is nullable
