@@ -52,7 +52,7 @@ kotlin {
     iosArm64()
     iosX64()
     iosSimulatorArm64()
-
+    wasmJs()
     watchosArm32()
     watchosArm64()
     watchosX64()

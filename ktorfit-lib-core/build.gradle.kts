@@ -78,7 +78,7 @@ kotlin {
     tvosSimulatorArm64()
     macosX64()
     macosArm64()
-
+    wasmJs()
     linuxX64 {
         binaries {
             executable()
