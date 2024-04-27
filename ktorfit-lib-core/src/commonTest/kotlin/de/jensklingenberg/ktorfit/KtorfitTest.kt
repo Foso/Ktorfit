@@ -30,7 +30,7 @@ class KtorfitTest {
                 .build()
 
         val nextConverter =
-            ktorfit.nextSuspendResponseConverter(null, TypeData("kotlin.String", emptyList(), true, typeInfo<String>()))
+            ktorfit.nextSuspendResponseConverter(null, TypeData("kotlin.String", emptyList(), isNullable = true, typeInfo =  typeInfo<String>()))
         assertTrue(nextConverter is TestConverterFactory.SuspendConverter)
 
     }
@@ -45,7 +45,7 @@ class KtorfitTest {
                 .build()
 
         val nextConverter =
-            ktorfit.nextSuspendResponseConverter(null, TypeData("kotlin.String", emptyList(), true, typeInfo<String>()))
+            ktorfit.nextSuspendResponseConverter(null, TypeData("kotlin.String", emptyList(), isNullable = true, typeInfo = typeInfo<String>()))
         assertTrue(nextConverter is DefaultSuspendResponseConverterFactory.DefaultSuspendResponseConverter)
 
     }
@@ -65,7 +65,7 @@ class KtorfitTest {
                 .build()
 
         val nextConverter =
-            ktorfit.nextResponseConverter(null, TypeData("kotlin.String", emptyList(), true, typeInfo<String>()))
+            ktorfit.nextResponseConverter(null, TypeData("kotlin.String", emptyList(), isNullable = true, typeInfo = typeInfo<String>()))
         assertTrue((nextConverter) is TestConverterFactory.ResponseConverter)
 
     }
@@ -84,7 +84,7 @@ class KtorfitTest {
                 .build()
 
         val nextConverter =
-            ktorfit.nextResponseConverter(null, TypeData("kotlin.String", emptyList(), true, typeInfo<String>()))
+            ktorfit.nextResponseConverter(null, TypeData("kotlin.String", emptyList(), isNullable = true, typeInfo =  typeInfo<String>()))
         assertEquals(null, nextConverter)
 
     }
