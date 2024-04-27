@@ -7,11 +7,6 @@ open class KtorfitGradleConfiguration {
     internal var enabled: Boolean = true
 
     /**
-     * version number of the compiler plugin
-     */
-    internal var version: String = "2.0.0-SNAPSHOT" // remember to bump this version before any release!
-
-    /**
      * used to get debug information from the compiler plugin
      */
     var logging: Boolean = false

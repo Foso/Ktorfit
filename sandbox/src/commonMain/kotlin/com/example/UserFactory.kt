@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.converter.TypeData
+import de.jensklingenberg.ktorfit.internal.KtorfitConverterHelper
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
 
@@ -19,7 +20,7 @@ class UserFactory : Converter.Factory {
             return object : Converter.SuspendResponseConverter<HttpResponse, Any> {
 
                 override suspend fun convert(result: KtorfitResult): Any {
-                    return when (result) {
+                     when (result) {
                         is KtorfitResult.Success -> {
                             val response = result.response
                             val envelope = response.body<Envelope>()

@@ -32,8 +32,8 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
     private fun Project.getKtorfitConfig() =
         this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
 
-    override fun apply(project: Project) {
-        myproject = project
+    override fun apply(target: Project) {
+        myproject = target
     }
 
     override fun getCompilerPluginId(): String = COMPILER_PLUGIN_ID
@@ -43,10 +43,11 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
     }
 
     override fun getPluginArtifact(): SubpluginArtifact {
+        myproject.getKtorfitConfig()
         return SubpluginArtifact(
             groupId = SERIALIZATION_GROUP_NAME,
             artifactId = ARTIFACT_NAME,
-            version = myproject.getKtorfitConfig().version
+            version = "2.0.0-SNAPSHOT" // remember to bump this version before any release!
         )
     }
 }
