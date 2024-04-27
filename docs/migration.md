@@ -1,6 +1,44 @@
 # Migration
 Here is how to migrate from deprecated code:
 
+## From <2 to 2.0.0
+* You used Response?
+
+Add this dependency:
+
+```kotlin
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfit")
+```
+
+and add this converter to your Ktorfit instance:
+```kotlin
+.addConverterFactory(ResponseConverterFactory())
+```
+
+* You used Call?
+
+Add this dependency:
+```kotlin
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfit")
+```
+
+and add this converter to your Ktorfit instance:
+```kotlin
+.addConverterFactory(CallConverterFactory())
+```
+
+* You used Flow?
+
+Add this dependency:
+```kotlin
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
+```
+
+and add this converter to your Ktorfit instance:
+```kotlin
+.addConverterFactory(FlowConverterFactory())
+```
+
 ## From 1.7.0 to 1.8.1
 
 ### SuspendResponseConverter

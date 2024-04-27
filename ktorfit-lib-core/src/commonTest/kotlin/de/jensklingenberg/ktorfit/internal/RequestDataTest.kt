@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit.internal
 
+import de.jensklingenberg.ktorfit.converter.TypeData
 import io.ktor.util.reflect.*
 import kotlin.test.Test
 import kotlin.test.assertEquals

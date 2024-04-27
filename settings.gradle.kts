@@ -40,3 +40,5 @@ include(":ktorfit-lib")
 include(":ktorfit-annotations")
 include(":ktorfit-converters:flow")
 include(":ktorfit-converters:call")
+include(":ktorfit-converters:response")
+

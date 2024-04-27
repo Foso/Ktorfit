@@ -7,6 +7,14 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+2.0.0-beta1 - Unreleased
+========================================
+Had to remove the deprecated code. This is a breaking change.
+This will simplify the codebase and make it easier to maintain.
+When you haven't used the deprecated converters, there is not much you need to change.
+Some converters that were previously auto applied now need to be added manually.
+See the migration guide for more information: https://foso.github.io/Ktorfit/migration/#from-2-to-200
+
 1.14.0 - 2024-04-15
 ========================================
 - Build with KSP 1.0.20, Kotlin 2.0.0-RC1, Ktor 2.3.10

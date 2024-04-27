@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.demo
 
 import com.example.api.GithubService
-import de.jensklingenberg.ktorfit.converter.builtin.FlowResponseConverter
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -27,10 +26,6 @@ fun main() {
     val jvmKtorfit = ktorfit {
         baseUrl(GithubService.baseUrl)
         httpClient(jvmClient)
-        responseConverter(
-            FlowResponseConverter(),
-            RxRequestConverter()
-        )
     }
 
     val testApi = jvmKtorfit.create<GithubService>()

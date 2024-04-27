@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
 plugins {
     kotlin("multiplatform")
     id("maven-publish")
@@ -20,7 +22,7 @@ mavenPublishing {
 
     coordinates(
         "de.jensklingenberg.ktorfit",
-        "ktorfit-converters-flow",
+        "ktorfit-converters-response",
         libs.versions.ktorfit.get()
     )
     publishToMavenCentral()
@@ -44,8 +46,6 @@ kotlin {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
     }
-
-
     androidTarget {
         publishLibraryVariants("release", "debug")
     }
@@ -94,10 +94,20 @@ kotlin {
                 implementation(projects.ktorfitLibCore)
             }
         }
-        val linuxX64Main by getting
-        val mingwX64Main by getting
-        val androidMain by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+        }
+
         val jvmMain by getting
+        val jvmTest by getting {
+            dependencies {
+                implementation(libs.ktor.client.mock)
+                implementation(libs.mockk)
+                implementation(libs.mockito.kotlin)
+            }
+        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -124,7 +134,7 @@ android {
         minSdk = 21
         targetSdk = 34
     }
-    namespace = "de.jensklingenberg.ktorfit.converters.flow"
+    namespace = "de.jensklingenberg.ktorfit.converters.call"
 }
 
 
@@ -137,7 +147,7 @@ publishing {
 
             pom {
                 name.set(project.name)
-                description.set("Flow Converter for Ktorfit")
+                description.set("Response Converter for Ktorfit")
                 url.set("https://github.com/Foso/Ktorfit")
 
                 licenses {

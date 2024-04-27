@@ -1,5 +1,3 @@
-import de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration
-
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.kspPlugin)
@@ -22,7 +20,6 @@ java {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
-
 
 licensee {
     allow("Apache-2.0")
@@ -86,7 +83,7 @@ kotlin {
             executable()
         }
     }
-    linuxArm64{
+    linuxArm64 {
         binaries {
             executable()
         }
@@ -226,7 +223,5 @@ dependencies {
         "kspCommonMainMetadata", projects.ktorfitKsp
     )
     add("kspJvm", projects.ktorfitKsp)
-     add("kspJvmTest", projects.ktorfitKsp)
-
-
+    add("kspJvmTest", projects.ktorfitKsp)
 }
