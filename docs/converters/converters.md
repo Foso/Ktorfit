@@ -9,4 +9,15 @@ They are added inside of a Converter.Factory which will then be added to the Kto
 
 ### Existing converter factories
 * CallConverterFactory
-* FlowConverterFactoy
+  
+Add this dependency:
+```kotlin
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfit")
+```
+
+* FlowConverterFactory
+
+Add this dependency:
+```kotlin
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
+```

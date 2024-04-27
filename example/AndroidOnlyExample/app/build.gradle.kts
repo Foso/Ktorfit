@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp") version "1.9.23-1.0.20"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
-    id("de.jensklingenberg.ktorfit") version "1.14.0"
+    id("de.jensklingenberg.ktorfit") version "2.0.0-beta1-SNAPSHOT"
 }
 
 
@@ -61,6 +61,8 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:$ktor")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
     implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfit")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfit")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
 
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")

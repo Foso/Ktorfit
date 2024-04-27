@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import de.jensklingenberg.androidonlyexample.ui.theme.AndroidOnlyExampleTheme
 import de.jensklingenberg.ktorfit.converter.builtin.CallConverterFactory
 import de.jensklingenberg.ktorfit.converter.builtin.FlowConverterFactory
+import de.jensklingenberg.ktorfit.converter.builtin.ResponseConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -31,6 +32,7 @@ val ktorfit = ktorfit {
     converterFactories(
         FlowConverterFactory(),
         CallConverterFactory(),
+        ResponseConverterFactory()
     )
 
 }
