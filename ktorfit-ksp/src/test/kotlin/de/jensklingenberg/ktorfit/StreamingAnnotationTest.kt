@@ -39,8 +39,7 @@ interface TestService {
         )
 
 
-        val expectedFunctionText = """return _converter.suspendRequest<io.ktor.client.statement.HttpStatement,
-        io.ktor.client.statement.HttpStatement>(_typeData,_ext)!!"""
+        val expectedFunctionText = """return _converter.suspendRequest<io.ktor.client.statement.HttpStatement>(_typeData,_ext)!!"""
 
         val compilation = getCompilation(listOf(httpStatement, source))
         val result = compilation.compile()
