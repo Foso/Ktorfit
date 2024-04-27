@@ -1,6 +1,10 @@
 # Migration
 Here is how to migrate from deprecated code:
 
+## From <2 to 2.0.0
+
+
+
 ## From 1.7.0 to 1.8.1
 
 ### SuspendResponseConverter

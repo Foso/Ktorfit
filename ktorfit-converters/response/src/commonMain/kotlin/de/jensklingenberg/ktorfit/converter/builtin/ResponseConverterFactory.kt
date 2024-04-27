@@ -9,14 +9,14 @@ import io.ktor.client.statement.*
 /**
  * Converter for [Response]
  */
-public class KtorfitResponseConverterFactory : Converter.Factory {
+public class ResponseConverterFactory : Converter.Factory {
 
     override fun suspendResponseConverter(
         typeData: TypeData,
         ktorfit: Ktorfit
     ): Converter.SuspendResponseConverter<HttpResponse, *>? {
         if (typeData.typeInfo.type == Response::class) {
-            return DefaultResponseClassSuspendConverter(typeData, ktorfit)
+            return ResponseClassSuspendConverter(typeData, ktorfit)
         }
         return null
     }
