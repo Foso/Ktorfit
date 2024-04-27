@@ -15,12 +15,11 @@ import kotlin.reflect.KClass
 public data class TypeData(
     public val qualifiedName: String,
     public val typeArgs: List<TypeData> = emptyList(),
-    public val isNullable: Boolean = qualifiedName.endsWith("?"),
     public val typeInfo: TypeInfo,
+    public val isNullable: Boolean = typeInfo.kotlinType?.isMarkedNullable ?: false,
 ) {
     public companion object {
         public fun createTypeData(qualifiedTypename: String, typeInfo: TypeInfo): TypeData {
-
             val typeArgument = qualifiedTypename.substringAfter("<").substringBeforeLast(">")
             val split = typeArgument.split(",")
             val args = typeInfo.kotlinType?.arguments?.mapIndexed { index, kTypeProjection ->

@@ -21,3 +21,10 @@ Add this dependency:
 ```kotlin
 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
 ```
+
+* ResponseConverterFactory
+
+Add this dependency:
+```kotlin
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfit")
+```

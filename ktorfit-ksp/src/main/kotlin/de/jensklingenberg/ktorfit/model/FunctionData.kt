@@ -6,12 +6,11 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
-import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
 import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
-import de.jensklingenberg.ktorfit.typeData.addRequestConverterText
+import de.jensklingenberg.ktorfit.reqBuilderExtension.addRequestConverterText
 import de.jensklingenberg.ktorfit.utils.*
 
 data class FunctionData(
@@ -46,11 +45,11 @@ data class FunctionData(
             .addStatement(
                 "val ${typeDataClass.objectName} = ${typeDataClass.name}.createTypeData("
             )
+            .addStatement("typeInfo = typeInfo<%L>(),", this.returnType.parameterType.toTypeName())
             .addStatement(
-                "qualifiedTypename = \"%L\",",
+                "qualifiedTypename = \"%L\")",
                 this.returnType.parameterType.toTypeName().toString().removeWhiteSpaces()
             )
-            .addStatement("typeInfo = typeInfo<%L>())\n", this.returnType.parameterType.toTypeName())
             .addStatement(
                 "return %L.%L<${returnTypeName}>(%L,${extDataClass.objectName})%L",
                 converterHelper.objectName,
