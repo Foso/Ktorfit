@@ -51,7 +51,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     }
 }
 
-val ktorfit = "1.14.0"
+val ktorfit = "2.0.0-beta1-SNAPSHOT"
 val ktor = "2.3.10"
 val compose_ui_version = "1.5.1"
 dependencies {
@@ -60,6 +60,7 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:$ktor")
     implementation("io.ktor:ktor-client-content-negotiation:$ktor")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfit")
 
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")

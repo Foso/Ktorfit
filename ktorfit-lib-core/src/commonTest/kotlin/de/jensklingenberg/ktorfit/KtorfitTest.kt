@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit
 
 import de.jensklingenberg.ktorfit.converter.Converter
+import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.converter.TypeData
 import io.ktor.client.request.HttpRequestData
@@ -95,8 +96,16 @@ class KtorfitTest {
 private class TestConverterFactory : Converter.Factory {
 
     class SuspendConverter(val typeData: TypeData) : Converter.SuspendResponseConverter<HttpResponse, Any> {
-        override suspend fun convert(response: HttpResponse): Any {
-            return response.call.body(typeData.typeInfo)
+
+        override suspend fun convert(result: KtorfitResult): Any {
+            when(result){
+                is KtorfitResult.Success -> {
+                    return result.response.call.body(typeData.typeInfo)
+                }
+                is KtorfitResult.Failure -> {
+                    throw result.throwable
+                }
+            }
         }
     }
 

@@ -40,11 +40,19 @@ class ConverterFactoryTest {
                 ): Converter.SuspendResponseConverter<HttpResponse, *>? {
                     if (typeData.qualifiedName == "kotlinx.coroutines.flow.Flow") {
                         return object : Converter.SuspendResponseConverter<HttpResponse, Any> {
-                            override suspend fun convert(response: HttpResponse): Any {
-                                return try {
-                                    response.body(typeInfo<Int>())
-                                } catch (ex: Exception) {
-                                    Assert.assertTrue(ex is NoTransformationFoundException)
+
+                            override suspend fun convert(result: KtorfitResult): Any {
+                                when(result){
+                                    is KtorfitResult.Success -> {
+                                        return try {
+                                            result.response.body(typeInfo<Int>())
+                                        } catch (ex: Exception) {
+                                            Assert.assertTrue(ex is NoTransformationFoundException)
+                                        }
+                                    }
+                                    is KtorfitResult.Failure -> {
+                                        throw result.throwable
+                                    }
                                 }
                             }
                         }

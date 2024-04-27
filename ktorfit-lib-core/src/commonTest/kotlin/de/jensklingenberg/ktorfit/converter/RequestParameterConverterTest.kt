@@ -21,7 +21,7 @@ class RequestParameterConverterTest {
         }
 
         val ktorfit =
-            Ktorfit.Builder().httpClient(engine).baseUrl("http://www.test.de/").requestConverter(TestStringToIntRequestConverter()).build()
+            Ktorfit.Builder().httpClient(engine).baseUrl("http://www.test.de/").converterFactories(TestStringToIntRequestConverter()).build()
 
         val converted = KtorfitConverterHelper(ktorfit).convertParameterType("4", String::class, Int::class)
         assertEquals(4, converted)
