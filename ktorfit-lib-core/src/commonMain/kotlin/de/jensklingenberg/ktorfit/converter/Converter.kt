@@ -58,9 +58,7 @@ public interface Converter<F, T> {
         /**
          * Return a [ResponseConverter] that can handle [typeData] or else null
          */
-        public fun responseConverter(typeData: TypeData, ktorfit: Ktorfit): ResponseConverter<HttpResponse, *>? {
-            return null
-        }
+        public fun responseConverter(typeData: TypeData, ktorfit: Ktorfit): ResponseConverter<HttpResponse, *>? = null
 
         /**
          * Return a [RequestParameterConverter] that can handle [parameterType] and [requestType] or else null
@@ -68,9 +66,7 @@ public interface Converter<F, T> {
         public fun requestParameterConverter(
             parameterType: KClass<*>,
             requestType: KClass<*>
-        ): RequestParameterConverter? {
-            return null
-        }
+        ): RequestParameterConverter? = null
 
         /**
          * Return a [SuspendResponseConverter] that can handle [typeData] or else null
@@ -78,9 +74,7 @@ public interface Converter<F, T> {
         public fun suspendResponseConverter(
             typeData: TypeData,
             ktorfit: Ktorfit
-        ): SuspendResponseConverter<HttpResponse, *>? {
-            return null
-        }
+        ): SuspendResponseConverter<HttpResponse, *>? = null
     }
 }
 

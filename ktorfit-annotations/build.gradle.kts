@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("multiplatform")
     id("maven-publish")
@@ -18,7 +22,7 @@ java {
         languageVersion.set(JavaLanguageVersion.of(8))
     }
 }
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
@@ -170,7 +174,7 @@ publishing {
     }
 }
 
-rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class) {
-    rootProject.the(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class).nodeVersion =
+rootProject.plugins.withType(NodeJsRootPlugin::class) {
+    rootProject.the(NodeJsRootExtension::class).version =
         "18.0.0"
 }

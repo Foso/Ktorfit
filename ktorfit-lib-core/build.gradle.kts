@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.kspPlugin)
@@ -214,8 +217,8 @@ publishing {
     }
 }
 
-rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class) {
-    rootProject.the(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class).nodeVersion = "18.0.0"
+rootProject.plugins.withType(NodeJsRootPlugin::class) {
+    rootProject.the(NodeJsRootExtension::class).version = "18.0.0"
 }
 
 dependencies {
