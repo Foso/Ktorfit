@@ -221,7 +221,7 @@ publishing {
 }
 
 ksp {
-    arg("Ktorfit_QualifiedType", "true")
+    arg("Ktorfit_QualifiedTypeName", "true")
 }
 
 rootProject.plugins.withType(NodeJsRootPlugin::class) {
