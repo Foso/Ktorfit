@@ -16,6 +16,33 @@ You can set it in your build.gradle.kts file,
 
 2: Turn errors into warnings
 
+# QualifiedTypeName
+By default, Ktorfit will keep qualifiedTypename for TypeData in the generated code empty. You can set an KSP argument to change this:
+
+```kotlin
+ksp {
+    arg("Ktorfit_QualifiedTypeName", "true")
+}
+```
+
+```kotlin title="Default code generation"
+...
+val _typeData = TypeData.createTypeData(
+    typeInfo = typeInfo<Call<People>>(),
+)
+...
+```
+
+```kotlin title="With QualifiedTypeName true"
+...
+val _typeData = TypeData.createTypeData(
+    typeInfo = typeInfo<Call<People>>(),
+    qualifiedTypename = "de.jensklingenberg.ktorfit.Call<com.example.model.People>"
+)
+...
+```
+
+
 
 # Add your own Ktor client
 You can set your Ktor client instance to the Ktorfit builder:
@@ -24,3 +51,4 @@ You can set your Ktor client instance to the Ktorfit builder:
 val myClient = HttpClient()
 val ktorfit = Ktorfit.Builder().httpClient(myClient).build()
 ```
+

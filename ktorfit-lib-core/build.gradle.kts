@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 
@@ -52,9 +53,10 @@ mavenPublishing {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    compilerOptions{
+        jvmTarget.set(JvmTarget.JVM_1_8)
+    }
 }
-
 
 kotlin {
     explicitApi()
@@ -147,6 +149,7 @@ kotlin {
         }
     }
 }
+
 val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
 }
@@ -215,6 +218,10 @@ publishing {
         }
 
     }
+}
+
+ksp {
+    arg("Ktorfit_QualifiedType", "true")
 }
 
 rootProject.plugins.withType(NodeJsRootPlugin::class) {

@@ -32,8 +32,6 @@ val jvmClient = HttpClient {
 
     this.developmentMode = true
     expectSuccess = false
-
-
 }
 
 
