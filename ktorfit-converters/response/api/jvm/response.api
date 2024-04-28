@@ -17,7 +17,7 @@ public final class de/jensklingenberg/ktorfit/Response$Companion {
 	public final fun success (Ljava/lang/Object;Lio/ktor/client/statement/HttpResponse;)Lde/jensklingenberg/ktorfit/Response;
 }
 
-public final class de/jensklingenberg/ktorfit/converter/builtin/ResponseConverterFactory : de/jensklingenberg/ktorfit/converter/Converter$Factory {
+public final class de/jensklingenberg/ktorfit/converter/ResponseConverterFactory : de/jensklingenberg/ktorfit/converter/Converter$Factory {
 	public fun <init> ()V
 	public fun requestParameterConverter (Lkotlin/reflect/KClass;Lkotlin/reflect/KClass;)Lde/jensklingenberg/ktorfit/converter/Converter$RequestParameterConverter;
 	public fun responseConverter (Lde/jensklingenberg/ktorfit/converter/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/converter/Converter$ResponseConverter;
