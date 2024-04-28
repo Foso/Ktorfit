@@ -188,5 +188,5 @@ publishing {
 }
 
 rootProject.plugins.withType(NodeJsRootPlugin::class) {
-    rootProject.the(NodeJsRootExtension::class).nodeVersion = "18.0.0"
+    rootProject.the(NodeJsRootExtension::class).version = "18.0.0"
 }

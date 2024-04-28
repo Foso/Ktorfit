@@ -1,7 +1,7 @@
 package com.example.model
 
 import com.example.api.JsonPlaceHolderApi
-import de.jensklingenberg.ktorfit.converter.builtin.CallConverterFactory
+import de.jensklingenberg.ktorfit.converter.CallConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
