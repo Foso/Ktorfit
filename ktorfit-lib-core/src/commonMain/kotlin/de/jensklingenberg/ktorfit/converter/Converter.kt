@@ -77,4 +77,3 @@ public interface Converter<F, T> {
         ): SuspendResponseConverter<HttpResponse, *>? = null
     }
 }
-
