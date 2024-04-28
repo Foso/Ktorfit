@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp") version "1.9.23-1.0.20"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
-    id("de.jensklingenberg.ktorfit") version "2.0.0-beta1-SNAPSHOT"
+    id("de.jensklingenberg.ktorfit") version "2.0.0-beta1"
 }
 
 
@@ -51,7 +51,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     }
 }
 
-val ktorfit = "2.0.0-beta1-SNAPSHOT"
+val ktorfit = "2.0.0-beta1"
 val ktor = "2.3.10"
 val compose_ui_version = "1.5.1"
 dependencies {
