@@ -19,11 +19,10 @@ data class FunctionData(
     val isSuspend: Boolean = false,
     val parameterDataList: List<ParameterData>,
     val annotations: List<FunctionAnnotation> = emptyList(),
-    val httpMethodAnnotation: HttpMethodAnnotation
+    val httpMethodAnnotation: HttpMethodAnnotation,
 ) {
 
-    fun toFunSpec(resolver: Resolver): FunSpec {
-
+    fun toFunSpec(resolver: Resolver, setQualifiedTypeName: Boolean): FunSpec {
         return FunSpec.builder(this.name)
             .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
                 if (this.isSuspend) {
@@ -44,10 +43,11 @@ data class FunctionData(
             .addStatement(
                 "val ${typeDataClass.objectName} = ${typeDataClass.name}.createTypeData("
             )
-            .addStatement("typeInfo = typeInfo<%L>(),", this.returnType.parameterType.toTypeName())
+            .addStatement("typeInfo = typeInfo<%T>(),", this.returnType.parameterType.toTypeName())
             .addStatement(
-                "qualifiedTypename = \"%L\")",
-                this.returnType.parameterType.toTypeName().toString().removeWhiteSpaces()
+                if (setQualifiedTypeName) "qualifiedTypename = \"${
+                    returnType.parameterType.toTypeName().toString().removeWhiteSpaces()
+                }\")" else ")"
             )
             .addStatement(
                 "return %L.%L(%L,${extDataClass.objectName})%L",
@@ -66,7 +66,6 @@ data class FunctionData(
             )
             .build()
     }
-
 }
 
 /**

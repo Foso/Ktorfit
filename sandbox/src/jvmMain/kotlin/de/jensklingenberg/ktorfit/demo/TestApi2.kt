@@ -17,7 +17,6 @@ data class Test(val name: String)
 
 interface QueryNameTestApi {
 
-
     @GET("people/{id}/")
     suspend fun testQueryName(@Path("id") peopleId: Int, @QueryName name: String): People
 

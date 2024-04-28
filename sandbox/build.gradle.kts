@@ -10,6 +10,7 @@ version = "1.0-SNAPSHOT"
 
 ksp {
     arg("Ktorfit_Errors", "1")
+    arg("Ktorfit_QualifiedTypeName", "false")
 }
 
 licensee {
