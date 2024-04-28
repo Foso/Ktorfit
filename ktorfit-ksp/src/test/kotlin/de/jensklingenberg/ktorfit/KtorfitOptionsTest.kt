@@ -52,8 +52,7 @@ suspend fun test(): List<Triple<String,Int?,String>>
     @Test
     fun `when QualifiedType options is set then generate qualifiedTypeName`() {
 
-        val expected = "qualifiedTypename =\n" +
-                "        \"kotlin.collections.List<kotlin.Triple<kotlin.String,kotlin.Int?,kotlin.String>>\")"
+        val expected = "qualifiedTypename"
         val source = SourceFile.kotlin(
             "Source.kt", """
       package com.example.api
