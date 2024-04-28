@@ -23,7 +23,6 @@ data class FunctionData(
 ) {
 
     fun toFunSpec(resolver: Resolver): FunSpec {
-        val returnTypeName = this.returnType.parameterType?.toTypeName()
 
         return FunSpec.builder(this.name)
             .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
@@ -51,7 +50,7 @@ data class FunctionData(
                 this.returnType.parameterType.toTypeName().toString().removeWhiteSpaces()
             )
             .addStatement(
-                "return %L.%L<${returnTypeName}>(%L,${extDataClass.objectName})%L",
+                "return %L.%L(%L,${extDataClass.objectName})%L",
                 converterHelper.objectName,
                 if (this.isSuspend) {
                     "suspendRequest"
