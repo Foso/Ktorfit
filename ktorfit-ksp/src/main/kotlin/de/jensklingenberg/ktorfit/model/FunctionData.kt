@@ -6,12 +6,11 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
-import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
 import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
-import de.jensklingenberg.ktorfit.typeData.addRequestConverterText
+import de.jensklingenberg.ktorfit.reqBuilderExtension.addRequestConverterText
 import de.jensklingenberg.ktorfit.utils.*
 
 data class FunctionData(
@@ -20,14 +19,10 @@ data class FunctionData(
     val isSuspend: Boolean = false,
     val parameterDataList: List<ParameterData>,
     val annotations: List<FunctionAnnotation> = emptyList(),
-    val httpMethodAnnotation: HttpMethodAnnotation
+    val httpMethodAnnotation: HttpMethodAnnotation,
 ) {
 
-    fun toFunSpec(resolver: Resolver): FunSpec {
-        val returnTypeName = this.returnType.parameterType?.toTypeName()
-        val innerReturnType =
-            (returnTypeName as? ParameterizedTypeName)?.typeArguments?.first()?.toString() ?: returnTypeName
-
+    fun toFunSpec(resolver: Resolver, setQualifiedTypeName: Boolean): FunSpec {
         return FunSpec.builder(this.name)
             .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
                 if (this.isSuspend) {
@@ -48,13 +43,14 @@ data class FunctionData(
             .addStatement(
                 "val ${typeDataClass.objectName} = ${typeDataClass.name}.createTypeData("
             )
+            .addStatement("typeInfo = typeInfo<%T>(),", this.returnType.parameterType.toTypeName())
             .addStatement(
-                "qualifiedTypename = \"%L\",",
-                this.returnType.parameterType.toTypeName().toString().removeWhiteSpaces()
+                if (setQualifiedTypeName) "qualifiedTypename = \"${
+                    returnType.parameterType.toTypeName().toString().removeWhiteSpaces()
+                }\")" else ")"
             )
-            .addStatement("typeInfo = typeInfo<%L>())\n", this.returnType.parameterType.toTypeName())
             .addStatement(
-                "return %L.%L<${returnTypeName}, ${innerReturnType}>(%L,${extDataClass.objectName})%L",
+                "return %L.%L(%L,${extDataClass.objectName})%L",
                 converterHelper.objectName,
                 if (this.isSuspend) {
                     "suspendRequest"
@@ -70,7 +66,6 @@ data class FunctionData(
             )
             .build()
     }
-
 }
 
 /**

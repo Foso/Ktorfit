@@ -1,11 +1,11 @@
-package de.jensklingenberg.ktorfit.internal
+package de.jensklingenberg.ktorfit.converter
 
 import io.ktor.util.reflect.*
 import kotlin.reflect.KClass
 
 /**
  * This class contains information about the requested response type
- * e.g for Map<String, Int>
+ * e.g. for Map<String, Int>
  * @param qualifiedName will contain kotlin.collections.Map
  * @param typeArgs contains the type arguments as TypeData (String, Int)
  * @param isNullable is true if the type is nullable
@@ -15,16 +15,15 @@ import kotlin.reflect.KClass
 public data class TypeData(
     public val qualifiedName: String,
     public val typeArgs: List<TypeData> = emptyList(),
-    public val isNullable: Boolean = qualifiedName.endsWith("?"),
     public val typeInfo: TypeInfo,
+    public val isNullable: Boolean = typeInfo.kotlinType?.isMarkedNullable ?: false,
 ) {
     public companion object {
-        public fun createTypeData(qualifiedTypename: String, typeInfo: TypeInfo): TypeData {
-
+        public fun createTypeData(qualifiedTypename: String = "", typeInfo: TypeInfo): TypeData {
             val typeArgument = qualifiedTypename.substringAfter("<").substringBeforeLast(">")
             val split = typeArgument.split(",")
             val args = typeInfo.kotlinType?.arguments?.mapIndexed { index, kTypeProjection ->
-                val cleaned = split[index].trim()
+                val cleaned = split.getOrNull(index)?.trim() ?: ""
 
                 val modelKType = kTypeProjection.type
                 val modelClass = (modelKType?.classifier as? KClass<*>?)!!

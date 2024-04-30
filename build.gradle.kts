@@ -13,6 +13,7 @@ buildscript {
         maven {
             url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
         }
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
     }
     dependencies {
         classpath(libs.gradle.maven.publish.plugin)
@@ -31,7 +32,6 @@ subprojects {
         maven {
             url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
         }
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
     }
 }
-
-// ./gradlew clean :sandbox:compileKotlinJvm --no-daemon -Dorg.gradle.debug=true -Dkotlin.compiler.execution.strategy="in-process" -Dkotlin.daemon.jvm.options="-Xdebug,-Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n"

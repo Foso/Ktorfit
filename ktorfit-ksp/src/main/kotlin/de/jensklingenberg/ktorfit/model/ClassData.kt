@@ -11,6 +11,7 @@ import com.google.devtools.ksp.symbol.KSTypeReference
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
+import de.jensklingenberg.ktorfit.KtorfitOptions
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.annotations.FormUrlEncoded
 import de.jensklingenberg.ktorfit.model.annotations.Multipart
@@ -37,7 +38,7 @@ data class ClassData(
 /**
  * Transform a [ClassData] to a [FileSpec] for KotlinPoet
  */
-fun ClassData.getImplClassFileSource(resolver: Resolver): String {
+fun ClassData.getImplClassFileSource(resolver: Resolver, ktorfitOptions: KtorfitOptions): String {
     val classData = this
     val optinAnnotation = AnnotationSpec
         .builder(ClassName("kotlin", "OptIn"))
@@ -79,15 +80,11 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
 
     val implClassName = "_${classData.name}Impl"
 
-
-
     val converterProperty =
         PropertySpec.builder(converterHelper.objectName, converterHelper.toClassName())
             .addModifiers(KModifier.LATEINIT, KModifier.OVERRIDE)
             .mutable(true)
             .build()
-
-
 
     val implClassSpec = TypeSpec.classBuilder(implClassName)
 
@@ -99,7 +96,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver): String {
         .addSuperinterface(ktorfitInterface.toClassName())
         .addKtorfitSuperInterface(classData.superClasses)
         .addProperties(listOf(converterProperty) + properties)
-        .addFunctions(classData.functions.map { it.toFunSpec(resolver) })
+        .addFunctions(classData.functions.map { it.toFunSpec(resolver, ktorfitOptions.setQualifiedType) })
         .build()
 
     return FileSpec.builder(classData.packageName, implClassName)
@@ -245,4 +242,3 @@ private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeR
 
     return this
 }
-

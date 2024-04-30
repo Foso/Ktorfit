@@ -1,11 +1,8 @@
-package de.jensklingenberg.ktorfit.converter.builtin
+package de.jensklingenberg.ktorfit.converter
 
 import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.Callback
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.converter.Converter
-import de.jensklingenberg.ktorfit.converter.KtorfitResult
-import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.call.*
 import io.ktor.client.statement.*
 import kotlinx.coroutines.launch
@@ -28,7 +25,7 @@ public class CallConverterFactory : Converter.Factory {
                             val convertedBody = ktorfit.nextSuspendResponseConverter(
                                 null,
                                 typeData.typeArgs.first()
-                            )?.convert(response)
+                            )?.convert(KtorfitResult.Success(response))
                                 ?: response.body(typeData.typeArgs.first().typeInfo)
                             callBack.onResponse(convertedBody, response)
                         } catch (ex: Exception) {
@@ -42,9 +39,6 @@ public class CallConverterFactory : Converter.Factory {
 
     private class CallSuspendResponseConverter(val typeData: TypeData, val ktorfit: Ktorfit) :
         Converter.SuspendResponseConverter<HttpResponse, Call<Any?>> {
-        override suspend fun convert(response: HttpResponse): Call<Any?> {
-            return convert(KtorfitResult.Success(response))
-        }
 
         override suspend fun convert(result: KtorfitResult): Call<Any?> {
             return object : Call<Any?> {
@@ -57,7 +51,7 @@ public class CallConverterFactory : Converter.Factory {
                                     val data = ktorfit.nextSuspendResponseConverter(
                                         null,
                                         typeData.typeArgs.first()
-                                    )?.convert(response)
+                                    )?.convert(result)
                                     callBack.onResponse(data!!, response)
                                 } catch (ex: Exception) {
                                     callBack.onError(ex)

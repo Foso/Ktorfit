@@ -1,8 +1,8 @@
 import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.Callback
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.converter.builtin.CallConverterFactory
-import de.jensklingenberg.ktorfit.internal.TypeData
+import de.jensklingenberg.ktorfit.converter.CallConverterFactory
+import de.jensklingenberg.ktorfit.converter.TypeData
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
 import io.ktor.client.request.*

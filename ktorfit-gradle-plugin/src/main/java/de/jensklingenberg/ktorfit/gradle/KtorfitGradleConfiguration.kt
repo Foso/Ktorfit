@@ -4,13 +4,7 @@ open class KtorfitGradleConfiguration {
     /**
      * If the compiler plugin should be active
      */
-    var enabled: Boolean = true
-
-    /**
-     * version number of the compiler plugin
-     */
-    @Deprecated("Update the Gradle plugin instead of updating this version")
-    var version: String = "1.14.0" // remember to bump this version before any release!
+    internal var enabled: Boolean = true
 
     /**
      * used to get debug information from the compiler plugin

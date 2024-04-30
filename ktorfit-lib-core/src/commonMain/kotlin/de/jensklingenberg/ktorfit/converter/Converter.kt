@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.converter
 
 import de.jensklingenberg.ktorfit.Ktorfit
-import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.statement.*
 import kotlin.reflect.KClass
 
@@ -33,20 +32,7 @@ public interface Converter<F, T> {
          *
          * @return the converted [HttpResponse]
          */
-        @Deprecated("Use convert(result: KtorfitResult)")
-        public suspend fun convert(response: HttpResponse): T
-
-        public suspend fun convert(result: KtorfitResult): T {
-            return when (result) {
-                is KtorfitResult.Failure -> {
-                    throw result.throwable
-                }
-
-                is KtorfitResult.Success -> {
-                    convert(result.response)
-                }
-            }
-        }
+        public suspend fun convert(result: KtorfitResult): T
     }
 
     public interface RequestParameterConverter : Converter<Any, Any> {
@@ -72,9 +58,7 @@ public interface Converter<F, T> {
         /**
          * Return a [ResponseConverter] that can handle [typeData] or else null
          */
-        public fun responseConverter(typeData: TypeData, ktorfit: Ktorfit): ResponseConverter<HttpResponse, *>? {
-            return null
-        }
+        public fun responseConverter(typeData: TypeData, ktorfit: Ktorfit): ResponseConverter<HttpResponse, *>? = null
 
         /**
          * Return a [RequestParameterConverter] that can handle [parameterType] and [requestType] or else null
@@ -82,9 +66,7 @@ public interface Converter<F, T> {
         public fun requestParameterConverter(
             parameterType: KClass<*>,
             requestType: KClass<*>
-        ): RequestParameterConverter? {
-            return null
-        }
+        ): RequestParameterConverter? = null
 
         /**
          * Return a [SuspendResponseConverter] that can handle [typeData] or else null
@@ -92,9 +74,6 @@ public interface Converter<F, T> {
         public fun suspendResponseConverter(
             typeData: TypeData,
             ktorfit: Ktorfit
-        ): SuspendResponseConverter<HttpResponse, *>? {
-            return null
-        }
+        ): SuspendResponseConverter<HttpResponse, *>? = null
     }
 }
-

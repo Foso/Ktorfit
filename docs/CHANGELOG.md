@@ -7,6 +7,45 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+2.0.0-beta1 - 2024-04-28
+========================================
+### Breaking Changes
+
+The deprecated code got removed.
+This will simplify the codebase and make it easier to maintain.
+When you haven't used the deprecated converters, there is not much you need to change.
+Some converters that were previously auto applied now need to be added manually.
+See the migration guide for more information: https://foso.github.io/Ktorfit/migration/#from-2-to-200
+
+#### QualifiedTypeName in Ktorfit
+
+In the previous versions of Ktorfit, the `qualifiedTypename` was always generated in the code. This was used in the `TypeData.createTypeData()` function to provide a fully qualified type name for the data type being used.
+
+```kotlin
+val _typeData = TypeData.createTypeData(
+    typeInfo = typeInfo<Call<People>>(),
+    qualifiedTypename = "de.jensklingenberg.ktorfit.Call<com.example.model.People>"
+)
+```
+
+In the new version of Ktorfit, this behavior has been changed. Now, by default, Ktorfit will keep `qualifiedTypename` for `TypeData` in the generated code empty. This means that the `qualifiedTypename` will not be automatically generated.
+
+```kotlin
+val _typeData = TypeData.createTypeData(
+    typeInfo = typeInfo<Call<People>>(),
+)
+```
+
+However, if you want to keep the old behavior and generate `qualifiedTypename`, you can set a KSP argument `Ktorfit_QualifiedTypeName` to `true` in your `build.gradle.kts` file.
+
+```kotlin
+ksp {
+    arg("Ktorfit_QualifiedTypeName", "true")
+}
+```
+
+This change was made to provide more flexibility and control to the developers over the generated code. Please update your code accordingly if you were relying on the automatic generation of `qualifiedTypename`.
+
 1.14.0 - 2024-04-15
 ========================================
 - Build with KSP 1.0.20, Kotlin 2.0.0-RC1, Ktor 2.3.10

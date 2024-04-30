@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.typeData
+package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ksp.toClassName

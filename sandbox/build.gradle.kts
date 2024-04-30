@@ -10,6 +10,7 @@ version = "1.0-SNAPSHOT"
 
 ksp {
     arg("Ktorfit_Errors", "1")
+    arg("Ktorfit_QualifiedTypeName", "false")
 }
 
 licensee {
@@ -52,7 +53,7 @@ kotlin {
         }
     }
 
-   // macosX64()
+    // macosX64()
     mingwX64()
     applyDefaultHierarchyTemplate()
     sourceSets {
@@ -62,6 +63,7 @@ kotlin {
                 implementation(projects.ktorfitLibCore)
                 implementation(projects.ktorfitConverters.flow)
                 implementation(projects.ktorfitConverters.call)
+                implementation(projects.ktorfitConverters.response)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.ktor.client.content.negotiation)
@@ -89,7 +91,7 @@ kotlin {
                 implementation("io.reactivex.rxjava3:rxjava:3.1.8")
 
                 implementation(libs.ktor.client.logging)
-               // implementation(libs.logbackClassic)
+                // implementation(libs.logbackClassic)
                 implementation(libs.ktor.serialization.gson)
                 implementation(libs.ktor.client.cio.jvm)
             }
@@ -117,6 +119,7 @@ kotlin {
 
             }
         }
+
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosMain by getting {

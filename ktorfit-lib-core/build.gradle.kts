@@ -1,4 +1,6 @@
-import de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 
 plugins {
     kotlin("multiplatform")
@@ -22,7 +24,6 @@ java {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
-
 
 licensee {
     allow("Apache-2.0")
@@ -55,7 +56,6 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-
 kotlin {
     explicitApi()
     jvm {
@@ -86,7 +86,7 @@ kotlin {
             executable()
         }
     }
-    linuxArm64{
+    linuxArm64 {
         binaries {
             executable()
         }
@@ -147,6 +147,7 @@ kotlin {
         }
     }
 }
+
 val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
 }
@@ -217,8 +218,12 @@ publishing {
     }
 }
 
-rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class) {
-    rootProject.the(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class).nodeVersion = "18.0.0"
+ksp {
+    arg("Ktorfit_QualifiedTypeName", "true")
+}
+
+rootProject.plugins.withType(NodeJsRootPlugin::class) {
+    rootProject.the(NodeJsRootExtension::class).version = "18.0.0"
 }
 
 dependencies {
@@ -226,7 +231,5 @@ dependencies {
         "kspCommonMainMetadata", projects.ktorfitKsp
     )
     add("kspJvm", projects.ktorfitKsp)
-     add("kspJvmTest", projects.ktorfitKsp)
-
-
+    add("kspJvmTest", projects.ktorfitKsp)
 }

@@ -6,8 +6,8 @@ import com.example.api.JsonPlaceHolderApi
 import com.example.model.ExampleApi
 import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverterFactory
-import de.jensklingenberg.ktorfit.converter.builtin.CallConverterFactory
-import de.jensklingenberg.ktorfit.converter.builtin.FlowConverterFactory
+import de.jensklingenberg.ktorfit.converter.CallConverterFactory
+import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -32,8 +32,6 @@ val jvmClient = HttpClient {
 
     this.developmentMode = true
     expectSuccess = false
-
-
 }
 
 

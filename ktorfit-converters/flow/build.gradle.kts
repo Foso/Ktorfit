@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("multiplatform")
     id("maven-publish")
@@ -30,7 +34,7 @@ mavenPublishing {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
@@ -44,13 +48,14 @@ kotlin {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
     }
+
+
     androidTarget {
         publishLibraryVariants("release", "debug")
     }
     iosArm64()
     iosX64()
     iosSimulatorArm64()
-
     watchosArm32()
     watchosArm64()
     watchosX64()
@@ -182,6 +187,6 @@ publishing {
     }
 }
 
-rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class) {
-    rootProject.the(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class).nodeVersion = "18.0.0"
+rootProject.plugins.withType(NodeJsRootPlugin::class) {
+    rootProject.the(NodeJsRootExtension::class).version = "18.0.0"
 }

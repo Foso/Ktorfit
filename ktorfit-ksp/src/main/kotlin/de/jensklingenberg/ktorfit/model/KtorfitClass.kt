@@ -6,7 +6,7 @@ data class KtorfitClass(val name: String, val packageName: String, val objectNam
 
 val ktorfitClass = KtorfitClass("Ktorfit", "de.jensklingenberg.ktorfit", "_ktorfit")
 val ktorfitInterface = KtorfitClass("KtorfitInterface", "de.jensklingenberg.ktorfit.internal", "EMPTY")
-val typeDataClass = KtorfitClass("TypeData", "de.jensklingenberg.ktorfit.internal", "_typeData")
+val typeDataClass = KtorfitClass("TypeData", "de.jensklingenberg.ktorfit.converter", "_typeData")
 val extDataClass = KtorfitClass("HttpRequestBuilder.() -> Unit", "", "_ext")
 val formParameters = KtorfitClass("", "", "__formParameters")
 val converterHelper = KtorfitClass("KtorfitConverterHelper","de.jensklingenberg.ktorfit.internal", "_converter")

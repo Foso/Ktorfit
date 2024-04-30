@@ -6,7 +6,7 @@ import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestType
-import de.jensklingenberg.ktorfit.typeData.addRequestConverterText
+import de.jensklingenberg.ktorfit.reqBuilderExtension.addRequestConverterText
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.kotlin.mock

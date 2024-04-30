@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
 plugins {
     kotlin("multiplatform")
     id("maven-publish")
@@ -50,7 +52,6 @@ kotlin {
     iosArm64()
     iosX64()
     iosSimulatorArm64()
-
     watchosArm32()
     watchosArm64()
     watchosX64()
@@ -60,6 +61,7 @@ kotlin {
     tvosSimulatorArm64()
     macosX64()
     macosArm64()
+
     linuxX64 {
         binaries {
             executable()
@@ -122,6 +124,8 @@ kotlin {
                 implementation(libs.ktor.client.cio.jvm)
             }
         }
+
+
 
         val iosX64Main by getting
         val iosArm64Main by getting

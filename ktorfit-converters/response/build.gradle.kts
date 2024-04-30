@@ -17,18 +17,30 @@ licensee {
     allow("MIT")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+
+val enableSigning = project.hasProperty("signingInMemoryKey")
+
+mavenPublishing {
+
+    coordinates(
+        "de.jensklingenberg.ktorfit",
+        "ktorfit-converters-response",
+        libs.versions.ktorfit.get()
+    )
+    publishToMavenCentral()
+    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
+    if (enableSigning) {
+        signAllPublications()
     }
 }
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
 
 kotlin {
-
+    explicitApi()
     jvm {
 
     }
@@ -76,19 +88,40 @@ kotlin {
             baseName = "library"
         }
     }
-
     mingwX64()
     applyDefaultHierarchyTemplate()
     sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(projects.ktorfitLibCore)
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+        }
+
+        val jvmMain by getting
+        val jvmTest by getting {
+            dependencies {
+                implementation(libs.ktor.client.mock)
+                implementation(libs.mockk)
+                implementation(libs.mockito.kotlin)
+            }
+        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
+        val jsMain by getting
         val iosMain by getting {
-            dependsOn(commonMain.get())
+            dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
-            dependencies {}
+            dependencies {
+
+            }
         }
     }
 }
@@ -103,33 +136,20 @@ android {
         minSdk = 21
         targetSdk = 34
     }
-    namespace = "de.jensklingenberg.ktorfit.annotations"
+    namespace = "de.jensklingenberg.ktorfit.converters.call"
 }
 
-val enableSigning = project.hasProperty("signingInMemoryKey")
 
-mavenPublishing {
-    coordinates(
-        "de.jensklingenberg.ktorfit",
-        "ktorfit-annotations",
-        libs.versions.ktorfit.get()
-    )
-    publishToMavenCentral()
-    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
-    if (enableSigning) {
-        signAllPublications()
-    }
-}
 
 publishing {
     publications {
         create<MavenPublication>("default") {
             artifact(tasks["sourcesJar"])
-            //  artifact(tasks["javadocJar"])
+            // artifact(tasks["javadocJar"])
 
             pom {
                 name.set(project.name)
-                description.set("Ktorfit Annotations")
+                description.set("Response Converter for Ktorfit")
                 url.set("https://github.com/Foso/Ktorfit")
 
                 licenses {
@@ -171,10 +191,10 @@ publishing {
                 }
             }
         }
+
     }
 }
 
 rootProject.plugins.withType(NodeJsRootPlugin::class) {
-    rootProject.the(NodeJsRootExtension::class).version =
-        "18.0.0"
+    rootProject.the(NodeJsRootExtension::class).version = "18.0.0"
 }
