@@ -74,15 +74,15 @@ class CreateFuncTransformer(
                     )
                 ) ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
 
-                val compo = implClassSymbol.owner.companionObject()!!.symbol
+                val companionSymbol = implClassSymbol.owner.companionObject()?.symbol ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
 
-                val newConstructor = compo!!.constructors.first()
+                val newConstructor = companionSymbol.constructors.first()
 
                 //Create the constructor call for _ExampleApiImpl()
                 val newCall = IrConstructorCallImpl(
                     0,
                     0,
-                    type = compo.defaultType,
+                    type = companionSymbol.defaultType,
                     symbol = newConstructor,
                     0,
                     0,
