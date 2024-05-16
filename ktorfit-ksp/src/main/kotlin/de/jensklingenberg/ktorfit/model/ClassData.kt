@@ -75,8 +75,9 @@ fun ClassData.getImplClassFileSource(resolver: Resolver, ktorfitOptions: Ktorfit
 
     val implClassName = "_${classData.name}Impl"
 
-    val converterProperty =
-        PropertySpec.builder(converterHelper.objectName, converterHelper.toClassName()).initializer("KtorfitConverterHelper(_ktorfit)")
+    val helperProperty =
+        PropertySpec.builder(converterHelper.objectName, converterHelper.toClassName())
+            .initializer("${converterHelper.name}(${ktorfitClass.objectName})")
             .addModifiers(KModifier.PRIVATE)
             .build()
 
@@ -85,7 +86,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver, ktorfitOptions: Ktorfit
         .addFunction(
             FunSpec.builder("create")
                 .returns(ClassName(classData.packageName, classData.name))
-                .addStatement("return _${classData.name}Impl(_ktorfit)")
+                .addStatement("return _${classData.name}Impl(${ktorfitClass.objectName})")
                 .addModifiers( KModifier.OVERRIDE)
                 .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
                 .build()
@@ -98,7 +99,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver, ktorfitOptions: Ktorfit
                 .build()
         )
         .addProperty(
-            PropertySpec.builder("_ktorfit", ktorfitClass.toClassName())
+            PropertySpec.builder(ktorfitClass.objectName, ktorfitClass.toClassName())
                 .initializer(ktorfitClass.objectName)
                 .addModifiers(KModifier.PRIVATE)
                 .build()
@@ -109,9 +110,8 @@ fun ClassData.getImplClassFileSource(resolver: Resolver, ktorfitOptions: Ktorfit
         .addType(companion)
         .addModifiers(classData.modifiers)
         .addSuperinterface(ClassName(classData.packageName, classData.name))
-        //.addSuperinterface(ktorfitInterface.toClassName())
         .addKtorfitSuperInterface(classData.superClasses)
-        .addProperties(listOf(converterProperty) + properties)
+        .addProperties(listOf(helperProperty) + properties)
         .addFunctions(classData.functions.map { it.toFunSpec(resolver, ktorfitOptions.setQualifiedType) })
         .build()
 
@@ -249,7 +249,7 @@ private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeR
         this.addSuperinterface(
             ClassName(superTypePackage, superTypeClassName),
             CodeBlock.of(
-                "%L._%LImpl(_ktorfit)",
+                "%L._%LImpl(${ktorfitClass.objectName})",
                 superTypePackage,
                 superTypeClassName
             )
