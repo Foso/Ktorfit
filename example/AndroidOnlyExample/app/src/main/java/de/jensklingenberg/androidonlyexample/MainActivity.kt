@@ -17,6 +17,8 @@ import de.jensklingenberg.ktorfit.converter.ResponseConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.prepareRequest
+import io.ktor.client.request.takeFrom
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
@@ -58,7 +60,12 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+
+
         lifecycleScope.launch {
+            ktorfit.httpClient.prepareRequest {
+                this.method = io.ktor.http.HttpMethod.Post
+            }
             peopleState.value = api.getPerson(1)
         }
     }

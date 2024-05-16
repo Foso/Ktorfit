@@ -21,7 +21,6 @@ import kotlin.reflect.cast
 public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
 
     private val httpClient: HttpClient = ktorfit.httpClient
-    public val baseUrl: String = ktorfit.baseUrl
 
     /**
      * This will handle all requests for functions without suspend modifier
@@ -47,7 +46,7 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
         return if (typeIsNullable) {
             null
         } else {
-            throw IllegalStateException("Add a ResponseConverter for " + returnTypeData.qualifiedName + " or make function suspend")
+            throw IllegalStateException("Add a ResponseConverter for " + returnTypeData.typeInfo + " or make function suspend")
         }
 
     }
@@ -79,7 +78,7 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
                 return it.convert(result) as ReturnType?
             }
 
-            throw IllegalStateException("No SuspendResponseConverter found to convert ${typeData.qualifiedName}")
+            throw IllegalStateException("No SuspendResponseConverter found to convert ${typeData.typeInfo}")
 
         } catch (exception: Exception) {
             val typeIsNullable = typeData.typeInfo.kotlinType?.isMarkedNullable ?: false
