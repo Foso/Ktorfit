@@ -4,6 +4,7 @@ import com.example.model.github.GithubFollowerResponseItem
 import com.example.model.github.Issuedata
 import com.example.model.github.TestReeeItem
 import de.jensklingenberg.ktorfit.Call
+import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.http.*
 import kotlinx.coroutines.flow.Flow
 
@@ -24,7 +25,6 @@ interface GithubService {
     @POST("repos/foso/experimental/issues")
     suspend fun createIssue2(@Body body: Issuedata, @Header("Acci") headi: String?): Call<Map<String?, Int>>
 
-
     @Headers(
         "Accept: application/vnd.github.v3+json",
         "Authorization: token ghp_abcdefgh",
@@ -41,4 +41,26 @@ interface GithubService {
     @GET("repos/{owner}/{repo}/commits")
     fun listCommits(@Path owner: String, @Path repo: String): Flow<List<TestReeeItem>>
 
+
+   // fun myTest() = "Hallo Welt!"
 }
+
+class MyTest : GithubService{
+    override suspend fun createIssue(body: Map<*, String>, headi: String?): String {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun createIssue2(body: Issuedata, headi: String?): Call<Map<String?, Int>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getFollowers(): Flow<List<GithubFollowerResponseItem>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun listCommits(owner: String, repo: String): Flow<List<TestReeeItem>> {
+        TODO("Not yet implemented")
+    }
+
+}
+

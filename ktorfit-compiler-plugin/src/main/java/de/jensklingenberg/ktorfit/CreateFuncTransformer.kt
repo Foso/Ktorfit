@@ -8,6 +8,7 @@ import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
 import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.types.defaultType
 import org.jetbrains.kotlin.ir.types.impl.originalKotlinType
+import org.jetbrains.kotlin.ir.util.companionObject
 import org.jetbrains.kotlin.ir.util.constructors
 import org.jetbrains.kotlin.ir.util.isInterface
 import org.jetbrains.kotlin.name.ClassId
@@ -73,13 +74,15 @@ class CreateFuncTransformer(
                     )
                 ) ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
 
-                val newConstructor = implClassSymbol.constructors.first()
+                val compo = implClassSymbol.owner.companionObject()!!.symbol
+
+                val newConstructor = compo!!.constructors.first()
 
                 //Create the constructor call for _ExampleApiImpl()
                 val newCall = IrConstructorCallImpl(
                     0,
                     0,
-                    type = implClassSymbol.defaultType,
+                    type = compo.defaultType,
                     symbol = newConstructor,
                     0,
                     0,

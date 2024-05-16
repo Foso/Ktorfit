@@ -4,9 +4,7 @@ import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.IrStatement
 import org.jetbrains.kotlin.ir.declarations.*
-import org.jetbrains.kotlin.ir.expressions.IrCall
-import org.jetbrains.kotlin.ir.expressions.IrExpression
-import org.jetbrains.kotlin.ir.expressions.IrFunctionExpression
+import org.jetbrains.kotlin.ir.expressions.*
 
 class ElementTransformer(
     private val pluginContext: IrPluginContext,
@@ -33,6 +31,33 @@ class ElementTransformer(
         return super.visitVariable(declaration)
     }
 
+    override fun visitBlock(expression: IrBlock): IrExpression {
+        expression.transform(CreateFuncTransformer(pluginContext, debugLogger), null)
+        return super.visitBlock(expression)
+    }
+
+    override fun visitFunctionNew(declaration: IrFunction): IrStatement {
+        declaration.transform(CreateFuncTransformer(pluginContext, debugLogger), null)
+
+        return super.visitFunctionNew(declaration)
+    }
+
+    override fun visitExpression(expression: IrExpression): IrExpression {
+        expression.transform(CreateFuncTransformer(pluginContext, debugLogger), null)
+
+        return super.visitExpression(expression)
+    }
+
+    override fun visitFunctionReference(expression: IrFunctionReference): IrExpression {
+        expression.transform(CreateFuncTransformer(pluginContext, debugLogger), null)
+
+        return super.visitFunctionReference(expression)
+    }
+
+    override fun visitBlockBody(body: IrBlockBody): IrBody {
+        body.transform(CreateFuncTransformer(pluginContext, debugLogger), null)
+        return super.visitBlockBody(body)
+    }
 
     override fun visitFunctionExpression(expression: IrFunctionExpression): IrExpression {
         expression.transform(CreateFuncTransformer(pluginContext, debugLogger), null)

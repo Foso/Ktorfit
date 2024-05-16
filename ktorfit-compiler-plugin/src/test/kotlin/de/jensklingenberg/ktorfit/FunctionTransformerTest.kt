@@ -25,14 +25,12 @@ class FunctionTransformerTest {
 package de.jensklingenberg.ktorfit
 
 class Ktorfit(){
-    fun <T> create(ktorfitService: KtorfitService? = null): T {
+    fun <T> create(ktorfitService: ClassProvider<T>? = null): T {
         return ktorfitService as T
     }
 }
 
-interface KtorfitService
-
-class Default : KtorfitService
+interface ClassProvider<T>
 
      """
         )
@@ -41,10 +39,12 @@ class Default : KtorfitService
                 package com.example.api
                 import de.jensklingenberg.ktorfit.Ktorfit
                 
-                import de.jensklingenberg.ktorfit.KtorfitService
+                import de.jensklingenberg.ktorfit.ClassProvider
                 
                 interface TestService
-                class _TestServiceImpl : TestService, KtorfitService
+                class _TestServiceImpl : TestService{
+                companion object : ClassProvider<TestService>
+                }
 
                 class TestClass{
                 val api = Ktorfit().create<TestService>()
@@ -69,11 +69,9 @@ package de.jensklingenberg.ktorfit
 
 class Ktorfit()
 
-interface KtorfitService
+interface ClassProvider
 
-class Default : KtorfitService
-
-fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
+fun <T> Ktorfit.create(ktorfitService: ClassProvider? = null): T {
     return this.create(ktorfitService)
 }
 
@@ -84,10 +82,12 @@ fun <T> Ktorfit.create(ktorfitService: KtorfitService = Default()): T {
                 package com.example.api
                 import de.jensklingenberg.ktorfit.Ktorfit
                 import de.jensklingenberg.ktorfit.create
-                import de.jensklingenberg.ktorfit.KtorfitService
+                import de.jensklingenberg.ktorfit.ClassProvider
                 
                 interface TestService
-                class _TestServiceImpl : TestService, KtorfitService
+                class _TestServiceImpl : TestService{
+                companion object : ClassProvider
+                }
 
                 class TestClass{
 

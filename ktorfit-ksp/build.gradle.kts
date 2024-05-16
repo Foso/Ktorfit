@@ -27,7 +27,11 @@ tasks.withType<KotlinCompile> {
 }
 
 mavenPublishing {
-    coordinates("de.jensklingenberg.ktorfit", "ktorfit-ksp", libs.versions.ktorfit.get())
+    coordinates(
+        "de.jensklingenberg.ktorfit",
+        "ktorfit-ksp",
+        (libs.versions.ktorfitKsp.get())
+    )
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {
