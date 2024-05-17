@@ -24,7 +24,7 @@ mavenPublishing {
     coordinates(
         "de.jensklingenberg.ktorfit",
         "ktorfit-converters-call",
-        libs.versions.ktorfit.get()
+        libs.versions.ktorfitCallConverter.get()
     )
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
