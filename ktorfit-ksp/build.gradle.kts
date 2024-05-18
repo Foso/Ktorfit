@@ -31,7 +31,6 @@ mavenPublishing {
         "de.jensklingenberg.ktorfit",
         "ktorfit-ksp",
         libs.versions.ktorfitKsp.get()
-
     )
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
