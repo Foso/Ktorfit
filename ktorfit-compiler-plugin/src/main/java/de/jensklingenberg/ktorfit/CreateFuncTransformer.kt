@@ -69,7 +69,7 @@ class CreateFuncTransformer(
                 val implClassSymbol = pluginContext.referenceClass(
                     ClassId(
                         FqName(packageName),
-                        Name.identifier("_$className" + "ImplProvider")
+                        Name.identifier("_$className" + "Provider")
                     )
                 ) ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
 

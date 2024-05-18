@@ -43,9 +43,9 @@ interface ClassProvider<T>
                 
                 interface TestService
                 class _TestServiceImpl : TestService{
-                companion object : ClassProvider<TestService>
+                
                 }
-
+                class _TestServiceProvider : ClassProvider<TestService>
                 class TestClass{
                 val api = Ktorfit().create<TestService>()
                 }

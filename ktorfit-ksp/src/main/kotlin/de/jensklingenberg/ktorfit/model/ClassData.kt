@@ -81,7 +81,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver, ktorfitOptions: Ktorfit
             .addModifiers(KModifier.PRIVATE)
             .build()
 
-    val companion = TypeSpec.classBuilder(implClassName + "Provider")
+    val companion = TypeSpec.classBuilder("_${classData.name}Provider")
         .addModifiers(classData.modifiers)
         .addSuperinterface(
             exampleInterface.toClassName().parameterizedBy(ClassName(classData.packageName, classData.name))
@@ -95,6 +95,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver, ktorfitOptions: Ktorfit
                 .build()
         )
         .build()
+
     val implClassSpec = TypeSpec.classBuilder(implClassName)
         .primaryConstructor(
             FunSpec.constructorBuilder()
