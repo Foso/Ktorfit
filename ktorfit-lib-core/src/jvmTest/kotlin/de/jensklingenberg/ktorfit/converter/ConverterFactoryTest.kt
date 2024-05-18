@@ -68,7 +68,7 @@ class ConverterFactoryTest {
                 .build()
 
             runBlocking {
-                ktorfit.create<ConverterFactoryTestApi>(_ConverterFactoryTestApiImpl.Companion).suspendClientException()
+                ktorfit.create<ConverterFactoryTestApi>(_ConverterFactoryTestApiProvider()).suspendClientException()
             }
 
 
@@ -113,7 +113,7 @@ class ConverterFactoryTest {
             .build()
 
         runBlocking {
-            ktorfit.create<ConverterFactoryTestApi>(_ConverterFactoryTestApiImpl.Companion).clientException().collect()
+            ktorfit.create<ConverterFactoryTestApi>(_ConverterFactoryTestApiProvider()).clientException().collect()
         }
 
 

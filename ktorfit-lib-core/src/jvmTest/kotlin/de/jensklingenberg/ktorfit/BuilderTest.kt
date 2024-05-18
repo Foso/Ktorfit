@@ -6,7 +6,6 @@ import de.jensklingenberg.ktorfit.http.GET
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -71,7 +70,7 @@ class BuilderTest {
 
         val ktorfit = Ktorfit.Builder().baseUrl(testBaseUrl, false).httpClient(HttpClient(engine)).build()
         runBlocking {
-            ktorfit.create<BuilderTestApi>(_BuilderTestApiImpl.Companion).checkIfBaseUrlIsSetWhenUrlCheckIsDisabled()
+            ktorfit.create<BuilderTestApi>(_BuilderTestApiProvider()).checkIfBaseUrlIsSetWhenUrlCheckIsDisabled()
         }
     }
 }
