@@ -57,11 +57,13 @@ val userKtorfit = ktorfit {
     )
 }
 
+val api : ExampleApi = userKtorfit.create()
+
 fun main() {
 
     runBlocking {
 
-        val user = userKtorfit.create<ExampleApi>().getUserResponse()
+        val user = api.getUserResponse()
 
         when (user) {
             is MyOwnResponse.Success -> {

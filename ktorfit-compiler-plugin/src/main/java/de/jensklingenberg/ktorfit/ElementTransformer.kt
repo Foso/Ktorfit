@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.IrStatement
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.expressions.IrCall
+import org.jetbrains.kotlin.ir.expressions.IrConstructorCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.IrFunctionExpression
 
@@ -31,6 +32,11 @@ class ElementTransformer(
     override fun visitVariable(declaration: IrVariable): IrStatement {
         declaration.transform(CreateFuncTransformer(pluginContext, debugLogger), null)
         return super.visitVariable(declaration)
+    }
+
+    override fun visitConstructorCall(expression: IrConstructorCall): IrExpression {
+        expression.transform(CreateFuncTransformer(pluginContext, debugLogger), null)
+        return super.visitConstructorCall(expression)
     }
 
 
