@@ -8,7 +8,6 @@ import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
 import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.types.defaultType
 import org.jetbrains.kotlin.ir.types.impl.originalKotlinType
-import org.jetbrains.kotlin.ir.util.companionObject
 import org.jetbrains.kotlin.ir.util.constructors
 import org.jetbrains.kotlin.ir.util.isInterface
 import org.jetbrains.kotlin.name.ClassId
@@ -70,19 +69,17 @@ class CreateFuncTransformer(
                 val implClassSymbol = pluginContext.referenceClass(
                     ClassId(
                         FqName(packageName),
-                        Name.identifier("_$className" + "Impl")
+                        Name.identifier("_$className" + "ImplProvider")
                     )
                 ) ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
 
-                val companionSymbol = implClassSymbol.owner.companionObject()?.symbol ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
-
-                val newConstructor = companionSymbol.constructors.first()
+                val newConstructor = implClassSymbol.constructors.first()
 
                 //Create the constructor call for _ExampleApiImpl()
                 val newCall = IrConstructorCallImpl(
                     0,
                     0,
-                    type = companionSymbol.defaultType,
+                    type = implClassSymbol.defaultType,
                     symbol = newConstructor,
                     0,
                     0,
