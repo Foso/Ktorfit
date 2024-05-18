@@ -24,7 +24,6 @@ interface GithubService {
     @POST("repos/foso/experimental/issues")
     suspend fun createIssue2(@Body body: Issuedata, @Header("Acci") headi: String?): Call<Map<String?, Int>>
 
-
     @Headers(
         "Accept: application/vnd.github.v3+json",
         "Authorization: token ghp_abcdefgh",

@@ -20,8 +20,8 @@ fun getUrlCode(params: List<ParameterData>, methodAnnotation: HttpMethodAnnotati
         ""
     } else {
         params.firstOrNull { it.hasAnnotation<Url>() }?.let { parameterData ->
-            "(${converterHelper.objectName}.baseUrl.takeIf{ !${parameterData.name}.startsWith(\"http\")} ?: \"\") + "
-        } ?: "${converterHelper.objectName}.baseUrl + "
+            "(${ktorfitClass.objectName}.baseUrl.takeIf{ !${parameterData.name}.startsWith(\"http\")} ?: \"\") + "
+        } ?: "${ktorfitClass.objectName}.baseUrl + "
     }
 
     params.filter { it.hasAnnotation<Path>() }.forEach { parameterData ->

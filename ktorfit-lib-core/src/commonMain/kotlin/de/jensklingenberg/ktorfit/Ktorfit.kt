@@ -75,15 +75,15 @@ public class Ktorfit private constructor(
     /**
      * This will return an implementation of [T] if [T] is an interface
      * with Ktorfit annotations.
-     * @param data Please keep the default parameter, it will be replaced
+     * @param classProvider Please keep the default parameter, it will be replaced
      * by the compiler plugin
      */
-    public fun <T> create(data: KtorfitInterface? = null): T {
-        if (data == null) {
+    public fun <T> create(classProvider: ClassProvider<T>? = null): T {
+
+        if (classProvider == null) {
             throw IllegalArgumentException(ENABLE_GRADLE_PLUGIN)
         }
-        data._converter = KtorfitConverterHelper(this)
-        return data as T
+        return classProvider.create(this)
     }
 
 

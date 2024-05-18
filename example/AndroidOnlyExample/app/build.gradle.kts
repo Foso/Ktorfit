@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp") version "1.9.23-1.0.20"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
-    id("de.jensklingenberg.ktorfit") version "2.0.0-beta1"
+    id("de.jensklingenberg.ktorfit") version "2.0.0-beta2-SNAPSHOT"
 }
 
 
@@ -51,7 +51,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     }
 }
 
-val ktorfit = "2.0.0-beta1"
+val ktorfit = "2.0.0-beta2-SNAPSHOT"
 val ktor = "2.3.10"
 val compose_ui_version = "1.5.1"
 dependencies {
@@ -65,8 +65,8 @@ dependencies {
     implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
 
 
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.activity:activity-compose:1.8.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
+    implementation("androidx.activity:activity-compose:1.9.0")
     implementation("androidx.compose.ui:ui:$compose_ui_version")
     implementation("androidx.compose.ui:ui-tooling-preview:$compose_ui_version")
     implementation("androidx.compose.material:material:1.5.2")
