@@ -107,10 +107,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver, ktorfitOptions: Ktorfit
                 .addModifiers(KModifier.PRIVATE)
                 .build()
         )
-        .addAnnotation(
-            optinAnnotation
-        )
-        .addType(companion)
+        .addAnnotation(optinAnnotation)
         .addModifiers(classData.modifiers)
         .addSuperinterface(ClassName(classData.packageName, classData.name))
         .addKtorfitSuperInterface(classData.superClasses)
