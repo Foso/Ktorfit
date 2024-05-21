@@ -12,19 +12,19 @@ They are added inside of a Converter.Factory which will then be added to the Kto
   
 Add this dependency:
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfit")
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$CONVERTER_VERSION")
 ```
 
 * FlowConverterFactory
 
 Add this dependency:
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$CONVERTER_VERSION")
 ```
 
 * ResponseConverterFactory
 
 Add this dependency:
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfit")
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$CONVERTER_VERSION")
 ```

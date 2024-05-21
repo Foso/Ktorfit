@@ -7,6 +7,63 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+2.0.0 - 2024-05-XX
+========================================
+
+### Breaking Changes
+
+The deprecated code got removed.
+This will simplify the codebase and make it easier to maintain.
+When you haven't used the deprecated converters, there is not much you need to change.
+Some converters that were previously auto applied now need to be added manually.
+See the migration guide for more information: https://foso.github.io/Ktorfit/migration/#from-2-to-200
+
+- Versioning
+
+Starting with 2.0.0 the Ktorfit dependencies will not have exactly the same version numbers.
+
+The Ktorfit library (de.jensklingenberg.ktorfit:ktorfit-lib/de.jensklingenberg.ktorfit:ktorfit-lib-light) will have the version number of the Ktorfit version e.g. 2.0.0.
+
+The KSP plugin (de.jensklingenberg.ktorfit:ktorfit-ksp) will have KTORFIT_VERSION-KSP_VERSION as version number, e.g. 2.0.0-1.0.20
+
+The Gradle plugin (de.jensklingenberg.ktorfit) will have KTORFIT_VERSION-KOTLIN_VERSION as version number, e.g. 2.0.0-2.0.0
+
+* QualifiedTypeName in Ktorfit
+
+In the previous versions of Ktorfit, the `qualifiedTypename` was always generated in the code. This was used in the `TypeData.createTypeData()` function to provide a fully qualified type name for the data type being used.
+
+```kotlin
+val _typeData = TypeData.createTypeData(
+    typeInfo = typeInfo<Call<People>>(),
+    qualifiedTypename = "de.jensklingenberg.ktorfit.Call<com.example.model.People>"
+)
+```
+
+In the new version of Ktorfit, this behavior has been changed. Now, by default, Ktorfit will keep `qualifiedTypename` for `TypeData` in the generated code empty. This means that the `qualifiedTypename` will not be automatically generated.
+
+```kotlin
+val _typeData = TypeData.createTypeData(
+    typeInfo = typeInfo<Call<People>>(),
+)
+```
+
+However, if you want to keep the old behavior and generate `qualifiedTypename`, you can set a KSP argument `Ktorfit_QualifiedTypeName` to `true` in your `build.gradle.kts` file.
+
+```kotlin
+ksp {
+    arg("Ktorfit_QualifiedTypeName", "true")
+}
+```
+
+This change was made to provide more flexibility and control to the developers over the generated code. Please update your code accordingly if you were relying on the automatic generation of `qualifiedTypename`.
+
+### Fixed
+- Fixes https://github.com/Foso/Ktorfit/issues/548
+
+### Changed
+- Build with KSP 1.0.20, Kotlin 2.0.0, Ktor 2.3.11
+- Optimize code generation
+
 2.0.0-rc01 - 2024-05-19
 ========================================
 - Build with KSP 1.0.20, Kotlin 2.0.0-RC3, Ktor 2.3.11

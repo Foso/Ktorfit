@@ -2,12 +2,25 @@
 Here is how to migrate from deprecated code:
 
 ## From <2 to 2.0.0
+
+* Versioning
+
+Starting with 2.0.0 the Ktorfit dependencies will not have exactly the same version numbers.
+
+The Ktorfit library (de.jensklingenberg.ktorfit:ktorfit-lib/de.jensklingenberg.ktorfit:ktorfit-lib-light) will have the version number of the Ktorfit version e.g. 2.0.0.
+
+The KSP plugin (de.jensklingenberg.ktorfit:ktorfit-ksp) will have KTORFIT_VERSION-KSP_VERSION as version number, e.g. 2.0.0-1.0.20
+
+The Gradle plugin (de.jensklingenberg.ktorfit) will have KTORFIT_VERSION-KOTLIN_VERSION as version number, e.g. 2.0.0-2.0.0
+
 * You used Response?
 
 Add this dependency:
-https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-converters-response/
+
+You can find all available versions [here](https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-converters-response/)
+
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfit")
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$CONVERTER_VERSION")
 ```
 
 and add this converter to your Ktorfit instance:
@@ -18,8 +31,11 @@ and add this converter to your Ktorfit instance:
 * You used Call?
 
 Add this dependency:
+
+You can find all available versions [here](https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-converters-call/)
+
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfit")
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$CONVERTER_VERSION")
 ```
 
 and add this converter to your Ktorfit instance:
@@ -30,8 +46,11 @@ and add this converter to your Ktorfit instance:
 * You used Flow?
 
 Add this dependency:
+
+You can find all available versions [here](https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-converters-flow/)
+
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$CONVERTER_VERSION")
 ```
 
 and add this converter to your Ktorfit instance:

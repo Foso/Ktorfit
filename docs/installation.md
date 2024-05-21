@@ -11,7 +11,9 @@ plugins {
   id("de.jensklingenberg.ktorfit") version "KTORFIT_VERSION-KOTLIN-VERSION"
 }
 ```
-https://plugins.gradle.org/plugin/de.jensklingenberg.ktorfit
+
+The Gradle plugin will have **KTORFIT_VERSION-KOTLIN_VERSION** as version number, e.g. {{ktorfit.gradle}}
+You can find all available versions [here](https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-gradle-plugin/)
 
 Next you have to add the Ktorfit KSP Plugin to the common target and every compilation target, where you want to use Ktorfit.
 
@@ -25,15 +27,14 @@ dependencies {
         ...
 }
 ```
-https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-ksp/
+The KSP plugin will have the **KTORFIT_VERSION-KSP_VERSION** as version number, e.g. {{ktorfit.ksp}}. You can find all available versions [here](https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-ksp/)
 
 [NAMEOFPLATFORM] is the name of the compilation target. When you want to use it for the Android module it's **kspAndroid**, for Js it's **kspJs**, etc.
 Look here for more information https://kotlinlang.org/docs/ksp-multiplatform.html
 
 
 #### Ktorfit-lib
-https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-lib/
-Add the Ktorfit-lib to your common module.
+Add the Ktorfit-lib to your common module. You can find all available versions [here](https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-lib/)
 ```kotlin
 val ktorfitVersion = "{{ktorfit.release}}"
 
