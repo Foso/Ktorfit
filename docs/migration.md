@@ -5,7 +5,7 @@ Here is how to migrate from deprecated code:
 * You used Response?
 
 Add this dependency:
-
+https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-converters-response/
 ```kotlin
 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfit")
 ```

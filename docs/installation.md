@@ -8,15 +8,16 @@ You need to add KSP and the [Ktorfit Gradle plugin](https://plugins.gradle.org/p
 ```kotlin
 plugins {
   id("com.google.devtools.ksp") version "CURRENT_KSP_VERSION"
-  id("de.jensklingenberg.ktorfit") version "{{ktorfit.release}}"
+  id("de.jensklingenberg.ktorfit") version "KTORFIT_VERSION-KOTLIN-VERSION"
 }
 ```
+https://plugins.gradle.org/plugin/de.jensklingenberg.ktorfit
 
 Next you have to add the Ktorfit KSP Plugin to the common target and every compilation target, where you want to use Ktorfit.
 
 
 ```kotlin
-val ktorfitVersion = "{{ktorfit.release}}"
+val ktorfitVersion = "KTORFIT_VERSION-KSP-VERSION"
 
 dependencies {
     add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
@@ -24,13 +25,14 @@ dependencies {
         ...
 }
 ```
+https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-ksp/
 
 [NAMEOFPLATFORM] is the name of the compilation target. When you want to use it for the Android module it's **kspAndroid**, for Js it's **kspJs**, etc.
 Look here for more information https://kotlinlang.org/docs/ksp-multiplatform.html
 
 
 #### Ktorfit-lib
-
+https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-lib/
 Add the Ktorfit-lib to your common module.
 ```kotlin
 val ktorfitVersion = "{{ktorfit.release}}"

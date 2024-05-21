@@ -47,7 +47,7 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
         return SubpluginArtifact(
             groupId = SERIALIZATION_GROUP_NAME,
             artifactId = ARTIFACT_NAME,
-            version = "2.0.0-rc01" // remember to bump this version before any release!
+            version = "2.0.0-2.0.0-SNAPSHOT" // remember to bump this version before any release!
         )
     }
 }
