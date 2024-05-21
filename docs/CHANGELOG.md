@@ -61,7 +61,7 @@ This change was made to provide more flexibility and control to the developers o
 - Fixes https://github.com/Foso/Ktorfit/issues/548
 
 ### Changed
-- Build with KSP 1.0.20, Kotlin 2.0.0, Ktor 2.3.11
+- Build with KSP 1.0.21, Kotlin 2.0.0, Ktor 2.3.11
 - Optimize code generation
 
 2.0.0-rc01 - 2024-05-19
