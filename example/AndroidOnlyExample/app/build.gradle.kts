@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp") version "1.9.23-1.0.20"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
-    id("de.jensklingenberg.ktorfit") version "2.0.0-beta2-SNAPSHOT"
+    id("de.jensklingenberg.ktorfit") version "2.0.0-2.0.0-SNAPSHOT"
 }
 
 
@@ -51,18 +51,19 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     }
 }
 
-val ktorfit = "2.0.0-beta2-SNAPSHOT"
+val ktorfit = "2.0.0-SNAPSHOT"
+val ktorfitKsp = "2.0.0-1.0.20-SNAPSHOT"
 val ktor = "2.3.10"
 val compose_ui_version = "1.5.1"
 dependencies {
-    ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfit")
+    ksp("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitKsp")
     implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfit")
     implementation("io.ktor:ktor-client-serialization:$ktor")
     implementation("io.ktor:ktor-client-content-negotiation:$ktor")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
-    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfit")
-    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfit")
-    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:2.0.0-SNAPSHOT")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:2.0.0-SNAPSHOT")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:2.0.0-SNAPSHOT")
 
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")

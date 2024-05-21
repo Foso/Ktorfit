@@ -13,7 +13,7 @@ extra:
   site:
     images: '../../images'
   ktorfit:
-    release: "2.0.0-rc01"
+    release: "2.0.0"
     ksp: "2.0.0-1.0.20"
     gradle: "2.0.0-2.0.0"
   ktor:

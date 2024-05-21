@@ -4,12 +4,13 @@ plugins {
     id("com.android.library")
     id("com.google.devtools.ksp") version "2.0.0-RC3-1.0.20"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "2.0.0-beta2-SNAPSHOT"
+    id("de.jensklingenberg.ktorfit") version "2.0.0-2.0.0-SNAPSHOT"
 }
 
 version = "1.0"
 val ktorVersion = "2.3.10"
-val ktorfitVersion = "2.0.0-beta2-SNAPSHOT"
+val ktorfitVersion = "2.0.0-SNAPSHOT"
+val ktorfitKsp = "2.0.0-1.0.20-SNAPSHOT"
 
 kotlin {
     jvmToolchain(8)
@@ -41,9 +42,9 @@ kotlin {
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
                 //implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:$ktorfitVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfitVersion")
-                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfitVersion")
-                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfitVersion")
+                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:2.0.0-SNAPSHOT")
+                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:2.0.0-SNAPSHOT")
+                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:2.0.0-SNAPSHOT")
 
                 //Only needed when you want to use Kotlin Serialization
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
@@ -74,7 +75,7 @@ android {
 }
 
 dependencies {
-    with("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion") {
+    with("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitKsp") {
         add("kspCommonMainMetadata", this)
         add("kspJvm", this)
         add("kspJvmTest", this)
