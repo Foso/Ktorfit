@@ -8,6 +8,7 @@ import com.example.api._APIImpl
 import com.example.model.ExampleApi
 import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverterFactory
+import com.example.model.createExampleApi
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.CallConverterFactory
 import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
@@ -57,7 +58,7 @@ val userKtorfit = ktorfit {
     )
 }
 
-val api : ExampleApi = userKtorfit.create()
+val api : ExampleApi = userKtorfit.createExampleApi()
 
 fun main() {
 

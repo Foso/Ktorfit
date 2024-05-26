@@ -59,7 +59,7 @@ mavenPublishing {
     coordinates(
         "de.jensklingenberg.ktorfit",
         "ktorfit-gradle-plugin",
-        libs.versions.ktorfitCompiler.get()
+        libs.versions.ktorfitGradle.get()
     )
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
