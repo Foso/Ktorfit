@@ -14,7 +14,7 @@ plugins {
 
 #### Ktorfit-lib
 
-Add the Ktorfit-lib to your common module.
+Add the Ktorfit-lib to your common module. You can find all available versions [here](https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-lib/)
 ```kotlin
 val ktorfitVersion = "{{ktorfit.release}}"
 

@@ -6,8 +6,10 @@ Here is how to migrate from deprecated code:
 
 Add this dependency:
 
+You can find all available versions [here](https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-converters-response/)
+
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfit")
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$CONVERTER_VERSION")
 ```
 
 and add this converter to your Ktorfit instance:
@@ -18,8 +20,11 @@ and add this converter to your Ktorfit instance:
 * You used Call?
 
 Add this dependency:
+
+You can find all available versions [here](https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-converters-call/)
+
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfit")
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$CONVERTER_VERSION")
 ```
 
 and add this converter to your Ktorfit instance:
@@ -30,8 +35,11 @@ and add this converter to your Ktorfit instance:
 * You used Flow?
 
 Add this dependency:
+
+You can find all available versions [here](https://repo.maven.apache.org/maven2/de/jensklingenberg/ktorfit/ktorfit-converters-flow/)
+
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$CONVERTER_VERSION")
 ```
 
 and add this converter to your Ktorfit instance:
