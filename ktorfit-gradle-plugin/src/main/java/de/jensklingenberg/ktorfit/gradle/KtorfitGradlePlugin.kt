@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.gradle
 
 import de.jensklingenberg.ktorfit.gradle.KtorfitCompilerSubPlugin.Companion.GROUP_NAME
+import de.jensklingenberg.ktorfit.gradle.KtorfitCompilerSubPlugin.Companion.KTORFIT_VERSION
 import de.jensklingenberg.ktorfit.gradle.KtorfitCompilerSubPlugin.Companion.SNAPSHOT
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -33,7 +34,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
             val kspPlugin =
                 project.plugins.findPlugin("com.google.devtools.ksp") ?: error("KSP plugin not found")
 
-            val kspVersion = "2.0.0-" + kspPlugin.javaClass.protectionDomain.codeSource.location.toURI().toString()
+            val kspVersion = "$KTORFIT_VERSION-" + kspPlugin.javaClass.protectionDomain.codeSource.location.toURI().toString()
                 .substringAfterLast("-").substringBefore(".jar") + "-SNAPSHOT"
 
             val dependency = "$ktorfitKsp:$kspVersion$SNAPSHOT"
