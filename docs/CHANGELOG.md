@@ -7,6 +7,12 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+2.0.0 - 2024-XX-XX
+========================================
+### Changed
+The needed dependencies for Ktorfit Ksp are now included in the Ktorfit Gradle plugin. You can remove the ksp() block from your build.gradle.kts file. 
+
+
 2.0.0-rc01 - 2024-05-19
 ========================================
 - Build with KSP 1.0.20, Kotlin 2.0.0-RC3, Ktor 2.3.11
