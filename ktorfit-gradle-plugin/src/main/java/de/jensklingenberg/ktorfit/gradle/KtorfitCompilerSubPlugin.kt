@@ -2,6 +2,8 @@ package de.jensklingenberg.ktorfit.gradle
 
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilerPluginSupportPlugin
 import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
@@ -10,9 +12,11 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
 
     companion object {
-        const val SERIALIZATION_GROUP_NAME = "de.jensklingenberg.ktorfit"
+        const val GROUP_NAME = "de.jensklingenberg.ktorfit"
         const val ARTIFACT_NAME = "compiler-plugin"
         const val COMPILER_PLUGIN_ID = "ktorfitPlugin"
+        const val KTORFIT_VERSION = "2.0.0"
+        const val SNAPSHOT = ""
     }
 
     private lateinit var myproject: Project
@@ -23,14 +27,11 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
 
         return kotlinCompilation.target.project.provider {
             listOf(
-                SubpluginOption("enabled", gradleExtension.enabled.toString()),
+                SubpluginOption("enabled", "true"),
                 SubpluginOption("logging", gradleExtension.logging.toString())
             )
         }
     }
-
-    private fun Project.getKtorfitConfig() =
-        this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
 
     override fun apply(target: Project) {
         myproject = target
@@ -42,12 +43,12 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
         return true
     }
 
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
     override fun getPluginArtifact(): SubpluginArtifact {
-        myproject.getKtorfitConfig()
         return SubpluginArtifact(
-            groupId = SERIALIZATION_GROUP_NAME,
+            groupId = GROUP_NAME,
             artifactId = ARTIFACT_NAME,
-            version = "2.0.0-rc01" // remember to bump this version before any release!
+            version = "${KTORFIT_VERSION}-${myproject.kotlinExtension.compilerVersion.get()}+${SNAPSHOT}" // remember to bump this version before any release!
         )
     }
 }
