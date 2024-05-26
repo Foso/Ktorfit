@@ -83,6 +83,11 @@ Ktorfit.Builder().converterFactories(FlowConverterFactory()).baseUrl("foo").buil
 
 ### Flow
 
+Add this dependency:
+```kotlin
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$CONVERTER_VERSION")
+```
+
 Ktorfit has support for Kotlin Flow. You need add the FlowConverterFactory() to your Ktorfit instance.
 
 ```kotlin
@@ -97,6 +102,11 @@ fun getCommentsById(@Query("postId") postId: String): Flow<List<Comment>>
 Then you can drop the **suspend** modifier and wrap your return type with Flow<>
 
 ### Call
+
+Add this dependency:
+```kotlin
+implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$CONVERTER_VERSION")
+```
 
 ```kotlin
 ktorfit.converterFactories(CallConverterFactory())
