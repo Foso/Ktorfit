@@ -26,7 +26,12 @@ fun generateImplClass(
 
             val fileName = "_${name}Impl"
             val commonMainModuleName = "commonMain"
-            val moduleName = resolver.getModuleName().getShortName()
+            val moduleName = try {
+                resolver.getModuleName().getShortName()
+            }catch (e: AbstractMethodError){
+                ""
+            }
+
             if (moduleName.contains(commonMainModuleName)) {
                 if (!ksFile.filePath.contains(commonMainModuleName)) {
                     return@forEach
