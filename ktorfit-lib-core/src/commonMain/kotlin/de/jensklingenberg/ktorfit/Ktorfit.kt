@@ -78,6 +78,10 @@ public class Ktorfit private constructor(
      * @param classProvider Please keep the default parameter, it will be replaced
      * by the compiler plugin
      */
+    @Deprecated("This function relies on a compiler plugin to find the implementation class of the requested interface. This can lead to compile errors when the class can't be found. " +
+            "The plan is to get rid of the plugin." +
+            "When your project is configured correct, the autocompletion should show an extension function *create* followed by the name of the interface. This function will not trigger the compiler plugin " +
+            "e.g. change .create<ExampleApi>() to .createExampleApi()")
     public fun <T> create(classProvider: ClassProvider<T>? = null): T {
 
         if (classProvider == null) {

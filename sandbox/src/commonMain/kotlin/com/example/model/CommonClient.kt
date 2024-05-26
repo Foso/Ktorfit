@@ -1,6 +1,7 @@
 package com.example.model
 
 import com.example.api.JsonPlaceHolderApi
+import com.example.api.createJsonPlaceHolderApi
 import de.jensklingenberg.ktorfit.converter.CallConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
@@ -29,5 +30,5 @@ val commonKtorfit = ktorfit {
 }
 
 
-val jsonPlaceHolderApi = commonKtorfit.create<JsonPlaceHolderApi>()
+val jsonPlaceHolderApi = commonKtorfit.createJsonPlaceHolderApi()
 

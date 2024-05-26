@@ -10,6 +10,7 @@ import org.gradle.kotlin.dsl.findByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.util.Locale.US
 
 class KtorfitGradlePlugin : Plugin<Project> {
@@ -35,7 +36,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
                 project.plugins.findPlugin("com.google.devtools.ksp") ?: error("KSP plugin not found")
 
             val kspVersion = "$KTORFIT_VERSION-" + kspPlugin.javaClass.protectionDomain.codeSource.location.toURI().toString()
-                .substringAfterLast("-").substringBefore(".jar") + "-SNAPSHOT"
+                .substringAfterLast("-").substringBefore(".jar") + SNAPSHOT
 
             val dependency = "$ktorfitKsp:$kspVersion$SNAPSHOT"
 
@@ -45,6 +46,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
                 }
 
                 is KotlinMultiplatformExtension -> {
+
                     project.dependencies {
                         add("kspCommonMainMetadata", dependency)
                     }
@@ -64,6 +66,12 @@ class KtorfitGradlePlugin : Plugin<Project> {
 
                     kotlinExtension.sourceSets.named("commonMain").configure {
                         kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+                    }
+
+                    project.tasks.withType(KotlinCompilationTask::class.java).configureEach {
+                        if(name != "kspCommonMainKotlinMetadata") {
+                            dependsOn("kspCommonMainKotlinMetadata")
+                        }
                     }
                 }
 

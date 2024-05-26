@@ -48,7 +48,7 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
         return SubpluginArtifact(
             groupId = GROUP_NAME,
             artifactId = ARTIFACT_NAME,
-            version = "${KTORFIT_VERSION}-${myproject.kotlinExtension.compilerVersion.get()}+${SNAPSHOT}" // remember to bump this version before any release!
+            version = "${KTORFIT_VERSION}-${myproject.kotlinExtension.compilerVersion.get()}${SNAPSHOT}" // remember to bump this version before any release!
         )
     }
 }

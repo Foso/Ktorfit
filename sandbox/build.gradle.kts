@@ -131,26 +131,6 @@ kotlin {
     }
 }
 
-
-dependencies {
-    with(projects.ktorfitKsp) {
-        add(
-            "kspCommonMainMetadata", this
-        )
-        add("kspJvm", this)
-        add("kspIosX64", this)
-
-        // add("kspJvmTest", this)
-        add("kspJs", this)
-        add("kspLinuxX64", this)
-        add("kspMingwX64", this)
-    }
-
-
-}
-
-
-
 configurations.all {
     resolutionStrategy.dependencySubstitution {
         substitute(module("de.jensklingenberg.ktorfit:gradle-plugin"))

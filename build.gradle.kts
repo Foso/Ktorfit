@@ -5,9 +5,10 @@ plugins {
 
 buildscript {
     repositories {
+        mavenLocal()
         google()
         gradlePluginPortal()
-        mavenLocal()
+
         google()
         mavenCentral()
         maven {

@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit.generator
 
+import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.Resolver
@@ -12,6 +13,7 @@ import java.io.OutputStreamWriter
 /**
  * Generate the Impl class for every interface used for Ktorfit
  */
+@OptIn(KspExperimental::class)
 fun generateImplClass(
     classDataList: List<ClassData>,
     codeGenerator: CodeGenerator,
@@ -19,18 +21,35 @@ fun generateImplClass(
     ktorfitOptions: KtorfitOptions
 ) {
     classDataList.forEach { classData ->
-        val fileSource = classData.getImplClassFileSource(resolver, ktorfitOptions)
+        with(classData) {
+            val fileSource = classData.getImplClassFileSource(resolver, ktorfitOptions)
 
-        val packageName = classData.packageName
-        val className = classData.name
-        val fileName = "_${className}Impl"
+            val fileName = "_${name}Impl"
+            val commonMainModuleName = "commonMain"
+            val moduleName = try {
+                resolver.getModuleName().getShortName()
+            }catch (e: AbstractMethodError){
+                ""
+            }
 
-        codeGenerator.createNewFile(dependencies = Dependencies(false, classData.ksFile), packageName, fileName, "kt")
-            .use { output ->
-                OutputStreamWriter(output).use { writer ->
-                    writer.write(fileSource)
+            if (moduleName.contains(commonMainModuleName)) {
+                if (!ksFile.filePath.contains(commonMainModuleName)) {
+                    return@forEach
+                }
+            } else {
+                if (ksFile.filePath.contains(commonMainModuleName)) {
+                    return@forEach
                 }
             }
+
+            codeGenerator.createNewFile(dependencies = Dependencies(false, ksFile), packageName, fileName, "kt")
+                .use { output ->
+                    OutputStreamWriter(output).use { writer ->
+                        writer.write(fileSource)
+                    }
+                }
+        }
+
     }
 }
 

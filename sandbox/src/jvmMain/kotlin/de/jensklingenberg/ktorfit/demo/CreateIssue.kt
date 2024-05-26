@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.demo
 
 import com.example.api.GithubService
+import com.example.api.createGithubService
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -28,7 +29,7 @@ fun main() {
         httpClient(jvmClient)
     }
 
-    val testApi = jvmKtorfit.create<GithubService>()
+    val testApi = jvmKtorfit.createGithubService()
 
 
     runBlocking {
