@@ -79,6 +79,16 @@ class KtorfitGradlePlugin : Plugin<Project> {
                                     }
                                 }", dependency
                             )
+
+                            dependencies.add(
+                                "ksp${
+                                    targetName.replaceFirstChar {
+                                        if (it.isLowerCase()) it.titlecase(
+                                            US
+                                        ) else it.toString()
+                                    }
+                                }Test", dependency
+                            )
                         }
 
                         kotlinExtension.sourceSets.named("commonMain").configure {
@@ -107,9 +117,6 @@ class KtorfitGradlePlugin : Plugin<Project> {
     }
 
 }
-
-private val Project.kotlinExtension: KotlinProjectExtension?
-    get() = this.extensions.findByType<KotlinProjectExtension>()
 
 internal fun Project.getKtorfitConfig() =
     this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
