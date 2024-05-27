@@ -16,7 +16,7 @@ ktorfitCompiler = "2.0.0-2.0.0"
 ktorfitCallConverter = "2.0.0-rc01"
 ktorfitFlowConverter = "2.0.0-rc01"
 ktorfitResponseConverter = "2.0.0-rc01"
-ktorfitGradle = "1.14.0"
+ktorfitGradle = "2.0.0-SNAPSHOT"
 
 ktorfitGradlePlugin = "1.14.0"
 ktorVersion = "2.3.11"

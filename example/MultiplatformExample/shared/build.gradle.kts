@@ -1,11 +1,14 @@
+import de.jensklingenberg.ktorfit.gradle.ErrorCheckingMode
+
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "2.0.0-RC3-1.0.20"
+    id("com.google.devtools.ksp") version "2.0.0-1.0.21"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "2.0.0-beta2-SNAPSHOT"
+    id("de.jensklingenberg.ktorfit") version "2.0.0-SNAPSHOT"
 }
+
 
 version = "1.0"
 val ktorVersion = "2.3.10"

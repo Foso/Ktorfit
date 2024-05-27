@@ -62,11 +62,11 @@ val _typeData = TypeData.createTypeData(
 )
 ```
 
-However, if you want to keep the old behavior and generate `qualifiedTypename`, you can set a KSP argument `Ktorfit_QualifiedTypeName` to `true` in your `build.gradle.kts` file.
+However, if you want to keep the old behavior and generate `qualifiedTypename`, you can set it in the Ktorfit config `generateQualifiedTypeName` to `true` in your `build.gradle.kts` file.
 
-```kotlin
-ksp {
-    arg("Ktorfit_QualifiedTypeName", "true")
+```kotlin title="build.gradle.kts"
+ktorfit {
+  generateQualifiedTypeName = true
 }
 ```
 
