@@ -8,6 +8,9 @@ plugins {
 
 }
 
+ktorfit{
+
+}
 
 android {
     namespace = "de.jensklingenberg.androidonlyexample"

@@ -10,7 +10,7 @@ plugins {
 }
 
 ktorfit {
-    errorCheckingMode = ErrorCheckingMode.WARNING
+    errorCheckingMode = ErrorCheckingMode.ERROR
     generateQualifiedTypeName = false
 }
 
