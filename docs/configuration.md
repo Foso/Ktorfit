@@ -1,27 +1,27 @@
 # Compile errors
 By default, Ktorfit will throw compile error when it finds conditions under which it can't ensure that it will work correct.
-You can set an KSP argument to change this:
+You can set it in the Ktorfit config to change this
 
 ```kotlin
-ksp {
-    arg("Ktorfit_Errors", "1")
+ktorfit{
+    errorCheckingMode = ErrorCheckingMode.NONE
 }
 ```
 
 You can set it in your build.gradle.kts file,
 
-0: Turn off all Ktorfit related error checking
+* NONE : Turn off all Ktorfit related error checking
 
-1: Check for errors
+* ERROR: Check for errors
 
-2: Turn errors into warnings
+* WARNING: Turn errors into warnings
 
 # QualifiedTypeName
-By default, Ktorfit will keep qualifiedTypename for TypeData in the generated code empty. You can set an KSP argument to change this:
+By default, Ktorfit will keep qualifiedTypename for TypeData in the generated code empty. You can set it in the Ktorfit config to change this:
 
 ```kotlin
-ksp {
-    arg("Ktorfit_QualifiedTypeName", "true")
+ktorfit {
+    generateQualifiedTypeName = true
 }
 ```
 

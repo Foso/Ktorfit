@@ -1,8 +1,5 @@
 package de.jensklingenberg.ktorfit.gradle
 
-import de.jensklingenberg.ktorfit.gradle.KtorfitCompilerSubPlugin.Companion.GROUP_NAME
-import de.jensklingenberg.ktorfit.gradle.KtorfitCompilerSubPlugin.Companion.KTORFIT_VERSION
-import de.jensklingenberg.ktorfit.gradle.KtorfitCompilerSubPlugin.Companion.SNAPSHOT
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -16,68 +13,91 @@ import java.util.Locale.US
 class KtorfitGradlePlugin : Plugin<Project> {
     companion object {
         const val GRADLE_TASKNAME = "ktorfit"
+        const val GROUP_NAME = "de.jensklingenberg.ktorfit"
+        const val ARTIFACT_NAME = "compiler-plugin"
+        const val COMPILER_PLUGIN_ID = "ktorfitPlugin"
+        const val KTORFIT_VERSION = "2.0.0" // remember to bump this version before any release!
+        const val SNAPSHOT = "-SNAPSHOT"
     }
 
-    private val Project.kotlinExtension: KotlinProjectExtension?
-        get() = this.extensions.findByType<KotlinProjectExtension>()
-
-    private fun Project.getKtorfitConfig() =
-        this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
-
     override fun apply(project: Project) {
-        val ktorfitGradleConfiguration = project.getKtorfitConfig()
-        project.pluginManager.apply(KtorfitCompilerSubPlugin::class.java)
+        with(project) {
+            extensions.create(GRADLE_TASKNAME, KtorfitGradleConfiguration::class.java)
 
-        val hasKspApplied = project.extensions.findByName("ksp") != null
-        if (hasKspApplied && ktorfitGradleConfiguration.addKspDependencies) {
-            val ktorfitKsp = "$GROUP_NAME:ktorfit-ksp"
+            pluginManager.apply(KtorfitCompilerSubPlugin::class.java)
 
-            val kspPlugin =
-                project.plugins.findPlugin("com.google.devtools.ksp") ?: error("KSP plugin not found")
+            val hasKspApplied = extensions.findByName("ksp") != null
+            if (hasKspApplied) {
+                val ktorfitKsp = "$GROUP_NAME:ktorfit-ksp"
 
-            val kspVersion = "$KTORFIT_VERSION-" + kspPlugin.javaClass.protectionDomain.codeSource.location.toURI().toString()
-                .substringAfterLast("-").substringBefore(".jar") + SNAPSHOT
+                val kspPlugin =
+                    plugins.findPlugin("com.google.devtools.ksp") ?: error("KSP plugin not found")
 
-            val dependency = "$ktorfitKsp:$kspVersion$SNAPSHOT"
+                val kspVersion = kspPlugin.javaClass.protectionDomain.codeSource.location.toURI().toString()
+                    .substringAfterLast("-").substringBefore(".jar")
 
-            when (val kotlinExtension = project.kotlinExtension) {
-                is KotlinSingleTargetExtension<*> -> {
-                    project.dependencies.add("ksp", dependency)
+                val kspExtension = extensions.findByName("ksp") ?: error("KSP config not found")
+                val argMethod = kspExtension.javaClass.getMethod("arg", String::class.java, String::class.java)
+
+                afterEvaluate {
+                    val config = getKtorfitConfig()
+
+                    argMethod.invoke(kspExtension, "Ktorfit_Errors", config.errorCheckingMode.ordinal.toString())
+                    argMethod.invoke(
+                        kspExtension,
+                        "Ktorfit_QualifiedTypeName",
+                        config.generateQualifiedTypeName.toString()
+                    )
                 }
 
-                is KotlinMultiplatformExtension -> {
+                val dependency = "$ktorfitKsp:$KTORFIT_VERSION-$kspVersion$SNAPSHOT"
 
-                    project.dependencies {
-                        add("kspCommonMainMetadata", dependency)
+                when (val kotlinExtension = kotlinExtension) {
+                    is KotlinSingleTargetExtension<*> -> {
+                        dependencies.add("ksp", dependency)
                     }
 
-                    kotlinExtension.targets.configureEach {
-                        if (targetName == "metadata") return@configureEach
-                        project.dependencies.add(
-                            "ksp${
-                                targetName.replaceFirstChar {
-                                    if (it.isLowerCase()) it.titlecase(
-                                        US
-                                    ) else it.toString()
-                                }
-                            }", dependency
-                        )
-                    }
+                    is KotlinMultiplatformExtension -> {
 
-                    kotlinExtension.sourceSets.named("commonMain").configure {
-                        kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
-                    }
+                        dependencies {
+                            add("kspCommonMainMetadata", dependency)
+                        }
 
-                    project.tasks.withType(KotlinCompilationTask::class.java).configureEach {
-                        if(name != "kspCommonMainKotlinMetadata") {
-                            dependsOn("kspCommonMainKotlinMetadata")
+                        kotlinExtension.targets.configureEach {
+                            if (targetName == "metadata") return@configureEach
+                            dependencies.add(
+                                "ksp${
+                                    targetName.replaceFirstChar {
+                                        if (it.isLowerCase()) it.titlecase(
+                                            US
+                                        ) else it.toString()
+                                    }
+                                }", dependency
+                            )
+                        }
+
+                        kotlinExtension.sourceSets.named("commonMain").configure {
+                            kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+                        }
+
+                        tasks.withType(KotlinCompilationTask::class.java).configureEach {
+                            if (name != "kspCommonMainKotlinMetadata") {
+                                dependsOn("kspCommonMainKotlinMetadata")
+                            }
                         }
                     }
-                }
 
-                else -> Unit
+                    else -> Unit
+                }
             }
         }
+
     }
 
 }
+
+private val Project.kotlinExtension: KotlinProjectExtension?
+    get() = this.extensions.findByType<KotlinProjectExtension>()
+
+internal fun Project.getKtorfitConfig() =
+    this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()

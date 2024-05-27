@@ -1,12 +1,23 @@
 package de.jensklingenberg.ktorfit.gradle
 
 open class KtorfitGradleConfiguration {
+    var generateQualifiedTypeName: Boolean = false
+    var errorCheckingMode: ErrorCheckingMode = ErrorCheckingMode.ERROR
+}
 
+enum class ErrorCheckingMode {
+    /**
+     * Turn off all Ktorfit related error checking
+     */
+    NONE,
 
     /**
-     * used to get debug information from the compiler plugin
+     * Check for errors
      */
-    var logging: Boolean = false
+    ERROR,
 
-    var addKspDependencies : Boolean = true
+    /**
+     * Turn errors into warnings
+     */
+    WARNING,
 }
