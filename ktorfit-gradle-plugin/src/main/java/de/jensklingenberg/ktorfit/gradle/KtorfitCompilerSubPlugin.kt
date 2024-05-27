@@ -4,6 +4,7 @@ import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.ARTIFACT_
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.COMPILER_PLUGIN_ID
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.GROUP_NAME
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.KTORFIT_VERSION
+import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.MIN_KOTLIN_VERSION
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.SNAPSHOT
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
@@ -42,10 +43,17 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
     override fun getPluginArtifact(): SubpluginArtifact {
+        checkKotlinVersion(myproject.kotlinExtension.compilerVersion.get())
         return SubpluginArtifact(
             groupId = GROUP_NAME,
             artifactId = ARTIFACT_NAME,
             version = "${KTORFIT_VERSION}-${myproject.kotlinExtension.compilerVersion.get()}${SNAPSHOT}"
         )
+    }
+
+    private fun checkKotlinVersion(compilerVersion: String) {
+        if(compilerVersion.split(".")[0] < MIN_KOTLIN_VERSION.split(".")[0]){
+            error("Ktorfit: Kotlin version $compilerVersion is not supported. You need at least version $MIN_KOTLIN_VERSION")
+        }
     }
 }

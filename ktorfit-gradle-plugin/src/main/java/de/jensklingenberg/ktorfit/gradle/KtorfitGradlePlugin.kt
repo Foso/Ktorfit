@@ -7,6 +7,7 @@ import org.gradle.kotlin.dsl.findByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.util.Locale.US
 
@@ -18,6 +19,8 @@ class KtorfitGradlePlugin : Plugin<Project> {
         const val COMPILER_PLUGIN_ID = "ktorfitPlugin"
         const val KTORFIT_VERSION = "2.0.0" // remember to bump this version before any release!
         const val SNAPSHOT = "-SNAPSHOT"
+        const val MIN_KSP_VERSION = "1.0.21"
+        const val MIN_KOTLIN_VERSION = "2.0.0"
     }
 
     override fun apply(project: Project) {
@@ -35,6 +38,8 @@ class KtorfitGradlePlugin : Plugin<Project> {
 
                 val kspVersion = kspPlugin.javaClass.protectionDomain.codeSource.location.toURI().toString()
                     .substringAfterLast("-").substringBefore(".jar")
+
+                checkKSPVersion(kspVersion)
 
                 val kspExtension = extensions.findByName("ksp") ?: error("KSP config not found")
                 val argMethod = kspExtension.javaClass.getMethod("arg", String::class.java, String::class.java)
@@ -92,6 +97,13 @@ class KtorfitGradlePlugin : Plugin<Project> {
             }
         }
 
+    }
+
+    private fun checkKSPVersion(kspVersion: String) {
+        val kspVersionParts = kspVersion.split(".")
+        if (kspVersionParts[2].toInt() < MIN_KSP_VERSION.split(".")[2].toInt()) {
+            error("Ktorfit: KSP version $kspVersion is not supported. You need at least version $MIN_KSP_VERSION")
+        }
     }
 
 }
