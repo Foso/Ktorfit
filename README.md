@@ -32,30 +32,16 @@ build.gradle.kts:
 
 ```kotlin
 plugins {
-    id("de.jensklingenberg.ktorfit") version "2.0.0-beta1"
+    id("de.jensklingenberg.ktorfit") version "2.0.0"
 }
-```
-
-build.gradle
-
-```kotlin
-plugins {
-    id("de.jensklingenberg.ktorfit") version "2.0.0-beta1"
-}
-```
-
-KSP:
-
-```kotlin
-de.jensklingenberg.ktorfit:ktorfit-ksp:2.0.0-beta1
 ```
 
 Ktorfit-lib/-light:
 
 ```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-lib:2.0.0-beta1")
+implementation("de.jensklingenberg.ktorfit:ktorfit-lib:2.0.0")
 or
-implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:2.0.0-beta1")
+implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:2.0.0")
 ```
 
 ## 👷 Project Structure
