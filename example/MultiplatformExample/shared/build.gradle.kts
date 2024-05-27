@@ -6,13 +6,17 @@ plugins {
     id("com.android.library")
     id("com.google.devtools.ksp") version "2.0.0-1.0.21"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "2.0.0-SNAPSHOT"
+    id("de.jensklingenberg.ktorfit") version "2.0.0"
 }
 
+ktorfit {
+    errorCheckingMode = ErrorCheckingMode.WARNING
+    generateQualifiedTypeName = false
+}
 
 version = "1.0"
 val ktorVersion = "2.3.10"
-val ktorfitVersion = "2.0.0-beta2-SNAPSHOT"
+val ktorfitVersion = "2.0.0"
 
 kotlin {
     jvmToolchain(8)
@@ -76,25 +80,6 @@ android {
     }
 }
 
-dependencies {
-    with("de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion") {
-        add("kspCommonMainMetadata", this)
-        add("kspJvm", this)
-        add("kspJvmTest", this)
-        add("kspAndroid", this)
-        add("kspAndroidTest", this)
-        add("kspIosX64", this)
-        add("kspIosX64Test", this)
-        add("kspIosArm64", this)
-        add("kspIosArm64Test", this)
-        add("kspIosSimulatorArm64", this)
-        add("kspIosSimulatorArm64Test", this)
-        add("kspMacosX64", this)
-        add("kspMacosX64Test", this)
-        add("kspJs", this)
-        add("kspJsTest", this)
-    }
-}
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {

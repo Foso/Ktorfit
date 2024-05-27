@@ -3,9 +3,7 @@ package de.jensklingenberg.ktorfit.gradle
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.findByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
@@ -18,7 +16,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
         const val ARTIFACT_NAME = "compiler-plugin"
         const val COMPILER_PLUGIN_ID = "ktorfitPlugin"
         const val KTORFIT_VERSION = "2.0.0" // remember to bump this version before any release!
-        const val SNAPSHOT = "-SNAPSHOT"
+        const val SNAPSHOT = ""
         const val MIN_KSP_VERSION = "1.0.21"
         const val MIN_KOTLIN_VERSION = "2.0.0"
     }
@@ -79,6 +77,16 @@ class KtorfitGradlePlugin : Plugin<Project> {
                                     }
                                 }", dependency
                             )
+
+                            dependencies.add(
+                                "ksp${
+                                    targetName.replaceFirstChar {
+                                        if (it.isLowerCase()) it.titlecase(
+                                            US
+                                        ) else it.toString()
+                                    }
+                                }Test", dependency
+                            )
                         }
 
                         kotlinExtension.sourceSets.named("commonMain").configure {
@@ -107,9 +115,6 @@ class KtorfitGradlePlugin : Plugin<Project> {
     }
 
 }
-
-private val Project.kotlinExtension: KotlinProjectExtension?
-    get() = this.extensions.findByType<KotlinProjectExtension>()
 
 internal fun Project.getKtorfitConfig() =
     this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()

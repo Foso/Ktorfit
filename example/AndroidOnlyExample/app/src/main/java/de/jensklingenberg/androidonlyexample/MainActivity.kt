@@ -35,6 +35,7 @@ val ktorfit = ktorfit {
     )
 
 }
+val api = ktorfit.createStarWarsApi()
 
 class MainActivity : ComponentActivity() {
 
@@ -57,8 +58,9 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+
         lifecycleScope.launch {
-            peopleState.value = ktorfit.create<StarWarsApi>().getPerson(1)
+            peopleState.value = api.getPerson(1)
         }
     }
 }
