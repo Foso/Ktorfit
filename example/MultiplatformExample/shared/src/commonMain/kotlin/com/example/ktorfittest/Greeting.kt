@@ -4,9 +4,9 @@ package com.example.ktorfittest
 import de.jensklingenberg.ktorfit.converter.CallConverterFactory
 import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.serialization.kotlinx.json.json
+import io.ktor.client.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -26,7 +26,7 @@ val ktorfit = ktorfit {
 }
 
 
-val starWarsApi = ktorfit.create<StarWarsApi>()
+val starWarsApi = ktorfit.createStarWarsApi()
 
 class Greeting {
     fun greeting(): String {
