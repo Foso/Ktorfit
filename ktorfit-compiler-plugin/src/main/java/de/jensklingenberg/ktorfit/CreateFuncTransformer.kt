@@ -18,18 +18,20 @@ import org.jetbrains.kotlin.name.Name
 /**
  * Transform exampleKtorfit.create<TestApi>() to exampleKtorfit.create<TestApi>(_TestApiImpl())
  */
-class CreateFuncTransformer(
+internal class CreateFuncTransformer(
     private val pluginContext: IrPluginContext,
     private val debugLogger: DebugLogger
-) :
-    IrElementTransformerVoidWithContext() {
+) : IrElementTransformerVoidWithContext() {
 
     companion object {
         fun ERROR_TYPE_ARGUMENT_NOT_INTERFACE(implName: String)=
             "create<${implName}> argument is not supported. Type argument needs to be an interface"
 
-        fun ERROR_IMPL_NOT_FOUND(implName: String) =
-            "_${implName}Impl() not found, did you apply the Ksp Ktorfit plugin?"
+        fun ERROR_IMPL_NOT_FOUND(implName: String, className: String) =
+            "${implName} not found, did you apply the Ksp Ktorfit plugin? Use .create${className}() instead"
+
+        fun ERROR_CLASS_NOT_FOUND(implName: String) =
+            "class ${implName} not found, did you apply the Ksp Ktorfit plugin?"
 
         private const val KTORFIT_PACKAGE = "de.jensklingenberg.ktorfit.Ktorfit"
         private const val KTORFIT_CREATE = "create"
@@ -56,22 +58,24 @@ class CreateFuncTransformer(
                 //Get T from create<T>()
                 val argumentType = irCall.getTypeArgument(0) ?: return expression
                 val classFqName = argumentType.classFqName
+
                 if (!argumentType.isInterface()) throw IllegalStateException(ERROR_TYPE_ARGUMENT_NOT_INTERFACE(argumentType.originalKotlinType.toString()))
 
                 if (classFqName == null) {
-                    throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
+                    throw IllegalStateException(ERROR_CLASS_NOT_FOUND(argumentType.originalKotlinType.toString()))
                 }
 
                 val packageName = classFqName.packageName
                 val className = classFqName.shortName().toString()
+                val providerClassName = "_$className" + "Provider"
 
-                //Find the class _TestApiImpl
+                //Find the class _TestApiProvider
                 val implClassSymbol = pluginContext.referenceClass(
                     ClassId(
                         FqName(packageName),
-                        Name.identifier("_$className" + "Provider")
+                        Name.identifier(providerClassName)
                     )
-                ) ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(argumentType.originalKotlinType.toString()))
+                ) ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(providerClassName, className))
 
                 val newConstructor = implClassSymbol.constructors.first()
 
