@@ -16,7 +16,7 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3
 
       - name: Publish release
         run: ./gradlew :ktorfit-annotations:publishAllPublicationsToMavenCentralRepository
@@ -37,7 +37,7 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3
 
       - name: Publish release
         run: ./gradlew :ktorfit-ksp:publishAllPublicationsToMavenCentralRepository
@@ -58,7 +58,7 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3
 
       - name: Publish release
         run: ./gradlew :ktorfit-converters:call:publishAllPublicationsToMavenCentralRepository :ktorfit-converters:flow:publishAllPublicationsToMavenCentralRepository :ktorfit-converters:response:publishAllPublicationsToMavenCentralRepository
@@ -79,7 +79,7 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3
 
       - name: Publish release
         run: ./gradlew :ktorfit-compiler-plugin:publishAllPublicationsToMavenCentralRepository
@@ -100,7 +100,7 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3
 
       - name: Publish release
         run: ./gradlew :ktorfit-gradle-plugin:publishAllPublicationsToMavenCentralRepository
@@ -121,7 +121,7 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3
 
       - name: Publish release
         run: ./gradlew :ktorfit-lib:publishAllPublicationsToMavenCentralRepository :ktorfit-lib-core:publishAllPublicationsToMavenCentralRepository
