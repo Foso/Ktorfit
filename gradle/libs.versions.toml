@@ -7,7 +7,7 @@ detekt = "1.23.6"
 junit = "4.13.2"
 kctfork = "0.4.1"
 kotlin = "2.0.0"
-kotlinPoet = "1.16.0"
+kotlinPoet = "1.17.0"
 kspVersion = "2.0.0-1.0.21"
 
 ktorfit = "2.0.0"
