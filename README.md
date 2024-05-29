@@ -26,23 +26,17 @@ Please see the documentation at [https://foso.github.io/Ktorfit/](https://foso.g
 ## Compatibility
 See https://foso.github.io/Ktorfit/#compatibility
 
-# Release
+## Ktorfit Packages
 
-build.gradle.kts:
+| Project   |      Version      |
+|----------|:-------------:|
+| Ktorfit Gradle Plugin |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/de.jensklingenberg.ktorfit.gradle.plugin)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit/de.jensklingenberg.ktorfit.gradle.plugin) |
+| ktorfit-lib |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib) |
+| ktorfit-lib-light |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-light)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-light) |
+| ktorfit-converters-flow  |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-flow)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-flow) |
+| ktorfit-converters-call  |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-call)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-call) |
+| ktorfit-converters-response  |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-response)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-response) |
 
-```kotlin
-plugins {
-    id("de.jensklingenberg.ktorfit") version "2.0.0"
-}
-```
-
-Ktorfit-lib/-light:
-
-```kotlin
-implementation("de.jensklingenberg.ktorfit:ktorfit-lib:2.0.0")
-or
-implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:2.0.0")
-```
 
 ## 👷 Project Structure
 
