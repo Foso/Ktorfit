@@ -18,7 +18,7 @@ ktorfitFlowConverter = "2.0.0"
 ktorfitResponseConverter = "2.0.0"
 ktorfitGradle = "2.0.0"
 
-ktorfitGradlePlugin = "1.14.0"
+ktorfitGradlePlugin = "2.0.0"
 ktorVersion = "2.3.11"
 mockk = "1.13.11"
 mockito-kotlin = "4.1.0"
