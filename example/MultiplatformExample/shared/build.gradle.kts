@@ -15,7 +15,7 @@ ktorfit {
 }
 
 version = "1.0"
-val ktorVersion = "2.3.10"
+val ktorVersion = "2.3.11"
 val ktorfitVersion = "2.0.0"
 
 kotlin {
