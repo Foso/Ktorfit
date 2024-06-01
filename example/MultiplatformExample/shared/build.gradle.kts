@@ -47,7 +47,7 @@ kotlin {
             dependencies {
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
                 //implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:$ktorfitVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfitVersion")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfitVersion")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfitVersion")
