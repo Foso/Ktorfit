@@ -19,7 +19,7 @@ interface QueryTestApi {
 
     @WebSocket
     @Headers("Sec-WebSocket-Protocol: chat")
-    @GET("{pid}")
+    @POST("{pid}")
     fun testQueryWithEncoded(@Query("room", true) name: String, @Path("pid") path: String): com.example.api.WebSocket
 
     @GET("people/{id}/")
