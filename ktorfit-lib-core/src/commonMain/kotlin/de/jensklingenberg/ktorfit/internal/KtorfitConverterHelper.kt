@@ -7,7 +7,6 @@ import io.ktor.client.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import io.ktor.http.*
 import io.ktor.util.reflect.*
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
@@ -102,18 +101,7 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
 
     public fun <T> webSocket(
         typeData: TypeData = TypeData.createTypeData("", typeInfo = typeInfo<String>()),
-        requestBuilder: HttpRequestBuilder.() -> Unit = {
-            url {
-                protocol = URLProtocol.WS
-                host = "localhost"
-                port = 23567
-                encodedPath = "showdown?room=" + "test"
-            }
-            headers{
-                append("Sec-WebSocket-Protocol", "chat")
-            }
-        }
-    ): T {
+        requestBuilder: HttpRequestBuilder.() -> Unit): T {
 
         ktorfit.nextWebsocket(null, typeData)?.let {
             return it.createWebSocket(requestBuilder) as T
