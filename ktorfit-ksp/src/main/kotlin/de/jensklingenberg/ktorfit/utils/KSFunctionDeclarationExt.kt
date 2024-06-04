@@ -29,6 +29,13 @@ fun KSFunctionDeclaration.getStreamingAnnotation(): Streaming? {
 }
 
 @OptIn(KspExperimental::class)
+fun KSFunctionDeclaration.getWebSocket(): WebSocket? {
+    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.WebSocket::class).firstOrNull()?.let {
+        return WebSocket()
+    }
+}
+
+@OptIn(KspExperimental::class)
 fun KSFunctionDeclaration.getMultipartAnnotation(): Multipart? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Multipart::class).firstOrNull()?.let {
         return Multipart()
