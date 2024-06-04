@@ -3,14 +3,12 @@ package de.jensklingenberg.ktorfit.internal
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.converter.TypeData
-import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
-import io.ktor.client.HttpClient
-import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.client.request.prepareRequest
-import io.ktor.client.request.request
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.HttpStatement
-import io.ktor.util.reflect.typeInfo
+import io.ktor.client.*
+import io.ktor.client.plugins.websocket.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import io.ktor.util.reflect.*
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
@@ -102,5 +100,31 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
         throw IllegalStateException("No RequestConverter found to convert ${parameterType.simpleName} to ${requestType.simpleName}")
     }
 
+    public fun <T : Any> websocket(
+        typeData: TypeData = TypeData.createTypeData("", typeInfo = typeInfo<T>()),
+        requestBuilder: HttpRequestBuilder.() -> Unit = {
+            url {
+                protocol = URLProtocol.WS
+                host = "localhost"
+                port = 23567
+                encodedPath = "showdown?room=" + "test"
+            }
+            headers{
+                append("Sec-WebSocket-Protocol", "chat")
+            }
+        }
+    ): T {
+
+        ktorfit.nextWebsocket(null, typeData)?.let {
+            return it.createWebSocket(requestBuilder) as T
+        }
+        throw IllegalStateException("No Websocket found to convert")
+
+    }
+
+
+}
+
+private fun DefaultClientWebSocketSession.hello() {
 
 }

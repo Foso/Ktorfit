@@ -105,12 +105,7 @@ fun KSFunctionDeclaration.toFunctionData(
         functionAnnotationList.add(it)
     }
 
-    if (funcDeclaration.typeParameters.isNotEmpty()) {
-        logger.error(
-            KtorfitError.FUNCTION_OR_PARAMETERS_TYPES_MUST_NOT_INCLUDE_ATYPE_VARIABLE_OR_WILDCARD,
-            funcDeclaration
-        )
-    }
+
 
     funcDeclaration.getHeaderAnnotation()?.let { headers ->
         headers.value.forEach {

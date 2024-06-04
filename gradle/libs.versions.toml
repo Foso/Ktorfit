@@ -11,7 +11,7 @@ kotlinPoet = "1.17.0"
 kspVersion = "2.0.0-1.0.21"
 
 ktorfit = "2.0.0"
-ktorfitKsp = "2.0.0-1.0.21"
+ktorfitKsp = "2.0.0-1.0.22-SNAPSHOT"
 ktorfitCompiler = "2.0.0-2.0.0"
 ktorfitCallConverter = "2.0.0"
 ktorfitFlowConverter = "2.0.0"
@@ -67,6 +67,7 @@ ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorVer
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktorVersion" }
 ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktorVersion" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
+ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktorVersion" }
 
 licensee-gradle-plugin = "app.cash.licensee:licensee-gradle-plugin:1.11.0"
 logbackClassic = "ch.qos.logback:logback-classic:1.4.11"

@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.converter
 
 import de.jensklingenberg.ktorfit.Ktorfit
+import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import kotlin.reflect.KClass
 
@@ -44,6 +45,11 @@ public interface Converter<F, T> {
         public fun convert(data: Any): Any
     }
 
+    public interface WebSocketProvider : Converter<Any,Any>{
+        public fun createWebSocket(requestBuilder: HttpRequestBuilder.() -> Unit): Any
+    }
+
+
     /**
      * This will return the upper bound type or null if that index does not exist
      *
@@ -67,6 +73,8 @@ public interface Converter<F, T> {
             parameterType: KClass<*>,
             requestType: KClass<*>
         ): RequestParameterConverter? = null
+
+        public fun webSocketClass(typeData: TypeData, ktorfit: Ktorfit): WebSocketProvider? = null
 
         /**
          * Return a [SuspendResponseConverter] that can handle [typeData] or else null

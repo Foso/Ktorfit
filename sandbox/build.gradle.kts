@@ -61,6 +61,7 @@ kotlin {
 
             dependencies {
                 implementation(projects.ktorfitLibCore)
+                implementation(libs.ktor.client.websockets)
                 implementation(projects.ktorfitConverters.flow)
                 implementation(projects.ktorfitConverters.call)
                 implementation(projects.ktorfitConverters.response)
@@ -83,11 +84,10 @@ kotlin {
 
 
         val jvmMain by getting {
-            kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
 
             dependencies {
                 implementation(libs.ktor.client.core.jvm)
-                implementation(libs.kotlinx.coroutines.rx3)
+               // implementation(libs.kotlinx.coroutines.rx3)
                 implementation("io.reactivex.rxjava3:rxjava:3.1.8")
 
                 implementation(libs.ktor.client.logging)
@@ -129,6 +129,18 @@ kotlin {
         }
 
     }
+}
+
+
+dependencies {
+    with(projects.ktorfitKsp) {
+        add(
+            "kspCommonMainMetadata", this
+        )
+        // add("kspCommonMainMetadataTest", this)
+    }
+
+
 }
 
 configurations.all {

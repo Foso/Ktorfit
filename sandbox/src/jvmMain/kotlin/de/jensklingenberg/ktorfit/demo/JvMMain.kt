@@ -2,24 +2,26 @@ package de.jensklingenberg.ktorfit.demo
 
 
 import com.example.UserFactory
-import com.example.api.API
-import com.example.api.JsonPlaceHolderApi
-import com.example.api._APIImpl
+import com.example.api.*
 import com.example.model.ExampleApi
-import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverterFactory
 import com.example.model.createExampleApi
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.CallConverterFactory
 import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
+import de.jensklingenberg.ktorfit.internal.*
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 
@@ -28,6 +30,10 @@ val jvmClient = HttpClient {
 
     install(Logging) {
         //level = LogLevel.ALL
+    }
+
+    install(WebSockets) {
+        pingInterval = 20_000
     }
 
     install(ContentNegotiation) {
@@ -54,29 +60,62 @@ val userKtorfit = ktorfit {
         FlowConverterFactory(),
         MyOwnResponseConverterFactory(),
         UserFactory(),
-        CallConverterFactory()
+        CallConverterFactory(),
+        MyWebSocketFactory()
     )
 }
 
-val api : ExampleApi = userKtorfit.createExampleApi()
+val api: ExampleApi = userKtorfit.createExampleApi()
 
+
+@OptIn(InternalKtorfitApi::class)
 fun main() {
+
+    val test =
+        KtorfitConverterHelper(Ktorfit.Builder().converterFactories(MyWebSocketFactory()).httpClient(jvmClient).build())
+
+    val websocket = test.websocket<WebSocket>()
+
+    GlobalScope.launch {
+        websocket.events.onEach {
+            when (it) {
+                is Event.Close -> {
+                    println("Closed hier" + it.message)
+                }
+
+                Event.Created -> {
+
+                }
+
+                is Event.Error -> {
+                    println("Error hier" + it.message)
+                }
+
+                is Event.Message -> {
+
+                }
+
+                Event.Opened -> {
+                    println("Opened hier")
+                }
+            }
+        }.collect {}
+    }
+
+    GlobalScope.launch {
+
+        websocket.open()
+    }
+
+    GlobalScope.launch {
+        delay(1000)
+        websocket.send("Hello   ")
+    }
 
     runBlocking {
 
-        val user = api.getUserResponse()
-
-        when (user) {
-            is MyOwnResponse.Success -> {
-                println(user.data)
-            }
-
-            is MyOwnResponse.Error<*> -> {
-                println(user.ex)
-            }
-        }
-        delay(3000)
+        delay(9000)
+        //websocket.close()
     }
-
 }
 

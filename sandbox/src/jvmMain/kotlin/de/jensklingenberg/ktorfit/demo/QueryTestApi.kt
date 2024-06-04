@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit.demo
 
+import com.example.WebSocket
 import com.example.model.People
 import de.jensklingenberg.ktorfit.http.*
 import ktorfit.Test
@@ -13,6 +14,7 @@ interface QueryTestApi {
         @Query("huhu2", false) name2: String
     ): People
 
+    @WebSocket
     @GET("people/{id}/")
     suspend fun testQueryWithEncodedInt(@Path("id") peopleId: Int, @Query("huhu", true) name: Int): People
 
