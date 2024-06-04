@@ -100,19 +100,12 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
     }
 
     public fun <T> webSocket(
-        typeData: TypeData = TypeData.createTypeData("", typeInfo = typeInfo<String>()),
+        typeData: TypeData,
         requestBuilder: HttpRequestBuilder.() -> Unit): T {
 
         ktorfit.nextWebsocket(null, typeData)?.let {
             return it.createWebSocket(requestBuilder) as T
         }
         throw IllegalStateException("No Websocket found to convert")
-
     }
-
-
-}
-
-private fun DefaultClientWebSocketSession.hello() {
-
 }

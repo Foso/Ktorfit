@@ -49,7 +49,6 @@ public interface Converter<F, T> {
         public fun createWebSocket(requestBuilder: HttpRequestBuilder.() -> Unit): Any
     }
 
-
     /**
      * This will return the upper bound type or null if that index does not exist
      *
@@ -74,7 +73,10 @@ public interface Converter<F, T> {
             requestType: KClass<*>
         ): RequestParameterConverter? = null
 
-        public fun webSocketClass(typeData: TypeData, ktorfit: Ktorfit): WebSocketProvider? = null
+        /**
+         * Return a [WebSocketProvider] that can handle [typeData] or else null
+         */
+        public fun webSocketConverter(typeData: TypeData, ktorfit: Ktorfit): WebSocketProvider? = null
 
         /**
          * Return a [SuspendResponseConverter] that can handle [typeData] or else null

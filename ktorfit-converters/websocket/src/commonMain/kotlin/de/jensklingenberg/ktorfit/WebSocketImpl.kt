@@ -13,8 +13,8 @@ internal class WebSocketImpl(private val client: HttpClient, private val request
     private var open = false
     private var channel: DefaultWebSocketSession? = null
 
-    override suspend fun send(message: String) {
-        channel?.send(Frame.Text(message))
+    override suspend fun send(frame: Frame) {
+        channel?.send(frame)
     }
 
     override fun close() {
@@ -22,22 +22,14 @@ internal class WebSocketImpl(private val client: HttpClient, private val request
         events.value = Event.Close("Closed")
     }
 
-    override fun isOpen(): Boolean {
-        return open
-    }
-
-    private fun onMessage(message: String) {
-        mutableEvents.value = Event.Message(message)
-    }
+    override fun isOpen(): Boolean = open
 
     override suspend fun open() {
         open = true
         try {
 
             client.webSocket(
-                request = {
-                    requestBuilder()
-                }
+                request = requestBuilder
             ) {
                 events.value = Event.Opened
                 while (isOpen()) {
@@ -51,10 +43,10 @@ internal class WebSocketImpl(private val client: HttpClient, private val request
                         break
                     }
                     if (frame is Frame.Text) {
-                        onMessage(frame.readText())
+                        mutableEvents.value = Event.Message(frame.readText())
                     }
                     if (frame is Frame.Binary) {
-                        onMessage(frame.readBytes())
+
                     }
                     if (frame is Frame.Close) {
                         mutableEvents.value = Event.Close("Closed")
@@ -70,7 +62,5 @@ internal class WebSocketImpl(private val client: HttpClient, private val request
         }
     }
 
-    private fun onMessage(bytes: ByteArray) {
 
-    }
 }

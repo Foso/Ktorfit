@@ -5,8 +5,8 @@ import de.jensklingenberg.ktorfit.WebSocket
 import de.jensklingenberg.ktorfit.WebSocketImpl
 import io.ktor.client.request.*
 
-public class MyWebSocketFactory : Converter.Factory {
-    override fun webSocketClass(typeData: TypeData, ktorfit: Ktorfit): Converter.WebSocketProvider {
+public class WebSocketFactory : Converter.Factory {
+    override fun webSocketConverter(typeData: TypeData, ktorfit: Ktorfit): Converter.WebSocketProvider {
         return object : Converter.WebSocketProvider {
             override fun createWebSocket(requestBuilder: HttpRequestBuilder.() -> Unit): WebSocket {
                 return WebSocketImpl(ktorfit.httpClient, requestBuilder)

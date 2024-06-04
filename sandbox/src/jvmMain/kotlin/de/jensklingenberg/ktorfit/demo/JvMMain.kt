@@ -10,7 +10,7 @@ import de.jensklingenberg.ktorfit.Event
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.CallConverterFactory
 import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
-import de.jensklingenberg.ktorfit.converter.MyWebSocketFactory
+import de.jensklingenberg.ktorfit.converter.WebSocketFactory
 import de.jensklingenberg.ktorfit.internal.*
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
@@ -63,20 +63,21 @@ val userKtorfit = ktorfit {
         MyOwnResponseConverterFactory(),
         UserFactory(),
         CallConverterFactory(),
-        MyWebSocketFactory()
+        WebSocketFactory()
     )
 }
 
 val api: ExampleApi = userKtorfit.createExampleApi()
 
 
-@OptIn(InternalKtorfitApi::class)
 fun main() {
 
-    val test =
-        KtorfitConverterHelper(Ktorfit.Builder().converterFactories(MyWebSocketFactory()).httpClient(jvmClient).build())
 
-    val dies = Ktorfit.Builder().baseUrl("ws://localhost:23567/", false).converterFactories(MyWebSocketFactory()).httpClient(jvmClient).build()
+    val dies = Ktorfit.Builder()
+        .baseUrl("ws://localhost:23567/", false)
+        .converterFactories(WebSocketFactory())
+        .httpClient(jvmClient)
+        .build()
 
     val websocket = dies.createQueryTestApi().testQueryWithEncoded("test","showdown")
 
@@ -107,13 +108,13 @@ fun main() {
     }
 
     GlobalScope.launch {
-
         websocket.open()
     }
 
     GlobalScope.launch {
         delay(1000)
-        websocket.send("Hello   ")
+
+        websocket.send(io.ktor.websocket.Frame.Text("test"))
     }
 
     runBlocking {

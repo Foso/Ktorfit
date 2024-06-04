@@ -1,10 +1,11 @@
 package de.jensklingenberg.ktorfit
 
+import io.ktor.websocket.*
 import kotlinx.coroutines.flow.Flow
 
 public interface WebSocket {
     public val events: Flow<Event>
-    public suspend fun send(message: String)
+    public suspend fun send(frame: Frame)
     public fun close()
     public fun isOpen(): Boolean
     public suspend fun open()
