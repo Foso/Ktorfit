@@ -6,9 +6,11 @@ import com.example.api.*
 import com.example.model.ExampleApi
 import com.example.model.MyOwnResponseConverterFactory
 import com.example.model.createExampleApi
+import de.jensklingenberg.ktorfit.Event
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.CallConverterFactory
 import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
+import de.jensklingenberg.ktorfit.converter.MyWebSocketFactory
 import de.jensklingenberg.ktorfit.internal.*
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*

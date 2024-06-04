@@ -14,6 +14,8 @@ ktorfit = "2.0.0"
 ktorfitKsp = "2.0.0-1.0.21"
 ktorfitCompiler = "2.0.0-2.0.0"
 ktorfitCallConverter = "2.0.0"
+ktorfitWebSocketConverter = "0.0.1"
+
 ktorfitFlowConverter = "2.0.0"
 ktorfitResponseConverter = "2.0.0"
 ktorfitGradle = "2.0.0"

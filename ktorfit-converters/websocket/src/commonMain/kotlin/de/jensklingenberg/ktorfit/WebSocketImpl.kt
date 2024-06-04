@@ -1,14 +1,13 @@
-package com.example.api
+package de.jensklingenberg.ktorfit
 
 import io.ktor.client.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.client.request.*
-import io.ktor.http.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
 import kotlinx.coroutines.flow.MutableStateFlow
 
-public class WebSocketImpl(private val client: HttpClient, val requestBuilder: HttpRequestBuilder.() -> Unit) : WebSocket {
+internal class WebSocketImpl(private val client: HttpClient, private val requestBuilder: HttpRequestBuilder.() -> Unit) : WebSocket {
     private val mutableEvents: MutableStateFlow<Event> = MutableStateFlow(Event.Created)
     override val events: MutableStateFlow<Event> = mutableEvents
     private var open = false
