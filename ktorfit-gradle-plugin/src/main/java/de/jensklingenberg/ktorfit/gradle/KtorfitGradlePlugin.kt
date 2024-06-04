@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit.gradle
 
+import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -32,14 +33,17 @@ class KtorfitGradlePlugin : Plugin<Project> {
                 val ktorfitKsp = "$GROUP_NAME:ktorfit-ksp"
 
                 val kspPlugin =
-                    plugins.findPlugin("com.google.devtools.ksp") ?: error("KSP plugin not found")
+                    plugins.findPlugin("com.google.devtools.ksp") ?: throw GradleException("Ktorfit requires KSP plugin to be applied.")
 
                 val kspVersion = kspPlugin.javaClass.protectionDomain.codeSource.location.toURI().toString()
-                    .substringAfterLast("-").substringBefore(".jar")
+                    .substringAfterLast("/")
+                    .substringAfterLast("symbol-processing-gradle-plugin-")
+                    .substringAfter("-")
+                    .substringBefore(".jar")
 
                 checkKSPVersion(kspVersion)
 
-                val kspExtension = extensions.findByName("ksp") ?: error("KSP config not found")
+                val kspExtension = extensions.findByName("ksp") ?: throw GradleException("Ktorfit: KSP config not found")
                 val argMethod = kspExtension.javaClass.getMethod("arg", String::class.java, String::class.java)
 
                 afterEvaluate {
@@ -108,9 +112,9 @@ class KtorfitGradlePlugin : Plugin<Project> {
     }
 
     private fun checkKSPVersion(kspVersion: String) {
-        val kspVersionParts = kspVersion.split(".")
+        val kspVersionParts = kspVersion.substringBefore("-").split(".")
         if (kspVersionParts[2].toInt() < MIN_KSP_VERSION.split(".")[2].toInt()) {
-            error("Ktorfit: KSP version $kspVersion is not supported. You need at least version $MIN_KSP_VERSION")
+            throw GradleException("Ktorfit: KSP version $kspVersion is not supported. You need at least version $MIN_KSP_VERSION")
         }
     }
 

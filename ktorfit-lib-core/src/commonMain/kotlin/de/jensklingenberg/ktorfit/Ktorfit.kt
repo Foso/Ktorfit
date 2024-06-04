@@ -72,6 +72,17 @@ public class Ktorfit private constructor(
             .firstNotNullOfOrNull { it.requestParameterConverter(parameterType, requestType) }
     }
 
+    public fun nextWebsocket(
+        currentFactory: Converter.Factory?,
+        type: TypeData
+    ): Converter.WebSocketProvider? {
+        val start = converterFactories.indexOf(currentFactory) + 1
+        return converterFactories
+            .subList(start, converterFactories.size)
+            .firstNotNullOfOrNull { it.webSocketClass(type, this) }
+    }
+
+
     /**
      * This will return an implementation of [T] if [T] is an interface
      * with Ktorfit annotations.

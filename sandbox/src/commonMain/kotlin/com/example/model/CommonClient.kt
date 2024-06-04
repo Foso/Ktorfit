@@ -31,4 +31,3 @@ val commonKtorfit = ktorfit {
 
 
 val jsonPlaceHolderApi = commonKtorfit.createJsonPlaceHolderApi()
-
