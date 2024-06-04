@@ -14,7 +14,6 @@ public interface WebSocket {
     public suspend fun open()
 }
 
-
 public sealed interface Event {
     public data class Message(val message: String) : Event
     public data class Close(val message: String = "", val exception: Exception? = null) : Event
