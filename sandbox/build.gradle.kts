@@ -132,16 +132,6 @@ kotlin {
 }
 
 
-dependencies {
-    with(projects.ktorfitKsp) {
-        add(
-            "kspCommonMainMetadata", this
-        )
-        // add("kspCommonMainMetadataTest", this)
-    }
-
-
-}
 
 configurations.all {
     resolutionStrategy.dependencySubstitution {

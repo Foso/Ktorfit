@@ -74,7 +74,9 @@ fun main() {
     val test =
         KtorfitConverterHelper(Ktorfit.Builder().converterFactories(MyWebSocketFactory()).httpClient(jvmClient).build())
 
-    val websocket = test.websocket<WebSocket>()
+    val dies = Ktorfit.Builder().baseUrl("ws://localhost:23567/", false).converterFactories(MyWebSocketFactory()).httpClient(jvmClient).build()
+
+    val websocket = dies.createQueryTestApi().testQueryWithEncoded("test","showdown")
 
     GlobalScope.launch {
         websocket.events.onEach {

@@ -100,8 +100,8 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
         throw IllegalStateException("No RequestConverter found to convert ${parameterType.simpleName} to ${requestType.simpleName}")
     }
 
-    public fun <T : Any> websocket(
-        typeData: TypeData = TypeData.createTypeData("", typeInfo = typeInfo<T>()),
+    public fun <T> webSocket(
+        typeData: TypeData = TypeData.createTypeData("", typeInfo = typeInfo<String>()),
         requestBuilder: HttpRequestBuilder.() -> Unit = {
             url {
                 protocol = URLProtocol.WS

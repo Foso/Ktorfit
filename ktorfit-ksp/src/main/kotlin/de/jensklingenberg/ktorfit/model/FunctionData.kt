@@ -22,6 +22,8 @@ data class FunctionData(
     val httpMethodAnnotation: HttpMethodAnnotation,
 ) {
 
+    fun hasNoWebsocketAnnotation() = !annotations.anyInstance<WebSocket>()
+
     fun toFunSpec(resolver: Resolver, setQualifiedTypeName: Boolean): FunSpec {
         return FunSpec.builder(this.name)
             .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
@@ -54,8 +56,10 @@ data class FunctionData(
                 converterHelper.objectName,
                 if (this.isSuspend) {
                     "suspendRequest"
-                } else {
+                } else if(hasNoWebsocketAnnotation()) {
                     "request"
+                } else {
+                    "webSocket"
                 },
                 typeDataClass.objectName,
                 if (this.returnType.parameterType.isMarkedNullable) {
@@ -134,6 +138,10 @@ fun KSFunctionDeclaration.toFunctionData(
         }
 
         functionAnnotationList.add(formUrlEncoded)
+    }
+
+    funcDeclaration.getWebSocket()?.let { streaming ->
+        functionAnnotationList.add(streaming)
     }
 
     funcDeclaration.getStreamingAnnotation()?.let { streaming ->

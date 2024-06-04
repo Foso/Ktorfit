@@ -87,7 +87,7 @@ fun getHeadersCode(
                         val headerValue =
                             if (isStringType) paramName else "\"\$$paramName\""
 
-                        if (parameterData.type.parameterType?.isMarkedNullable ?: false) {
+                        if (parameterData.type.parameterType?.isMarkedNullable == true) {
                             "%s?.let{ append(\"%s\", %s) }\n".format(
                                 paramName,
                                 headerName,
@@ -118,7 +118,7 @@ fun getHeadersCode(
 
             val headerMapStringBuilder = StringBuilder()
             headerMapStringBuilder.append(
-                if (parameterData.type.parameterType?.isMarkedNullable ?: false) {
+                if (parameterData.type.parameterType?.isMarkedNullable == true) {
                     "${parameterData.name}?"
                 } else {
                     parameterData.name
