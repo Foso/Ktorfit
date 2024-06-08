@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 
@@ -40,6 +41,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 kotlin {
     explicitApi()
+    if(libs.versions.ktorVersion.get().startsWith("3.")){
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs()
+    }
     jvm {
 
     }

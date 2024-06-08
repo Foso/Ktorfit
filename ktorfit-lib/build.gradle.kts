@@ -39,6 +39,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 kotlin {
     explicitApi()
+    if(libs.versions.ktorVersion.get().startsWith("3.")){
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs()
+    }
     jvm {
 
     }

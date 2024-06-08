@@ -77,6 +77,7 @@ public class Ktorfit private constructor(
      * with Ktorfit annotations.
      * @param classProvider Please keep the default parameter, it will be replaced
      * by the compiler plugin
+     * @exception IllegalArgumentException if the compiler plugin is not enabled
      */
     @Deprecated("This function relies on a compiler plugin to find the implementation class of the requested interface. This can lead to compile errors when the class can't be found. " +
             "The plan is to get rid of the plugin." +

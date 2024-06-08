@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -28,7 +29,8 @@ tasks.withType<KotlinCompile> {
 
 
 kotlin {
-
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs()
     jvm {
 
     }
