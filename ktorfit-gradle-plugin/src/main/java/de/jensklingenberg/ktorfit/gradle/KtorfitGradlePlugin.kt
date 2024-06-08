@@ -90,7 +90,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
                         }
 
                         kotlinExtension.sourceSets.named("commonMain").configure {
-                            kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+                            kotlin.srcDir("${layout.buildDirectory.get()}/generated/ksp/metadata/commonMain/kotlin")
                         }
 
                         tasks.withType(KotlinCompilationTask::class.java).configureEach {
