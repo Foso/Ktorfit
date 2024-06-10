@@ -26,7 +26,7 @@ gradleMavenPublishPlugin = "0.28.0"
 vannikMavenPublish = "0.28.0"
 
 [libraries]
-android-build-gradle = "com.android.tools.build:gradle:8.2.2"
+android-build-gradle = "com.android.tools.build:gradle:8.4.2"
 auto-service-ksp = { module = "dev.zacsweers.autoservice:auto-service-ksp", version.ref = "autoServiceKsp" }
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
