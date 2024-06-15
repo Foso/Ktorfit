@@ -181,7 +181,7 @@ interface TestService {
 
         val result = compilation.compile()
         assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
-        assertTrue(result.messages.contains(KtorfitError.MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER("GET")))
+        assertTrue(result.messages.contains(KtorfitError.missingEitherKeywordUrlOrUrlParameter("GET")))
     }
 
     @Test
