@@ -1,7 +1,9 @@
 package de.jensklingenberg.ktorfit
 
 import io.ktor.client.statement.HttpResponse
+import io.ktor.http.Headers
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.isSuccess
 
 /** An HTTP response.  */
 @Suppress("MemberVisibilityCanBePrivate")
@@ -11,9 +13,7 @@ public class Response<T> private constructor(
     private val errorBody: Any?,
 ) {
     /** The raw response from the HTTP client.  */
-    public fun raw(): HttpResponse {
-        return rawResponse
-    }
+    public fun raw(): HttpResponse = rawResponse
 
     /** HTTP status.  */
     public val status: HttpStatusCode get() = rawResponse.status
@@ -35,18 +35,12 @@ public class Response<T> private constructor(
         get() = status.isSuccess()
 
     /** The deserialized response body of a [isSuccessful] response.  */
-    public fun body(): T? {
-        return body
-    }
+    public fun body(): T? = body
 
     /** The raw response body of an [unsuccessful] response.  */
-    public fun errorBody(): Any? {
-        return errorBody
-    }
+    public fun errorBody(): Any? = errorBody
 
-    override fun toString(): String {
-        return rawResponse.toString()
-    }
+    override fun toString(): String = rawResponse.toString()
 
     public companion object {
         /**
