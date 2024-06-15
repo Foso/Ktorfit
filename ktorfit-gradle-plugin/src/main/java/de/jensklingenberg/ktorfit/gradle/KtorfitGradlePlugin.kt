@@ -34,8 +34,9 @@ class KtorfitGradlePlugin : Plugin<Project> {
                 val kspPlugin =
                     plugins.findPlugin("com.google.devtools.ksp") ?: error("KSP plugin not found")
 
-                val kspVersion = kspPlugin.javaClass.protectionDomain.codeSource.location.toURI().toString()
-                    .substringAfterLast("-").substringBefore(".jar")
+                val kspVersion =
+                    kspPlugin.javaClass.protectionDomain.codeSource.location.toURI().toString()
+                        .substringAfterLast("-").substringBefore(".jar")
 
                 checkKSPVersion(kspVersion)
 
@@ -49,7 +50,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
                     argMethod.invoke(
                         kspExtension,
                         "Ktorfit_QualifiedTypeName",
-                        config.generateQualifiedTypeName.toString()
+                        config.generateQualifiedTypeName.toString(),
                     )
                 }
 
@@ -61,7 +62,6 @@ class KtorfitGradlePlugin : Plugin<Project> {
                     }
 
                     is KotlinMultiplatformExtension -> {
-
                         dependencies {
                             add("kspCommonMainMetadata", dependency)
                         }
@@ -71,21 +71,31 @@ class KtorfitGradlePlugin : Plugin<Project> {
                             dependencies.add(
                                 "ksp${
                                     targetName.replaceFirstChar {
-                                        if (it.isLowerCase()) it.titlecase(
-                                            US
-                                        ) else it.toString()
+                                        if (it.isLowerCase()) {
+                                            it.titlecase(
+                                                US,
+                                            )
+                                        } else {
+                                            it.toString()
+                                        }
                                     }
-                                }", dependency
+                                }",
+                                dependency,
                             )
 
                             dependencies.add(
                                 "ksp${
                                     targetName.replaceFirstChar {
-                                        if (it.isLowerCase()) it.titlecase(
-                                            US
-                                        ) else it.toString()
+                                        if (it.isLowerCase()) {
+                                            it.titlecase(
+                                                US,
+                                            )
+                                        } else {
+                                            it.toString()
+                                        }
                                     }
-                                }Test", dependency
+                                }Test",
+                                dependency,
                             )
                         }
 
@@ -104,7 +114,6 @@ class KtorfitGradlePlugin : Plugin<Project> {
                 }
             }
         }
-
     }
 
     private fun checkKSPVersion(kspVersion: String) {
@@ -113,8 +122,6 @@ class KtorfitGradlePlugin : Plugin<Project> {
             error("Ktorfit: KSP version $kspVersion is not supported. You need at least version $MIN_KSP_VERSION")
         }
     }
-
 }
 
-internal fun Project.getKtorfitConfig() =
-    this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
+internal fun Project.getKtorfitConfig() = this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()

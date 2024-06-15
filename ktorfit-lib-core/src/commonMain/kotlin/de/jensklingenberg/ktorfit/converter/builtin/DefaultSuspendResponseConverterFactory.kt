@@ -4,17 +4,15 @@ import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.converter.TypeData
-import io.ktor.client.statement.*
+import io.ktor.client.statement.HttpResponse
 
 /**
  * Will be used when no other suspend converter was found
  * It is automatically applied last
  */
 internal class DefaultSuspendResponseConverterFactory : Converter.Factory {
-
     class DefaultSuspendResponseConverter(val typeData: TypeData) :
         Converter.SuspendResponseConverter<HttpResponse, Any> {
-
         override suspend fun convert(result: KtorfitResult): Any {
             return when (result) {
                 is KtorfitResult.Failure -> {
@@ -30,10 +28,8 @@ internal class DefaultSuspendResponseConverterFactory : Converter.Factory {
 
     override fun suspendResponseConverter(
         typeData: TypeData,
-        ktorfit: Ktorfit
+        ktorfit: Ktorfit,
     ): Converter.SuspendResponseConverter<HttpResponse, *> {
         return DefaultSuspendResponseConverter(typeData)
     }
-
 }
-

@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
@@ -12,7 +11,7 @@ plugins {
     signing
     alias(libs.plugins.detekt)
     id("app.cash.licensee")
-
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 licensee {
@@ -21,14 +20,13 @@ licensee {
 }
 
 mavenPublishing {
-    coordinates("de.jensklingenberg.ktorfit", "compiler-plugin", libs.versions.ktorfitCompiler.get())
+    coordinates(libs.versions.groupId.get(), "compiler-plugin", libs.versions.ktorfitCompiler.get())
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {
         signAllPublications()
     }
 }
-
 
 dependencies {
     compileOnly(libs.autoService)
@@ -37,7 +35,6 @@ dependencies {
     testImplementation(libs.kctfork.core)
     testImplementation(libs.junit)
     testImplementation(kotlin("reflect"))
-
 }
 
 detekt {
@@ -84,10 +81,11 @@ publishing {
             hasProperty("sonatypeReleaseUrl")
         ) {
             maven {
-                val url = when {
-                    "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
-                    else -> property("sonatypeReleaseUrl")
-                } as String
+                val url =
+                    when {
+                        "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
+                        else -> property("sonatypeReleaseUrl")
+                    } as String
                 setUrl(url)
                 credentials {
                     username = property("sonatypeUsername") as String
@@ -107,7 +105,3 @@ java {
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
-tasks.withType<KotlinCompilationTask<*>>().configureEach {
-    compilerOptions.freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
-}
-

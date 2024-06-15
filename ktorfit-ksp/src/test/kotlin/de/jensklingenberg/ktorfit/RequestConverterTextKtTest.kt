@@ -1,6 +1,8 @@
 package de.jensklingenberg.ktorfit
 
-import com.google.devtools.ksp.symbol.*
+import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSName
+import com.google.devtools.ksp.symbol.KSType
 import com.squareup.kotlinpoet.FunSpec
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
@@ -13,7 +15,6 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
 class RequestConverterTextKtTest {
-
     @Test
     fun generateCorrectFunction() {
         val expected = """public fun TestFunction() {
@@ -21,54 +22,54 @@ class RequestConverterTextKtTest {
 }
 """
 
-        val ksType = createKsType("Test","com.example")
+        val ksType = createKsType("Test", "com.example")
         val parameterAnnotations = listOf<ParameterAnnotation>(RequestType(ksType))
         val parameterData =
             ParameterData("test1", ReturnTypeData("String", null), annotations = parameterAnnotations)
         val params = listOf(parameterData)
 
-
         val actualSource = FunSpec.builder("TestFunction").addRequestConverterText(params).build().toString()
 
         assertEquals(expected, actualSource)
     }
-
-
 }
 
-fun createKsType(name: String, packageName: String): KSType {
+fun createKsType(
+    name: String,
+    packageName: String,
+): KSType {
     val mockDec = mock<KSClassDeclaration>()
 
     whenever(mockDec.simpleName).thenAnswer { name }
 
-    val packagemockKSName = object : KSName {
-        override fun asString(): String {
-            return packageName
-        }
+    val packagemockKSName =
+        object : KSName {
+            override fun asString(): String {
+                return packageName
+            }
 
-        override fun getQualifier(): String {
-            return ""
-        }
+            override fun getQualifier(): String {
+                return ""
+            }
 
-        override fun getShortName(): String {
-            return ""
+            override fun getShortName(): String {
+                return ""
+            }
         }
+    val qualifiedMockKSName =
+        object : KSName {
+            override fun asString(): String {
+                return name
+            }
 
-    }
-    val qualifiedMockKSName = object : KSName {
-        override fun asString(): String {
-            return name
+            override fun getQualifier(): String {
+                return ""
+            }
+
+            override fun getShortName(): String {
+                return ""
+            }
         }
-
-        override fun getQualifier(): String {
-            return ""
-        }
-
-        override fun getShortName(): String {
-            return ""
-        }
-
-    }
     whenever(mockDec.packageName).thenAnswer { packagemockKSName }
     whenever(mockDec.qualifiedName).thenAnswer { qualifiedMockKSName }
 

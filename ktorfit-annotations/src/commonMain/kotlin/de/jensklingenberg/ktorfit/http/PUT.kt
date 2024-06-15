@@ -1,6 +1,5 @@
 package de.jensklingenberg.ktorfit.http
 
-
 /** Make a PUT request.
  * ```
  * @PUT("putIssue")

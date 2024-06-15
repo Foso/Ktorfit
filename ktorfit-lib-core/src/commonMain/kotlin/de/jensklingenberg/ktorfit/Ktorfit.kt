@@ -7,12 +7,14 @@ import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.TypeData
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
-import de.jensklingenberg.ktorfit.internal.*
-import io.ktor.client.*
-import io.ktor.client.engine.*
-import io.ktor.client.statement.*
+import de.jensklingenberg.ktorfit.internal.ClassProvider
+import io.ktor.client.HttpClient
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.HttpClientEngineConfig
+import io.ktor.client.engine.HttpClientEngineFactory
+import io.ktor.client.statement.HttpResponse
 import kotlin.reflect.KClass
-
 
 /**
  * Main class for Ktorfit, create the class than use the [create<T>()] function.
@@ -20,9 +22,8 @@ import kotlin.reflect.KClass
 public class Ktorfit private constructor(
     public val baseUrl: String,
     public val httpClient: HttpClient = HttpClient(),
-    private val converterFactories: List<Converter.Factory>
+    private val converterFactories: List<Converter.Factory>,
 ) {
-
     /**
      * Returns the next response converter from the list of converter factories,
      * starting from the specified current factory and matching the given type.
@@ -32,7 +33,7 @@ public class Ktorfit private constructor(
      */
     public fun nextResponseConverter(
         currentFactory: Converter.Factory?,
-        type: TypeData
+        type: TypeData,
     ): Converter.ResponseConverter<HttpResponse, *>? {
         val start = converterFactories.indexOf(currentFactory) + 1
         return converterFactories
@@ -49,7 +50,7 @@ public class Ktorfit private constructor(
      */
     public fun nextSuspendResponseConverter(
         currentFactory: Converter.Factory?,
-        type: TypeData
+        type: TypeData,
     ): Converter.SuspendResponseConverter<HttpResponse, *>? {
         val start = converterFactories.indexOf(currentFactory) + 1
         return converterFactories
@@ -64,7 +65,7 @@ public class Ktorfit private constructor(
     internal fun nextRequestParameterConverter(
         currentFactory: Converter.Factory?,
         parameterType: KClass<*>,
-        requestType: KClass<*>
+        requestType: KClass<*>,
     ): Converter.RequestParameterConverter? {
         val start = converterFactories.indexOf(currentFactory) + 1
         return converterFactories
@@ -79,18 +80,19 @@ public class Ktorfit private constructor(
      * by the compiler plugin
      * @exception IllegalArgumentException if the compiler plugin is not enabled
      */
-    @Deprecated("This function relies on a compiler plugin to find the implementation class of the requested interface. This can lead to compile errors when the class can't be found. " +
-            "The plan is to get rid of the plugin." +
-            "When your project is configured correct, the autocompletion should show an extension function *create* followed by the name of the interface. This function will not trigger the compiler plugin " +
-            "e.g. change .create<ExampleApi>() to .createExampleApi()")
+    @Deprecated(
+        """This function relies on a compiler plugin to find the implementation class of the requested 
+            interface. This can lead to compile errors when the class can't be found. The plan is to get rid of the 
+            plugin.When your project is configured correct, the autocompletion should show an extension function 
+            *create* followed by the name of the interface. This function will not trigger the compiler plugin e.g. 
+            change .create<ExampleApi>() to .createExampleApi()""",
+    )
     public fun <T> create(classProvider: ClassProvider<T>? = null): T {
-
         if (classProvider == null) {
             throw IllegalArgumentException(ENABLE_GRADLE_PLUGIN)
         }
         return classProvider.create(this)
     }
-
 
     /**
      * Builder class for Ktorfit.
@@ -98,6 +100,7 @@ public class Ktorfit private constructor(
      * @see baseUrl
      * @see httpClient
      */
+    @Suppress("PropertyName")
     public class Builder {
         private var _baseUrl: String = ""
         private var _httpClient: HttpClient? = null
@@ -108,74 +111,88 @@ public class Ktorfit private constructor(
          * @param url base url for every request
          * @param checkUrl if true, it checks if [url] ends with / and starts with http/https
          */
-        public fun baseUrl(url: String, checkUrl: Boolean = true): Builder = apply {
-            if (checkUrl && url.isEmpty()) {
-                throw IllegalStateException(BASE_URL_REQUIRED)
-            }
+        public fun baseUrl(
+            url: String,
+            checkUrl: Boolean = true,
+        ): Builder =
+            apply {
+                if (checkUrl && url.isEmpty()) {
+                    throw IllegalStateException(BASE_URL_REQUIRED)
+                }
 
-            if (checkUrl && !url.endsWith("/")) {
-                throw IllegalStateException(BASE_URL_NEEDS_TO_END_WITH)
+                if (checkUrl && !url.endsWith("/")) {
+                    throw IllegalStateException(BASE_URL_NEEDS_TO_END_WITH)
+                }
+                if (checkUrl && !url.startsWith("http") && !url.startsWith("https")) {
+                    throw IllegalStateException(EXPECTED_URL_SCHEME)
+                }
+                this._baseUrl = url
             }
-            if (checkUrl && !url.startsWith("http") && !url.startsWith("https")) {
-                throw IllegalStateException(EXPECTED_URL_SCHEME)
-            }
-            this._baseUrl = url
-        }
 
         /**
          * Client that will be used for every request with object
          * @param client The HTTP client to be used.
          * @return The updated Builder instance.
          */
-        public fun httpClient(client: HttpClient): Builder = apply {
-            this._httpClient = client
-        }
+        public fun httpClient(client: HttpClient): Builder =
+            apply {
+                this._httpClient = client
+            }
 
         /**
          * Build HttpClient by just passing an engine
          */
-        public fun httpClient(engine: HttpClientEngine): Builder = apply {
-            this._httpClient = HttpClient(engine)
-        }
+        public fun httpClient(engine: HttpClientEngine): Builder =
+            apply {
+                this._httpClient = HttpClient(engine)
+            }
 
         /**
          * Build HttpClient by just passing an engine factory
          */
-        public fun <T : HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>): Builder = apply {
-            this._httpClient = HttpClient(engineFactory)
-        }
+        public fun <T : HttpClientEngineConfig> httpClient(engineFactory: HttpClientEngineFactory<T>): Builder =
+            apply {
+                this._httpClient = HttpClient(engineFactory)
+            }
 
         /**
          * Client-Builder that will be used for every request with object
          */
-        public fun httpClient(config: HttpClientConfig<*>.() -> Unit): Builder = apply {
-            this._httpClient = HttpClient(config)
-        }
+        public fun httpClient(config: HttpClientConfig<*>.() -> Unit): Builder =
+            apply {
+                this._httpClient = HttpClient(config)
+            }
 
         /**
          * Client-Builder with engine that will be used for every request with object
          */
-        public fun httpClient(engine: HttpClientEngine, config: HttpClientConfig<*>.() -> Unit): Builder = apply {
-            this._httpClient = HttpClient(engine, config)
-        }
+        public fun httpClient(
+            engine: HttpClientEngine,
+            config: HttpClientConfig<*>.() -> Unit,
+        ): Builder =
+            apply {
+                this._httpClient = HttpClient(engine, config)
+            }
 
         /**
          * Client-Builder with engine factory that will be used for every request with object
          */
         public fun <T : HttpClientEngineConfig> httpClient(
             engineFactory: HttpClientEngineFactory<T>,
-            config: HttpClientConfig<T>.() -> Unit
-        ): Builder = apply {
-            this._httpClient = HttpClient(engineFactory, config)
-        }
+            config: HttpClientConfig<T>.() -> Unit,
+        ): Builder =
+            apply {
+                this._httpClient = HttpClient(engineFactory, config)
+            }
 
         /**
          * Add [Converter.Factory] with converters for unsupported return types of requests.
          * The converters coming from the factories will be used before the added [CoreResponseConverter]s
          */
-        public fun converterFactories(vararg converters: Converter.Factory): Builder = apply {
-            this._factories.addAll(converters)
-        }
+        public fun converterFactories(vararg converters: Converter.Factory): Builder =
+            apply {
+                this._factories.addAll(converters)
+            }
 
         /**
          * Apply changes to builder and get the Ktorfit instance without the need of calling [build] afterwards.
@@ -189,7 +206,7 @@ public class Ktorfit private constructor(
             return Ktorfit(
                 baseUrl = _baseUrl,
                 httpClient = _httpClient ?: HttpClient(),
-                converterFactories = _factories.toList() + listOf(DefaultSuspendResponseConverterFactory())
+                converterFactories = _factories.toList() + listOf(DefaultSuspendResponseConverterFactory()),
             )
         }
     }
@@ -204,4 +221,3 @@ public fun ktorfit(builder: Ktorfit.Builder.() -> Unit): Ktorfit = Ktorfit.Build
  * Creates a Ktorfit Builder instance using Kotlin-DSL.
  */
 public fun ktorfitBuilder(builder: Ktorfit.Builder.() -> Unit): Ktorfit.Builder = Ktorfit.Builder().apply(builder)
-

@@ -8,21 +8,21 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class CompilationErrorsTest {
-
     @Test
     fun whenJavaInterface_ThrowCompilationError() {
+        val source =
+            SourceFile.java(
+                "Source.java",
+                """
+                          package test;
+                import de.jensklingenberg.ktorfit.http.GET;
 
-        val source = SourceFile.java(
-            "Source.java", """
-                package test;
-      import de.jensklingenberg.ktorfit.http.GET;
-
-      public interface TestService {
-        @GET("posts")
-        public String test();
-      }
-            """.trimIndent()
-        )
+                public interface TestService {
+                  @GET("posts")
+                  public String test();
+                }
+                """.trimIndent(),
+            )
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -32,9 +32,10 @@ class CompilationErrorsTest {
 
     @Test
     fun whenInterfaceWithoutPackage_ThrowCompilationError() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """
 
 import com.example.model.github.GithubFollowerResponseItem
 import com.example.model.github.Issuedata
@@ -54,8 +55,8 @@ interface GithubService {
     suspend fun test(): String
     
 }
-    """
-        )
+    """,
+            )
 
         val compilation = getCompilation(listOf(source))
 
@@ -64,12 +65,12 @@ interface GithubService {
         assertTrue(result.messages.contains(KtorfitError.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE))
     }
 
-
     @Test
     fun whenInterfaceWithGenerics_ThrowCompilationError() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """
   package com.example.api
 import com.example.model.github.GithubFollowerResponseItem
 import com.example.model.github.Issuedata
@@ -89,8 +90,8 @@ interface GithubService<T> {
     suspend fun test(): String
     
 }
-    """
-        )
+    """,
+            )
 
         val compilation = getCompilation(listOf(source))
 
@@ -98,5 +99,4 @@ interface GithubService<T> {
         assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
         assertTrue(result.messages.contains(KtorfitError.TYPE_PARAMETERS_ARE_UNSUPPORTED_ON))
     }
-
 }

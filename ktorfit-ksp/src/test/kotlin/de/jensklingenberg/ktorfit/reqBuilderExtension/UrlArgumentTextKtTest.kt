@@ -10,17 +10,18 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class UrlArgumentTextKtTest {
-
     @Test
     fun testWithoutUrlAnnotation() {
         val parameterData = ParameterData("test1", ReturnTypeData("String", null))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
-        val expected = "url{\n" +
+        val expected =
+            "url{\n" +
                 "takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
                 "}".trimMargin()
         assertEquals(
-            expected, text
+            expected,
+            text,
         )
     }
 
@@ -33,9 +34,9 @@ class UrlArgumentTextKtTest {
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         assertEquals(
             "url{\n" +
-                    "takeFrom((_ktorfit.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"posts\")\n" +
-                    "}",
-            text
+                "takeFrom((_ktorfit.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"posts\")\n" +
+                "}",
+            text,
         )
     }
 
@@ -46,12 +47,13 @@ class UrlArgumentTextKtTest {
             ParameterData("test1", ReturnTypeData("String", null), annotations = listOf(urlAnnotation))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
-        val expected = String.format(
-            "url{\n" +
+        val expected =
+            String.format(
+                "url{\n" +
                     "takeFrom((_ktorfit.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"%s{test1}\")\n" +
                     "}",
-            "$"
-        )
+                "$",
+            )
         assertEquals(expected, text)
     }
 
@@ -74,7 +76,7 @@ class UrlArgumentTextKtTest {
             """url{
 takeFrom(_ktorfit.baseUrl + "user/$/{"$/test1".encodeURLPath()}")
 }""".replace("$/", "$"),
-            text
+            text,
         )
     }
 }

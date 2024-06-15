@@ -1,6 +1,6 @@
 package de.jensklingenberg.ktorfit.converter
 
-import io.ktor.client.statement.*
+import io.ktor.client.statement.HttpResponse
 
 /**
  * Represents the result from a Ktorfit request. */

@@ -9,7 +9,6 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 
 @AutoService(CompilerPluginRegistrar::class)
 class CommonCompilerPluginRegistrar : CompilerPluginRegistrar() {
-
     override val supportsK2: Boolean
         get() = true
 
@@ -21,9 +20,7 @@ class CommonCompilerPluginRegistrar : CompilerPluginRegistrar() {
         val messageCollector = configuration.get(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, MessageCollector.NONE)
 
         IrGenerationExtension.registerExtension(
-            KtorfitIrGenerationExtension(DebugLogger(logging, messageCollector))
+            KtorfitIrGenerationExtension(DebugLogger(logging, messageCollector)),
         )
     }
 }
-
-

@@ -11,5 +11,3 @@ package de.jensklingenberg.ktorfit.http
  * */
 @Target(AnnotationTarget.FUNCTION)
 annotation class HTTP(val method: String, val path: String = "", val hasBody: Boolean = false)
-
-

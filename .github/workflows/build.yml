@@ -33,7 +33,7 @@ jobs:
           java-version: 17
       - uses: gradle/gradle-build-action@v3
       - name: API check
-        run: ./gradlew apiCheck
+        run: ./gradlew ktLintCheck apiCheck
   build:
     runs-on: macos-latest
     steps:

@@ -7,7 +7,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class GetRequestBuilderTextKtTest {
-
     @Test
     fun testWithoutRequestBuilderAnnotation() {
         val parameterData = ParameterData("test1", ReturnTypeData("String", null))
