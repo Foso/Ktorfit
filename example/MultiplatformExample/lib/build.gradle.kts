@@ -1,22 +1,11 @@
-import de.jensklingenberg.ktorfit.gradle.ErrorCheckingMode
-
 plugins {
     kotlin("multiplatform")
-    kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "2.0.0-1.0.22"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "2.0.0"
 }
-
-ktorfit {
-    errorCheckingMode = ErrorCheckingMode.ERROR
-    generateQualifiedTypeName = false
-}
-
-version = "1.0"
-val ktorVersion = "2.3.11"
 val ktorfitVersion = "2.0.0"
+val ktorVersion = "2.3.11"
+
 
 kotlin {
     jvmToolchain(8)
@@ -32,15 +21,7 @@ kotlin {
         this.nodejs()
         binaries.executable()
     }
-    cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
-        ios.deploymentTarget = "14.1"
-        podfile = project.file("../iosApp/Podfile")
-        framework {
-            baseName = "shared"
-        }
-    }
+
 
     sourceSets {
         val commonMain by getting {
@@ -56,7 +37,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-                implementation(project(":lib"))
+
             }
         }
         val commonTest by getting {
@@ -84,9 +65,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-}
-dependencies {
-    implementation("androidx.core:core:1.13.1")
 }
 
 

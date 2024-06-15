@@ -20,6 +20,8 @@ fun generateImplClass(
     resolver: Resolver,
     ktorfitOptions: KtorfitOptions
 ) {
+    val singleTarget = ktorfitOptions.singleTarget
+
     classDataList.forEach { classData ->
         with(classData) {
             val fileSource = classData.getImplClassFileSource(resolver, ktorfitOptions)
@@ -28,7 +30,7 @@ fun generateImplClass(
             val commonMainModuleName = "commonMain"
             val moduleName = try {
                 resolver.getModuleName().getShortName()
-            }catch (e: AbstractMethodError){
+            } catch (e: AbstractMethodError) {
                 ""
             }
 
@@ -37,7 +39,7 @@ fun generateImplClass(
                     return@forEach
                 }
             } else {
-                if (ksFile.filePath.contains(commonMainModuleName)) {
+                if (!singleTarget && ksFile.filePath.contains(commonMainModuleName)) {
                     return@forEach
                 }
             }

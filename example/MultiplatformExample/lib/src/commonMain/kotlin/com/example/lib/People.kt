@@ -1,4 +1,4 @@
-package com.example.ktorfittest
+package com.example.lib
 
 @kotlinx.serialization.Serializable
 data class Person(

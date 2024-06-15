@@ -1,6 +1,9 @@
 package de.jensklingenberg.ktorfit
 
+import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.closestClassDeclaration
+import com.google.devtools.ksp.getClassDeclarationByName
+import com.google.devtools.ksp.getKotlinClassByName
 import com.google.devtools.ksp.processing.*
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
@@ -23,10 +26,18 @@ class KtorfitProcessor(private val env: SymbolProcessorEnvironment, private val 
         lateinit var ktorfitResolver: Resolver
     }
 
+    @OptIn(KspExperimental::class)
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val codeGenerator: CodeGenerator = env.codeGenerator
         val type = ktorfitOptions.errorsLoggingType
         ktorfitResolver = resolver
+        val tt = resolver.getDeclarationsFromPackage("")
+        env.logger.warn(tt.count().toString())
+        tt.forEach {
+            resolver.getKotlinClassByName("com.example.ExternalModel")
+            val te = resolver.getClassDeclarationByName("ExternalModel")
+            env.logger.warn("KtorfitProcessor" + it.toString() + " " + te, it)
+        }
         if (invoked) {
             return emptyList()
         }

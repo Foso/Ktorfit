@@ -2,16 +2,19 @@ package de.jensklingenberg.ktorfit.model
 
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.annotations.*
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
-import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
 import de.jensklingenberg.ktorfit.reqBuilderExtension.addRequestConverterText
+import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
 import de.jensklingenberg.ktorfit.utils.*
+import java.io.File
 
 data class FunctionData(
     val name: String,
@@ -22,14 +25,27 @@ data class FunctionData(
     val httpMethodAnnotation: HttpMethodAnnotation,
 ) {
 
-    fun toFunSpec(resolver: Resolver, setQualifiedTypeName: Boolean): FunSpec {
+    fun toFunSpec(resolver: Resolver, setQualifiedTypeName: Boolean, ksFile: KSFile): FunSpec {
+
+        val returnType1 = if (returnType.parameterType!!.isError) {
+            throw NullPointerException(returnType.parameterType.toString())
+            val file = File(ksFile.filePath)
+            val imports = file.readLines().filter { it.startsWith("import ") }
+            val test = returnType.parameterType.toString().substringAfter("<ERROR TYPE: ").substringBefore(">")
+
+            val t1 = imports.find { it.endsWith(test) }?.substringAfter("import ")?.substringBeforeLast(".") ?: ""
+            ClassName(t1, test)
+        } else {
+            returnType.parameterType!!.toTypeName()
+        }
+
         return FunSpec.builder(this.name)
             .addModifiers(mutableListOf(KModifier.OVERRIDE).also {
                 if (this.isSuspend) {
                     it.add(KModifier.SUSPEND)
                 }
             })
-            .returns(returnType.parameterType!!.toTypeName())
+            .returns(returnType1)
             .addParameters(this.parameterDataList.map {
                 ParameterSpec(it.name, it.type.parameterType!!.toTypeName())
             })
@@ -43,10 +59,10 @@ data class FunctionData(
             .addStatement(
                 "val ${typeDataClass.objectName} = ${typeDataClass.name}.createTypeData("
             )
-            .addStatement("typeInfo = typeInfo<%T>(),", this.returnType.parameterType.toTypeName())
+            .addStatement("typeInfo = typeInfo<%T>(),", returnType1)
             .addStatement(
                 if (setQualifiedTypeName) "qualifiedTypename = \"${
-                    returnType.parameterType.toTypeName().toString().removeWhiteSpaces()
+                    returnType1.toString().removeWhiteSpaces()
                 }\")" else ")"
             )
             .addStatement(

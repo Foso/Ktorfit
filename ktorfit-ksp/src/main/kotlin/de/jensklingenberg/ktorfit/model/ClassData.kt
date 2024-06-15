@@ -113,7 +113,7 @@ fun ClassData.getImplClassFileSource(resolver: Resolver, ktorfitOptions: Ktorfit
         .addSuperinterface(ClassName(classData.packageName, classData.name))
         .addKtorfitSuperInterface(classData.superClasses)
         .addProperties(listOf(helperProperty) + properties)
-        .addFunctions(classData.functions.map { it.toFunSpec(resolver, ktorfitOptions.setQualifiedType) })
+        .addFunctions(classData.functions.map { it.toFunSpec(resolver, ktorfitOptions.setQualifiedType, this.ksFile) })
         .build()
 
     return FileSpec.builder(classData.packageName, implClassName)

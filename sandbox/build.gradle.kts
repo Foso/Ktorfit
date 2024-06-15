@@ -36,25 +36,7 @@ kotlin {
         }
         withJava()
     }
-    iosX64()
-    iosArm64()
-    js(IR) {
-        this.nodejs()
-        binaries.executable() // not applicable to BOTH, see details below
-    }
-    linuxX64() {
-        binaries {
-            executable()
-        }
-    }
-    linuxArm64() {
-        binaries {
-            executable()
-        }
-    }
 
-    // macosX64()
-    mingwX64()
     applyDefaultHierarchyTemplate()
     sourceSets {
         val commonMain by getting {
@@ -71,15 +53,7 @@ kotlin {
 
             }
         }
-        val linuxX64Main by getting {
-            dependencies {
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.ktor.client.curl)
-                implementation(libs.ktor.client.core.linuxX64)
-                implementation(libs.ktor.client.cio.linuxX64)
 
-            }
-        }
 
 
         val jvmMain by getting {
@@ -110,23 +84,7 @@ kotlin {
             }
         }
 
-        val jsMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.serialization.runtime.js)
-                implementation(libs.ktor.client.serialization)
-                implementation(libs.ktor.client.json.js)
-                implementation(libs.ktor.client.js)
 
-            }
-        }
-
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosMain by getting {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-        }
 
     }
 }

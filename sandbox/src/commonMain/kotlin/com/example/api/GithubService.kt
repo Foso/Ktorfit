@@ -4,6 +4,7 @@ import com.example.model.github.GithubFollowerResponseItem
 import com.example.model.github.Issuedata
 import com.example.model.github.TestReeeItem
 import de.jensklingenberg.ktorfit.Call
+import de.jensklingenberg.ktorfit.Test
 import de.jensklingenberg.ktorfit.http.*
 import kotlinx.coroutines.flow.Flow
 
@@ -19,7 +20,7 @@ interface GithubService {
         "Content-Type: application/json"
     )
     @POST("repos/foso/experimental/issues")
-    suspend fun createIssue(@Body body: Map<*,String>, @Header("Acci") headi: String?): String
+    suspend fun createIssue(@Body body: Map<*,String>, @Header("Acci") headi: String?): Test
 
     @POST("repos/foso/experimental/issues")
     suspend fun createIssue2(@Body body: Issuedata, @Header("Acci") headi: String?): Call<Map<String?, Int>>

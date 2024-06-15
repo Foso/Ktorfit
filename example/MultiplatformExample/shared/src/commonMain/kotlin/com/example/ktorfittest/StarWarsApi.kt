@@ -1,5 +1,6 @@
 package com.example.ktorfittest
 
+import com.example.lib.Person
 import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.GET
