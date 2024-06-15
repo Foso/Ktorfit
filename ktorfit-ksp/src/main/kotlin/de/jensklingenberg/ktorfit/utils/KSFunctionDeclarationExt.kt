@@ -5,7 +5,13 @@ import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.Modifier
-import de.jensklingenberg.ktorfit.model.annotations.*
+import de.jensklingenberg.ktorfit.model.annotations.CustomHttp
+import de.jensklingenberg.ktorfit.model.annotations.FormUrlEncoded
+import de.jensklingenberg.ktorfit.model.annotations.Headers
+import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
+import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
+import de.jensklingenberg.ktorfit.model.annotations.Multipart
+import de.jensklingenberg.ktorfit.model.annotations.Streaming
 
 @OptIn(KspExperimental::class)
 fun KSFunctionDeclaration.getHeaderAnnotation(): Headers? {
@@ -36,37 +42,30 @@ fun KSFunctionDeclaration.getMultipartAnnotation(): Multipart? {
 }
 
 @OptIn(KspExperimental::class)
-fun KSFunctionDeclaration.parseHTTPMethodAnno(name: String): HttpMethodAnnotation? {
-    return when (val annotation = this.getAnnotationByName(name)) {
+fun KSFunctionDeclaration.parseHTTPMethodAnno(name: String): HttpMethodAnnotation? =
+    when (val annotation = this.getAnnotationByName(name)) {
         null -> {
             null
         }
 
         else -> {
-
             if (name == "HTTP") {
                 this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.HTTP::class).firstOrNull()?.let {
                     CustomHttp(it.path, HttpMethod.CUSTOM, it.hasBody, it.method)
                 }
-
             } else {
                 val value = annotation.getArgumentValueByName<String>("value").orEmpty()
                 HttpMethodAnnotation(value, HttpMethod.valueOf(name))
             }
-
         }
     }
-}
 
-fun KSFunctionDeclaration.getAnnotationByName(name: String): KSAnnotation? {
-    return this.annotations.toList().firstOrNull { it.shortName.asString() == name }
-}
+fun KSFunctionDeclaration.getAnnotationByName(name: String): KSAnnotation? =
+    this.annotations.toList().firstOrNull {
+        it.shortName.asString() == name
+    }
 
-fun <T> KSAnnotation.getArgumentValueByName(name: String): T? {
-    return this.arguments.firstOrNull { it.name?.asString() == name }?.value as? T
-}
-
+fun <T> KSAnnotation.getArgumentValueByName(name: String): T? = this.arguments.firstOrNull { it.name?.asString() == name }?.value as? T
 
 val KSFunctionDeclaration.isSuspend: Boolean
     get() = (this).modifiers.contains(Modifier.SUSPEND)
-

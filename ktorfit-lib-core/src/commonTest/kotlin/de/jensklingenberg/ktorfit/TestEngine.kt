@@ -1,16 +1,21 @@
 package de.jensklingenberg.ktorfit
 
-import io.ktor.client.engine.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.util.*
-import io.ktor.util.date.*
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.HttpClientEngineBase
+import io.ktor.client.engine.HttpClientEngineConfig
+import io.ktor.client.request.HttpRequestData
+import io.ktor.client.request.HttpResponseData
+import io.ktor.http.Headers
+import io.ktor.http.HttpProtocolVersion
+import io.ktor.http.HttpStatusCode
+import io.ktor.util.InternalAPI
+import io.ktor.util.date.GMTDate
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-open class TestEngine() : HttpClientEngineBase("ktor-mock") {
+open class TestEngine : HttpClientEngineBase("ktor-mock") {
     override val config: HttpClientEngineConfig
         get() = HttpClientEngineConfig()
     override val dispatcher: CoroutineDispatcher
@@ -33,12 +38,9 @@ open class TestEngine() : HttpClientEngineBase("ktor-mock") {
             Headers.Empty,
             HttpProtocolVersion.HTTP_2_0,
             "",
-            coroutineContext1
+            coroutineContext1,
         )
     }
 
-    open fun getRequestData(data: HttpRequestData) {
-
-    }
-
+    open fun getRequestData(data: HttpRequestData) {}
 }

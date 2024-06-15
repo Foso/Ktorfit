@@ -7,7 +7,6 @@ plugins {
 }
 version = "1.0-SNAPSHOT"
 
-
 ksp {
     arg("Ktorfit_Errors", "1")
     arg("Ktorfit_QualifiedTypeName", "false")
@@ -42,12 +41,12 @@ kotlin {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
     }
-    linuxX64() {
+    linuxX64 {
         binaries {
             executable()
         }
     }
-    linuxArm64() {
+    linuxArm64 {
         binaries {
             executable()
         }
@@ -68,7 +67,6 @@ kotlin {
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
-
             }
         }
         val linuxX64Main by getting {
@@ -77,10 +75,8 @@ kotlin {
                 implementation(libs.ktor.client.curl)
                 implementation(libs.ktor.client.core.linuxX64)
                 implementation(libs.ktor.client.cio.linuxX64)
-
             }
         }
-
 
         val jvmMain by getting {
             kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
@@ -89,24 +85,17 @@ kotlin {
                 implementation(libs.ktor.client.core.jvm)
                 implementation(libs.kotlinx.coroutines.rx3)
                 implementation("io.reactivex.rxjava3:rxjava:3.1.8")
-
                 implementation(libs.ktor.client.logging)
-                // implementation(libs.logbackClassic)
                 implementation(libs.ktor.serialization.gson)
                 implementation(libs.ktor.client.cio.jvm)
             }
         }
 
         val jvmTest by getting {
-            //   kotlin.srcDir("build/kspCaches/jvmMain/")
-
-
             dependencies {
                 dependsOn(jvmMain)
                 implementation(libs.ktor.client.mock)
                 implementation(libs.junit)
-
-
             }
         }
 
@@ -116,31 +105,28 @@ kotlin {
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.ktor.client.json.js)
                 implementation(libs.ktor.client.js)
-
             }
         }
 
         val iosX64Main by getting
         val iosArm64Main by getting
-        val iosMain by getting {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-        }
-
+        val iosMain by getting
     }
 }
 
 configurations.all {
     resolutionStrategy.dependencySubstitution {
         substitute(module("de.jensklingenberg.ktorfit:gradle-plugin"))
-            .using(project(":ktorfit-gradle-plugin")).because("we work with the unreleased development version")
+            .using(project(":ktorfit-gradle-plugin"))
+            .because("we work with the unreleased development version")
         substitute(module("de.jensklingenberg.ktorfit:compiler-plugin"))
-            .using(project(":ktorfit-compiler-plugin")).because("we work with the unreleased development version")
+            .using(project(":ktorfit-compiler-plugin"))
+            .because("we work with the unreleased development version")
         substitute(module("de.jensklingenberg.ktorfit:converters-flow"))
-            .using(project(":ktorfit-converters:flow")).because("we work with the unreleased development version")
+            .using(project(":ktorfit-converters:flow"))
+            .because("we work with the unreleased development version")
         substitute(module("de.jensklingenberg.ktorfit:converters-call"))
-            .using(project(":ktorfit-converters:call")).because("we work with the unreleased development version")
+            .using(project(":ktorfit-converters:call"))
+            .because("we work with the unreleased development version")
     }
 }
-

@@ -5,5 +5,3 @@ package de.jensklingenberg.ktorfit.http
  * */
 @Target(AnnotationTarget.FUNCTION)
 annotation class HEAD(val value: String = "")
-
-

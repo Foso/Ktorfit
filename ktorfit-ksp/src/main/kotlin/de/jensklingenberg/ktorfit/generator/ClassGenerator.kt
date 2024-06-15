@@ -9,7 +9,6 @@ import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.getImplClassFileSource
 import java.io.OutputStreamWriter
 
-
 /**
  * Generate the Impl class for every interface used for Ktorfit
  */
@@ -18,7 +17,7 @@ fun generateImplClass(
     classDataList: List<ClassData>,
     codeGenerator: CodeGenerator,
     resolver: Resolver,
-    ktorfitOptions: KtorfitOptions
+    ktorfitOptions: KtorfitOptions,
 ) {
     classDataList.forEach { classData ->
         with(classData) {
@@ -26,11 +25,12 @@ fun generateImplClass(
 
             val fileName = "_${name}Impl"
             val commonMainModuleName = "commonMain"
-            val moduleName = try {
-                resolver.getModuleName().getShortName()
-            }catch (e: AbstractMethodError){
-                ""
-            }
+            val moduleName =
+                try {
+                    resolver.getModuleName().getShortName()
+                } catch (e: AbstractMethodError) {
+                    ""
+                }
 
             if (moduleName.contains(commonMainModuleName)) {
                 if (!ksFile.filePath.contains(commonMainModuleName)) {
@@ -49,7 +49,5 @@ fun generateImplClass(
                     }
                 }
         }
-
     }
 }
-

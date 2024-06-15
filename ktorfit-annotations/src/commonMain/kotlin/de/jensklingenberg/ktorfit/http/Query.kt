@@ -1,6 +1,5 @@
 package de.jensklingenberg.ktorfit.http
 
-
 /**
  * Used for query parameters
  *

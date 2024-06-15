@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.model
 
 internal class KtorfitError {
-
     companion object {
         const val FUNCTION_OR_PARAMETERS_TYPES_MUST_NOT_INCLUDE_ATYPE_VARIABLE_OR_WILDCARD =
             "function or parameters types must not include a type variable or wildcard:"
@@ -45,10 +44,14 @@ internal class KtorfitError {
         const val HEADERS_VALUE_MUST_BE_IN_FORM = "@Headers value must be in the form \"Name: Value\". Found: "
         const val PROPERTIES_NOT_SUPPORTED = "throw IllegalStateException(\"Properties not supported by Ktorfit\")"
 
-        fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) = "Missing either @$keyword URL or @Url parameter"
-        fun NO_KTORFIT_ANNOTATION_FOUND_AT(parameterName: String): String = "No Ktorfit Annotation found at $parameterName"
-        fun MISSING_X_IN_RELATIVE_URL_PATH(keyword: String) = "Missing {${keyword}} in relative url path"
-        fun NO_HTTP_ANNOTATION_AT(functionName: String) = "No Http annotation at $functionName"
-        fun URL_CAN_ONLY_BE_USED_WITH_EMPY(keyword: String) = "@Url can only be used with empty @${keyword} URL value"
+        fun missingEitherKeywordUrlOrUrlParameter(keyword: String) = "Missing either @$keyword URL or @Url parameter"
+
+        fun noKtorfitAnnotationFoundAt(parameterName: String): String = "No Ktorfit Annotation found at $parameterName"
+
+        fun missingXInRelativeUrlPath(keyword: String) = "Missing {$keyword} in relative url path"
+
+        fun noHttpAnnotationAt(functionName: String) = "No Http annotation at $functionName"
+
+        fun urlCanOnlyBeUsedWithEmpy(keyword: String) = "@Url can only be used with empty @$keyword URL value"
     }
 }

@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit
 
-import io.ktor.util.reflect.*
+import io.ktor.util.reflect.TypeInfo
+import io.ktor.util.reflect.platformType
 import kotlin.reflect.KClass
 
 /**
@@ -9,7 +10,6 @@ import kotlin.reflect.KClass
  * Example: Response<String> will return String as TypeInfo with upperBoundType(0)
  */
 public fun TypeInfo.upperBoundType(index: Int = 0): TypeInfo? {
-
     val parentType = this.kotlinType ?: return null
     val modelKTypeProjection = if (parentType.arguments.isNotEmpty()) parentType.arguments[index] else return null
     val modelKType = modelKTypeProjection.type ?: return null

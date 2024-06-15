@@ -14,4 +14,3 @@ fun getAttributeCode(parameterDataList: List<ParameterData>): String {
             }
         }
 }
-

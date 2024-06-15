@@ -4,36 +4,90 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSValueParameter
 import de.jensklingenberg.ktorfit.model.KtorfitError
-import de.jensklingenberg.ktorfit.utils.*
+import de.jensklingenberg.ktorfit.utils.getBodyAnnotation
+import de.jensklingenberg.ktorfit.utils.getFieldAnnotation
+import de.jensklingenberg.ktorfit.utils.getFieldMapAnnotation
+import de.jensklingenberg.ktorfit.utils.getHeaderAnnotation
+import de.jensklingenberg.ktorfit.utils.getHeaderMapAnnotation
+import de.jensklingenberg.ktorfit.utils.getPartAnnotation
+import de.jensklingenberg.ktorfit.utils.getPartMapAnnotation
+import de.jensklingenberg.ktorfit.utils.getPathAnnotation
+import de.jensklingenberg.ktorfit.utils.getQueryAnnotation
+import de.jensklingenberg.ktorfit.utils.getQueryMapAnnotation
+import de.jensklingenberg.ktorfit.utils.getQueryNameAnnotation
+import de.jensklingenberg.ktorfit.utils.getRequestBuilderAnnotation
+import de.jensklingenberg.ktorfit.utils.getRequestTypeAnnotation
+import de.jensklingenberg.ktorfit.utils.getTagAnnotation
+import de.jensklingenberg.ktorfit.utils.getUrlAnnotation
 
 /**
  * Annotation at a parameter
  */
-sealed class ParameterAnnotation{
+sealed class ParameterAnnotation {
     data object Body : ParameterAnnotation()
+
     data object RequestBuilder : ParameterAnnotation()
-    data class Path(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
-    data class Query(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
-    data class QueryName(val encoded: Boolean = false) : ParameterAnnotation()
-    data class QueryMap(val encoded: Boolean = false) : ParameterAnnotation()
-    data class Header(val path: String) : ParameterAnnotation()
+
+    data class Path(
+        val value: String,
+        val encoded: Boolean = false,
+    ) : ParameterAnnotation()
+
+    data class Query(
+        val value: String,
+        val encoded: Boolean = false,
+    ) : ParameterAnnotation()
+
+    data class QueryName(
+        val encoded: Boolean = false,
+    ) : ParameterAnnotation()
+
+    data class QueryMap(
+        val encoded: Boolean = false,
+    ) : ParameterAnnotation()
+
+    data class Header(
+        val path: String,
+    ) : ParameterAnnotation()
+
     data object HeaderMap : ParameterAnnotation()
+
     data object Url : ParameterAnnotation()
-    data class RequestType(val requestType: KSType) : ParameterAnnotation()
-    data class Field(val value: String, val encoded: Boolean = false) : ParameterAnnotation()
-    data class FieldMap(val encoded: Boolean) : ParameterAnnotation()
-    data class Part(val value: String = "", val encoding: String = "binary") : ParameterAnnotation()
-    data class PartMap(val encoding: String = "binary") : ParameterAnnotation()
-    data class Tag(val value: String) : ParameterAnnotation()
+
+    data class RequestType(
+        val requestType: KSType,
+    ) : ParameterAnnotation()
+
+    data class Field(
+        val value: String,
+        val encoded: Boolean = false,
+    ) : ParameterAnnotation()
+
+    data class FieldMap(
+        val encoded: Boolean,
+    ) : ParameterAnnotation()
+
+    data class Part(
+        val value: String = "",
+        val encoding: String = "binary",
+    ) : ParameterAnnotation()
+
+    data class PartMap(
+        val encoding: String = "binary",
+    ) : ParameterAnnotation()
+
+    data class Tag(
+        val value: String,
+    ) : ParameterAnnotation()
 }
-
-
 
 /**
  *
  */
+@Suppress("ktlint:standard:property-naming")
 fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAnnotation> {
     val ksValueParameter = this
+
     val KEY_MAP = "Map"
     val KEY_STRING = "String"
 
@@ -73,25 +127,31 @@ fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAn
     }
 
     ksValueParameter.getHeaderMapAnnotation()?.let {
-        //TODO: Find out how isAssignableFrom works
+        // TODO: Find out how isAssignableFrom works
         if (!ksValueParameter.type.toString().endsWith(KEY_MAP)) {
             logger.error(KtorfitError.HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP, ksValueParameter)
         }
-        val mapKey = ksValueParameter.type.resolve().arguments.first()
+        val mapKey =
+            ksValueParameter.type
+                .resolve()
+                .arguments
+                .first()
         if (mapKey.type.toString() != KEY_STRING || mapKey.type?.resolve()?.isMarkedNullable == true) {
             logger.error(KtorfitError.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING, ksValueParameter)
         }
         paramAnnos.add(it)
     }
 
-
-
     ksValueParameter.getQueryMapAnnotation()?.let {
         if (!ksValueParameter.type.toString().endsWith(KEY_MAP)) {
             logger.error(KtorfitError.QUERY_MAP_PARAMETER_TYPE_MUST_BE_MAP, ksValueParameter)
         }
 
-        val mapKey = ksValueParameter.type.resolve().arguments.first()
+        val mapKey =
+            ksValueParameter.type
+                .resolve()
+                .arguments
+                .first()
         if (mapKey.type.toString() != KEY_STRING || mapKey.type?.resolve()?.isMarkedNullable == true) {
             logger.error(KtorfitError.QUERY_MAP_KEYS_MUST_BE_OF_TYPE_STRING, ksValueParameter)
         }
@@ -103,7 +163,11 @@ fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAn
             logger.error(KtorfitError.FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP, ksValueParameter)
         }
 
-        val mapKey = ksValueParameter.type.resolve().arguments.first()
+        val mapKey =
+            ksValueParameter.type
+                .resolve()
+                .arguments
+                .first()
         if (mapKey.type.toString() != KEY_STRING || mapKey.type?.resolve()?.isMarkedNullable == true) {
             logger.error(KtorfitError.FIELD_MAP_KEYS_MUST_BE_OF_TYPE_STRING, ksValueParameter)
         }

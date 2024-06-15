@@ -15,15 +15,14 @@ licensee {
     allow("MIT")
 }
 
-
 val enableSigning = project.hasProperty("signingInMemoryKey")
 
 mavenPublishing {
 
     coordinates(
-        "de.jensklingenberg.ktorfit",
+        libs.versions.groupId.get(),
         "ktorfit-lib",
-        libs.versions.ktorfit.get()
+        libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
@@ -36,15 +35,16 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-
 kotlin {
     explicitApi()
-    if(libs.versions.ktorVersion.get().startsWith("3.")){
+    if (libs.versions.ktorVersion
+            .get()
+            .startsWith("3.")
+    ) {
         @OptIn(ExperimentalWasmDsl::class)
         wasmJs()
     }
     jvm {
-
     }
     js(IR) {
         this.nodejs()
@@ -71,7 +71,7 @@ kotlin {
             executable()
         }
     }
-    linuxArm64{
+    linuxArm64 {
         binaries {
             executable()
         }
@@ -86,7 +86,7 @@ kotlin {
         watchosSimulatorArm64(),
         tvosArm64(),
         tvosX64(),
-        tvosSimulatorArm64()
+        tvosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "library"
@@ -129,8 +129,6 @@ kotlin {
             }
         }
 
-
-
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -140,15 +138,7 @@ kotlin {
             }
         }
 
-        val iosMain by getting {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-            dependencies {
-                implementation(libs.ktor.client.ios)
-            }
-        }
+        val iosMain by getting
     }
 }
 val javadocJar by tasks.registering(Jar::class) {
@@ -164,8 +154,6 @@ android {
     }
     namespace = "de.jensklingenberg.ktorfit"
 }
-
-
 
 publishing {
     publications {
@@ -206,10 +194,11 @@ publishing {
             hasProperty("sonatypeReleaseUrl")
         ) {
             maven {
-                val url = when {
-                    "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
-                    else -> property("sonatypeReleaseUrl")
-                } as String
+                val url =
+                    when {
+                        "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
+                        else -> property("sonatypeReleaseUrl")
+                    } as String
                 setUrl(url)
                 credentials {
                     username = property("sonatypeUsername") as String
@@ -217,7 +206,6 @@ publishing {
                 }
             }
         }
-
     }
 }
 

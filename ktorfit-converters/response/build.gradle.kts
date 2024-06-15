@@ -11,6 +11,7 @@ plugins {
     id("com.android.library")
     alias(libs.plugins.binaryCompatibilityValidator)
     id("app.cash.licensee")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 licensee {
@@ -18,15 +19,14 @@ licensee {
     allow("MIT")
 }
 
-
 val enableSigning = project.hasProperty("signingInMemoryKey")
 
 mavenPublishing {
 
     coordinates(
-        "de.jensklingenberg.ktorfit",
+        libs.versions.groupId.get(),
         "ktorfit-converters-response",
-        libs.versions.ktorfitResponseConverter.get()
+        libs.versions.ktorfitResponseConverter.get(),
     )
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
@@ -39,15 +39,16 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-
 kotlin {
     explicitApi()
-    if(libs.versions.ktorVersion.get().startsWith("3.")){
+    if (libs.versions.ktorVersion
+            .get()
+            .startsWith("3.")
+    ) {
         @OptIn(ExperimentalWasmDsl::class)
         wasmJs()
     }
     jvm {
-
     }
     js(IR) {
         this.nodejs()
@@ -73,7 +74,7 @@ kotlin {
             executable()
         }
     }
-    linuxArm64{
+    linuxArm64 {
         binaries {
             executable()
         }
@@ -87,7 +88,7 @@ kotlin {
         watchosSimulatorArm64(),
         tvosArm64(),
         tvosX64(),
-        tvosSimulatorArm64()
+        tvosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "library"
@@ -119,15 +120,6 @@ kotlin {
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val jsMain by getting
-        val iosMain by getting {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-            dependencies {
-
-            }
-        }
     }
 }
 val javadocJar by tasks.registering(Jar::class) {
@@ -143,8 +135,6 @@ android {
     }
     namespace = "de.jensklingenberg.ktorfit.converters.call"
 }
-
-
 
 publishing {
     publications {
@@ -185,10 +175,11 @@ publishing {
             hasProperty("sonatypeReleaseUrl")
         ) {
             maven {
-                val url = when {
-                    "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
-                    else -> property("sonatypeReleaseUrl")
-                } as String
+                val url =
+                    when {
+                        "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
+                        else -> property("sonatypeReleaseUrl")
+                    } as String
                 setUrl(url)
                 credentials {
                     username = property("sonatypeUsername") as String
@@ -196,7 +187,6 @@ publishing {
                 }
             }
         }
-
     }
 }
 
