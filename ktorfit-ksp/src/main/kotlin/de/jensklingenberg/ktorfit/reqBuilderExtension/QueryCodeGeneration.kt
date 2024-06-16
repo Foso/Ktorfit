@@ -44,9 +44,9 @@ private fun getQueryNameText(
     val encoded = queryName.encoded
     val name = parameterData.name
 
-    val starProj = parameterData.type.parameterType?.starProjection()
-    val isList = starProj?.isAssignableFrom(listType) ?: false
-    val isArray = starProj?.isAssignableFrom(arrayType) ?: false
+    val starProj = parameterData.type.parameterType.starProjection()
+    val isList = starProj.isAssignableFrom(listType)
+    val isArray = starProj.isAssignableFrom(arrayType)
 
     if (isList || isArray) {
         "%s?.filterNotNull()?.forEach { %s.appendAll(\"\$it\", emptyList()) }\n".format(

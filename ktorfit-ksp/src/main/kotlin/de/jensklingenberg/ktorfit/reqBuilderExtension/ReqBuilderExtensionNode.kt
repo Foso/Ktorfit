@@ -16,7 +16,7 @@ fun getReqBuilderExtensionText(
 ): String {
     val method = getMethodCode(functionData.httpMethodAnnotation)
     val listType =
-        resolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType()!!
+        resolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType() ?: error("List not found")
 
     val arrayType = resolver.builtIns.arrayType.starProjection()
 

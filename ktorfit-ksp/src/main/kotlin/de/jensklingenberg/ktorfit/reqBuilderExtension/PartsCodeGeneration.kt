@@ -17,9 +17,9 @@ fun getPartsCode(
             val name = parameterData.name
             val partValue = part.value
 
-            val starProj = parameterData.type.parameterType?.starProjection()
-            val isList = starProj?.isAssignableFrom(listType) ?: false
-            val isArray = starProj?.isAssignableFrom(arrayType) ?: false
+            val starProj = parameterData.type.parameterType.starProjection()
+            val isList = starProj.isAssignableFrom(listType)
+            val isArray = starProj.isAssignableFrom(arrayType)
 
             when {
                 isList || isArray -> {

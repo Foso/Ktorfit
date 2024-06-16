@@ -18,10 +18,10 @@ fun getFieldArgumentsText(
             val encoded = field.encoded
             val paramName = parameterData.name
             val fieldValue = field.value
-            val starProj = parameterData.type.parameterType?.starProjection()
+            val starProj = parameterData.type.parameterType.starProjection()
 
-            val isList = starProj?.isAssignableFrom(listType) ?: false
-            val isArray = starProj?.isAssignableFrom(arrayType) ?: false
+            val isList = starProj.isAssignableFrom(listType) ?: false
+            val isArray = starProj.isAssignableFrom(arrayType) ?: false
 
             when {
                 isList || isArray -> {

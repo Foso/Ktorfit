@@ -21,7 +21,7 @@ class HeaderCodeGeneratorKtTest {
 
     @Test
     fun whenFunctionHasNoHeaderAnnotationThenGenerateEmptyText() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", null))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", mock<KSType>()))
         val params = listOf(parameterData)
         val text = getHeadersCode(listOf(), params, listTypeMock, arrayType)
         assertEquals("", text)
@@ -109,8 +109,8 @@ class HeaderCodeGeneratorKtTest {
         val expected =
             """|headers{
                                 |test1.forEach{ append("foo", it)}
-                                |}"""
-                .trimMargin()
+                                |}
+            """.trimMargin()
         assertEquals(expected, actual)
     }
 

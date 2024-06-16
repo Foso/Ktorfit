@@ -52,6 +52,6 @@ internal class KtorfitError {
 
         fun noHttpAnnotationAt(functionName: String) = "No Http annotation at $functionName"
 
-        fun urlCanOnlyBeUsedWithEmpy(keyword: String) = "@Url can only be used with empty @$keyword URL value"
+        fun urlCanOnlyBeUsedWithEmpty(keyword: String) = "@Url can only be used with empty @$keyword URL value"
     }
 }

@@ -60,7 +60,7 @@ fun KSFunctionDeclaration.parseHTTPMethodAnno(name: String): HttpMethodAnnotatio
         }
     }
 
-fun KSFunctionDeclaration.getAnnotationByName(name: String): KSAnnotation? =
+private fun KSFunctionDeclaration.getAnnotationByName(name: String): KSAnnotation? =
     this.annotations.toList().firstOrNull {
         it.shortName.asString() == name
     }

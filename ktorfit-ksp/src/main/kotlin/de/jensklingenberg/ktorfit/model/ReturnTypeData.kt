@@ -4,5 +4,5 @@ import com.google.devtools.ksp.symbol.KSType
 
 data class ReturnTypeData(
     val name: String,
-    val parameterType: KSType?,
+    val parameterType: KSType,
 )

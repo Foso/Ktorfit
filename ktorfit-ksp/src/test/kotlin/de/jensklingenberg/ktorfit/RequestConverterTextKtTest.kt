@@ -25,10 +25,15 @@ class RequestConverterTextKtTest {
         val ksType = createKsType("Test", "com.example")
         val parameterAnnotations = listOf<ParameterAnnotation>(RequestType(ksType))
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", null), annotations = parameterAnnotations)
+            ParameterData("test1", ReturnTypeData("String", mock<KSType>()), annotations = parameterAnnotations)
         val params = listOf(parameterData)
 
-        val actualSource = FunSpec.builder("TestFunction").addRequestConverterText(params).build().toString()
+        val actualSource =
+            FunSpec
+                .builder("TestFunction")
+                .addRequestConverterText(params)
+                .build()
+                .toString()
 
         assertEquals(expected, actualSource)
     }
@@ -44,31 +49,19 @@ fun createKsType(
 
     val packagemockKSName =
         object : KSName {
-            override fun asString(): String {
-                return packageName
-            }
+            override fun asString(): String = packageName
 
-            override fun getQualifier(): String {
-                return ""
-            }
+            override fun getQualifier(): String = ""
 
-            override fun getShortName(): String {
-                return ""
-            }
+            override fun getShortName(): String = ""
         }
     val qualifiedMockKSName =
         object : KSName {
-            override fun asString(): String {
-                return name
-            }
+            override fun asString(): String = name
 
-            override fun getQualifier(): String {
-                return ""
-            }
+            override fun getQualifier(): String = ""
 
-            override fun getShortName(): String {
-                return ""
-            }
+            override fun getShortName(): String = ""
         }
     whenever(mockDec.packageName).thenAnswer { packagemockKSName }
     whenever(mockDec.qualifiedName).thenAnswer { qualifiedMockKSName }

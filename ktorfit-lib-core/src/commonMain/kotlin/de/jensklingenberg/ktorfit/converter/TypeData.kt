@@ -27,14 +27,16 @@ public data class TypeData(
             val typeArgument = qualifiedTypename.substringAfter("<").substringBeforeLast(">")
             val split = typeArgument.split(",")
             val args =
-                typeInfo.kotlinType?.arguments?.mapIndexed { index, kTypeProjection ->
-                    val cleaned = split.getOrNull(index)?.trim() ?: ""
+                typeInfo.kotlinType
+                    ?.arguments
+                    ?.mapIndexed { index, kTypeProjection ->
+                        val cleaned = split.getOrNull(index)?.trim() ?: ""
 
-                    val modelKType = kTypeProjection.type
-                    val modelClass = (modelKType?.classifier as? KClass<*>?)!!
+                        val modelKType = kTypeProjection.type
+                        val modelClass = (modelKType?.classifier as? KClass<*>?)!!
 
-                    createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType))
-                }.orEmpty()
+                        createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType))
+                    }.orEmpty()
 
             return TypeData(qualifiedTypename.substringBefore("<"), args, typeInfo = typeInfo)
         }
