@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit.reqBuilderExtension
 
+import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
@@ -8,11 +9,12 @@ import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Path
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Url
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.mockito.kotlin.mock
 
 class UrlArgumentTextKtTest {
     @Test
     fun testWithoutUrlAnnotation() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", null))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", mock<KSType>()))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         val expected =
@@ -29,7 +31,7 @@ class UrlArgumentTextKtTest {
     fun testWithPathAndUrlAnnotation() {
         val urlAnnotation = Url
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", null), annotations = listOf(urlAnnotation))
+            ParameterData("test1", ReturnTypeData("String", mock<KSType>()), annotations = listOf(urlAnnotation))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         assertEquals(
@@ -44,7 +46,7 @@ class UrlArgumentTextKtTest {
     fun testWithUrlAnnotation() {
         val urlAnnotation = Url
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", null), annotations = listOf(urlAnnotation))
+            ParameterData("test1", ReturnTypeData("String", mock<KSType>()), annotations = listOf(urlAnnotation))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
         val expected =
@@ -59,7 +61,7 @@ class UrlArgumentTextKtTest {
 
     @Test
     fun testWithoutPathAnnotation() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", null))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", mock<KSType>()))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
         assertEquals("url{\ntakeFrom(_ktorfit.baseUrl + \"\")\n}", text)
@@ -69,7 +71,7 @@ class UrlArgumentTextKtTest {
     fun testWithPathAnnotation() {
         val path = Path("testValue")
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", null), annotations = listOf(path))
+            ParameterData("test1", ReturnTypeData("String", mock<KSType>()), annotations = listOf(path))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("user/{testValue}", HttpMethod.GET), "")
         assertEquals(

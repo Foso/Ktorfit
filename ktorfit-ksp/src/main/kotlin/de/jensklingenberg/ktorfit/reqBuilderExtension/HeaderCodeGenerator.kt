@@ -36,12 +36,12 @@ fun getHeadersCode(
                 val isStringType =
                     (
                         parameterData.type.parameterType
-                            ?.toTypeName()
+                            .toTypeName()
                             .toString() == "kotlin.String"
                     ) ||
                         (
                             parameterData.type.parameterType
-                                ?.toTypeName()
+                                .toTypeName()
                                 .toString() == "kotlin.String?"
                         )
 
@@ -52,7 +52,7 @@ fun getHeadersCode(
                                 parameterData
                                     .type
                                     .parameterType
-                                    ?.toTypeName() as? ParameterizedTypeName
+                                    .toTypeName() as? ParameterizedTypeName
                             )?.typeArguments
                                 ?.joinToString { it.toString() }
                                 .orEmpty()
@@ -64,7 +64,7 @@ fun getHeadersCode(
                                     parameterData
                                         .type
                                         .parameterType
-                                        ?.toTypeName() as? ParameterizedTypeName
+                                        .toTypeName() as? ParameterizedTypeName
                                 )?.typeArguments
                                     ?.joinToString { it.toString() }
                                     .orEmpty()
@@ -75,7 +75,7 @@ fun getHeadersCode(
                         val headerListStringBuilder = StringBuilder()
 
                         headerListStringBuilder.append(
-                            if (parameterData.type.parameterType?.isMarkedNullable ?: false) {
+                            if (parameterData.type.parameterType.isMarkedNullable) {
                                 "$paramName?"
                             } else {
                                 paramName
@@ -84,7 +84,7 @@ fun getHeadersCode(
 
                         if (hasNullableInnerType) {
                             headerListStringBuilder.append(
-                                if (parameterData.type.parameterType?.isMarkedNullable ?: false) {
+                                if (parameterData.type.parameterType.isMarkedNullable) {
                                     ".filterNotNull()?"
                                 } else {
                                     ".filterNotNull()"
@@ -108,7 +108,7 @@ fun getHeadersCode(
                         val headerValue =
                             if (isStringType) paramName else "\"\$$paramName\""
 
-                        if (parameterData.type.parameterType?.isMarkedNullable ?: false) {
+                        if (parameterData.type.parameterType.isMarkedNullable) {
                             "%s?.let{ append(\"%s\", %s) }\n".format(
                                 paramName,
                                 headerName,
@@ -135,7 +135,7 @@ fun getHeadersCode(
             .filter { it.hasAnnotation<HeaderMap>() }
             .joinToString("") { parameterData ->
                 val mapValueType =
-                    (parameterData.type.parameterType?.toTypeName() as? ParameterizedTypeName)
+                    (parameterData.type.parameterType.toTypeName() as? ParameterizedTypeName)
                         ?.typeArguments
                         ?.joinToString { it.toString() }
                         .orEmpty()
@@ -147,7 +147,7 @@ fun getHeadersCode(
 
                 val headerMapStringBuilder = StringBuilder()
                 headerMapStringBuilder.append(
-                    if (parameterData.type.parameterType?.isMarkedNullable ?: false) {
+                    if (parameterData.type.parameterType.isMarkedNullable) {
                         "${parameterData.name}?"
                     } else {
                         parameterData.name
