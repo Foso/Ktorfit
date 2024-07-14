@@ -1,7 +1,7 @@
 <h1>Ktorfit</h1>
 
-[![All Contribtors](https://img.shields.io/badge/Maven-Central-download.svg?style=flat-square)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Foso/Ktorfit)
-[![jCenter](https://img.shields.io/badge/Apache-2.0-green.svg)](https://github.com/Foso/Ktorfit/blob/master/LICENSE)
+[![Maven](https://img.shields.io/badge/Maven-Central-download.svg?style=flat-square)](https://central.sonatype.com/search?q=g:de.jensklingenberg.ktorfit) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Foso/Ktorfit)
+[![License](https://img.shields.io/badge/Apache-2.0-green.svg)](https://github.com/Foso/Ktorfit/blob/master/LICENSE)
 [Documentation](http://foso.github.io/Ktorfit)
 
 [![Platforms](https://raw.githubusercontent.com/Foso/Ktorfit/master/docs/assets/badges/platforms.svg)](https://raw.githubusercontent.com/Foso/Ktorfit/master/docs/assets/badges/platforms.svg)
@@ -30,12 +30,12 @@ See https://foso.github.io/Ktorfit/#compatibility
 
 | Project   |      Version      |
 |----------|:-------------:|
-| Ktorfit Gradle Plugin |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/de.jensklingenberg.ktorfit.gradle.plugin)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit/de.jensklingenberg.ktorfit.gradle.plugin) |
-| ktorfit-lib |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib) |
-| ktorfit-lib-light |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-light)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-light) |
-| ktorfit-converters-flow  |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-flow)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-flow) |
-| ktorfit-converters-call  |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-call)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-call) |
-| ktorfit-converters-response  |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-response)](https://mvnrepository.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-response) |
+| Ktorfit Gradle Plugin |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/de.jensklingenberg.ktorfit.gradle.plugin)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/de.jensklingenberg.ktorfit.gradle.plugin) |
+| ktorfit-lib |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib) |
+| ktorfit-lib-light |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-light)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-light) |
+| ktorfit-converters-flow  |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-flow)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-flow) |
+| ktorfit-converters-call  |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-call)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-call) |
+| ktorfit-converters-response  |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-response)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-response) |
 
 
 ## 👷 Project Structure
