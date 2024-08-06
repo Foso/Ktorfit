@@ -12,6 +12,7 @@ Unreleased
 ### Fixed
 - #594 Endpoint with types from other module
 - #591 Ktorfit plugin doesn't include correct generate source if build directory changes #591
+- Build with Ktor 2.3.12
 
 ktorfit-ksp-2.0.0-1.0.23 - 2024-07-14
 ========================================
