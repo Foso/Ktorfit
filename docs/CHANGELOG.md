@@ -13,7 +13,7 @@ Unreleased
 - #594 Endpoint with types from other module
 - #591 Ktorfit plugin doesn't include correct generate source if build directory changes #591
 - Build with Ktor 2.3.12
--  RequestConverter causing compile error #621
+- #621 RequestConverter causing compile error 
 
 ktorfit-ksp-2.0.0-1.0.24 - 2024-06-08
 ========================================
