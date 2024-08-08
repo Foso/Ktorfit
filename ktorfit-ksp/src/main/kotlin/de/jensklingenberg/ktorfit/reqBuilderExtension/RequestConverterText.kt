@@ -11,12 +11,16 @@ fun FunSpec.Builder.addRequestConverterText(parameterDataList: List<ParameterDat
         if (parameterDataList.any { it.hasAnnotation<RequestType>() }) {
             parameterDataList.map { parameter ->
                 val requestTypeClassName =
-                    parameter.annotations.filterIsInstance<RequestType>().first().requestType.toClassName()
+                    parameter.annotations
+                        .filterIsInstance<RequestType>()
+                        .firstOrNull()
+                        ?.requestType
+                        ?.toClassName()
                 if (parameter.hasAnnotation<RequestType>()) {
                     this.addStatement(
                         "val %L: %T = %L.convertParameterType(%L,%L::class,%T::class)",
                         parameter.name,
-                        requestTypeClassName,
+                        requestTypeClassName!!,
                         converterHelper.objectName,
                         parameter.name,
                         parameter.name,
