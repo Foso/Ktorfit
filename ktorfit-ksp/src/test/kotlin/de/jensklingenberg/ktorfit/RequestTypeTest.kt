@@ -20,7 +20,7 @@ import de.jensklingenberg.ktorfit.http.*
 
 interface TestService {
     @GET("posts/{postId}/comments")
-    suspend fun test(@RequestType(Int::class) @Path("postId") postId: String): String
+    suspend fun test(@RequestType(Int::class) @Path("postId") postId: String, @Query("postId") testQuery: String): String
 }
     """,
             )
