@@ -7,15 +7,15 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
-Unreleased
+2.0.1 - 2024-08-08
 ========================================
 ### Fixed
 - #594 Endpoint with types from other module
 - #591 Ktorfit plugin doesn't include correct generate source if build directory changes #591
+- #621 RequestConverter causing compile error
 - Build with Ktor 2.3.12
-- #621 RequestConverter causing compile error 
 
-ktorfit-ksp-2.0.0-1.0.24 - 2024-06-08
+ktorfit-ksp-2.0.0-1.0.24 - 2024-08-06
 ========================================
 - Build with KSP 1.0.24
 
