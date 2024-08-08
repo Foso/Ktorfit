@@ -18,10 +18,19 @@ licensee {
 val enableSigning = project.hasProperty("signingInMemoryKey")
 
 mavenPublishing {
-
+    val artifactId =
+        "ktorfit-lib" +
+            if (libs.versions.ktorVersion
+                    .get()
+                    .startsWith("3.")
+            ) {
+                "-ktor3-" + libs.versions.ktorVersion.get()
+            } else {
+                ""
+            }
     coordinates(
         libs.versions.groupId.get(),
-        "ktorfit-lib",
+        artifactId,
         libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
