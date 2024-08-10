@@ -24,7 +24,7 @@ ktorVersion = "2.3.12"
 mockk = "1.13.11"
 mockito-kotlin = "4.1.0"
 gradleMavenPublishPlugin = "0.29.0"
-vannikMavenPublish = "0.28.0"
+vannikMavenPublish = "0.29.0"
 
 [libraries]
 android-build-gradle = "com.android.tools.build:gradle:8.2.2"
