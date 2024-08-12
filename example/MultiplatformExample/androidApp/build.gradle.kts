@@ -7,6 +7,7 @@ android {
     compileSdk = 34
     defaultConfig {
         applicationId = "com.example.myapplication.android"
+        namespace = "com.example.myapplication.android"
         minSdk = 21
         targetSdk = 34
         versionCode = 1
@@ -24,7 +25,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget= "1.8"
+        jvmTarget = "1.8"
     }
 }
 

@@ -4,9 +4,9 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "2.0.0-1.0.22"
+    id("com.google.devtools.ksp") version "2.0.0-1.0.24"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "2.0.0"
+    id("de.jensklingenberg.ktorfit") version "2.0.1"
 }
 
 ktorfit {
@@ -15,8 +15,8 @@ ktorfit {
 }
 
 version = "1.0"
-val ktorVersion = "2.3.11"
-val ktorfitVersion = "2.0.0"
+val ktorVersion = "3.0.0-beta-2"
+val ktorfitVersion = "2.0.1"
 
 kotlin {
     jvmToolchain(8)
@@ -45,14 +45,14 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
-                //implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:$ktorfitVersion")
+                implementation("de.jensklingenberg.ktorfit:ktorfit-lib-ktor-3.0.0-beta-2:$ktorfitVersion")
+                // implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:$ktorfitVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfitVersion")
-                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfitVersion")
-                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfitVersion")
+                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response-ktor-3.0.0-beta-2:$ktorfitVersion")
+                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call-ktor-3.0.0-beta-2:$ktorfitVersion")
+                implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow-ktor-3.0.0-beta-2:$ktorfitVersion")
 
-                //Only needed when you want to use Kotlin Serialization
+                // Only needed when you want to use Kotlin Serialization
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
@@ -75,6 +75,7 @@ android {
     compileSdk = 34
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
+        namespace = "com.example.myapplication.shared"
         minSdk = 21
         targetSdk = 34
     }
@@ -82,9 +83,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-
 }
-
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {

@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        //mavenLocal()
+        // mavenLocal()
         gradlePluginPortal()
         google()
         mavenCentral()
@@ -10,14 +10,14 @@ buildscript {
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0")
-        classpath("com.android.tools.build:gradle:7.3.1")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:2.0.0")
+        classpath("com.android.tools.build:gradle:8.2.0")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:2.0.10")
     }
 }
 
 allprojects {
     repositories {
-        //mavenLocal()
+        // mavenLocal()
         google()
         mavenCentral()
         maven {
