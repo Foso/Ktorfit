@@ -39,6 +39,11 @@ See https://foso.github.io/Ktorfit/#compatibility
 | ktorfit-converters-call     |                  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-call)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-call)                  |
 | ktorfit-converters-response |              [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-response)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-response)              |
 
+You can find all Ktorfit packages on [maven central](https://search.maven.org/search?q=de.jensklingenberg.ktorfit).
+
+🔎 Check the [latest changes](https://github.com/Foso/Ktorfit/blob/master/docs/CHANGELOG.md) to update your Koin project.
+
+🛠 Follow the [setup page](https://foso.github.io/Ktorfit/installation/) for more details
 
 ## 👷 Project Structure
 
