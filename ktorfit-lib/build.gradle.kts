@@ -24,7 +24,7 @@ mavenPublishing {
                     .get()
                     .startsWith("3.")
             ) {
-                "-ktor3-" + libs.versions.ktorVersion.get()
+                "-ktor-" + libs.versions.ktorVersion.get()
             } else {
                 ""
             }
