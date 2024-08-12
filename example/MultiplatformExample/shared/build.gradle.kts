@@ -19,6 +19,7 @@ val ktorVersion = "3.0.0-beta-2"
 val ktorfitVersion = "2.0.1"
 
 kotlin {
+    wasmJs()
     jvmToolchain(8)
     targetHierarchy.default()
 
