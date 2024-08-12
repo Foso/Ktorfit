@@ -28,14 +28,16 @@ See https://foso.github.io/Ktorfit/#compatibility
 
 ## Ktorfit Packages
 
-| Project   |      Version      |
-|----------|:-------------:|
-| Ktorfit Gradle Plugin |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/de.jensklingenberg.ktorfit.gradle.plugin)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/de.jensklingenberg.ktorfit.gradle.plugin) |
-| ktorfit-lib |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib) |
-| ktorfit-lib-light |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-light)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-light) |
-| ktorfit-converters-flow  |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-flow)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-flow) |
-| ktorfit-converters-call  |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-call)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-call) |
-| ktorfit-converters-response  |  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-response)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-response) |
+| Project                     |                                                                                                                  Version                                                                                                                  |
+|-----------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Ktorfit Gradle Plugin       | [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/de.jensklingenberg.ktorfit.gradle.plugin)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/de.jensklingenberg.ktorfit.gradle.plugin) |
+| ktorfit-lib                 |                              [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib)                              |
+| compiler-plugin                 |                              [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/compiler-plugin)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/compiler-plugin)                              |
+| ktorfit-lib-light           |                        [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-light)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-light)                        |
+| ktorfit-ksp                 |                              [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-ksp)                              |
+| ktorfit-converters-flow     |                  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-flow)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-flow)                  |
+| ktorfit-converters-call     |                  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-call)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-call)                  |
+| ktorfit-converters-response |              [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-response)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-response)              |
 
 
 ## 👷 Project Structure
