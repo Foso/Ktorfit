@@ -9,10 +9,6 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 
 # [2.0.1]()
 
-compiler-plugin:2.0.1-2.0.10 - 2024-08-10
-========================================
-- Kotlin 2.0.10
-
 2.0.1 - 2024-08-08
 ========================================
 ### Fixed
@@ -21,7 +17,12 @@ compiler-plugin:2.0.1-2.0.10 - 2024-08-10
 - #621 RequestConverter causing compile error
 - Build with Ktor 2.3.12
 
+### compilerPlugin
+- Kotlin 2.0.0: 2.0.1-2.0.0 - 2024-08-08
+- Kotlin 2.0.10: 2.0.1-2.0.10 - 2024-08-10
 
+### ktorfit-ksp
+- KSP 1.0.24: ktorfit-ksp-2.0.1-1.0.24 - 2024-08-08
 
 # [2.0.0]()
 
