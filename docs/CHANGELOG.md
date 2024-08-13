@@ -20,7 +20,8 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 ### compilerPlugin
 - Kotlin 2.0.0: 2.0.1-2.0.0 - 2024-08-08
 - Kotlin 2.0.10: 2.0.1-2.0.10 - 2024-08-10
-
+- Kotlin 2.0.20-RC: 2.0.1-2.0.20-RC - 2024-08-13
+  
 ### ktorfit-ksp
 - KSP 1.0.24: ktorfit-ksp-2.0.1-1.0.24 - 2024-08-08
 
