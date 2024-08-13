@@ -17,6 +17,9 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 - #621 RequestConverter causing compile error
 - Build with Ktor 2.3.12
 
+### ktorfit-annotations
+- 2.0.1: The annotations are now also avaiable for WasmJs
+
 ### compilerPlugin
 - Kotlin 2.0.0: 2.0.1-2.0.0 - 2024-08-08
 - Kotlin 2.0.10: 2.0.1-2.0.10 - 2024-08-10
