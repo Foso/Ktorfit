@@ -29,6 +29,17 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 ### ktorfit-ksp
 - KSP 1.0.24: ktorfit-ksp-2.0.1-1.0.24 - 2024-08-08
 
+### Ktor3 
+The "normal" dependencies will stay on Ktor 2.x till 3.x is stable. But here are versions that you can use when want to use Ktor3 and WasmJs
+
+| Project                           |                                                                                                                       Version                                                                                                                       |
+|-----------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| ktorfit-lib-light-ktor-3.0.0-beta-2           |           [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-light-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-light-ktor-3.0.0-beta-2)           |
+| ktorfit-lib-ktor-3.0.0-beta-2                 |                 [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-ktor-3.0.0-beta-2)                 |
+| ktorfit-converters-flow-ktor-3.0.0-beta-2     |     [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-flow-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-flow-ktor-3.0.0-beta-2)     |
+| ktorfit-converters-call-ktor-3.0.0-beta-2     |     [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-call-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-call-ktor-3.0.0-beta-2)     |
+| ktorfit-converters-response-ktor-3.0.0-beta-2 | [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-response-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-response-ktor-3.0.0-beta-2) |
+
 # [2.0.0]()
 
 ktorfit-ksp-2.0.0-1.0.24 - 2024-08-06
