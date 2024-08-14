@@ -30,7 +30,7 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 - KSP 1.0.24: ktorfit-ksp-2.0.1-1.0.24 - 2024-08-08
 
 ### Ktor3 
-The "normal" dependencies will stay on Ktor 2.x till 3.x is stable. But here are versions that you can use when want to use Ktor3 and WasmJs
+The "normal" dependencies will stay on Ktor 2.x till 3.0 is stable. But here are versions that you can use when want to use Ktor3 and WasmJs
 
 | Project                           |                                                                                                                       Version                                                                                                                       |
 |-----------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
