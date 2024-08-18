@@ -12,9 +12,9 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 2.0.1 - 2024-08-08
 ========================================
 ### Fixed
-- #594 Endpoint with types from other module
-- #591 Ktorfit plugin doesn't include correct generate source if build directory changes #591
-- #621 RequestConverter causing compile error
+- Endpoint with types from other module #594 
+- Ktorfit plugin doesn't include correct generate source if build directory changes #591
+- RequestConverter causing compile error #621 
 - Build with Ktor 2.3.12
 
 ### ktorfit-annotations
