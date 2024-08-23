@@ -2,9 +2,7 @@ package de.jensklingenberg.ktorfit
 
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
-import com.tschuchort.compiletesting.kspIncremental
 import com.tschuchort.compiletesting.kspSourcesDir
-import com.tschuchort.compiletesting.symbolProcessorProviders
 import de.jensklingenberg.ktorfit.model.KtorfitError
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -79,13 +77,7 @@ interface TestService {
 
         val expectedRequestBuilderArgumentText = "builder(this)"
 
-        val compilation =
-            KotlinCompilation().apply {
-                sources = listOf(httpReqBuilderSource, source)
-                inheritClassPath = true
-                symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-                kspIncremental = true
-            }
+        val compilation = getCompilation(listOf(httpReqBuilderSource, source))
         val result = compilation.compile()
         assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
 
@@ -120,13 +112,7 @@ interface TestService {
     """,
             )
 
-        val compilation =
-            KotlinCompilation().apply {
-                sources = listOf(httpReqBuilderSource, source)
-                inheritClassPath = true
-                symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-                kspIncremental = true
-            }
+        val compilation = getCompilation(listOf(httpReqBuilderSource, source))
 
         val result = compilation.compile()
         assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
@@ -153,13 +139,7 @@ interface TestService {
     """,
             )
 
-        val compilation =
-            KotlinCompilation().apply {
-                sources = listOf(httpReqBuilderSource, source)
-                inheritClassPath = true
-                symbolProcessorProviders = listOf(KtorfitProcessorProvider())
-                kspIncremental = true
-            }
+        val compilation = getCompilation(listOf(httpReqBuilderSource, source))
 
         val result = compilation.compile()
         assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
