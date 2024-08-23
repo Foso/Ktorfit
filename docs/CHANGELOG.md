@@ -12,19 +12,34 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 2.0.1 - 2024-08-08
 ========================================
 ### Fixed
-- #594 Endpoint with types from other module
-- #591 Ktorfit plugin doesn't include correct generate source if build directory changes #591
-- #621 RequestConverter causing compile error
+- Endpoint with types from other module #594 
+- Ktorfit plugin doesn't include correct generate source if build directory changes #591
+- RequestConverter causing compile error #621 
 - Build with Ktor 2.3.12
+
+### ktorfit-annotations
+- 2.0.1: The annotations are now also avaiable for WasmJs
 
 ### compilerPlugin
 - Kotlin 2.0.0: 2.0.1-2.0.0 - 2024-08-08
 - Kotlin 2.0.10: 2.0.1-2.0.10 - 2024-08-10
 - Kotlin 2.0.20-RC: 2.0.1-2.0.20-RC - 2024-08-13
+- Kotlin 2.0.20-RC2: 2.0.1-2.0.20-RC2 - 2024-08-13
 - Kotlin 2.0.20: 2.0.1-2.0.20 - 2024-08-23
 
 ### ktorfit-ksp
 - KSP 1.0.24: ktorfit-ksp-2.0.1-1.0.24 - 2024-08-08
+
+### Ktor3 
+The "normal" dependencies will stay on Ktor 2.x till 3.0 is stable. But here are versions that you can use when want to use Ktor3 and WasmJs
+
+| Project                           |                                                                                                                       Version                                                                                                                       |
+|-----------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| ktorfit-lib-light-ktor-3.0.0-beta-2           |           [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-light-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-light-ktor-3.0.0-beta-2)           |
+| ktorfit-lib-ktor-3.0.0-beta-2                 |                 [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-ktor-3.0.0-beta-2)                 |
+| ktorfit-converters-flow-ktor-3.0.0-beta-2     |     [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-flow-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-flow-ktor-3.0.0-beta-2)     |
+| ktorfit-converters-call-ktor-3.0.0-beta-2     |     [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-call-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-call-ktor-3.0.0-beta-2)     |
+| ktorfit-converters-response-ktor-3.0.0-beta-2 | [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-response-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-response-ktor-3.0.0-beta-2) |
 
 # [2.0.0]()
 
