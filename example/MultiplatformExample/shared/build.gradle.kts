@@ -45,6 +45,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(project(":person"))
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
                 // implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:$ktorfitVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
