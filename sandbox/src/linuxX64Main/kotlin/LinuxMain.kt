@@ -1,13 +1,18 @@
 import com.example.api.JsonPlaceHolderApi
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
 
 import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 
 fun main() {
-
-    val linuxKtorfit = Ktorfit.Builder().baseUrl(JsonPlaceHolderApi.baseUrl).httpClient(HttpClient())
-        .responseConverter(FlowResponseConverter()).build()
+    val linuxKtorfit =
+        Ktorfit
+            .Builder()
+            .baseUrl(JsonPlaceHolderApi.baseUrl)
+            .httpClient(HttpClient())
+            .converterFactories(FlowConverterFactory())
+            .build()
 
     val api = linuxKtorfit.create<JsonPlaceHolderApi>()
     runBlocking {
