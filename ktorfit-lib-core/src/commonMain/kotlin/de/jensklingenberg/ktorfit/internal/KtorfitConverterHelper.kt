@@ -17,7 +17,9 @@ import kotlin.reflect.cast
  * Cant make this internal because it is used by generated code
  */
 @InternalKtorfitApi
-public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
+public class KtorfitConverterHelper(
+    private val ktorfit: Ktorfit
+) {
     private val httpClient: HttpClient = ktorfit.httpClient
 
     /**

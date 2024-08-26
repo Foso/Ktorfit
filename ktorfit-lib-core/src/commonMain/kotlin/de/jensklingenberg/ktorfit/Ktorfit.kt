@@ -202,13 +202,12 @@ public class Ktorfit private constructor(
         /**
          * Creates an instance of Ktorfit with specified baseUrl and HttpClient.
          */
-        public fun build(): Ktorfit {
-            return Ktorfit(
+        public fun build(): Ktorfit =
+            Ktorfit(
                 baseUrl = _baseUrl,
                 httpClient = _httpClient ?: HttpClient(),
                 converterFactories = _factories.toList() + listOf(DefaultSuspendResponseConverterFactory()),
             )
-        }
     }
 }
 

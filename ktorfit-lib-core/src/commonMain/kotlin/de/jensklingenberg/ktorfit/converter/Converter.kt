@@ -48,9 +48,7 @@ public interface Converter<F, T> {
     public fun getUpperBoundType(
         index: Int,
         type: TypeData,
-    ): TypeData? {
-        return type.typeArgs[index]
-    }
+    ): TypeData? = type.typeArgs[index]
 
     public interface Factory {
         /**
