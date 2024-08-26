@@ -16,14 +16,24 @@ import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
 import de.jensklingenberg.ktorfit.converter.ResponseConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
+class MyCustomException(message: String) : Exception(message)
+
 val ktorfit = ktorfit {
+
     baseUrl(StarWarsApi.baseUrl)
     httpClient(HttpClient {
+        HttpResponseValidator {
+            validateResponse { response ->
+                throw MyCustomException("My Custom Exception")
+            }
+        }
         install(ContentNegotiation) {
             json(Json { isLenient = true; ignoreUnknownKeys = true })
         }
@@ -58,9 +68,18 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-
-        lifecycleScope.launch {
-            peopleState.value = api.getPerson(1)
+        val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+            exception.printStackTrace()
         }
+
+        lifecycleScope.launch(exceptionHandler) {
+            try {
+                peopleState.value = api.getPerson(1)
+            } catch (e: MyCustomException) {
+                throw e
+            }
+        }
+
+
     }
 }
