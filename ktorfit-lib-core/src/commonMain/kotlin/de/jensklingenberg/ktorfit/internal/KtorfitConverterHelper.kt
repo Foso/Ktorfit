@@ -55,36 +55,27 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
         typeData: TypeData,
         requestBuilder: HttpRequestBuilder.() -> Unit,
     ): ReturnType? {
-        try {
-            if (typeData.typeInfo.type == HttpStatement::class) {
-                return httpClient.prepareRequest {
-                    requestBuilder(this)
-                } as ReturnType
-            }
-
-            ktorfit.nextSuspendResponseConverter(null, typeData)?.let {
-                val result: KtorfitResult =
-                    try {
-                        KtorfitResult.Success(
-                            httpClient.request {
-                                requestBuilder(this)
-                            },
-                        )
-                    } catch (exception: Exception) {
-                        KtorfitResult.Failure(exception)
-                    }
-                return it.convert(result) as ReturnType?
-            }
-
-            throw IllegalStateException("No SuspendResponseConverter found to convert ${typeData.typeInfo}")
-        } catch (exception: Exception) {
-            val typeIsNullable = typeData.typeInfo.kotlinType?.isMarkedNullable ?: false
-            return if (typeIsNullable) {
-                null
-            } else {
-                throw exception
-            }
+        if (typeData.typeInfo.type == HttpStatement::class) {
+            return httpClient.prepareRequest {
+                requestBuilder(this)
+            } as ReturnType
         }
+
+        ktorfit.nextSuspendResponseConverter(null, typeData)?.let {
+            val result: KtorfitResult =
+                try {
+                    KtorfitResult.Success(
+                        httpClient.request {
+                            requestBuilder(this)
+                        },
+                    )
+                } catch (exception: Exception) {
+                    KtorfitResult.Failure(exception)
+                }
+            return it.convert(result) as ReturnType?
+        }
+
+        throw IllegalStateException("No SuspendResponseConverter found to convert ${typeData.typeInfo}")
     }
 
     public fun <T : Any> convertParameterType(
