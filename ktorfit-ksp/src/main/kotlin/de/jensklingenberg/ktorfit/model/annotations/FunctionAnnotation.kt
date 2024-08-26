@@ -1,6 +1,8 @@
 package de.jensklingenberg.ktorfit.model.annotations
 
-enum class HttpMethod(val keyword: String) {
+enum class HttpMethod(
+    val keyword: String
+) {
     GET("GET"),
     POST("POST"),
     PUT("PUT"),
@@ -15,7 +17,9 @@ enum class HttpMethod(val keyword: String) {
  */
 open class FunctionAnnotation
 
-class Headers(val value: List<String>) : FunctionAnnotation()
+class Headers(
+    val value: List<String>
+) : FunctionAnnotation()
 
 class FormUrlEncoded : FunctionAnnotation()
 

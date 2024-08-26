@@ -19,13 +19,14 @@ import de.jensklingenberg.ktorfit.http.PUT
 import de.jensklingenberg.ktorfit.model.toClassData
 
 class KtorfitProcessorProvider : SymbolProcessorProvider {
-    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return KtorfitProcessor(environment, KtorfitOptions(environment.options))
-    }
+    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor =
+        KtorfitProcessor(environment, KtorfitOptions(environment.options))
 }
 
-class KtorfitProcessor(private val env: SymbolProcessorEnvironment, private val ktorfitOptions: KtorfitOptions) :
-    SymbolProcessor {
+class KtorfitProcessor(
+    private val env: SymbolProcessorEnvironment,
+    private val ktorfitOptions: KtorfitOptions
+) : SymbolProcessor {
     private var invoked = false
 
     companion object {

@@ -13,9 +13,11 @@ fun getUrlCode(
 ): String {
     var urlPath =
         methodAnnotation.path.ifEmpty {
-            params.firstOrNull { it.hasAnnotation<Url>() }?.let {
-                "\${${it.name}}"
-            }.orEmpty()
+            params
+                .firstOrNull { it.hasAnnotation<Url>() }
+                ?.let {
+                    "\${${it.name}}"
+                }.orEmpty()
         }
 
     val baseUrl =

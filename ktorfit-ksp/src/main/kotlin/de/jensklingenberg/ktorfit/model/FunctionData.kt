@@ -53,7 +53,8 @@ fun KSFunctionDeclaration.toFunctionData(logger: KSPLogger): FunctionData {
     val functionName = funcDeclaration.simpleName.asString()
     val functionParameters = funcDeclaration.parameters.map { it.createParameterData(logger) }
 
-    val resolvedReturnType = funcDeclaration.returnType?.resolve() ?: throw IllegalStateException("Return type not found")
+    val resolvedReturnType =
+        funcDeclaration.returnType?.resolve() ?: throw IllegalStateException("Return type not found")
 
     val returnType =
         ReturnTypeData(
