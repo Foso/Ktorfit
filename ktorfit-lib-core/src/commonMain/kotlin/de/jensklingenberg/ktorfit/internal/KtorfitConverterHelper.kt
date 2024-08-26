@@ -76,7 +76,6 @@ public class KtorfitConverterHelper(private val ktorfit: Ktorfit) {
         }
 
         throw IllegalStateException("No SuspendResponseConverter found to convert ${typeData.typeInfo}")
-
     }
 
     public fun <T : Any> convertParameterType(
