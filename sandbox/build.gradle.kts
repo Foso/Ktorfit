@@ -83,8 +83,7 @@ kotlin {
 
             dependencies {
                 implementation(libs.ktor.client.core.jvm)
-                implementation(libs.kotlinx.coroutines.rx3)
-                implementation("io.reactivex.rxjava3:rxjava:3.1.9")
+                implementation("ch.qos.logback:logback-classic:1.2.3")
                 implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.serialization.gson)
                 implementation(libs.ktor.client.cio.jvm)

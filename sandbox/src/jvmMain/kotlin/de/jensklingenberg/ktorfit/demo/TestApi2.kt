@@ -1,4 +1,4 @@
-package ktorfit
+package de.jensklingenberg.ktorfit.demo
 
 import com.example.api.StarWarsApi
 import com.example.model.People

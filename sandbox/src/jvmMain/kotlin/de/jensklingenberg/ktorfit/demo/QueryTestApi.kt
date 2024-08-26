@@ -6,7 +6,6 @@ import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
 import de.jensklingenberg.ktorfit.http.QueryMap
 import de.jensklingenberg.ktorfit.http.QueryName
-import ktorfit.Test
 
 interface QueryTestApi {
     @GET("people/{id}/")

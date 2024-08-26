@@ -66,11 +66,11 @@ fun main() {
 
         when (user) {
             is MyOwnResponse.Success -> {
-                println(user.data)
+                System.out.println(user.data)
             }
 
             is MyOwnResponse.Error<*> -> {
-                println(user.ex)
+                System.out.println(user.ex)
             }
         }
         delay(3000)
