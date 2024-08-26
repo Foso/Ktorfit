@@ -64,6 +64,8 @@ nav:
       - 'Example1': converters/example1.md
       - 'Migration': converters/migration.md
   - 'Configuration': configuration.md
+  - 'Android':
+      - 'proguard': android/proguard.md
   - 'Fundamentals' :
       - 'Scope' : fundamentals/scope.md
       - 'Architecture': architecture.md
