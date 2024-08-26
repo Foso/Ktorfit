@@ -1,6 +1,5 @@
 package de.jensklingenberg.ktorfit.demo
 
-
 import com.example.UserFactory
 import com.example.api.JsonPlaceHolderApi
 import com.example.model.ExampleApi
@@ -20,47 +19,49 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 
+val jvmClient =
+    HttpClient {
 
-val jvmClient = HttpClient {
+        install(Logging) {
+            // level = LogLevel.ALL
+        }
 
-    install(Logging) {
-        //level = LogLevel.ALL
+        install(ContentNegotiation) {
+            json(
+                Json {
+                    isLenient = true
+                    ignoreUnknownKeys = true
+                }
+            )
+        }
+
+        this.developmentMode = true
+        expectSuccess = false
     }
 
-    install(ContentNegotiation) {
-        json(Json { isLenient = true; ignoreUnknownKeys = true })
+val jvmKtorfit =
+    ktorfit {
+        baseUrl(JsonPlaceHolderApi.baseUrl)
+        httpClient(jvmClient)
     }
 
-    this.developmentMode = true
-    expectSuccess = false
-}
+val userKtorfit =
+    ktorfit {
+        baseUrl("https://foso.github.io/Ktorfit/")
+        httpClient(jvmClient)
 
+        converterFactories(
+            FlowConverterFactory(),
+            MyOwnResponseConverterFactory(),
+            UserFactory(),
+            CallConverterFactory()
+        )
+    }
 
-val jvmKtorfit = ktorfit {
-    baseUrl(JsonPlaceHolderApi.baseUrl)
-    httpClient(jvmClient)
-
-}
-
-
-val userKtorfit = ktorfit {
-    baseUrl("https://foso.github.io/Ktorfit/")
-    httpClient(jvmClient)
-
-    converterFactories(
-        FlowConverterFactory(),
-        MyOwnResponseConverterFactory(),
-        UserFactory(),
-        CallConverterFactory()
-    )
-}
-
-val api : ExampleApi = userKtorfit.createExampleApi()
+val api: ExampleApi = userKtorfit.createExampleApi()
 
 fun main() {
-
     runBlocking {
-
         val user = api.getUserResponse()
 
         when (user) {
@@ -74,6 +75,4 @@ fun main() {
         }
         delay(3000)
     }
-
 }
-

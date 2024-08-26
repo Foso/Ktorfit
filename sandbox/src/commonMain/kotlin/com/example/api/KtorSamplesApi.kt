@@ -10,7 +10,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 interface KtorSamplesApi {
-
     companion object {
         const val baseUrl = "http://localhost:8080/"
     }
@@ -20,9 +19,11 @@ interface KtorSamplesApi {
     val test1: String
 
     @POST("signup")
-    suspend fun sendReg(@Body param: Parameters): String
+    suspend fun sendReg(
+        @Body param: Parameters
+    ): String
 
-    //client-submit-form
+    // client-submit-form
     @POST("signup")
     @FormUrlEncoded
     suspend fun signup(
@@ -31,11 +32,9 @@ interface KtorSamplesApi {
         @Field("password") password: String,
         @Field("confirmation") confirmation: String,
         @Field("names") names: List<String>
-
     ): String
 
-
-    //client-submit-form
+    // client-submit-form
     @POST("signup")
     @FormUrlEncoded
     suspend fun signup(
@@ -45,35 +44,43 @@ interface KtorSamplesApi {
 
     @Multipart
     @POST("upload")
-    suspend fun uploadFile(@Part("description") description: String, @Part("list") file: List<PartData>,@PartMap() map : Map<String,PartData>): String
+    suspend fun uploadFile(
+        @Part("description") description: String,
+        @Part("list") file: List<PartData>,
+        @PartMap() map: Map<String, PartData>
+    ): String
 
     @POST("upload")
-    suspend fun upload(@Body map: MultiPartFormDataContent)
+    suspend fun upload(
+        @Body map: MultiPartFormDataContent
+    )
 }
-
 
 data class Query(
     val working: Working
 ) {
     data class Working(
-         val data: String
+        val data: String
     )
 
-
     data class NotWorking(
-         val reponse: String
+        val reponse: String
     )
 }
 
-
 interface API {
-    data class JensTest(val names: List<String>)
+    data class JensTest(
+        val names: List<String>
+    )
 
     @Headers(
-        "Content-Type: application/json", "Accept: application/json"
+        "Content-Type: application/json",
+        "Accept: application/json"
     )
     @POST("example/request")
-    suspend fun query(@Body query: Query): List<NotWorking> // not sure if non-list works, haven't tested
+    suspend fun query(
+        @Body query: Query
+    ): List<NotWorking> // not sure if non-list works, haven't tested
 }
 
 class KtorfitTest {

@@ -1,11 +1,14 @@
 package de.jensklingenberg.ktorfit.demo
 
 import com.example.model.People
-import de.jensklingenberg.ktorfit.http.*
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Path
+import de.jensklingenberg.ktorfit.http.Query
+import de.jensklingenberg.ktorfit.http.QueryMap
+import de.jensklingenberg.ktorfit.http.QueryName
 import ktorfit.Test
 
 interface QueryTestApi {
-
     @GET("people/{id}/")
     suspend fun testQueryWithEncodedString(
         @Path("id") peopleId: Int,
@@ -14,25 +17,46 @@ interface QueryTestApi {
     ): People
 
     @GET("people/{id}/")
-    suspend fun testQueryWithEncodedInt(@Path("id") peopleId: Int, @Query("huhu", true) name: Int): People
+    suspend fun testQueryWithEncodedInt(
+        @Path("id") peopleId: Int,
+        @Query("huhu", true) name: Int
+    ): People
 
     @GET("people/{id}/")
-    suspend fun testQueryWithString(@Path("id") peopleId: Int, @Query("huhu", false) name: String): People
+    suspend fun testQueryWithString(
+        @Path("id") peopleId: Int,
+        @Query("huhu", false) name: String
+    ): People
 
     @GET("people/{id}/")
-    suspend fun testQueryWithEncodedArray(@Path("id") peopleId: Int, @Query("huhu", true) name: Array<String?>): People
+    suspend fun testQueryWithEncodedArray(
+        @Path("id") peopleId: Int,
+        @Query("huhu", true) name: Array<String?>
+    ): People
 
     @GET("people/{id}/")
-    suspend fun testQueryWithList(@Path("id") peopleId: Int, @Query("huhu") name: List<String?>): People
+    suspend fun testQueryWithList(
+        @Path("id") peopleId: Int,
+        @Query("huhu") name: List<String?>
+    ): People
 
     @GET("people/{id}/")
-    suspend fun testQueryWithEncodedList(@Path("id") peopleId: Int, @Query("huhu", true) name: List<String?>): People
+    suspend fun testQueryWithEncodedList(
+        @Path("id") peopleId: Int,
+        @Query("huhu", true) name: List<String?>
+    ): People
 
     @GET("people/{id}/")
-    suspend fun testQueryName(@Path("id") peopleId: Int, @QueryName name: String): People
+    suspend fun testQueryName(
+        @Path("id") peopleId: Int,
+        @QueryName name: String
+    ): People
 
     @GET("people/{id}/")
-    suspend fun testQueryNameList(@Path("id") peopleId: Int, @QueryName(false) name: List<String?>): People
+    suspend fun testQueryNameList(
+        @Path("id") peopleId: Int,
+        @QueryName(false) name: List<String?>
+    ): People
 
     @GET("people/{id}/")
     suspend fun testQueryEncodedMap(
@@ -40,6 +64,4 @@ interface QueryTestApi {
         @QueryMap name: Map<String, Test?>?,
         @QueryMap(true) name2: Map<String, Test?>?
     ): People
-
-
 }
