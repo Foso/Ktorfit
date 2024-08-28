@@ -34,4 +34,16 @@ internal class DefaultSuspendResponseConverterFactory : Converter.Factory {
         typeData: TypeData,
         ktorfit: Ktorfit,
     ): Converter.SuspendResponseConverter<HttpResponse, *> = DefaultSuspendResponseConverter(typeData)
+
+    override fun responseConverter(
+        typeData: TypeData,
+        ktorfit: Ktorfit,
+    ): Converter.ResponseConverter<HttpResponse, *>? =
+        if (typeData.isNullable) {
+            object : Converter.ResponseConverter<HttpResponse, Any?> {
+                override fun convert(getResponse: suspend () -> HttpResponse): Any? = null
+            }
+        } else {
+            null
+        }
 }

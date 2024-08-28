@@ -41,12 +41,7 @@ public class KtorfitConverterHelper(
             } as ReturnType?
         }
 
-        val typeIsNullable = returnTypeData.typeInfo.kotlinType?.isMarkedNullable ?: false
-        return if (typeIsNullable) {
-            null
-        } else {
-            throw IllegalStateException("Add a ResponseConverter for " + returnTypeData.typeInfo + " or make function suspend")
-        }
+        throw IllegalStateException("Add a ResponseConverter for " + returnTypeData.typeInfo + " or make function suspend")
     }
 
     /**
