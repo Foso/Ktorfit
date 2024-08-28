@@ -7,6 +7,9 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+# [2.x]()
+- Allow Body with Http Delete #647
+
 # [2.0.1]()
 
 2.0.1 - 2024-08-08

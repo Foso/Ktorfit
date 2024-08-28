@@ -12,32 +12,6 @@ import java.io.File
 
 class BodyAnnotationsTest {
     @Test
-    fun whenBodyUsedWithNonBodyMethod_ThrowCompilationError() {
-        val source =
-            SourceFile.kotlin(
-                "Source.kt",
-                """
-      package com.example.api
-import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.Body
-
-interface TestService {
-
-    @GET("user")
-    suspend fun test(@Body id: String): String?
-    
-}
-    """,
-            )
-
-        val compilation = getCompilation(listOf(source))
-
-        val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
-        assertTrue(result.messages.contains(KtorfitError.NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY))
-    }
-
-    @Test
     fun whenBodyUsedWithFormUrlEncoded_ThrowCompilationError() {
         val source =
             SourceFile.kotlin(
