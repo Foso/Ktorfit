@@ -1,7 +1,7 @@
 [versions]
 autoService = "1.1.1"
 autoServiceKsp = "1.10"
-binaryCompatibilityValidator = "0.14.0"
+binaryCompatibilityValidator = "0.16.3"
 coroutines = "1.8.1"
 detekt = "1.23.6"
 junit = "4.13.2"
