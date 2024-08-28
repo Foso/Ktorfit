@@ -10,4 +10,6 @@ package de.jensklingenberg.ktorfit.http
  * ```
  */
 @Target(AnnotationTarget.FUNCTION)
-annotation class Headers(vararg val value: String)
+annotation class Headers(
+    vararg val value: String
+)

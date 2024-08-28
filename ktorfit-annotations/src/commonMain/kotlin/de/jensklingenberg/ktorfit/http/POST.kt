@@ -9,4 +9,6 @@ package de.jensklingenberg.ktorfit.http
  *
  */
 @Target(AnnotationTarget.FUNCTION)
-annotation class POST(val value: String = "")
+annotation class POST(
+    val value: String = ""
+)

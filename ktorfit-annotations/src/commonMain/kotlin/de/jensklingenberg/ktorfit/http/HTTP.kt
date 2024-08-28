@@ -10,4 +10,8 @@ package de.jensklingenberg.ktorfit.http
  * @param hasBody
  * */
 @Target(AnnotationTarget.FUNCTION)
-annotation class HTTP(val method: String, val path: String = "", val hasBody: Boolean = false)
+annotation class HTTP(
+    val method: String,
+    val path: String = "",
+    val hasBody: Boolean = false
+)

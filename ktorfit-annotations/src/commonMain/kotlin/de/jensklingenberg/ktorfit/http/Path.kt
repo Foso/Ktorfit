@@ -17,4 +17,7 @@ package de.jensklingenberg.ktorfit.http
  */
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
-annotation class Path(val value: String = "KTORFIT_DEFAULT_VALUE", val encoded: Boolean = false)
+annotation class Path(
+    val value: String = "KTORFIT_DEFAULT_VALUE",
+    val encoded: Boolean = false
+)
