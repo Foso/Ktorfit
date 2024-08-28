@@ -2,7 +2,6 @@ package de.jensklingenberg.ktorfit.model
 
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import de.jensklingenberg.ktorfit.model.annotations.CustomHttp
 import de.jensklingenberg.ktorfit.model.annotations.FunctionAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
@@ -153,12 +152,6 @@ fun KSFunctionDeclaration.toFunctionData(logger: KSPLogger): FunctionData {
     when (firstHttpMethodAnnotation.httpMethod) {
         HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH -> {}
         else -> {
-            if (firstHttpMethodAnnotation is CustomHttp && firstHttpMethodAnnotation.hasBody) {
-                // Do nothing
-            } else if (functionParameters.any { it.hasAnnotation<Body>() }) {
-                logger.error(KtorfitError.NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY, funcDeclaration)
-            }
-
             if (functionAnnotationList.anyInstance<Multipart>()) {
                 logger.error(
                     KtorfitError.MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS,
