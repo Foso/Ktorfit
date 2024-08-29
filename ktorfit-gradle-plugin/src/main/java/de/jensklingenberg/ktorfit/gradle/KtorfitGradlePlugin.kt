@@ -71,33 +71,25 @@ class KtorfitGradlePlugin : Plugin<Project> {
 
                         kotlinExtension.targets.configureEach {
                             if (targetName == "metadata") return@configureEach
-                            dependencies.add(
-                                "ksp${
-                                    targetName.replaceFirstChar {
-                                        if (it.isLowerCase()) {
-                                            it.titlecase(
-                                                US,
-                                            )
-                                        } else {
-                                            it.toString()
-                                        }
+                            val capitalizedTargetName =
+                                targetName.replaceFirstChar {
+                                    if (it.isLowerCase()) {
+                                        it.titlecase(
+                                            US,
+                                        )
+                                    } else {
+                                        it.toString()
                                     }
-                                }",
+                                }
+                            dependencies.add(
+                                "ksp$capitalizedTargetName",
                                 dependency,
                             )
 
                             if (this.compilations.any { it.name == "test" }) {
                                 dependencies.add(
                                     "ksp${
-                                        targetName.replaceFirstChar {
-                                            if (it.isLowerCase()) {
-                                                it.titlecase(
-                                                    US,
-                                                )
-                                            } else {
-                                                it.toString()
-                                            }
-                                        }
+                                        capitalizedTargetName
                                     }Test",
                                     dependency,
                                 )
