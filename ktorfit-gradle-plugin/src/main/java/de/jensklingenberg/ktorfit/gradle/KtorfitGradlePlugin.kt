@@ -86,20 +86,22 @@ class KtorfitGradlePlugin : Plugin<Project> {
                                 dependency,
                             )
 
-                            dependencies.add(
-                                "ksp${
-                                    targetName.replaceFirstChar {
-                                        if (it.isLowerCase()) {
-                                            it.titlecase(
-                                                US,
-                                            )
-                                        } else {
-                                            it.toString()
+                            if (this.compilations.any { it.name == "test" }) {
+                                dependencies.add(
+                                    "ksp${
+                                        targetName.replaceFirstChar {
+                                            if (it.isLowerCase()) {
+                                                it.titlecase(
+                                                    US,
+                                                )
+                                            } else {
+                                                it.toString()
+                                            }
                                         }
-                                    }
-                                }Test",
-                                dependency,
-                            )
+                                    }Test",
+                                    dependency,
+                                )
+                            }
                         }
 
                         kotlinExtension.sourceSets.named("commonMain").configure {
