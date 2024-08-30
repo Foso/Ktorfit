@@ -78,6 +78,7 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 34
+        namespace = "com.example.ktorfittest"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
