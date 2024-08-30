@@ -49,6 +49,7 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 34
+        namespace = "com.example.person"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
