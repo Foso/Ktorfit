@@ -9,7 +9,7 @@ val ktorVersion = "2.3.11"
 
 kotlin {
     jvmToolchain(8)
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
 
     jvm()
     androidTarget()
