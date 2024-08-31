@@ -9,12 +9,12 @@ import org.junit.Test
 import java.io.File
 
 class AllHeaderAnnotationsTest {
-
     @Test
     fun whenHeadersHeaderMapAndHeaderAnnotationFound_AddHeader() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """package com.example.api
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Headers
 import de.jensklingenberg.ktorfit.http.Header
@@ -26,11 +26,11 @@ interface TestService {
 @GET("posts")
 suspend fun test(@Header("testHeader") testParameterNonNullable: String?, @Header("testHeader") testParameterNullable: String?, @HeaderMap("testHeaderMap") testParameter2: Map<String,String>): String
 }
-    """
-        )
+    """,
+            )
 
-
-        val expectedHeadersArgumentText = "headers{\n" +
+        val expectedHeadersArgumentText =
+            "headers{\n" +
                 "        testParameterNonNullable?.let{ append(\"testHeader\", testParameterNonNullable) }\n" +
                 "        testParameterNullable?.let{ append(\"testHeader\", testParameterNullable) }\n" +
                 "        testParameter2.forEach{ append(it.key , it.value)}\n" +
@@ -42,17 +42,13 @@ suspend fun test(@Header("testHeader") testParameterNonNullable: String?, @Heade
         val result = compilation.compile()
         assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
-        val generatedFile = File(
-            generatedSourcesDir,
-            "/kotlin/com/example/api/_TestServiceImpl.kt"
-        )
+        val generatedFile =
+            File(
+                generatedSourcesDir,
+                "/kotlin/com/example/api/_TestServiceImpl.kt",
+            )
 
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
-
-
-
-
 }
-

@@ -14,4 +14,4 @@ pluginManagement {
 rootProject.name = "KtorfitMultiplatformExample"
 include(":androidApp")
 include(":shared")
-include(":lib")
+include(":person")

@@ -6,8 +6,8 @@ plugins {
     `kotlin-dsl`
     id("com.gradle.plugin-publish") version "1.2.1"
     id("com.vanniktech.maven.publish")
+    id("org.jlleitschuh.gradle.ktlint")
 }
-
 
 allprojects {
     repositories {
@@ -57,9 +57,9 @@ val enableSigning = project.hasProperty("signingInMemoryKey")
 mavenPublishing {
 
     coordinates(
-        "de.jensklingenberg.ktorfit",
+        libs.versions.groupId.get(),
         "ktorfit-gradle-plugin",
-        libs.versions.ktorfitGradle.get()
+        libs.versions.ktorfitGradle.get(),
     )
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
@@ -106,10 +106,11 @@ publishing {
             hasProperty("sonatypeReleaseUrl")
         ) {
             maven {
-                val url = when {
-                    "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
-                    else -> property("sonatypeReleaseUrl")
-                } as String
+                val url =
+                    when {
+                        "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
+                        else -> property("sonatypeReleaseUrl")
+                    } as String
                 setUrl(url)
                 credentials {
                     username = property("sonatypeUsername") as String

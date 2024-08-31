@@ -13,7 +13,7 @@ extra:
   site:
     images: '../../images'
   ktorfit:
-    release: "2.0.0"
+    release: "2.0.1"
   ktor:
     release: "2.3.11"
   social:
@@ -64,6 +64,8 @@ nav:
       - 'Example1': converters/example1.md
       - 'Migration': converters/migration.md
   - 'Configuration': configuration.md
+  - 'Android':
+      - 'proguard': android/proguard.md
   - 'Fundamentals' :
       - 'Scope' : fundamentals/scope.md
       - 'Architecture': architecture.md

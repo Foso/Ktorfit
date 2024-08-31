@@ -4,7 +4,21 @@ import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSValueParameter
-import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Body
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.FieldMap
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Header
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.HeaderMap
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Part
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.PartMap
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Path
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Query
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.QueryMap
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.QueryName
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestBuilder
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestType
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Tag
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Url
 
 /**
  * Default value used for annotation parameters because they can't be nullable
@@ -60,7 +74,6 @@ fun KSValueParameter.getFieldAnnotation(): Field? {
     }
 }
 
-
 @OptIn(KspExperimental::class)
 fun KSValueParameter.getFieldMapAnnotation(): FieldMap? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.FieldMap::class).firstOrNull()?.let {
@@ -112,13 +125,19 @@ fun KSValueParameter.getTagAnnotation(): Tag? {
 
 fun KSValueParameter.getRequestTypeAnnotation(): RequestType? {
     val requestTypeClazz = de.jensklingenberg.ktorfit.http.RequestType::class
-    val filteredAnnotations = this.annotations.filter {
-        it.shortName.getShortName() == requestTypeClazz.simpleName
-                && it.annotationType.resolve().declaration.qualifiedName?.asString() == requestTypeClazz.qualifiedName
-    }
-    return filteredAnnotations.mapNotNull {
-        it.arguments.map { arg ->
-            RequestType((arg.value as KSType))
+    val filteredAnnotations =
+        this.annotations.filter {
+            it.shortName.getShortName() == requestTypeClazz.simpleName &&
+                it.annotationType
+                    .resolve()
+                    .declaration.qualifiedName
+                    ?.asString() == requestTypeClazz.qualifiedName
+        }
+    return filteredAnnotations
+        .mapNotNull {
+            it.arguments
+                .map { arg ->
+                    RequestType((arg.value as KSType))
+                }.firstOrNull()
         }.firstOrNull()
-    }.firstOrNull()
 }

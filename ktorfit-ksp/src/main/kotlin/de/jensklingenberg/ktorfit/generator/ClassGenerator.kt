@@ -6,9 +6,8 @@ import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.Resolver
 import de.jensklingenberg.ktorfit.KtorfitOptions
 import de.jensklingenberg.ktorfit.model.ClassData
-import de.jensklingenberg.ktorfit.model.getImplClassFileSource
+import de.jensklingenberg.ktorfit.poetspec.getImplClassSpec
 import java.io.OutputStreamWriter
-
 
 /**
  * Generate the Impl class for every interface used for Ktorfit
@@ -18,40 +17,38 @@ fun generateImplClass(
     classDataList: List<ClassData>,
     codeGenerator: CodeGenerator,
     resolver: Resolver,
-    ktorfitOptions: KtorfitOptions
+    ktorfitOptions: KtorfitOptions,
 ) {
-    val singleTarget = ktorfitOptions.singleTarget
-
     classDataList.forEach { classData ->
         with(classData) {
-            val fileSource = classData.getImplClassFileSource(resolver, ktorfitOptions)
+            val fileSource = classData.getImplClassSpec(resolver, ktorfitOptions).toString()
 
             val fileName = "_${name}Impl"
             val commonMainModuleName = "commonMain"
-            val moduleName = try {
-                resolver.getModuleName().getShortName()
-            } catch (e: AbstractMethodError) {
-                ""
-            }
+            val moduleName =
+                try {
+                    resolver.getModuleName().getShortName()
+                } catch (e: AbstractMethodError) {
+                    ""
+                }
 
             if (moduleName.contains(commonMainModuleName)) {
                 if (!ksFile.filePath.contains(commonMainModuleName)) {
                     return@forEach
                 }
             } else {
-                if (!singleTarget && ksFile.filePath.contains(commonMainModuleName)) {
+                if (ksFile.filePath.contains(commonMainModuleName)) {
                     return@forEach
                 }
             }
 
-            codeGenerator.createNewFile(dependencies = Dependencies(false, ksFile), packageName, fileName, "kt")
+            codeGenerator
+                .createNewFile(dependencies = Dependencies(false, ksFile), packageName, fileName, "kt")
                 .use { output ->
                     OutputStreamWriter(output).use { writer ->
                         writer.write(fileSource)
                     }
                 }
         }
-
     }
 }
-

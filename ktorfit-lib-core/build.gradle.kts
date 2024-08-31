@@ -12,12 +12,25 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.binaryCompatibilityValidator)
     id("app.cash.licensee")
-
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
+
+ktlint {
+    filter {
+        exclude {
+            it.file.path.contains(
+                layout.buildDirectory
+                    .dir("generated")
+                    .get()
+                    .toString(),
+            )
+        }
     }
 }
 
@@ -40,10 +53,20 @@ val enableSigning = project.hasProperty("signingInMemoryKey")
 
 mavenPublishing {
 
+    val artifactId =
+        "ktorfit-lib-light" +
+            if (libs.versions.ktorVersion
+                    .get()
+                    .startsWith("3.")
+            ) {
+                "-ktor-" + libs.versions.ktorVersion.get()
+            } else {
+                ""
+            }
     coordinates(
-        "de.jensklingenberg.ktorfit",
-        "ktorfit-lib-light",
-        libs.versions.ktorfit.get()
+        libs.versions.groupId.get(),
+        artifactId,
+        libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
     //  publishToMavenCentral(SonatypeHost.S01) // for publishing through s01.oss.sonatype.org
@@ -57,13 +80,15 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 kotlin {
-    if(libs.versions.ktorVersion.get().startsWith("3.")){
+    if (libs.versions.ktorVersion
+            .get()
+            .startsWith("3.")
+    ) {
         @OptIn(ExperimentalWasmDsl::class)
         wasmJs()
     }
     explicitApi()
     jvm {
-
     }
     js(IR) {
         this.nodejs()
@@ -104,7 +129,7 @@ kotlin {
         watchosSimulatorArm64(),
         tvosArm64(),
         tvosX64(),
-        tvosSimulatorArm64()
+        tvosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "library"
@@ -130,8 +155,6 @@ kotlin {
             dependencies {
                 kotlin.srcDir("build/generated/ksp/jvm/jvmTest/")
 
-                dependsOn(jvmMain.get())
-
                 implementation(libs.ktor.client.mock)
                 implementation(libs.junit)
                 implementation(libs.mockito.kotlin)
@@ -142,13 +165,7 @@ kotlin {
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
 
-        val iosMain by getting {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-            dependencies {}
-        }
+        val iosMain by getting
     }
 }
 
@@ -165,8 +182,6 @@ android {
     }
     namespace = "de.jensklingenberg.ktorfit.common"
 }
-
-
 
 publishing {
     publications {
@@ -207,10 +222,11 @@ publishing {
             hasProperty("sonatypeReleaseUrl")
         ) {
             maven {
-                val url = when {
-                    "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
-                    else -> property("sonatypeReleaseUrl")
-                } as String
+                val url =
+                    when {
+                        "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
+                        else -> property("sonatypeReleaseUrl")
+                    } as String
                 setUrl(url)
                 credentials {
                     username = property("sonatypeUsername") as String
@@ -218,7 +234,6 @@ publishing {
                 }
             }
         }
-
     }
 }
 
@@ -232,7 +247,8 @@ rootProject.plugins.withType(NodeJsRootPlugin::class) {
 
 dependencies {
     add(
-        "kspCommonMainMetadata", projects.ktorfitKsp
+        "kspCommonMainMetadata",
+        projects.ktorfitKsp,
     )
     add("kspJvm", projects.ktorfitKsp)
     add("kspJvmTest", projects.ktorfitKsp)

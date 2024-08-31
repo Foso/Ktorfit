@@ -22,9 +22,7 @@ pluginManagement {
                 useModule("de.jensklingenberg.ktorfit:de.jensklingenberg.ktorfit.gradle.plugin:${requested.version}")
             }
         }
-
     }
-
 }
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
@@ -43,4 +41,3 @@ include(":ktorfit-annotations")
 include(":ktorfit-converters:flow")
 include(":ktorfit-converters:call")
 include(":ktorfit-converters:response")
-

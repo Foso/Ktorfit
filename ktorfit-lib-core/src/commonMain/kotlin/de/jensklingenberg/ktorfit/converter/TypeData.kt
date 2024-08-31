@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.converter
 
-import io.ktor.util.reflect.*
+import io.ktor.util.reflect.TypeInfo
+import io.ktor.util.reflect.platformType
 import kotlin.reflect.KClass
 
 /**
@@ -19,17 +20,23 @@ public data class TypeData(
     public val isNullable: Boolean = typeInfo.kotlinType?.isMarkedNullable ?: false,
 ) {
     public companion object {
-        public fun createTypeData(qualifiedTypename: String = "", typeInfo: TypeInfo): TypeData {
+        public fun createTypeData(
+            qualifiedTypename: String = "",
+            typeInfo: TypeInfo,
+        ): TypeData {
             val typeArgument = qualifiedTypename.substringAfter("<").substringBeforeLast(">")
             val split = typeArgument.split(",")
-            val args = typeInfo.kotlinType?.arguments?.mapIndexed { index, kTypeProjection ->
-                val cleaned = split.getOrNull(index)?.trim() ?: ""
+            val args =
+                typeInfo.kotlinType
+                    ?.arguments
+                    ?.mapIndexed { index, kTypeProjection ->
+                        val cleaned = split.getOrNull(index)?.trim() ?: ""
 
-                val modelKType = kTypeProjection.type
-                val modelClass = (modelKType?.classifier as? KClass<*>?)!!
+                        val modelKType = kTypeProjection.type
+                        val modelClass = (modelKType?.classifier as? KClass<*>?)!!
 
-                createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType))
-            }.orEmpty()
+                        createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType))
+                    }.orEmpty()
 
             return TypeData(qualifiedTypename.substringBefore("<"), args, typeInfo = typeInfo)
         }

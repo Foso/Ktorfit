@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.model
 
 internal class KtorfitError {
-
     companion object {
         const val FUNCTION_OR_PARAMETERS_TYPES_MUST_NOT_INCLUDE_ATYPE_VARIABLE_OR_WILDCARD =
             "function or parameters types must not include a type variable or wildcard:"
@@ -26,7 +25,6 @@ internal class KtorfitError {
         const val PATH_PARAMETER_TYPE_MAY_NOT_BE_NULLABLE = "Path parameter type may not be nullable"
         const val API_DECLARATIONS_MUST_BE_INTERFACES = "API declarations must be interfaces."
         const val PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON = "@Path can only be used with relative url on "
-        const val NON_BODY_HTTP_METHOD_CANNOT_CONTAIN_BODY = "Non-body HTTP method cannot contain @Body"
         const val BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING =
             "@Body parameters cannot be used with form or multi-part encoding"
         const val FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT =
@@ -45,10 +43,14 @@ internal class KtorfitError {
         const val HEADERS_VALUE_MUST_BE_IN_FORM = "@Headers value must be in the form \"Name: Value\". Found: "
         const val PROPERTIES_NOT_SUPPORTED = "throw IllegalStateException(\"Properties not supported by Ktorfit\")"
 
-        fun MISSING_EITHER_KEYWORD_URL_OrURL_PARAMETER(keyword: String) = "Missing either @$keyword URL or @Url parameter"
-        fun NO_KTORFIT_ANNOTATION_FOUND_AT(parameterName: String): String = "No Ktorfit Annotation found at $parameterName"
-        fun MISSING_X_IN_RELATIVE_URL_PATH(keyword: String) = "Missing {${keyword}} in relative url path"
-        fun NO_HTTP_ANNOTATION_AT(functionName: String) = "No Http annotation at $functionName"
-        fun URL_CAN_ONLY_BE_USED_WITH_EMPY(keyword: String) = "@Url can only be used with empty @${keyword} URL value"
+        fun missingEitherKeywordUrlOrUrlParameter(keyword: String) = "Missing either @$keyword URL or @Url parameter"
+
+        fun noKtorfitAnnotationFoundAt(parameterName: String): String = "No Ktorfit Annotation found at $parameterName"
+
+        fun missingXInRelativeUrlPath(keyword: String) = "Missing {$keyword} in relative url path"
+
+        fun noHttpAnnotationAt(functionName: String) = "No Http annotation at $functionName"
+
+        fun urlCanOnlyBeUsedWithEmpty(keyword: String) = "@Url can only be used with empty @$keyword URL value"
     }
 }

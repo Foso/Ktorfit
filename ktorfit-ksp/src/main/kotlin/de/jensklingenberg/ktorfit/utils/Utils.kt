@@ -6,33 +6,24 @@ import com.squareup.kotlinpoet.FileSpec
 import de.jensklingenberg.ktorfit.model.FunctionData
 
 fun KSType?.resolveTypeName(): String {
-    //TODO: Find better way to handle type alias Types
+    // TODO: Find better way to handle type alias Types
     return this.toString().removePrefix("[typealias ").removeSuffix("]")
 }
 
-inline fun <reified T> FunctionData.findAnnotationOrNull(): T? {
-    return this.annotations.firstOrNull { it is T } as? T
-}
+inline fun <reified T> FunctionData.findAnnotationOrNull(): T? = this.annotations.firstOrNull { it is T } as? T
 
-fun String.prefixIfNotEmpty(s: String): String {
-    return (s + this).takeIf { this.isNotEmpty() } ?: this
-}
+fun String.prefixIfNotEmpty(s: String): String = (s + this).takeIf { this.isNotEmpty() } ?: this
 
-fun String.postfixIfNotEmpty(s: String): String {
-    return (this + s).takeIf { this.isNotEmpty() } ?: this
-}
+fun String.postfixIfNotEmpty(s: String): String = (this + s).takeIf { this.isNotEmpty() } ?: this
 
-fun String.surroundIfNotEmpty(prefix: String = "", postFix: String = ""): String {
-    return this.prefixIfNotEmpty(prefix).postfixIfNotEmpty(postFix)
-}
+fun String.surroundIfNotEmpty(
+    prefix: String = "",
+    postFix: String = "",
+): String = this.prefixIfNotEmpty(prefix).postfixIfNotEmpty(postFix)
 
-fun String.removeWhiteSpaces(): String {
-    return this.replace("\\s".toRegex(), "")
-}
-
+fun String.removeWhiteSpaces(): String = this.replace("\\s".toRegex(), "")
 
 fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
-
     imports.forEach {
         /**
          * Wildcard imports are not allowed by KotlinPoet, as a workaround * is replaced with WILDCARDIMPORT, and it will be replaced again
@@ -46,10 +37,6 @@ fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
     return this
 }
 
-inline fun <reified T> List<*>.anyInstance(): Boolean {
-    return this.filterIsInstance<T>().isNotEmpty()
-}
+inline fun <reified T> List<*>.anyInstance(): Boolean = this.filterIsInstance<T>().isNotEmpty()
 
-fun KSName?.safeString(): String {
-    return this?.asString() ?: ""
-}
+fun KSName?.safeString(): String = this?.asString() ?: ""

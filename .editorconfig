@@ -1,0 +1,21 @@
+root = true
+
+[*]
+ij_kotlin_name_count_to_use_star_import = 2147483647
+
+[*.{kt,kts}]
+# Disabled rules:
+# noinspection EditorConfigKeyCorrectness
+ktlint_standard_trailing-comma-on-call-site = disabled
+# noinspection EditorConfigKeyCorrectness
+ktlint_standard_trailing-comma-on-declaration-site = disabled
+# noinspection EditorConfigKeyCorrectness
+ktlint_standard_import-ordering = disabled
+# noinspection EditorConfigKeyCorrectness
+ktlint_standard_multiline-if-else = disabled
+# noinspection EditorConfigKeyCorrectness
+ktlint_standard_comment-wrapping = disabled
+# noinspection EditorConfigKeyCorrectness
+ktlint_standard_block-comment-initial-star-alignment = disabled
+# noinspection EditorConfigKeyCorrectness
+ktlint_standard_no-single-line-block-comment = disabled

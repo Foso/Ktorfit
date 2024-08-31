@@ -1,54 +1,54 @@
 package de.jensklingenberg.ktorfit
 
-import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.closestClassDeclaration
-import com.google.devtools.ksp.getClassDeclarationByName
-import com.google.devtools.ksp.getKotlinClassByName
-import com.google.devtools.ksp.processing.*
+import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.processing.SymbolProcessor
+import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
+import com.google.devtools.ksp.processing.SymbolProcessorProvider
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import de.jensklingenberg.ktorfit.generator.generateImplClass
-import de.jensklingenberg.ktorfit.http.*
+import de.jensklingenberg.ktorfit.http.DELETE
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.HEAD
+import de.jensklingenberg.ktorfit.http.HTTP
+import de.jensklingenberg.ktorfit.http.OPTIONS
+import de.jensklingenberg.ktorfit.http.PATCH
+import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.PUT
 import de.jensklingenberg.ktorfit.model.toClassData
 
 class KtorfitProcessorProvider : SymbolProcessorProvider {
-    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
-        return KtorfitProcessor(environment, KtorfitOptions(environment.options))
-    }
+    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor =
+        KtorfitProcessor(environment, KtorfitOptions(environment.options))
 }
 
-class KtorfitProcessor(private val env: SymbolProcessorEnvironment, private val ktorfitOptions: KtorfitOptions) :
-    SymbolProcessor {
-    private val logger: KSPLogger = env.logger
+class KtorfitProcessor(
+    private val env: SymbolProcessorEnvironment,
+    private val ktorfitOptions: KtorfitOptions
+) : SymbolProcessor {
     private var invoked = false
 
     companion object {
         lateinit var ktorfitResolver: Resolver
     }
 
-    @OptIn(KspExperimental::class)
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        val codeGenerator: CodeGenerator = env.codeGenerator
-        val type = ktorfitOptions.errorsLoggingType
+        val loggingType = ktorfitOptions.errorsLoggingType
         ktorfitResolver = resolver
-        val tt = resolver.getDeclarationsFromPackage("")
-        env.logger.warn(tt.count().toString())
-        tt.forEach {
-            resolver.getKotlinClassByName("com.example.ExternalModel")
-            val te = resolver.getClassDeclarationByName("ExternalModel")
-            env.logger.warn("KtorfitProcessor" + it.toString() + " " + te, it)
-        }
         if (invoked) {
             return emptyList()
         }
         invoked = true
 
-        val classDataList = getAnnotatedFunctions(ktorfitResolver).groupBy { it.closestClassDeclaration()!! }
-            .map { (classDec) ->
-                classDec.toClassData(KtorfitLogger(logger, type))
-            }
+        val classDataList =
+            getAnnotatedFunctions(ktorfitResolver)
+                .groupBy { it.closestClassDeclaration() }
+                .map { (classDec) ->
+                    classDec?.toClassData(KtorfitLogger(env.logger, loggingType))
+                }.mapNotNull { it }
 
-        generateImplClass(classDataList, codeGenerator, resolver, ktorfitOptions)
+        generateImplClass(classDataList, env.codeGenerator, resolver, ktorfitOptions)
 
         return emptyList()
     }
@@ -67,8 +67,14 @@ class KtorfitProcessor(private val env: SymbolProcessorEnvironment, private val 
         val httpAnnotated = resolver.getSymbolsWithAnnotation(HTTP::class.java.name).toList()
 
         val ksAnnotatedList =
-            getAnnotated + postAnnotated + putAnnotated + deleteAnnotated + headAnnotated + optionsAnnotated + patchAnnotated + httpAnnotated
+            getAnnotated +
+                postAnnotated +
+                putAnnotated +
+                deleteAnnotated +
+                headAnnotated +
+                optionsAnnotated +
+                patchAnnotated +
+                httpAnnotated
         return ksAnnotatedList.filterIsInstance<KSFunctionDeclaration>()
     }
 }
-

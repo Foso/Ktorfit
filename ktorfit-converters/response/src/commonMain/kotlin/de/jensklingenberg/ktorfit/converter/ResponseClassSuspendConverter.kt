@@ -2,12 +2,11 @@ package de.jensklingenberg.ktorfit.converter
 
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.Response
-import io.ktor.client.call.*
-import io.ktor.client.statement.*
+import io.ktor.client.call.body
+import io.ktor.client.statement.HttpResponse
 
 internal class ResponseClassSuspendConverter(private val typeData: TypeData, private val ktorfit: Ktorfit) :
     Converter.SuspendResponseConverter<HttpResponse, Response<Any?>> {
-
     override suspend fun convert(result: KtorfitResult): Response<Any?> {
         return when (result) {
             is KtorfitResult.Success -> {
@@ -25,11 +24,12 @@ internal class ResponseClassSuspendConverter(private val typeData: TypeData, pri
                     }
 
                     else -> {
-                        val convertedBody = ktorfit.nextSuspendResponseConverter(
-                            null,
-                            typeData.typeArgs.first()
-                        )?.convert(result)
-                            ?: rawResponse.body(typeInfo)
+                        val convertedBody =
+                            ktorfit.nextSuspendResponseConverter(
+                                null,
+                                typeData.typeArgs.first(),
+                            )?.convert(result)
+                                ?: rawResponse.body(typeInfo)
                         Response.success(convertedBody, rawResponse)
                     }
                 }

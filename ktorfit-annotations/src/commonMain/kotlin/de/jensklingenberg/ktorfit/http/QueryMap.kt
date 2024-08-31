@@ -8,4 +8,6 @@ package de.jensklingenberg.ktorfit.http
 
  */
 @Target(AnnotationTarget.VALUE_PARAMETER)
-annotation class QueryMap(val encoded: Boolean = false)
+annotation class QueryMap(
+    val encoded: Boolean = false
+)

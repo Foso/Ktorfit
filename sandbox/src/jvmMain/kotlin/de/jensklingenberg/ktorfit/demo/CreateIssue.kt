@@ -10,40 +10,36 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 
-
 fun main() {
-
-    val jvmClient = HttpClient() {
-        install(ContentNegotiation) {
-
-            json(Json { isLenient = true; ignoreUnknownKeys = true; })
+    val jvmClient =
+        HttpClient {
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        isLenient = true
+                        ignoreUnknownKeys = true
+                    }
+                )
+            }
+            expectSuccess = false
         }
-        expectSuccess = false
 
-
-    }
-
-
-    val jvmKtorfit = ktorfit {
-        baseUrl(GithubService.baseUrl)
-        httpClient(jvmClient)
-    }
+    val jvmKtorfit =
+        ktorfit {
+            baseUrl(GithubService.baseUrl)
+            httpClient(jvmClient)
+        }
 
     val testApi = jvmKtorfit.createGithubService()
 
-
     runBlocking {
-
-        testApi.listCommits("foso","Experimental").collect{
+        testApi.listCommits("foso", "Experimental").collect {
             println(it.first().author)
         }
 
-
-     //  println( testApi.createIsseu(Issuedata("hey","ho")))
-//BODY {"title":"title","body":"This is a test"}
-       // BODY Issuedata(title=Hallo, body=hhhh)
+        //  println( testApi.createIsseu(Issuedata("hey","ho")))
+// BODY {"title":"title","body":"This is a test"}
+        // BODY Issuedata(title=Hallo, body=hhhh)
         delay(3000)
-
     }
-
 }

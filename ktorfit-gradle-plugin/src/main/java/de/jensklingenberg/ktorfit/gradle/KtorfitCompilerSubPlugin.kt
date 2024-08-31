@@ -16,7 +16,6 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
 internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
-
     private lateinit var myproject: Project
     private var gradleExtension: KtorfitGradleConfiguration = KtorfitGradleConfiguration()
 
@@ -26,7 +25,7 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
         return kotlinCompilation.target.project.provider {
             listOf(
                 SubpluginOption("enabled", "true"),
-                SubpluginOption("logging", "false")
+                SubpluginOption("logging", "false"),
             )
         }
     }
@@ -47,12 +46,12 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
         return SubpluginArtifact(
             groupId = GROUP_NAME,
             artifactId = ARTIFACT_NAME,
-            version = "${KTORFIT_VERSION}-${myproject.kotlinExtension.compilerVersion.get()}${SNAPSHOT}"
+            version = "${KTORFIT_VERSION}-${myproject.kotlinExtension.compilerVersion.get()}$SNAPSHOT",
         )
     }
 
     private fun checkKotlinVersion(compilerVersion: String) {
-        if(compilerVersion.split(".")[0] < MIN_KOTLIN_VERSION.split(".")[0]){
+        if (compilerVersion.split(".")[0] < MIN_KOTLIN_VERSION.split(".")[0]) {
             error("Ktorfit: Kotlin version $compilerVersion is not supported. You need at least version $MIN_KOTLIN_VERSION")
         }
     }

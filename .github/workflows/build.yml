@@ -29,20 +29,20 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: zulu
-          java-version: 17
-      - uses: gradle/gradle-build-action@v3
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
       - name: API check
-        run: ./gradlew apiCheck
+        run: ./gradlew ktLintCheck apiCheck
   build:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 11
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: 17
-          distribution: 'zulu'
+          java-version: 21
+          distribution: 'temurin'
       - name: Cache Gradle and wrapper
         uses: actions/cache@v4
         with:
@@ -55,4 +55,4 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build and test with Gradle
-        run: ./gradlew licensee :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:test :ktorfit-lib-core:jvmTest :ktorfit-converters:call:publishToMavenLocal :ktorfit-converters:flow:publishToMavenLocal :ktorfit-converters:response:publishToMavenLocal
+        run: ./gradlew licensee :ktorfit-annotations:publishToMavenLocal :ktorfit-compiler-plugin:test :ktorfit-ksp:test :ktorfit-lib-core:jvmTest :ktorfit-converters:call:publishToMavenLocal :ktorfit-converters:flow:publishToMavenLocal :ktorfit-converters:response:publishToMavenLocal

@@ -2,52 +2,57 @@ package de.jensklingenberg.ktorfit
 
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
+import org.jetbrains.kotlin.ir.descriptors.toIrBasedKotlinType
 import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
+import org.jetbrains.kotlin.ir.symbols.UnsafeDuringIrConstructionAPI
 import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.types.defaultType
-import org.jetbrains.kotlin.ir.types.impl.originalKotlinType
 import org.jetbrains.kotlin.ir.util.constructors
+import org.jetbrains.kotlin.ir.util.dumpKotlinLike
 import org.jetbrains.kotlin.ir.util.isInterface
+import org.jetbrains.kotlin.js.descriptorUtils.getKotlinTypeFqName
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 
-
 /**
- * Transform exampleKtorfit.create<TestApi>() to exampleKtorfit.create<TestApi>(_TestApiImpl())
+ * Transform exampleKtorfit.create<TestApi>() to exampleKtorfit.create<TestApi>(_TestApiProvider())
  */
 internal class CreateFuncTransformer(
     private val pluginContext: IrPluginContext,
-    private val debugLogger: DebugLogger
+    private val debugLogger: DebugLogger,
 ) : IrElementTransformerVoidWithContext() {
-
     companion object {
-        fun ERROR_TYPE_ARGUMENT_NOT_INTERFACE(implName: String)=
-            "create<${implName}> argument is not supported. Type argument needs to be an interface"
+        fun errorTypeArgumentNotInterface(implName: String) =
+            "create<$implName> argument is not supported. Type argument needs to be an interface"
 
-        fun ERROR_IMPL_NOT_FOUND(implName: String, className: String) =
-            "${implName} not found, did you apply the Ksp Ktorfit plugin? Use .create${className}() instead"
+        fun errorImplNotFound(
+            implName: String,
+            className: String,
+        ) = "$implName not found, did you apply the Ksp Ktorfit plugin? Use .create$className() instead"
 
-        fun ERROR_CLASS_NOT_FOUND(implName: String) =
-            "class ${implName} not found, did you apply the Ksp Ktorfit plugin?"
+        fun errorClassNotFound(implName: String) = "class $implName not found, did you apply the Ksp Ktorfit plugin?"
 
         private const val KTORFIT_PACKAGE = "de.jensklingenberg.ktorfit.Ktorfit"
         private const val KTORFIT_CREATE = "create"
-
     }
 
+    @OptIn(UnsafeDuringIrConstructionAPI::class)
     override fun visitExpression(expression: IrExpression): IrExpression {
-
-        //Find exampleKtorfit.create<TestApi>()
+        // Find exampleKtorfit.create<TestApi>()
         (expression as? IrCall)?.let { irCall ->
             if (irCall.typeArgumentsCount > 0) {
-
-                if (!expression.symbol.owner.symbol.toString().contains(KTORFIT_PACKAGE)) {
+                if (!expression.symbol.owner.symbol
+                        .toString()
+                        .contains(KTORFIT_PACKAGE)
+                ) {
                     return expression
                 }
-                if (expression.symbol.owner.name.asString() != KTORFIT_CREATE) {
+                if (expression.symbol.owner.name
+                        .asString() != KTORFIT_CREATE
+                ) {
                     return expression
                 }
 
@@ -55,53 +60,62 @@ internal class CreateFuncTransformer(
                     return expression
                 }
 
-                //Get T from create<T>()
+                // Get T from create<T>()
                 val argumentType = irCall.getTypeArgument(0) ?: return expression
                 val classFqName = argumentType.classFqName
 
-                if (!argumentType.isInterface()) throw IllegalStateException(ERROR_TYPE_ARGUMENT_NOT_INTERFACE(argumentType.originalKotlinType.toString()))
+                if (!argumentType.isInterface()) {
+                    throw IllegalStateException(
+                        errorTypeArgumentNotInterface(argumentType.dumpKotlinLike()),
+                    )
+                }
 
                 if (classFqName == null) {
-                    throw IllegalStateException(ERROR_CLASS_NOT_FOUND(argumentType.originalKotlinType.toString()))
+                    throw IllegalStateException(
+                        errorClassNotFound(argumentType.toIrBasedKotlinType().getKotlinTypeFqName(false))
+                    )
                 }
 
                 val packageName = classFqName.packageName
                 val className = classFqName.shortName().toString()
                 val providerClassName = "_$className" + "Provider"
 
-                //Find the class _TestApiProvider
-                val implClassSymbol = pluginContext.referenceClass(
-                    ClassId(
-                        FqName(packageName),
-                        Name.identifier(providerClassName)
-                    )
-                ) ?: throw IllegalStateException(ERROR_IMPL_NOT_FOUND(providerClassName, className))
+                // Find the class _TestApiProvider
+                val implClassSymbol =
+                    pluginContext.referenceClass(
+                        ClassId(
+                            FqName(packageName),
+                            Name.identifier(providerClassName),
+                        ),
+                    ) ?: throw IllegalStateException(errorImplNotFound(providerClassName, className))
 
                 val newConstructor = implClassSymbol.constructors.first()
 
-                //Create the constructor call for _ExampleApiImpl()
-                val newCall = IrConstructorCallImpl(
-                    0,
-                    0,
-                    type = implClassSymbol.defaultType,
-                    symbol = newConstructor,
-                    0,
-                    0,
-                    0,
-                    null
-                )
+                // Create the constructor call for _ExampleApiProvider()
+                val newCall =
+                    IrConstructorCallImpl(
+                        0,
+                        0,
+                        type = implClassSymbol.defaultType,
+                        symbol = newConstructor,
+                        0,
+                        0,
+                        0,
+                        null,
+                    )
 
-                //Set _ExampleApiImpl() as argument for create<ExampleApi>()
+                // Set _ExampleApiProvider() as argument for create<ExampleApi>()
                 irCall.putValueArgument(0, newCall)
                 debugLogger.log(
-                    "Transformed " + argumentType.originalKotlinType.toString() + " to _$className" + "Impl"
+                    "Transformed " + argumentType.toIrBasedKotlinType().getKotlinTypeFqName(false).substringAfterLast(".") +
+                        " to _$className" +
+                        "Provider",
                 )
                 return super.visitExpression(irCall)
             }
         }
         return super.visitExpression(expression)
     }
-
 }
 
 private val FqName?.packageName: String

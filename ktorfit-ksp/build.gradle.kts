@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.detekt)
     kotlin("kapt")
     id("app.cash.licensee")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 java {
     toolchain {
@@ -29,9 +30,9 @@ tasks.withType<KotlinCompile> {
 
 mavenPublishing {
     coordinates(
-        "de.jensklingenberg.ktorfit",
+        libs.versions.groupId.get(),
         "ktorfit-ksp",
-        libs.versions.ktorfitKsp.get()
+        libs.versions.ktorfitKsp.get(),
     )
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
@@ -39,7 +40,6 @@ mavenPublishing {
         signAllPublications()
     }
 }
-
 
 dependencies {
     implementation(projects.ktorfitAnnotations)
@@ -50,16 +50,11 @@ dependencies {
     compileOnly(libs.autoService)
     kapt(libs.autoService)
 
-    /* TEST  */
+    // TEST
     testImplementation(libs.junit)
     testImplementation(libs.kctfork.core)
     testImplementation(libs.kctfork.ksp)
     testImplementation(libs.mockito.kotlin)
-
-}
-
-tasks.withType<KotlinCompilationTask<*>>().configureEach {
-    compilerOptions.freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
 }
 
 detekt {
@@ -106,10 +101,11 @@ publishing {
             hasProperty("sonatypeReleaseUrl")
         ) {
             maven {
-                val url = when {
-                    "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
-                    else -> property("sonatypeReleaseUrl")
-                } as String
+                val url =
+                    when {
+                        "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
+                        else -> property("sonatypeReleaseUrl")
+                    } as String
                 setUrl(url)
                 credentials {
                     username = property("sonatypeUsername") as String
@@ -118,4 +114,8 @@ publishing {
             }
         }
     }
+}
+
+tasks.withType<KotlinCompilationTask<*>>().configureEach {
+    compilerOptions.freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
 }

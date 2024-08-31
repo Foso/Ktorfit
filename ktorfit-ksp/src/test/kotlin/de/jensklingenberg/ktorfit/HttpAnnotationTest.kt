@@ -1,6 +1,5 @@
 package de.jensklingenberg.ktorfit
 
-
 import com.tschuchort.compiletesting.KotlinCompilation.ExitCode
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
@@ -11,13 +10,14 @@ import org.junit.Test
 import java.io.File
 
 class HttpAnnotationTest {
-
     @Test
     fun testFunctionWithGET() {
         val expectedSource = """ method = HttpMethod.parse("GET")"""
 
-        val source = SourceFile.kotlin(
-            "Source.kt", """
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 
@@ -27,17 +27,18 @@ interface TestService {
     suspend fun test(): String
     
 }
-    """
-        )
+    """,
+            )
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
         assertEquals(ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
-        val generatedFile = File(
-            generatedSourcesDir,
-            "/kotlin/com/example/api/_TestServiceImpl.kt"
-        )
+        val generatedFile =
+            File(
+                generatedSourcesDir,
+                "/kotlin/com/example/api/_TestServiceImpl.kt",
+            )
         assertTrue(generatedFile.exists())
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expectedSource))
@@ -45,9 +46,10 @@ interface TestService {
 
     @Test
     fun testCustomHttpMethod() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """     
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """     
 package com.example.api
 import de.jensklingenberg.ktorfit.http.HTTP
 import de.jensklingenberg.ktorfit.http.Body
@@ -57,9 +59,8 @@ interface TestService {
     @HTTP("CUSTOM","user")
     suspend fun test(): String
     
-}"""
-        )
-
+}""",
+            )
 
         val expectedSource = """method = HttpMethod.parse("CUSTOM")"""
 
@@ -67,19 +68,21 @@ interface TestService {
         val result = compilation.compile()
         assertEquals(ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
-        val generatedFile = File(
-            generatedSourcesDir,
-            "/kotlin/com/example/api/_TestServiceImpl.kt"
-        )
+        val generatedFile =
+            File(
+                generatedSourcesDir,
+                "/kotlin/com/example/api/_TestServiceImpl.kt",
+            )
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expectedSource))
     }
 
     @Test
     fun testCustomHttpMethodWithBody() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """     
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """     
 package com.example.api
 import de.jensklingenberg.ktorfit.http.HTTP
 import de.jensklingenberg.ktorfit.http.Body
@@ -89,9 +92,8 @@ interface TestService {
     @HTTP("GET2","user",true)
     suspend fun test(@Body body: String): String
     
-}"""
-        )
-
+}""",
+            )
 
         val expectedFunctionText = """val _ext: HttpRequestBuilder.() -> Unit = {
         method = HttpMethod.parse("GET2")
@@ -105,10 +107,11 @@ interface TestService {
         val result = compilation.compile()
         assertEquals(ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
-        val generatedFile = File(
-            generatedSourcesDir,
-            "/kotlin/com/example/api/_TestServiceImpl.kt"
-        )
+        val generatedFile =
+            File(
+                generatedSourcesDir,
+                "/kotlin/com/example/api/_TestServiceImpl.kt",
+            )
         assertTrue(generatedFile.exists())
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expectedFunctionText))
@@ -116,8 +119,10 @@ interface TestService {
 
     @Test
     fun whenMultipleHttpMethodsFound_throwError() {
-        val source = SourceFile.kotlin(
-            "Source.kt", """
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """
       package com.example.api
 
 import com.example.model.github.GithubFollowerResponseItem
@@ -138,8 +143,8 @@ interface GithubService {
     suspend fun test(): String
     
 }
-    """
-        )
+    """,
+            )
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

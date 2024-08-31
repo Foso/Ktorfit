@@ -1,11 +1,10 @@
 package de.jensklingenberg.ktorfit.converter
 
 import de.jensklingenberg.ktorfit.Ktorfit
-import io.ktor.client.statement.*
+import io.ktor.client.statement.HttpResponse
 import kotlin.reflect.KClass
 
 public interface Converter<F, T> {
-
     /**
      * Converter that transform the HTTPResponse within a non-suspend request
      * e.g. fun getPost(): Call<Post>
@@ -13,7 +12,6 @@ public interface Converter<F, T> {
      * @since 1.4.0
      */
     public interface ResponseConverter<F : HttpResponse, T> : Converter<HttpResponse, T> {
-
         /**
          * @param getResponse A suspend function that returns the HttpResponse to be converted.
          * @return the converted [HttpResponse]
@@ -27,7 +25,6 @@ public interface Converter<F, T> {
      * @since 1.4.0
      */
     public interface SuspendResponseConverter<F : HttpResponse, T> : Converter<HttpResponse, T> {
-
         /**
          *
          * @return the converted [HttpResponse]
@@ -36,7 +33,6 @@ public interface Converter<F, T> {
     }
 
     public interface RequestParameterConverter : Converter<Any, Any> {
-
         /**
          * Convert given [data]
          * @return the converted [data]
@@ -49,23 +45,26 @@ public interface Converter<F, T> {
      *
      * Example: Response<String> will return String as TypeData with getUpperBoundType(0,type)
      */
-    public fun getUpperBoundType(index: Int, type: TypeData): TypeData? {
-        return type.typeArgs[index]
-    }
+    public fun getUpperBoundType(
+        index: Int,
+        type: TypeData,
+    ): TypeData? = type.typeArgs[index]
 
     public interface Factory {
-
         /**
          * Return a [ResponseConverter] that can handle [typeData] or else null
          */
-        public fun responseConverter(typeData: TypeData, ktorfit: Ktorfit): ResponseConverter<HttpResponse, *>? = null
+        public fun responseConverter(
+            typeData: TypeData,
+            ktorfit: Ktorfit,
+        ): ResponseConverter<HttpResponse, *>? = null
 
         /**
          * Return a [RequestParameterConverter] that can handle [parameterType] and [requestType] or else null
          */
         public fun requestParameterConverter(
             parameterType: KClass<*>,
-            requestType: KClass<*>
+            requestType: KClass<*>,
         ): RequestParameterConverter? = null
 
         /**
@@ -73,7 +72,7 @@ public interface Converter<F, T> {
          */
         public fun suspendResponseConverter(
             typeData: TypeData,
-            ktorfit: Ktorfit
+            ktorfit: Ktorfit,
         ): SuspendResponseConverter<HttpResponse, *>? = null
     }
 }

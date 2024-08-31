@@ -16,14 +16,12 @@ import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
 class HeaderCodeGeneratorKtTest {
-
     private val arrayType = mock<KSType>()
     private val listTypeMock = mock<KSType>()
 
     @Test
     fun whenFunctionHasNoHeaderAnnotationThenGenerateEmptyText() {
-
-        val parameterData = ParameterData("test1", ReturnTypeData("String", null))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", mock<KSType>()))
         val params = listOf(parameterData)
         val text = getHeadersCode(listOf(), params, listTypeMock, arrayType)
         assertEquals("", text)
@@ -35,51 +33,58 @@ class HeaderCodeGeneratorKtTest {
             ParameterData(
                 "test1",
                 ReturnTypeData("String", createKsType("String", "kotlin")),
-                annotations = listOf(Header("foo"))
+                annotations = listOf(Header("foo")),
             )
         val params = listOf(parameterData)
         val actualCode = getHeadersCode(listOf(), params, listTypeMock, arrayType)
-        val expectedCode = """|headers{
+        val expectedCode =
+            """|headers{
                                 |append("foo", test1)
-                                |}""".trimMargin()
+                                |}
+            """.trimMargin()
         assertEquals(expectedCode, actualCode)
     }
 
     @Test
     fun testWithHeaderAnnotationWithList() {
-
         val listTypeStar = createKsType("List", "kotlin.collections")
 
         val stringType = createKsType("String", "kotlin")
         mockList(listTypeStar, stringType)
 
-        val parameterData = ParameterData(
-            "test1",
-            ReturnTypeData("List<String>", listTypeStar),
-            annotations = listOf(Header("foo"))
-        )
+        val parameterData =
+            ParameterData(
+                "test1",
+                ReturnTypeData("List<String>", listTypeStar),
+                annotations = listOf(Header("foo")),
+            )
         val params = listOf(parameterData)
         val actual = getHeadersCode(listOf(), params, listTypeMock, arrayType)
-        val expected = """|headers{
+        val expected =
+            """|headers{
                                 |test1.forEach{ append("foo", it)}
-                                |}""".trimMargin()
+                                |}
+            """.trimMargin()
         assertEquals(expected, actual)
     }
 
-    private fun mockList(listTypeStar: KSType, vararg typeArgs: KSType) {
+    private fun mockList(
+        listTypeStar: KSType,
+        vararg typeArgs: KSType,
+    ) {
         val stringType = typeArgs[0]
 
         val ksTypeReference = mock<KSTypeReference>()
         whenever(ksTypeReference.resolve()).then { stringType }
 
-
-        val tt = typeArgs.map {
-            val invariantType = mock<KSTypeArgument>()
-            whenever(invariantType.toString()).then { "${Variance.INVARIANT} $stringType" }
-            whenever(invariantType.type).then { ksTypeReference }
-            whenever(invariantType.variance).then { Variance.INVARIANT }
-            invariantType
-        }
+        val tt =
+            typeArgs.map {
+                val invariantType = mock<KSTypeArgument>()
+                whenever(invariantType.toString()).then { "${Variance.INVARIANT} $stringType" }
+                whenever(invariantType.type).then { ksTypeReference }
+                whenever(invariantType.variance).then { Variance.INVARIANT }
+                invariantType
+            }
 
         whenever(listTypeStar.starProjection()).then { listTypeStar }
         whenever(listTypeStar.isAssignableFrom(listTypeMock)).then { true }
@@ -93,17 +98,19 @@ class HeaderCodeGeneratorKtTest {
         val stringType = createKsType("String", "kotlin")
         mockList(listTypeStar, stringType)
 
-        val parameterData = ParameterData(
-            "test1",
-            ReturnTypeData("Array<String>", listTypeStar),
-            annotations = listOf(Header("foo"))
-        )
+        val parameterData =
+            ParameterData(
+                "test1",
+                ReturnTypeData("Array<String>", listTypeStar),
+                annotations = listOf(Header("foo")),
+            )
         val params = listOf(parameterData)
         val actual = getHeadersCode(listOf(), params, listTypeMock, arrayType)
-        val expected = """|headers{
+        val expected =
+            """|headers{
                                 |test1.forEach{ append("foo", it)}
-                                |}"""
-            .trimMargin()
+                                |}
+            """.trimMargin()
         assertEquals(expected, actual)
     }
 
@@ -114,10 +121,12 @@ class HeaderCodeGeneratorKtTest {
         val funcAnnotation = Headers(listOf("Accept:Content", "foo: bar"))
         val params = listOf(parameterData)
         val actual = getHeadersCode(listOf(funcAnnotation), params, listTypeMock, arrayType)
-        val expected = """|headers{
+        val expected =
+            """|headers{
                         |append("Accept", "Content")
                         |append("foo", "bar")
-                        |}""".trimMargin()
+                        |}
+            """.trimMargin()
         assertEquals(expected, actual)
     }
 
@@ -131,15 +140,17 @@ class HeaderCodeGeneratorKtTest {
             ParameterData(
                 "test1",
                 ReturnTypeData("Map<String,String>", listTypeStar),
-                annotations = listOf(HeaderMap)
+                annotations = listOf(HeaderMap),
             )
         val funcAnnotation = Headers(listOf("Accept:Content"))
         val params = listOf(parameterData)
         val actual = getHeadersCode(listOf(funcAnnotation), params, listTypeMock, arrayType)
-        val expected = """|headers{
+        val expected =
+            """|headers{
                                 |test1.forEach{ append(it.key , it.value)}
                                 |append("Accept", "Content")
-                                |}""".trimMargin()
+                                |}
+            """.trimMargin()
         assertEquals(expected, actual)
     }
 }

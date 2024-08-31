@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit.reqBuilderExtension
 
+import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
@@ -8,19 +9,21 @@ import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Path
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Url
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.mockito.kotlin.mock
 
 class UrlArgumentTextKtTest {
-
     @Test
     fun testWithoutUrlAnnotation() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", null))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", mock<KSType>()))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
-        val expected = "url{\n" +
+        val expected =
+            "url{\n" +
                 "takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
                 "}".trimMargin()
         assertEquals(
-            expected, text
+            expected,
+            text,
         )
     }
 
@@ -28,14 +31,14 @@ class UrlArgumentTextKtTest {
     fun testWithPathAndUrlAnnotation() {
         val urlAnnotation = Url
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", null), annotations = listOf(urlAnnotation))
+            ParameterData("test1", ReturnTypeData("String", mock<KSType>()), annotations = listOf(urlAnnotation))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         assertEquals(
             "url{\n" +
-                    "takeFrom((_ktorfit.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"posts\")\n" +
-                    "}",
-            text
+                "takeFrom((_ktorfit.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"posts\")\n" +
+                "}",
+            text,
         )
     }
 
@@ -43,21 +46,22 @@ class UrlArgumentTextKtTest {
     fun testWithUrlAnnotation() {
         val urlAnnotation = Url
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", null), annotations = listOf(urlAnnotation))
+            ParameterData("test1", ReturnTypeData("String", mock<KSType>()), annotations = listOf(urlAnnotation))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
-        val expected = String.format(
-            "url{\n" +
+        val expected =
+            String.format(
+                "url{\n" +
                     "takeFrom((_ktorfit.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"%s{test1}\")\n" +
                     "}",
-            "$"
-        )
+                "$",
+            )
         assertEquals(expected, text)
     }
 
     @Test
     fun testWithoutPathAnnotation() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", null))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", mock<KSType>()))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
         assertEquals("url{\ntakeFrom(_ktorfit.baseUrl + \"\")\n}", text)
@@ -67,14 +71,14 @@ class UrlArgumentTextKtTest {
     fun testWithPathAnnotation() {
         val path = Path("testValue")
         val parameterData =
-            ParameterData("test1", ReturnTypeData("String", null), annotations = listOf(path))
+            ParameterData("test1", ReturnTypeData("String", mock<KSType>()), annotations = listOf(path))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("user/{testValue}", HttpMethod.GET), "")
         assertEquals(
             """url{
 takeFrom(_ktorfit.baseUrl + "user/$/{"$/test1".encodeURLPath()}")
 }""".replace("$/", "$"),
-            text
+            text,
         )
     }
 }

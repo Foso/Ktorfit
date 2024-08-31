@@ -11,6 +11,7 @@ plugins {
     id("com.android.library")
     alias(libs.plugins.binaryCompatibilityValidator)
     id("app.cash.licensee")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 licensee {
@@ -27,12 +28,10 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs()
     jvm {
-
     }
     js(IR) {
         this.nodejs()
@@ -58,7 +57,7 @@ kotlin {
             executable()
         }
     }
-    linuxArm64{
+    linuxArm64 {
         binaries {
             executable()
         }
@@ -72,7 +71,7 @@ kotlin {
         watchosSimulatorArm64(),
         tvosArm64(),
         tvosX64(),
-        tvosSimulatorArm64()
+        tvosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "library"
@@ -85,13 +84,7 @@ kotlin {
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val iosMain by getting {
-            dependsOn(commonMain.get())
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-            dependencies {}
-        }
+        val iosMain by getting
     }
 }
 val javadocJar by tasks.registering(Jar::class) {
@@ -112,9 +105,9 @@ val enableSigning = project.hasProperty("signingInMemoryKey")
 
 mavenPublishing {
     coordinates(
-        "de.jensklingenberg.ktorfit",
+        libs.versions.groupId.get(),
         "ktorfit-annotations",
-        libs.versions.ktorfit.get()
+        libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
     // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
@@ -162,10 +155,11 @@ publishing {
             hasProperty("sonatypeReleaseUrl")
         ) {
             maven {
-                val url = when {
-                    "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
-                    else -> property("sonatypeReleaseUrl")
-                } as String
+                val url =
+                    when {
+                        "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
+                        else -> property("sonatypeReleaseUrl")
+                    } as String
                 setUrl(url)
                 credentials {
                     username = property("sonatypeUsername") as String

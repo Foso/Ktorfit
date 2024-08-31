@@ -1,6 +1,5 @@
 package de.jensklingenberg.ktorfit.http
 
-
 /** Make a PUT request.
  * ```
  * @PUT("putIssue")
@@ -10,4 +9,6 @@ package de.jensklingenberg.ktorfit.http
  *
  */
 @Target(AnnotationTarget.FUNCTION)
-annotation class PUT(val value: String = "")
+annotation class PUT(
+    val value: String = ""
+)

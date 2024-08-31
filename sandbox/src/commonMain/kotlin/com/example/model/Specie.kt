@@ -1,7 +1,6 @@
 package com.example.model
 
 @kotlinx.serialization.Serializable
-
 data class Specie(
     val films: List<String?>? = null,
     val skinColors: String? = null,
@@ -19,4 +18,3 @@ data class Specie(
     val designation: String? = null,
     val averageLifespan: String? = null
 )
-

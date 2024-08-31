@@ -1,6 +1,8 @@
 package de.jensklingenberg.ktorfit
 
-class KtorfitOptions(options: Map<String, String>) {
+class KtorfitOptions(
+    options: Map<String, String>
+) {
     /**
      * 0: Turn off all Ktorfit related error checking
      *
@@ -14,6 +16,4 @@ class KtorfitOptions(options: Map<String, String>) {
      * If set to true, the generated code will contain qualified type names
      */
     val setQualifiedType = options["Ktorfit_QualifiedTypeName"]?.toBoolean() ?: false
-
-    val singleTarget = options["Ktorfit_SingleTarget"]?.toBoolean() ?: false
 }

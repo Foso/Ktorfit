@@ -9,12 +9,12 @@ import org.junit.Test
 import java.io.File
 
 class HeadersAnnotationsTest {
-
     @Test
     fun whenHeadersAnnotationFound_AddHeader() {
-
-        val source = SourceFile.kotlin(
-            "Source.kt", """
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Headers
@@ -25,10 +25,11 @@ interface TestService {
 @GET("posts")
 suspend fun test(): String
 }
-    """
-        )
+    """,
+            )
 
-        val expectedHeadersArgumentText = "headers{\n" +
+        val expectedHeadersArgumentText =
+            "headers{\n" +
                 "        append(\"x\", \"y\")\n" +
                 "        append(\"a\", \"b\")\n" +
                 "        } "
@@ -37,14 +38,12 @@ suspend fun test(): String
         val result = compilation.compile()
         assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
         val generatedSourcesDir = compilation.kspSourcesDir
-        val generatedFile = File(
-            generatedSourcesDir,
-            "/kotlin/com/example/api/_TestServiceImpl.kt"
-        )
+        val generatedFile =
+            File(
+                generatedSourcesDir,
+                "/kotlin/com/example/api/_TestServiceImpl.kt",
+            )
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
-
-
 }
-
