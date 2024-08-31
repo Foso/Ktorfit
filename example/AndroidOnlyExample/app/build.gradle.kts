@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp") version "2.0.20-1.0.24"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.10"
-    id("de.jensklingenberg.ktorfit") version "2.0.2"
+    id("de.jensklingenberg.ktorfit") version "2.0.1"
     id("org.jetbrains.kotlin.plugin.compose") version "2.0.10"
 }
 
