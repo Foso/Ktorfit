@@ -55,6 +55,11 @@ class KtorfitGradlePlugin : Plugin<Project> {
                         "Ktorfit_QualifiedTypeName",
                         config.generateQualifiedTypeName.toString(),
                     )
+
+                    /**
+                     * This is currently a workaround for a bug in KSP that causes the plugin
+                     * to not work with multiplatform projects with only one target.
+                     */
                     val singleTarget =
                         project.kotlinExtension.targets
                             .toList()
