@@ -2,10 +2,11 @@ package de.jensklingenberg.ktorfit.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.dependencies
+import org.gradle.api.tasks.TaskContainer
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.util.Locale.US
 
@@ -42,7 +43,6 @@ class KtorfitGradlePlugin : Plugin<Project> {
                         .substringBefore(".jar")
 
                 checkKSPVersion(kspVersion)
-
                 val kspExtension = extensions.findByName("ksp") ?: error("KSP config not found")
                 val argMethod = kspExtension.javaClass.getMethod("arg", String::class.java, String::class.java)
 
@@ -55,8 +55,23 @@ class KtorfitGradlePlugin : Plugin<Project> {
                         "Ktorfit_QualifiedTypeName",
                         config.generateQualifiedTypeName.toString(),
                     )
-                }
+                    val singleTarget =
+                        project.kotlinExtension.targets
+                            .toList()
+                            .size == 2
 
+                    if (kotlinExtension is KotlinMultiplatformExtension) {
+                        if (singleTarget) {
+                            argMethod.invoke(kspExtension, "Ktorfit_MultiplatformWithSingleTarget", true)
+                        } else {
+                            tasks.withType(KotlinCompilationTask::class.java).configureEach {
+                                if (name != "kspCommonMainKotlinMetadata") {
+                                    dependsOn("kspCommonMainKotlinMetadata")
+                                }
+                            }
+                        }
+                    }
+                }
                 val dependency = "$ktorfitKsp:$KTORFIT_VERSION-$kspVersion$SNAPSHOT"
 
                 when (val kotlinExtension = kotlinExtension) {
@@ -65,51 +80,30 @@ class KtorfitGradlePlugin : Plugin<Project> {
                     }
 
                     is KotlinMultiplatformExtension -> {
-                        dependencies {
-                            add("kspCommonMainMetadata", dependency)
-                        }
-
                         kotlinExtension.targets.configureEach {
-                            if (targetName == "metadata") return@configureEach
-                            dependencies.add(
-                                "ksp${
-                                    targetName.replaceFirstChar {
-                                        if (it.isLowerCase()) {
-                                            it.titlecase(
-                                                US,
-                                            )
-                                        } else {
-                                            it.toString()
-                                        }
+                            if (platformType.name == "common") {
+                                dependencies.add("kspCommonMainMetadata", dependency)
+                                return@configureEach
+                            }
+                            val capitalizedTargetName =
+                                targetName.replaceFirstChar {
+                                    if (it.isLowerCase()) {
+                                        it.titlecase(
+                                            US,
+                                        )
+                                    } else {
+                                        it.toString()
                                     }
-                                }",
-                                dependency,
-                            )
+                                }
+                            dependencies.add("ksp$capitalizedTargetName", dependency)
 
-                            dependencies.add(
-                                "ksp${
-                                    targetName.replaceFirstChar {
-                                        if (it.isLowerCase()) {
-                                            it.titlecase(
-                                                US,
-                                            )
-                                        } else {
-                                            it.toString()
-                                        }
-                                    }
-                                }Test",
-                                dependency,
-                            )
+                            if (this.compilations.any { it.name == "test" }) {
+                                dependencies.add("ksp${capitalizedTargetName}Test", dependency)
+                            }
                         }
 
                         kotlinExtension.sourceSets.named("commonMain").configure {
                             kotlin.srcDir("${layout.buildDirectory.get()}/generated/ksp/metadata/commonMain/kotlin")
-                        }
-
-                        tasks.withType(KotlinCompilationTask::class.java).configureEach {
-                            if (name != "kspCommonMainKotlinMetadata") {
-                                dependsOn("kspCommonMainKotlinMetadata")
-                            }
                         }
                     }
 
@@ -125,6 +119,16 @@ class KtorfitGradlePlugin : Plugin<Project> {
             error("Ktorfit: KSP version $kspVersion is not supported. You need at least version $MIN_KSP_VERSION")
         }
     }
+}
+
+private fun TaskContainer.hasWithName(s: String): Boolean {
+    var find = false
+    this.withType(KotlinCompilationTask::class.java).configureEach {
+        if (this.name == s) {
+            find = true
+        }
+    }
+    return find
 }
 
 internal fun Project.getKtorfitConfig() = this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()

@@ -1,6 +1,5 @@
 package com.example.ktorfittest
 
-
 import de.jensklingenberg.ktorfit.converter.CallConverterFactory
 import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
@@ -12,30 +11,34 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
-val ktorfit = ktorfit {
-    baseUrl(StarWarsApi.baseUrl)
-    httpClient(HttpClient {
-        install(ContentNegotiation) {
-            json(Json { isLenient = true; ignoreUnknownKeys = true })
-        }
-    })
-    converterFactories(
-        FlowConverterFactory(),
-        CallConverterFactory()
-    )
-}
+val ktorfit =
+    ktorfit {
+        baseUrl(StarWarsApi.baseUrl)
+        httpClient(
+            HttpClient {
+                install(ContentNegotiation) {
+                    json(
+                        Json {
+                            isLenient = true
+                            ignoreUnknownKeys = true
+                        }
+                    )
+                }
+            }
+        )
+        converterFactories(
+            FlowConverterFactory(),
+            CallConverterFactory()
+        )
+    }
 
-
-val starWarsApi = ktorfit.createStarWarsApi()
+val starWarsApi = ktorfit.create<StarWarsApi>()
 
 class Greeting {
     fun greeting(): String {
-
         loadData()
         return "Hello, ${Platform().platform}! Look in the LogCat"
     }
-
-
 }
 
 @OptIn(DelicateCoroutinesApi::class)

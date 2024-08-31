@@ -16,4 +16,6 @@ class KtorfitOptions(
      * If set to true, the generated code will contain qualified type names
      */
     val setQualifiedType = options["Ktorfit_QualifiedTypeName"]?.toBoolean() ?: false
+
+    val multiplatformWithSingleTarget = options["Ktorfit_MultiplatformWithSingleTarget"]?.toBoolean() ?: false
 }
