@@ -43,20 +43,6 @@ class KtorfitGradlePlugin : Plugin<Project> {
 
                 checkKSPVersion(kspVersion)
 
-                val kspExtension = extensions.findByName("ksp") ?: error("KSP config not found")
-                val argMethod = kspExtension.javaClass.getMethod("arg", String::class.java, String::class.java)
-
-                afterEvaluate {
-                    val config = getKtorfitConfig()
-
-                    argMethod.invoke(kspExtension, "Ktorfit_Errors", config.errorCheckingMode.ordinal.toString())
-                    argMethod.invoke(
-                        kspExtension,
-                        "Ktorfit_QualifiedTypeName",
-                        config.generateQualifiedTypeName.toString(),
-                    )
-                }
-
                 val dependency = "$ktorfitKsp:$KTORFIT_VERSION-$kspVersion$SNAPSHOT"
 
                 when (val kotlinExtension = kotlinExtension) {
@@ -65,12 +51,11 @@ class KtorfitGradlePlugin : Plugin<Project> {
                     }
 
                     is KotlinMultiplatformExtension -> {
-                        dependencies {
-                            add("kspCommonMainMetadata", dependency)
-                        }
-
                         kotlinExtension.targets.configureEach {
-                            if (targetName == "metadata") return@configureEach
+                            if (platformType.name == "common") {
+                                dependencies.add("kspCommonMainMetadata", dependency)
+                                return@configureEach
+                            }
                             val capitalizedTargetName =
                                 targetName.replaceFirstChar {
                                     if (it.isLowerCase()) {
@@ -81,10 +66,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
                                         it.toString()
                                     }
                                 }
-                            dependencies.add(
-                                "ksp$capitalizedTargetName",
-                                dependency,
-                            )
+                            dependencies.add("ksp$capitalizedTargetName", dependency)
 
                             if (this.compilations.any { it.name == "test" }) {
                                 dependencies.add(
@@ -108,6 +90,20 @@ class KtorfitGradlePlugin : Plugin<Project> {
                     }
 
                     else -> Unit
+                }
+
+                val kspExtension = extensions.findByName("ksp") ?: error("KSP config not found")
+                val argMethod = kspExtension.javaClass.getMethod("arg", String::class.java, String::class.java)
+
+                afterEvaluate {
+                    val config = getKtorfitConfig()
+
+                    argMethod.invoke(kspExtension, "Ktorfit_Errors", config.errorCheckingMode.ordinal.toString())
+                    argMethod.invoke(
+                        kspExtension,
+                        "Ktorfit_QualifiedTypeName",
+                        config.generateQualifiedTypeName.toString(),
+                    )
                 }
             }
         }
