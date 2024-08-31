@@ -1,4 +1,4 @@
-package com.example.lib
+package com.example.ktorfittest
 
 @kotlinx.serialization.Serializable
 data class Person(
@@ -16,4 +16,3 @@ data class Person(
     val name: String? = null,
     val height: String? = null
 )
-
