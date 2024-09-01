@@ -12,8 +12,10 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 Unreleased
 ========================================
 
+## Changed
+- Allow Http Delete with Body [https://github.com/Foso/Ktorfit/issues/647](#647)
+
 ## Fixed
-- Allow Body with Http Delete  [https://github.com/Foso/Ktorfit/issues/647](#647)
 - Task with path 'kspCommonMainKotlinMetadata' not found in project [https://github.com/Foso/Ktorfit/issues/593](#593)
 - Ktorfit Gradle Plugin not compatible with Android Multiplatform Library plugin [https://github.com/Foso/Ktorfit/issues/638](#638)
 
