@@ -8,6 +8,8 @@ Note: This project needs KSP to work and every new Ktorfit with an update of the
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
 # [Unreleased]()
+
+Unreleased
 ========================================
 
 ## Fixed
