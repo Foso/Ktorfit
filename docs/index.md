@@ -15,10 +15,11 @@ inspired by [Retrofit](https://square.github.io/retrofit/)
 
 ## Compatibility
 
-| Ktorfit-version   |    Kotlin     |              KSP              |    Ktor    |
-|-------------------|:-------------:|:-----------------------------:|:----------:|
-| **_2.0.1_**       |  **>=2.0.0**  |       **>=1.0.24 min**        | **2.3.12** |
-| **_2.0.0_**       |   **2.0.0**   | **1.0.21 (min) 1.0.24 (max)** | **2.3.11** |
+| Ktorfit-version                                                               | 
+|-------------------------------------------------------------------------------|
+| **_2.1.0_** https://github.com/Foso/Ktorfit/blob/master/docs/CHANGELOG.md#210 |
+| **_2.0.1_** https://github.com/Foso/Ktorfit/blob/master/docs/CHANGELOG.md#201 |  
+| **_2.0.0_** https://github.com/Foso/Ktorfit/blob/master/docs/CHANGELOG.md#200 | 
 
 # Installation
 

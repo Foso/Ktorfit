@@ -7,7 +7,11 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
-# [Unreleased]()
+# [2.1.0]()
+
+* Supported Kotlin version: (min) 2.0.20
+* Supported KSP version: (min) 1.0.24
+* Ktor version: 2.3.12
 
 Unreleased
 ========================================
@@ -25,6 +29,10 @@ or your own ConverterFactory to the converterFactories. [#618](https://github.co
 - Ktorfit Gradle Plugin not compatible with Android Multiplatform Library plugin [#638](https://github.com/Foso/Ktorfit/issues/638)
 
 # [2.0.1]()
+
+* Supported Kotlin version: (min) 2.0.0 (max) 2.0.20
+* Supported KSP version: (min) 1.0.24 (max) 1.0.24
+* Ktor version: 2.3.12
 
 2.0.1 - 2024-08-08
 ========================================
