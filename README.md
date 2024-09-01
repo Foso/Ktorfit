@@ -57,18 +57,6 @@ You can find all Ktorfit packages on [Maven Central](https://search.maven.org/se
 
 🛠 Follow the [setup page](https://foso.github.io/Ktorfit/installation/) for more details
 
-## 👷 Project Structure
-
-* <kbd>compiler plugin</kbd> - module with source for the compiler plugin
-* <kbd>ktorfit-annotations</kbd> - module with annotations for the Ktorfit
-* <kbd>ktorfit-ksp</kbd> - module with source for the KSP plugin
-* <kbd>ktorfit-lib-core</kbd> - module with source for the Ktorfit lib
-* <kbd>ktorfit-lib</kbd> - ktorfit-lib-core + dependencies on platform specific clients
-* <kbd>sandbox</kbd> - experimental test module to try various stuff
-
-* <kbd>example</kbd> - contains example projects that use Ktorfit
-* <kbd>docs</kbd> - contains the source for the GitHub page
-
 ## ✍️ Feedback
 
 Feel free to send feedback on [Twitter](https://twitter.com/jklingenberg_)
