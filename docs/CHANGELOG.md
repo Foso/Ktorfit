@@ -12,8 +12,12 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 Unreleased
 ========================================
 
+## Added
+- documentation page for [known issues](https://foso.github.io/Ktorfit/knownissues/)
+
 ## Changed
 - Allow Http Delete with Body [#647](https://github.com/Foso/Ktorfit/issues/647)
+
 
 ## Fixed
 - Task with path 'kspCommonMainKotlinMetadata' not found in project [#593](https://github.com/Foso/Ktorfit/issues/593)
