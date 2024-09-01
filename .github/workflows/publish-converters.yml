@@ -16,7 +16,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
 
-      - uses: gradle/gradle-build-action@v4
+      - uses: gradle/gradle-build-action@v3
 
       - name: Publish release
         run: ./gradlew :ktorfit-converters:call:publishAllPublicationsToMavenCentralRepository :ktorfit-converters:flow:publishAllPublicationsToMavenCentralRepository :ktorfit-converters:response:publishAllPublicationsToMavenCentralRepository
