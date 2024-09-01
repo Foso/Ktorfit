@@ -16,8 +16,8 @@ Unreleased
 - Allow Http Delete with Body [https://github.com/Foso/Ktorfit/issues/647](#647)
 
 ## Fixed
-- Task with path 'kspCommonMainKotlinMetadata' not found in project [https://github.com/Foso/Ktorfit/issues/593](#593)
-- Ktorfit Gradle Plugin not compatible with Android Multiplatform Library plugin [https://github.com/Foso/Ktorfit/issues/638](#638)
+- Task with path 'kspCommonMainKotlinMetadata' not found in project [#593](https://github.com/Foso/Ktorfit/issues/593)
+- Ktorfit Gradle Plugin not compatible with Android Multiplatform Library plugin [#638](https://github.com/Foso/Ktorfit/issues/638)
 
 # [2.0.1]()
 
