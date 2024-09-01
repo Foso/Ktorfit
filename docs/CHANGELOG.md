@@ -32,7 +32,7 @@ de.jensklingenberg.ktorfit:ktorfit-lib-light-ktor-3.0.0-beta-2:2.1.0
 
 de.jensklingenberg.ktorfit:ktorfit-lib-ktor-3.0.0-beta-2:2.1.0
 
-de.jensklingenberg.ktorfit:ktorfit-converters-flow-ktor-3.0.0-beta-2 :2.1.0
+de.jensklingenberg.ktorfit:ktorfit-converters-flow-ktor-3.0.0-beta-2:2.1.0
 
 de.jensklingenberg.ktorfit:ktorfit-converters-call-ktor-3.0.0-beta-2:2.1.0
 
