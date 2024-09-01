@@ -34,7 +34,7 @@ Then it looks at the parent interfaces of that functions and generates, the sour
 public class _ExampleApiImpl(
     private val _ktorfit: Ktorfit,
 ) : ExampleApi {
-    public val _converter: KtorfitConverterHelper = KtorfitConverterHelper(_ktorfit)
+    private val _helper: KtorfitConverterHelper = KtorfitConverterHelper(_ktorfit)
 
     override suspend fun exampleGet(): People {
         val _ext: HttpRequestBuilder.() -> Unit = {
@@ -43,14 +43,18 @@ public class _ExampleApiImpl(
                 takeFrom(_ktorfit.baseUrl + "/test")
             }
         }
-        val _typeData = TypeData.createTypeData(qualifiedTypename = "com.example.model.People",
-            typeInfo = typeInfo<People>())
-
-        return _converter.suspendRequest<People, People>(_typeData,_ext)!!
+        val _typeData = TypeData.createTypeData(
+            typeInfo = typeInfo<People>(),
+        )
+        return _helper.suspendRequest(_typeData,_ext)!!
     }
 }
 
-public fun Ktorfit.createExampleApi(): ExampleApi = this.create(_ExampleApiImpl(this))
+public class _ExampleApiProvider : ClassProvider<ExampleApi> {
+    override fun create(_ktorfit: Ktorfit): ExampleApi = _ExampleApiImpl(_ktorfit)
+}
+
+public fun Ktorfit.createExampleApi(): ExampleApi = _ExampleApiImpl(this)
 ```
 
 The next part is the compiler plugin which is added by the gradle plugin.
