@@ -25,17 +25,18 @@ or your own ConverterFactory to the converterFactories. [#618](https://github.co
 - Task with path 'kspCommonMainKotlinMetadata' not found in project [#593](https://github.com/Foso/Ktorfit/issues/593)
 - Ktorfit Gradle Plugin not compatible with Android Multiplatform Library plugin [#638](https://github.com/Foso/Ktorfit/issues/638)
 
-
 ## Ktor3
 The "normal" dependencies will stay on Ktor 2.x till 3.0 is stable. But here are versions that you can use when want to use Ktor3 and WasmJs
 
-| Project                                       |                                                                                                                       Version                                                                                                                       |
-|-----------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| ktorfit-lib-light-ktor-3.0.0-beta-2           |           [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-light-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-light-ktor-3.0.0-beta-2)           |
-| ktorfit-lib-ktor-3.0.0-beta-2                 |                 [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-ktor-3.0.0-beta-2)                 |
-| ktorfit-converters-flow-ktor-3.0.0-beta-2     |     [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-flow-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-flow-ktor-3.0.0-beta-2)     |
-| ktorfit-converters-call-ktor-3.0.0-beta-2     |     [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-call-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-call-ktor-3.0.0-beta-2)     |
-| ktorfit-converters-response-ktor-3.0.0-beta-2 | [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-response-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-response-ktor-3.0.0-beta-2) |
+de.jensklingenberg.ktorfit:ktorfit-lib-light-ktor-3.0.0-beta-2:2.1.0
+
+de.jensklingenberg.ktorfit:ktorfit-lib-ktor-3.0.0-beta-2:2.1.0
+
+de.jensklingenberg.ktorfit:ktorfit-converters-flow-ktor-3.0.0-beta-2 :2.1.0
+
+de.jensklingenberg.ktorfit:ktorfit-converters-call-ktor-3.0.0-beta-2:2.1.0
+
+de.jensklingenberg.ktorfit:ktorfit-converters-response-ktor-3.0.0-beta-2:2.1.0
 
 # [2.0.1]()
 
