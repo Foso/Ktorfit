@@ -14,4 +14,6 @@ package de.jensklingenberg.ktorfit.http
  * @see HeaderMap
  */
 @Target(AnnotationTarget.VALUE_PARAMETER)
-annotation class Header(val value: String)
+annotation class Header(
+    val value: String
+)

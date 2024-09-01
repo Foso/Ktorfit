@@ -2,15 +2,17 @@ package de.jensklingenberg.ktorfit
 
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
+import org.jetbrains.kotlin.ir.descriptors.toIrBasedKotlinType
 import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
 import org.jetbrains.kotlin.ir.symbols.UnsafeDuringIrConstructionAPI
 import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.types.defaultType
-import org.jetbrains.kotlin.ir.types.impl.originalKotlinType
 import org.jetbrains.kotlin.ir.util.constructors
+import org.jetbrains.kotlin.ir.util.dumpKotlinLike
 import org.jetbrains.kotlin.ir.util.isInterface
+import org.jetbrains.kotlin.js.descriptorUtils.getKotlinTypeFqName
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
@@ -42,10 +44,15 @@ internal class CreateFuncTransformer(
         // Find exampleKtorfit.create<TestApi>()
         (expression as? IrCall)?.let { irCall ->
             if (irCall.typeArgumentsCount > 0) {
-                if (!expression.symbol.owner.symbol.toString().contains(KTORFIT_PACKAGE)) {
+                if (!expression.symbol.owner.symbol
+                        .toString()
+                        .contains(KTORFIT_PACKAGE)
+                ) {
                     return expression
                 }
-                if (expression.symbol.owner.name.asString() != KTORFIT_CREATE) {
+                if (expression.symbol.owner.name
+                        .asString() != KTORFIT_CREATE
+                ) {
                     return expression
                 }
 
@@ -59,12 +66,14 @@ internal class CreateFuncTransformer(
 
                 if (!argumentType.isInterface()) {
                     throw IllegalStateException(
-                        errorTypeArgumentNotInterface(argumentType.originalKotlinType.toString()),
+                        errorTypeArgumentNotInterface(argumentType.dumpKotlinLike()),
                     )
                 }
 
                 if (classFqName == null) {
-                    throw IllegalStateException(errorClassNotFound(argumentType.originalKotlinType.toString()))
+                    throw IllegalStateException(
+                        errorClassNotFound(argumentType.toIrBasedKotlinType().getKotlinTypeFqName(false))
+                    )
                 }
 
                 val packageName = classFqName.packageName
@@ -98,7 +107,9 @@ internal class CreateFuncTransformer(
                 // Set _ExampleApiProvider() as argument for create<ExampleApi>()
                 irCall.putValueArgument(0, newCall)
                 debugLogger.log(
-                    "Transformed " + argumentType.originalKotlinType.toString() + " to _$className" + "Provider",
+                    "Transformed " + argumentType.toIrBasedKotlinType().getKotlinTypeFqName(false).substringAfterLast(".") +
+                        " to _$className" +
+                        "Provider",
                 )
                 return super.visitExpression(irCall)
             }

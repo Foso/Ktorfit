@@ -9,4 +9,6 @@ package de.jensklingenberg.ktorfit.http
  *
  */
 @Target(AnnotationTarget.FUNCTION)
-annotation class PATCH(val value: String = "")
+annotation class PATCH(
+    val value: String = ""
+)

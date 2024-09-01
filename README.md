@@ -32,13 +32,30 @@ See https://foso.github.io/Ktorfit/#compatibility
 |-----------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | Ktorfit Gradle Plugin       | [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/de.jensklingenberg.ktorfit.gradle.plugin)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/de.jensklingenberg.ktorfit.gradle.plugin) |
 | ktorfit-lib                 |                              [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib)                              |
-| compiler-plugin             |                          [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/compiler-plugin)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/compiler-plugin)                          |
 | ktorfit-lib-light           |                        [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-light)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-light)                        |
+| compiler-plugin             |                          [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/compiler-plugin)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/compiler-plugin)                          |
 | ktorfit-ksp                 |                              [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-ksp)                              |
 | ktorfit-converters-flow     |                  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-flow)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-flow)                  |
 | ktorfit-converters-call     |                  [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-call)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-call)                  |
 | ktorfit-converters-response |              [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-response)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-response)              |
 
+## Ktorfit Ktor 3 Packages
+The main dependencies will stay on Ktor 2.x till Ktor 3 is stable.
+When you want to use Ktor 3 and WasmJs, you need to replace your dependecies with a "ktor3" version, you can use the following packages:
+
+| Project                           |                                                                                                                       Version                                                                                                                       |
+|-----------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| ktorfit-lib-light-ktor-3.0.0-beta-2           |           [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-light-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-light-ktor-3.0.0-beta-2)           |
+| ktorfit-lib-ktor-3.0.0-beta-2                 |                 [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-ktor-3.0.0-beta-2)                 |
+| ktorfit-converters-flow-ktor-3.0.0-beta-2     |     [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-flow-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-flow-ktor-3.0.0-beta-2)     |
+| ktorfit-converters-call-ktor-3.0.0-beta-2     |     [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-call-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-call-ktor-3.0.0-beta-2)     |
+| ktorfit-converters-response-ktor-3.0.0-beta-2 | [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-response-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-response-ktor-3.0.0-beta-2) |
+
+You can find all Ktorfit packages on [Maven Central](https://search.maven.org/search?q=de.jensklingenberg.ktorfit).
+
+🔎 Check the [latest changes](https://github.com/Foso/Ktorfit/blob/master/docs/CHANGELOG.md) to update your Koin project.
+
+🛠 Follow the [setup page](https://foso.github.io/Ktorfit/installation/) for more details
 
 ## 👷 Project Structure
 

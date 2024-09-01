@@ -4,6 +4,7 @@ import com.tschuchort.compiletesting.JvmCompilationResult
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.PluginOption
 import com.tschuchort.compiletesting.SourceFile
+import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.JvmTarget
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -11,6 +12,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 
+@OptIn(ExperimentalCompilerApi::class)
 class FunctionTransformerTest {
     @Rule
     @JvmField
@@ -59,7 +61,7 @@ interface ClassProvider<T>
 
         assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
 
-        assertTrue(result.messages.contains("_TestServiceImpl"))
+        assertTrue(result.messages.contains("_TestServiceProvider"))
     }
 
     @Test
@@ -109,8 +111,9 @@ fun <T> Ktorfit.create(ktorfitService: ClassProvider? = null): T {
         assertTrue(result.messages.contains(CreateFuncTransformer.errorTypeArgumentNotInterface("T")))
     }
 
-    private fun prepareCompilation(sourceFiles: List<SourceFile>): KotlinCompilation {
-        return KotlinCompilation().apply {
+    private fun prepareCompilation(sourceFiles: List<SourceFile>): KotlinCompilation =
+        KotlinCompilation().apply {
+            languageVersion = "1.9"
             workingDir = temporaryFolder.root
             compilerPluginRegistrars = listOf(CommonCompilerPluginRegistrar())
             val processor = ExampleCommandLineProcessor()
@@ -126,9 +129,6 @@ fun <T> Ktorfit.create(ktorfitService: ClassProvider? = null): T {
             jvmTarget = JvmTarget.fromString(System.getProperty("rdt.jvmTarget", "1.8"))!!.description
             supportsK2 = false
         }
-    }
 
-    private fun compile(sourceFiles: List<SourceFile>): JvmCompilationResult {
-        return prepareCompilation(sourceFiles).compile()
-    }
+    private fun compile(sourceFiles: List<SourceFile>): JvmCompilationResult = prepareCompilation(sourceFiles).compile()
 }

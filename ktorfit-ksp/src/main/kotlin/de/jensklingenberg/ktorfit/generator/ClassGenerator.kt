@@ -17,7 +17,7 @@ fun generateImplClass(
     classDataList: List<ClassData>,
     codeGenerator: CodeGenerator,
     resolver: Resolver,
-    ktorfitOptions: KtorfitOptions,
+    ktorfitOptions: KtorfitOptions
 ) {
     classDataList.forEach { classData ->
         with(classData) {
@@ -32,13 +32,15 @@ fun generateImplClass(
                     ""
                 }
 
-            if (moduleName.contains(commonMainModuleName)) {
-                if (!ksFile.filePath.contains(commonMainModuleName)) {
-                    return@forEach
-                }
-            } else {
-                if (ksFile.filePath.contains(commonMainModuleName)) {
-                    return@forEach
+            if (!ktorfitOptions.multiplatformWithSingleTarget) {
+                if (moduleName.contains(commonMainModuleName)) {
+                    if (!ksFile.filePath.contains(commonMainModuleName)) {
+                        return@forEach
+                    }
+                } else {
+                    if (ksFile.filePath.contains(commonMainModuleName)) {
+                        return@forEach
+                    }
                 }
             }
 

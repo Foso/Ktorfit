@@ -1,6 +1,6 @@
 pluginManagement {
     repositories {
-        // mavenLocal()
+        mavenLocal()
         google()
         gradlePluginPortal()
         mavenCentral()
@@ -14,3 +14,4 @@ pluginManagement {
 rootProject.name = "KtorfitMultiplatformExample"
 include(":androidApp")
 include(":shared")
+include(":person")

@@ -19,7 +19,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class ConverterTest {
+class ConverterDefaultResponseConverter {
     @Test
     fun whenCallConverterIsUsedThenRespondSuccessful() =
         runBlocking {
@@ -39,7 +39,8 @@ class ConverterTest {
             val responseFunc = suspend { client.request("http://example.org/") }
             val converter = CallConverterFactory()
             val ktor =
-                Ktorfit.Builder()
+                Ktorfit
+                    .Builder()
                     .baseUrl("http://example.org/")
                     .httpClient(client)
                     .build()

@@ -7,15 +7,15 @@ docs_dir: 'docs'
 edit_uri: 'tree/master/docs/'
 
 # Copyright
-copyright: Copyright &copy; Apache v2 License 2022-2023 Jens Klingenberg
+copyright: Copyright &copy; Apache v2 License 2022-2024 Jens Klingenberg
 extra:
   manifest: manifest.webmanifest
   site:
     images: '../../images'
   ktorfit:
-    release: "2.0.1"
+    release: "2.1.0"
   ktor:
-    release: "2.3.11"
+    release: "2.3.12"
   social:
     - icon: fontawesome/brands/github-alt
       link: 'https://github.com/foso'
@@ -64,6 +64,9 @@ nav:
       - 'Example1': converters/example1.md
       - 'Migration': converters/migration.md
   - 'Configuration': configuration.md
+  - 'Android':
+      - 'proguard': android/proguard.md
+  - 'Known issues': knownissues.md
   - 'Fundamentals' :
       - 'Scope' : fundamentals/scope.md
       - 'Architecture': architecture.md

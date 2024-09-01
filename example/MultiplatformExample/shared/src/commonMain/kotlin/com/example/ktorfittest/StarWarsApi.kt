@@ -13,18 +13,29 @@ interface StarWarsApi {
     }
 
     @GET("people/{id}/")
-    suspend fun getPersonByIdResponse(@Path("id") peopleId: Int): Person
+    suspend fun getPersonByIdResponse(
+        @Path("id") peopleId: Int
+    ): Person
 
     @GET("people/{id}/")
-    fun getPeopleByIdFlowResponse(@Path("id") peopleId: Int, @Query("hello") world: String?): Flow<Person>
+    fun getPeopleByIdFlowResponse(
+        @Path("id") peopleId: Int,
+        @Query("hello") world: String?
+    ): Flow<Person>
 
     @GET("people/{id}/")
-    fun getPeopleByIdCallResponse(@Path("id") peopleId: Int): Call<Person>
-
-
-    @GET("people/{id}/")
-    fun queryTest(@Path("id") peopleId: Int, @Query("hello") world: String?): Call<Person>
+    fun getPeopleByIdCallResponse(
+        @Path("id") peopleId: Int
+    ): Call<Person>
 
     @GET("people/{id}/")
-    suspend fun getPersonResponse(@Path("id") personId: Int): Response<Person>
+    fun queryTest(
+        @Path("id") peopleId: Int,
+        @Query("hello") world: String?
+    ): Call<Person>
+
+    @GET("people/{id}/")
+    suspend fun getPersonResponse(
+        @Path("id") personId: Int
+    ): Response<Person>
 }

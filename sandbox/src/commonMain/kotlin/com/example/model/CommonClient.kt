@@ -9,26 +9,28 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
+val commonClient =
+    HttpClient {
 
-val commonClient = HttpClient() {
-
-    install(ContentNegotiation) {
-        json(Json { isLenient = true; ignoreUnknownKeys = true })
+        install(ContentNegotiation) {
+            json(
+                Json {
+                    isLenient = true
+                    ignoreUnknownKeys = true
+                }
+            )
+        }
     }
-}
 
-
-
-val commonKtorfit = ktorfit {
-    baseUrl(JsonPlaceHolderApi.baseUrl)
-    httpClient(commonClient)
-    converterFactories(
-        CallConverterFactory(),
-                StringToIntRequestConverterFactory(),
-        MyOwnResponseConverterFactory()
-    )
-}
-
+val commonKtorfit =
+    ktorfit {
+        baseUrl(JsonPlaceHolderApi.baseUrl)
+        httpClient(commonClient)
+        converterFactories(
+            CallConverterFactory(),
+            StringToIntRequestConverterFactory(),
+            MyOwnResponseConverterFactory()
+        )
+    }
 
 val jsonPlaceHolderApi = commonKtorfit.createJsonPlaceHolderApi()
-

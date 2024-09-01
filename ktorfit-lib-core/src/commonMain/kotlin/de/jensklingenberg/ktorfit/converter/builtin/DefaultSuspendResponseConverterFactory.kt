@@ -11,25 +11,41 @@ import io.ktor.client.statement.HttpResponse
  * It is automatically applied last
  */
 internal class DefaultSuspendResponseConverterFactory : Converter.Factory {
-    class DefaultSuspendResponseConverter(val typeData: TypeData) :
-        Converter.SuspendResponseConverter<HttpResponse, Any> {
-        override suspend fun convert(result: KtorfitResult): Any {
-            return when (result) {
+    class DefaultSuspendResponseConverter(
+        val typeData: TypeData
+    ) : Converter.SuspendResponseConverter<HttpResponse, Any?> {
+        override suspend fun convert(result: KtorfitResult): Any? =
+            when (result) {
                 is KtorfitResult.Failure -> {
-                    throw result.throwable
+                    if (typeData.isNullable) {
+                        null
+                    } else {
+                        throw result.throwable
+                    }
                 }
 
                 is KtorfitResult.Success -> {
                     result.response.call.body(typeData.typeInfo)
                 }
             }
-        }
+    }
+
+    class DefaultResponseConverter : Converter.ResponseConverter<HttpResponse, Any?> {
+        override fun convert(getResponse: suspend () -> HttpResponse): Any? = null
     }
 
     override fun suspendResponseConverter(
         typeData: TypeData,
         ktorfit: Ktorfit,
-    ): Converter.SuspendResponseConverter<HttpResponse, *> {
-        return DefaultSuspendResponseConverter(typeData)
-    }
+    ): Converter.SuspendResponseConverter<HttpResponse, *> = DefaultSuspendResponseConverter(typeData)
+
+    override fun responseConverter(
+        typeData: TypeData,
+        ktorfit: Ktorfit,
+    ): Converter.ResponseConverter<HttpResponse, *>? =
+        if (typeData.isNullable) {
+            DefaultResponseConverter()
+        } else {
+            null
+        }
 }

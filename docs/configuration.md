@@ -1,4 +1,5 @@
-# Compile errors
+# Gradle
+## Compile errors
 By default, Ktorfit will throw compile error when it finds conditions under which it can't ensure that it will work correct.
 You can set it in the Ktorfit config to change this
 
@@ -16,7 +17,7 @@ You can set it in your build.gradle.kts file,
 
 * WARNING: Turn errors into warnings
 
-# QualifiedTypeName
+## QualifiedTypeName
 By default, Ktorfit will keep qualifiedTypename for TypeData in the generated code empty. You can set it in the Ktorfit config to change this:
 
 ```kotlin
@@ -42,9 +43,9 @@ val _typeData = TypeData.createTypeData(
 ...
 ```
 
+# Ktorfit Builder
 
-
-# Add your own Ktor client
+## Add your own Ktor client
 You can set your Ktor client instance to the Ktorfit builder:
 
 ```kotlin

@@ -7,21 +7,74 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+# [2.1.0]()
+
+* Supported Kotlin version: (min) 2.0.20
+* Supported KSP version: (min) 1.0.24
+* Ktor version: 2.3.12
+
+## Added
+- documentation page for [known issues](https://foso.github.io/Ktorfit/knownissues/)
+
+## Changed
+- Allow Http Delete with Body [#647](https://github.com/Foso/Ktorfit/issues/647)
+- By default, nullable response types will not throw an exception. You can now override this behavior by adding the **DontSwallowExceptionsConverterFactory** 
+or your own ConverterFactory to the converterFactories. [#618](https://github.com/Foso/Ktorfit/issues/618)
+
+## Fixed
+- Task with path 'kspCommonMainKotlinMetadata' not found in project [#593](https://github.com/Foso/Ktorfit/issues/593)
+- Ktorfit Gradle Plugin not compatible with Android Multiplatform Library plugin [#638](https://github.com/Foso/Ktorfit/issues/638)
+
+## Ktor3
+The "normal" dependencies will stay on Ktor 2.x till 3.0 is stable. But here are versions that you can use when want to use Ktor3 and WasmJs
+
+de.jensklingenberg.ktorfit:ktorfit-lib-light-ktor-3.0.0-beta-2:2.1.0
+
+de.jensklingenberg.ktorfit:ktorfit-lib-ktor-3.0.0-beta-2:2.1.0
+
+de.jensklingenberg.ktorfit:ktorfit-converters-flow-ktor-3.0.0-beta-2:2.1.0
+
+de.jensklingenberg.ktorfit:ktorfit-converters-call-ktor-3.0.0-beta-2:2.1.0
+
+de.jensklingenberg.ktorfit:ktorfit-converters-response-ktor-3.0.0-beta-2:2.1.0
+
 # [2.0.1]()
 
-compiler-plugin:2.0.1-2.0.10 - 2024-08-10
-========================================
-- Kotlin 2.0.10
+* Supported Kotlin version: (min) 2.0.0 (max) 2.0.20
+* Supported KSP version: (min) 1.0.24 (max) 1.0.24
+* Ktor version: 2.3.12
 
 2.0.1 - 2024-08-08
 ========================================
-### Fixed
-- #594 Endpoint with types from other module
-- #591 Ktorfit plugin doesn't include correct generate source if build directory changes #591
-- #621 RequestConverter causing compile error
+## Fixed
+- Endpoint with types from other module #594 
+- Ktorfit plugin doesn't include correct generate source if build directory changes #591
+- RequestConverter causing compile error #621 
 - Build with Ktor 2.3.12
 
+## ktorfit-annotations
+- 2.0.1: The annotations are now also available for WasmJs
 
+## compilerPlugin
+- Kotlin 2.0.0: 2.0.1-2.0.0 - 2024-08-08
+- Kotlin 2.0.10: 2.0.1-2.0.10 - 2024-08-10
+- Kotlin 2.0.20-RC: 2.0.1-2.0.20-RC - 2024-08-13
+- Kotlin 2.0.20-RC2: 2.0.1-2.0.20-RC2 - 2024-08-13
+- Kotlin 2.0.20: 2.0.1-2.0.20 - 2024-08-23
+
+## ktorfit-ksp
+- KSP 1.0.24: ktorfit-ksp-2.0.1-1.0.24 - 2024-08-08
+
+## Ktor3 
+The "normal" dependencies will stay on Ktor 2.x till 3.0 is stable. But here are versions that you can use when want to use Ktor3 and WasmJs
+
+| Project                                       |                                                                                                                       Version                                                                                                                       |
+|-----------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| ktorfit-lib-light-ktor-3.0.0-beta-2           |           [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-light-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-light-ktor-3.0.0-beta-2)           |
+| ktorfit-lib-ktor-3.0.0-beta-2                 |                 [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-lib-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-lib-ktor-3.0.0-beta-2)                 |
+| ktorfit-converters-flow-ktor-3.0.0-beta-2     |     [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-flow-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-flow-ktor-3.0.0-beta-2)     |
+| ktorfit-converters-call-ktor-3.0.0-beta-2     |     [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-call-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-call-ktor-3.0.0-beta-2)     |
+| ktorfit-converters-response-ktor-3.0.0-beta-2 | [![Maven Central](https://img.shields.io/maven-central/v/de.jensklingenberg.ktorfit/ktorfit-converters-response-ktor-3.0.0-beta-2)](https://central.sonatype.com/artifact/de.jensklingenberg.ktorfit/ktorfit-converters-response-ktor-3.0.0-beta-2) |
 
 # [2.0.0]()
 
@@ -39,7 +92,8 @@ ktorfit-ksp-2.0.0-1.0.22 - 2024-06-06
 
 2.0.0 - 2024-05-27
 ========================================
-### Changed
+
+# Changed
 - Build with KSP 1.0.21, Kotlin 2.0.0, Ktor 2.3.11
 - The needed dependencies for Ktorfit KSP processor are now included in the Ktorfit Gradle plugin. You can remove the ksp() block from your build.gradle.kts file. You still need to apply the KSP plugin. 
   

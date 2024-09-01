@@ -14,7 +14,7 @@ interface BuilderTestApi {
     suspend fun checkIfBaseUrlIsSetWhenUrlCheckIsDisabled(): String
 }
 
-class BuilderTest {
+class BuilderDefaultResponseConverter {
     @Test
     fun whenBaseUrlNotEndingWithSlashThrowError() {
         try {

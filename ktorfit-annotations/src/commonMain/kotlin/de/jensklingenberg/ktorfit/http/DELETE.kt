@@ -10,4 +10,6 @@ package de.jensklingenberg.ktorfit.http
  *
  */
 @Target(AnnotationTarget.FUNCTION)
-annotation class DELETE(val value: String = "")
+annotation class DELETE(
+    val value: String = ""
+)

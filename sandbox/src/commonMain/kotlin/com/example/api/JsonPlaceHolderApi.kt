@@ -11,7 +11,6 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
 
 interface JsonPlaceHolderApi {
-
     companion object {
         const val baseUrl = "https://jsonplaceholder.typicode.com/"
     }
@@ -22,7 +21,7 @@ interface JsonPlaceHolderApi {
     @GET("posts")
     fun callPosts(): Call<List<Post>>
 
-    @HTTP("GET2","posts")
+    @HTTP("GET2", "posts")
     fun callPostsCustomHttp(): Call<List<Post>>
 
     @GET("posts")
@@ -30,31 +29,48 @@ interface JsonPlaceHolderApi {
 
     @Streaming
     @GET("docs/response.html#streaming")
-    suspend fun getPostsStreaming(@QueryMap test: Map<String, String>): HttpStatement
+    suspend fun getPostsStreaming(
+        @QueryMap test: Map<String, String>
+    ): HttpStatement
 
     @GET("posts/{postId}")
-    suspend fun getPostById(@Path postId: Int = 4): Post
+    suspend fun getPostById(
+        @Path postId: Int = 4
+    ): Post
 
     @GET("posts/{postId}/comments")
-    fun getFlowCommentsByPostId(@Path("postId") postId: Int, @ReqBuilder builder : HttpRequestBuilder.() -> Unit): Flow<List<Comment>>?
+    fun getFlowCommentsByPostId(
+        @Path("postId") postId: Int,
+        @ReqBuilder builder: HttpRequestBuilder.() -> Unit
+    ): Flow<List<Comment>>?
 
     @GET("posts/{postId}/comments")
-    suspend fun getCommentsByPostId(@Path("postId") postId: Int): List<Comment>?
+    suspend fun getCommentsByPostId(
+        @Path("postId") postId: Int
+    ): List<Comment>?
 
     @GET("posts/{postId}/comments")
-    suspend fun getCommentsByPostIdResponse(@RequestType(Int::class) @Path("postId") postId: String): MyOwnResponse<List<Comment>>
+    suspend fun getCommentsByPostIdResponse(
+        @RequestType(Int::class) @Path("postId") postId: String
+    ): MyOwnResponse<List<Comment>>
 
     @Headers(value = ["Content-Type: application/json"])
     @GET("posts/{postId}/comments")
-    fun callCommentsByPostId(@Path("postId") postId: Int): Call<List<Comment>>
+    fun callCommentsByPostId(
+        @Path("postId") postId: Int
+    ): Call<List<Comment>>
 
     @Headers(value = ["Content-Type: application/json"])
     @GET("posts/{postId}/comments")
-    suspend fun resCommentsByPostId(@Path("postId") postId: Int): Response<List<Comment>>
+    suspend fun resCommentsByPostId(
+        @Path("postId") postId: Int
+    ): Response<List<Comment>>
 
     @Headers(value = ["Content-Type: application/json"])
     @GET("posts/{postId}/comments")
-    fun deferedCommentsByPostId(@Path("postId") postId: Int): Deferred<List<Comment>>
+    fun deferedCommentsByPostId(
+        @Path("postId") postId: Int
+    ): Deferred<List<Comment>>
 
     @Headers(value = ["Content-Type: application/json"])
     @GET("comments")
@@ -64,19 +80,25 @@ interface JsonPlaceHolderApi {
 
     @Headers(value = ["Content-Type: application/json"])
     @POST("posts")
-    suspend fun postPosts(@Body post: Post): Post
+    suspend fun postPosts(
+        @Body post: Post
+    ): Post
 
     @Headers(value = ["Content-Type: application/json"])
     @POST("posts")
-    suspend fun putPosts(@Body post: Post): Post
+    suspend fun putPosts(
+        @Body post: Post
+    ): Post
 
     @Headers(value = ["Content-Type: application/json"])
     @PATCH("posts/{postId}/{number}")
-    suspend fun patchPosts(@Path("postId") postId: Int): Post
+    suspend fun patchPosts(
+        @Path("postId") postId: Int
+    ): Post
 
     @Headers(value = ["Content-Type: application/json"])
     @DELETE("posts/{postId}")
-    suspend fun deletePosts(@Path("postId") postId: Int): String
-
+    suspend fun deletePosts(
+        @Path("postId") postId: Int
+    ): String
 }
-

@@ -114,6 +114,13 @@ public final class de/jensklingenberg/ktorfit/converter/TypeData$Companion {
 	public static synthetic fun createTypeData$default (Lde/jensklingenberg/ktorfit/converter/TypeData$Companion;Ljava/lang/String;Lio/ktor/util/reflect/TypeInfo;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/converter/TypeData;
 }
 
+public final class de/jensklingenberg/ktorfit/converter/builtin/DontSwallowExceptionsConverterFactory : de/jensklingenberg/ktorfit/converter/Converter$Factory {
+	public fun <init> ()V
+	public fun requestParameterConverter (Lkotlin/reflect/KClass;Lkotlin/reflect/KClass;)Lde/jensklingenberg/ktorfit/converter/Converter$RequestParameterConverter;
+	public fun responseConverter (Lde/jensklingenberg/ktorfit/converter/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/converter/Converter$ResponseConverter;
+	public fun suspendResponseConverter (Lde/jensklingenberg/ktorfit/converter/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/converter/Converter$SuspendResponseConverter;
+}
+
 public abstract interface class de/jensklingenberg/ktorfit/internal/ClassProvider {
 	public abstract fun create (Lde/jensklingenberg/ktorfit/Ktorfit;)Ljava/lang/Object;
 }
