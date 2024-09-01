@@ -13,7 +13,7 @@ Unreleased
 ========================================
 
 ## Changed
-- Allow Http Delete with Body [https://github.com/Foso/Ktorfit/issues/647](#647)
+- Allow Http Delete with Body [#647](https://github.com/Foso/Ktorfit/issues/647)
 
 ## Fixed
 - Task with path 'kspCommonMainKotlinMetadata' not found in project [#593](https://github.com/Foso/Ktorfit/issues/593)
