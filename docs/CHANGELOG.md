@@ -13,9 +13,6 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 * Supported KSP version: (min) 1.0.24
 * Ktor version: 2.3.12
 
-Ktorfit-lib
-========================================
-
 ## Added
 - documentation page for [known issues](https://foso.github.io/Ktorfit/knownissues/)
 
