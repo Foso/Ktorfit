@@ -41,7 +41,7 @@ See https://foso.github.io/Ktorfit/#compatibility
 
 ## Ktorfit Ktor 3 Packages
 The main dependencies will stay on Ktor 2.x till Ktor 3 is stable.
-When you want to use Ktor 3 and WasmJs, you need to replace your dependecies with a "ktor3" version, you can use the following packages:
+When you want to use Ktor 3 and WasmJs, you need to replace your dependencies with a "ktor3" version, you can use the following packages:
 
 | Project                           |                                                                                                                       Version                                                                                                                       |
 |-----------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
@@ -53,7 +53,7 @@ When you want to use Ktor 3 and WasmJs, you need to replace your dependecies wit
 
 You can find all Ktorfit packages on [Maven Central](https://search.maven.org/search?q=de.jensklingenberg.ktorfit).
 
-🔎 Check the [latest changes](https://github.com/Foso/Ktorfit/blob/master/docs/CHANGELOG.md) to update your Koin project.
+🔎 Check the [latest changes](https://github.com/Foso/Ktorfit/blob/master/docs/CHANGELOG.md) to update your project.
 
 🛠 Follow the [setup page](https://foso.github.io/Ktorfit/installation/) for more details
 
