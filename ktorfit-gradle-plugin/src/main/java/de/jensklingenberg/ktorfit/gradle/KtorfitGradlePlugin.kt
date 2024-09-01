@@ -67,7 +67,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
 
                     if (kotlinExtension is KotlinMultiplatformExtension) {
                         if (singleTarget) {
-                            argMethod.invoke(kspExtension, "Ktorfit_MultiplatformWithSingleTarget", true)
+                            argMethod.invoke(kspExtension, "Ktorfit_MultiplatformWithSingleTarget", true.toString())
                         } else {
                             tasks.withType(KotlinCompilationTask::class.java).configureEach {
                                 if (name != "kspCommonMainKotlinMetadata") {
