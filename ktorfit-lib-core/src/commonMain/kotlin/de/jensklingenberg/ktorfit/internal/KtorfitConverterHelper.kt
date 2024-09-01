@@ -66,8 +66,8 @@ public class KtorfitConverterHelper(
                             requestBuilder(this)
                         },
                     )
-                } catch (exception: Exception) {
-                    KtorfitResult.Failure(exception)
+                } catch (throwable: Throwable) {
+                    KtorfitResult.Failure(throwable)
                 }
             return it.convert(result) as ReturnType?
         }
