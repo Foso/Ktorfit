@@ -17,7 +17,8 @@ Unreleased
 
 ## Changed
 - Allow Http Delete with Body [#647](https://github.com/Foso/Ktorfit/issues/647)
-
+- By default, nullable response types will not throw an exception. You can now override this behavior by adding the **DontSwallowExceptionsConverterFactory** 
+or your own ConverterFactory to the converterFactories. [#618](https://github.com/Foso/Ktorfit/issues/618)
 
 ## Fixed
 - Task with path 'kspCommonMainKotlinMetadata' not found in project [#593](https://github.com/Foso/Ktorfit/issues/593)
