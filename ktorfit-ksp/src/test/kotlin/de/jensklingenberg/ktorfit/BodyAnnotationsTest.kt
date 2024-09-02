@@ -76,9 +76,16 @@ interface TestService {
                 "Source.kt",
                 """
       package com.example.api
-import de.jensklingenberg.ktorfit.http.GET
 
-interface TestService {
+@Target(AnnotationTarget.TYPE)
+    annotation class Ignore2
+
+interface TestService2 {
+    @GET("posts")
+    suspend fun test3(): String
+}
+
+interface TestService : @Ignore2 TestService2 {
     @GET("posts")
     suspend fun test(): String
 }

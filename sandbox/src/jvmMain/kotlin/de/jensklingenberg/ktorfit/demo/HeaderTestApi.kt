@@ -6,6 +6,7 @@ import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.HeaderMap
 import de.jensklingenberg.ktorfit.http.Headers
 import de.jensklingenberg.ktorfit.http.Path
+import io.ktor.client.request.get
 
 interface HeaderTestApi {
     @GET("people/{id}/")

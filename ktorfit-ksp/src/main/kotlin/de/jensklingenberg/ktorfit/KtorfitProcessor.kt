@@ -41,6 +41,8 @@ class KtorfitProcessor(
         }
         invoked = true
 
+        val test = resolver.getSymbolsWithAnnotation("com.example.api.Ignore2")
+        println(test)
         val classDataList =
             getAnnotatedFunctions(ktorfitResolver)
                 .groupBy { it.closestClassDeclaration() }

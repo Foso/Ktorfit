@@ -3,9 +3,11 @@ package de.jensklingenberg.ktorfit.demo
 import com.example.UserFactory
 import com.example.api.JsonPlaceHolderApi
 import com.example.model.ExampleApi
-import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverterFactory
+import com.example.model.Test3
+import com.example.model.Test4
 import com.example.model.createExampleApi
+import com.example.model.download
 import de.jensklingenberg.ktorfit.converter.CallConverterFactory
 import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
@@ -62,17 +64,9 @@ val api: ExampleApi = userKtorfit.createExampleApi()
 
 fun main() {
     runBlocking {
-        val user = api.getUserResponse()
-
-        when (user) {
-            is MyOwnResponse.Success -> {
-                System.out.println(user.data)
-            }
-
-            is MyOwnResponse.Error<*> -> {
-                System.out.println(user.ex)
-            }
-        }
+        val test: Test4 = Test3(jvmClient)
+        val user = test.download<String>()
+        println(user)
         delay(3000)
     }
 }
