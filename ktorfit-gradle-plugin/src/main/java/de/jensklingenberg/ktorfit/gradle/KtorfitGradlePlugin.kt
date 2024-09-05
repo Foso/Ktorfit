@@ -106,7 +106,8 @@ class KtorfitGradlePlugin : Plugin<Project> {
                                 dependencies.add("ksp${capitalizedTargetName}Test", dependency)
                             }
                         }
-
+                        // val commonMainSourceSet = kotlinExtension.sourceSets.getByName(KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME)
+                        // println(commonMainSourceSet)
                         kotlinExtension.sourceSets.named("commonMain").configure {
                             kotlin.srcDir("${layout.buildDirectory.get()}/generated/ksp/metadata/commonMain/kotlin")
                         }

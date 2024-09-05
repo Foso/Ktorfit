@@ -2,12 +2,10 @@ package de.jensklingenberg.ktorfit.demo
 
 import com.example.UserFactory
 import com.example.api.JsonPlaceHolderApi
+import com.example.api.createJsonPlaceHolderApi
 import com.example.model.ExampleApi
 import com.example.model.MyOwnResponseConverterFactory
-import com.example.model.Test3
-import com.example.model.Test4
 import com.example.model.createExampleApi
-import com.example.model.download
 import de.jensklingenberg.ktorfit.converter.CallConverterFactory
 import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
@@ -49,7 +47,7 @@ val jvmKtorfit =
 
 val userKtorfit =
     ktorfit {
-        baseUrl("https://foso.github.io/Ktorfit/")
+        baseUrl(JsonPlaceHolderApi.baseUrl)
         httpClient(jvmClient)
 
         converterFactories(
@@ -64,9 +62,8 @@ val api: ExampleApi = userKtorfit.createExampleApi()
 
 fun main() {
     runBlocking {
-        val test: Test4 = Test3(jvmClient)
-        val user = test.download<String>()
-        println(user)
+        val test = userKtorfit.createJsonPlaceHolderApi().getCommentsByPostId(3)
+        println(test)
         delay(3000)
     }
 }

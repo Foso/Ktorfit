@@ -4,7 +4,9 @@ import com.google.devtools.ksp.processing.Resolver
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.TypeVariableName
 import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.converterHelper
 import de.jensklingenberg.ktorfit.model.extDataClass
 import de.jensklingenberg.ktorfit.model.typeDataClass
@@ -17,7 +19,12 @@ fun FunctionData.toFunSpec(
     setQualifiedTypeName: Boolean,
     filePath: String,
 ): FunSpec {
-    val returnTypeName = findTypeName(returnType.parameterType, filePath)
+    val returnTypeName =
+        if (this.typeParameters.any { it.name == this.returnType.name }) {
+            TypeVariableName(this.returnType.name)
+        } else {
+            returnType.parameterType.findTypeName(filePath)
+        }
 
     return FunSpec
         .builder(this.name)
@@ -28,6 +35,7 @@ fun FunctionData.toFunSpec(
                 }
             },
         ).returns(returnTypeName)
+        .addTypeVariables(this.typeParameters)
         .addParameters(
             parameterDataList.map {
                 it.parameterSpec(filePath)
@@ -42,6 +50,7 @@ private fun FunSpec.Builder.addBody(
     setQualifiedTypeName: Boolean,
     returnTypeName: TypeName
 ) = apply {
+    val func = functionData.parameterDataList.find { it.findAnnotationOrNull<ParameterAnnotation.ReturnType>() != null }
     addRequestConverterText(functionData.parameterDataList)
         .addStatement(
             getReqBuilderExtensionText(
@@ -50,8 +59,15 @@ private fun FunSpec.Builder.addBody(
             ),
         ).addStatement(
             "val ${typeDataClass.objectName} = ${typeDataClass.name}.createTypeData(",
-        ).addStatement("typeInfo = typeInfo<%T>(),", returnTypeName)
-        .addStatement(
+        ).addStatement(
+            if (func != null
+            ) {
+                "typeInfo = ${func.name},"
+            } else {
+                "typeInfo = typeInfo<%T>(),"
+            },
+            returnTypeName
+        ).addStatement(
             if (setQualifiedTypeName) {
                 "qualifiedTypename = \"${
                     returnTypeName.toString().removeWhiteSpaces()

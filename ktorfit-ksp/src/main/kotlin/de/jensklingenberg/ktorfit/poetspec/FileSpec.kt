@@ -12,10 +12,12 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.KtorfitOptions
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.converterHelper
 import de.jensklingenberg.ktorfit.model.internalApi
 import de.jensklingenberg.ktorfit.model.ktorfitClass
@@ -106,6 +108,9 @@ fun ClassData.getImplClassSpec(
                 }
             ).build()
 
+    val newFunctions =
+        inlineFunctions(classData)
+
     return FileSpec
         .builder(classData.packageName, implClassName)
         .addAnnotation(suppressAnnotation)
@@ -113,9 +118,50 @@ fun ClassData.getImplClassSpec(
         .addImports(classData.imports)
         .addType(implClassSpec)
         .addType(providerClass)
-        .addFunction(createExtensionFunctionSpec)
+        .addFunctions(newFunctions + createExtensionFunctionSpec)
         .build()
 }
+
+private fun inlineFunctions(classData: ClassData): List<FunSpec> =
+    classData.functions
+        .filter { it.parameterDataList.any { it.findAnnotationOrNull<ParameterAnnotation.ReturnType>() != null } }
+        .map { funcdata ->
+            val retu =
+                funcdata.parameterDataList.joinToString {
+                    if (it.hasAnnotation<ParameterAnnotation.ReturnType>()) {
+                        "typeInfo<${funcdata.returnType.name.replace("?","")}>()"
+                    } else {
+                        it.name
+                    }
+                }
+
+            FunSpec
+                .builder(funcdata.name)
+                .addModifiers(
+                    mutableListOf<KModifier>().also {
+                        if (funcdata.isSuspend) {
+                            it.add(KModifier.SUSPEND)
+                        }
+                    } + classData.modifiers + KModifier.INLINE,
+                ).addTypeVariables(
+                    funcdata.typeParameters.map { it.copy(reified = (it.name == funcdata.returnType.name.replace("?", ""))) }
+                ).receiver(ClassName(classData.packageName, classData.name))
+                .addParameters(
+                    funcdata
+                        .parameterDataList
+                        .filter { !it.hasAnnotation<ParameterAnnotation.ReturnType>() }
+                        .map {
+                            it.parameterSpec(classData.ksFile.filePath)
+                        },
+                ).addStatement(
+                    "return this.${funcdata.name}<${
+                        funcdata.typeParameters.joinToString {
+                            it.name
+                        }
+                    }>($retu)"
+                ).returns(TypeVariableName(funcdata.returnType.name))
+                .build()
+        }
 
 private fun propertySpec(property: KSPropertyDeclaration): PropertySpec {
     val propBuilder =

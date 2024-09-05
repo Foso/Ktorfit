@@ -46,8 +46,8 @@ interface JsonPlaceHolderApi {
 
     @GET("posts/{postId}/comments")
     suspend fun getCommentsByPostId(
-        @Path("postId") postId: Int
-    ): List<Comment>?
+        @Path("postId") postId: Int,
+    ): List<Comment>
 
     @GET("posts/{postId}/comments")
     suspend fun getCommentsByPostIdResponse(

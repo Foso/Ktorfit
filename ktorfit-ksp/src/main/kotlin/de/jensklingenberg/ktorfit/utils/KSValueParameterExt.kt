@@ -4,6 +4,7 @@ import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSValueParameter
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Body
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.FieldMap
@@ -85,6 +86,13 @@ fun KSValueParameter.getFieldMapAnnotation(): FieldMap? {
 fun KSValueParameter.getPartAnnotation(): Part? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Part::class).firstOrNull()?.let {
         return Part(it.value, "binary")
+    }
+}
+
+@OptIn(KspExperimental::class)
+fun KSValueParameter.getReturnType(): ParameterAnnotation.ReturnType? {
+    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.ReturnType::class).firstOrNull()?.let {
+        return ParameterAnnotation.ReturnType
     }
 }
 

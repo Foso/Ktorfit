@@ -3,6 +3,7 @@ package de.jensklingenberg.ktorfit.converter
 import io.ktor.util.reflect.TypeInfo
 import io.ktor.util.reflect.platformType
 import kotlin.reflect.KClass
+import kotlin.reflect.KTypeProjection
 
 /**
  * This class contains information about the requested response type
@@ -29,16 +30,43 @@ public data class TypeData(
             val args =
                 typeInfo.kotlinType
                     ?.arguments
-                    ?.mapIndexed { index, kTypeProjection ->
+                    ?.filter {
+                        it.type != null
+                    }?.mapIndexed { index, kTypeProjection ->
                         val cleaned = split.getOrNull(index)?.trim() ?: ""
 
                         val modelKType = kTypeProjection.type
-                        val modelClass = (modelKType?.classifier as? KClass<*>?)!!
+                        val modelClass = modelKType?.classifier as? KClass<*>? ?: return@mapIndexed null
 
                         createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType))
-                    }.orEmpty()
+                    }?.filterNotNull()
+                    .orEmpty()
 
             return TypeData(qualifiedTypename.substringBefore("<"), args, typeInfo = typeInfo)
         }
+    }
+}
+
+public data class TypeData2(
+    public val qualifiedName: String,
+    public val typeInfo: TypeInfo,
+    public val isNullable: Boolean = typeInfo.kotlinType?.isMarkedNullable ?: false,
+) {
+    public companion object {
+        public fun createTypeData(
+            qualifiedTypename: String = "",
+            typeInfo: TypeInfo,
+        ): TypeData2 = TypeData2(qualifiedTypename.substringBefore("<"), typeInfo = typeInfo)
+    }
+}
+
+public fun KTypeProjection.asTypeInfo(): TypeInfo? {
+    listOf("d").firstOrNull()
+    val modelKType = this.type
+    val modelClass = modelKType?.classifier as? KClass<*>?
+    return if (modelClass != null) {
+        TypeInfo(modelClass, modelKType.platformType, modelKType)
+    } else {
+        null
     }
 }

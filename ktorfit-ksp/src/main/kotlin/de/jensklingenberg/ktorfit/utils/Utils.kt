@@ -4,13 +4,14 @@ import com.google.devtools.ksp.symbol.KSName
 import com.google.devtools.ksp.symbol.KSType
 import com.squareup.kotlinpoet.FileSpec
 import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.annotations.FunctionAnnotation
 
 fun KSType?.resolveTypeName(): String {
     // TODO: Find better way to handle type alias Types
     return this.toString().removePrefix("[typealias ").removeSuffix("]")
 }
 
-inline fun <reified T> FunctionData.findAnnotationOrNull(): T? = this.annotations.firstOrNull { it is T } as? T
+inline fun <reified T : FunctionAnnotation> FunctionData.findAnnotationOrNull(): T? = this.annotations.firstOrNull { it is T } as? T
 
 fun String.prefixIfNotEmpty(s: String): String = (s + this).takeIf { this.isNotEmpty() } ?: this
 

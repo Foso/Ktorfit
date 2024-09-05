@@ -19,11 +19,14 @@ class FieldAnnotationsTest {
                 """
       package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.ReturnType
+import io.ktor.util.reflect.TypeInfo
+import de.jensklingenberg.ktorfit.http.Query
 
 interface TestService {
 
     @GET("posts")
-    suspend fun test(): Map<String,Int>
+    suspend fun <S, T> test(@ReturnType typeInfo2: TypeInfo,@Query name: List<T>): T
     
 }
     """,
@@ -42,6 +45,7 @@ interface TestService {
                 "/kotlin/com/example/api/_TestServiceImpl.kt",
             )
         assertTrue(generatedFile.exists())
+        println(generatedFile.readText())
         assertFalse(generatedFile.readText().contains(expectedFieldsBuilderText))
     }
 

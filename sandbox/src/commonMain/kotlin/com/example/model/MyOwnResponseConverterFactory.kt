@@ -22,16 +22,22 @@ class MyOwnResponseConverterFactory : Converter.Factory {
 
                         is KtorfitResult.Success -> {
                             val response = result.response
+                            val te = typeData.typeInfo.kotlinType?.arguments
+                            val type1 = te?.get(0)?.type
+                            val re = type1?.classifier == (User::class)
                             return try {
+                                val type = typeData.typeArgs.first()
+
                                 val convertedBody =
                                     ktorfit
                                         .nextSuspendResponseConverter(
                                             null,
-                                            typeData.typeArgs.first()
+                                            type
                                         )?.convert(result)
-                                        ?: response.body(typeData.typeArgs.first().typeInfo)
+                                        ?: response.body(type.typeInfo)
                                 MyOwnResponse.success(convertedBody)
                             } catch (ex: Throwable) {
+                                print(ex)
                                 MyOwnResponse.error(ex)
                             }
                         }

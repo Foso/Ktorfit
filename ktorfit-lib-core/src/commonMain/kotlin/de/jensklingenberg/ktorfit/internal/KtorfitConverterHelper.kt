@@ -3,6 +3,7 @@ package de.jensklingenberg.ktorfit.internal
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.converter.TypeData
+import de.jensklingenberg.ktorfit.converter.TypeData2
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.prepareRequest
@@ -26,13 +27,14 @@ public class KtorfitConverterHelper(
      * This will handle all requests for functions without suspend modifier
      */
     public fun <ReturnType> request(
-        returnTypeData: TypeData,
+        returnTypeData: TypeData2,
         requestBuilder: HttpRequestBuilder.() -> Unit,
     ): ReturnType? {
-        ktorfit.nextResponseConverter(null, returnTypeData)?.let { responseConverter ->
+        val typo = TypeData.createTypeData(returnTypeData.qualifiedName, returnTypeData.typeInfo)
+        ktorfit.nextResponseConverter(null, typo)?.let { responseConverter ->
             return responseConverter.convert {
                 suspendRequest<HttpResponse>(
-                    TypeData.createTypeData(
+                    TypeData2.createTypeData(
                         "io.ktor.client.statement.HttpResponse",
                         typeInfo<HttpResponse>(),
                     ),
@@ -49,16 +51,18 @@ public class KtorfitConverterHelper(
      * Used by generated Code
      */
     public suspend fun <ReturnType> suspendRequest(
-        typeData: TypeData,
+        typeData: TypeData2,
         requestBuilder: HttpRequestBuilder.() -> Unit,
     ): ReturnType? {
-        if (typeData.typeInfo.type == HttpStatement::class) {
+        if (typeData.typeInfo?.type == HttpStatement::class) {
             return httpClient.prepareRequest {
                 requestBuilder(this)
             } as ReturnType
         }
 
-        ktorfit.nextSuspendResponseConverter(null, typeData)?.let {
+        val typo = TypeData.createTypeData(typeData.qualifiedName, typeData.typeInfo)
+
+        ktorfit.nextSuspendResponseConverter(null, typo)?.let {
             val result: KtorfitResult =
                 try {
                     KtorfitResult.Success(

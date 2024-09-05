@@ -19,3 +19,11 @@ data class People(
     val name: String? = null,
     val height: String? = null
 )
+
+@kotlinx.serialization.Serializable
+data class PeopleList(
+    val count: Int? = null,
+    val next: String? = null,
+    val previous: String? = null,
+    val results: List<People?>? = null
+)
