@@ -115,10 +115,6 @@ private fun checkClassForErrors(
 
     val hasTypeParameters = ksClassDeclaration.typeParameters.isNotEmpty()
     if (hasTypeParameters) {
-        logger.error(
-            KtorfitError.TYPE_PARAMETERS_ARE_UNSUPPORTED_ON + " ${ksClassDeclaration.simpleName.asString()}",
-            ksClassDeclaration,
-        )
         return
     }
 

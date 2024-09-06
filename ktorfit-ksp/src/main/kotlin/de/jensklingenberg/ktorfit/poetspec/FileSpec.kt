@@ -196,17 +196,20 @@ private fun propertySpec(property: KSPropertyDeclaration): PropertySpec {
  */
 private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeReference>): TypeSpec.Builder {
     (superClasses).forEach { superClassReference ->
+        val hasIgnore = superClassReference.annotations.any { it.shortName.getShortName() == "Ignore" }
         val superClassDeclaration = superClassReference.resolve().declaration
         val superTypeClassName = superClassDeclaration.simpleName.asString()
         val superTypePackage = superClassDeclaration.packageName.asString()
-        this.addSuperinterface(
-            ClassName(superTypePackage, superTypeClassName),
-            CodeBlock.of(
-                "%L._%LImpl(${ktorfitClass.objectName})",
-                superTypePackage,
-                superTypeClassName,
-            ),
-        )
+        if (!hasIgnore) {
+            this.addSuperinterface(
+                superClassReference.toTypeName(),
+                CodeBlock.of(
+                    "%L._%LImpl(${ktorfitClass.objectName})",
+                    superTypePackage,
+                    superTypeClassName,
+                ),
+            )
+        }
     }
 
     return this

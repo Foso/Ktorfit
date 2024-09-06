@@ -73,14 +73,14 @@ fun KSFunctionDeclaration.toFunctionData(logger: KSPLogger): FunctionData {
             KtorfitError.ONLY_ONE_RETURN_BUILDER_IS_ALLOWED,
             funcDeclaration,
         )
-    } else {
-        if (returnType.isGeneric && functionParameters.none { it.hasAnnotation<ParameterAnnotation.ReturnType>() }) {
-            logger.error(KtorfitError.RETURN_TYPE_MUST_BE_SPECIFIED, funcDeclaration)
-        }
+    }
 
-        if (functionParameters.any { it.hasAnnotation<ParameterAnnotation.ReturnType>() } && funcDeclaration.typeParameters.isEmpty()) {
-            logger.error(KtorfitError.RETURN_TYPE_MUST_BE_GENERIC, funcDeclaration)
-        }
+    if (returnType.isGeneric && functionParameters.none { it.hasAnnotation<ParameterAnnotation.ReturnType>() }) {
+        logger.error(KtorfitError.RETURN_TYPE_MUST_BE_SPECIFIED, funcDeclaration)
+    }
+
+    if (functionParameters.any { it.hasAnnotation<ParameterAnnotation.ReturnType>() } && funcDeclaration.typeParameters.isEmpty()) {
+        logger.error(KtorfitError.RETURN_TYPE_MUST_BE_GENERIC, funcDeclaration)
     }
 
     val functionAnnotationList = mutableListOf<FunctionAnnotation>()

@@ -10,10 +10,17 @@ import io.ktor.client.statement.*
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
 
-interface JsonPlaceHolderApi {
+interface Test2<T> {
+    fun test(): T
+}
+
+interface JsonPlaceHolderApi : @Skip Test2<String> {
     companion object {
         const val baseUrl = "https://jsonplaceholder.typicode.com/"
     }
+
+    @GET("posts")
+    override fun test(): String
 
     @GET("posts")
     fun getPosts(): Flow<String>

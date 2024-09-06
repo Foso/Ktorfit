@@ -23,7 +23,13 @@ import de.jensklingenberg.ktorfit.http.ReturnType
 import io.ktor.util.reflect.TypeInfo
 import de.jensklingenberg.ktorfit.http.Query
 
-interface TestService {
+annotation class Ignore
+
+interface Test<T>{
+fun test()
+}
+
+interface TestService :  Test<String> {
 
     @GET("posts")
     suspend fun <S, T> test(@ReturnType typeInfo2: TypeInfo,@Query name: List<T>): T

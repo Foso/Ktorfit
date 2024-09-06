@@ -34,3 +34,15 @@ class UserFactory : Converter.Factory {
         return null
     }
 }
+
+interface Jens1<T> {
+    fun test(): T
+}
+
+interface Jens2<T> : Jens1<T>
+
+class Jens3<T> : Jens2<T> by Jens4<T>()
+
+class Jens4<T> : Jens2<T> {
+    override fun test(): T = throw NullPointerException()
+}
