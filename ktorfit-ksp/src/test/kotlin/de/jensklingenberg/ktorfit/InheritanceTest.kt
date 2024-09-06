@@ -80,10 +80,12 @@ interface TestService : SuperTestService {
             )
 
         val expectedHeadersArgumentText =
-            "public class _TestServiceImpl(\n" +
-                "  private val _ktorfit: Ktorfit,\n" +
-                ") : TestService,\n" +
-                "    SuperTestService by com.example.api._SuperTestServiceImpl(_ktorfit) {"
+            buildString {
+                append("public class _TestServiceImpl(\n")
+                append("  private val _ktorfit: Ktorfit,\n")
+                append(") : TestService,\n")
+                append("    SuperTestService by com.example.api._SuperTestServiceImpl(_ktorfit) {")
+            }
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
