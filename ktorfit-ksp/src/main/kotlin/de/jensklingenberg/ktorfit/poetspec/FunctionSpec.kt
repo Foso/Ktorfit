@@ -1,8 +1,9 @@
 package de.jensklingenberg.ktorfit.poetspec
 
+import com.google.devtools.ksp.KspExperimental
+import com.google.devtools.ksp.getKotlinClassByName
 import com.google.devtools.ksp.processing.Resolver
 import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.converterHelper
@@ -15,47 +16,49 @@ import de.jensklingenberg.ktorfit.utils.removeWhiteSpaces
 fun FunctionData.toFunSpec(
     resolver: Resolver,
     setQualifiedTypeName: Boolean,
-    filePath: String,
 ): FunSpec {
-    val returnTypeName = findTypeName(returnType.parameterType, filePath)
+    val returnTypeName = returnType.typeName ?: throw IllegalStateException("Return type not found")
 
     return FunSpec
-        .builder(this.name)
-        .addModifiers(
-            mutableListOf(KModifier.OVERRIDE).also {
-                if (this.isSuspend) {
-                    it.add(KModifier.SUSPEND)
-                }
-            },
-        ).returns(returnTypeName)
+        .builder(name)
+        .addModifiers(modifiers)
         .addParameters(
             parameterDataList.map {
-                it.parameterSpec(filePath)
+                it.parameterSpec()
             },
         ).addBody(this, resolver, setQualifiedTypeName, returnTypeName)
+        .returns(returnTypeName)
         .build()
 }
 
+@OptIn(KspExperimental::class)
 private fun FunSpec.Builder.addBody(
     functionData: FunctionData,
     resolver: Resolver,
     setQualifiedTypeName: Boolean,
     returnTypeName: TypeName
 ) = apply {
+    val listType =
+        resolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType() ?: error("List not found")
+
+    val arrayType = resolver.builtIns.arrayType.starProjection()
     addRequestConverterText(functionData.parameterDataList)
         .addStatement(
             getReqBuilderExtensionText(
                 functionData,
-                resolver,
+                listType,
+                arrayType,
             ),
         ).addStatement(
-            "val ${typeDataClass.objectName} = ${typeDataClass.name}.createTypeData(",
+            "val ${typeDataClass.objectName} = ${typeDataClass.name}.createTypeData("
         ).addStatement("typeInfo = typeInfo<%T>(),", returnTypeName)
         .addStatement(
             if (setQualifiedTypeName) {
-                "qualifiedTypename = \"${
-                    returnTypeName.toString().removeWhiteSpaces()
-                }\")"
+                buildString {
+                    append("qualifiedTypename = \"")
+                    append(returnTypeName.toString().removeWhiteSpaces())
+                    append("\")")
+                }
             } else {
                 ")"
             },

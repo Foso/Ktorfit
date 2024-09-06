@@ -1,10 +1,12 @@
 package de.jensklingenberg.ktorfit.model
 
+import com.google.devtools.ksp.containingFile
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSValueParameter
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestBuilder
 import de.jensklingenberg.ktorfit.model.annotations.getParamAnnotationList
+import de.jensklingenberg.ktorfit.poetspec.findTypeName
 import de.jensklingenberg.ktorfit.utils.anyInstance
 import de.jensklingenberg.ktorfit.utils.resolveTypeName
 
@@ -49,11 +51,13 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
             ReturnTypeData(
                 "HttpRequestBuilder.()->Unit",
                 parameterType,
+                findTypeName(parameterType, ksValueParameter.containingFile!!.filePath)
             )
         } else {
             ReturnTypeData(
                 parameterType.resolveTypeName(),
                 parameterType,
+                findTypeName(parameterType, ksValueParameter.containingFile!!.filePath)
             )
         }
 
