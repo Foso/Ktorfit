@@ -23,7 +23,7 @@ fun generateImplClass(
         with(classData) {
             val fileSource = classData.getImplClassSpec(resolver, ktorfitOptions).toString()
 
-            val fileName = "_${name}Impl"
+            val fileName = classData.implName
             val commonMainModuleName = "commonMain"
             val moduleName =
                 try {

@@ -3,6 +3,8 @@ package de.jensklingenberg.ktorfit.utils
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.symbol.KSAnnotation
+import com.google.devtools.ksp.symbol.KSDeclaration
+import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.Modifier
 import de.jensklingenberg.ktorfit.model.annotations.CustomHttp
@@ -69,3 +71,5 @@ fun <T> KSAnnotation.getArgumentValueByName(name: String): T? = this.arguments.f
 
 val KSFunctionDeclaration.isSuspend: Boolean
     get() = (this).modifiers.contains(Modifier.SUSPEND)
+
+fun KSDeclaration.getKsFile(): KSFile = this.containingFile ?: throw Error("Containing File for ${this.simpleName} was null")

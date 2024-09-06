@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.model
 
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.squareup.kotlinpoet.KModifier
 import de.jensklingenberg.ktorfit.model.annotations.FunctionAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
@@ -12,6 +13,7 @@ import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.FieldMap
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Path
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Url
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestBuilder
+import de.jensklingenberg.ktorfit.poetspec.findTypeName
 import de.jensklingenberg.ktorfit.utils.anyInstance
 import de.jensklingenberg.ktorfit.utils.getFormUrlEncodedAnnotation
 import de.jensklingenberg.ktorfit.utils.getHeaderAnnotation
@@ -28,6 +30,7 @@ data class FunctionData(
     val parameterDataList: List<ParameterData>,
     val annotations: List<FunctionAnnotation> = emptyList(),
     val httpMethodAnnotation: HttpMethodAnnotation,
+    val modifiers: List<KModifier> = emptyList()
 )
 
 /**
@@ -59,6 +62,7 @@ fun KSFunctionDeclaration.toFunctionData(logger: KSPLogger): FunctionData {
         ReturnTypeData(
             name = resolvedReturnType.resolveTypeName(),
             parameterType = resolvedReturnType,
+            typeName = findTypeName(resolvedReturnType, funcDeclaration.containingFile!!.filePath),
         )
 
     val functionAnnotationList = mutableListOf<FunctionAnnotation>()
@@ -215,6 +219,13 @@ fun KSFunctionDeclaration.toFunctionData(logger: KSPLogger): FunctionData {
         )
     }
 
+    val modifiers =
+        mutableListOf(KModifier.OVERRIDE).also {
+            if (this.isSuspend) {
+                it.add(KModifier.SUSPEND)
+            }
+        }
+
     return FunctionData(
         functionName,
         returnType,
@@ -222,5 +233,6 @@ fun KSFunctionDeclaration.toFunctionData(logger: KSPLogger): FunctionData {
         functionParameters,
         functionAnnotationList,
         firstHttpMethodAnnotation,
+        modifiers
     )
 }

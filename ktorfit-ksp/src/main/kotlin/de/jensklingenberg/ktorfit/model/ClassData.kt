@@ -15,6 +15,7 @@ import de.jensklingenberg.ktorfit.model.annotations.FormUrlEncoded
 import de.jensklingenberg.ktorfit.model.annotations.Multipart
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
+import de.jensklingenberg.ktorfit.utils.getKsFile
 
 /**
  * @param name of the interface that contains annotations
@@ -29,7 +30,10 @@ data class ClassData(
     val properties: List<KSPropertyDeclaration> = emptyList(),
     val modifiers: List<KModifier> = emptyList(),
     val ksFile: KSFile,
-)
+) {
+    val implName = "_${name}Impl"
+    val providerName = "_${name}Provider"
+}
 
 /**
  * Convert a [KSClassDeclaration] to [ClassData]
@@ -127,5 +131,3 @@ private fun checkClassForErrors(
         return
     }
 }
-
-private fun KSClassDeclaration.getKsFile(): KSFile = this.containingFile ?: throw Error("Containing File for ${this.simpleName} was null")
