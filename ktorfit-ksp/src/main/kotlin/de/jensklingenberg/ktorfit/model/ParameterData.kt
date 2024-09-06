@@ -13,9 +13,9 @@ data class ParameterData(
     val type: ReturnTypeData,
     val annotations: List<ParameterAnnotation> = emptyList(),
 ) {
-    inline fun <reified T> findAnnotationOrNull(): T? = this.annotations.firstOrNull { it is T } as? T
+    inline fun <reified T : ParameterAnnotation> findAnnotationOrNull(): T? = this.annotations.firstOrNull { it is T } as? T
 
-    inline fun <reified T> hasAnnotation(): Boolean = this.findAnnotationOrNull<T>() != null
+    inline fun <reified T : ParameterAnnotation> hasAnnotation(): Boolean = this.findAnnotationOrNull<T>() != null
 }
 
 fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {

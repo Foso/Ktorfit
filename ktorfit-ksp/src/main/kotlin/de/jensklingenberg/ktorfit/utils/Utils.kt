@@ -3,22 +3,19 @@ package de.jensklingenberg.ktorfit.utils
 import com.google.devtools.ksp.symbol.KSName
 import com.google.devtools.ksp.symbol.KSType
 import com.squareup.kotlinpoet.FileSpec
-import de.jensklingenberg.ktorfit.model.FunctionData
 
 fun KSType?.resolveTypeName(): String {
     // TODO: Find better way to handle type alias Types
     return this.toString().removePrefix("[typealias ").removeSuffix("]")
 }
 
-inline fun <reified T> FunctionData.findAnnotationOrNull(): T? = this.annotations.firstOrNull { it is T } as? T
-
 fun String.prefixIfNotEmpty(s: String): String = (s + this).takeIf { this.isNotEmpty() } ?: this
 
 fun String.postfixIfNotEmpty(s: String): String = (this + s).takeIf { this.isNotEmpty() } ?: this
 
 fun String.surroundIfNotEmpty(
-    prefix: String = "",
-    postFix: String = "",
+    prefix: String,
+    postFix: String,
 ): String = this.prefixIfNotEmpty(prefix).postfixIfNotEmpty(postFix)
 
 fun String.removeWhiteSpaces(): String = this.replace("\\s".toRegex(), "")
