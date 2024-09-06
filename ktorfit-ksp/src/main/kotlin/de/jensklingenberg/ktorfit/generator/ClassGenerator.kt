@@ -21,7 +21,7 @@ fun generateImplClass(
 ) {
     classDataList.forEach { classData ->
         with(classData) {
-            val fileSource = classData.getImplClassSpec(resolver, ktorfitOptions).toString()
+            val fileSource = classData.getImplClassSpec(resolver, ktorfitOptions, classDataList).toString()
 
             val fileName = classData.implName
             val commonMainModuleName = "commonMain"
