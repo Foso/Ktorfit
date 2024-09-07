@@ -12,6 +12,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.ksp.toAnnotationSpec
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.KtorfitOptions
 import de.jensklingenberg.ktorfit.model.ClassData
@@ -63,6 +64,8 @@ fun ClassData.getImplClassSpec(
         classData.properties.map { property ->
             propertySpec(property)
         }
+    val optInAnnotations =
+        classData.annotations.filter { it.shortName.getShortName() == "OptIn" }.map { it.toAnnotationSpec() }
 
     val implClassSpec =
         createImplClassTypeSpec(
@@ -77,7 +80,8 @@ fun ClassData.getImplClassSpec(
                     ktorfitOptions.setQualifiedType
                 )
             },
-            classDataList
+            classDataList,
+            optInAnnotations
         )
 
     return FileSpec
@@ -113,10 +117,11 @@ private fun createImplClassTypeSpec(
     helperProperty: PropertySpec,
     implClassProperties: List<PropertySpec>,
     funSpecs: List<FunSpec>,
-    classDataList: List<ClassData>
+    classDataList: List<ClassData>,
+    optInAnnotations: List<AnnotationSpec>
 ) = TypeSpec
     .classBuilder(implClassName)
-    .addAnnotation(internalApiAnnotation)
+    .addAnnotations(optInAnnotations + internalApiAnnotation)
     .addModifiers(classData.modifiers)
     .primaryConstructor(
         FunSpec
