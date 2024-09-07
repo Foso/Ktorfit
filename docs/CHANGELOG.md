@@ -7,6 +7,18 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+# [Unreleased]()
+* Supported Kotlin version: 
+* Supported KSP version:
+* Ktor version:
+
+## Fixed
+-  Inheritance problem [#663](https://github.com/Foso/Ktorfit/issues/663)
+Please be aware that Ktorfit only generates code for the functions that annotated inside a interface. 
+When you extend a interface that contains no annotated functions, you have to make sure that every function from extended interfaces are 
+overridden in the interface that you want to use with Ktorfit.
+Otherwise you will get compile error because the function missing.
+
 # [2.1.0]()
 
 * Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20

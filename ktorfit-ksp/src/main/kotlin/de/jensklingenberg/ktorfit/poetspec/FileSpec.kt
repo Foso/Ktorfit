@@ -29,6 +29,7 @@ import de.jensklingenberg.ktorfit.utils.addImports
 fun ClassData.getImplClassSpec(
     resolver: Resolver,
     ktorfitOptions: KtorfitOptions,
+    classDataList: List<ClassData>,
 ): FileSpec {
     val classData = this
     val internalApiAnnotation =
@@ -75,7 +76,8 @@ fun ClassData.getImplClassSpec(
                     resolver,
                     ktorfitOptions.setQualifiedType
                 )
-            }
+            },
+            classDataList
         )
 
     return FileSpec
@@ -110,7 +112,8 @@ private fun createImplClassTypeSpec(
     classData: ClassData,
     helperProperty: PropertySpec,
     implClassProperties: List<PropertySpec>,
-    funSpecs: List<FunSpec>
+    funSpecs: List<FunSpec>,
+    classDataList: List<ClassData>
 ) = TypeSpec
     .classBuilder(implClassName)
     .addAnnotation(internalApiAnnotation)
@@ -127,7 +130,7 @@ private fun createImplClassTypeSpec(
             .addModifiers(KModifier.PRIVATE)
             .build(),
     ).addSuperinterface(ClassName(classData.packageName, classData.name))
-    .addKtorfitSuperInterface(classData.superClasses)
+    .addKtorfitSuperInterface(classData.superClasses, classDataList)
     .addProperties(listOf(helperProperty) + implClassProperties)
     .addFunctions(funSpecs)
     .build()
@@ -160,22 +163,30 @@ private fun propertySpec(property: KSPropertyDeclaration): PropertySpec {
 }
 
 /**
- * Support for extending multiple interfaces, is done with Kotlin delegation. Ktorfit interfaces can only extend other Ktorfit interfaces, so there will
+ * Support for extending multiple interfaces, is done with Kotlin delegation.
+ * For every know class of [classDataList], there will
  * be a generated implementation for each interface that we can use.
+ * @param superClasses List of qualifiedNames of interface that a Ktorfit interface extends
+ * @param classDataList List of all know Ktorfit interfaces for the current compilation
  */
-private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeReference>): TypeSpec.Builder {
+private fun TypeSpec.Builder.addKtorfitSuperInterface(
+    superClasses: List<KSTypeReference>,
+    classDataList: List<ClassData>
+): TypeSpec.Builder {
     (superClasses).forEach { superClassReference ->
         val superClassDeclaration = superClassReference.resolve().declaration
         val superTypeClassName = superClassDeclaration.simpleName.asString()
         val superTypePackage = superClassDeclaration.packageName.asString()
-        this.addSuperinterface(
-            ClassName(superTypePackage, superTypeClassName),
-            CodeBlock.of(
-                "%L._%LImpl(${ktorfitClass.objectName})",
-                superTypePackage,
-                superTypeClassName,
-            ),
-        )
+        if (classDataList.any { it.name == superTypeClassName }) {
+            this.addSuperinterface(
+                ClassName(superTypePackage, superTypeClassName),
+                CodeBlock.of(
+                    "%L._%LImpl(${ktorfitClass.objectName})",
+                    superTypePackage,
+                    superTypeClassName,
+                )
+            )
+        }
     }
 
     return this
