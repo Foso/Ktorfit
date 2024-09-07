@@ -3,6 +3,7 @@ package de.jensklingenberg.ktorfit.model
 import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.ClassKind
+import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
@@ -30,6 +31,7 @@ data class ClassData(
     val properties: List<KSPropertyDeclaration> = emptyList(),
     val modifiers: List<KModifier> = emptyList(),
     val ksFile: KSFile,
+    val annotations: List<KSAnnotation>,
 ) {
     val implName = "_${name}Impl"
     val providerName = "_${name}Provider"
@@ -98,6 +100,7 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         properties = properties,
         modifiers = ksClassDeclaration.modifiers.mapNotNull { it.toKModifier() },
         ksFile = ksClassDeclaration.getKsFile(),
+        annotations = ksClassDeclaration.annotations.toList()
     )
 }
 

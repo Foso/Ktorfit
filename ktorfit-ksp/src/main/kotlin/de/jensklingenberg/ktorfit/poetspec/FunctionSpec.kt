@@ -22,6 +22,7 @@ fun FunctionData.toFunSpec(
     return FunSpec
         .builder(name)
         .addModifiers(modifiers)
+        .addAnnotations(optInAnnotations)
         .addParameters(
             parameterDataList.map {
                 it.parameterSpec()
@@ -71,10 +72,6 @@ private fun FunSpec.Builder.addBody(
                 "request"
             },
             typeDataClass.objectName,
-            if (functionData.returnType.parameterType.isMarkedNullable) {
-                ""
-            } else {
-                "!!"
-            },
+            "!!".takeIf { !functionData.returnType.parameterType.isMarkedNullable }.orEmpty(),
         )
 }
