@@ -28,7 +28,7 @@ fun generateImplClass(
             val moduleName =
                 try {
                     resolver.getModuleName().getShortName()
-                } catch (e: AbstractMethodError) {
+                } catch (e: Throwable) {
                     ""
                 }
 

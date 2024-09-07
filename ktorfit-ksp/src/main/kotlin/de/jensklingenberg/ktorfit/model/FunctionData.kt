@@ -2,7 +2,9 @@ package de.jensklingenberg.ktorfit.model
 
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ksp.toAnnotationSpec
 import de.jensklingenberg.ktorfit.model.annotations.FunctionAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
@@ -30,7 +32,8 @@ data class FunctionData(
     val parameterDataList: List<ParameterData>,
     val annotations: List<FunctionAnnotation> = emptyList(),
     val httpMethodAnnotation: HttpMethodAnnotation,
-    val modifiers: List<KModifier> = emptyList()
+    val modifiers: List<KModifier> = emptyList(),
+    val optInAnnotations: List<AnnotationSpec>
 )
 
 /**
@@ -226,6 +229,12 @@ fun KSFunctionDeclaration.toFunctionData(logger: KSPLogger): FunctionData {
             }
         }
 
+    val optInAnnotations =
+        funcDeclaration.annotations
+            .filter { it.shortName.getShortName() == "OptIn" }
+            .map { it.toAnnotationSpec() }
+            .toList()
+
     return FunctionData(
         functionName,
         returnType,
@@ -233,6 +242,7 @@ fun KSFunctionDeclaration.toFunctionData(logger: KSPLogger): FunctionData {
         functionParameters,
         functionAnnotationList,
         firstHttpMethodAnnotation,
-        modifiers
+        modifiers,
+        optInAnnotations
     )
 }
