@@ -26,6 +26,7 @@ import de.jensklingenberg.ktorfit.poetspec.findTypeName
 import de.jensklingenberg.ktorfit.utils.anyInstance
 import de.jensklingenberg.ktorfit.utils.getFormUrlEncodedAnnotation
 import de.jensklingenberg.ktorfit.utils.getHeaderAnnotation
+import de.jensklingenberg.ktorfit.utils.getKsFile
 import de.jensklingenberg.ktorfit.utils.getMultipartAnnotation
 import de.jensklingenberg.ktorfit.utils.getStreamingAnnotation
 import de.jensklingenberg.ktorfit.utils.isSuspend
@@ -75,7 +76,7 @@ fun KSFunctionDeclaration.toFunctionData(
         ReturnTypeData(
             name = resolvedReturnType.resolveTypeName(),
             parameterType = resolvedReturnType,
-            typeName = findTypeName(resolvedReturnType, funcDeclaration.containingFile!!.filePath),
+            typeName = findTypeName(resolvedReturnType, funcDeclaration.getKsFile().filePath),
         )
 
     val functionAnnotationList = mutableListOf<FunctionAnnotation>()
@@ -187,18 +188,17 @@ fun KSFunctionDeclaration.toFunctionData(
         }
     }
 
-    functionParameters.filter { it.hasAnnotation<Path>() }.forEach {
-        val pathAnnotation = it.findAnnotationOrNull<Path>()
-        if (!firstHttpMethodAnnotation.path.contains("{${pathAnnotation?.value ?: ""}}")) {
-            logger.error(
-                KtorfitError.missingXInRelativeUrlPath(pathAnnotation?.value.orEmpty()),
-                funcDeclaration,
-            )
-        }
-    }
-
     functionParameters.forEach { parameterData ->
         parameterData.annotations.forEach {
+            if (it is Path) {
+                if (!firstHttpMethodAnnotation.path.contains("{${it.value}}")) {
+                    logger.error(
+                        KtorfitError.missingXInRelativeUrlPath(it.value),
+                        funcDeclaration,
+                    )
+                }
+            }
+
             if (it is Header || it is HeaderMap) {
                 addImport("io.ktor.client.request.headers")
             }

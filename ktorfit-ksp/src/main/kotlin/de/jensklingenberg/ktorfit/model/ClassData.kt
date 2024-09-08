@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.model
 
 import com.google.devtools.ksp.getDeclaredFunctions
+import com.google.devtools.ksp.getDeclaredProperties
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotation
@@ -69,7 +70,7 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             /** In KSP Any is a supertype of an interface */
             it.toTypeName() == ANY
         }
-    val properties = ksClassDeclaration.getAllProperties().toList()
+    val properties = ksClassDeclaration.getDeclaredProperties().toList()
 
     return ClassData(
         name = className,

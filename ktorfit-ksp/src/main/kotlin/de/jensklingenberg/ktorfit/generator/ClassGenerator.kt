@@ -22,7 +22,7 @@ fun generateImplClass(
 ) {
     classDataList.forEach { classData ->
         with(classData) {
-            val implClassSpec = classData.getImplClassSpec(resolver, ktorfitOptions, classDataList)
+            val implClassSpec = classData.getImplClassSpec(resolver, ktorfitOptions)
 
             val fileSource =
                 createFileSpec(

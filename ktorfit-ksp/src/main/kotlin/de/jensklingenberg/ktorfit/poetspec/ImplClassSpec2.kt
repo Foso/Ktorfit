@@ -26,11 +26,9 @@ import de.jensklingenberg.ktorfit.model.toClassName
 fun ClassData.getImplClassSpec(
     resolver: Resolver,
     ktorfitOptions: KtorfitOptions,
-    classDataList: List<ClassData>,
 ): TypeSpec {
     val classData = this
 
-    val implClassName = classData.implName
     val implClassProperties =
         classData.properties.map { property ->
             propertySpec(property)
@@ -38,7 +36,7 @@ fun ClassData.getImplClassSpec(
 
     val implClassSpec =
         createImplClassTypeSpec(
-            implClassName,
+            classData.implName,
             classData,
             implClassProperties,
             classData.functions.map {
@@ -46,8 +44,7 @@ fun ClassData.getImplClassSpec(
                     resolver,
                     ktorfitOptions.setQualifiedType
                 )
-            },
-            classDataList
+            }
         )
 
     return implClassSpec
@@ -57,8 +54,7 @@ private fun createImplClassTypeSpec(
     implClassName: String,
     classData: ClassData,
     implClassProperties: List<PropertySpec>,
-    funSpecs: List<FunSpec>,
-    classDataList: List<ClassData>
+    funSpecs: List<FunSpec>
 ): TypeSpec {
     val optInAnnotations =
         classData.annotations.filter { it.shortName.getShortName() == "OptIn" }.map { it.toAnnotationSpec() }
@@ -130,7 +126,6 @@ private fun propertySpec(property: KSPropertyDeclaration): PropertySpec {
  * For every know class of [classDataList], there will
  * be a generated implementation for each interface that we can use.
  * @param superClasses List of qualifiedNames of interface that a Ktorfit interface extends
- * @param classDataList List of all know Ktorfit interfaces for the current compilation
  */
 private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeReference>): TypeSpec.Builder {
     (superClasses).forEach { superClassReference ->

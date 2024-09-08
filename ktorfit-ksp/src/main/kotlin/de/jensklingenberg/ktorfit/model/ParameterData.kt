@@ -46,20 +46,13 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
         )
     }
 
+    val name = if (hasRequestBuilderAnno) "HttpRequestBuilder.()->Unit" else parameterType.resolveTypeName()
     val type =
-        if (hasRequestBuilderAnno) {
-            ReturnTypeData(
-                "HttpRequestBuilder.()->Unit",
-                parameterType,
-                findTypeName(parameterType, ksValueParameter.containingFile!!.filePath)
-            )
-        } else {
-            ReturnTypeData(
-                parameterType.resolveTypeName(),
-                parameterType,
-                findTypeName(parameterType, ksValueParameter.containingFile!!.filePath)
-            )
-        }
+        ReturnTypeData(
+            name,
+            parameterType,
+            findTypeName(parameterType, ksValueParameter.containingFile!!.filePath)
+        )
 
     return ParameterData(
         parameterName,
