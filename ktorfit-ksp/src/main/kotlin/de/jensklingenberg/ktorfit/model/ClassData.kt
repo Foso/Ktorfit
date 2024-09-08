@@ -26,7 +26,7 @@ data class ClassData(
     val name: String,
     val packageName: String,
     val functions: List<FunctionData>,
-    val imports: List<String>,
+    val imports: Set<String>,
     val superClasses: List<KSTypeReference> = emptyList(),
     val properties: List<KSPropertyDeclaration> = emptyList(),
     val modifiers: List<KModifier> = emptyList(),
@@ -45,10 +45,9 @@ data class ClassData(
 fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     val ksClassDeclaration = this
     val imports =
-        mutableListOf(
+        mutableSetOf(
             "io.ktor.util.reflect.typeInfo",
             "io.ktor.client.request.HttpRequestBuilder",
-            "io.ktor.client.request.setBody",
             "io.ktor.client.request.headers",
             "io.ktor.client.request.parameter",
             "io.ktor.http.URLBuilder",
@@ -68,6 +67,15 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         ksClassDeclaration.getDeclaredFunctions().toList().map { funcDeclaration ->
             return@map funcDeclaration.toFunctionData(logger)
         }
+
+    if (functionDataList.any {
+            it.parameterDataList.any {
+                it.hasAnnotation<ParameterAnnotation.Body>()
+            }
+        }
+    ) {
+        imports.add("io.ktor.client.request.setBody")
+    }
 
     if (functionDataList.any { it ->
             it.annotations.any { it is FormUrlEncoded || it is Multipart } ||
