@@ -33,10 +33,15 @@ public data class TypeData(
                         val cleaned = split.getOrNull(index)?.trim() ?: ""
 
                         val modelKType = kTypeProjection.type
-                        val modelClass = (modelKType?.classifier as? KClass<*>?)!!
+                        val modelClass = (modelKType?.classifier as? KClass<*>?)
 
-                        createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType))
-                    }.orEmpty()
+                        if (modelClass == null) {
+                            return@mapIndexed null
+                        } else {
+                            createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType))
+                        }
+                    }?.filterNotNull()
+                    .orEmpty()
 
             return TypeData(qualifiedTypename.substringBefore("<"), args, typeInfo = typeInfo)
         }
