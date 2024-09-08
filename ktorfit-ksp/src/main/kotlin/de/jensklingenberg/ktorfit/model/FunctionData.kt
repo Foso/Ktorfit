@@ -9,12 +9,7 @@ import de.jensklingenberg.ktorfit.model.annotations.FunctionAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.Multipart
-import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Body
-import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
-import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.FieldMap
-import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Path
-import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Url
-import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestBuilder
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.*
 import de.jensklingenberg.ktorfit.poetspec.findTypeName
 import de.jensklingenberg.ktorfit.utils.anyInstance
 import de.jensklingenberg.ktorfit.utils.getFormUrlEncodedAnnotation
@@ -53,7 +48,10 @@ private fun getHttpMethodAnnotations(ksFunctionDeclaration: KSFunctionDeclaratio
     return listOfNotNull(getAnno, postAnno, putAnno, deleteAnno, headAnno, optionsAnno, patchAnno, httpAnno)
 }
 
-fun KSFunctionDeclaration.toFunctionData(logger: KSPLogger): FunctionData {
+fun KSFunctionDeclaration.toFunctionData(
+    logger: KSPLogger,
+    addImport: (String) -> Unit
+): FunctionData {
     val funcDeclaration = this
     val functionName = funcDeclaration.simpleName.asString()
     val functionParameters = funcDeclaration.parameters.map { it.createParameterData(logger) }
@@ -67,6 +65,30 @@ fun KSFunctionDeclaration.toFunctionData(logger: KSPLogger): FunctionData {
             parameterType = resolvedReturnType,
             typeName = findTypeName(resolvedReturnType, funcDeclaration.containingFile!!.filePath),
         )
+
+    functionParameters.forEach { parameterData ->
+        parameterData.annotations.forEach {
+            if (it is Header || it is HeaderMap) {
+                addImport("io.ktor.client.request.headers")
+            }
+
+            if (it is Tag) {
+                addImport("io.ktor.util.AttributeKey")
+            }
+
+            if (it is Body) {
+                addImport("io.ktor.client.request.setBody")
+            }
+
+            if (it is Path && !it.encoded) {
+                addImport("io.ktor.http.encodeURLPath")
+            }
+
+            if (it is RequestType) {
+                addImport("kotlin.reflect.cast")
+            }
+        }
+    }
 
     val functionAnnotationList = mutableListOf<FunctionAnnotation>()
 

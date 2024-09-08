@@ -14,7 +14,9 @@ fun getFieldArgumentsText(
 ): String {
     val fieldText =
         params.filter { it.hasAnnotation<Field>() }.joinToString("") { parameterData ->
-            val field = parameterData.annotations.filterIsInstance<Field>().first()
+            val field =
+                parameterData.annotations.filterIsInstance<Field>().firstOrNull()
+                    ?: throw IllegalStateException("Field annotation not found")
             val encoded = field.encoded
             val paramName = parameterData.name
             val fieldValue = field.value
@@ -56,7 +58,7 @@ fun getFieldArgumentsText(
     val fieldMapStrings =
         params.filter { it.hasAnnotation<FieldMap>() }.joinToString("") { parameterData ->
 
-            val fieldMap = parameterData.findAnnotationOrNull<FieldMap>()!!
+            val fieldMap = parameterData.findAnnotationOrNull<FieldMap>() ?: throw IllegalStateException("FieldMap annotation not found")
             val encoded = fieldMap.encoded
             val data = parameterData.name
 

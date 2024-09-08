@@ -13,6 +13,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.annotations.FormUrlEncoded
+import de.jensklingenberg.ktorfit.model.annotations.Headers
 import de.jensklingenberg.ktorfit.model.annotations.Multipart
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
@@ -48,7 +49,6 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         mutableSetOf(
             "io.ktor.util.reflect.typeInfo",
             "io.ktor.client.request.HttpRequestBuilder",
-            "io.ktor.client.request.headers",
             "io.ktor.client.request.parameter",
             "io.ktor.http.URLBuilder",
             "io.ktor.http.HttpMethod",
@@ -63,25 +63,17 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
     checkClassForErrors(this, logger)
 
     val functionDataList: List<FunctionData> =
-        ksClassDeclaration.getDeclaredFunctions().toList().map { funcDeclaration ->
-            return@map funcDeclaration.toFunctionData(logger)
-        }
+        ksClassDeclaration
+            .getDeclaredFunctions()
+            .toList()
+            .map { funcDeclaration ->
+                return@map funcDeclaration.toFunctionData(logger, addImport = { imports.add(it) })
+            }
 
     functionDataList.forEach {
-        it.parameterDataList.forEach {
-            if (it.hasAnnotation<ParameterAnnotation.Body>()) {
-                imports.add("io.ktor.client.request.setBody")
-            }
-
-            if (it.findAnnotationOrNull<ParameterAnnotation.Path>()?.encoded == false) {
-                imports.add("io.ktor.http.encodeURLPath")
-            }
-
-            if (it.hasAnnotation<ParameterAnnotation.RequestType>()) {
-                imports.add("kotlin.reflect.cast")
-            }
+        if (it.annotations.any { it is Headers || it is FormUrlEncoded }) {
+            imports.add("io.ktor.client.request.headers")
         }
-
         if (it.annotations.any { it is FormUrlEncoded || it is Multipart } ||
             it.parameterDataList.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<ParameterAnnotation.Part>() }
         ) {

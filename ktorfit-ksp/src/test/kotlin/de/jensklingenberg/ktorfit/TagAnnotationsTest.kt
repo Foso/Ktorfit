@@ -27,8 +27,8 @@ interface TestService {
             )
 
         val expectedHeadersArgumentText =
-            """attributes.put(io.ktor.util.AttributeKey("myTag1"), myTag1)
-        someParameter?.let{ attributes.put(io.ktor.util.AttributeKey("myTag2"), it) } """
+            """attributes.put(AttributeKey("myTag1"), myTag1)
+        someParameter?.let{ attributes.put(AttributeKey("myTag2"), it) } """
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

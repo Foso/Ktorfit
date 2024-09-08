@@ -35,7 +35,8 @@ interface JsonPlaceHolderApi {
 
     @GET("posts/{postId}")
     suspend fun getPostById(
-        @Path postId: Int = 4
+        @Path postId: Int = 4,
+        @Tag value: String = "test"
     ): Post
 
     @GET("posts/{postId}/comments")

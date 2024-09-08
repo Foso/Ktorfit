@@ -11,8 +11,8 @@ fun getAttributeCode(parameterDataList: List<ParameterData>): String =
                 it.findAnnotationOrNull<ParameterAnnotation.Tag>()
                     ?: throw IllegalStateException("Tag annotation not found")
             if (it.type.parameterType.isMarkedNullable) {
-                "${it.name}?.let{ attributes.put(io.ktor.util.AttributeKey(\"${tag.value}\"), it) }"
+                "${it.name}?.let{ attributes.put(AttributeKey(\"${tag.value}\"), it) }"
             } else {
-                "attributes.put(io.ktor.util.AttributeKey(\"${tag.value}\"), ${it.name})"
+                "attributes.put(AttributeKey(\"${tag.value}\"), ${it.name})"
             }
         }
