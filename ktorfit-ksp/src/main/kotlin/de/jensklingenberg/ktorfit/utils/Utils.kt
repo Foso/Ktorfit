@@ -20,7 +20,7 @@ fun String.surroundIfNotEmpty(
 
 fun String.removeWhiteSpaces(): String = this.replace("\\s".toRegex(), "")
 
-fun FileSpec.Builder.addImports(imports: List<String>): FileSpec.Builder {
+fun FileSpec.Builder.addImports(imports: Set<String>): FileSpec.Builder {
     imports.forEach {
         /**
          * Wildcard imports are not allowed by KotlinPoet, as a workaround * is replaced with WILDCARDIMPORT, and it will be replaced again
