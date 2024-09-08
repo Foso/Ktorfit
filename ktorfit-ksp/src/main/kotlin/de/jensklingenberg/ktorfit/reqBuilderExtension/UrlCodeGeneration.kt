@@ -31,7 +31,9 @@ fun getUrlCode(
 
     params.filter { it.hasAnnotation<Path>() }.forEach { parameterData ->
         val paramName = parameterData.name
-        val pathAnnotation = parameterData.findAnnotationOrNull<Path>()!!
+        val pathAnnotation =
+            parameterData.findAnnotationOrNull<Path>()
+                ?: throw IllegalStateException("Path annotation not found")
 
         val pathEncoded =
             if (!pathAnnotation.encoded) {

@@ -54,7 +54,6 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             "io.ktor.http.HttpMethod",
             "io.ktor.http.takeFrom",
             "io.ktor.http.decodeURLQueryComponent",
-            "io.ktor.http.encodeURLPath",
             typeDataClass.packageName + "." + typeDataClass.name,
         )
 
@@ -68,28 +67,29 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             return@map funcDeclaration.toFunctionData(logger)
         }
 
-    if (functionDataList.any {
-            it.parameterDataList.any {
-                it.hasAnnotation<ParameterAnnotation.Body>()
+    functionDataList.forEach {
+        it.parameterDataList.forEach {
+            if (it.hasAnnotation<ParameterAnnotation.Body>()) {
+                imports.add("io.ktor.client.request.setBody")
+            }
+
+            if (it.findAnnotationOrNull<ParameterAnnotation.Path>()?.encoded == false) {
+                imports.add("io.ktor.http.encodeURLPath")
+            }
+
+            if (it.hasAnnotation<ParameterAnnotation.RequestType>()) {
+                imports.add("kotlin.reflect.cast")
             }
         }
-    ) {
-        imports.add("io.ktor.client.request.setBody")
-    }
 
-    if (functionDataList.any { it ->
-            it.annotations.any { it is FormUrlEncoded || it is Multipart } ||
-                it.parameterDataList.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<ParameterAnnotation.Part>() }
+        if (it.annotations.any { it is FormUrlEncoded || it is Multipart } ||
+            it.parameterDataList.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<ParameterAnnotation.Part>() }
+        ) {
+            imports.add("io.ktor.client.request.forms.FormDataContent")
+            imports.add("io.ktor.client.request.forms.MultiPartFormDataContent")
+            imports.add("io.ktor.client.request.forms.formData")
+            imports.add("io.ktor.http.Parameters")
         }
-    ) {
-        imports.add("io.ktor.client.request.forms.FormDataContent")
-        imports.add("io.ktor.client.request.forms.MultiPartFormDataContent")
-        imports.add("io.ktor.client.request.forms.formData")
-        imports.add("io.ktor.http.Parameters")
-    }
-
-    if (functionDataList.any { it.parameterDataList.any { param -> param.hasAnnotation<ParameterAnnotation.RequestType>() } }) {
-        imports.add("kotlin.reflect.cast")
     }
 
     val filteredSupertypes =
