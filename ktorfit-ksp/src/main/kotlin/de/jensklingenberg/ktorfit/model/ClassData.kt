@@ -54,7 +54,6 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             "io.ktor.http.HttpMethod",
             "io.ktor.http.takeFrom",
             "io.ktor.http.decodeURLQueryComponent",
-            "io.ktor.http.encodeURLPath",
             typeDataClass.packageName + "." + typeDataClass.name,
         )
 
@@ -75,6 +74,15 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         }
     ) {
         imports.add("io.ktor.client.request.setBody")
+    }
+
+    if (functionDataList.any {
+            it.parameterDataList.any {
+                it.findAnnotationOrNull<ParameterAnnotation.Path>()?.encoded == false
+            }
+        }
+    ) {
+        imports.add("io.ktor.http.encodeURLPath")
     }
 
     if (functionDataList.any { it ->

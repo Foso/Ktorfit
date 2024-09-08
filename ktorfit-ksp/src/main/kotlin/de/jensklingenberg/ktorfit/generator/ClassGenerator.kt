@@ -6,6 +6,7 @@ import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.Resolver
 import de.jensklingenberg.ktorfit.KtorfitOptions
 import de.jensklingenberg.ktorfit.model.ClassData
+import de.jensklingenberg.ktorfit.poetspec.createFileSpec
 import de.jensklingenberg.ktorfit.poetspec.getImplClassSpec
 import java.io.OutputStreamWriter
 
@@ -21,7 +22,14 @@ fun generateImplClass(
 ) {
     classDataList.forEach { classData ->
         with(classData) {
-            val fileSource = classData.getImplClassSpec(resolver, ktorfitOptions, classDataList).toString()
+            val implClassSpec = classData.getImplClassSpec(resolver, ktorfitOptions, classDataList)
+
+            val fileSource =
+                createFileSpec(
+                    classData,
+                    classData.implName,
+                    implClassSpec
+                ).toString()
 
             val fileName = classData.implName
             val commonMainModuleName = "commonMain"
