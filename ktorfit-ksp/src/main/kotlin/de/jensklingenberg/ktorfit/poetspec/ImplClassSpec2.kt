@@ -92,7 +92,7 @@ private fun createImplClassTypeSpec(
                 .addModifiers(KModifier.PRIVATE)
                 .build(),
         ).addSuperinterface(ClassName(classData.packageName, classData.name))
-        .addKtorfitSuperInterface(classData.superClasses, classDataList)
+        .addKtorfitSuperInterface(classData.superClasses)
         .addProperties(listOf(helperProperty) + implClassProperties)
         .addFunctions(funSpecs)
         .build()
@@ -132,24 +132,19 @@ private fun propertySpec(property: KSPropertyDeclaration): PropertySpec {
  * @param superClasses List of qualifiedNames of interface that a Ktorfit interface extends
  * @param classDataList List of all know Ktorfit interfaces for the current compilation
  */
-private fun TypeSpec.Builder.addKtorfitSuperInterface(
-    superClasses: List<KSTypeReference>,
-    classDataList: List<ClassData>
-): TypeSpec.Builder {
+private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeReference>): TypeSpec.Builder {
     (superClasses).forEach { superClassReference ->
         val superClassDeclaration = superClassReference.resolve().declaration
         val superTypeClassName = superClassDeclaration.simpleName.asString()
         val superTypePackage = superClassDeclaration.packageName.asString()
-        if (classDataList.any { it.name == superTypeClassName }) {
-            this.addSuperinterface(
-                ClassName(superTypePackage, superTypeClassName),
-                CodeBlock.of(
-                    "%L._%LImpl(${ktorfitClass.objectName})",
-                    superTypePackage,
-                    superTypeClassName,
-                )
+        this.addSuperinterface(
+            ClassName(superTypePackage, superTypeClassName),
+            CodeBlock.of(
+                "%L._%LImpl(${ktorfitClass.objectName})",
+                superTypePackage,
+                superTypeClassName,
             )
-        }
+        )
     }
 
     return this
