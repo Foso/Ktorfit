@@ -12,11 +12,6 @@ import com.squareup.kotlinpoet.ANY
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
-import de.jensklingenberg.ktorfit.model.annotations.FormUrlEncoded
-import de.jensklingenberg.ktorfit.model.annotations.Headers
-import de.jensklingenberg.ktorfit.model.annotations.Multipart
-import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
-import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
 import de.jensklingenberg.ktorfit.utils.getKsFile
 
 /**
@@ -51,7 +46,6 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             "io.ktor.client.request.HttpRequestBuilder",
             "io.ktor.client.request.parameter",
             "io.ktor.http.URLBuilder",
-            "io.ktor.http.HttpMethod",
             "io.ktor.http.takeFrom",
             "io.ktor.http.decodeURLQueryComponent",
             typeDataClass.packageName + "." + typeDataClass.name,
@@ -69,20 +63,6 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             .map { funcDeclaration ->
                 return@map funcDeclaration.toFunctionData(logger, addImport = { imports.add(it) })
             }
-
-    functionDataList.forEach {
-        if (it.annotations.any { it is Headers || it is FormUrlEncoded }) {
-            imports.add("io.ktor.client.request.headers")
-        }
-        if (it.annotations.any { it is FormUrlEncoded || it is Multipart } ||
-            it.parameterDataList.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<ParameterAnnotation.Part>() }
-        ) {
-            imports.add("io.ktor.client.request.forms.FormDataContent")
-            imports.add("io.ktor.client.request.forms.MultiPartFormDataContent")
-            imports.add("io.ktor.client.request.forms.formData")
-            imports.add("io.ktor.http.Parameters")
-        }
-    }
 
     val filteredSupertypes =
         ksClassDeclaration.superTypes.toList().filterNot {
