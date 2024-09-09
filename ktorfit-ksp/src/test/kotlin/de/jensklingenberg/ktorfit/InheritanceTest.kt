@@ -10,7 +10,7 @@ import java.io.File
 
 class InheritanceTest {
     @Test
-    fun `when Interface with Ktorfit Annotations Is Extended Then add delegation`() {
+    fun `when Interface without NoDelegation Annotations Is Extended Then add delegation`() {
         val source =
             SourceFile.kotlin(
                 "Source.kt",
@@ -58,7 +58,7 @@ interface TestService : SuperTestService {
     }
 
     @Test
-    fun `when Interface With Skip Annotations Is Extended Then dont add delegation`() {
+    fun `when Interface With NoDelegation Annotation Is Extended Then dont add delegation`() {
         val source =
             SourceFile.kotlin(
                 "Source.kt",
