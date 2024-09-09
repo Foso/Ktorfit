@@ -25,21 +25,21 @@ fun KSFunctionDeclaration.getHeaderAnnotation(): Headers? {
 @OptIn(KspExperimental::class)
 fun KSFunctionDeclaration.getFormUrlEncodedAnnotation(): FormUrlEncoded? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.FormUrlEncoded::class).firstOrNull()?.let {
-        return FormUrlEncoded()
+        return FormUrlEncoded
     }
 }
 
 @OptIn(KspExperimental::class)
 fun KSFunctionDeclaration.getStreamingAnnotation(): Streaming? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Streaming::class).firstOrNull()?.let {
-        return Streaming()
+        return Streaming
     }
 }
 
 @OptIn(KspExperimental::class)
 fun KSFunctionDeclaration.getMultipartAnnotation(): Multipart? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Multipart::class).firstOrNull()?.let {
-        return Multipart()
+        return Multipart
     }
 }
 
@@ -53,7 +53,7 @@ fun KSFunctionDeclaration.parseHTTPMethodAnno(name: String): HttpMethodAnnotatio
         else -> {
             if (name == "HTTP") {
                 this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.HTTP::class).firstOrNull()?.let {
-                    CustomHttp(it.path, HttpMethod.CUSTOM, it.hasBody, it.method)
+                    CustomHttp(it.path, HttpMethod.CUSTOM, it.method)
                 }
             } else {
                 val value = annotation.getArgumentValueByName<String>("value").orEmpty()

@@ -21,8 +21,8 @@ class Headers(
     val value: List<String>
 ) : FunctionAnnotation()
 
-class FormUrlEncoded : FunctionAnnotation()
+object FormUrlEncoded : FunctionAnnotation()
 
-class Streaming : FunctionAnnotation()
+object Streaming : FunctionAnnotation()
 
-class Multipart : FunctionAnnotation()
+object Multipart : FunctionAnnotation()

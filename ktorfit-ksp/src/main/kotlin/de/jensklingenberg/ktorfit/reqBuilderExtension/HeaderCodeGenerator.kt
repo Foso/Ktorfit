@@ -84,11 +84,12 @@ fun getHeadersCode(
 
                         if (hasNullableInnerType) {
                             headerListStringBuilder.append(
-                                if (parameterData.type.parameterType.isMarkedNullable) {
-                                    ".filterNotNull()?"
-                                } else {
-                                    ".filterNotNull()"
-                                },
+                                ".filterNotNull()" +
+                                    if (parameterData.type.parameterType.isMarkedNullable) {
+                                        "?"
+                                    } else {
+                                        ""
+                                    },
                             )
                         }
                         headerListStringBuilder.append(".forEach{ append(\"$headerName\", ")

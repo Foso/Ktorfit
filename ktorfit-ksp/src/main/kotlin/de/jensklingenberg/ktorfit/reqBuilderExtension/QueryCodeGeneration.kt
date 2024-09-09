@@ -21,81 +21,89 @@ fun getQueryCode(
 }
 
 private fun getQueryMapText(params: List<ParameterData>) =
-    params.filter { it.hasAnnotation<QueryMap>() }.joinToString(separator = "") { parameterData ->
-        val queryMap = parameterData.findAnnotationOrNull<QueryMap>()!!
-        val encoded = queryMap.encoded
-        val data = parameterData.name
-        "%s?.forEach { entry -> entry.value?.let{ %s(entry.key, \"\${entry.value}\") } }\n".format(
-            data,
-            if (encoded) {
-                "encodedParameters.append"
-            } else {
-                "parameter"
-            },
-        )
-    }
+    params
+        .filter { it.hasAnnotation<QueryMap>() }
+        .joinToString(separator = "") { parameterData ->
+            val queryMap = parameterData.findAnnotationOrNull<QueryMap>()!!
+            val encoded = queryMap.encoded
+            val data = parameterData.name
+            "%s?.forEach { entry -> entry.value?.let{ %s(entry.key, \"\${entry.value}\") } }\n".format(
+                data,
+                if (encoded) {
+                    "encodedParameters.append"
+                } else {
+                    "parameter"
+                },
+            )
+        }
 
 private fun getQueryNameText(
     params: List<ParameterData>,
     listType: KSType,
     arrayType: KSType,
-) = params.filter { it.hasAnnotation<QueryName>() }.joinToString(separator = "") { parameterData ->
-    val queryName = parameterData.annotations.filterIsInstance<QueryName>().first()
-    val encoded = queryName.encoded
-    val name = parameterData.name
+) = params
+    .filter { it.hasAnnotation<QueryName>() }
+    .joinToString(separator = "") { parameterData ->
+        val queryName = parameterData.annotations.filterIsInstance<QueryName>().first()
+        val encoded = queryName.encoded
+        val name = parameterData.name
 
-    val starProj = parameterData.type.parameterType.starProjection()
-    val isList = starProj.isAssignableFrom(listType)
-    val isArray = starProj.isAssignableFrom(arrayType)
+        val starProj = parameterData.type.parameterType.starProjection()
+        val isList = starProj.isAssignableFrom(listType)
+        val isArray = starProj.isAssignableFrom(arrayType)
 
-    if (isList || isArray) {
-        "%s?.filterNotNull()?.forEach { %s.appendAll(\"\$it\", emptyList()) }\n".format(
-            name,
-            if (encoded) {
-                "encodedParameters"
-            } else {
-                "parameters"
-            },
-        )
-    } else {
-        "%s.appendAll(\"\$%s\", emptyList())\n"
-            .format(
+        if (isList || isArray) {
+            "%s?.filterNotNull()?.forEach { %s.appendAll(\"\$it\", emptyList()) }\n".format(
+                name,
                 if (encoded) {
                     "encodedParameters"
                 } else {
                     "parameters"
                 },
-                name,
             )
+        } else {
+            "%s.appendAll(\"\$%s\", emptyList())\n"
+                .format(
+                    if (encoded) {
+                        "encodedParameters"
+                    } else {
+                        "parameters"
+                    },
+                    name,
+                )
+        }
     }
-}
 
 private fun getQueryText(
     params: List<ParameterData>,
     listType: KSType,
     arrayType: KSType,
-) = params.filter { it.hasAnnotation<Query>() }.joinToString(separator = "") { parameterData ->
-    val query = parameterData.annotations.filterIsInstance<Query>().first()
-    val encoded = query.encoded
-    val starProj = parameterData.type.parameterType?.starProjection()
-    val isList = starProj?.isAssignableFrom(listType) ?: false
-    val isArray = starProj?.isAssignableFrom(arrayType) ?: false
+) = params
+    .filter { it.hasAnnotation<Query>() }
+    .joinToString(separator = "") { parameterData ->
+        val query =
+            parameterData.annotations.filterIsInstance<Query>().firstOrNull()
+                ?: throw IllegalStateException("Query annotation not found")
+        val encoded = query.encoded
+        val starProj = parameterData.type.parameterType?.starProjection()
+        val isList = starProj?.isAssignableFrom(listType) ?: false
+        val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
-    if (isList || isArray) {
-        "%s?.filterNotNull()?.forEach { %s(\"%s\", \"\$it\") }\n".format(
-            parameterData.name,
-            if (encoded) {
-                "encodedParameters.append"
-            } else {
-                "parameter"
-            },
-            query.value,
-        )
-    } else {
-        if (encoded) {
-            "%s?.let{ encodedParameters.append(\"%s\", \"\$it\") }\n".format(parameterData.name, query.value)
+        if (isList || isArray) {
+            "%s?.filterNotNull()?.forEach { %s(\"%s\", \"\$it\") }\n".format(
+                parameterData.name,
+                if (encoded) {
+                    "encodedParameters.append"
+                } else {
+                    "parameter"
+                },
+                query.value,
+            )
         } else {
-            "%s?.let{ parameter(\"%s\", \"\$it\") }\n".format(parameterData.name, query.value)
+            if (encoded) {
+                "%s?.let{ encodedParameters.append(\"%s\", \"\$it\") }\n".format(parameterData.name, query.value)
+            } else {
+                "%s?.let{ parameter(\"%s\", \"\$it\") }\n".format(parameterData.name, query.value)
+            }
         }
     }
-}

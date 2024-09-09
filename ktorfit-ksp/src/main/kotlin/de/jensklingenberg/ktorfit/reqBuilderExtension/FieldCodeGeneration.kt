@@ -56,21 +56,25 @@ fun getFieldArgumentsText(
         }
 
     val fieldMapStrings =
-        params.filter { it.hasAnnotation<FieldMap>() }.joinToString("") { parameterData ->
+        params
+            .filter { it.hasAnnotation<FieldMap>() }
+            .joinToString("") { parameterData ->
 
-            val fieldMap = parameterData.findAnnotationOrNull<FieldMap>() ?: throw IllegalStateException("FieldMap annotation not found")
-            val encoded = fieldMap.encoded
-            val data = parameterData.name
+                val fieldMap =
+                    parameterData.findAnnotationOrNull<FieldMap>()
+                        ?: throw IllegalStateException("FieldMap annotation not found")
+                val encoded = fieldMap.encoded
+                val data = parameterData.name
 
-            "%s?.forEach { entry -> entry.value?.let{ append(entry.key, \"\${entry.value}%s\") } }\n".format(
-                data,
-                if (encoded) {
-                    ".decodeURLQueryComponent(plusIsSpace = true)"
-                } else {
-                    ""
-                },
-            )
-        }
+                "%s?.forEach { entry -> entry.value?.let{ append(entry.key, \"\${entry.value}%s\") } }\n".format(
+                    data,
+                    if (encoded) {
+                        ".decodeURLQueryComponent(plusIsSpace = true)"
+                    } else {
+                        ""
+                    },
+                )
+            }
 
     return (fieldText + fieldMapStrings).surroundIfNotEmpty(
         "val ${formParameters.objectName} = Parameters.build {\n",

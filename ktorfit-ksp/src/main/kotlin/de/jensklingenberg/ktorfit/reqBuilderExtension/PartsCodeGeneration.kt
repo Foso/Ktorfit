@@ -13,7 +13,10 @@ fun getPartsCode(
 ): String {
     val partText =
         params.filter { it.hasAnnotation<Part>() }.joinToString("") { parameterData ->
-            val part = parameterData.annotations.filterIsInstance<Part>().first()
+            val part =
+                parameterData.annotations
+                    .filterIsInstance<Part>()
+                    .firstOrNull() ?: throw IllegalStateException("Part annotation not found")
             val name = parameterData.name
             val partValue = part.value
 

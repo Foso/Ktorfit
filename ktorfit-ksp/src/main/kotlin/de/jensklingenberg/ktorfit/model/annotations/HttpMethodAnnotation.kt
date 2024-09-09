@@ -8,6 +8,5 @@ open class HttpMethodAnnotation(
 class CustomHttp(
     override val path: String,
     override val httpMethod: HttpMethod,
-    val hasBody: Boolean = false,
     val customValue: String,
 ) : HttpMethodAnnotation(path, httpMethod)
