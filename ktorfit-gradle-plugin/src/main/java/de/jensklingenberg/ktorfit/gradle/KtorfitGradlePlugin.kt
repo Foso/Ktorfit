@@ -108,11 +108,14 @@ class KtorfitGradlePlugin : Plugin<Project> {
                             }
                         }
 
-                        kotlinExtension.sourceSets.named(KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME).configure {
-                            kotlin.srcDir(
-                                "${layout.buildDirectory.get()}/generated/ksp/metadata/${KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME}/kotlin"
-                            )
-                        }
+                        kotlinExtension.sourceSets
+                            .named(KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME)
+                            .configure {
+                                kotlin.srcDir(
+                                    "${layout.buildDirectory.get()}/generated/ksp/metadata/" +
+                                        "${KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME}/kotlin"
+                                )
+                            }
                     }
 
                     else -> Unit
