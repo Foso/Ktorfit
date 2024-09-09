@@ -13,11 +13,8 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 * Ktor version:
 
 ## Fixed
-~~-  Inheritance problem [#663](https://github.com/Foso/Ktorfit/issues/663)
-Please be aware that Ktorfit only generates code for the functions that are annotated inside a interface. 
-When you extend a interface that contains no annotated functions, you have to make sure that every function from extended interfaces are 
-overridden in the interface that you want to use with Ktorfit.
-Otherwise you will get compile error because the function missing.~~
+-  Inheritance problem [#663](https://github.com/Foso/Ktorfit/issues/663)
+See https://foso.github.io/Ktorfit/generation/#nodelegation
 
 - Generated classes do not propagate opt-in ExperimentalUuidApi [666](https://github.com/Foso/Ktorfit/issues/666)
 

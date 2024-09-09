@@ -10,7 +10,7 @@ import java.io.File
 
 class InheritanceTest {
     @Test
-    fun `when Interface with Ktorfit Annotations Is Extended Then add delegation`() {
+    fun `when Interface without NoDelegation Annotations Is Extended Then add delegation`() {
         val source =
             SourceFile.kotlin(
                 "Source.kt",
@@ -55,5 +55,55 @@ interface TestService : SuperTestService {
 
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expectedGeneratedCode))
+    }
+
+    @Test
+    fun `when Interface With NoDelegation Annotation Is Extended Then dont add delegation`() {
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """package com.example.api
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Headers
+import de.jensklingenberg.ktorfit.http.Header
+import de.jensklingenberg.ktorfit.http.HeaderMap
+import de.jensklingenberg.ktorfit.http.NoDelegation
+
+interface SuperTestService1{
+    suspend fun test(): T
+}
+
+interface SuperTestService2{
+    @GET("posts")
+    suspend fun test(): T
+}
+
+interface TestService : @NoDelegation SuperTestService1, @NoDelegation SuperTestService2 {
+    @GET("posts")
+    override suspend fun test(): T
+
+    @GET("posts")
+    suspend fun test(): String
+}
+    """,
+            )
+
+        val expectedHeadersArgumentText =
+            "public class _TestServiceImpl(\n" +
+                "  private val _ktorfit: Ktorfit,\n" +
+                ") : TestService {"
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile =
+            File(
+                generatedSourcesDir,
+                "/kotlin/com/example/api/_TestServiceImpl.kt",
+            )
+
+        val actualSource = generatedFile.readText()
+        assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
 }
