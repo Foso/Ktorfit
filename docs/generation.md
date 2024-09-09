@@ -1,4 +1,4 @@
-### `@NoDelegation` Annotation
+### `@NoDelegation`
 
 The `@NoDelegation` annotation is used in Kotlin to indicate that a specific interface should not be implemented using Kotlin delegation. When an interface is annotated with `@NoDelegation`, the generated implementation class will not delegate the implementation of that interface to another class.
 
