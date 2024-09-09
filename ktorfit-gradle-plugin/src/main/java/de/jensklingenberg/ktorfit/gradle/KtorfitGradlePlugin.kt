@@ -5,6 +5,7 @@ import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.util.Locale.US
@@ -107,8 +108,10 @@ class KtorfitGradlePlugin : Plugin<Project> {
                             }
                         }
 
-                        kotlinExtension.sourceSets.named("commonMain").configure {
-                            kotlin.srcDir("${layout.buildDirectory.get()}/generated/ksp/metadata/commonMain/kotlin")
+                        kotlinExtension.sourceSets.named(KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME).configure {
+                            kotlin.srcDir(
+                                "${layout.buildDirectory.get()}/generated/ksp/metadata/${KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME}/kotlin"
+                            )
                         }
                     }
 
