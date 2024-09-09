@@ -24,7 +24,9 @@ private fun getQueryMapText(params: List<ParameterData>) =
     params
         .filter { it.hasAnnotation<QueryMap>() }
         .joinToString(separator = "") { parameterData ->
-            val queryMap = parameterData.findAnnotationOrNull<QueryMap>()!!
+            val queryMap =
+                parameterData.findAnnotationOrNull<QueryMap>()
+                    ?: throw IllegalStateException("QueryMap annotation not found")
             val encoded = queryMap.encoded
             val data = parameterData.name
             "%s?.forEach { entry -> entry.value?.let{ %s(entry.key, \"\${entry.value}\") } }\n".format(
@@ -44,7 +46,9 @@ private fun getQueryNameText(
 ) = params
     .filter { it.hasAnnotation<QueryName>() }
     .joinToString(separator = "") { parameterData ->
-        val queryName = parameterData.annotations.filterIsInstance<QueryName>().first()
+        val queryName =
+            parameterData.annotations.filterIsInstance<QueryName>().firstOrNull()
+                ?: throw IllegalStateException("QueryName annotation not found")
         val encoded = queryName.encoded
         val name = parameterData.name
 

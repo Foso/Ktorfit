@@ -4,6 +4,7 @@ import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Part
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.PartMap
+import de.jensklingenberg.ktorfit.model.formData
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 fun getPartsCode(
@@ -41,7 +42,7 @@ fun getPartsCode(
         }
 
     return (partText + partMapStrings).surroundIfNotEmpty(
-        "val __formData = formData {\n",
-        "}\nsetBody(MultiPartFormDataContent(__formData))\n",
+        "val ${formData.objectName} = formData {\n",
+        "}\nsetBody(MultiPartFormDataContent(${formData.objectName}))\n",
     )
 }

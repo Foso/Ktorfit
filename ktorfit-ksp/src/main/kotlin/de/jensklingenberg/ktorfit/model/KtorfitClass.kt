@@ -13,6 +13,7 @@ val providerClass = KtorfitClass("ClassProvider", "de.jensklingenberg.ktorfit.in
 val typeDataClass = KtorfitClass("TypeData", "de.jensklingenberg.ktorfit.converter", "_typeData")
 val extDataClass = KtorfitClass("HttpRequestBuilder.() -> Unit", "", "_ext")
 val formParameters = KtorfitClass("", "", "__formParameters")
+val formData = KtorfitClass("", "", "__formData")
 val converterHelper = KtorfitClass("KtorfitConverterHelper", "de.jensklingenberg.ktorfit.internal", "_helper")
 val internalApi = ClassName("de.jensklingenberg.ktorfit.internal", "InternalKtorfitApi")
 
