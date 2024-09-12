@@ -67,7 +67,7 @@ import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Headers
 import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.HeaderMap
-import de.jensklingenberg.ktorfit.http.NoDelegation
+import de.jensklingenberg.ktorfit.core.NoDelegation
 
 interface SuperTestService1{
     suspend fun test(): T

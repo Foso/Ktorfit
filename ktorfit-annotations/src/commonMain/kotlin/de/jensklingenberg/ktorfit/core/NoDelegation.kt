@@ -1,4 +1,4 @@
-package de.jensklingenberg.ktorfit.http
+package de.jensklingenberg.ktorfit.core
 
 /**
  * Indicates that the annotated interface should not be delegated in the generated implementation.
