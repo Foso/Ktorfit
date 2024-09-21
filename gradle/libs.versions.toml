@@ -6,14 +6,14 @@ coroutines = "1.8.1"
 detekt = "1.23.6"
 junit = "4.13.2"
 kctfork = "0.5.1"
-kotlin = "2.0.20"
+kotlin = "2.1.0-Beta1"
 kotlinPoet = "1.18.1"
-kspVersion = "2.0.20-1.0.25"
+kspVersion = "2.1.0-Beta1-1.0.25"
 
 groupId = "de.jensklingenberg.ktorfit"
 ktorfit = "2.1.0"
 ktorfitKsp = "2.1.0-1.0.25"
-ktorfitCompiler = "2.1.0-2.0.20"
+ktorfitCompiler = "2.1.0-2.1.0-Beta1"
 ktorfitCallConverter = "2.1.0"
 ktorfitFlowConverter = "2.1.0"
 ktorfitResponseConverter = "2.1.0"
@@ -27,7 +27,7 @@ gradleMavenPublishPlugin = "0.28.0"
 vannikMavenPublish = "0.28.0"
 
 [libraries]
-android-build-gradle = "com.android.tools.build:gradle:8.5.2"
+android-build-gradle = "com.android.tools.build:gradle:8.2.2"
 auto-service-ksp = { module = "dev.zacsweers.autoservice:auto-service-ksp", version.ref = "autoServiceKsp" }
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }

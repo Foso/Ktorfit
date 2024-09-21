@@ -7,8 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.0.10"
 }
 
-ktorfit{
-
+ktorfit {
 }
 
 android {
@@ -30,7 +29,7 @@ android {
 
     buildTypes {
         release {
-            //minifyEnabled=( false)
+            // minifyEnabled=( false)
             //  proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -64,7 +63,6 @@ dependencies {
     implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfit")
     implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
 
-
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
     implementation("androidx.activity:activity-compose:1.9.1")
     implementation("androidx.compose.ui:ui:$compose_ui_version")
@@ -77,4 +75,3 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_ui_version")
 }
-
