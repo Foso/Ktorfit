@@ -12,6 +12,10 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 * Supported KSP version:
 * Ktor version:
 
+## Changed 
+- Ktorfit is now using Ktor 3.0.0 as a default. The extra versions with "-ktor3" will not be updated anymore.
+- This also means that now wasmJs is supported by default.
+
 ## Fixed
 -  Inheritance problem [#663](https://github.com/Foso/Ktorfit/issues/663)
 See https://foso.github.io/Ktorfit/generation/#nodelegation
@@ -24,7 +28,7 @@ OptIn annotations on interfaces and functions will now be propagated to the gene
 
 * Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC, 2.0.21
 * Supported KSP version: 1.0.24; 1.0.25
-* Ktor version: 2.3.12; 3.0.0-beta-2
+* Ktor version: 2.3.12; 3.0.0
 
 ## Added
 - documentation page for [known issues](https://foso.github.io/Ktorfit/knownissues/)
@@ -41,9 +45,9 @@ or your own ConverterFactory to the converterFactories. [#618](https://github.co
 ## Ktor3
 The "normal" dependencies will stay on Ktor 2.x till 3.0 is stable. But here are versions that you can use when want to use Ktor3 and WasmJs
 
-de.jensklingenberg.ktorfit:ktorfit-lib-light-ktor-3.0.0-beta-2:2.1.0
+de.jensklingenberg.ktorfit:ktorfit-lib-light-ktor-3.0.0:2.1.0
 
-de.jensklingenberg.ktorfit:ktorfit-lib-ktor-3.0.0-beta-2:2.1.0
+de.jensklingenberg.ktorfit:ktorfit-lib-ktor-3.0.0:2.1.0
 
 de.jensklingenberg.ktorfit:ktorfit-converters-flow-ktor-3.0.0-beta-2:2.1.0
 
@@ -53,8 +57,8 @@ de.jensklingenberg.ktorfit:ktorfit-converters-response-ktor-3.0.0-beta-2:2.1.0
 
 # [2.0.1]()
 
-* Supported Kotlin version: (min) 2.0.0 (max) 2.0.20
-* Supported KSP version: (min) 1.0.24 (max) 1.0.24
+* Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20
+* Supported KSP version: 1.0.24
 * Ktor version: 2.3.12
 
 2.0.1 - 2024-08-08
