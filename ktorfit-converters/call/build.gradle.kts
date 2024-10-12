@@ -155,6 +155,10 @@ publishing {
 
             pom {
                 name.set(project.name)
+                issueManagement {
+                    system.set("GitHub")
+                    url.set("https://github.com/Foso/Ktorfit/issues")
+                }
                 description.set("Call Converter for Ktorfit")
                 url.set("https://github.com/Foso/Ktorfit")
 

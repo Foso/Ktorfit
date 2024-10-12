@@ -124,6 +124,10 @@ publishing {
 
             pom {
                 name.set(project.name)
+                issueManagement {
+                    system.set("GitHub")
+                    url.set("https://github.com/Foso/Ktorfit/issues")
+                }
                 description.set("Ktorfit Annotations")
                 url.set("https://github.com/Foso/Ktorfit")
 
