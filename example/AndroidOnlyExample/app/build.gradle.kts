@@ -2,9 +2,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp") version "2.0.20-1.0.24"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
     id("de.jensklingenberg.ktorfit") version "2.0.1"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.10"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21"
 }
 
 ktorfit{
