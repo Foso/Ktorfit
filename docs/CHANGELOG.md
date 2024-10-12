@@ -22,9 +22,9 @@ OptIn annotations on interfaces and functions will now be propagated to the gene
 
 # [2.1.0]()
 
-* Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC
+* Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC, 2.0.21
 * Supported KSP version: 1.0.24; 1.0.25
-* Ktor version: 2.3.12
+* Ktor version: 2.3.12; 3.0.0-beta-2
 
 ## Added
 - documentation page for [known issues](https://foso.github.io/Ktorfit/knownissues/)
