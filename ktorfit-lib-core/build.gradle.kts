@@ -191,7 +191,7 @@ publishing {
 
             pom {
                 name.set(project.name)
-                issueManagement^ {
+                issueManagement {
                     system.set("GitHub")
                     url.set("https://github.com/Foso/Ktorfit/issues")
                 }
