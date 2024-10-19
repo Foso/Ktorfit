@@ -83,7 +83,7 @@ kotlin {
 
             dependencies {
                 implementation(libs.ktor.client.core.jvm)
-                implementation("ch.qos.logback:logback-classic:1.2.3")
+                implementation("ch.qos.logback:logback-classic:1.5.11")
                 implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.serialization.gson)
                 implementation(libs.ktor.client.cio.jvm)
