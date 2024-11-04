@@ -24,6 +24,8 @@ See https://foso.github.io/Ktorfit/generation/#nodelegation
 
 OptIn annotations on interfaces and functions will now be propagated to the generated classes.
 
+- Fixed documentation for converters to match the current version.
+
 # [2.1.0]()
 
 * Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC, 2.0.21
