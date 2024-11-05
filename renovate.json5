@@ -1,13 +1,16 @@
 {
-  "extends": ["config:base"],
-  "schedule": [
-    "every weekend"
+  extends: [
+    'config:best-practices',
   ],
-  "packageRules": [
+  schedule: [
+    'every weekend',
+  ],
+  packageRules: [
     {
-      "groupName": "Ktor Client",
-      "matchPackagePatterns": ["^io\\.ktor:ktor-client(-[^:]+)?$"],
-    
-    }
-  ]
+      groupName: 'Ktor Client',
+      matchPackageNames: [
+        '/^io\\.ktor:ktor-client(-[^:]+)?$/',
+      ],
+    },
+  ],
 }

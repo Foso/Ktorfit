@@ -72,22 +72,22 @@ Next we create the SuspendResponseConverter:
 ```kotlin
 if (typeData.typeInfo.type == User::class) {
     return object : Converter.SuspendResponseConverter<HttpResponse, Any> {
-        override suspend fun convert(response: HttpResponse): Any {
+        override suspend fun convert(result: KtorfitResult): Any {
            ...
         }
     }
 }
 
 ```
-Inside of **convert** we get the HttpResponse and we want to return a User object.
+Inside of **convert** we get the KtorfitResult and we want to return a User object.
 
 Now we could do the following:
 
 When we know that this converter will always be used for a API that wraps the User inside an Envelope class, we can directly transform the body to an envelope object and just return the user object.
 
 ```kotlin
-override suspend fun convert(response: HttpResponse): Any {
-    val envelope = response.body<Envelope>()
+override suspend fun convert(result: KtorfitResult): Any {
+    val envelope = result.response.body<Envelope>()
     return envelope.user
 }
 ```
@@ -95,9 +95,9 @@ override suspend fun convert(response: HttpResponse): Any {
 or we can create a TypeData of Envelope and use **nextSuspendResponseConverter()** to look up the next converter that can convert the response
 
 ```kotlin
- override suspend fun convert(response: HttpResponse): Any {
+ override suspend fun convert(result: KtorfitResult): Any {
     val typeData = TypeData.createTypeData("com.example.model.Envelope", typeInfo<Envelope>())
-    val envelope = ktorfit.nextSuspendResponseConverter(null, typeData)?.convert(response) as? Envelope
+    val envelope = ktorfit.nextSuspendResponseConverter(null, typeData)?.convert(result) as? Envelope
     return envelope.user
 }
 ```
