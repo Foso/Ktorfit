@@ -12,7 +12,7 @@ kspVersion = "2.0.21-1.0.26"
 
 groupId = "de.jensklingenberg.ktorfit"
 ktorfit = "2.1.0"
-ktorfitKsp = "2.1.0-1.0.25"
+ktorfitKsp = "2.1.0-1.0.26"
 ktorfitCompiler = "2.1.0-2.0.21"
 ktorfitCallConverter = "2.1.0"
 ktorfitFlowConverter = "2.1.0"
