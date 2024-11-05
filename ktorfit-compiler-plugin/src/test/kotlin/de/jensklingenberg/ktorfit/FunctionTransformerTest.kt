@@ -126,7 +126,7 @@ fun <T> Ktorfit.create(ktorfitService: ClassProvider? = null): T {
             inheritClassPath = true
             sources = sourceFiles
             verbose = false
-            jvmTarget = JvmTarget.fromString(System.getProperty("rdt.jvmTarget", "1.8"))!!.description
+            jvmTarget = JvmTarget.fromString(System.getProperty("rdt.jvmTarget", "11"))!!.description
             supportsK2 = false
         }
 

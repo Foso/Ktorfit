@@ -8,7 +8,7 @@ junit = "4.13.2"
 kctfork = "0.5.1"
 kotlin = "2.0.21"
 kotlinPoet = "1.18.1"
-kspVersion = "2.0.21-1.0.25"
+kspVersion = "2.0.21-1.0.26"
 
 groupId = "de.jensklingenberg.ktorfit"
 ktorfit = "2.1.0"

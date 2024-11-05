@@ -48,7 +48,7 @@ kotlin {
                 implementation(project(":person"))
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
                 // implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:$ktorfitVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:11.1")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfitVersion")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfitVersion")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfitVersion")
@@ -88,7 +88,7 @@ android {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
         allWarningsAsErrors = false
     }
 }

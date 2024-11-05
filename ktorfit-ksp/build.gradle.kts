@@ -15,9 +15,11 @@ plugins {
 }
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(11))
     }
 }
+
+
 
 licensee {
     allow("Apache-2.0")
@@ -25,7 +27,7 @@ licensee {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 mavenPublishing {
