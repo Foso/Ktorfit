@@ -18,6 +18,22 @@ interface KtorSamplesApi {
 
     val test1: String
 
+    @POST("signup")
+    suspend fun sendReg(
+        @Body param: Parameters
+    ): String
+
+    // client-submit-form
+    @POST("signup")
+    @FormUrlEncoded
+    suspend fun signup(
+        @Field("username", true) headers: String?,
+        @Field email: String,
+        @Field("password") password: String,
+        @Field("confirmation") confirmation: String,
+        @Field("names") names: List<String>
+    ): String
+
     // client-submit-form
     @POST("signup")
     @FormUrlEncoded
@@ -26,7 +42,18 @@ interface KtorSamplesApi {
         @Field("username", encoded = true) email: List<String>
     ): String
 
+    @Multipart
+    @POST("upload")
+    suspend fun uploadFile(
+        @Part("description") description: String,
+        @Part("list") file: List<PartData>,
+        @PartMap() map: Map<String, PartData>
+    ): String
 
+    @POST("upload")
+    suspend fun upload(
+        @Body map: MultiPartFormDataContent
+    )
 }
 
 data class Query(
