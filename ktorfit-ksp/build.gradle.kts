@@ -6,7 +6,6 @@ val enableSigning = project.hasProperty("signingInMemoryKey")
 plugins {
     kotlin("jvm")
     id("com.vanniktech.maven.publish")
-    `maven-publish`
     signing
     alias(libs.plugins.detekt)
     kotlin("kapt")

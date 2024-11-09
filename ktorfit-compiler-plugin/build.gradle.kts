@@ -7,7 +7,6 @@ plugins {
     kotlin("jvm")
     kotlin("kapt")
     id("com.vanniktech.maven.publish")
-    `maven-publish`
     signing
     alias(libs.plugins.detekt)
     id("app.cash.licensee")
