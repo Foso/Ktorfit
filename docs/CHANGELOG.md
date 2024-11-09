@@ -21,10 +21,10 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 See https://foso.github.io/Ktorfit/generation/#nodelegation
 
 - Generated classes do not propagate opt-in ExperimentalUuidApi [666](https://github.com/Foso/Ktorfit/issues/666)
-
 OptIn annotations on interfaces and functions will now be propagated to the generated classes.
 
 - Fixed documentation for converters to match the current version.
+- Unresolved reference setBody in generated API implementations [#726](https://github.com/Foso/Ktorfit/issues/726)
 
 # [2.1.0]()
 

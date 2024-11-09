@@ -207,7 +207,7 @@ fun KSFunctionDeclaration.toFunctionData(
                 addImport("io.ktor.util.AttributeKey")
             }
 
-            if (it is Body) {
+            if (it is Body || it is ParameterAnnotation.PartMap || it is ParameterAnnotation.Part) {
                 addImport("io.ktor.client.request.setBody")
             }
 

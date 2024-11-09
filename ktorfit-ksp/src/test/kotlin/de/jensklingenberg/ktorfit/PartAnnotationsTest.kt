@@ -85,6 +85,41 @@ interface TestService {
     }
 
     @Test
+    fun whenPartAnnotationFoundAddBodyImport() {
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.Part
+
+interface TestService {
+   
+    @POST("posts")
+    suspend fun test(@Part("name") testPart: String)
+}
+    """,
+            )
+
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile =
+            File(
+                generatedSourcesDir,
+                "/kotlin/com/example/api/_TestServiceImpl.kt",
+            )
+        assertTrue(generatedFile.exists())
+
+        val actualSource = generatedFile.readText()
+        assertTrue(actualSource.contains("io.ktor.client.request.setBody"))
+    }
+
+    @Test
     fun whenPartAnnotationWithListFoundAddItToPartsArgument() {
         val source =
             SourceFile.kotlin(
@@ -163,6 +198,41 @@ interface TestService {
 
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expectedPartsArgumentText))
+    }
+
+    @Test
+    fun whenPartMapAnnotationFoundAddBodyImport() {
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.PartMap
+import de.jensklingenberg.ktorfit.http.POST
+
+interface TestService {
+    
+    @POST("posts")
+    suspend fun test(@PartMap() testPartMap: Map<String, String>)
+    
+}
+    """,
+            )
+
+        val compilation = getCompilation(listOf(source))
+        val result = compilation.compile()
+        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
+        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedFile =
+            File(
+                generatedSourcesDir,
+                "/kotlin/com/example/api/_TestServiceImpl.kt",
+            )
+        assertTrue(generatedFile.exists())
+
+        val actualSource = generatedFile.readText()
+        assertTrue(actualSource.contains("io.ktor.client.request.setBody"))
     }
 
     @Test
