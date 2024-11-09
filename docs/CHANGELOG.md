@@ -13,7 +13,7 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 * Ktor version:
 
 ## Changed 
-- Ktorfit is now using Ktor 3.0.0 as a default. The extra versions with "-ktor3" will not be updated anymore.
+- Ktorfit is now using Ktor 3.0.1 as a default. The extra versions with "-ktor3" will not be updated anymore.
 - This also means that now wasmJs is supported by default.
 
 ## Fixed
