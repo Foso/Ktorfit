@@ -1,4 +1,5 @@
 [versions]
+abg= "8.2.2"
 autoService = "1.1.1"
 autoServiceKsp = "1.10"
 binaryCompatibilityValidator = "0.16.3"
@@ -8,11 +9,11 @@ junit = "4.13.2"
 kctfork = "0.5.1"
 kotlin = "2.0.21"
 kotlinPoet = "1.18.1"
-kspVersion = "2.0.21-1.0.25"
+kspVersion = "2.0.21-1.0.27"
 
 groupId = "de.jensklingenberg.ktorfit"
 ktorfit = "2.1.0"
-ktorfitKsp = "2.1.0-1.0.25"
+ktorfitKsp = "2.1.0-1.0.27"
 ktorfitCompiler = "2.1.0-2.0.21"
 ktorfitCallConverter = "2.1.0"
 ktorfitFlowConverter = "2.1.0"
@@ -27,8 +28,7 @@ gradleMavenPublishPlugin = "0.28.0"
 vannikMavenPublish = "0.28.0"
 
 [libraries]
-android-build-gradle = "com.android.tools.build:gradle:8.2.0"
-auto-service-ksp = { module = "dev.zacsweers.autoservice:auto-service-ksp", version.ref = "autoServiceKsp" }
+android-build-gradle = { module = "com.android.tools.build:gradle", version.ref = "abg" }
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
 kotlin-gradle-plugin-api = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin-api", version.ref = "kotlin" }
@@ -41,7 +41,6 @@ kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", v
 kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
 kotlinPoet-ksp = { module = "com.squareup:kotlinpoet-ksp", version.ref = "kotlinPoet" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "coroutines" }
 kotlinx-serialization-runtime-js = "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.20.0"
 kspApi = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "kspVersion" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
