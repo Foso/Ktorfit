@@ -102,7 +102,6 @@ interface TestService {
     """,
             )
 
-
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
         assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
