@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
@@ -18,16 +18,7 @@ licensee {
 val enableSigning = project.hasProperty("signingInMemoryKey")
 
 mavenPublishing {
-    val artifactId =
-        "ktorfit-lib" +
-            if (libs.versions.ktorVersion
-                    .get()
-                    .startsWith("3.")
-            ) {
-                "-ktor-" + libs.versions.ktorVersion.get()
-            } else {
-                ""
-            }
+    val artifactId = "ktorfit-lib"
     coordinates(
         libs.versions.groupId.get(),
         artifactId,
@@ -40,19 +31,14 @@ mavenPublishing {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
 kotlin {
     explicitApi()
-    if (libs.versions.ktorVersion
-            .get()
-            .startsWith("3.")
-    ) {
-        @OptIn(ExperimentalWasmDsl::class)
-        wasmJs()
-    }
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs()
     jvm {
     }
     js(IR) {
@@ -129,7 +115,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation(libs.ktor.client.cio.jvm)
+                implementation(libs.ktor.client.okhttp)
             }
         }
         val jvmMain by getting {
@@ -147,7 +133,11 @@ kotlin {
             }
         }
 
-        val iosMain by getting
+        val iosMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.ios)
+            }
+        }
     }
 }
 val javadocJar by tasks.registering(Jar::class) {

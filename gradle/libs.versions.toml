@@ -60,7 +60,7 @@ ktor-client-core-mingwx64 = { module = "io.ktor:ktor-client-core-mingwx64", vers
 ktor-client-curl = { module = "io.ktor:ktor-client-curl", version.ref = "ktorVersion" }
 ktor-client-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktorVersion" }
 ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktorVersion" }
-
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorVersion" }
 ktor-client-json-js = { module = "io.ktor:ktor-client-json-js", version.ref = "ktorVersion" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorVersion" }
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorVersion" }
