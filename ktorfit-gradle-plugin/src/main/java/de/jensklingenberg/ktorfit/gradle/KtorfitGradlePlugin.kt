@@ -16,8 +16,8 @@ class KtorfitGradlePlugin : Plugin<Project> {
         const val GROUP_NAME = "de.jensklingenberg.ktorfit"
         const val ARTIFACT_NAME = "compiler-plugin"
         const val COMPILER_PLUGIN_ID = "ktorfitPlugin"
-        const val KTORFIT_VERSION = "2.1.0" // remember to bump this version before any release!
-        const val KTORFIT_PLUGIN_VERSION = "2.1.0"
+        const val KTORFIT_KSP_PLUGIN_VERSION = "2.1.0" // remember to bump this version before any release!
+        const val KTORFIT_COMPILER_PLUGIN_VERSION = "2.1.0"
         const val SNAPSHOT = ""
         const val MIN_KSP_VERSION = "1.0.24"
         const val MIN_KOTLIN_VERSION = "2.0.0"
@@ -79,7 +79,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
                         }
                     }
                 }
-                val dependency = "$ktorfitKsp:$KTORFIT_VERSION-$kspVersion$SNAPSHOT"
+                val dependency = "$ktorfitKsp:$KTORFIT_KSP_PLUGIN_VERSION-$kspVersion$SNAPSHOT"
 
                 when (val kotlinExtension = kotlinExtension) {
                     is KotlinSingleTargetExtension<*> -> {
