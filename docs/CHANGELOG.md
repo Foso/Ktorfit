@@ -7,10 +7,10 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
-# [Unreleased]()
-* Supported Kotlin version: 
-* Supported KSP version:
-* Ktor version:
+# [2.2.0]()
+* Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC, 2.0.21
+* Supported KSP version: 1.0.27
+* Ktor version: 3.0.1
 
 ## Changed 
 - Ktorfit is now using Ktor 3.0.1 as a default. The extra versions with "-ktor3" will not be updated anymore.
@@ -20,8 +20,8 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 -  Inheritance problem [#663](https://github.com/Foso/Ktorfit/issues/663)
 See https://foso.github.io/Ktorfit/generation/#nodelegation
 
-- Generated classes do not propagate opt-in ExperimentalUuidApi [666](https://github.com/Foso/Ktorfit/issues/666)
-OptIn annotations on interfaces and functions will now be propagated to the generated classes.
+- Generated classes do not propagate opt-in ExperimentalUuidApi [666](https://github.com/Foso/Ktorfit/issues/666) 
+ OptIn annotations on interfaces and functions will now be propagated to the generated classes.
 
 - Fixed documentation for converters to match the current version.
 - Unresolved reference setBody in generated API implementations [#726](https://github.com/Foso/Ktorfit/issues/726)

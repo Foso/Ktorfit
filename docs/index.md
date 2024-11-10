@@ -17,6 +17,7 @@ inspired by [Retrofit](https://square.github.io/retrofit/)
 
 | Ktorfit-version                                                               | 
 |-------------------------------------------------------------------------------|
+| **_2.2.0_** https://github.com/Foso/Ktorfit/blob/master/docs/CHANGELOG.md#220 |
 | **_2.1.0_** https://github.com/Foso/Ktorfit/blob/master/docs/CHANGELOG.md#210 |
 | **_2.0.1_** https://github.com/Foso/Ktorfit/blob/master/docs/CHANGELOG.md#201 |  
 | **_2.0.0_** https://github.com/Foso/Ktorfit/blob/master/docs/CHANGELOG.md#200 | 
