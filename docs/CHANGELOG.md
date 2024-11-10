@@ -25,6 +25,7 @@ OptIn annotations on interfaces and functions will now be propagated to the gene
 
 - Fixed documentation for converters to match the current version.
 - Unresolved reference setBody in generated API implementations [#726](https://github.com/Foso/Ktorfit/issues/726)
+- [Android] App crashes if not using Ktor platform client [#720](https://github.com/Foso/Ktorfit/issues/720)
 
 # [2.1.0]()
 
