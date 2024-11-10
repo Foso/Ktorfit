@@ -23,15 +23,7 @@ val enableSigning = project.hasProperty("signingInMemoryKey")
 
 mavenPublishing {
     val artifactId =
-        "ktorfit-converters-flow" +
-            if (libs.versions.ktorVersion
-                    .get()
-                    .startsWith("3.")
-            ) {
-                "-ktor-" + libs.versions.ktorVersion.get()
-            } else {
-                ""
-            }
+        "ktorfit-converters-flow"
     coordinates(
         libs.versions.groupId.get(),
         artifactId,
@@ -50,13 +42,8 @@ tasks.withType<KotlinCompile> {
 
 kotlin {
     explicitApi()
-    if (libs.versions.ktorVersion
-            .get()
-            .startsWith("3.")
-    ) {
-        @OptIn(ExperimentalWasmDsl::class)
-        wasmJs()
-    }
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs()
     jvm {
     }
     js(IR) {
