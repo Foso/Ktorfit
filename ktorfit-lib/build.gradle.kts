@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -116,7 +115,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation(libs.ktor.client.cio.jvm)
+                implementation(libs.ktor.client.okhttp)
             }
         }
         val jvmMain by getting {
@@ -134,7 +133,11 @@ kotlin {
             }
         }
 
-        val iosMain by getting
+        val iosMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.ios)
+            }
+        }
     }
 }
 val javadocJar by tasks.registering(Jar::class) {
