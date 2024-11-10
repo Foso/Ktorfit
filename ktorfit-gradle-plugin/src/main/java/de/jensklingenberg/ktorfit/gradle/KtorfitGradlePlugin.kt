@@ -17,6 +17,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
         const val ARTIFACT_NAME = "compiler-plugin"
         const val COMPILER_PLUGIN_ID = "ktorfitPlugin"
         const val KTORFIT_VERSION = "2.1.0" // remember to bump this version before any release!
+        const val KTORFIT_PLUGIN_VERSION = "2.1.0"
         const val SNAPSHOT = ""
         const val MIN_KSP_VERSION = "1.0.24"
         const val MIN_KOTLIN_VERSION = "2.0.0"
