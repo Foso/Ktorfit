@@ -5,7 +5,7 @@ plugins {
 }
 
 version = "1.0"
-val ktorVersion = "2.3.11"
+val ktorVersion = "2.3.13-eap-1138"
 
 kotlin {
     jvmToolchain(8)
