@@ -1,4 +1,5 @@
 {
+  "recreateWhen": "never",
   extends: [
     'config:best-practices',
   ],
