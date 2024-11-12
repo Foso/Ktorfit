@@ -53,7 +53,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 }
 
 val ktorfit = "2.1.0"
-val ktor = "3.0.1"
+val ktor = "3.2.0"
 val compose_ui_version = "1.7.4"
 dependencies {
     implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfit")
