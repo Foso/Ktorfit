@@ -99,9 +99,7 @@ internal class CreateFuncTransformer(
                         type = implClassSymbol.defaultType,
                         symbol = newConstructor,
                         0,
-                        0,
-                        0,
-                        null,
+                        0
                     )
 
                 // Set _ExampleApiProvider() as argument for create<ExampleApi>()
