@@ -29,7 +29,7 @@ tasks.withType<KotlinCompile> {
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs()
     jvm {
     }
