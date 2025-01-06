@@ -48,6 +48,11 @@ kotlin {
     androidTarget {
         publishLibraryVariants("release", "debug")
     }
+    androidNativeArm32()
+    androidNativeArm64()
+    androidNativeX86()
+    androidNativeX64()
+
     iosArm64()
     iosX64()
     iosSimulatorArm64()

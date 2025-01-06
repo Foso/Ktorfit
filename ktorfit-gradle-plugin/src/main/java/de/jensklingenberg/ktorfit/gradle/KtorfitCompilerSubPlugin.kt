@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.gradle
 
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.ARTIFACT_NAME
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.COMPILER_PLUGIN_ID
+import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.GRADLE_TASKNAME
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.GROUP_NAME
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.KTORFIT_COMPILER_PLUGIN_VERSION
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.MIN_KOTLIN_VERSION
@@ -17,11 +18,8 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
 internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
     private lateinit var myproject: Project
-    private var gradleExtension: KtorfitGradleConfiguration = KtorfitGradleConfiguration()
 
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
-        gradleExtension = kotlinCompilation.target.project.getKtorfitConfig()
-
         return kotlinCompilation.target.project.provider {
             listOf(
                 SubpluginOption("enabled", "true"),
@@ -42,11 +40,13 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
     override fun getPluginArtifact(): SubpluginArtifact {
-        checkKotlinVersion(myproject.kotlinExtension.compilerVersion.get())
+        val compilerVersion = myproject.ktorfitExtension(GRADLE_TASKNAME).kotlinVersion.getOrElse(myproject.kotlinExtension.compilerVersion.get())
+        checkKotlinVersion(compilerVersion)
+
         return SubpluginArtifact(
             groupId = GROUP_NAME,
             artifactId = ARTIFACT_NAME,
-            version = "${KTORFIT_COMPILER_PLUGIN_VERSION}-${myproject.kotlinExtension.compilerVersion.get()}$SNAPSHOT",
+            version = "${KTORFIT_COMPILER_PLUGIN_VERSION}-$compilerVersion$SNAPSHOT",
         )
     }
 
