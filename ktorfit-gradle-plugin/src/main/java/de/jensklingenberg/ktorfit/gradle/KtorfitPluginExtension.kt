@@ -5,11 +5,12 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+import javax.inject.Inject
 
 /**
  * Configure the ktorfit gradle plugin to match your needs.
  */
-open class KtorfitPluginExtension(objectFactory: ObjectFactory) {
+open class KtorfitPluginExtension @Inject constructor(objectFactory: ObjectFactory) {
     /**
      * Set whether qualified type names should be generated or not.
      *
