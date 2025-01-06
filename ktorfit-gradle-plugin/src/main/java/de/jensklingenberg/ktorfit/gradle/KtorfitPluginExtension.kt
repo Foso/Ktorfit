@@ -15,7 +15,7 @@ open class KtorfitPluginExtension(objectFactory: ObjectFactory) {
      *
      * Default: false
      */
-    val generateQualifiedTypeName: Property<Boolean> = objectFactory.property(Boolean::class.java)
+    open val generateQualifiedTypeName: Property<Boolean> = objectFactory.property(Boolean::class.java)
 
     /**
      * Specify the Ktorfit error checking mode.
@@ -23,14 +23,14 @@ open class KtorfitPluginExtension(objectFactory: ObjectFactory) {
      * Default: [ErrorCheckingMode.ERROR]
      * @see ErrorCheckingMode
      */
-    val errorCheckingMode: Property<ErrorCheckingMode> = objectFactory.property(ErrorCheckingMode::class.java)
+    open val errorCheckingMode: Property<ErrorCheckingMode> = objectFactory.property(ErrorCheckingMode::class.java)
 
     /**
      * Specify the Kotlin version of the compiler plugin.
      *
      * Default: your current Kotlin version
      */
-    val kotlinVersion: Property<String> = objectFactory.property(String::class.java)
+    open val kotlinVersion: Property<String> = objectFactory.property(String::class.java)
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
     internal fun setupConvention(project: Project) {
