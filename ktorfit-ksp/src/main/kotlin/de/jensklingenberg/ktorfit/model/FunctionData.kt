@@ -32,6 +32,7 @@ import de.jensklingenberg.ktorfit.utils.getStreamingAnnotation
 import de.jensklingenberg.ktorfit.utils.isSuspend
 import de.jensklingenberg.ktorfit.utils.parseHTTPMethodAnno
 import de.jensklingenberg.ktorfit.utils.resolveTypeName
+import de.jensklingenberg.ktorfit.utils.toClassName
 
 data class FunctionData(
     val name: String,
@@ -41,7 +42,8 @@ data class FunctionData(
     val annotations: List<FunctionAnnotation> = emptyList(),
     val httpMethodAnnotation: HttpMethodAnnotation,
     val modifiers: List<KModifier> = emptyList(),
-    val optInAnnotations: List<AnnotationSpec>
+    val rawAnnotations: List<AnnotationSpec>,
+    val rawOptInAnnotations: List<AnnotationSpec>,
 )
 
 /**
@@ -286,11 +288,13 @@ fun KSFunctionDeclaration.toFunctionData(
             }
         }
 
-    val optInAnnotations =
-        funcDeclaration.annotations
-            .filter { it.shortName.getShortName() == "OptIn" }
+    val annotations = funcDeclaration.annotations
             .map { it.toAnnotationSpec() }
             .toList()
+
+    val (rawOptInAnnotation, rawAnnotations) = annotations.partition { it.toClassName().simpleName == "OptIn" }
+
+    rawAnnotations.forEach { addImport(it.toClassName().canonicalName) }
 
     return FunctionData(
         functionName,
@@ -300,6 +304,7 @@ fun KSFunctionDeclaration.toFunctionData(
         functionAnnotationList,
         firstHttpMethodAnnotation,
         modifiers,
-        optInAnnotations
+        rawAnnotations,
+        rawOptInAnnotation,
     )
 }

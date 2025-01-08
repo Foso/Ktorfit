@@ -224,3 +224,35 @@ val result = secondApi.getCommentsById("3") {
 ```
 
 Then you can use the extension function to set additional configuration. The RequestBuilder will be applied last after everything that is set by Ktorfit
+
+## Annotations
+Function annotations are available in the request object with their respective values via the `annotation` extension (`HttpRequestBuilder.annotations`)
+
+Do note that `OptIn` annotation is not included in the returned list
+
+```kotlin
+@AuthRequired(optional = true)
+@POST("comments")
+suspend fun postComment(
+    @Query("issue") issue: String,
+    @Query("message") message: String,
+): List<Comment>
+```
+
+```kotlin
+val MyAuthPlugin = createClientPlugin("MyAuthPlugin", ::MyAuthPluginConfig) {
+    onRequest { request, _ ->
+        val auth = request.annotations.firstInstanceOrNull<AuthRequired>() ?: return@onRequest
+
+        val token  = this@createClientPlugin.pluginConfig.token
+        if (!auth.optional && token == null) throw Exception("Need to be logged in")
+
+        token?.let { request.headers.append("Authorization", "Bearer $it") }
+
+    }
+}
+
+class MyAuthPluginConfig {
+    var token: String? = null
+}
+```

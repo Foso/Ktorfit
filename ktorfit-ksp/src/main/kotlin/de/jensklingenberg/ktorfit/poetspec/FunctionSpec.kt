@@ -22,12 +22,13 @@ fun FunctionData.toFunSpec(
     return FunSpec
         .builder(name)
         .addModifiers(modifiers)
-        .addAnnotations(optInAnnotations)
+        .addAnnotations(rawOptInAnnotations)
         .addParameters(
             parameterDataList.map {
                 it.parameterSpec()
             },
-        ).addBody(this, resolver, setQualifiedTypeName, returnTypeName)
+        )
+        .addBody(this, resolver, setQualifiedTypeName, returnTypeName)
         .returns(returnTypeName)
         .build()
 }
