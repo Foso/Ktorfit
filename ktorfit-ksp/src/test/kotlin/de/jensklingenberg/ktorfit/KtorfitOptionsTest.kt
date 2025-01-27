@@ -12,7 +12,7 @@ class KtorfitOptionsTest {
     fun `when QualifiedType options not set then don't generate qualifiedTypeName`() {
         val expected =
             "qualifiedTypename =\n" +
-                    "        \"kotlin.collections.List<kotlin.Triple<kotlin.String,kotlin.Int?,kotlin.String>>\")"
+                "        \"kotlin.collections.List<kotlin.Triple<kotlin.String,kotlin.Int?,kotlin.String>>\")"
         val source =
             SourceFile.kotlin(
                 "Source.kt",

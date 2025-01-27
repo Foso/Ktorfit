@@ -85,7 +85,6 @@ suspend fun test(@Field("id") id: String): String?
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
 
-
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(

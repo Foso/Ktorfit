@@ -69,8 +69,8 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                    "        append(\"testHeader\", testParameter)\n" +
-                    "        }"
+                "        append(\"testHeader\", testParameter)\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -105,8 +105,8 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                    "        testParameter?.let{ append(\"testHeader\", testParameter) }\n" +
-                    "        }"
+                "        testParameter?.let{ append(\"testHeader\", testParameter) }\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -211,12 +211,11 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                    "        testParameter.forEach{ append(\"testHeader\", \"\$it\")}\n" +
-                    "        }"
+                "        testParameter.forEach{ append(\"testHeader\", \"\$it\")}\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
@@ -248,12 +247,11 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                    "        testParameter?.forEach{ append(\"testHeader\", \"\$it\")}\n" +
-                    "        }"
+                "        testParameter?.forEach{ append(\"testHeader\", \"\$it\")}\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
@@ -285,12 +283,11 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                    "        testParameter?.filterNotNull()?.forEach{ append(\"testHeader\", \"\$it\")}\n" +
-                    "        }"
+                "        testParameter?.filterNotNull()?.forEach{ append(\"testHeader\", \"\$it\")}\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
@@ -328,7 +325,6 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =

@@ -36,7 +36,6 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
 
-
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(

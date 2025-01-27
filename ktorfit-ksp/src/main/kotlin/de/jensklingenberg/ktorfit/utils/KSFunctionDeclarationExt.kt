@@ -67,11 +67,9 @@ private fun KSFunctionDeclaration.getAnnotationByName(name: String): KSAnnotatio
         it.shortName.asString() == name
     }
 
-fun <T> KSAnnotation.getArgumentValueByName(name: String): T? =
-    this.arguments.firstOrNull { it.name?.asString() == name }?.value as? T
+fun <T> KSAnnotation.getArgumentValueByName(name: String): T? = this.arguments.firstOrNull { it.name?.asString() == name }?.value as? T
 
 val KSFunctionDeclaration.isSuspend: Boolean
     get() = (this).modifiers.contains(Modifier.SUSPEND)
 
-fun KSDeclaration.getKsFile(): KSFile =
-    this.containingFile ?: throw Error("Containing File for ${this.simpleName} was null")
+fun KSDeclaration.getKsFile(): KSFile = this.containingFile ?: throw Error("Containing File for ${this.simpleName} was null")

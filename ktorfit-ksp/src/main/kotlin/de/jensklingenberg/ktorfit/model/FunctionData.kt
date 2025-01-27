@@ -143,9 +143,9 @@ fun KSFunctionDeclaration.toFunctionData(
     if (httpMethodAnnoList.size > 1) {
         logger.error(
             KtorfitError.ONLY_ONE_HTTP_METHOD_IS_ALLOWED + "Found: " +
-                    httpMethodAnnoList.joinToString {
-                        it.httpMethod.keyword
-                    } + " at " + functionName,
+                httpMethodAnnoList.joinToString {
+                    it.httpMethod.keyword
+                } + " at " + functionName,
             funcDeclaration,
         )
     }
@@ -164,7 +164,7 @@ fun KSFunctionDeclaration.toFunctionData(
     if (functionParameters.filter { it.hasAnnotation<RequestBuilder>() }.size > 1) {
         logger.error(
             KtorfitError.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED + " Found: " + httpMethodAnnoList.joinToString { it.toString() } + " at " +
-                    functionName,
+                functionName,
             funcDeclaration,
         )
     }

@@ -29,12 +29,12 @@ suspend fun test(@Header("testHeader") testParameterNonNullable: String?, @Heade
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                    "        testParameterNonNullable?.let{ append(\"testHeader\", testParameterNonNullable) }\n" +
-                    "        testParameterNullable?.let{ append(\"testHeader\", testParameterNullable) }\n" +
-                    "        testParameter2.forEach{ append(it.key , it.value)}\n" +
-                    "        append(\"x\", \"y\")\n" +
-                    "        append(\"a\", \"b\")\n" +
-                    "        }"
+                "        testParameterNonNullable?.let{ append(\"testHeader\", testParameterNonNullable) }\n" +
+                "        testParameterNullable?.let{ append(\"testHeader\", testParameterNullable) }\n" +
+                "        testParameter2.forEach{ append(it.key , it.value)}\n" +
+                "        append(\"x\", \"y\")\n" +
+                "        append(\"a\", \"b\")\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

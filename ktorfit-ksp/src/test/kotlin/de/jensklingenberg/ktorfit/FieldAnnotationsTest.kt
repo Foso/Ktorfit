@@ -34,7 +34,6 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
 
-
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -246,8 +245,8 @@ interface TestService {
 
         val expectedFieldsBuilderText =
             "val __formParameters = Parameters.build {\n" +
-                    "        testFieldMap?.forEach { entry -> entry.value?.let{ append(entry.key, \"$" + "{entry.value}\") } }\n" +
-                    "        }"
+                "        testFieldMap?.forEach { entry -> entry.value?.let{ append(entry.key, \"$" + "{entry.value}\") } }\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

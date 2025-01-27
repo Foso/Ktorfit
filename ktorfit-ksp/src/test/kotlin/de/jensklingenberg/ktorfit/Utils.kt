@@ -21,8 +21,9 @@ fun getCompilation(
 
         configureKsp(true) {
             kspProcessorOptions = kspArgs
-            symbolProcessorProviders += buildList {
-                addAll(mutableListOf(KtorfitProcessorProvider()))
-            }
+            symbolProcessorProviders +=
+                buildList {
+                    addAll(mutableListOf(KtorfitProcessorProvider()))
+                }
         }
     }

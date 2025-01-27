@@ -28,9 +28,9 @@ suspend fun test(): String
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                    "        append(\"x\", \"y\")\n" +
-                    "        append(\"a\", \"b\")\n" +
-                    "        } "
+                "        append(\"x\", \"y\")\n" +
+                "        append(\"a\", \"b\")\n" +
+                "        } "
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()

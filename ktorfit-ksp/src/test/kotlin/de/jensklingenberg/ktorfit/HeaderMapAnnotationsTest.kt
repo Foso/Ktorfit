@@ -30,8 +30,8 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                    "        testParameter?.forEach{ append(it.key , it.value)}\n" +
-                    "        }"
+                "        testParameter?.forEach{ append(it.key , it.value)}\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
@@ -66,8 +66,8 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                    "        testParameter.forEach{it.value?.let{ value ->  append(it.key , value) }}\n" +
-                    "        }"
+                "        testParameter.forEach{it.value?.let{ value ->  append(it.key , value) }}\n" +
+                "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
