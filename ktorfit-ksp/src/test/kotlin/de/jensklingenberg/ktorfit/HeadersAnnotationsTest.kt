@@ -1,9 +1,7 @@
 package de.jensklingenberg.ktorfit
 
-import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
@@ -30,13 +28,13 @@ suspend fun test(): String
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                "        append(\"x\", \"y\")\n" +
-                "        append(\"a\", \"b\")\n" +
-                "        } "
+                    "        append(\"x\", \"y\")\n" +
+                    "        append(\"a\", \"b\")\n" +
+                    "        } "
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(

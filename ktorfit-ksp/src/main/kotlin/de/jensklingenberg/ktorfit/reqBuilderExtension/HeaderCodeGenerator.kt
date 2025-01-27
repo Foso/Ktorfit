@@ -35,25 +35,25 @@ fun getHeadersCode(
 
                 val isStringType =
                     (
-                        parameterData.type.parameterType
-                            .toTypeName()
-                            .toString() == "kotlin.String"
-                    ) ||
-                        (
                             parameterData.type.parameterType
                                 .toTypeName()
-                                .toString() == "kotlin.String?"
-                        )
+                                .toString() == "kotlin.String"
+                            ) ||
+                            (
+                                    parameterData.type.parameterType
+                                        .toTypeName()
+                                        .toString() == "kotlin.String?"
+                                    )
 
                 when {
                     isList || isArray -> {
                         val innerType =
                             (
-                                parameterData
-                                    .type
-                                    .parameterType
-                                    .toTypeName() as? ParameterizedTypeName
-                            )?.typeArguments
+                                    parameterData
+                                        .type
+                                        .parameterType
+                                        .toTypeName() as? ParameterizedTypeName
+                                    )?.typeArguments
                                 ?.joinToString { it.toString() }
                                 .orEmpty()
                         val hasNullableInnerType =
@@ -61,11 +61,11 @@ fun getHeadersCode(
                         val isStringListOrArray =
                             when (
                                 (
-                                    parameterData
-                                        .type
-                                        .parameterType
-                                        .toTypeName() as? ParameterizedTypeName
-                                )?.typeArguments
+                                        parameterData
+                                            .type
+                                            .parameterType
+                                            .toTypeName() as? ParameterizedTypeName
+                                        )?.typeArguments
                                     ?.joinToString { it.toString() }
                                     .orEmpty()
                             ) {
@@ -85,11 +85,11 @@ fun getHeadersCode(
                         if (hasNullableInnerType) {
                             headerListStringBuilder.append(
                                 ".filterNotNull()" +
-                                    if (parameterData.type.parameterType.isMarkedNullable) {
-                                        "?"
-                                    } else {
-                                        ""
-                                    },
+                                        if (parameterData.type.parameterType.isMarkedNullable) {
+                                            "?"
+                                        } else {
+                                            ""
+                                        },
                             )
                         }
                         headerListStringBuilder.append(".forEach{ append(\"$headerName\", ")

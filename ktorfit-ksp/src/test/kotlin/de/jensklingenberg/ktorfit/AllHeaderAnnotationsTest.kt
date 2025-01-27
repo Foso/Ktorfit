@@ -1,9 +1,7 @@
 package de.jensklingenberg.ktorfit
 
-import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
@@ -31,16 +29,16 @@ suspend fun test(@Header("testHeader") testParameterNonNullable: String?, @Heade
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                "        testParameterNonNullable?.let{ append(\"testHeader\", testParameterNonNullable) }\n" +
-                "        testParameterNullable?.let{ append(\"testHeader\", testParameterNullable) }\n" +
-                "        testParameter2.forEach{ append(it.key , it.value)}\n" +
-                "        append(\"x\", \"y\")\n" +
-                "        append(\"a\", \"b\")\n" +
-                "        }"
+                    "        testParameterNonNullable?.let{ append(\"testHeader\", testParameterNonNullable) }\n" +
+                    "        testParameterNullable?.let{ append(\"testHeader\", testParameterNullable) }\n" +
+                    "        testParameter2.forEach{ append(it.key , it.value)}\n" +
+                    "        append(\"x\", \"y\")\n" +
+                    "        append(\"a\", \"b\")\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(

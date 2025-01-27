@@ -68,13 +68,13 @@ class KtorfitProcessor(
 
         val ksAnnotatedList =
             getAnnotated +
-                postAnnotated +
-                putAnnotated +
-                deleteAnnotated +
-                headAnnotated +
-                optionsAnnotated +
-                patchAnnotated +
-                httpAnnotated
+                    postAnnotated +
+                    putAnnotated +
+                    deleteAnnotated +
+                    headAnnotated +
+                    optionsAnnotated +
+                    patchAnnotated +
+                    httpAnnotated
         return ksAnnotatedList.filterIsInstance<KSFunctionDeclaration>()
     }
 }

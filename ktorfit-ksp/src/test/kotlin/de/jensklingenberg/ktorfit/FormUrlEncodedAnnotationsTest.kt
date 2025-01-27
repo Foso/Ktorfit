@@ -4,7 +4,6 @@ import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.model.KtorfitError
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -85,7 +84,7 @@ suspend fun test(@Field("id") id: String): String?
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        Assert.assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =

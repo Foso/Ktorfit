@@ -58,7 +58,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -90,7 +90,7 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(

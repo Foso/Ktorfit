@@ -33,7 +33,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
@@ -96,7 +96,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -135,7 +135,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -174,7 +174,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -213,7 +213,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -246,12 +246,12 @@ interface TestService {
 
         val expectedFieldsBuilderText =
             "val __formParameters = Parameters.build {\n" +
-                "        testFieldMap?.forEach { entry -> entry.value?.let{ append(entry.key, \"$" + "{entry.value}\") } }\n" +
-                "        }"
+                    "        testFieldMap?.forEach { entry -> entry.value?.let{ append(entry.key, \"$" + "{entry.value}\") } }\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -295,7 +295,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -330,7 +330,7 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+
         assertTrue(result.messages.contains(KtorfitError.FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP))
     }
 

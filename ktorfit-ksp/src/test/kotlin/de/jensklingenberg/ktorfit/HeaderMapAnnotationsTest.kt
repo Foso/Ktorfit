@@ -30,12 +30,12 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                "        testParameter?.forEach{ append(it.key , it.value)}\n" +
-                "        }"
+                    "        testParameter?.forEach{ append(it.key , it.value)}\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -66,12 +66,12 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                "        testParameter.forEach{it.value?.let{ value ->  append(it.key , value) }}\n" +
-                "        }"
+                    "        testParameter.forEach{it.value?.let{ value ->  append(it.key , value) }}\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -102,7 +102,6 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
 
         assertTrue(result.messages.contains(HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP))
     }

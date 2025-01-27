@@ -128,10 +128,10 @@ fun KSValueParameter.getRequestTypeAnnotation(): RequestType? {
     val filteredAnnotations =
         this.annotations.filter {
             it.shortName.getShortName() == requestTypeClazz.simpleName &&
-                it.annotationType
-                    .resolve()
-                    .declaration.qualifiedName
-                    ?.asString() == requestTypeClazz.qualifiedName
+                    it.annotationType
+                        .resolve()
+                        .declaration.qualifiedName
+                        ?.asString() == requestTypeClazz.qualifiedName
         }
     return filteredAnnotations
         .mapNotNull {

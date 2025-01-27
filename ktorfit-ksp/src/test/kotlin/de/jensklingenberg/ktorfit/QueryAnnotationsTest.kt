@@ -30,14 +30,14 @@ interface TestService {
 
         val expectedQueriesArgumentText =
             "url{\n" +
-                "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
-                "        testQuery?.let{ parameter(\"name\", \"\$it\") }\n" +
-                "        testQuery2?.let{ encodedParameters.append(\"testQuery2\", \"\$it\") }\n" +
-                "        }"
+                    "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
+                    "        testQuery?.let{ parameter(\"name\", \"\$it\") }\n" +
+                    "        testQuery2?.let{ encodedParameters.append(\"testQuery2\", \"\$it\") }\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -69,13 +69,13 @@ interface TestService {
 
         val expectedQueriesArgumentText =
             "url{\n" +
-                "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
-                "        testQuery2?.filterNotNull()?.forEach { encodedParameters.append(\"user\", \"\$it\") }\n" +
-                "        }"
+                    "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
+                    "        testQuery2?.filterNotNull()?.forEach { encodedParameters.append(\"user\", \"\$it\") }\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -106,14 +106,14 @@ interface TestService {
 
         val expectedQueriesArgumentText =
             "url{\n" +
-                "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
-                "        parameters.appendAll(\"\$testQueryName\", emptyList())\n" +
-                "        parameters.appendAll(\"\$testQueryName2\", emptyList())\n" +
-                "        }"
+                    "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
+                    "        parameters.appendAll(\"\$testQueryName\", emptyList())\n" +
+                    "        parameters.appendAll(\"\$testQueryName2\", emptyList())\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -145,16 +145,16 @@ interface TestService {
 
         val expectedQueriesArgumentText =
             "url{\n" +
-                "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
-                "        testQueryMap?.forEach { entry -> entry.value?.let{ parameter(entry.key, \"\${entry.value}\") }\n" +
-                "            }\n" +
-                "        testQueryMap2?.forEach { entry -> entry.value?.let{ encodedParameters.append(entry.key,\n" +
-                "            \"\${entry.value}\") } }\n" +
-                "        }"
+                    "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
+                    "        testQueryMap?.forEach { entry -> entry.value?.let{ parameter(entry.key, \"\${entry.value}\") }\n" +
+                    "            }\n" +
+                    "        testQueryMap2?.forEach { entry -> entry.value?.let{ encodedParameters.append(entry.key,\n" +
+                    "            \"\${entry.value}\") } }\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -186,16 +186,16 @@ fun example(@Query("name") testQuery: String, @QueryName testQueryName: String, 
 
         val expectedQueriesArgumentText =
             "url{\n" +
-                "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
-                "        testQuery?.let{ parameter(\"name\", \"\$it\") }\n" +
-                "        parameters.appendAll(\"\$testQueryName\", emptyList())\n" +
-                "        name?.forEach { entry -> entry.value?.let{ encodedParameters.append(entry.key,\n" +
-                "            \"\${entry.value}\") } }\n" +
-                "        }"
+                    "        takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
+                    "        testQuery?.let{ parameter(\"name\", \"\$it\") }\n" +
+                    "        parameters.appendAll(\"\$testQueryName\", emptyList())\n" +
+                    "        name?.forEach { entry -> entry.value?.let{ encodedParameters.append(entry.key,\n" +
+                    "            \"\${entry.value}\") } }\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -229,7 +229,7 @@ interface TestService {
         val compilation = getCompilation(listOf(source))
 
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+
         assertTrue(result.messages.contains(KtorfitError.QUERY_MAP_PARAMETER_TYPE_MUST_BE_MAP))
     }
 

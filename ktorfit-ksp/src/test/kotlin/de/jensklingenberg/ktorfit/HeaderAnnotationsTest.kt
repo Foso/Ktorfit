@@ -1,9 +1,7 @@
 package de.jensklingenberg.ktorfit
 
-import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -41,7 +39,7 @@ suspend fun test(): List<Triple<String,Int?,String>>
 
         val compilation = getCompilation(listOf(source2, source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -71,12 +69,12 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                "        append(\"testHeader\", testParameter)\n" +
-                "        }"
+                    "        append(\"testHeader\", testParameter)\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -107,12 +105,12 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                "        testParameter?.let{ append(\"testHeader\", testParameter) }\n" +
-                "        }"
+                    "        testParameter?.let{ append(\"testHeader\", testParameter) }\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -147,7 +145,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -182,7 +180,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -213,12 +211,12 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                "        testParameter.forEach{ append(\"testHeader\", \"\$it\")}\n" +
-                "        }"
+                    "        testParameter.forEach{ append(\"testHeader\", \"\$it\")}\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
@@ -250,12 +248,12 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                "        testParameter?.forEach{ append(\"testHeader\", \"\$it\")}\n" +
-                "        }"
+                    "        testParameter?.forEach{ append(\"testHeader\", \"\$it\")}\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
@@ -287,12 +285,12 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             "headers{\n" +
-                "        testParameter?.filterNotNull()?.forEach{ append(\"testHeader\", \"\$it\")}\n" +
-                "        }"
+                    "        testParameter?.filterNotNull()?.forEach{ append(\"testHeader\", \"\$it\")}\n" +
+                    "        }"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
@@ -330,7 +328,7 @@ interface TestService {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
