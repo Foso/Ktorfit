@@ -129,7 +129,8 @@ private fun propertySpec(property: KSPropertyDeclaration): PropertySpec {
  */
 private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeReference>): TypeSpec.Builder {
     (superClasses).forEach { superClassReference ->
-        val hasNoDelegationAnnotation = superClassReference.annotations.any { it.shortName.getShortName() == "NoDelegation" }
+        val hasNoDelegationAnnotation =
+            superClassReference.annotations.any { it.shortName.getShortName() == "NoDelegation" }
 
         val superClassDeclaration = superClassReference.resolve().declaration
         val superTypeClassName = superClassDeclaration.simpleName.asString()

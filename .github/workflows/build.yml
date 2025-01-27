@@ -20,6 +20,20 @@ env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx8g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
   
 jobs:
+  lint_check:
+    name: Lint check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+      - name: API check
+        run: ./gradlew ktLintCheck
   api_check:
     name: API check
     runs-on: ubuntu-latest
@@ -33,7 +47,7 @@ jobs:
           java-version: 21
       - uses: gradle/actions/setup-gradle@v4
       - name: API check
-        run: ./gradlew ktLintCheck apiCheck
+        run: ./gradlew apiCheck
   build:
     runs-on: macos-latest
     steps:

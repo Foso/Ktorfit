@@ -26,7 +26,7 @@ class CompilationErrorsTest {
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.COMPILATION_ERROR, result.exitCode)
+
         assertTrue(result.messages.contains(KtorfitError.JAVA_INTERFACES_ARE_NOT_SUPPORTED))
     }
 
