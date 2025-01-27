@@ -21,7 +21,7 @@ env:
   
 jobs:
   lint_check:
-    name: API check
+    name: Lint check
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
