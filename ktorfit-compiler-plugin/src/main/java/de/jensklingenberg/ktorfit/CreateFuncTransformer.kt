@@ -100,8 +100,6 @@ internal class CreateFuncTransformer(
                         symbol = newConstructor,
                         0,
                         0,
-                        0,
-                        null,
                     )
 
                 // Set _ExampleApiProvider() as argument for create<ExampleApi>()

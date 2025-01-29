@@ -8,7 +8,7 @@ Note: This project needs KSP to work and every new Ktorfit with an update of the
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
 # [2.2.0]()
-* Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC, 2.0.21, 2.1.0-RC, 2.1.0-RC2, 2.1.0
+* Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC, 2.0.21, 2.1.0-RC, 2.1.0-RC2, 2.1.0, 2.1.10
 * Supported KSP version: 1.0.27, 1.0.28, 1.0.29
 * Ktor version: 3.0.1
 

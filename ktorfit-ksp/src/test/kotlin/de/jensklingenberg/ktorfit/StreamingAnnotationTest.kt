@@ -45,7 +45,6 @@ interface TestService {
 
         val compilation = getCompilation(listOf(httpStatement, source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =

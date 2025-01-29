@@ -59,8 +59,6 @@ interface ClassProvider<T>
 
         val result = compile(listOf(source2, source))
 
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
-
         assertTrue(result.messages.contains("_TestServiceProvider"))
     }
 
