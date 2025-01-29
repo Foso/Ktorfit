@@ -41,7 +41,10 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class, ExperimentalBuildToolsApi::class)
     override fun getPluginArtifact(): SubpluginArtifact {
-        val compilerVersion = myproject.ktorfitExtension(GRADLE_TASKNAME).kotlinVersion.getOrElse(myproject.kotlinExtension.compilerVersion.get())
+        val compilerVersion =
+            myproject.ktorfitExtension(
+                GRADLE_TASKNAME
+            ).kotlinVersion.getOrElse(myproject.kotlinExtension.compilerVersion.get())
         checkKotlinVersion(compilerVersion)
 
         return SubpluginArtifact(
