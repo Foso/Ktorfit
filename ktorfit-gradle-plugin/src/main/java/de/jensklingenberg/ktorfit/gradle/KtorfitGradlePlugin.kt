@@ -2,6 +2,9 @@ package de.jensklingenberg.ktorfit.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
@@ -25,7 +28,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
         with(project) {
-            extensions.create(GRADLE_TASKNAME, KtorfitGradleConfiguration::class.java)
+            val extension = project.ktorfitExtension(GRADLE_TASKNAME)
 
             pluginManager.apply(KtorfitCompilerSubPlugin::class.java)
 
@@ -48,13 +51,14 @@ class KtorfitGradlePlugin : Plugin<Project> {
                 val argMethod = kspExtension.javaClass.getMethod("arg", String::class.java, String::class.java)
 
                 afterEvaluate {
-                    val config = getKtorfitConfig()
+                    val errorCheckingMode = extension.errorCheckingMode.getOrElse(ErrorCheckingMode.ERROR)
+                    val generateQualifiedTypeName = extension.generateQualifiedTypeName.getOrElse(false)
 
-                    argMethod.invoke(kspExtension, "Ktorfit_Errors", config.errorCheckingMode.ordinal.toString())
+                    argMethod.invoke(kspExtension, "Ktorfit_Errors", errorCheckingMode.ordinal.toString())
                     argMethod.invoke(
                         kspExtension,
                         "Ktorfit_QualifiedTypeName",
-                        config.generateQualifiedTypeName.toString(),
+                        generateQualifiedTypeName.toString(),
                     )
 
                     /**
@@ -133,4 +137,28 @@ class KtorfitGradlePlugin : Plugin<Project> {
     }
 }
 
-internal fun Project.getKtorfitConfig() = this.extensions.findByType(KtorfitGradleConfiguration::class.java) ?: KtorfitGradleConfiguration()
+/**
+ * Retrieve the Ktorfit plugin extension.
+ *
+ * Tries to find it by type or creates it otherwise.
+ */
+internal fun Project.ktorfitExtension(name: String = KtorfitGradlePlugin.GRADLE_TASKNAME): KtorfitPluginExtension {
+    return this.extensions.findByType<KtorfitPluginExtension>()
+        ?: runCatching { this@ktorfitExtension.createKtorfitExtension(name) }.getOrNull()
+        ?: this.extensions.findByName(name) as? KtorfitPluginExtension
+        ?: this.extensions.getByType<KtorfitPluginExtension>()
+}
+
+/**
+ * Creates the Ktorfit plugin extension.
+ *
+ * @see KtorfitPluginExtension
+ * @throws IllegalArgumentException When an extension with the given name already exists.
+ */
+@Throws(IllegalArgumentException::class)
+private fun Project.createKtorfitExtension(name: String = KtorfitGradlePlugin.GRADLE_TASKNAME): KtorfitPluginExtension {
+    return this@createKtorfitExtension.extensions.create(
+        name = name,
+        type = KtorfitPluginExtension::class,
+    ).apply { setupConvention(this@createKtorfitExtension) }
+}
