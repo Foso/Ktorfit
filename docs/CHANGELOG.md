@@ -15,6 +15,8 @@ By default, it will use the Kotlin version of the project. You can set it to "-"
 ```kotlin
 ktorfit{
     kotlinVersion = "-"
+    // or
+    kotlinVersion = "x.x.x"
 }
 ```
 
