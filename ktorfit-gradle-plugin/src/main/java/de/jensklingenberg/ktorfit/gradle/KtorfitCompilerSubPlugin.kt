@@ -36,9 +36,10 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
     override fun getCompilerPluginId(): String = COMPILER_PLUGIN_ID
 
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean {
-        val kotlinVersion = myproject.ktorfitExtension(
-            GRADLE_TASKNAME
-        ).kotlinVersion.get()
+        val kotlinVersion =
+            myproject.ktorfitExtension(
+                GRADLE_TASKNAME
+            ).kotlinVersion.get()
 
         return kotlinVersion != "-"
     }
