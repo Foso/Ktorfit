@@ -3,6 +3,7 @@ package de.jensklingenberg.ktorfit.gradle
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
+import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import javax.inject.Inject
@@ -32,10 +33,11 @@ open class KtorfitPluginExtension
          * Specify the Kotlin version of the compiler plugin.
          *
          * Default: your current Kotlin version
+         * Set value to "-" to disable the compiler plugin
          */
         open val kotlinVersion: Property<String> = objectFactory.property(String::class.java)
 
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        @OptIn(ExperimentalKotlinGradlePluginApi::class, ExperimentalBuildToolsApi::class)
         internal fun setupConvention(project: Project) {
             generateQualifiedTypeName.convention(false)
             errorCheckingMode.convention(ErrorCheckingMode.ERROR)
