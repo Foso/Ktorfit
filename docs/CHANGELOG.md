@@ -8,6 +8,7 @@ Note: This project needs KSP to work and every new Ktorfit with an update of the
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
 # Unreleased
+## Added
 - Provide option to not use the compiler plugin #764
 You can now set the Kotlin version for the compiler plugin. 
 By default, it will use the Kotlin version of the project. You can set it to "-" to disable the plugin.
@@ -19,6 +20,9 @@ ktorfit{
     kotlinVersion = "x.x.x"
 }
 ```
+
+## Fixed
+- @Headers annotation produces unexpected newline in generated code by ksp plugin #752
 
 # [2.2.0]()
 * Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC, 2.0.21, 2.1.0-RC, 2.1.0-RC2, 2.1.0, 2.1.10
