@@ -12,11 +12,11 @@ jobs:
 
     steps:
       - name: Install JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # v4
         with:
           distribution: 'temurin'
           java-version: 21
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Update Gradle Wrapper
-        uses: gradle-update/update-gradle-wrapper-action@v2
+        uses: gradle-update/update-gradle-wrapper-action@9cca748ef7cfd967bc3a5c39e15a7aa229ad1b3d # v2
