@@ -33,11 +33,15 @@ class MyOwnResponseConverterFactory : Converter.Factory{
         if(typeData.typeInfo.type == MyOwnResponse::class) {
            
             return object : Converter.SuspendResponseConverter<HttpResponse, Any> {
-                override suspend fun convert(response: HttpResponse): Any {
-                    return try {
-                        MyOwnResponse.success(response.body(typeData.typeArgs.first().typeInfo))
-                    } catch (ex: Throwable) {
-                        MyOwnResponse.error(ex)
+                override suspend fun convert(result: KtorfitResult): Any {
+                    return when (result) {
+                        is KtorfitResult.Failure -> {
+                            MyOwnResponse.error(result.throwable)
+                        }
+
+                        is KtorfitResult.Success -> {
+                            MyOwnResponse.success(result.response.body(typeData.typeArgs.first().typeInfo))
+                        }
                     }
                 }
             }
