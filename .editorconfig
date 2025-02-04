@@ -19,3 +19,4 @@ ktlint_standard_comment-wrapping = disabled
 ktlint_standard_block-comment-initial-star-alignment = disabled
 # noinspection EditorConfigKeyCorrectness
 ktlint_standard_no-single-line-block-comment = disabled
+max_line_length=off
