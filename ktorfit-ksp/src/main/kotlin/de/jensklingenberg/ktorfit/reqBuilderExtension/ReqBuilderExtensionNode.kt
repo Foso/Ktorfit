@@ -12,7 +12,7 @@ fun getReqBuilderExtensionText(
     listType: KSType,
     arrayType: KSType,
 ): String {
-    val attributes = getAttributesCode(functionData.rawAnnotations)
+    val attributes = getAttributesCode(functionData.parameterDataList, functionData.rawAnnotations)
     val method = getMethodCode(functionData.httpMethodAnnotation)
 
     val headers =
@@ -45,7 +45,6 @@ fun getReqBuilderExtensionText(
     val url =
         getUrlCode(functionData.parameterDataList, functionData.httpMethodAnnotation, queryCode)
     val customReqBuilder = getCustomRequestBuilderText(functionData.parameterDataList)
-    val attributeKeys = getAttributeCode(functionData.parameterDataList)
     val args =
         listOf(
             attributes,
@@ -53,7 +52,6 @@ fun getReqBuilderExtensionText(
             url,
             body,
             headers,
-            attributeKeys,
             fields,
             parts,
             customReqBuilder,
