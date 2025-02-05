@@ -30,8 +30,7 @@ suspend fun test(@Header("testHeader") testParameterNonNullable: String?, @Heade
             )
 
         val expectedHeadersArgumentText =
-            """@OptIn(ExperimentalCompilerApi::class)
-@OptIn(InternalKtorfitApi::class)
+            """@OptIn(ExperimentalCompilerApi::class, InternalKtorfitApi::class)
 public class _TestServiceImpl(
   private val _ktorfit: Ktorfit,
 ) : TestService {
@@ -41,9 +40,8 @@ public class _TestServiceImpl(
   override suspend fun test("""
 
         val compilation = getCompilation(listOf(source))
-        val result = compilation.compile()
 
-        val generatedSourcesDir = compilation.kspSourcesDir
+        val generatedSourcesDir = compilation.apply { compile() }.kspSourcesDir
         val generatedFile =
             File(
                 generatedSourcesDir,
