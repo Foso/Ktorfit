@@ -226,7 +226,7 @@ val result = secondApi.getCommentsById("3") {
 Then you can use the extension function to set additional configuration. The RequestBuilder will be applied last after everything that is set by Ktorfit
 
 ## Annotations
-Function annotations are available in the request object with their respective values via the `annotation` extension (`HttpRequestBuilder.annotations`)
+Function annotations are available in the request object with their respective values via the `annotation` extension (`HttpRequest.annotations` or `HttpRequestBuilder.annotations`)
 
 Do note that `OptIn` annotation is not included in the returned list
 
