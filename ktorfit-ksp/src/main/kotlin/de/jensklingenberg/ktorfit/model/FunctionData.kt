@@ -288,7 +288,8 @@ fun KSFunctionDeclaration.toFunctionData(
             }
         }
 
-    val annotations = funcDeclaration.annotations
+    val annotations =
+        funcDeclaration.annotations
             .map { it.toAnnotationSpec() }
             .toList()
 

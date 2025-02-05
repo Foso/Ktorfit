@@ -242,7 +242,7 @@ suspend fun postComment(
 ```kotlin
 val MyAuthPlugin = createClientPlugin("MyAuthPlugin", ::MyAuthPluginConfig) {
     onRequest { request, _ ->
-        val auth = request.annotations.firstInstanceOrNull<AuthRequired>() ?: return@onRequest
+        val auth = request.annotations.filterIsInstance<AuthRequired>().firstOrNull() ?: return@onRequest
 
         val token  = this@createClientPlugin.pluginConfig.token
         if (!auth.optional && token == null) throw Exception("Need to be logged in")
