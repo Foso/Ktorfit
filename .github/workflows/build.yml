@@ -34,6 +34,9 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: API check
         run: ./gradlew ktLintCheck
+      - name: 'Notify on failure'
+        if: failure()
+        run: echo "Format check failed. Run ./gradlew ktLintFormat to fix."
   api_check:
     name: API check
     runs-on: ubuntu-latest
