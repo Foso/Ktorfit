@@ -23,6 +23,7 @@ ktorfit{
 
 ## Fixed
 - @Headers annotation produces unexpected newline in generated code by ksp plugin #752
+- Generated code containing repeated @OptIn annotation #767
 
 # [2.2.0]()
 * Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC, 2.0.21, 2.1.0-RC, 2.1.0-RC2, 2.1.0, 2.1.10
