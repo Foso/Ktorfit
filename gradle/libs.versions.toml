@@ -1,5 +1,5 @@
 [versions]
-abg= "8.2.2"
+abg = "8.2.2"
 autoService = "1.1.1"
 binaryCompatibilityValidator = "0.16.3"
 coroutines = "1.8.1"
@@ -20,12 +20,12 @@ ktorfitResponseConverter = "2.2.0"
 ktorfitGradle = "2.2.0"
 
 ktorfitGradlePlugin = "2.2.0"
-ktorVersion = "3.0.1"
+ktorVersion = "3.1.0"
 mockk = "1.13.13"
 mockito-kotlin = "4.1.0"
 gradleMavenPublishPlugin = "0.28.0"
 vannikMavenPublish = "0.28.0"
-
+licensee = "1.12.0"
 [libraries]
 android-build-gradle = { module = "com.android.tools.build:gradle", version.ref = "abg" }
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
@@ -66,8 +66,7 @@ ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorVer
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktorVersion" }
 ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktorVersion" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
-
-licensee-gradle-plugin = "app.cash.licensee:licensee-gradle-plugin:1.12.0"
+licensee-gradle-plugin = { module = "app.cash.licensee:licensee-gradle-plugin", version.ref = "licensee" }
 logbackClassic = "ch.qos.logback:logback-classic:1.5.6"
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
