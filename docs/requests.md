@@ -228,7 +228,7 @@ Then you can use the extension function to set additional configuration. The Req
 ## Annotations
 Function annotations are available in the request object with their respective values via the `annotation` extension (`HttpRequest.annotations` or `HttpRequestBuilder.annotations`)
 
-Do note that `OptIn` annotation is not included in the returned list
+Do note that `OptIn` and Ktorfit annotations are not included in the returned list
 
 ```kotlin
 @AuthRequired(optional = true)

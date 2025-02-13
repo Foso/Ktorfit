@@ -4,13 +4,26 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.ksp.toAnnotationSpec
-import de.jensklingenberg.ktorfit.model.annotations.FormUrlEncoded
+import de.jensklingenberg.ktorfit.http.DELETE
+import de.jensklingenberg.ktorfit.http.FormUrlEncoded
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.HEAD
+import de.jensklingenberg.ktorfit.http.HTTP
+import de.jensklingenberg.ktorfit.http.Headers
+import de.jensklingenberg.ktorfit.http.Multipart
+import de.jensklingenberg.ktorfit.http.OPTIONS
+import de.jensklingenberg.ktorfit.http.PATCH
+import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.PUT
+import de.jensklingenberg.ktorfit.http.Streaming
+import de.jensklingenberg.ktorfit.model.annotations.FormUrlEncoded as KspFormUrlEncoded
 import de.jensklingenberg.ktorfit.model.annotations.FunctionAnnotation
-import de.jensklingenberg.ktorfit.model.annotations.Headers
+import de.jensklingenberg.ktorfit.model.annotations.Headers as KspHeaders
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
-import de.jensklingenberg.ktorfit.model.annotations.Multipart
+import de.jensklingenberg.ktorfit.model.annotations.Multipart as KspMultipart
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Body
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
@@ -42,8 +55,8 @@ data class FunctionData(
     val annotations: List<FunctionAnnotation> = emptyList(),
     val httpMethodAnnotation: HttpMethodAnnotation,
     val modifiers: List<KModifier> = emptyList(),
-    val rawAnnotations: List<AnnotationSpec>,
-    val rawOptInAnnotations: List<AnnotationSpec>,
+    val optInAnnotations: List<AnnotationSpec>,
+    val nonKtorfitAnnotations: List<AnnotationSpec>,
 )
 
 /**
@@ -174,7 +187,7 @@ fun KSFunctionDeclaration.toFunctionData(
     when (firstHttpMethodAnnotation.httpMethod) {
         HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH -> {}
         else -> {
-            if (functionAnnotationList.anyInstance<Multipart>()) {
+            if (functionAnnotationList.anyInstance<KspMultipart>()) {
                 logger.error(
                     KtorfitError.MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS,
                     funcDeclaration,
@@ -266,12 +279,12 @@ fun KSFunctionDeclaration.toFunctionData(
     }
 
     functionAnnotationList.forEach {
-        if (it is Headers || it is FormUrlEncoded) {
+        if (it is KspHeaders || it is KspFormUrlEncoded) {
             addImport("io.ktor.client.request.headers")
         }
 
-        if (it is FormUrlEncoded ||
-            it is Multipart ||
+        if (it is KspFormUrlEncoded ||
+            it is KspMultipart ||
             functionParameters.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<ParameterAnnotation.Part>() }
         ) {
             addImport("io.ktor.client.request.forms.FormDataContent")
@@ -291,11 +304,20 @@ fun KSFunctionDeclaration.toFunctionData(
     val annotations =
         funcDeclaration.annotations
             .map { it.toAnnotationSpec() }
-            .toList()
 
-    val (rawOptInAnnotation, rawAnnotations) = annotations.partition { it.toClassName().simpleName == "OptIn" }
+    val optInAnnotations: MutableList<AnnotationSpec> = mutableListOf()
+    val nonKtorfitAnnotations: MutableList<AnnotationSpec> = mutableListOf()
 
-    rawAnnotations.forEach { addImport(it.toClassName().canonicalName) }
+    annotations.forEach { annotation ->
+        val className = annotation.toClassName()
+        if (className.simpleName == "OptIn") {
+            optInAnnotations.add(annotation)
+            return@forEach
+        }
+        if (functionalKtorfitAnnotation.any { it.asClassName() == className }) return@forEach
+        nonKtorfitAnnotations.add(annotation)
+        addImport(className.canonicalName)
+    }
 
     return FunctionData(
         functionName,
@@ -305,7 +327,13 @@ fun KSFunctionDeclaration.toFunctionData(
         functionAnnotationList,
         firstHttpMethodAnnotation,
         modifiers,
-        rawAnnotations,
-        rawOptInAnnotation,
+        optInAnnotations,
+        nonKtorfitAnnotations,
     )
 }
+
+private val functionalKtorfitAnnotation =
+    listOf(
+        GET::class, POST::class, PUT::class, DELETE::class, HEAD::class, OPTIONS::class, PATCH::class, HTTP::class,
+        Headers::class, FormUrlEncoded::class, Multipart::class, Streaming::class,
+    )

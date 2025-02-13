@@ -26,9 +26,6 @@ interface TestService {
 
         val expectedBodyDataArgumentText =
             """val _ext: HttpRequestBuilder.() -> Unit = {
-        attributes.put(annotationsAttributeKey, listOf(
-        POST(`value` = "user"),
-        ))
         method = HttpMethod.parse("POST")
         url{
         takeFrom(_ktorfit.baseUrl + "user")

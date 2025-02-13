@@ -96,9 +96,6 @@ interface TestService {
             )
 
         val expectedFunctionText = """val _ext: HttpRequestBuilder.() -> Unit = {
-        attributes.put(annotationsAttributeKey, listOf(
-        HTTP(method = "GET2", path = "user", hasBody = true),
-        ))
         method = HttpMethod.parse("GET2")
         url{
         takeFrom(_ktorfit.baseUrl + "user")

@@ -22,7 +22,7 @@ fun FunctionData.toFunSpec(
     return FunSpec
         .builder(name)
         .addModifiers(modifiers)
-        .addAnnotations(rawOptInAnnotations)
+        .addAnnotations(optInAnnotations)
         .addParameters(
             parameterDataList.map {
                 it.parameterSpec()

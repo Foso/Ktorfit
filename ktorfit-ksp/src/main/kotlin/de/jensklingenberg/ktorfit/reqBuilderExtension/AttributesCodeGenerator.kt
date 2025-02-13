@@ -8,7 +8,7 @@ import de.jensklingenberg.ktorfit.utils.toClassName
 
 fun getAttributesCode(
     parameterDataList: List<ParameterData>,
-    rawAnnotation: List<AnnotationSpec>,
+    annotations: List<AnnotationSpec>,
 ): String {
     val parameterAttributes =
         parameterDataList
@@ -24,8 +24,10 @@ fun getAttributesCode(
                 }
             }
 
+    if (annotations.isEmpty()) return parameterAttributes
+
     val annotationsAttribute =
-        rawAnnotation.joinToString(
+        annotations.joinToString(
             separator = ",\n",
             prefix = "listOf(\n",
             postfix = ",\n)",

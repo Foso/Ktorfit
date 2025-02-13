@@ -1,4 +1,5 @@
 public final class de/jensklingenberg/ktorfit/AnnotationsKt {
+	public static final fun getAnnotations (Lio/ktor/client/request/HttpRequest;)Ljava/util/List;
 	public static final fun getAnnotations (Lio/ktor/client/request/HttpRequestBuilder;)Ljava/util/List;
 	public static final fun getAnnotationsAttributeKey ()Lio/ktor/util/AttributeKey;
 }

@@ -35,7 +35,6 @@ interface TestService {
         Test1(`value` = "Foo"),
         Test1(`value` = "Bar"),
         Test2(value1 = "Foo", value2 = "Bar"),
-        GET(`value` = "posts"),
         ))"""
 
         val compilation = getCompilation(listOf(source))
@@ -79,7 +78,6 @@ interface TestService {
         val expectedHeadersArgumentText =
             """attributes.put(annotationsAttributeKey, listOf(
         Test1(),
-        GET(`value` = "posts"),
         ))"""
 
         val compilation = getCompilation(listOf(source))
