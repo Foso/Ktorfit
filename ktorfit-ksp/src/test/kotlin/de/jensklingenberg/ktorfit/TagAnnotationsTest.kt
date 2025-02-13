@@ -26,7 +26,7 @@ interface TestService {
 
         val expectedHeadersArgumentText =
             """attributes.put(AttributeKey("myTag1"), myTag1)
-        someParameter?.let{ attributes.put(AttributeKey("myTag2"), it) } """
+        someParameter?.let{ attributes.put(AttributeKey("myTag2"), it) }"""
 
         val compilation = getCompilation(listOf(source))
         println(compilation.languageVersion)
