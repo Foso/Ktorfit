@@ -7,23 +7,19 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.ksp.toAnnotationSpec
 import de.jensklingenberg.ktorfit.http.DELETE
-import de.jensklingenberg.ktorfit.http.FormUrlEncoded
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.HEAD
 import de.jensklingenberg.ktorfit.http.HTTP
-import de.jensklingenberg.ktorfit.http.Headers
-import de.jensklingenberg.ktorfit.http.Multipart
 import de.jensklingenberg.ktorfit.http.OPTIONS
 import de.jensklingenberg.ktorfit.http.PATCH
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.PUT
-import de.jensklingenberg.ktorfit.http.Streaming
-import de.jensklingenberg.ktorfit.model.annotations.FormUrlEncoded as KspFormUrlEncoded
+import de.jensklingenberg.ktorfit.model.annotations.FormUrlEncoded
 import de.jensklingenberg.ktorfit.model.annotations.FunctionAnnotation
-import de.jensklingenberg.ktorfit.model.annotations.Headers as KspHeaders
+import de.jensklingenberg.ktorfit.model.annotations.Headers
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
-import de.jensklingenberg.ktorfit.model.annotations.Multipart as KspMultipart
+import de.jensklingenberg.ktorfit.model.annotations.Multipart
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Body
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
@@ -46,6 +42,10 @@ import de.jensklingenberg.ktorfit.utils.isSuspend
 import de.jensklingenberg.ktorfit.utils.parseHTTPMethodAnno
 import de.jensklingenberg.ktorfit.utils.resolveTypeName
 import de.jensklingenberg.ktorfit.utils.toClassName
+import de.jensklingenberg.ktorfit.http.FormUrlEncoded as KtorfitFormUrlEncoded
+import de.jensklingenberg.ktorfit.http.Headers as KtorfitHeaders
+import de.jensklingenberg.ktorfit.http.Multipart as KtorfitMultipart
+import de.jensklingenberg.ktorfit.http.Streaming as KtorfitStreaming
 
 data class FunctionData(
     val name: String,
@@ -187,7 +187,7 @@ fun KSFunctionDeclaration.toFunctionData(
     when (firstHttpMethodAnnotation.httpMethod) {
         HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH -> {}
         else -> {
-            if (functionAnnotationList.anyInstance<KspMultipart>()) {
+            if (functionAnnotationList.anyInstance<Multipart>()) {
                 logger.error(
                     KtorfitError.MULTIPART_CAN_ONLY_BE_SPECIFIED_ON_HTTPMETHODS,
                     funcDeclaration,
@@ -279,12 +279,12 @@ fun KSFunctionDeclaration.toFunctionData(
     }
 
     functionAnnotationList.forEach {
-        if (it is KspHeaders || it is KspFormUrlEncoded) {
+        if (it is Headers || it is FormUrlEncoded) {
             addImport("io.ktor.client.request.headers")
         }
 
-        if (it is KspFormUrlEncoded ||
-            it is KspMultipart ||
+        if (it is FormUrlEncoded ||
+            it is Multipart ||
             functionParameters.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<ParameterAnnotation.Part>() }
         ) {
             addImport("io.ktor.client.request.forms.FormDataContent")
@@ -314,7 +314,7 @@ fun KSFunctionDeclaration.toFunctionData(
             optInAnnotations.add(annotation)
             return@forEach
         }
-        if (functionalKtorfitAnnotation.any { it.asClassName() == className }) return@forEach
+        if (functionalKtorfitAnnotation.contains(className)) return@forEach
         nonKtorfitAnnotations.add(annotation)
         addImport(className.canonicalName)
     }
@@ -335,5 +335,6 @@ fun KSFunctionDeclaration.toFunctionData(
 private val functionalKtorfitAnnotation =
     listOf(
         GET::class, POST::class, PUT::class, DELETE::class, HEAD::class, OPTIONS::class, PATCH::class, HTTP::class,
-        Headers::class, FormUrlEncoded::class, Multipart::class, Streaming::class,
+        KtorfitHeaders::class, KtorfitFormUrlEncoded::class, KtorfitMultipart::class, KtorfitStreaming::class,
     )
+        .map { it.asClassName() }
