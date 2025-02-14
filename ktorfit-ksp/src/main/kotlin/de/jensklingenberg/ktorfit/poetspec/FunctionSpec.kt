@@ -27,8 +27,7 @@ fun FunctionData.toFunSpec(
             parameterDataList.map {
                 it.parameterSpec()
             },
-        )
-        .addBody(this, resolver, setQualifiedTypeName, returnTypeName)
+        ).addBody(this, resolver, setQualifiedTypeName, returnTypeName)
         .returns(returnTypeName)
         .build()
 }
