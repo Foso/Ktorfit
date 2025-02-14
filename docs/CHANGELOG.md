@@ -20,6 +20,8 @@ ktorfit{
     kotlinVersion = "x.x.x"
 }
 ```
+- Include function annotations in request attribute
+See https://foso.github.io/Ktorfit/requests/#annotations
 
 ## Fixed
 - @Headers annotation produces unexpected newline in generated code by ksp plugin #752
