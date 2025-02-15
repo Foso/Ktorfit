@@ -67,7 +67,6 @@ ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", vers
 ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktorVersion" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
 licensee-gradle-plugin = { module = "app.cash.licensee:licensee-gradle-plugin", version.ref = "licensee" }
-logbackClassic = "ch.qos.logback:logback-classic:1.5.16"
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
