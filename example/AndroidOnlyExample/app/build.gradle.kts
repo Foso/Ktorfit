@@ -63,7 +63,7 @@ dependencies {
     implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfit")
     implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfit")
     implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.activity:activity-compose:1.9.3")
     implementation("androidx.compose.ui:ui:$compose_ui_version")
     implementation("androidx.compose.ui:ui-tooling-preview:$compose_ui_version")
