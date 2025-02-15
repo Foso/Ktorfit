@@ -6,40 +6,39 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
-class OptInTest {
+class MethodAnnotationsTest {
     @Test
-    fun `when OptIn annotation is used add it to the implementation class`() {
+    fun `always add function annotations as 'annotation' attribute`() {
         val source =
             SourceFile.kotlin(
                 "Source.kt",
-                """package com.example.api
+                """
+      package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.Headers
-import de.jensklingenberg.ktorfit.http.Header
-import de.jensklingenberg.ktorfit.http.HeaderMap
-import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
+import de.jensklingenberg.ktorfit.http.Tag
 
-@OptIn(ExperimentalCompilerApi::class)
+annotation class Test1(value: String = "Foo")
+annotation class Test2(value1: String, value2: String = "Bar")
+
 interface TestService {
-    @Headers(value = ["x:y","a:b"])
+    @Test1
+    @Test1("Bar")
+    @Test2("Foo")
     @GET("posts")
-    @OptIn(ExperimentalCompilerApi::class)
-    suspend fun test(@Header("testHeader") testParameterNonNullable: String?, @Header("testHeader") testParameterNullable: String?, @HeaderMap("testHeaderMap") testParameter2: Map<String,String>): String
+    suspend fun test(): String
 }
     """,
             )
 
         val expectedHeadersArgumentText =
-            """@OptIn(ExperimentalCompilerApi::class, InternalKtorfitApi::class)
-public class _TestServiceImpl(
-  private val _ktorfit: Ktorfit,
-) : TestService {
-  private val _helper: KtorfitConverterHelper = KtorfitConverterHelper(_ktorfit)
-
-  @OptIn(ExperimentalCompilerApi::class)
-  override suspend fun test("""
+            """attributes.put(annotationsAttributeKey, listOf(
+        Test1(`value` = "Foo"),
+        Test1(`value` = "Bar"),
+        Test2(value1 = "Foo", value2 = "Bar"),
+        ))"""
 
         val compilation = getCompilation(listOf(source))
+        println(compilation.languageVersion)
 
         val generatedSourcesDir = compilation.apply { compile() }.kspSourcesDir
         val generatedFile =
@@ -49,41 +48,40 @@ public class _TestServiceImpl(
             )
 
         val actualSource = generatedFile.readText()
+        println(actualSource)
         assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
 
     @Test
-    fun `when OptIn annotation are add to the implementation class do not repeat marker classes`() {
+    fun `when function annotation includes 'OptIn' annotation we skip it`() {
         val source =
             SourceFile.kotlin(
                 "Source.kt",
-                """package com.example.api
+                """
+      package com.example.api
 import de.jensklingenberg.ktorfit.http.GET
-import de.jensklingenberg.ktorfit.http.Headers
-import de.jensklingenberg.ktorfit.http.Header
-import de.jensklingenberg.ktorfit.http.HeaderMap
+import de.jensklingenberg.ktorfit.http.Tag
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
+
+annotation class Test1
 
 @OptIn(ExperimentalCompilerApi::class)
 interface TestService {
-    @GET("posts")
+    @Test1
     @OptIn(ExperimentalCompilerApi::class)
-    suspend fun test1()
-    
     @GET("posts")
-    @OptIn(ExperimentalCompilerApi::class)
-    suspend fun test2()
+    suspend fun test(): String
 }
     """,
             )
 
         val expectedHeadersArgumentText =
-            """@OptIn(ExperimentalCompilerApi::class, InternalKtorfitApi::class)
-public class _TestServiceImpl(
-  private val _ktorfit: Ktorfit,
-) : TestService {"""
+            """attributes.put(annotationsAttributeKey, listOf(
+        Test1(),
+        ))"""
 
         val compilation = getCompilation(listOf(source))
+        println(compilation.languageVersion)
 
         val generatedSourcesDir = compilation.apply { compile() }.kspSourcesDir
         val generatedFile =

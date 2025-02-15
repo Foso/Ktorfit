@@ -1,7 +1,9 @@
 package de.jensklingenberg.ktorfit.poetspec
 
 import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
+import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeReference
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
@@ -10,7 +12,7 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.ksp.toAnnotationSpec
+import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.KtorfitOptions
 import de.jensklingenberg.ktorfit.model.ClassData
@@ -56,8 +58,6 @@ private fun createImplClassTypeSpec(
     implClassProperties: List<PropertySpec>,
     funSpecs: List<FunSpec>
 ): TypeSpec {
-    val optInAnnotations =
-        classData.annotations.filter { it.shortName.getShortName() == "OptIn" }.map { it.toAnnotationSpec() }
     val helperProperty =
         PropertySpec
             .builder(converterHelper.objectName, converterHelper.toClassName())
@@ -65,16 +65,9 @@ private fun createImplClassTypeSpec(
             .addModifiers(KModifier.PRIVATE)
             .build()
 
-    val internalApiAnnotation =
-        AnnotationSpec
-            .builder(ClassName("kotlin", "OptIn"))
-            .addMember(
-                "%T::class",
-                internalApi,
-            ).build()
     return TypeSpec
         .classBuilder(implClassName)
-        .addAnnotations(optInAnnotations + internalApiAnnotation)
+        .addAnnotation(getOptInAnnotation(classData.annotations))
         .addModifiers(classData.modifiers)
         .primaryConstructor(
             FunSpec
@@ -91,6 +84,27 @@ private fun createImplClassTypeSpec(
         .addKtorfitSuperInterface(classData.superClasses)
         .addProperties(listOf(helperProperty) + implClassProperties)
         .addFunctions(funSpecs)
+        .build()
+}
+
+private fun getOptInAnnotation(annotations: List<KSAnnotation>): AnnotationSpec {
+    val markerClasses =
+        annotations
+            .filter { it.shortName.getShortName() == "OptIn" }
+            .flatMap { annotation ->
+                @Suppress("UNCHECKED_CAST")
+                (annotation.arguments[0].value as? List<KSType>)
+                    ?.map { it.toClassName() }
+                    .orEmpty()
+            }
+            .plus(internalApi)
+            .toTypedArray<Any>()
+
+    val format = (1..markerClasses.size).joinToString { "%T::class" }
+
+    return AnnotationSpec
+        .builder(ClassName("kotlin", "OptIn"))
+        .addMember(format, *markerClasses)
         .build()
 }
 
@@ -129,7 +143,8 @@ private fun propertySpec(property: KSPropertyDeclaration): PropertySpec {
  */
 private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeReference>): TypeSpec.Builder {
     (superClasses).forEach { superClassReference ->
-        val hasNoDelegationAnnotation = superClassReference.annotations.any { it.shortName.getShortName() == "NoDelegation" }
+        val hasNoDelegationAnnotation =
+            superClassReference.annotations.any { it.shortName.getShortName() == "NoDelegation" }
 
         val superClassDeclaration = superClassReference.resolve().declaration
         val superTypeClassName = superClassDeclaration.simpleName.asString()

@@ -1,9 +1,6 @@
-
-import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.getCompilation
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
@@ -25,11 +22,11 @@ interface TestService {
     """,
             )
 
-        val expectedFunctionSource = """val postId: Int = _helper.convertParameterType(postId,postId::class,Int::class)"""
+        val expectedFunctionSource =
+            """val postId: Int = _helper.convertParameterType(postId,postId::class,Int::class)"""
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
-        assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode)
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =

@@ -28,7 +28,7 @@ See https://foso.github.io/Ktorfit/requests/#annotations
 - Generated code containing repeated @OptIn annotation #767
 
 # [2.2.0]()
-* Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC, 2.0.21, 2.1.0-RC, 2.1.0-RC2, 2.1.0, 2.1.10
+* Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC, 2.0.21
 * Supported KSP version: 1.0.27, 1.0.28, 1.0.29, 1.0.30
 * Ktor version: 3.0.1
 
