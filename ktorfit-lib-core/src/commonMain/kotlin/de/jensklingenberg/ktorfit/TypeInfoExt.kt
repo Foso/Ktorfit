@@ -14,5 +14,5 @@ public fun TypeInfo.upperBoundType(index: Int = 0): TypeInfo? {
     val modelKTypeProjection = if (parentType.arguments.isNotEmpty()) parentType.arguments[index] else return null
     val modelKType = modelKTypeProjection.type ?: return null
     val modelClass = (modelKType.classifier as? KClass<*>?) ?: return null
-    return TypeInfo(modelClass, modelKType.platformType, modelKType)
+    return TypeInfo(modelClass, modelKType)
 }
