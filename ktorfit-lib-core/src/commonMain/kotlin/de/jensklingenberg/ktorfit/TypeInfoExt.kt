@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit
 
 import io.ktor.util.reflect.TypeInfo
-import io.ktor.util.reflect.platformType
 import kotlin.reflect.KClass
 
 /**
