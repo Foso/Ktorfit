@@ -159,7 +159,7 @@ fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAn
     }
 
     ksValueParameter.getFieldMapAnnotation()?.let {
-        if (!ksValueParameter.type.toString().endsWith(KEY_MAP)) {
+        if (!ksValueParameter.type.toString().substringBefore("<").endsWith(KEY_MAP)) {
             logger.error(KtorfitError.FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP, ksValueParameter)
         }
 
@@ -182,7 +182,7 @@ fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAn
     }
 
     ksValueParameter.getPartMapAnnotation()?.let {
-        if (!ksValueParameter.type.toString().endsWith(KEY_MAP)) {
+        if (!ksValueParameter.type.toString().substringBefore("<").endsWith(KEY_MAP)) {
             logger.error(KtorfitError.PART_MAP_PARAMETER_TYPE_MUST_BE_MAP, ksValueParameter)
         }
         paramAnnos.add(it)
