@@ -11,13 +11,13 @@ kotlinPoet = "2.0.0"
 kspVersion = "2.1.10-1.0.30"
 
 groupId = "de.jensklingenberg.ktorfit"
-ktorfit = "2.2.0"
-ktorfitKsp = "2.2.0-1.0.30"
+ktorfit = "2.3.0"
+ktorfitKsp = "2.3.0-1.0.30"
 ktorfitCompiler = "2.1.0-2.1.10"
-ktorfitCallConverter = "2.2.0"
-ktorfitFlowConverter = "2.2.0"
-ktorfitResponseConverter = "2.2.0"
-ktorfitGradle = "2.2.0"
+ktorfitCallConverter = "2.3.0"
+ktorfitFlowConverter = "2.3.0"
+ktorfitResponseConverter = "2.3.0"
+ktorfitGradle = "2.3.0"
 
 ktorfitGradlePlugin = "2.2.0"
 ktorVersion = "3.1.0"
@@ -26,6 +26,7 @@ mockito-kotlin = "4.1.0"
 gradleMavenPublishPlugin = "0.28.0"
 vannikMavenPublish = "0.28.0"
 licensee = "1.12.0"
+
 [libraries]
 android-build-gradle = { module = "com.android.tools.build:gradle", version.ref = "abg" }
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
