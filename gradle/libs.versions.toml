@@ -1,30 +1,31 @@
 [versions]
-abg= "8.2.2"
+abg = "8.2.2"
 autoService = "1.1.1"
 binaryCompatibilityValidator = "0.16.3"
 coroutines = "1.8.1"
 detekt = "1.23.7"
 junit = "4.13.2"
-kctfork = "0.5.1"
-kotlin = "2.0.21"
-kotlinPoet = "1.18.1"
-kspVersion = "2.0.21-1.0.28"
+kctfork = "0.7.0"
+kotlin = "2.1.10"
+kotlinPoet = "2.0.0"
+kspVersion = "2.1.10-1.0.30"
 
 groupId = "de.jensklingenberg.ktorfit"
-ktorfit = "2.2.0"
-ktorfitKsp = "2.2.0-1.0.28"
-ktorfitCompiler = "2.1.0-2.0.21"
-ktorfitCallConverter = "2.2.0"
-ktorfitFlowConverter = "2.2.0"
-ktorfitResponseConverter = "2.2.0"
-ktorfitGradle = "2.2.0"
+ktorfit = "2.3.0"
+ktorfitKsp = "2.3.0-1.0.30"
+ktorfitCompiler = "2.1.0-2.1.10"
+ktorfitCallConverter = "2.3.0"
+ktorfitFlowConverter = "2.3.0"
+ktorfitResponseConverter = "2.3.0"
+ktorfitGradle = "2.3.0"
 
-ktorfitGradlePlugin = "2.1.0"
-ktorVersion = "3.0.1"
-mockk = "1.13.13"
+ktorfitGradlePlugin = "2.3.0"
+ktorVersion = "3.1.0"
+mockk = "1.13.16"
 mockito-kotlin = "4.1.0"
 gradleMavenPublishPlugin = "0.28.0"
 vannikMavenPublish = "0.28.0"
+licensee = "1.12.0"
 
 [libraries]
 android-build-gradle = { module = "com.android.tools.build:gradle", version.ref = "abg" }
@@ -66,9 +67,7 @@ ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorVer
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktorVersion" }
 ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktorVersion" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
-
-licensee-gradle-plugin = "app.cash.licensee:licensee-gradle-plugin:1.12.0"
-logbackClassic = "ch.qos.logback:logback-classic:1.5.6"
+licensee-gradle-plugin = { module = "app.cash.licensee:licensee-gradle-plugin", version.ref = "licensee" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 

@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -31,6 +30,9 @@ tasks.withType<KotlinCompile> {
 kotlin {
     @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs()
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmWasi()
+
     jvm {
     }
     js(IR) {
@@ -40,6 +42,11 @@ kotlin {
     androidTarget {
         publishLibraryVariants("release", "debug")
     }
+    androidNativeArm32()
+    androidNativeArm64()
+    androidNativeX86()
+    androidNativeX64()
+
     iosArm64()
     iosX64()
     iosSimulatorArm64()

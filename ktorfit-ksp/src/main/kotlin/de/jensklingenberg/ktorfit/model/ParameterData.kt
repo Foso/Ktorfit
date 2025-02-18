@@ -39,7 +39,7 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
         )
     }
 
-    if (hasRequestBuilderAnno && parameterType.resolveTypeName() != "[@kotlin.ExtensionFunctionType] Function1<HttpRequestBuilder, Unit>") {
+    if (hasRequestBuilderAnno && !parameterType.resolveTypeName().contains("HttpRequestBuilder")) {
         logger.error(
             KtorfitError.REQ_BUILDER_PARAMETER_TYPE_NEEDS_TO_BE_HTTP_REQUEST_BUILDER,
             ksValueParameter,

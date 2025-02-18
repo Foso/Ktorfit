@@ -1,10 +1,10 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp") version "2.1.0-1.0.29"
+    id("com.google.devtools.ksp") version "2.1.10-1.0.30"
     id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
-    id("de.jensklingenberg.ktorfit") version "2.2.0"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21"
+    id("de.jensklingenberg.ktorfit") version "2.3.0"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.1.10"
 }
 
 ktorfit{
@@ -13,12 +13,12 @@ ktorfit{
 
 android {
     namespace = "de.jensklingenberg.androidonlyexample"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = ("de.jensklingenberg.androidonlyexample")
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -52,9 +52,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     }
 }
 
-val ktorfit = "2.2.0"
-val ktor = "3.0.1"
-val compose_ui_version = "1.7.4"
+val ktorfit = "2.3.0"
+val ktor = "3.1.0"
+val compose_ui_version = "1.7.8"
 dependencies {
     implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfit")
     implementation("io.ktor:ktor-client-serialization:$ktor")
@@ -63,11 +63,11 @@ dependencies {
     implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfit")
     implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfit")
     implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
-    implementation("androidx.activity:activity-compose:1.9.3")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("androidx.activity:activity-compose:1.10.0")
     implementation("androidx.compose.ui:ui:$compose_ui_version")
     implementation("androidx.compose.ui:ui-tooling-preview:$compose_ui_version")
-    implementation("androidx.compose.material:material:1.7.4")
+    implementation("androidx.compose.material:material:1.7.8")
     debugImplementation("androidx.compose.ui:ui-tooling:$compose_ui_version")
     debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_ui_version")
     testImplementation("junit:junit:4.13.2")

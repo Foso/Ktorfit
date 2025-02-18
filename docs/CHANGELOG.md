@@ -7,9 +7,55 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+# Unreleased
+
+## Added
+- Add KSP2 support
+
+# [2.3.0]()
+
+2.3.0 - 2025-02-16
+========================================
+* Supported KSP version: 1.0.30
+* Supported Kotlin version: 2.1.10
+* Ktor version: 3.1.0
+
+## Added
+- Provide option to not use the compiler plugin #764
+You can now set the Kotlin version for the compiler plugin. 
+By default, it will use the Kotlin version of the project. You can set it to "-" to disable the plugin.
+
+```kotlin
+ktorfit{
+    kotlinVersion = "-"
+    // or
+    kotlinVersion = "x.x.x"
+}
+```
+
+- Added targets:
+androidNativeArm32
+androidNativeArm64
+androidNativeX86
+androidNativeX64
+
+
+- Include function annotations in request attribute
+See https://foso.github.io/Ktorfit/requests/#annotations
+
+## Fixed
+- @Headers annotation produces unexpected newline in generated code by ksp plugin #752
+- Generated code containing repeated @OptIn annotation #767
+
+Thanks to @DatL4g, @dewantawsif and @MohammadFakhraee for contributing to this release!
+
 # [2.2.0]()
-* Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC, 2.0.21, 2.1.0-RC, 2.1.0-RC2, 2.1.0
-* Supported KSP version: 1.0.27, 1.0.28, 1.0.29
+
+2.2.0 - 2024-11-10
+========================================
+
+* Supported Kotlin version: 2.0.0; 2.0.10; 2.0.20, 2.1.0-Beta1; 2.0.21-RC, 2.0.21, 2.10
+* Supported KSP version: 1.0.27, 1.0.28, 1.0.29, 1.0.30
 * Ktor version: 3.0.1
 
 ## Changed 
