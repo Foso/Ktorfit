@@ -75,9 +75,17 @@ class KtorfitGradlePlugin : Plugin<Project> {
                         if (singleTarget) {
                             argMethod.invoke(kspExtension, "Ktorfit_MultiplatformWithSingleTarget", true.toString())
                         } else {
-                            tasks.withType(KotlinCompilationTask::class.java).configureEach {
-                                if (name != "kspCommonMainKotlinMetadata") {
-                                    dependsOn("kspCommonMainKotlinMetadata")
+                            val useKsp2 = project.findProperty("ksp.useKSP2")?.toString()?.toBoolean() ?: false
+
+                            if (useKsp2) {
+                                tasks.filter { it.name != "kspCommonMainKotlinMetadata" }.forEach {
+                                    it.dependsOn("kspCommonMainKotlinMetadata")
+                                }
+                            } else {
+                                tasks.withType(KotlinCompilationTask::class.java).configureEach {
+                                    if (name != "kspCommonMainKotlinMetadata") {
+                                        dependsOn("kspCommonMainKotlinMetadata")
+                                    }
                                 }
                             }
                         }
