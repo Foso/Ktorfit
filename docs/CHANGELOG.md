@@ -11,6 +11,7 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 
 ## Added
 - Add KSP2 support
+- Add watchosDeviceArm64 target
 
 # [2.3.0]()
 
