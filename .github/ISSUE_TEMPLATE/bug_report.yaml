@@ -1,12 +1,12 @@
 name: Bug Report
 description: File a bug report
-labels: ["bug"]
+labels: ["bug","unconfirmed"]
 body:
   - type: input
     id: ktorfit-version
     attributes:
       label: Ktorfit version
-      placeholder: ex. 1.x.x
+      placeholder: ex. 2.x.x
     validations:
       required: true
   - type: markdown
