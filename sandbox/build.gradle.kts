@@ -7,6 +7,10 @@ plugins {
 }
 version = "1.0-SNAPSHOT"
 
+ktorfit{
+    kotlinVersion = "3.5.31"
+}
+
 ksp {
     arg("Ktorfit_Errors", "1")
     arg("Ktorfit_QualifiedTypeName", "false")
@@ -115,9 +119,7 @@ kotlin {
 
 configurations.all {
     resolutionStrategy.dependencySubstitution {
-        substitute(module("de.jensklingenberg.ktorfit:gradle-plugin"))
-            .using(project(":ktorfit-gradle-plugin"))
-            .because("we work with the unreleased development version")
+
         substitute(module("de.jensklingenberg.ktorfit:compiler-plugin"))
             .using(project(":ktorfit-compiler-plugin"))
             .because("we work with the unreleased development version")
