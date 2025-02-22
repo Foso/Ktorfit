@@ -6,7 +6,6 @@ import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.GRADLE_TA
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.GROUP_NAME
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.KTORFIT_COMPILER_PLUGIN_VERSION
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.MIN_KOTLIN_VERSION
-import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.SNAPSHOT
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
@@ -18,7 +17,7 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
 internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
-    private lateinit var myproject: Project
+    private lateinit var myProject: Project
 
     override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
         return kotlinCompilation.target.project.provider {
@@ -30,14 +29,14 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
     }
 
     override fun apply(target: Project) {
-        myproject = target
+        myProject = target
     }
 
     override fun getCompilerPluginId(): String = COMPILER_PLUGIN_ID
 
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean {
         val kotlinVersion =
-            myproject.ktorfitExtension(
+            myProject.ktorfitExtension(
                 GRADLE_TASKNAME
             ).kotlinVersion.get()
 
@@ -46,16 +45,16 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class, ExperimentalBuildToolsApi::class)
     override fun getPluginArtifact(): SubpluginArtifact {
+        checkKotlinVersion(myProject.kotlinExtension.compilerVersion.get())
         val compilerVersion =
-            myproject.ktorfitExtension(
+            myProject.ktorfitExtension(
                 GRADLE_TASKNAME
-            ).kotlinVersion.getOrElse(myproject.kotlinExtension.compilerVersion.get())
-        checkKotlinVersion(compilerVersion)
+            ).kotlinVersion.getOrElse(KTORFIT_COMPILER_PLUGIN_VERSION)
 
         return SubpluginArtifact(
             groupId = GROUP_NAME,
             artifactId = ARTIFACT_NAME,
-            version = "${KTORFIT_COMPILER_PLUGIN_VERSION}-$compilerVersion$SNAPSHOT",
+            version = compilerVersion
         )
     }
 

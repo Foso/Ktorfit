@@ -11,7 +11,6 @@ plugins {
 
 ktorfit {
     errorCheckingMode = ErrorCheckingMode.ERROR
-    generateQualifiedTypeName = false
 }
 
 version = "1.0"

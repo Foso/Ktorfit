@@ -3,9 +3,6 @@ package de.jensklingenberg.ktorfit.gradle
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
-import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import javax.inject.Inject
 
 /**
@@ -37,11 +34,10 @@ open class KtorfitPluginExtension
          */
         open val kotlinVersion: Property<String> = objectFactory.property(String::class.java)
 
-        @OptIn(ExperimentalKotlinGradlePluginApi::class, ExperimentalBuildToolsApi::class)
         internal fun setupConvention(project: Project) {
             generateQualifiedTypeName.convention(false)
             errorCheckingMode.convention(ErrorCheckingMode.ERROR)
-            kotlinVersion.convention(project.kotlinExtension.compilerVersion)
+            kotlinVersion.convention(KtorfitGradlePlugin.KTORFIT_COMPILER_PLUGIN_VERSION)
         }
     }
 
