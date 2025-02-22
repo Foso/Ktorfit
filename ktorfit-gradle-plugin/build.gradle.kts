@@ -3,7 +3,7 @@ plugins {
     kotlin("kapt")
     id("java-gradle-plugin")
     `kotlin-dsl`
-    id("com.gradle.plugin-publish") version "1.2.1"
+    id("com.gradle.plugin-publish") version "1.3.1"
     id("com.vanniktech.maven.publish")
     id("org.jlleitschuh.gradle.ktlint")
 }
