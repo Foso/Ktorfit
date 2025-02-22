@@ -9,9 +9,21 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 
 # Unreleased
 
+Unreleased
+========================================
+* Supported KSP version: 1.0.28
+* Supported Kotlin version: 2.1.10
+* Ktor version: 3.1.0
+
 ## Added
 - Add KSP2 support
 - Add watchosDeviceArm64 target
+
+# Changed
+- Changed internal versioning numbers of the Ktorfit KSP and compiler plugin. 
+With that change Ktorfit only needs to be updated when a new KSP / Kotlin version introduces breaking changes in the API and not for every minor update.
+This is also the reason why this version has KSP min version 1.0.28 even though the last Ktorfit version has 1.0.30
+
 
 # [2.3.0]()
 

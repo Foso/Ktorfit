@@ -6,12 +6,11 @@ plugins {
     id("com.android.library")
     id("com.google.devtools.ksp") version "2.1.10-1.0.30"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "2.3.0"
+    id("de.jensklingenberg.ktorfit") version "2.4.0"
 }
 
 ktorfit {
     errorCheckingMode = ErrorCheckingMode.ERROR
-    generateQualifiedTypeName = false
 }
 
 version = "1.0"

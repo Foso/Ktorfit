@@ -6,7 +6,6 @@ import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.GRADLE_TA
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.GROUP_NAME
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.KTORFIT_COMPILER_PLUGIN_VERSION
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.MIN_KOTLIN_VERSION
-import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.SNAPSHOT
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
@@ -55,7 +54,7 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
         return SubpluginArtifact(
             groupId = GROUP_NAME,
             artifactId = ARTIFACT_NAME,
-            version = "${KTORFIT_COMPILER_PLUGIN_VERSION}-$compilerVersion$SNAPSHOT",
+            version = KTORFIT_COMPILER_PLUGIN_VERSION
         )
     }
 
