@@ -51,6 +51,9 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
       - name: API check
         run: ./gradlew apiCheck
+      - name: 'Notify on failure'
+        if: failure()
+        run: echo "Format check failed. Run ./gradlew apiDump to fix."
   build:
     runs-on: macos-latest
     steps:

@@ -10,7 +10,7 @@ Releasing
 5. Update ktorfit release version in mkdocs.yml
 6. Update version in KtorfitGradleConfiguration
 7. Set the release date in docs/changelog.md
-8. `git commit -am "Release X.Y.Z."` (where X.Y.Z is the new version)
+8. `git commit -am "X.Y.Z."` (where X.Y.Z is the new version)
 9. Push and create a PR to the `master` branch
 10. When all checks successful, run GitHub Action `Publish Release` from your branch
 11. Set the Git tag `git tag -a X.Y.Z -m "X.Y.Z"` (where X.Y.Z is the new version)
