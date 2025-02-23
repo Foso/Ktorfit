@@ -52,17 +52,17 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     }
 }
 
-val ktorfit = "2.4.0"
+val ktorfitVersion = "2.4.0"
 val ktor = "3.1.0"
 val compose_ui_version = "1.7.8"
 dependencies {
-    implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfit")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
     implementation("io.ktor:ktor-client-serialization:$ktor")
     implementation("io.ktor:ktor-client-content-negotiation:$ktor")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
-    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfit")
-    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfit")
-    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfit")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfitVersion")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfitVersion")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfitVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.activity:activity-compose:1.10.0")
     implementation("androidx.compose.ui:ui:$compose_ui_version")
