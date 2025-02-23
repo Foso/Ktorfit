@@ -11,7 +11,7 @@
 
 ## Introduction
 
-Ktorfit is a HTTP client/Kotlin Symbol Processor for Kotlin Multiplatform ( Android, iOS, Js, Jvm, Linux)
+Ktorfit is an HTTP client/Kotlin Symbol Processor for Kotlin Multiplatform ( Android, iOS, Js, Jvm, Linux)
 using [KSP](https://github.com/google/ksp) and [Ktor clients](https://ktor.io/docs/getting-started-ktor-client.html)
 inspired by [Retrofit](https://square.github.io/retrofit/)
 
