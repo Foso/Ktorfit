@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "2.1.10-1.0.30"
+    id("com.google.devtools.ksp") version "2.1.10-1.0.31"
     id("kotlinx-serialization")
     id("de.jensklingenberg.ktorfit") version "2.4.0"
 }
@@ -14,7 +14,7 @@ ktorfit {
 }
 
 version = "1.0"
-val ktorVersion = "3.1.0"
+val ktorVersion = "3.1.1"
 val ktorfitVersion = "2.4.0"
 
 kotlin {
@@ -47,7 +47,7 @@ kotlin {
                 implementation(project(":person"))
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
                 // implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:$ktorfitVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfitVersion")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfitVersion")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfitVersion")
