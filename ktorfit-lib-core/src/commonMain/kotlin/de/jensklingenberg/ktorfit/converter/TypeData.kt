@@ -37,7 +37,7 @@ public data class TypeData(
                         if (modelClass == null) {
                             return@mapIndexed null
                         } else {
-                            createTypeData(cleaned, TypeInfo(modelClass, modelKType))
+                            createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType))
                         }
                     }?.filterNotNull()
                     .orEmpty()
