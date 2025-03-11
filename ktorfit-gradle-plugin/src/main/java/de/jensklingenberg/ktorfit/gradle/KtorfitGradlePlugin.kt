@@ -77,8 +77,10 @@ class KtorfitGradlePlugin : Plugin<Project> {
                             val useKsp2 = project.findProperty("ksp.useKSP2")?.toString()?.toBoolean() ?: false
 
                             if (useKsp2) {
-                                tasks.filter { it.name != "kspCommonMainKotlinMetadata" }.forEach {
-                                    it.dependsOn("kspCommonMainKotlinMetadata")
+                                tasks.named { name -> name.startsWith("ksp") }.configureEach {
+                                    if (name != "kspCommonMainKotlinMetadata") {
+                                        dependsOn("kspCommonMainKotlinMetadata")
+                                    }
                                 }
                             } else {
                                 tasks.withType(KotlinCompilationTask::class.java).configureEach {
