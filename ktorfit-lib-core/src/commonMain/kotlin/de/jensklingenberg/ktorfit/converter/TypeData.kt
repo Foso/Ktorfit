@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.converter
 
 import io.ktor.util.reflect.TypeInfo
+import io.ktor.util.reflect.platformType
 import kotlin.reflect.KClass
 
 /**
