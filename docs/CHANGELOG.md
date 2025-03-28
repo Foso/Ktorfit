@@ -7,6 +7,16 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+
+# [Unreleased]()
+
+Unreleased - 2025-xx-xx
+========================================
+
+## Added
+- Bundle proguard rules for Android
+
+
 # [2.4.1]()
 
 2.4.1 - 2025-03-14

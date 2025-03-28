@@ -173,6 +173,17 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 34
+
+        val proguardFile =
+            file("src/jvmMain/resources/META-INF/proguard/ktorfit.pro").also {
+                if (!it.exists()) {
+                    throw NoSuchFileException(
+                        file = it,
+                        reason = "We have to provide a proguard rules file for the library.",
+                    )
+                }
+            }
+        consumerProguardFiles(proguardFile)
     }
     namespace = "de.jensklingenberg.ktorfit.common"
 }
