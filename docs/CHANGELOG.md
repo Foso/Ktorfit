@@ -8,9 +8,9 @@ Note: This project needs KSP to work and every new Ktorfit with an update of the
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
 
-# [Unreleased]()
+# [2.5.0]()
 
-Unreleased - 2025-xx-xx
+2.5.0 - 2025-03-30
 ========================================
 * Supported KSP version: >=1.0.28
 * Supported Kotlin version: >=2.1.10
@@ -21,6 +21,12 @@ Unreleased - 2025-xx-xx
 
 ## Changed
 - Update Ktor to 3.1.2
+
+## Fixed
+- Fixed a release issue where planned changes for 2.4.1 were not included in the release
+
+Thanks to @gooler for contributing to this release!
+
 
 # [2.4.1]()
 
