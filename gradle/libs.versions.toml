@@ -20,7 +20,7 @@ ktorfitResponseConverter = "2.4.1"
 ktorfitGradle = "2.4.1"
 
 ktorfitGradlePlugin = "2.4.0"
-ktorVersion = "3.1.0"
+ktorVersion = "3.1.2"
 mockk = "1.13.17"
 mockito-kotlin = "4.1.0"
 gradleMavenPublishPlugin = "0.28.0"

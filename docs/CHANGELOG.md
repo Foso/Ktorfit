@@ -12,10 +12,15 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 
 Unreleased - 2025-xx-xx
 ========================================
+* Supported KSP version: >=1.0.28
+* Supported Kotlin version: >=2.1.10
+* Ktor version: 3.1.2
 
 ## Added
 - Bundle proguard rules for Android
 
+## Changed
+- Update Ktor to 3.1.2
 
 # [2.4.1]()
 
