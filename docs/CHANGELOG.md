@@ -25,7 +25,7 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 ## Fixed
 - Fixed a release issue where planned changes for 2.4.1 were not included in the release
 
-Thanks to @gooler for contributing to this release!
+Thanks to @Goooler for contributing to this release!
 
 
 # [2.4.1]()
