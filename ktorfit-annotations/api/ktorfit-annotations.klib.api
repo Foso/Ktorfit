@@ -1,0 +1,189 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <Ktorfit:ktorfit-annotations>
+open annotation class de.jensklingenberg.ktorfit.core/NoDelegation : kotlin/Annotation { // de.jensklingenberg.ktorfit.core/NoDelegation|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.core/NoDelegation.<init>|<init>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/Body : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/Body|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.http/Body.<init>|<init>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/DELETE : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/DELETE|null[0]
+    constructor <init>(kotlin/String = ...) // de.jensklingenberg.ktorfit.http/DELETE.<init>|<init>(kotlin.String){}[0]
+
+    final val value // de.jensklingenberg.ktorfit.http/DELETE.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/DELETE.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/Field : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/Field|null[0]
+    constructor <init>(kotlin/String = ..., kotlin/Boolean = ...) // de.jensklingenberg.ktorfit.http/Field.<init>|<init>(kotlin.String;kotlin.Boolean){}[0]
+
+    final val encoded // de.jensklingenberg.ktorfit.http/Field.encoded|{}encoded[0]
+        final fun <get-encoded>(): kotlin/Boolean // de.jensklingenberg.ktorfit.http/Field.encoded.<get-encoded>|<get-encoded>(){}[0]
+    final val value // de.jensklingenberg.ktorfit.http/Field.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/Field.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/FieldMap : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/FieldMap|null[0]
+    constructor <init>(kotlin/Boolean = ...) // de.jensklingenberg.ktorfit.http/FieldMap.<init>|<init>(kotlin.Boolean){}[0]
+
+    final val encoded // de.jensklingenberg.ktorfit.http/FieldMap.encoded|{}encoded[0]
+        final fun <get-encoded>(): kotlin/Boolean // de.jensklingenberg.ktorfit.http/FieldMap.encoded.<get-encoded>|<get-encoded>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/FormUrlEncoded : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/FormUrlEncoded|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.http/FormUrlEncoded.<init>|<init>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/GET : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/GET|null[0]
+    constructor <init>(kotlin/String = ...) // de.jensklingenberg.ktorfit.http/GET.<init>|<init>(kotlin.String){}[0]
+
+    final val value // de.jensklingenberg.ktorfit.http/GET.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/GET.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/HEAD : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/HEAD|null[0]
+    constructor <init>(kotlin/String = ...) // de.jensklingenberg.ktorfit.http/HEAD.<init>|<init>(kotlin.String){}[0]
+
+    final val value // de.jensklingenberg.ktorfit.http/HEAD.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/HEAD.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/HTTP : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/HTTP|null[0]
+    constructor <init>(kotlin/String, kotlin/String = ..., kotlin/Boolean = ...) // de.jensklingenberg.ktorfit.http/HTTP.<init>|<init>(kotlin.String;kotlin.String;kotlin.Boolean){}[0]
+
+    final val hasBody // de.jensklingenberg.ktorfit.http/HTTP.hasBody|{}hasBody[0]
+        final fun <get-hasBody>(): kotlin/Boolean // de.jensklingenberg.ktorfit.http/HTTP.hasBody.<get-hasBody>|<get-hasBody>(){}[0]
+    final val method // de.jensklingenberg.ktorfit.http/HTTP.method|{}method[0]
+        final fun <get-method>(): kotlin/String // de.jensklingenberg.ktorfit.http/HTTP.method.<get-method>|<get-method>(){}[0]
+    final val path // de.jensklingenberg.ktorfit.http/HTTP.path|{}path[0]
+        final fun <get-path>(): kotlin/String // de.jensklingenberg.ktorfit.http/HTTP.path.<get-path>|<get-path>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/Header : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/Header|null[0]
+    constructor <init>(kotlin/String) // de.jensklingenberg.ktorfit.http/Header.<init>|<init>(kotlin.String){}[0]
+
+    final val value // de.jensklingenberg.ktorfit.http/Header.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/Header.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/HeaderMap : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/HeaderMap|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.http/HeaderMap.<init>|<init>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/Headers : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/Headers|null[0]
+    constructor <init>(kotlin/Array<out kotlin/String>...) // de.jensklingenberg.ktorfit.http/Headers.<init>|<init>(kotlin.Array<out|kotlin.String>...){}[0]
+
+    final val value // de.jensklingenberg.ktorfit.http/Headers.value|{}value[0]
+        final fun <get-value>(): kotlin/Array<out kotlin/String> // de.jensklingenberg.ktorfit.http/Headers.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/Multipart : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/Multipart|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.http/Multipart.<init>|<init>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/OPTIONS : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/OPTIONS|null[0]
+    constructor <init>(kotlin/String = ...) // de.jensklingenberg.ktorfit.http/OPTIONS.<init>|<init>(kotlin.String){}[0]
+
+    final val value // de.jensklingenberg.ktorfit.http/OPTIONS.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/OPTIONS.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/PATCH : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/PATCH|null[0]
+    constructor <init>(kotlin/String = ...) // de.jensklingenberg.ktorfit.http/PATCH.<init>|<init>(kotlin.String){}[0]
+
+    final val value // de.jensklingenberg.ktorfit.http/PATCH.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/PATCH.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/POST : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/POST|null[0]
+    constructor <init>(kotlin/String = ...) // de.jensklingenberg.ktorfit.http/POST.<init>|<init>(kotlin.String){}[0]
+
+    final val value // de.jensklingenberg.ktorfit.http/POST.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/POST.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/PUT : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/PUT|null[0]
+    constructor <init>(kotlin/String = ...) // de.jensklingenberg.ktorfit.http/PUT.<init>|<init>(kotlin.String){}[0]
+
+    final val value // de.jensklingenberg.ktorfit.http/PUT.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/PUT.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/Part : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/Part|null[0]
+    constructor <init>(kotlin/String = ...) // de.jensklingenberg.ktorfit.http/Part.<init>|<init>(kotlin.String){}[0]
+
+    final val value // de.jensklingenberg.ktorfit.http/Part.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/Part.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/PartMap : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/PartMap|null[0]
+    constructor <init>(kotlin/String = ...) // de.jensklingenberg.ktorfit.http/PartMap.<init>|<init>(kotlin.String){}[0]
+
+    final val encoding // de.jensklingenberg.ktorfit.http/PartMap.encoding|{}encoding[0]
+        final fun <get-encoding>(): kotlin/String // de.jensklingenberg.ktorfit.http/PartMap.encoding.<get-encoding>|<get-encoding>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/Path : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/Path|null[0]
+    constructor <init>(kotlin/String = ..., kotlin/Boolean = ...) // de.jensklingenberg.ktorfit.http/Path.<init>|<init>(kotlin.String;kotlin.Boolean){}[0]
+
+    final val encoded // de.jensklingenberg.ktorfit.http/Path.encoded|{}encoded[0]
+        final fun <get-encoded>(): kotlin/Boolean // de.jensklingenberg.ktorfit.http/Path.encoded.<get-encoded>|<get-encoded>(){}[0]
+    final val value // de.jensklingenberg.ktorfit.http/Path.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/Path.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/Query : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/Query|null[0]
+    constructor <init>(kotlin/String = ..., kotlin/Boolean = ...) // de.jensklingenberg.ktorfit.http/Query.<init>|<init>(kotlin.String;kotlin.Boolean){}[0]
+
+    final val encoded // de.jensklingenberg.ktorfit.http/Query.encoded|{}encoded[0]
+        final fun <get-encoded>(): kotlin/Boolean // de.jensklingenberg.ktorfit.http/Query.encoded.<get-encoded>|<get-encoded>(){}[0]
+    final val value // de.jensklingenberg.ktorfit.http/Query.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/Query.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/QueryMap : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/QueryMap|null[0]
+    constructor <init>(kotlin/Boolean = ...) // de.jensklingenberg.ktorfit.http/QueryMap.<init>|<init>(kotlin.Boolean){}[0]
+
+    final val encoded // de.jensklingenberg.ktorfit.http/QueryMap.encoded|{}encoded[0]
+        final fun <get-encoded>(): kotlin/Boolean // de.jensklingenberg.ktorfit.http/QueryMap.encoded.<get-encoded>|<get-encoded>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/QueryName : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/QueryName|null[0]
+    constructor <init>(kotlin/Boolean = ...) // de.jensklingenberg.ktorfit.http/QueryName.<init>|<init>(kotlin.Boolean){}[0]
+
+    final val encoded // de.jensklingenberg.ktorfit.http/QueryName.encoded|{}encoded[0]
+        final fun <get-encoded>(): kotlin/Boolean // de.jensklingenberg.ktorfit.http/QueryName.encoded.<get-encoded>|<get-encoded>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/ReqBuilder : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/ReqBuilder|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.http/ReqBuilder.<init>|<init>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/RequestType : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/RequestType|null[0]
+    constructor <init>(kotlin.reflect/KClass<*>) // de.jensklingenberg.ktorfit.http/RequestType.<init>|<init>(kotlin.reflect.KClass<*>){}[0]
+
+    final val requestType // de.jensklingenberg.ktorfit.http/RequestType.requestType|{}requestType[0]
+        final fun <get-requestType>(): kotlin.reflect/KClass<*> // de.jensklingenberg.ktorfit.http/RequestType.requestType.<get-requestType>|<get-requestType>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/Streaming : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/Streaming|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.http/Streaming.<init>|<init>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/Tag : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/Tag|null[0]
+    constructor <init>(kotlin/String = ...) // de.jensklingenberg.ktorfit.http/Tag.<init>|<init>(kotlin.String){}[0]
+
+    final val value // de.jensklingenberg.ktorfit.http/Tag.value|{}value[0]
+        final fun <get-value>(): kotlin/String // de.jensklingenberg.ktorfit.http/Tag.value.<get-value>|<get-value>(){}[0]
+}
+
+open annotation class de.jensklingenberg.ktorfit.http/Url : kotlin/Annotation { // de.jensklingenberg.ktorfit.http/Url|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.http/Url.<init>|<init>(){}[0]
+}

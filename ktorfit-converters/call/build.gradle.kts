@@ -8,7 +8,6 @@ plugins {
     id("signing")
     id("com.vanniktech.maven.publish")
     id("com.android.library")
-    alias(libs.plugins.binaryCompatibilityValidator)
     id("app.cash.licensee")
     id("org.jlleitschuh.gradle.ktlint")
 }

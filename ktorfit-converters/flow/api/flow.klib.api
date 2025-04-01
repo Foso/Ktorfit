@@ -1,0 +1,13 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, wasmJs, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <Ktorfit.ktorfit-converters:flow>
+final class de.jensklingenberg.ktorfit.converter/FlowConverterFactory : de.jensklingenberg.ktorfit.converter/Converter.Factory { // de.jensklingenberg.ktorfit.converter/FlowConverterFactory|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.converter/FlowConverterFactory.<init>|<init>(){}[0]
+
+    final fun responseConverter(de.jensklingenberg.ktorfit.converter/TypeData, de.jensklingenberg.ktorfit/Ktorfit): de.jensklingenberg.ktorfit.converter/Converter.ResponseConverter<io.ktor.client.statement/HttpResponse, *>? // de.jensklingenberg.ktorfit.converter/FlowConverterFactory.responseConverter|responseConverter(de.jensklingenberg.ktorfit.converter.TypeData;de.jensklingenberg.ktorfit.Ktorfit){}[0]
+}

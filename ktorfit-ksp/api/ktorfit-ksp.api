@@ -1,0 +1,497 @@
+public final class de/jensklingenberg/ktorfit/KtorfitLogger : com/google/devtools/ksp/processing/KSPLogger {
+	public fun <init> (Lcom/google/devtools/ksp/processing/KSPLogger;I)V
+	public fun error (Ljava/lang/String;Lcom/google/devtools/ksp/symbol/KSNode;)V
+	public fun exception (Ljava/lang/Throwable;)V
+	public fun info (Ljava/lang/String;Lcom/google/devtools/ksp/symbol/KSNode;)V
+	public fun logging (Ljava/lang/String;Lcom/google/devtools/ksp/symbol/KSNode;)V
+	public fun warn (Ljava/lang/String;Lcom/google/devtools/ksp/symbol/KSNode;)V
+}
+
+public final class de/jensklingenberg/ktorfit/KtorfitOptions {
+	public fun <init> (Ljava/util/Map;)V
+	public final fun getErrorsLoggingType ()I
+	public final fun getMultiplatformWithSingleTarget ()Z
+	public final fun getSetQualifiedType ()Z
+}
+
+public final class de/jensklingenberg/ktorfit/KtorfitProcessor : com/google/devtools/ksp/processing/SymbolProcessor {
+	public static final field Companion Lde/jensklingenberg/ktorfit/KtorfitProcessor$Companion;
+	public static field ktorfitResolver Lcom/google/devtools/ksp/processing/Resolver;
+	public fun <init> (Lcom/google/devtools/ksp/processing/SymbolProcessorEnvironment;Lde/jensklingenberg/ktorfit/KtorfitOptions;)V
+	public fun process (Lcom/google/devtools/ksp/processing/Resolver;)Ljava/util/List;
+}
+
+public final class de/jensklingenberg/ktorfit/KtorfitProcessor$Companion {
+	public final fun getKtorfitResolver ()Lcom/google/devtools/ksp/processing/Resolver;
+	public final fun setKtorfitResolver (Lcom/google/devtools/ksp/processing/Resolver;)V
+}
+
+public final class de/jensklingenberg/ktorfit/KtorfitProcessorProvider : com/google/devtools/ksp/processing/SymbolProcessorProvider {
+	public fun <init> ()V
+	public fun create (Lcom/google/devtools/ksp/processing/SymbolProcessorEnvironment;)Lcom/google/devtools/ksp/processing/SymbolProcessor;
+}
+
+public final class de/jensklingenberg/ktorfit/generator/ClassGeneratorKt {
+	public static final fun generateImplClass (Ljava/util/List;Lcom/google/devtools/ksp/processing/CodeGenerator;Lcom/google/devtools/ksp/processing/Resolver;Lde/jensklingenberg/ktorfit/KtorfitOptions;)V
+}
+
+public final class de/jensklingenberg/ktorfit/model/ClassData {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/Set;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/google/devtools/ksp/symbol/KSFile;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/Set;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/google/devtools/ksp/symbol/KSFile;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Ljava/util/Set;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Ljava/util/List;
+	public final fun component7 ()Ljava/util/List;
+	public final fun component8 ()Lcom/google/devtools/ksp/symbol/KSFile;
+	public final fun component9 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/Set;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/google/devtools/ksp/symbol/KSFile;Ljava/util/List;)Lde/jensklingenberg/ktorfit/model/ClassData;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/ClassData;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/Set;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/google/devtools/ksp/symbol/KSFile;Ljava/util/List;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/ClassData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAnnotations ()Ljava/util/List;
+	public final fun getFunctions ()Ljava/util/List;
+	public final fun getImplName ()Ljava/lang/String;
+	public final fun getImports ()Ljava/util/Set;
+	public final fun getKsFile ()Lcom/google/devtools/ksp/symbol/KSFile;
+	public final fun getModifiers ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPackageName ()Ljava/lang/String;
+	public final fun getProperties ()Ljava/util/List;
+	public final fun getProviderName ()Ljava/lang/String;
+	public final fun getSuperClasses ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/ClassDataKt {
+	public static final fun toClassData (Lcom/google/devtools/ksp/symbol/KSClassDeclaration;Lcom/google/devtools/ksp/processing/KSPLogger;)Lde/jensklingenberg/ktorfit/model/ClassData;
+}
+
+public final class de/jensklingenberg/ktorfit/model/FunctionData {
+	public fun <init> (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;ZLjava/util/List;Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/util/List;Ljava/util/List;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;ZLjava/util/List;Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lde/jensklingenberg/ktorfit/model/ReturnTypeData;
+	public final fun component3 ()Z
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;
+	public final fun component7 ()Ljava/util/List;
+	public final fun component8 ()Ljava/util/List;
+	public final fun component9 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;ZLjava/util/List;Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/util/List;Ljava/util/List;Ljava/util/List;)Lde/jensklingenberg/ktorfit/model/FunctionData;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/FunctionData;Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;ZLjava/util/List;Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/FunctionData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAnnotations ()Ljava/util/List;
+	public final fun getHttpMethodAnnotation ()Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;
+	public final fun getModifiers ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getNonKtorfitAnnotations ()Ljava/util/List;
+	public final fun getOptInAnnotations ()Ljava/util/List;
+	public final fun getParameterDataList ()Ljava/util/List;
+	public final fun getReturnType ()Lde/jensklingenberg/ktorfit/model/ReturnTypeData;
+	public fun hashCode ()I
+	public final fun isSuspend ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/FunctionDataKt {
+	public static final fun toFunctionData (Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;Lcom/google/devtools/ksp/processing/KSPLogger;Lkotlin/jvm/functions/Function1;)Lde/jensklingenberg/ktorfit/model/FunctionData;
+}
+
+public final class de/jensklingenberg/ktorfit/model/KtorfitClass {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/KtorfitClass;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getObjectName ()Ljava/lang/String;
+	public final fun getPackageName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/KtorfitClassKt {
+	public static final fun getAnnotationsAttributeKey ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public static final fun getConverterHelper ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public static final fun getExtDataClass ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public static final fun getFormData ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public static final fun getFormParameters ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public static final fun getInternalApi ()Lcom/squareup/kotlinpoet/ClassName;
+	public static final fun getKtorfitClass ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public static final fun getProviderClass ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public static final fun getTypeDataClass ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public static final fun toClassName (Lde/jensklingenberg/ktorfit/model/KtorfitClass;)Lcom/squareup/kotlinpoet/ClassName;
+}
+
+public final class de/jensklingenberg/ktorfit/model/ParameterData {
+	public fun <init> (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lde/jensklingenberg/ktorfit/model/ReturnTypeData;
+	public final fun component3 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;Ljava/util/List;)Lde/jensklingenberg/ktorfit/model/ParameterData;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/ParameterData;Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;Ljava/util/List;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/ParameterData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAnnotations ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getType ()Lde/jensklingenberg/ktorfit/model/ReturnTypeData;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/ParameterDataKt {
+	public static final fun createParameterData (Lcom/google/devtools/ksp/symbol/KSValueParameter;Lcom/google/devtools/ksp/processing/KSPLogger;)Lde/jensklingenberg/ktorfit/model/ParameterData;
+}
+
+public final class de/jensklingenberg/ktorfit/model/ReturnTypeData {
+	public fun <init> (Ljava/lang/String;Lcom/google/devtools/ksp/symbol/KSType;Lcom/squareup/kotlinpoet/TypeName;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/google/devtools/ksp/symbol/KSType;Lcom/squareup/kotlinpoet/TypeName;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lcom/google/devtools/ksp/symbol/KSType;
+	public final fun component3 ()Lcom/squareup/kotlinpoet/TypeName;
+	public final fun copy (Ljava/lang/String;Lcom/google/devtools/ksp/symbol/KSType;Lcom/squareup/kotlinpoet/TypeName;)Lde/jensklingenberg/ktorfit/model/ReturnTypeData;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/ReturnTypeData;Ljava/lang/String;Lcom/google/devtools/ksp/symbol/KSType;Lcom/squareup/kotlinpoet/TypeName;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/ReturnTypeData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getName ()Ljava/lang/String;
+	public final fun getParameterType ()Lcom/google/devtools/ksp/symbol/KSType;
+	public final fun getTypeName ()Lcom/squareup/kotlinpoet/TypeName;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/CustomHttp : de/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation {
+	public fun <init> (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;Ljava/lang/String;)V
+	public final fun getCustomValue ()Ljava/lang/String;
+	public fun getHttpMethod ()Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;
+	public fun getPath ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/FormUrlEncoded : de/jensklingenberg/ktorfit/model/annotations/FunctionAnnotation {
+	public static final field INSTANCE Lde/jensklingenberg/ktorfit/model/annotations/FormUrlEncoded;
+}
+
+public class de/jensklingenberg/ktorfit/model/annotations/FunctionAnnotation {
+	public fun <init> ()V
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/Headers : de/jensklingenberg/ktorfit/model/annotations/FunctionAnnotation {
+	public fun <init> (Ljava/util/List;)V
+	public final fun getValue ()Ljava/util/List;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/HttpMethod : java/lang/Enum {
+	public static final field CUSTOM Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;
+	public static final field DELETE Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;
+	public static final field GET Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;
+	public static final field HEAD Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;
+	public static final field PATCH Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;
+	public static final field POST Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;
+	public static final field PUT Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getKeyword ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;
+	public static fun values ()[Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;
+}
+
+public class de/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation : de/jensklingenberg/ktorfit/model/annotations/FunctionAnnotation {
+	public fun <init> (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;)V
+	public fun getHttpMethod ()Lde/jensklingenberg/ktorfit/model/annotations/HttpMethod;
+	public fun getPath ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/Multipart : de/jensklingenberg/ktorfit/model/annotations/FunctionAnnotation {
+	public static final field INSTANCE Lde/jensklingenberg/ktorfit/model/annotations/Multipart;
+}
+
+public abstract class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Body : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public static final field INSTANCE Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Body;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Field : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public fun <init> (Ljava/lang/String;Z)V
+	public synthetic fun <init> (Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Z
+	public final fun copy (Ljava/lang/String;Z)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Field;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Field;Ljava/lang/String;ZILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Field;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEncoded ()Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$FieldMap : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public fun <init> (Z)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$FieldMap;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$FieldMap;ZILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$FieldMap;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEncoded ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Header : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Header;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Header;Ljava/lang/String;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Header;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPath ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$HeaderMap : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public static final field INSTANCE Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$HeaderMap;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Part : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Part;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Part;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Part;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEncoding ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$PartMap : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$PartMap;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$PartMap;Ljava/lang/String;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$PartMap;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEncoding ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Path : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public fun <init> (Ljava/lang/String;Z)V
+	public synthetic fun <init> (Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Z
+	public final fun copy (Ljava/lang/String;Z)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Path;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Path;Ljava/lang/String;ZILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Path;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEncoded ()Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Query : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public fun <init> (Ljava/lang/String;Z)V
+	public synthetic fun <init> (Ljava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Z
+	public final fun copy (Ljava/lang/String;Z)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Query;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Query;Ljava/lang/String;ZILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Query;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEncoded ()Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$QueryMap : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$QueryMap;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$QueryMap;ZILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$QueryMap;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEncoded ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$QueryName : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public fun <init> ()V
+	public fun <init> (Z)V
+	public synthetic fun <init> (ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun copy (Z)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$QueryName;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$QueryName;ZILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$QueryName;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEncoded ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$RequestBuilder : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public static final field INSTANCE Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$RequestBuilder;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$RequestType : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public fun <init> (Lcom/google/devtools/ksp/symbol/KSType;)V
+	public final fun component1 ()Lcom/google/devtools/ksp/symbol/KSType;
+	public final fun copy (Lcom/google/devtools/ksp/symbol/KSType;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$RequestType;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$RequestType;Lcom/google/devtools/ksp/symbol/KSType;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$RequestType;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getRequestType ()Lcom/google/devtools/ksp/symbol/KSType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Tag : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Tag;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Tag;Ljava/lang/String;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Tag;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Url : de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation {
+	public static final field INSTANCE Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Url;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/ParameterAnnotationKt {
+	public static final fun getParamAnnotationList (Lcom/google/devtools/ksp/symbol/KSValueParameter;Lcom/google/devtools/ksp/processing/KSPLogger;)Ljava/util/List;
+}
+
+public final class de/jensklingenberg/ktorfit/model/annotations/Streaming : de/jensklingenberg/ktorfit/model/annotations/FunctionAnnotation {
+	public static final field INSTANCE Lde/jensklingenberg/ktorfit/model/annotations/Streaming;
+}
+
+public final class de/jensklingenberg/ktorfit/poetspec/FileSpecKt {
+	public static final fun createFileSpec (Lde/jensklingenberg/ktorfit/model/ClassData;Ljava/lang/String;Lcom/squareup/kotlinpoet/TypeSpec;)Lcom/squareup/kotlinpoet/FileSpec;
+}
+
+public final class de/jensklingenberg/ktorfit/poetspec/FunctionSpecKt {
+	public static final fun toFunSpec (Lde/jensklingenberg/ktorfit/model/FunctionData;Lcom/google/devtools/ksp/processing/Resolver;Z)Lcom/squareup/kotlinpoet/FunSpec;
+}
+
+public final class de/jensklingenberg/ktorfit/poetspec/ImplClassSpec2Kt {
+	public static final fun getImplClassSpec (Lde/jensklingenberg/ktorfit/model/ClassData;Lcom/google/devtools/ksp/processing/Resolver;Lde/jensklingenberg/ktorfit/KtorfitOptions;)Lcom/squareup/kotlinpoet/TypeSpec;
+}
+
+public final class de/jensklingenberg/ktorfit/poetspec/ParameterSpecKt {
+	public static final fun parameterSpec (Lde/jensklingenberg/ktorfit/model/ParameterData;)Lcom/squareup/kotlinpoet/ParameterSpec;
+}
+
+public final class de/jensklingenberg/ktorfit/poetspec/UtilsKt {
+	public static final fun findTypeName (Lcom/google/devtools/ksp/symbol/KSType;Ljava/lang/String;)Lcom/squareup/kotlinpoet/TypeName;
+}
+
+public final class de/jensklingenberg/ktorfit/reqBuilderExtension/AttributesCodeGeneratorKt {
+	public static final fun getAttributesCode (Ljava/util/List;Ljava/util/List;)Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/reqBuilderExtension/BodyCodeGeneratorKt {
+	public static final fun getBodyDataText (Ljava/util/List;)Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/reqBuilderExtension/CustomRequestBuilderCodeGenerationKt {
+	public static final fun getCustomRequestBuilderText (Ljava/util/List;)Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/reqBuilderExtension/FieldCodeGenerationKt {
+	public static final fun getFieldArgumentsText (Ljava/util/List;Lcom/google/devtools/ksp/symbol/KSType;Lcom/google/devtools/ksp/symbol/KSType;)Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/reqBuilderExtension/HeaderCodeGeneratorKt {
+	public static final fun getHeadersCode (Ljava/util/List;Ljava/util/List;Lcom/google/devtools/ksp/symbol/KSType;Lcom/google/devtools/ksp/symbol/KSType;)Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/reqBuilderExtension/MethodCodeGenerationKt {
+	public static final fun getMethodCode (Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;)Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/reqBuilderExtension/PartsCodeGenerationKt {
+	public static final fun getPartsCode (Ljava/util/List;Lcom/google/devtools/ksp/symbol/KSType;Lcom/google/devtools/ksp/symbol/KSType;)Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/reqBuilderExtension/QueryCodeGenerationKt {
+	public static final fun getQueryCode (Ljava/util/List;Lcom/google/devtools/ksp/symbol/KSType;Lcom/google/devtools/ksp/symbol/KSType;)Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/reqBuilderExtension/ReqBuilderExtensionNodeKt {
+	public static final fun getReqBuilderExtensionText (Lde/jensklingenberg/ktorfit/model/FunctionData;Lcom/google/devtools/ksp/symbol/KSType;Lcom/google/devtools/ksp/symbol/KSType;)Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/reqBuilderExtension/RequestConverterTextKt {
+	public static final fun addRequestConverterText (Lcom/squareup/kotlinpoet/FunSpec$Builder;Ljava/util/List;)Lcom/squareup/kotlinpoet/FunSpec$Builder;
+}
+
+public final class de/jensklingenberg/ktorfit/reqBuilderExtension/UrlCodeGenerationKt {
+	public static final fun getUrlCode (Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/utils/AnnotationSpecExtKt {
+	public static final fun toClassName (Lcom/squareup/kotlinpoet/AnnotationSpec;)Lcom/squareup/kotlinpoet/ClassName;
+}
+
+public final class de/jensklingenberg/ktorfit/utils/KSFunctionDeclarationExtKt {
+	public static final fun getArgumentValueByName (Lcom/google/devtools/ksp/symbol/KSAnnotation;Ljava/lang/String;)Ljava/lang/Object;
+	public static final fun getFormUrlEncodedAnnotation (Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;)Lde/jensklingenberg/ktorfit/model/annotations/FormUrlEncoded;
+	public static final fun getHeaderAnnotation (Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;)Lde/jensklingenberg/ktorfit/model/annotations/Headers;
+	public static final fun getKsFile (Lcom/google/devtools/ksp/symbol/KSDeclaration;)Lcom/google/devtools/ksp/symbol/KSFile;
+	public static final fun getMultipartAnnotation (Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;)Lde/jensklingenberg/ktorfit/model/annotations/Multipart;
+	public static final fun getStreamingAnnotation (Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;)Lde/jensklingenberg/ktorfit/model/annotations/Streaming;
+	public static final fun isSuspend (Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;)Z
+	public static final fun parseHTTPMethodAnno (Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;Ljava/lang/String;)Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;
+}
+
+public final class de/jensklingenberg/ktorfit/utils/KSValueParameterExtKt {
+	public static final fun getBodyAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Body;
+	public static final fun getFieldAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Field;
+	public static final fun getFieldMapAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$FieldMap;
+	public static final fun getHeaderAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Header;
+	public static final fun getHeaderMapAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$HeaderMap;
+	public static final fun getPartAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Part;
+	public static final fun getPartMapAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$PartMap;
+	public static final fun getPathAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Path;
+	public static final fun getQueryAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Query;
+	public static final fun getQueryMapAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$QueryMap;
+	public static final fun getQueryNameAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$QueryName;
+	public static final fun getRequestBuilderAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$RequestBuilder;
+	public static final fun getRequestTypeAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$RequestType;
+	public static final fun getTagAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Tag;
+	public static final fun getUrlAnnotation (Lcom/google/devtools/ksp/symbol/KSValueParameter;)Lde/jensklingenberg/ktorfit/model/annotations/ParameterAnnotation$Url;
+}
+
+public final class de/jensklingenberg/ktorfit/utils/UtilsKt {
+	public static final fun addImports (Lcom/squareup/kotlinpoet/FileSpec$Builder;Ljava/util/Set;)Lcom/squareup/kotlinpoet/FileSpec$Builder;
+	public static final fun postfixIfNotEmpty (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun prefixIfNotEmpty (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public static final fun removeWhiteSpaces (Ljava/lang/String;)Ljava/lang/String;
+	public static final fun resolveTypeName (Lcom/google/devtools/ksp/symbol/KSType;)Ljava/lang/String;
+	public static final fun safeString (Lcom/google/devtools/ksp/symbol/KSName;)Ljava/lang/String;
+	public static final fun surroundIfNotEmpty (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+}
+

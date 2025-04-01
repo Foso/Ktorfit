@@ -1,0 +1,23 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, wasmJs, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <Ktorfit.ktorfit-converters:call>
+abstract interface <#A: kotlin/Any?> de.jensklingenberg.ktorfit/Call { // de.jensklingenberg.ktorfit/Call|null[0]
+    abstract fun onExecute(de.jensklingenberg.ktorfit/Callback<#A>) // de.jensklingenberg.ktorfit/Call.onExecute|onExecute(de.jensklingenberg.ktorfit.Callback<1:0>){}[0]
+}
+
+abstract interface <#A: kotlin/Any?> de.jensklingenberg.ktorfit/Callback { // de.jensklingenberg.ktorfit/Callback|null[0]
+    abstract fun onError(kotlin/Throwable) // de.jensklingenberg.ktorfit/Callback.onError|onError(kotlin.Throwable){}[0]
+    abstract fun onResponse(#A, io.ktor.client.statement/HttpResponse) // de.jensklingenberg.ktorfit/Callback.onResponse|onResponse(1:0;io.ktor.client.statement.HttpResponse){}[0]
+}
+
+final class de.jensklingenberg.ktorfit.converter/CallConverterFactory : de.jensklingenberg.ktorfit.converter/Converter.Factory { // de.jensklingenberg.ktorfit.converter/CallConverterFactory|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.converter/CallConverterFactory.<init>|<init>(){}[0]
+
+    final fun responseConverter(de.jensklingenberg.ktorfit.converter/TypeData, de.jensklingenberg.ktorfit/Ktorfit): de.jensklingenberg.ktorfit.converter/Converter.ResponseConverter<io.ktor.client.statement/HttpResponse, *>? // de.jensklingenberg.ktorfit.converter/CallConverterFactory.responseConverter|responseConverter(de.jensklingenberg.ktorfit.converter.TypeData;de.jensklingenberg.ktorfit.Ktorfit){}[0]
+    final fun suspendResponseConverter(de.jensklingenberg.ktorfit.converter/TypeData, de.jensklingenberg.ktorfit/Ktorfit): de.jensklingenberg.ktorfit.converter/Converter.SuspendResponseConverter<io.ktor.client.statement/HttpResponse, *>? // de.jensklingenberg.ktorfit.converter/CallConverterFactory.suspendResponseConverter|suspendResponseConverter(de.jensklingenberg.ktorfit.converter.TypeData;de.jensklingenberg.ktorfit.Ktorfit){}[0]
+}
