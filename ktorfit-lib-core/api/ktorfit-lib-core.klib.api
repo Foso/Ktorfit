@@ -1,0 +1,130 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, wasmJs, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <Ktorfit:ktorfit-lib-core>
+open annotation class de.jensklingenberg.ktorfit.internal/InternalKtorfitApi : kotlin/Annotation { // de.jensklingenberg.ktorfit.internal/InternalKtorfitApi|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.internal/InternalKtorfitApi.<init>|<init>(){}[0]
+}
+
+abstract interface <#A: kotlin/Any?, #B: kotlin/Any?> de.jensklingenberg.ktorfit.converter/Converter { // de.jensklingenberg.ktorfit.converter/Converter|null[0]
+    open fun getUpperBoundType(kotlin/Int, de.jensklingenberg.ktorfit.converter/TypeData): de.jensklingenberg.ktorfit.converter/TypeData? // de.jensklingenberg.ktorfit.converter/Converter.getUpperBoundType|getUpperBoundType(kotlin.Int;de.jensklingenberg.ktorfit.converter.TypeData){}[0]
+
+    abstract interface <#A1: io.ktor.client.statement/HttpResponse, #B1: kotlin/Any?> ResponseConverter : de.jensklingenberg.ktorfit.converter/Converter<io.ktor.client.statement/HttpResponse, #B1> { // de.jensklingenberg.ktorfit.converter/Converter.ResponseConverter|null[0]
+        abstract fun convert(kotlin.coroutines/SuspendFunction0<io.ktor.client.statement/HttpResponse>): #B1 // de.jensklingenberg.ktorfit.converter/Converter.ResponseConverter.convert|convert(kotlin.coroutines.SuspendFunction0<io.ktor.client.statement.HttpResponse>){}[0]
+    }
+
+    abstract interface <#A1: io.ktor.client.statement/HttpResponse, #B1: kotlin/Any?> SuspendResponseConverter : de.jensklingenberg.ktorfit.converter/Converter<io.ktor.client.statement/HttpResponse, #B1> { // de.jensklingenberg.ktorfit.converter/Converter.SuspendResponseConverter|null[0]
+        abstract suspend fun convert(de.jensklingenberg.ktorfit.converter/KtorfitResult): #B1 // de.jensklingenberg.ktorfit.converter/Converter.SuspendResponseConverter.convert|convert(de.jensklingenberg.ktorfit.converter.KtorfitResult){}[0]
+    }
+
+    abstract interface Factory { // de.jensklingenberg.ktorfit.converter/Converter.Factory|null[0]
+        open fun requestParameterConverter(kotlin.reflect/KClass<*>, kotlin.reflect/KClass<*>): de.jensklingenberg.ktorfit.converter/Converter.RequestParameterConverter? // de.jensklingenberg.ktorfit.converter/Converter.Factory.requestParameterConverter|requestParameterConverter(kotlin.reflect.KClass<*>;kotlin.reflect.KClass<*>){}[0]
+        open fun responseConverter(de.jensklingenberg.ktorfit.converter/TypeData, de.jensklingenberg.ktorfit/Ktorfit): de.jensklingenberg.ktorfit.converter/Converter.ResponseConverter<io.ktor.client.statement/HttpResponse, *>? // de.jensklingenberg.ktorfit.converter/Converter.Factory.responseConverter|responseConverter(de.jensklingenberg.ktorfit.converter.TypeData;de.jensklingenberg.ktorfit.Ktorfit){}[0]
+        open fun suspendResponseConverter(de.jensklingenberg.ktorfit.converter/TypeData, de.jensklingenberg.ktorfit/Ktorfit): de.jensklingenberg.ktorfit.converter/Converter.SuspendResponseConverter<io.ktor.client.statement/HttpResponse, *>? // de.jensklingenberg.ktorfit.converter/Converter.Factory.suspendResponseConverter|suspendResponseConverter(de.jensklingenberg.ktorfit.converter.TypeData;de.jensklingenberg.ktorfit.Ktorfit){}[0]
+    }
+
+    abstract interface RequestParameterConverter : de.jensklingenberg.ktorfit.converter/Converter<kotlin/Any, kotlin/Any> { // de.jensklingenberg.ktorfit.converter/Converter.RequestParameterConverter|null[0]
+        abstract fun convert(kotlin/Any): kotlin/Any // de.jensklingenberg.ktorfit.converter/Converter.RequestParameterConverter.convert|convert(kotlin.Any){}[0]
+    }
+}
+
+abstract interface <#A: kotlin/Any?> de.jensklingenberg.ktorfit.internal/ClassProvider { // de.jensklingenberg.ktorfit.internal/ClassProvider|null[0]
+    abstract fun create(de.jensklingenberg.ktorfit/Ktorfit): #A // de.jensklingenberg.ktorfit.internal/ClassProvider.create|create(de.jensklingenberg.ktorfit.Ktorfit){}[0]
+}
+
+sealed interface de.jensklingenberg.ktorfit.converter/KtorfitResult { // de.jensklingenberg.ktorfit.converter/KtorfitResult|null[0]
+    final class Failure : de.jensklingenberg.ktorfit.converter/KtorfitResult { // de.jensklingenberg.ktorfit.converter/KtorfitResult.Failure|null[0]
+        constructor <init>(kotlin/Throwable) // de.jensklingenberg.ktorfit.converter/KtorfitResult.Failure.<init>|<init>(kotlin.Throwable){}[0]
+
+        final val throwable // de.jensklingenberg.ktorfit.converter/KtorfitResult.Failure.throwable|{}throwable[0]
+            final fun <get-throwable>(): kotlin/Throwable // de.jensklingenberg.ktorfit.converter/KtorfitResult.Failure.throwable.<get-throwable>|<get-throwable>(){}[0]
+    }
+
+    final class Success : de.jensklingenberg.ktorfit.converter/KtorfitResult { // de.jensklingenberg.ktorfit.converter/KtorfitResult.Success|null[0]
+        constructor <init>(io.ktor.client.statement/HttpResponse) // de.jensklingenberg.ktorfit.converter/KtorfitResult.Success.<init>|<init>(io.ktor.client.statement.HttpResponse){}[0]
+
+        final val response // de.jensklingenberg.ktorfit.converter/KtorfitResult.Success.response|{}response[0]
+            final fun <get-response>(): io.ktor.client.statement/HttpResponse // de.jensklingenberg.ktorfit.converter/KtorfitResult.Success.response.<get-response>|<get-response>(){}[0]
+    }
+}
+
+final class de.jensklingenberg.ktorfit.converter.builtin/DontSwallowExceptionsConverterFactory : de.jensklingenberg.ktorfit.converter/Converter.Factory { // de.jensklingenberg.ktorfit.converter.builtin/DontSwallowExceptionsConverterFactory|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.converter.builtin/DontSwallowExceptionsConverterFactory.<init>|<init>(){}[0]
+
+    final fun suspendResponseConverter(de.jensklingenberg.ktorfit.converter/TypeData, de.jensklingenberg.ktorfit/Ktorfit): de.jensklingenberg.ktorfit.converter/Converter.SuspendResponseConverter<io.ktor.client.statement/HttpResponse, *> // de.jensklingenberg.ktorfit.converter.builtin/DontSwallowExceptionsConverterFactory.suspendResponseConverter|suspendResponseConverter(de.jensklingenberg.ktorfit.converter.TypeData;de.jensklingenberg.ktorfit.Ktorfit){}[0]
+}
+
+final class de.jensklingenberg.ktorfit.converter/TypeData { // de.jensklingenberg.ktorfit.converter/TypeData|null[0]
+    constructor <init>(kotlin/String, kotlin.collections/List<de.jensklingenberg.ktorfit.converter/TypeData> = ..., io.ktor.util.reflect/TypeInfo, kotlin/Boolean = ...) // de.jensklingenberg.ktorfit.converter/TypeData.<init>|<init>(kotlin.String;kotlin.collections.List<de.jensklingenberg.ktorfit.converter.TypeData>;io.ktor.util.reflect.TypeInfo;kotlin.Boolean){}[0]
+
+    final val isNullable // de.jensklingenberg.ktorfit.converter/TypeData.isNullable|{}isNullable[0]
+        final fun <get-isNullable>(): kotlin/Boolean // de.jensklingenberg.ktorfit.converter/TypeData.isNullable.<get-isNullable>|<get-isNullable>(){}[0]
+    final val qualifiedName // de.jensklingenberg.ktorfit.converter/TypeData.qualifiedName|{}qualifiedName[0]
+        final fun <get-qualifiedName>(): kotlin/String // de.jensklingenberg.ktorfit.converter/TypeData.qualifiedName.<get-qualifiedName>|<get-qualifiedName>(){}[0]
+    final val typeArgs // de.jensklingenberg.ktorfit.converter/TypeData.typeArgs|{}typeArgs[0]
+        final fun <get-typeArgs>(): kotlin.collections/List<de.jensklingenberg.ktorfit.converter/TypeData> // de.jensklingenberg.ktorfit.converter/TypeData.typeArgs.<get-typeArgs>|<get-typeArgs>(){}[0]
+    final val typeInfo // de.jensklingenberg.ktorfit.converter/TypeData.typeInfo|{}typeInfo[0]
+        final fun <get-typeInfo>(): io.ktor.util.reflect/TypeInfo // de.jensklingenberg.ktorfit.converter/TypeData.typeInfo.<get-typeInfo>|<get-typeInfo>(){}[0]
+
+    final fun component1(): kotlin/String // de.jensklingenberg.ktorfit.converter/TypeData.component1|component1(){}[0]
+    final fun component2(): kotlin.collections/List<de.jensklingenberg.ktorfit.converter/TypeData> // de.jensklingenberg.ktorfit.converter/TypeData.component2|component2(){}[0]
+    final fun component3(): io.ktor.util.reflect/TypeInfo // de.jensklingenberg.ktorfit.converter/TypeData.component3|component3(){}[0]
+    final fun component4(): kotlin/Boolean // de.jensklingenberg.ktorfit.converter/TypeData.component4|component4(){}[0]
+    final fun copy(kotlin/String = ..., kotlin.collections/List<de.jensklingenberg.ktorfit.converter/TypeData> = ..., io.ktor.util.reflect/TypeInfo = ..., kotlin/Boolean = ...): de.jensklingenberg.ktorfit.converter/TypeData // de.jensklingenberg.ktorfit.converter/TypeData.copy|copy(kotlin.String;kotlin.collections.List<de.jensklingenberg.ktorfit.converter.TypeData>;io.ktor.util.reflect.TypeInfo;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // de.jensklingenberg.ktorfit.converter/TypeData.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // de.jensklingenberg.ktorfit.converter/TypeData.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // de.jensklingenberg.ktorfit.converter/TypeData.toString|toString(){}[0]
+
+    final object Companion { // de.jensklingenberg.ktorfit.converter/TypeData.Companion|null[0]
+        final fun createTypeData(kotlin/String = ..., io.ktor.util.reflect/TypeInfo): de.jensklingenberg.ktorfit.converter/TypeData // de.jensklingenberg.ktorfit.converter/TypeData.Companion.createTypeData|createTypeData(kotlin.String;io.ktor.util.reflect.TypeInfo){}[0]
+    }
+}
+
+final class de.jensklingenberg.ktorfit.internal/KtorfitConverterHelper { // de.jensklingenberg.ktorfit.internal/KtorfitConverterHelper|null[0]
+    constructor <init>(de.jensklingenberg.ktorfit/Ktorfit) // de.jensklingenberg.ktorfit.internal/KtorfitConverterHelper.<init>|<init>(de.jensklingenberg.ktorfit.Ktorfit){}[0]
+
+    final fun <#A1: kotlin/Any> convertParameterType(kotlin/Any, kotlin.reflect/KClass<*>, kotlin.reflect/KClass<#A1>): #A1 // de.jensklingenberg.ktorfit.internal/KtorfitConverterHelper.convertParameterType|convertParameterType(kotlin.Any;kotlin.reflect.KClass<*>;kotlin.reflect.KClass<0:0>){0§<kotlin.Any>}[0]
+    final fun <#A1: kotlin/Any?> request(de.jensklingenberg.ktorfit.converter/TypeData, kotlin/Function1<io.ktor.client.request/HttpRequestBuilder, kotlin/Unit>): #A1? // de.jensklingenberg.ktorfit.internal/KtorfitConverterHelper.request|request(de.jensklingenberg.ktorfit.converter.TypeData;kotlin.Function1<io.ktor.client.request.HttpRequestBuilder,kotlin.Unit>){0§<kotlin.Any?>}[0]
+    final suspend fun <#A1: kotlin/Any?> suspendRequest(de.jensklingenberg.ktorfit.converter/TypeData, kotlin/Function1<io.ktor.client.request/HttpRequestBuilder, kotlin/Unit>): #A1? // de.jensklingenberg.ktorfit.internal/KtorfitConverterHelper.suspendRequest|suspendRequest(de.jensklingenberg.ktorfit.converter.TypeData;kotlin.Function1<io.ktor.client.request.HttpRequestBuilder,kotlin.Unit>){0§<kotlin.Any?>}[0]
+}
+
+final class de.jensklingenberg.ktorfit/Ktorfit { // de.jensklingenberg.ktorfit/Ktorfit|null[0]
+    final val baseUrl // de.jensklingenberg.ktorfit/Ktorfit.baseUrl|{}baseUrl[0]
+        final fun <get-baseUrl>(): kotlin/String // de.jensklingenberg.ktorfit/Ktorfit.baseUrl.<get-baseUrl>|<get-baseUrl>(){}[0]
+    final val httpClient // de.jensklingenberg.ktorfit/Ktorfit.httpClient|{}httpClient[0]
+        final fun <get-httpClient>(): io.ktor.client/HttpClient // de.jensklingenberg.ktorfit/Ktorfit.httpClient.<get-httpClient>|<get-httpClient>(){}[0]
+
+    final fun <#A1: kotlin/Any?> create(de.jensklingenberg.ktorfit.internal/ClassProvider<#A1>? = ...): #A1 // de.jensklingenberg.ktorfit/Ktorfit.create|create(de.jensklingenberg.ktorfit.internal.ClassProvider<0:0>?){0§<kotlin.Any?>}[0]
+    final fun nextResponseConverter(de.jensklingenberg.ktorfit.converter/Converter.Factory?, de.jensklingenberg.ktorfit.converter/TypeData): de.jensklingenberg.ktorfit.converter/Converter.ResponseConverter<io.ktor.client.statement/HttpResponse, *>? // de.jensklingenberg.ktorfit/Ktorfit.nextResponseConverter|nextResponseConverter(de.jensklingenberg.ktorfit.converter.Converter.Factory?;de.jensklingenberg.ktorfit.converter.TypeData){}[0]
+    final fun nextSuspendResponseConverter(de.jensklingenberg.ktorfit.converter/Converter.Factory?, de.jensklingenberg.ktorfit.converter/TypeData): de.jensklingenberg.ktorfit.converter/Converter.SuspendResponseConverter<io.ktor.client.statement/HttpResponse, *>? // de.jensklingenberg.ktorfit/Ktorfit.nextSuspendResponseConverter|nextSuspendResponseConverter(de.jensklingenberg.ktorfit.converter.Converter.Factory?;de.jensklingenberg.ktorfit.converter.TypeData){}[0]
+
+    final class Builder { // de.jensklingenberg.ktorfit/Ktorfit.Builder|null[0]
+        constructor <init>() // de.jensklingenberg.ktorfit/Ktorfit.Builder.<init>|<init>(){}[0]
+
+        final fun <#A2: io.ktor.client.engine/HttpClientEngineConfig> httpClient(io.ktor.client.engine/HttpClientEngineFactory<#A2>): de.jensklingenberg.ktorfit/Ktorfit.Builder // de.jensklingenberg.ktorfit/Ktorfit.Builder.httpClient|httpClient(io.ktor.client.engine.HttpClientEngineFactory<0:0>){0§<io.ktor.client.engine.HttpClientEngineConfig>}[0]
+        final fun <#A2: io.ktor.client.engine/HttpClientEngineConfig> httpClient(io.ktor.client.engine/HttpClientEngineFactory<#A2>, kotlin/Function1<io.ktor.client/HttpClientConfig<#A2>, kotlin/Unit>): de.jensklingenberg.ktorfit/Ktorfit.Builder // de.jensklingenberg.ktorfit/Ktorfit.Builder.httpClient|httpClient(io.ktor.client.engine.HttpClientEngineFactory<0:0>;kotlin.Function1<io.ktor.client.HttpClientConfig<0:0>,kotlin.Unit>){0§<io.ktor.client.engine.HttpClientEngineConfig>}[0]
+        final fun baseUrl(kotlin/String, kotlin/Boolean = ...): de.jensklingenberg.ktorfit/Ktorfit.Builder // de.jensklingenberg.ktorfit/Ktorfit.Builder.baseUrl|baseUrl(kotlin.String;kotlin.Boolean){}[0]
+        final fun build(): de.jensklingenberg.ktorfit/Ktorfit // de.jensklingenberg.ktorfit/Ktorfit.Builder.build|build(){}[0]
+        final fun build(kotlin/Function1<de.jensklingenberg.ktorfit/Ktorfit.Builder, kotlin/Unit>): de.jensklingenberg.ktorfit/Ktorfit // de.jensklingenberg.ktorfit/Ktorfit.Builder.build|build(kotlin.Function1<de.jensklingenberg.ktorfit.Ktorfit.Builder,kotlin.Unit>){}[0]
+        final fun converterFactories(kotlin/Array<out de.jensklingenberg.ktorfit.converter/Converter.Factory>...): de.jensklingenberg.ktorfit/Ktorfit.Builder // de.jensklingenberg.ktorfit/Ktorfit.Builder.converterFactories|converterFactories(kotlin.Array<out|de.jensklingenberg.ktorfit.converter.Converter.Factory>...){}[0]
+        final fun httpClient(io.ktor.client.engine/HttpClientEngine): de.jensklingenberg.ktorfit/Ktorfit.Builder // de.jensklingenberg.ktorfit/Ktorfit.Builder.httpClient|httpClient(io.ktor.client.engine.HttpClientEngine){}[0]
+        final fun httpClient(io.ktor.client.engine/HttpClientEngine, kotlin/Function1<io.ktor.client/HttpClientConfig<*>, kotlin/Unit>): de.jensklingenberg.ktorfit/Ktorfit.Builder // de.jensklingenberg.ktorfit/Ktorfit.Builder.httpClient|httpClient(io.ktor.client.engine.HttpClientEngine;kotlin.Function1<io.ktor.client.HttpClientConfig<*>,kotlin.Unit>){}[0]
+        final fun httpClient(io.ktor.client/HttpClient): de.jensklingenberg.ktorfit/Ktorfit.Builder // de.jensklingenberg.ktorfit/Ktorfit.Builder.httpClient|httpClient(io.ktor.client.HttpClient){}[0]
+        final fun httpClient(kotlin/Function1<io.ktor.client/HttpClientConfig<*>, kotlin/Unit>): de.jensklingenberg.ktorfit/Ktorfit.Builder // de.jensklingenberg.ktorfit/Ktorfit.Builder.httpClient|httpClient(kotlin.Function1<io.ktor.client.HttpClientConfig<*>,kotlin.Unit>){}[0]
+    }
+}
+
+final val de.jensklingenberg.ktorfit/annotations // de.jensklingenberg.ktorfit/annotations|@io.ktor.client.request.HttpRequestBuilder{}annotations[0]
+    final inline fun (io.ktor.client.request/HttpRequestBuilder).<get-annotations>(): kotlin.collections/List<kotlin/Any> // de.jensklingenberg.ktorfit/annotations.<get-annotations>|<get-annotations>@io.ktor.client.request.HttpRequestBuilder(){}[0]
+final val de.jensklingenberg.ktorfit/annotations // de.jensklingenberg.ktorfit/annotations|@io.ktor.client.request.HttpRequest{}annotations[0]
+    final inline fun (io.ktor.client.request/HttpRequest).<get-annotations>(): kotlin.collections/List<kotlin/Any> // de.jensklingenberg.ktorfit/annotations.<get-annotations>|<get-annotations>@io.ktor.client.request.HttpRequest(){}[0]
+final val de.jensklingenberg.ktorfit/annotationsAttributeKey // de.jensklingenberg.ktorfit/annotationsAttributeKey|{}annotationsAttributeKey[0]
+    final fun <get-annotationsAttributeKey>(): io.ktor.util/AttributeKey<kotlin.collections/List<kotlin/Any>> // de.jensklingenberg.ktorfit/annotationsAttributeKey.<get-annotationsAttributeKey>|<get-annotationsAttributeKey>(){}[0]
+
+final fun (io.ktor.util.reflect/TypeInfo).de.jensklingenberg.ktorfit/upperBoundType(kotlin/Int = ...): io.ktor.util.reflect/TypeInfo? // de.jensklingenberg.ktorfit/upperBoundType|upperBoundType@io.ktor.util.reflect.TypeInfo(kotlin.Int){}[0]
+final fun de.jensklingenberg.ktorfit/ktorfit(kotlin/Function1<de.jensklingenberg.ktorfit/Ktorfit.Builder, kotlin/Unit>): de.jensklingenberg.ktorfit/Ktorfit // de.jensklingenberg.ktorfit/ktorfit|ktorfit(kotlin.Function1<de.jensklingenberg.ktorfit.Ktorfit.Builder,kotlin.Unit>){}[0]
+final fun de.jensklingenberg.ktorfit/ktorfitBuilder(kotlin/Function1<de.jensklingenberg.ktorfit/Ktorfit.Builder, kotlin/Unit>): de.jensklingenberg.ktorfit/Ktorfit.Builder // de.jensklingenberg.ktorfit/ktorfitBuilder|ktorfitBuilder(kotlin.Function1<de.jensklingenberg.ktorfit.Ktorfit.Builder,kotlin.Unit>){}[0]

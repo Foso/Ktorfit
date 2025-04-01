@@ -1,0 +1,33 @@
+public final class de/jensklingenberg/ktorfit/gradle/ErrorCheckingMode : java/lang/Enum {
+	public static final field ERROR Lde/jensklingenberg/ktorfit/gradle/ErrorCheckingMode;
+	public static final field NONE Lde/jensklingenberg/ktorfit/gradle/ErrorCheckingMode;
+	public static final field WARNING Lde/jensklingenberg/ktorfit/gradle/ErrorCheckingMode;
+	public static fun valueOf (Ljava/lang/String;)Lde/jensklingenberg/ktorfit/gradle/ErrorCheckingMode;
+	public static fun values ()[Lde/jensklingenberg/ktorfit/gradle/ErrorCheckingMode;
+}
+
+public final class de/jensklingenberg/ktorfit/gradle/KtorfitGradlePlugin : org/gradle/api/Plugin {
+	public static final field ARTIFACT_NAME Ljava/lang/String;
+	public static final field COMPILER_PLUGIN_ID Ljava/lang/String;
+	public static final field Companion Lde/jensklingenberg/ktorfit/gradle/KtorfitGradlePlugin$Companion;
+	public static final field GRADLE_TASKNAME Ljava/lang/String;
+	public static final field GROUP_NAME Ljava/lang/String;
+	public static final field KTORFIT_COMPILER_PLUGIN_VERSION Ljava/lang/String;
+	public static final field KTORFIT_KSP_PLUGIN_VERSION Ljava/lang/String;
+	public static final field MIN_KOTLIN_VERSION Ljava/lang/String;
+	public static final field MIN_KSP_VERSION Ljava/lang/String;
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public final class de/jensklingenberg/ktorfit/gradle/KtorfitGradlePlugin$Companion {
+}
+
+public class de/jensklingenberg/ktorfit/gradle/KtorfitPluginExtension {
+	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
+	public fun getErrorCheckingMode ()Lorg/gradle/api/provider/Property;
+	public fun getGenerateQualifiedTypeName ()Lorg/gradle/api/provider/Property;
+	public fun getKotlinVersion ()Lorg/gradle/api/provider/Property;
+}
+

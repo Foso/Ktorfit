@@ -1,0 +1,36 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, wasmJs, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <Ktorfit.ktorfit-converters:response>
+final class <#A: kotlin/Any?> de.jensklingenberg.ktorfit/Response { // de.jensklingenberg.ktorfit/Response|null[0]
+    final val code // de.jensklingenberg.ktorfit/Response.code|{}code[0]
+        final fun <get-code>(): kotlin/Int // de.jensklingenberg.ktorfit/Response.code.<get-code>|<get-code>(){}[0]
+    final val headers // de.jensklingenberg.ktorfit/Response.headers|{}headers[0]
+        final fun <get-headers>(): io.ktor.http/Headers // de.jensklingenberg.ktorfit/Response.headers.<get-headers>|<get-headers>(){}[0]
+    final val isSuccessful // de.jensklingenberg.ktorfit/Response.isSuccessful|{}isSuccessful[0]
+        final fun <get-isSuccessful>(): kotlin/Boolean // de.jensklingenberg.ktorfit/Response.isSuccessful.<get-isSuccessful>|<get-isSuccessful>(){}[0]
+    final val message // de.jensklingenberg.ktorfit/Response.message|{}message[0]
+        final fun <get-message>(): kotlin/String // de.jensklingenberg.ktorfit/Response.message.<get-message>|<get-message>(){}[0]
+    final val status // de.jensklingenberg.ktorfit/Response.status|{}status[0]
+        final fun <get-status>(): io.ktor.http/HttpStatusCode // de.jensklingenberg.ktorfit/Response.status.<get-status>|<get-status>(){}[0]
+
+    final fun body(): #A? // de.jensklingenberg.ktorfit/Response.body|body(){}[0]
+    final fun errorBody(): kotlin/Any? // de.jensklingenberg.ktorfit/Response.errorBody|errorBody(){}[0]
+    final fun raw(): io.ktor.client.statement/HttpResponse // de.jensklingenberg.ktorfit/Response.raw|raw(){}[0]
+    final fun toString(): kotlin/String // de.jensklingenberg.ktorfit/Response.toString|toString(){}[0]
+
+    final object Companion { // de.jensklingenberg.ktorfit/Response.Companion|null[0]
+        final fun <#A2: kotlin/Any?> error(kotlin/Any, io.ktor.client.statement/HttpResponse): de.jensklingenberg.ktorfit/Response<#A2?> // de.jensklingenberg.ktorfit/Response.Companion.error|error(kotlin.Any;io.ktor.client.statement.HttpResponse){0§<kotlin.Any?>}[0]
+        final fun <#A2: kotlin/Any?> success(#A2?, io.ktor.client.statement/HttpResponse): de.jensklingenberg.ktorfit/Response<#A2?> // de.jensklingenberg.ktorfit/Response.Companion.success|success(0:0?;io.ktor.client.statement.HttpResponse){0§<kotlin.Any?>}[0]
+    }
+}
+
+final class de.jensklingenberg.ktorfit.converter/ResponseConverterFactory : de.jensklingenberg.ktorfit.converter/Converter.Factory { // de.jensklingenberg.ktorfit.converter/ResponseConverterFactory|null[0]
+    constructor <init>() // de.jensklingenberg.ktorfit.converter/ResponseConverterFactory.<init>|<init>(){}[0]
+
+    final fun suspendResponseConverter(de.jensklingenberg.ktorfit.converter/TypeData, de.jensklingenberg.ktorfit/Ktorfit): de.jensklingenberg.ktorfit.converter/Converter.SuspendResponseConverter<io.ktor.client.statement/HttpResponse, *>? // de.jensklingenberg.ktorfit.converter/ResponseConverterFactory.suspendResponseConverter|suspendResponseConverter(de.jensklingenberg.ktorfit.converter.TypeData;de.jensklingenberg.ktorfit.Ktorfit){}[0]
+}
