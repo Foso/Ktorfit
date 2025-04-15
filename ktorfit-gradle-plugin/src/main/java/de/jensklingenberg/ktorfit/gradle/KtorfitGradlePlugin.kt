@@ -139,9 +139,14 @@ class KtorfitGradlePlugin : Plugin<Project> {
     }
 
     private fun checkKSPVersion(kspVersion: String) {
-        val kspVersionParts = kspVersion.split(".")
-        if (kspVersionParts[2].toInt() < MIN_KSP_VERSION.split(".")[2].toInt()) {
-            error("Ktorfit: KSP version $kspVersion is not supported. You need at least version $MIN_KSP_VERSION")
+        val kspParts = kspVersion.split(".").map { it.toInt() }
+        val minParts = MIN_KSP_VERSION.split(".").map { it.toInt() }
+        for (i in 0 until minOf(kspParts.size, minParts.size)) {
+            if (kspParts[i] > minParts[i]) {
+                return
+            } else if (kspParts[i] < minParts[i]) {
+                error("Ktorfit: KSP version $kspVersion is not supported. You need at least version $MIN_KSP_VERSION")
+            }
         }
     }
 }
