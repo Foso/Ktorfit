@@ -7,12 +7,22 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+# [2.5.1]()
+
+2.5.1 - 2025-04-19
+========================================
+* Supported KSP version: >=1.0.28
+* Supported Kotlin version: >=2.1.10
+* Ktor version: 3.1.2
+
+## Fixed
+-  Update KSP version check in KtorfitGradlePlugin #842
 
 # [2.5.0]()
 
 2.5.0 - 2025-03-30
 ========================================
-* Supported KSP version: >=1.0.28
+* Supported KSP version: <2.0.0 >=1.0.28
 * Supported Kotlin version: >=2.1.10
 * Ktor version: 3.1.2
 
@@ -32,6 +42,9 @@ Thanks to @Goooler for contributing to this release!
 
 2.4.1 - 2025-03-14
 ========================================
+* Supported KSP version: >=1.0.28
+* Supported Kotlin version: >=2.1.10
+* Ktor version: 3.1.0
 
 ## Fixed
 - Ktorfit causes circular task dependency when using KSP2 and Multiplatform Resources library from Jetbrains #876
