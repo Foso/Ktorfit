@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.provider.Property
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.getByType
@@ -12,6 +13,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.util.Locale.US
+import kotlin.reflect.full.declaredMemberProperties
 
 class KtorfitGradlePlugin : Plugin<Project> {
     companion object {
@@ -74,7 +76,12 @@ class KtorfitGradlePlugin : Plugin<Project> {
                         if (singleTarget) {
                             argMethod.invoke(kspExtension, "Ktorfit_MultiplatformWithSingleTarget", true.toString())
                         } else {
-                            val useKsp2 = project.findProperty("ksp.useKSP2")?.toString()?.toBoolean() ?: false
+                            val useKsp2 =
+                                kspExtension.javaClass.kotlin.declaredMemberProperties.find {
+                                    it.name == "useKsp2"
+                                }?.call(kspExtension).let {
+                                    (it as Property<*>?)?.get() as Boolean?
+                                } ?: project.findProperty("ksp.useKSP2")?.toString()?.toBoolean() ?: false
 
                             if (useKsp2) {
                                 tasks.named { name -> name.startsWith("ksp") }.configureEach {
