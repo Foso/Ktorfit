@@ -4,7 +4,6 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotationsAttributeKey
-import de.jensklingenberg.ktorfit.utils.toClassName
 
 fun getAttributesCode(
     parameterDataList: List<ParameterData>,
@@ -32,10 +31,7 @@ fun getAttributesCode(
             prefix = "listOf(\n",
             postfix = ",\n)",
         ) { annotation ->
-            annotation
-                .members
-                .joinToString { it.toString() }
-                .let { "${annotation.toClassName().simpleName}($it)" }
+            annotation.toString().trimStart('@')
         }
             .let { "attributes.put(${annotationsAttributeKey.name}, $it)" }
 
