@@ -6,7 +6,7 @@ coroutines = "1.8.1"
 detekt = "1.23.8"
 junit = "4.13.2"
 kctfork = "0.7.0"
-kotlin = "2.1.10"
+kotlin = "2.1.21"
 kotlinPoet = "2.1.0"
 kspVersion = "2.1.10-1.0.29"
 
