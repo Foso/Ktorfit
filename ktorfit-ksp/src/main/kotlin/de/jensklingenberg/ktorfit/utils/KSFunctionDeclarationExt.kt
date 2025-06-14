@@ -56,7 +56,11 @@ fun KSFunctionDeclaration.parseHTTPMethodAnno(name: String): HttpMethodAnnotatio
                     CustomHttp(it.path, HttpMethod.CUSTOM, it.method)
                 }
             } else {
-                val value = annotation.getArgumentValueByName<String>("value").orEmpty()
+                val value = when (val path = annotation.getArgumentValueByName<Any?>("value")) {
+                  is String -> path
+                  is ArrayList<*> -> path.firstOrNull() as? String
+                  else -> null
+                }.orEmpty()
                 HttpMethodAnnotation(value, HttpMethod.valueOf(name))
             }
         }
