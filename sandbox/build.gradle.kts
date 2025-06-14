@@ -17,6 +17,7 @@ licensee {
     allow("MIT")
     allow("EPL-1.0")
     allow("MIT-0")
+    allowUrl("https://opensource.org/license/mit")
 }
 
 java {
