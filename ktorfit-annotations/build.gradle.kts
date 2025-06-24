@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -16,20 +17,21 @@ licensee {
     allow("MIT")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
 tasks.withType<KotlinCompile> {
     compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 
 kotlin {
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-    wasmJs()
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-    wasmWasi()
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        nodejs()
+        binaries.executable()
+    }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmWasi {
+        nodejs()
+        binaries.executable()
+    }
 
     jvm {
     }
@@ -116,7 +118,6 @@ mavenPublishing {
         libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
-    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {
         signAllPublications()
     }

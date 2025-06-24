@@ -5,25 +5,9 @@ plugins {
     kotlin("kapt")
     id("java-gradle-plugin")
     `kotlin-dsl`
-    id("com.gradle.plugin-publish") version "1.2.1"
+    id("com.gradle.plugin-publish") version "1.3.1"
     id("com.vanniktech.maven.publish")
     id("org.jlleitschuh.gradle.ktlint")
-}
-
-allprojects {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven("https://maven.google.com")
-        maven("https://plugins.gradle.org/m2/")
-        google()
-    }
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
 }
 
 dependencies {
@@ -63,7 +47,6 @@ mavenPublishing {
         libs.versions.ktorfitGradle.get(),
     )
     publishToMavenCentral()
-    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {
         signAllPublications()
     }

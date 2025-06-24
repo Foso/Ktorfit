@@ -1,4 +1,3 @@
-import org.gradle.kotlin.dsl.assign
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -21,12 +20,6 @@ licensee {
     allow("EPL-1.0")
     allow("MIT-0")
     allowUrl("https://opensource.org/license/mit")
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -61,7 +54,7 @@ kotlin {
     mingwX64()
     applyDefaultHierarchyTemplate()
     sourceSets {
-        val commonMain by getting {
+        commonMain {
 
             dependencies {
                 implementation(projects.ktorfitLibCore)
@@ -74,7 +67,7 @@ kotlin {
                 implementation(libs.ktor.serialization.kotlinx.json)
             }
         }
-        val linuxX64Main by getting {
+        linuxX64Main {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.curl)
@@ -83,7 +76,7 @@ kotlin {
             }
         }
 
-        val jvmMain by getting {
+        jvmMain {
             kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
 
             dependencies {
@@ -95,15 +88,14 @@ kotlin {
             }
         }
 
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
-                dependsOn(jvmMain)
                 implementation(libs.ktor.client.mock)
                 implementation(libs.junit)
             }
         }
 
-        val jsMain by getting {
+        jsMain {
             dependencies {
                 implementation(libs.kotlinx.serialization.runtime.js)
                 implementation(libs.ktor.client.serialization)
@@ -111,10 +103,6 @@ kotlin {
                 implementation(libs.ktor.client.js)
             }
         }
-
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosMain by getting
     }
 }
 
