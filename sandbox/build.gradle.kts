@@ -1,3 +1,6 @@
+import org.gradle.kotlin.dsl.assign
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.kspPlugin)
@@ -27,14 +30,15 @@ java {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 kotlin {
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
+            compileTaskProvider.configure {
+                compilerOptions.jvmTarget = JvmTarget.JVM_1_8
+            }
         }
-        withJava()
     }
     iosX64()
     iosArm64()

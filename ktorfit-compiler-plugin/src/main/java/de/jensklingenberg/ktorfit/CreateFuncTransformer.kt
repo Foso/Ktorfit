@@ -43,7 +43,7 @@ internal class CreateFuncTransformer(
     override fun visitExpression(expression: IrExpression): IrExpression {
         // Find exampleKtorfit.create<TestApi>()
         (expression as? IrCall)?.let { irCall ->
-            if (irCall.typeArgumentsCount > 0) {
+            if (irCall.typeArguments.isNotEmpty()) {
                 if (!expression.symbol.owner.symbol
                         .toString()
                         .contains(KTORFIT_PACKAGE)
@@ -56,12 +56,12 @@ internal class CreateFuncTransformer(
                     return expression
                 }
 
-                if (expression.getValueArgument(0) != null) {
+                if (expression.arguments.firstOrNull() != null) {
                     return expression
                 }
 
                 // Get T from create<T>()
-                val argumentType = irCall.getTypeArgument(0) ?: return expression
+                val argumentType = irCall.typeArguments.firstOrNull() ?: return expression
                 val classFqName = argumentType.classFqName
 
                 if (!argumentType.isInterface()) {
@@ -103,7 +103,7 @@ internal class CreateFuncTransformer(
                     )
 
                 // Set _ExampleApiProvider() as argument for create<ExampleApi>()
-                irCall.putValueArgument(0, newCall)
+                irCall.arguments[0] = newCall
                 debugLogger.log(
                     "Transformed " + argumentType.toIrBasedKotlinType().getKotlinTypeFqName(false).substringAfterLast(".") +
                         " to _$className" +
