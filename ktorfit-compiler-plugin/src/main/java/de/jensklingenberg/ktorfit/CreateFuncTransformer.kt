@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit
 
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
+import org.jetbrains.kotlin.ir.declarations.IrParameterKind
 import org.jetbrains.kotlin.ir.descriptors.toIrBasedKotlinType
 import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
@@ -56,7 +57,9 @@ internal class CreateFuncTransformer(
                     return expression
                 }
 
-                if (expression.arguments.firstOrNull() != null) {
+                val extensionReceiverIndex = expression.symbol.owner.parameters.indexOfFirst { it.kind == IrParameterKind.ExtensionReceiver }
+                val extensionReceiver = if(extensionReceiverIndex >= 0) expression.arguments[extensionReceiverIndex] else null
+                if (expression.arguments.dropWhile { extensionReceiver != null && extensionReceiver == it }.firstOrNull() != null) {
                     return expression
                 }
 
