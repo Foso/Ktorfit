@@ -40,7 +40,7 @@ public final class de/jensklingenberg/ktorfit/TypeInfoExtKt {
 }
 
 public abstract interface class de/jensklingenberg/ktorfit/converter/Converter {
-	public abstract fun getUpperBoundType (ILde/jensklingenberg/ktorfit/converter/TypeData;)Lde/jensklingenberg/ktorfit/converter/TypeData;
+	public fun getUpperBoundType (ILde/jensklingenberg/ktorfit/converter/TypeData;)Lde/jensklingenberg/ktorfit/converter/TypeData;
 }
 
 public final class de/jensklingenberg/ktorfit/converter/Converter$DefaultImpls {
@@ -48,9 +48,9 @@ public final class de/jensklingenberg/ktorfit/converter/Converter$DefaultImpls {
 }
 
 public abstract interface class de/jensklingenberg/ktorfit/converter/Converter$Factory {
-	public abstract fun requestParameterConverter (Lkotlin/reflect/KClass;Lkotlin/reflect/KClass;)Lde/jensklingenberg/ktorfit/converter/Converter$RequestParameterConverter;
-	public abstract fun responseConverter (Lde/jensklingenberg/ktorfit/converter/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/converter/Converter$ResponseConverter;
-	public abstract fun suspendResponseConverter (Lde/jensklingenberg/ktorfit/converter/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/converter/Converter$SuspendResponseConverter;
+	public fun requestParameterConverter (Lkotlin/reflect/KClass;Lkotlin/reflect/KClass;)Lde/jensklingenberg/ktorfit/converter/Converter$RequestParameterConverter;
+	public fun responseConverter (Lde/jensklingenberg/ktorfit/converter/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/converter/Converter$ResponseConverter;
+	public fun suspendResponseConverter (Lde/jensklingenberg/ktorfit/converter/TypeData;Lde/jensklingenberg/ktorfit/Ktorfit;)Lde/jensklingenberg/ktorfit/converter/Converter$SuspendResponseConverter;
 }
 
 public final class de/jensklingenberg/ktorfit/converter/Converter$Factory$DefaultImpls {

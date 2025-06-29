@@ -59,7 +59,7 @@ interface ClassProvider<T>
 
         val result = compile(listOf(source2, source))
 
-        assertTrue(result.messages.contains("_TestServiceProvider"))
+        assertTrue(result.generatedFiles.any { it.name.contains("_TestServiceImpl") })
     }
 
     @Test
@@ -111,7 +111,6 @@ fun <T> Ktorfit.create(ktorfitService: ClassProvider? = null): T {
 
     private fun prepareCompilation(sourceFiles: List<SourceFile>): KotlinCompilation =
         KotlinCompilation().apply {
-            languageVersion = "1.9"
             workingDir = temporaryFolder.root
             compilerPluginRegistrars = listOf(CommonCompilerPluginRegistrar())
             val processor = ExampleCommandLineProcessor()
@@ -125,7 +124,7 @@ fun <T> Ktorfit.create(ktorfitService: ClassProvider? = null): T {
             sources = sourceFiles
             verbose = false
             jvmTarget = JvmTarget.fromString(System.getProperty("rdt.jvmTarget", "1.8"))!!.description
-            supportsK2 = false
+            supportsK2 = true
         }
 
     private fun compile(sourceFiles: List<SourceFile>): JvmCompilationResult = prepareCompilation(sourceFiles).compile()

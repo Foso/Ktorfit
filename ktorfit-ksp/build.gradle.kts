@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -12,11 +13,6 @@ plugins {
     id("app.cash.licensee")
     id("org.jlleitschuh.gradle.ktlint")
 }
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
 
 licensee {
     allow("Apache-2.0")
@@ -24,7 +20,12 @@ licensee {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 mavenPublishing {
@@ -34,7 +35,6 @@ mavenPublishing {
         libs.versions.ktorfitKsp.get(),
     )
     publishToMavenCentral()
-    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {
         signAllPublications()
     }
@@ -58,7 +58,7 @@ dependencies {
 
 detekt {
     toolVersion = libs.versions.detekt.get()
-    config = files("../detekt-config.yml")
+    config.from(files("../detekt-config.yml"))
     buildUponDefaultConfig = false
 }
 
