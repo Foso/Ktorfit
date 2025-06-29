@@ -186,8 +186,9 @@ private fun Project.createKtorfitExtension(name: String = KtorfitGradlePlugin.GR
 }
 
 internal val KotlinProjectExtension.targets: Iterable<KotlinTarget>
-    get() = when (this) {
-        is KotlinSingleTargetExtension<*> -> listOf(this.target)
-        is KotlinMultiplatformExtension -> targets
-        else -> error("Unexpected 'kotlin' extension $this")
-    }
+    get() =
+        when (this) {
+            is KotlinSingleTargetExtension<*> -> listOf(this.target)
+            is KotlinMultiplatformExtension -> targets
+            else -> error("Unexpected 'kotlin' extension $this")
+        }
