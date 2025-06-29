@@ -7,10 +7,11 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
+import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.util.Locale.US
 import kotlin.reflect.full.declaredMemberProperties
@@ -183,3 +184,11 @@ private fun Project.createKtorfitExtension(name: String = KtorfitGradlePlugin.GR
         type = KtorfitPluginExtension::class,
     ).apply { setupConvention(this@createKtorfitExtension) }
 }
+
+internal val KotlinProjectExtension.targets: Iterable<KotlinTarget>
+    get() =
+        when (this) {
+            is KotlinSingleTargetExtension<*> -> listOf(this.target)
+            is KotlinMultiplatformExtension -> targets
+            else -> error("Unexpected 'kotlin' extension $this")
+        }

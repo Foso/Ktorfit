@@ -1,6 +1,4 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("multiplatform")
@@ -34,7 +32,7 @@ ktlint {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 
 licensee {
@@ -45,7 +43,7 @@ licensee {
 
 detekt {
     toolVersion = libs.versions.detekt.get()
-    config = files("../detekt-config.yml")
+    config.from(files("../detekt-config.yml"))
     buildUponDefaultConfig = false
 }
 
@@ -68,7 +66,7 @@ mavenPublishing {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 
 kotlin {
@@ -172,7 +170,6 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 34
 
         val proguardFile =
             file("src/jvmMain/resources/META-INF/proguard/ktorfit.pro").also {
@@ -248,10 +245,6 @@ publishing {
 
 ksp {
     arg("Ktorfit_QualifiedTypeName", "true")
-}
-
-rootProject.plugins.withType(NodeJsRootPlugin::class) {
-    rootProject.the(NodeJsRootExtension::class).version = "18.0.0"
 }
 
 dependencies {
