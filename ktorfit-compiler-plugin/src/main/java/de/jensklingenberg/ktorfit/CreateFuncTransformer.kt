@@ -58,7 +58,7 @@ internal class CreateFuncTransformer(
                 }
 
                 val extensionReceiverIndex = expression.symbol.owner.parameters.indexOfFirst { it.kind == IrParameterKind.ExtensionReceiver }
-                val extensionReceiver = if(extensionReceiverIndex >= 0) expression.arguments[extensionReceiverIndex] else null
+                val extensionReceiver = if (extensionReceiverIndex >= 0) expression.arguments[extensionReceiverIndex] else null
                 if (expression.arguments.dropWhile { extensionReceiver != null && extensionReceiver == it }.firstOrNull() != null) {
                     return expression
                 }
