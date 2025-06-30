@@ -57,9 +57,7 @@ internal class CreateFuncTransformer(
                     return expression
                 }
 
-                val extensionReceiverIndex = expression.symbol.owner.parameters.indexOfFirst { it.kind == IrParameterKind.ExtensionReceiver }
-                val extensionReceiver = if (extensionReceiverIndex >= 0) expression.arguments[extensionReceiverIndex] else null
-                if (expression.arguments.dropWhile { extensionReceiver != null && extensionReceiver == it }.firstOrNull() != null) {
+                if (expression.hasRegularParameters()) {
                     return expression
                 }
 
@@ -116,6 +114,22 @@ internal class CreateFuncTransformer(
             }
         }
         return super.visitExpression(expression)
+    }
+
+    @OptIn(UnsafeDuringIrConstructionAPI::class)
+    private fun IrCall.hasRegularParameters(): Boolean {
+        val regularParameterIndices =
+            symbol
+                .owner
+                .parameters
+                .mapIndexedNotNull { index, param ->
+                    if (param.kind == IrParameterKind.Regular) index else null
+                }
+        return arguments
+            .filterIndexed { index, _ ->
+                index in regularParameterIndices
+            }
+            .firstOrNull() != null
     }
 }
 
