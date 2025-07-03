@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -28,7 +29,6 @@ mavenPublishing {
         libs.versions.ktorfitFlowConverter.get(),
     )
     publishToMavenCentral()
-    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {
         signAllPublications()
     }
@@ -40,8 +40,11 @@ tasks.withType<KotlinCompile> {
 
 kotlin {
     explicitApi()
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-    wasmJs()
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        nodejs()
+        binaries.executable()
+    }
     jvm {
     }
     js(IR) {
@@ -99,23 +102,15 @@ kotlin {
     mingwX64()
     applyDefaultHierarchyTemplate()
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation(projects.ktorfitLibCore)
             }
         }
-        val linuxX64Main by getting
-        val mingwX64Main by getting
-        val androidMain by getting
-        val jvmMain by getting
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val jsMain by getting
-        val iosMain by getting
     }
 }
-val javadocJar by tasks.registering(Jar::class) {
+
+tasks.register<Jar>("javadocJar").configure {
     archiveClassifier.set("javadoc")
 }
 
