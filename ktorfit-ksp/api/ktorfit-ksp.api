@@ -18,6 +18,8 @@ public final class de/jensklingenberg/ktorfit/KtorfitProcessor : com/google/devt
 	public static final field Companion Lde/jensklingenberg/ktorfit/KtorfitProcessor$Companion;
 	public static field ktorfitResolver Lcom/google/devtools/ksp/processing/Resolver;
 	public fun <init> (Lcom/google/devtools/ksp/processing/SymbolProcessorEnvironment;Lde/jensklingenberg/ktorfit/KtorfitOptions;)V
+	public fun finish ()V
+	public fun onError ()V
 	public fun process (Lcom/google/devtools/ksp/processing/Resolver;)Ljava/util/List;
 }
 

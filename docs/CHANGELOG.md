@@ -15,6 +15,7 @@ Unreleased
 
 ## Changed
 - Update Ktor to 3.2.0
+- Update Kotlin to 2.2.0
 
 # [2.5.2]()
 

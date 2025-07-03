@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -24,7 +25,7 @@ licensee {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 
 mavenPublishing {
@@ -58,7 +59,7 @@ dependencies {
 
 detekt {
     toolVersion = libs.versions.detekt.get()
-    config = files("../detekt-config.yml")
+    config.from(files("../detekt-config.yml"))
     buildUponDefaultConfig = false
 }
 

@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit
 
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
+import org.jetbrains.kotlin.ir.declarations.IrParameterKind
 import org.jetbrains.kotlin.ir.descriptors.toIrBasedKotlinType
 import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
@@ -43,7 +44,7 @@ internal class CreateFuncTransformer(
     override fun visitExpression(expression: IrExpression): IrExpression {
         // Find exampleKtorfit.create<TestApi>()
         (expression as? IrCall)?.let { irCall ->
-            if (irCall.typeArgumentsCount > 0) {
+            if (irCall.typeArguments.isNotEmpty()) {
                 if (!expression.symbol.owner.symbol
                         .toString()
                         .contains(KTORFIT_PACKAGE)
@@ -56,12 +57,12 @@ internal class CreateFuncTransformer(
                     return expression
                 }
 
-                if (expression.getValueArgument(0) != null) {
+                if (expression.hasRegularParameters()) {
                     return expression
                 }
 
                 // Get T from create<T>()
-                val argumentType = irCall.getTypeArgument(0) ?: return expression
+                val argumentType = irCall.typeArguments.firstOrNull() ?: return expression
                 val classFqName = argumentType.classFqName
 
                 if (!argumentType.isInterface()) {
@@ -103,7 +104,7 @@ internal class CreateFuncTransformer(
                     )
 
                 // Set _ExampleApiProvider() as argument for create<ExampleApi>()
-                irCall.putValueArgument(0, newCall)
+                irCall.arguments[0] = newCall
                 debugLogger.log(
                     "Transformed " + argumentType.toIrBasedKotlinType().getKotlinTypeFqName(false).substringAfterLast(".") +
                         " to _$className" +
@@ -113,6 +114,22 @@ internal class CreateFuncTransformer(
             }
         }
         return super.visitExpression(expression)
+    }
+
+    @OptIn(UnsafeDuringIrConstructionAPI::class)
+    private fun IrCall.hasRegularParameters(): Boolean {
+        val regularParameterIndices =
+            symbol
+                .owner
+                .parameters
+                .mapIndexedNotNull { index, param ->
+                    if (param.kind == IrParameterKind.Regular) index else null
+                }
+        return arguments
+            .filterIndexed { index, _ ->
+                index in regularParameterIndices
+            }
+            .firstOrNull() != null
     }
 }
 
