@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
+import org.gradle.plugins.signing.Sign
 
 
 val enableSigning = project.hasProperty("signingInMemoryKey")
@@ -24,6 +26,13 @@ mavenPublishing {
     publishToMavenCentral()
     if (enableSigning) {
         signAllPublications()
+    }
+}
+
+// Fix task dependencies for signing and publishing
+if (enableSigning) {
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        dependsOn(tasks.withType<Sign>())
     }
 }
 
