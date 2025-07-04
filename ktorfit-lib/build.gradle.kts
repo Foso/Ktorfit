@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -26,7 +27,6 @@ mavenPublishing {
         libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
-    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {
         signAllPublications()
     }
@@ -38,8 +38,11 @@ tasks.withType<KotlinCompile> {
 
 kotlin {
     explicitApi()
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-    wasmJs()
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        nodejs()
+        binaries.executable()
+    }
     jvm {
     }
     js(IR) {
@@ -98,57 +101,55 @@ kotlin {
     mingwX64()
     applyDefaultHierarchyTemplate()
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(projects.ktorfitLibCore)
             }
         }
-        val linuxX64Main by getting {
+        linuxX64Main {
             dependencies {
                 implementation(libs.ktor.client.core.linuxX64)
                 implementation(libs.ktor.client.cio.linuxX64)
             }
         }
-        val linuxArm64Main by getting {
+        linuxArm64Main {
             dependencies {
                 implementation(libs.ktor.client.core.linuxArm64)
                 implementation(libs.ktor.client.cio.linuxArm64)
             }
         }
 
-        val mingwX64Main by getting {
+        mingwX64Main {
             dependencies {
                 implementation(libs.ktor.client.core.mingwx64)
             }
         }
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 implementation(libs.ktor.client.okhttp)
             }
         }
-        val jvmMain by getting {
+        jvmMain {
             dependencies {
                 implementation(libs.ktor.client.cio.jvm)
             }
         }
 
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val jsMain by getting {
+        jsMain {
             dependencies {
                 implementation(libs.ktor.client.js)
             }
         }
 
-        val iosMain by getting {
+        iosMain {
             dependencies {
                 implementation(libs.ktor.client.ios)
             }
         }
     }
 }
-val javadocJar by tasks.registering(Jar::class) {
+
+tasks.register<Jar>("javadocJar").configure {
     archiveClassifier.set("javadoc")
 }
 

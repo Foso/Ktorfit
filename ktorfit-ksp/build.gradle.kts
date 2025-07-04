@@ -13,11 +13,6 @@ plugins {
     id("app.cash.licensee")
     id("org.jlleitschuh.gradle.ktlint")
 }
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
 
 licensee {
     allow("Apache-2.0")
@@ -28,6 +23,11 @@ tasks.withType<KotlinCompile> {
     compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 mavenPublishing {
     coordinates(
         libs.versions.groupId.get(),
@@ -35,7 +35,6 @@ mavenPublishing {
         libs.versions.ktorfitKsp.get(),
     )
     publishToMavenCentral()
-    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {
         signAllPublications()
     }

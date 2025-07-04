@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -10,12 +11,6 @@ plugins {
     alias(libs.plugins.detekt)
     id("app.cash.licensee")
     id("org.jlleitschuh.gradle.ktlint")
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
 }
 
 ktlint {
@@ -59,7 +54,6 @@ mavenPublishing {
         libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
-    //  publishToMavenCentral(SonatypeHost.S01) // for publishing through s01.oss.sonatype.org
     if (enableSigning) {
         signAllPublications()
     }
@@ -70,8 +64,11 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 kotlin {
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-    wasmJs()
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        this.nodejs()
+        binaries.executable()
+    }
     explicitApi()
     jvm {
     }
@@ -131,19 +128,19 @@ kotlin {
     applyDefaultHierarchyTemplate()
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(projects.ktorfitAnnotations)
                 api(libs.ktor.client.core)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
             }
         }
 
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
                 kotlin.srcDir("build/generated/ksp/jvm/jvmTest/")
 
@@ -153,15 +150,10 @@ kotlin {
                 implementation(libs.ktor.client.cio.jvm)
             }
         }
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-
-        val iosMain by getting
     }
 }
 
-val javadocJar by tasks.registering(Jar::class) {
+tasks.register<Jar>("javadocJar").configure {
     archiveClassifier.set("javadoc")
 }
 
