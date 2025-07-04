@@ -27,18 +27,6 @@ buildscript {
     }
 }
 
-subprojects {
-    repositories {
-        google()
-        mavenLocal()
-        mavenCentral()
-        maven {
-            url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
-        }
-        maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
-    }
-}
-
 apiValidation {
     ignoredProjects.addAll(
         listOf(
