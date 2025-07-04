@@ -1,10 +1,12 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp") version "2.1.20-2.0.0"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.1.0"
-    id("de.jensklingenberg.ktorfit") version "2.5.1"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.1.10"
+    id("com.google.devtools.ksp") version "2.2.0-2.0.2"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0"
+    id("de.jensklingenberg.ktorfit") version "2.6.0"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.0"
 }
 
 ktorfit{
@@ -47,8 +49,8 @@ android {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = "1.8"
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_1_8)
     }
 }
 

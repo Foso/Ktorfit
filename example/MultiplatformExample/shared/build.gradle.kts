@@ -1,12 +1,13 @@
 import de.jensklingenberg.ktorfit.gradle.ErrorCheckingMode
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "2.1.10-1.0.31"
+    id("com.google.devtools.ksp") version "2.2.0-2.0.2"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "2.5.1"
+    id("de.jensklingenberg.ktorfit") version "2.6.0"
 }
 
 ktorfit {
@@ -15,11 +16,11 @@ ktorfit {
 
 version = "1.0"
 val ktorVersion = "3.1.2"
-val ktorfitVersion = "2.5.1"
+val ktorfitVersion = "2.6.0"
 
 kotlin {
     jvmToolchain(8)
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
 
     jvm()
     androidTarget()
@@ -86,9 +87,9 @@ android {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
-        allWarningsAsErrors = false
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_1_8)
+        allWarningsAsErrors.set(false)
     }
 }
 
