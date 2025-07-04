@@ -44,6 +44,13 @@ detekt {
 
 val enableSigning = project.hasProperty("signingInMemoryKey")
 
+// Fix task dependencies for signing and publishing
+if (enableSigning) {
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        dependsOn(tasks.withType<Sign>())
+    }
+}
+
 mavenPublishing {
 
     val artifactId =
