@@ -44,5 +44,5 @@ fun getUrlCode(
         urlPath = urlPath.replace("{${pathAnnotation.value}}", "\${\"\$${paramName}\"$pathEncoded}")
     }
 
-    return "url{\ntakeFrom(${baseUrl}\"$urlPath\")\n" + queryCode + "}"
+    return "this.url{\ntakeFrom(${baseUrl}\"$urlPath\")\n" + queryCode + "}"
 }
