@@ -3,6 +3,7 @@ package com.example
 import com.example.api.createStarWarsApi
 import com.example.model.People
 import de.jensklingenberg.ktorfit.Ktorfit
+import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.mock.MockEngine
@@ -12,15 +13,17 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class StormtrooperLegionTest {
+class SummonStormtroopersTest {
     @Test
     fun `Given mocked response When summonStormtroopers Then obtain not null expected result`() = runTest {
+        // Given
         val stringJsonListStormtroopersContent = """
                     [
                         {
@@ -43,9 +46,12 @@ class StormtrooperLegionTest {
         }
         val starWarsApi = setUpTestKtorfit(mockEngine).createStarWarsApi()
 
+        // When
         val result = starWarsApi.summonStormtroopers()
+
+        // Then
         assertNotNull(result)
-        assertEquals(Json.decodeFromString<List<People>>(stringJsonListStormtroopersContent), result)
+        assertEquals(Json.decodeFromString<List<People>>(stringJsonListStormtroopersContent), result.first())
     }
 }
 
@@ -61,7 +67,7 @@ private fun setUpTestKtorfit(engine: HttpClientEngine): Ktorfit {
         }
     }
     return Ktorfit.Builder()
-//        .converterFactories(ResponseConverterFactory())
+        .converterFactories(FlowConverterFactory())
         .httpClient(httpClient)
         .build()
 }

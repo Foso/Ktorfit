@@ -4,6 +4,7 @@ import com.example.model.People
 import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
+import kotlinx.coroutines.flow.Flow
 
 interface StarWarsApi {
     companion object {
@@ -16,5 +17,5 @@ interface StarWarsApi {
     ): Call<People>
 
     @GET("people/stormtrooper/all")
-    suspend fun summonStormtroopers(): List<People>
+    fun summonStormtroopers(): Flow<List<People>>
 }
