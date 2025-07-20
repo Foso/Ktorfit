@@ -22,6 +22,39 @@ import kotlin.test.assertNotNull
 
 class SummonStormtroopersTest {
     @Test
+    fun `Given mocked response When subscribeToStormtroopers Then obtain not null expected result`() = runTest {
+        // Given
+        val stringJsonListStormtroopersContent = """
+                    [
+                        {
+                            "gender": "male"
+                        },
+                        {
+                            "gender": "female"
+                        },
+                        {
+                            "gender": "twilek"
+                        }
+                    ]
+                """.trimIndent()
+        val mockEngine = MockEngine {
+            respond(
+                content = stringJsonListStormtroopersContent,
+                status = HttpStatusCode.OK,
+                headers = headersOf(HttpHeaders.ContentType, "application/json")
+            )
+        }
+        val starWarsApi = setUpTestKtorfit(mockEngine).createStarWarsApi()
+
+        // When
+        val result = starWarsApi.subscribeToStormtroopers()
+
+        // Then
+        assertNotNull(result)
+        assertEquals(Json.decodeFromString<List<People>>(stringJsonListStormtroopersContent), result.first())
+    }
+
+    @Test
     fun `Given mocked response When summonStormtroopers Then obtain not null expected result`() = runTest {
         // Given
         val stringJsonListStormtroopersContent = """
@@ -51,7 +84,7 @@ class SummonStormtroopersTest {
 
         // Then
         assertNotNull(result)
-        assertEquals(Json.decodeFromString<List<People>>(stringJsonListStormtroopersContent), result.first())
+        assertEquals(Json.decodeFromString<List<People>>(stringJsonListStormtroopersContent), result)
     }
 }
 

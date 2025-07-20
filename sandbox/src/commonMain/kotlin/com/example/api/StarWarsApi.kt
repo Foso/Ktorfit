@@ -17,5 +17,8 @@ interface StarWarsApi {
     ): Call<People>
 
     @GET("people/stormtrooper/all")
-    fun summonStormtroopers(): Flow<List<People>>
+    fun subscribeToStormtroopers(): Flow<List<People>>
+
+    @GET("people/stormtrooper/all")
+    suspend fun summonStormtroopers(): List<People>
 }
