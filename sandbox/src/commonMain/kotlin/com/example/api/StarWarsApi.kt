@@ -14,4 +14,7 @@ interface StarWarsApi {
     fun getPersonById(
         @Path("id") peopleId: Int
     ): Call<People>
+
+    @GET("people/stormtrooper/all")
+    suspend fun summonStormtroopers(): List<People>
 }
