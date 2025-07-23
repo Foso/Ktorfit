@@ -52,5 +52,7 @@ internal class KtorfitError {
         fun noHttpAnnotationAt(functionName: String) = "No Http annotation at $functionName"
 
         fun urlCanOnlyBeUsedWithEmpty(keyword: String) = "@Url can only be used with empty @$keyword URL value"
+
+        fun noDefaultImplWithNoDelegation(functionName: String) = "@NoDelegation annotation requires a default implementation on $functionName"
     }
 }

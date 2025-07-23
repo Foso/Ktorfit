@@ -62,8 +62,10 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         ksClassDeclaration
             .getDeclaredFunctions()
             .toList()
-            .map { funcDeclaration ->
-                return@map funcDeclaration.toFunctionData(logger, addImport = { imports.add(it) })
+            .filterNot { functionDeclaration ->
+                functionDeclaration.annotations.any { it.shortName.getShortName() == "NoDelegation" }
+            }.map { funcDeclaration ->
+                funcDeclaration.toFunctionData(logger, addImport = { imports.add(it) })
             }
 
     val filteredSupertypes =
@@ -114,5 +116,24 @@ private fun checkClassForErrors(
     if (ksClassDeclaration.packageName.asString().isEmpty()) {
         logger.error(KtorfitError.INTERFACE_NEEDS_TO_HAVE_A_PACKAGE, ksClassDeclaration)
         return
+    }
+
+    ksClassDeclaration.getDeclaredFunctions().forEach { function ->
+        val hasNoDelegation =
+            function.annotations.any {
+                it.shortName.getShortName() == "NoDelegation" ||
+                    it.annotationType
+                        .resolve()
+                        .declaration
+                        .qualifiedName
+                        ?.asString() == "de.jensklingenberg.ktorfit.core.NoDelegation"
+            }
+
+        if (hasNoDelegation && function.isAbstract) {
+            logger.error(
+                KtorfitError.noDefaultImplWithNoDelegation(function.simpleName.asString()),
+                function
+            )
+        }
     }
 }
