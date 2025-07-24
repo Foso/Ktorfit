@@ -7,5 +7,5 @@ package de.jensklingenberg.ktorfit.core
  * Kotlin delegation for this interface. This is useful when you want to manually implement the
  * methods of the interface or when delegation is not desired for other reasons.
  */
-@Target(AnnotationTarget.TYPE)
+@Target(AnnotationTarget.TYPE, AnnotationTarget.FUNCTION)
 annotation class NoDelegation
