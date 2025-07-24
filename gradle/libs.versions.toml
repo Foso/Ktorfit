@@ -7,6 +7,7 @@ detekt = "1.23.8"
 junit = "4.13.2"
 kctfork = "0.8.0"
 kotlin = "2.2.0"
+kotlinx = "1.10.1"
 kotlinPoet = "2.2.0"
 kspVersion = "2.2.0-2.0.2"
 
@@ -44,6 +45,7 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-serialization-runtime-js = "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.20.0"
 kspApi = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "kspVersion" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx" }
 
 #Ktor
 ktor-client-cio-jvm = { module = "io.ktor:ktor-client-cio-jvm", version.ref = "ktorVersion" }

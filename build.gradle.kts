@@ -38,3 +38,9 @@ apiValidation {
         enabled = true
     }
 }
+
+allprojects {
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        dependsOn(":sandbox:allTests")
+    }
+}
