@@ -7,6 +7,17 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
+# [Unreleased]()
+
+Unreleased
+========================================
+* Supported KSP version: >=2.0.2
+* Supported Kotlin version: >=2.2.0
+* Ktor version: 3.2.1
+
+# Fixed
+- Can't deserialize List on iOS #887
+
 # [2.6.1]()
 
 2.6.1 - 2025-07-04
