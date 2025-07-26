@@ -17,6 +17,11 @@ Unreleased
 
 # Fixed
 - Can't deserialize List on iOS #887
+- Java 21 requirement after update to 2.6.0 #883
+- Build failed when use parameter with name method #865
+
+Thanks to @Link184 and @king22 for contributing to this release!
+
 
 # [2.6.1]()
 
