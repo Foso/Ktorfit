@@ -17,6 +17,7 @@ Unreleased
 
 # Fixed
 - Can't deserialize List on iOS #887
+- Java 21 requirement after update to 2.6.0 #883
 
 # [2.6.1]()
 

@@ -33,8 +33,7 @@ kotlin {
         binaries.executable()
     }
 
-    jvm {
-    }
+    jvm {}
     js(IR) {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
@@ -186,4 +185,9 @@ publishing {
             }
         }
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
