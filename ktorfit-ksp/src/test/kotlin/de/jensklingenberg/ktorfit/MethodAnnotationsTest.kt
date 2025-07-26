@@ -93,4 +93,35 @@ interface TestService {
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expectedHeadersArgumentText))
     }
+
+    @Test
+    fun `when function annotation have parameter named 'method' don't clash with http method parse`() {
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """
+                        package com.example.api
+        
+                        import de.jensklingenberg.ktorfit.http.GET
+                        import de.jensklingenberg.ktorfit.http.Query
+        
+                        interface TestService {
+                            @GET("posts")
+                            suspend fun test(@Query("method") method: String, @Query url: String): String
+                        }
+                        """,
+            )
+        val expectedHttpMethodParsedText = """this.method = HttpMethod.parse("GET")"""
+        val expectedQueryMethod = """method?.let{ parameter("method", "$/it") }""".replace("$/", "$")
+
+        val compilation = getCompilation(listOf(source))
+        println(compilation.languageVersion)
+
+        val generatedSourcesDir = compilation.apply { compile() }.kspSourcesDir
+        val generatedFile = File(generatedSourcesDir, "/kotlin/com/example/api/_TestServiceImpl.kt")
+
+        val actualSource = generatedFile.readText()
+        assertTrue(actualSource.contains(expectedHttpMethodParsedText))
+        assertTrue(actualSource.contains(expectedQueryMethod))
+    }
 }
