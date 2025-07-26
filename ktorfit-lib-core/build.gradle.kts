@@ -254,3 +254,8 @@ dependencies {
     add("kspJvm", projects.ktorfitKsp)
     add("kspJvmTest", projects.ktorfitKsp)
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

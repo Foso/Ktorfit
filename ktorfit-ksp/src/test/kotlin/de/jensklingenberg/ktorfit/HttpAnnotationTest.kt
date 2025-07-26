@@ -12,7 +12,7 @@ import java.io.File
 class HttpAnnotationTest {
     @Test
     fun testFunctionWithGET() {
-        val expectedSource = """ method = HttpMethod.parse("GET")"""
+        val expectedSource = """method = HttpMethod.parse("GET")"""
 
         val source =
             SourceFile.kotlin(
@@ -96,7 +96,7 @@ interface TestService {
             )
 
         val expectedFunctionText = """val _ext: HttpRequestBuilder.() -> Unit = {
-        method = HttpMethod.parse("GET2")
+        this.method = HttpMethod.parse("GET2")
         url{
         takeFrom(_ktorfit.baseUrl + "user")
         }
