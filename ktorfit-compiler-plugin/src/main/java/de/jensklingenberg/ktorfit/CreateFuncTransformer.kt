@@ -104,7 +104,8 @@ internal class CreateFuncTransformer(
                     )
 
                 // Set _ExampleApiProvider() as argument for create<ExampleApi>()
-                irCall.arguments[0] = newCall
+                irCall.arguments[1] = newCall
+
                 debugLogger.log(
                     "Transformed " + argumentType.toIrBasedKotlinType().getKotlinTypeFqName(false).substringAfterLast(".") +
                         " to _$className" +
