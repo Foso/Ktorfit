@@ -33,8 +33,7 @@ kotlin {
         binaries.executable()
     }
 
-    jvm {
-    }
+    jvm {}
     js(IR) {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
@@ -111,6 +110,13 @@ android {
 
 val enableSigning = project.hasProperty("signingInMemoryKey")
 
+// Fix task dependencies for signing and publishing
+if (enableSigning) {
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        dependsOn(tasks.withType<Sign>())
+    }
+}
+
 mavenPublishing {
     coordinates(
         libs.versions.groupId.get(),
@@ -179,4 +185,9 @@ publishing {
             }
         }
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

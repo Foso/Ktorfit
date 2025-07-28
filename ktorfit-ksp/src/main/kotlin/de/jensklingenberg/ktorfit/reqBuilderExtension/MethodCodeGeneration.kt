@@ -10,5 +10,5 @@ fun getMethodCode(httpMethod: HttpMethodAnnotation): String {
         } else {
             httpMethod.httpMethod.keyword
         }
-    return "method = HttpMethod.parse(\"${httpMethodValue}\")"
+    return "this.method = HttpMethod.parse(\"${httpMethodValue}\")"
 }

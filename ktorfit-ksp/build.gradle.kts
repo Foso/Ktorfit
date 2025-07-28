@@ -19,6 +19,13 @@ licensee {
     allow("MIT")
 }
 
+// Fix task dependencies for signing and publishing
+if (enableSigning) {
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        dependsOn(tasks.withType<Sign>())
+    }
+}
+
 tasks.withType<KotlinCompile> {
     compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }

@@ -35,6 +35,7 @@ kotlin {
     }
     iosX64()
     iosArm64()
+    iosSimulatorArm64()
     js(IR) {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
@@ -55,7 +56,6 @@ kotlin {
     applyDefaultHierarchyTemplate()
     sourceSets {
         commonMain {
-
             dependencies {
                 implementation(projects.ktorfitLibCore)
                 implementation(projects.ktorfitConverters.flow)
@@ -65,6 +65,13 @@ kotlin {
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.kotlin.coroutines.test)
+                implementation(libs.ktor.client.mock)
             }
         }
         linuxX64Main {

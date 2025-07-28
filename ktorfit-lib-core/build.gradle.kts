@@ -44,6 +44,13 @@ detekt {
 
 val enableSigning = project.hasProperty("signingInMemoryKey")
 
+// Fix task dependencies for signing and publishing
+if (enableSigning) {
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        dependsOn(tasks.withType<Sign>())
+    }
+}
+
 mavenPublishing {
 
     val artifactId =
@@ -246,4 +253,9 @@ dependencies {
     )
     add("kspJvm", projects.ktorfitKsp)
     add("kspJvmTest", projects.ktorfitKsp)
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

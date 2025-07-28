@@ -7,15 +7,47 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update. 
 
-Unreleased
+# [2.6.3]()
+
+2.6.3 - 2025-07-27
 ========================================
-* Supported KSP version: >=1.0.28
-* Supported Kotlin version: >=2.1.10
-* Ktor version: 3.2.0
+* Supported KSP version: >=2.0.2
+* Supported Kotlin version: >=2.2.0
+* Ktor version: 3.2.1
+
+# Fixed
+- Can't deserialize List on iOS #887
+- Java 21 requirement after update to 2.6.0 #883
+- Build failed when use parameter with name method #865
+
+Thanks to @Link184 and @king22 for contributing to this release!
+
+# [2.6.2]()
+
+2.6.2 - 2025-07-26
+========================================
+SKIP THIS VERSION
+
+# [2.6.1]()
+
+2.6.1 - 2025-07-04
+========================================
+* Supported KSP version: >=2.0.2
+* Supported Kotlin version: >=2.2.0
+* Ktor version: 3.2.1
 
 ## Changed
-- Update Ktor to 3.2.0
+- Update Ktor to 3.2.1
 - Update Kotlin to 2.2.0
+
+Special thanks to @eygraber for contributing to this release!
+
+# [2.6.0]()
+
+2.6.0 - 2025-07-04
+========================================
+SKIP THIS VERSION, it was released with a wrong Kotlin compiler plugin version.
+
 
 # [2.5.2]()
 
