@@ -58,7 +58,7 @@ val userKtorfit =
         )
     }
 
-val api: ExampleApi = userKtorfit.createExampleApi()
+val api: ExampleApi = userKtorfit.create<ExampleApi>()
 
 fun main() {
     runBlocking {

@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit
 
+import org.jetbrains.kotlin.DeprecatedForRemovalCompilerApi
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.declarations.IrParameterKind
@@ -104,7 +105,8 @@ internal class CreateFuncTransformer(
                     )
 
                 // Set _ExampleApiProvider() as argument for create<ExampleApi>()
-                irCall.arguments[0] = newCall
+                irCall.arguments[1] = newCall
+
                 debugLogger.log(
                     "Transformed " + argumentType.toIrBasedKotlinType().getKotlinTypeFqName(false).substringAfterLast(".") +
                         " to _$className" +
