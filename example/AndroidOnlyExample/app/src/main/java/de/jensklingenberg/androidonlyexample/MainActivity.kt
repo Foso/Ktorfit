@@ -35,7 +35,7 @@ val ktorfit = ktorfit {
     )
 
 }
-val api = ktorfit.createStarWarsApi()
+val api = ktorfit.create<StarWarsApi>()
 
 class MainActivity : ComponentActivity() {
 

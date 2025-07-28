@@ -32,7 +32,7 @@ val ktorfit =
         )
     }
 
-val starWarsApi = ktorfit.createStarWarsApi()
+val starWarsApi = ktorfit.create<StarWarsApi>()
 
 class Greeting {
     fun greeting(): String {
