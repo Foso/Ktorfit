@@ -96,6 +96,91 @@ fun KSFunctionDeclaration.toFunctionData(
 
     val functionAnnotationList = mutableListOf<FunctionAnnotation>()
 
+    resolveBodyAnnotations(logger, functionParameters, functionAnnotationList, returnType)
+    val httpMethodAnnoList = getHttpMethodAnnotations(funcDeclaration)
+
+    if (httpMethodAnnoList.isEmpty()) {
+        logger.error(KtorfitError.noHttpAnnotationAt(functionName), funcDeclaration)
+    } else {
+        addImport("io.ktor.http.HttpMethod")
+    }
+
+    if (httpMethodAnnoList.size > 1) {
+        logger.error(
+            KtorfitError.ONLY_ONE_HTTP_METHOD_IS_ALLOWED + "Found: " +
+                httpMethodAnnoList.joinToString {
+                    it.httpMethod.keyword
+                } + " at " + functionName,
+            funcDeclaration,
+        )
+    }
+
+    val firstHttpMethodAnnotation = httpMethodAnnoList.first()
+
+    val isEmptyHttpPathWithoutUrlAnnotation =
+        firstHttpMethodAnnotation.path.isEmpty() && functionParameters.none { it.hasAnnotation<Url>() }
+    if (isEmptyHttpPathWithoutUrlAnnotation) {
+        logger.error(
+            KtorfitError.missingEitherKeywordUrlOrUrlParameter(firstHttpMethodAnnotation.httpMethod.keyword),
+            funcDeclaration,
+        )
+    }
+
+    resolveFunctionData(logger, httpMethodAnnoList, functionParameters, functionAnnotationList, addImport)
+
+    val (modifiers, optInAnnotations, nonKtorfitAnnotations) = resolveModifiersAndAnnotations(addImport)
+
+    return FunctionData(
+        functionName,
+        returnType,
+        funcDeclaration.isSuspend,
+        functionParameters,
+        functionAnnotationList,
+        firstHttpMethodAnnotation,
+        modifiers,
+        optInAnnotations,
+        nonKtorfitAnnotations,
+    )
+}
+
+private fun KSFunctionDeclaration.resolveModifiersAndAnnotations(addImport: (String) -> Unit): Triple<List<KModifier>, List<AnnotationSpec>, List<AnnotationSpec>> {
+    val funcDeclaration = this
+
+    val modifiers =
+        buildList {
+            add(KModifier.OVERRIDE)
+            if (this@resolveModifiersAndAnnotations.isSuspend) add(KModifier.SUSPEND)
+        }
+
+    val annotations =
+        funcDeclaration.annotations
+            .map { it.toAnnotationSpec() }
+
+    val optInAnnotations: MutableList<AnnotationSpec> = mutableListOf()
+    val nonKtorfitAnnotations: MutableList<AnnotationSpec> = mutableListOf()
+
+    annotations.forEach { annotation ->
+        val className = annotation.toClassName()
+        if (className.simpleName == "OptIn") {
+            optInAnnotations.add(annotation)
+            return@forEach
+        }
+        if (functionalKtorfitAnnotation.contains(className)) return@forEach
+        nonKtorfitAnnotations.add(annotation)
+        addImport(className.canonicalName)
+    }
+
+    return Triple(modifiers, optInAnnotations, nonKtorfitAnnotations)
+}
+
+private fun KSFunctionDeclaration.resolveBodyAnnotations(
+    logger: KSPLogger,
+    functionParameters: List<ParameterData>,
+    functionAnnotationList: MutableList<FunctionAnnotation>,
+    returnType: ReturnTypeData,
+) {
+    val funcDeclaration = this
+
     funcDeclaration.getMultipartAnnotation()?.let {
         functionAnnotationList.add(it)
     }
@@ -111,8 +196,8 @@ fun KSFunctionDeclaration.toFunctionData(
         headers.value.forEach {
             // Check if headers are in valid format
             try {
-                val (key, value) = it.split(":")
-            } catch (exception: Exception) {
+                val (_, _) = it.split(":")
+            } catch (_: Exception) {
                 logger.error(KtorfitError.HEADERS_VALUE_MUST_BE_IN_FORM + it, funcDeclaration)
             }
         }
@@ -146,46 +231,28 @@ fun KSFunctionDeclaration.toFunctionData(
         }
         functionAnnotationList.add(streaming)
     }
+}
 
-    val httpMethodAnnoList = getHttpMethodAnnotations(funcDeclaration)
-
-    if (httpMethodAnnoList.isEmpty()) {
-        logger.error(KtorfitError.noHttpAnnotationAt(functionName), funcDeclaration)
-    } else {
-        addImport("io.ktor.http.HttpMethod")
-    }
-
-    if (httpMethodAnnoList.size > 1) {
-        logger.error(
-            KtorfitError.ONLY_ONE_HTTP_METHOD_IS_ALLOWED + "Found: " +
-                httpMethodAnnoList.joinToString {
-                    it.httpMethod.keyword
-                } + " at " + functionName,
-            funcDeclaration,
-        )
-    }
-
+private fun KSFunctionDeclaration.resolveFunctionData(
+    logger: KSPLogger,
+    httpMethodAnnoList: List<HttpMethodAnnotation>,
+    functionParameters: List<ParameterData>,
+    functionAnnotationList: List<FunctionAnnotation>,
+    addImport: (String) -> Unit,
+) {
+    val funcDeclaration = this
+    val functionName = funcDeclaration.simpleName.asString()
     val firstHttpMethodAnnotation = httpMethodAnnoList.first()
-
-    val isEmptyHttpPathWithoutUrlAnnotation =
-        firstHttpMethodAnnotation.path.isEmpty() && functionParameters.none { it.hasAnnotation<Url>() }
-    if (isEmptyHttpPathWithoutUrlAnnotation) {
-        logger.error(
-            KtorfitError.missingEitherKeywordUrlOrUrlParameter(firstHttpMethodAnnotation.httpMethod.keyword),
-            funcDeclaration,
-        )
-    }
 
     if (functionParameters.filter { it.hasAnnotation<RequestBuilder>() }.size > 1) {
         logger.error(
-            KtorfitError.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED + " Found: " + httpMethodAnnoList.joinToString { it.toString() } + " at " +
-                functionName,
+            KtorfitError.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED + " Found: " + httpMethodAnnoList.joinToString { it.toString() } + " at " + functionName,
             funcDeclaration,
         )
     }
 
     when (firstHttpMethodAnnotation.httpMethod) {
-        HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH -> {}
+        HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH -> Unit
         else -> {
             if (functionAnnotationList.anyInstance<Multipart>()) {
                 logger.error(
@@ -203,80 +270,7 @@ fun KSFunctionDeclaration.toFunctionData(
         }
     }
 
-    functionParameters.forEach { parameterData ->
-        parameterData.annotations.forEach {
-            if (it is Path) {
-                if (!firstHttpMethodAnnotation.path.contains("{${it.value}}")) {
-                    logger.error(
-                        KtorfitError.missingXInRelativeUrlPath(it.value),
-                        funcDeclaration,
-                    )
-                }
-            }
-
-            if (it is Header || it is HeaderMap) {
-                addImport("io.ktor.client.request.headers")
-            }
-
-            if (it is Tag) {
-                addImport("io.ktor.util.AttributeKey")
-            }
-
-            if (it is Body ||
-                it is ParameterAnnotation.PartMap ||
-                it is ParameterAnnotation.Part ||
-                it is FieldMap ||
-                it is Field
-            ) {
-                addImport("io.ktor.client.request.setBody")
-            }
-
-            if (it is Path && !it.encoded) {
-                addImport("io.ktor.http.encodeURLPath")
-            }
-
-            if (it is RequestType) {
-                addImport("kotlin.reflect.cast")
-            }
-
-            if (it is Path && firstHttpMethodAnnotation.path.isEmpty()) {
-                logger.error(
-                    KtorfitError.PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON + "@${firstHttpMethodAnnotation.httpMethod.keyword}",
-                    funcDeclaration,
-                )
-            }
-
-            if (it is Url) {
-                if (functionParameters.filter { it.hasAnnotation<Url>() }.size > 1) {
-                    logger.error(KtorfitError.MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND, funcDeclaration)
-                }
-                if (firstHttpMethodAnnotation.path.isNotEmpty()) {
-                    logger.error(
-                        KtorfitError.urlCanOnlyBeUsedWithEmpty(firstHttpMethodAnnotation.httpMethod.keyword),
-                        funcDeclaration,
-                    )
-                }
-            }
-
-            if (it is Field && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
-                logger.error(KtorfitError.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING, funcDeclaration)
-            }
-
-            if (it is FieldMap && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
-                logger.error(
-                    KtorfitError.FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING,
-                    funcDeclaration,
-                )
-            }
-
-            if (it is Body && funcDeclaration.getFormUrlEncodedAnnotation() != null) {
-                logger.error(
-                    KtorfitError.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING,
-                    funcDeclaration,
-                )
-            }
-        }
-    }
+    resolveIfFunctionData(logger, functionParameters, firstHttpMethodAnnotation, addImport)
 
     functionAnnotationList.forEach {
         if (it is Headers || it is FormUrlEncoded) {
@@ -293,48 +287,122 @@ fun KSFunctionDeclaration.toFunctionData(
             addImport("io.ktor.http.Parameters")
         }
     }
+}
 
-    val modifiers =
-        mutableListOf(KModifier.OVERRIDE).also {
-            if (this.isSuspend) {
-                it.add(KModifier.SUSPEND)
+private fun KSFunctionDeclaration.resolveIfFunctionData(
+    logger: KSPLogger,
+    functionParameters: List<ParameterData>,
+    firstHttpMethodAnnotation: HttpMethodAnnotation,
+    addImport: (String) -> Unit,
+) {
+    val funcDeclaration = this
+
+    functionParameters.forEach { parameterData ->
+        parameterData.annotations.forEach {
+            if (it is Path && !firstHttpMethodAnnotation.path.contains("{${it.value}}")) {
+                logger.error(
+                    KtorfitError.missingXInRelativeUrlPath(it.value),
+                    funcDeclaration,
+                )
             }
+
+            if (it is Header || it is HeaderMap) {
+                addImport("io.ktor.client.request.headers")
+            }
+
+            if (it is Tag) {
+                addImport("io.ktor.util.AttributeKey")
+            }
+
+            resolveIfPart2(it, addImport)
+            resolveIfPart3(it, logger, functionParameters, firstHttpMethodAnnotation, addImport)
         }
+    }
+}
 
-    val annotations =
-        funcDeclaration.annotations
-            .map { it.toAnnotationSpec() }
-
-    val optInAnnotations: MutableList<AnnotationSpec> = mutableListOf()
-    val nonKtorfitAnnotations: MutableList<AnnotationSpec> = mutableListOf()
-
-    annotations.forEach { annotation ->
-        val className = annotation.toClassName()
-        if (className.simpleName == "OptIn") {
-            optInAnnotations.add(annotation)
-            return@forEach
-        }
-        if (functionalKtorfitAnnotation.contains(className)) return@forEach
-        nonKtorfitAnnotations.add(annotation)
-        addImport(className.canonicalName)
+private fun resolveIfPart2(
+    it: ParameterAnnotation,
+    addImport: (String) -> Unit
+) {
+    if (it is Body || it is Field) {
+        addImport("io.ktor.client.request.setBody")
     }
 
-    return FunctionData(
-        functionName,
-        returnType,
-        funcDeclaration.isSuspend,
-        functionParameters,
-        functionAnnotationList,
-        firstHttpMethodAnnotation,
-        modifiers,
-        optInAnnotations,
-        nonKtorfitAnnotations,
-    )
+    if (it is ParameterAnnotation.PartMap ||
+        it is ParameterAnnotation.Part ||
+        it is FieldMap
+    ) {
+        addImport("io.ktor.client.request.setBody")
+    }
+
+    if (it is RequestType) {
+        addImport("kotlin.reflect.cast")
+    }
+}
+
+private fun KSFunctionDeclaration.resolveIfPart3(
+    it: ParameterAnnotation,
+    logger: KSPLogger,
+    functionParameters: List<ParameterData>,
+    firstHttpMethodAnnotation: HttpMethodAnnotation,
+    addImport: (String) -> Unit
+) {
+    val funcDeclaration = this
+
+    if (it is Path && !it.encoded) {
+        addImport("io.ktor.http.encodeURLPath")
+    }
+
+    if (it is Path && firstHttpMethodAnnotation.path.isEmpty()) {
+        logger.error(
+            KtorfitError.PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON + "@${firstHttpMethodAnnotation.httpMethod.keyword}",
+            funcDeclaration,
+        )
+    }
+
+    if (it is Url) {
+        if (functionParameters.filter { it.hasAnnotation<Url>() }.size > 1) {
+            logger.error(KtorfitError.MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND, funcDeclaration)
+        }
+        if (firstHttpMethodAnnotation.path.isNotEmpty()) {
+            logger.error(
+                KtorfitError.urlCanOnlyBeUsedWithEmpty(firstHttpMethodAnnotation.httpMethod.keyword),
+                funcDeclaration,
+            )
+        }
+    }
+
+    if (it is Field && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
+        logger.error(KtorfitError.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING, funcDeclaration)
+    }
+
+    if (it is FieldMap && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
+        logger.error(
+            KtorfitError.FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING,
+            funcDeclaration,
+        )
+    }
+
+    if (it is Body && funcDeclaration.getFormUrlEncodedAnnotation() != null) {
+        logger.error(
+            KtorfitError.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING,
+            funcDeclaration,
+        )
+    }
 }
 
 private val functionalKtorfitAnnotation =
     listOf(
-        GET::class, POST::class, PUT::class, DELETE::class, HEAD::class, OPTIONS::class, PATCH::class, HTTP::class,
-        KtorfitHeaders::class, KtorfitFormUrlEncoded::class, KtorfitMultipart::class, KtorfitStreaming::class,
-    )
-        .map { it.asClassName() }
+        GET::class,
+        POST::class,
+        PUT::class,
+        DELETE::class,
+        HEAD::class,
+        OPTIONS::class,
+        PATCH::class,
+        HTTP::class,
+        KtorfitHeaders::class,
+        KtorfitFormUrlEncoded::class,
+        KtorfitMultipart::class,
+        KtorfitStreaming::class,
+    ).map { it.asClassName() }
