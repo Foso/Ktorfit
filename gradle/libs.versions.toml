@@ -1,5 +1,5 @@
 [versions]
-abg = "8.11.1"
+abg = "8.12.0"
 autoService = "1.1.1"
 binaryCompatibilityValidator = "0.18.0"
 coroutines = "1.8.1"
@@ -24,7 +24,7 @@ ktorfitGradlePlugin = "2.6.4"
 ktorVersion = "3.2.1"
 mockk = "1.14.5"
 mockito-kotlin = "4.1.0"
-gradleMavenPublishPlugin = "0.33.0"
+gradleMavenPublishPlugin = "0.34.0"
 vannikMavenPublish = "0.33.0"
 licensee = "1.13.0"
 
