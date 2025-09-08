@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform") version libs.versions.kotlin apply false
     alias(libs.plugins.mavenPublish) apply false
-    id("org.jlleitschuh.gradle.ktlint") version "12.2.0" apply false
+    id("org.jlleitschuh.gradle.ktlint") version "13.1.0" apply false
     alias(libs.plugins.binaryCompatibilityValidator)
 }
 
