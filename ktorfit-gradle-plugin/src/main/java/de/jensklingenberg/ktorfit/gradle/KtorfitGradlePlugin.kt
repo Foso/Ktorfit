@@ -45,7 +45,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
                     kspPlugin.javaClass.protectionDomain.codeSource.location
                         .toURI()
                         .toString()
-                        .removeSuffix("-SNAPSHOT)
+                        .removeSuffix("-SNAPSHOT")
                         .substringAfterLast("-")
                         .substringBefore(".jar")
 
