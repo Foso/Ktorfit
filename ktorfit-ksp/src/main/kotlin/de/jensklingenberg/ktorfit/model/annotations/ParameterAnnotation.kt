@@ -81,43 +81,15 @@ sealed class ParameterAnnotation {
     ) : ParameterAnnotation()
 }
 
-/**
- *
- */
+private const val KEY_MAP = "Map"
+private const val KEY_STRING = "String"
+
 @Suppress("ktlint:standard:property-naming")
 fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAnnotation> {
     val ksValueParameter = this
 
-    val KEY_MAP = "Map"
-    val KEY_STRING = "String"
-
     val paramAnnos = mutableListOf<ParameterAnnotation>()
-
-    ksValueParameter.getHeaderAnnotation()?.let {
-        paramAnnos.add(it)
-    }
-    ksValueParameter.getRequestBuilderAnnotation()?.let {
-        paramAnnos.add(it)
-    }
-    ksValueParameter.getQueryAnnotation()?.let {
-        paramAnnos.add(it)
-    }
-
-    ksValueParameter.getQueryNameAnnotation()?.let {
-        paramAnnos.add(it)
-    }
-
-    ksValueParameter.getFieldAnnotation()?.let {
-        paramAnnos.add(it)
-    }
-
-    ksValueParameter.getBodyAnnotation()?.let {
-        paramAnnos.add(it)
-    }
-
-    ksValueParameter.getTagAnnotation()?.let {
-        paramAnnos.add(it)
-    }
+    addAnnotations(paramAnnos)
 
     ksValueParameter.getPathAnnotation()?.let {
         if (ksValueParameter.type.resolve().isMarkedNullable) {
@@ -157,6 +129,46 @@ fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAn
         }
         paramAnnos.add(it)
     }
+    resolveParamAnnotationList(paramAnnos, logger)
+
+    return paramAnnos
+}
+
+private fun KSValueParameter.addAnnotations(paramAnnos: MutableList<ParameterAnnotation>) {
+    val ksValueParameter = this
+
+    ksValueParameter.getHeaderAnnotation()?.let {
+        paramAnnos.add(it)
+    }
+    ksValueParameter.getRequestBuilderAnnotation()?.let {
+        paramAnnos.add(it)
+    }
+    ksValueParameter.getQueryAnnotation()?.let {
+        paramAnnos.add(it)
+    }
+
+    ksValueParameter.getQueryNameAnnotation()?.let {
+        paramAnnos.add(it)
+    }
+
+    ksValueParameter.getFieldAnnotation()?.let {
+        paramAnnos.add(it)
+    }
+
+    ksValueParameter.getBodyAnnotation()?.let {
+        paramAnnos.add(it)
+    }
+
+    ksValueParameter.getTagAnnotation()?.let {
+        paramAnnos.add(it)
+    }
+}
+
+private fun KSValueParameter.resolveParamAnnotationList(
+    paramAnnos: MutableList<ParameterAnnotation>,
+    logger: KSPLogger
+) {
+    val ksValueParameter = this
 
     ksValueParameter.getFieldMapAnnotation()?.let {
         if (!ksValueParameter.type.toString().substringBefore("<").endsWith(KEY_MAP)) {
@@ -198,5 +210,4 @@ fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAn
     ksValueParameter.getRequestTypeAnnotation()?.let {
         paramAnnos.add(it)
     }
-    return paramAnnos
 }
