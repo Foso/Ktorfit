@@ -16,7 +16,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       - name: Publish release
         run: ./gradlew :ktorfit-annotations:publishAllPublicationsToMavenCentralRepository
@@ -37,7 +37,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       - name: Publish release
         run: ./gradlew :ktorfit-ksp:publishAllPublicationsToMavenCentralRepository
@@ -58,7 +58,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       - name: Publish release
         run: ./gradlew :ktorfit-compiler-plugin:publishAllPublicationsToMavenCentralRepository
@@ -79,7 +79,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       - name: Publish release
         run: ./gradlew :ktorfit-gradle-plugin:publishAllPublicationsToMavenCentralRepository
@@ -100,7 +100,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
 
       - name: Publish release
         run: ./gradlew :ktorfit-lib:publishAllPublicationsToMavenCentralRepository :ktorfit-lib-core:publishAllPublicationsToMavenCentralRepository
