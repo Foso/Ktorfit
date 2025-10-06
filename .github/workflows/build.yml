@@ -31,7 +31,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
       - name: API check
         run: ./gradlew ktLintCheck
       - name: 'Notify on failure'
@@ -48,7 +48,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
       - name: API check
         run: ./gradlew apiCheck
       - name: 'Notify on failure'
