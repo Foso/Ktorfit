@@ -15,7 +15,7 @@ ktorfit {
 }
 
 version = "1.0"
-val ktorVersion = "3.2.1"
+val ktorVersion = "3.4.0-eap-1426"
 val ktorfitVersion = "2.6.4"
 
 kotlin {
