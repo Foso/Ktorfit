@@ -23,12 +23,14 @@ interface SuperTestService{
     suspend fun test(): String
 }
 
+class Jens<T>
+
 interface TestService : SuperTestService {
     @GET("posts")
     override suspend fun test(): T
 
     @GET("posts")
-    suspend fun test(): String
+    suspend fun <T> jens(): Jens<T>
 }
     """,
             )

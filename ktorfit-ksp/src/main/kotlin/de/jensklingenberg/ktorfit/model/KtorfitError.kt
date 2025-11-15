@@ -2,8 +2,8 @@ package de.jensklingenberg.ktorfit.model
 
 internal class KtorfitError {
     companion object {
-        const val FUNCTION_OR_PARAMETERS_TYPES_MUST_NOT_INCLUDE_ATYPE_VARIABLE_OR_WILDCARD =
-            "function or parameters types must not include a type variable or wildcard:"
+        val RETURN_TYPE_MUST_BE_GENERIC: String = "when using @ReturnType annotation, you must have a type argument"
+        val RETURN_TYPE_MUST_BE_SPECIFIED: String = "When return type is generic, you must have a parameter with @ReturnType annotation (e.g., @ReturnType typeInfo: TypeInfo)"
         const val FORM_ENCODED_METHOD_MUST_CONTAIN_AT_LEAST_ONE_FIELD_OR_FIELD_MAP =
             "Form-encoded method must contain at least one @Field or @FieldMap."
         const val HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP = "@HeaderMap parameter type must be Map."
@@ -14,6 +14,8 @@ internal class KtorfitError {
         const val FIELD_MAP_PARAMETER_TYPE_MUST_BE_MAP = "@FieldMap parameter type must be Map."
         const val FIELD_MAP_KEYS_MUST_BE_OF_TYPE_STRING = "@FieldMap keys must be of type String:"
         const val ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED = "Only one RequestBuilder is allowed."
+        const val ONLY_ONE_RETURN_BUILDER_IS_ALLOWED = "Only one @ReturnType is allowed."
+
         const val REQ_BUILDER_PARAMETER_TYPE_NEEDS_TO_BE_HTTP_REQUEST_BUILDER =
             "@ReqBuilder parameter type needs to be HttpRequestBuilder.()->Unit"
         const val FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING =

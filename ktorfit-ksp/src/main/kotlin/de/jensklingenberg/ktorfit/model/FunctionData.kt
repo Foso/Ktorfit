@@ -4,8 +4,10 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.ksp.toAnnotationSpec
+import com.squareup.kotlinpoet.ksp.toTypeVariableName
 import de.jensklingenberg.ktorfit.http.DELETE
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.HEAD
@@ -57,6 +59,7 @@ data class FunctionData(
     val modifiers: List<KModifier> = emptyList(),
     val optInAnnotations: List<AnnotationSpec>,
     val nonKtorfitAnnotations: List<AnnotationSpec>,
+    val typeParameters: List<TypeVariableName>,
 )
 
 /**
@@ -87,12 +90,31 @@ fun KSFunctionDeclaration.toFunctionData(
     val resolvedReturnType =
         funcDeclaration.returnType?.resolve() ?: throw IllegalStateException("Return type not found")
 
+
+    val isGeneric =
+        funcDeclaration.typeParameters.any { it.name.asString() == resolvedReturnType.toString().replace("?", "") }
+
     val returnType =
         ReturnTypeData(
             name = resolvedReturnType.resolveTypeName(),
             parameterType = resolvedReturnType,
             typeName = findTypeName(resolvedReturnType, funcDeclaration.getKsFile().filePath),
         )
+
+    if (functionParameters.filter { it.hasAnnotation<ParameterAnnotation.ReturnType>() }.size > 1) {
+        logger.error(
+            KtorfitError.ONLY_ONE_RETURN_BUILDER_IS_ALLOWED,
+            funcDeclaration,
+        )
+    }
+
+    if (isGeneric && functionParameters.none { it.hasAnnotation<ParameterAnnotation.ReturnType>() }) {
+        logger.error(KtorfitError.RETURN_TYPE_MUST_BE_SPECIFIED, funcDeclaration)
+    }
+
+    if (functionParameters.any { it.hasAnnotation<ParameterAnnotation.ReturnType>() } && funcDeclaration.typeParameters.isEmpty()) {
+        logger.error(KtorfitError.RETURN_TYPE_MUST_BE_GENERIC, funcDeclaration)
+    }
 
     val functionAnnotationList = mutableListOf<FunctionAnnotation>()
 
@@ -101,10 +123,7 @@ fun KSFunctionDeclaration.toFunctionData(
     }
 
     if (funcDeclaration.typeParameters.isNotEmpty()) {
-        logger.error(
-            KtorfitError.FUNCTION_OR_PARAMETERS_TYPES_MUST_NOT_INCLUDE_ATYPE_VARIABLE_OR_WILDCARD,
-            funcDeclaration,
-        )
+
     }
 
     funcDeclaration.getHeaderAnnotation()?.let { headers ->
@@ -319,6 +338,7 @@ fun KSFunctionDeclaration.toFunctionData(
         addImport(className.canonicalName)
     }
 
+    val typeParameters1 = this.typeParameters.map { it.toTypeVariableName() }
     return FunctionData(
         functionName,
         returnType,
@@ -329,6 +349,7 @@ fun KSFunctionDeclaration.toFunctionData(
         modifiers,
         optInAnnotations,
         nonKtorfitAnnotations,
+        typeParameters1,
     )
 }
 

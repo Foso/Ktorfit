@@ -44,7 +44,8 @@ fun ClassData.getImplClassSpec(
             classData.functions.map {
                 it.toFunSpec(
                     resolver,
-                    ktorfitOptions.setQualifiedType
+                    ktorfitOptions.setQualifiedType,
+                    classData.ksFile.filePath
                 )
             }
         )

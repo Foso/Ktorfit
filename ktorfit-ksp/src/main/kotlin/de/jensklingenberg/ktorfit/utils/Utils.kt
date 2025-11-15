@@ -3,6 +3,9 @@ package de.jensklingenberg.ktorfit.utils
 import com.google.devtools.ksp.symbol.KSName
 import com.google.devtools.ksp.symbol.KSType
 import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.TypeVariableName
+import com.squareup.kotlinpoet.ksp.toTypeName
 
 fun KSType?.resolveTypeName(): String {
     // TODO: Find better way to handle type alias Types
@@ -37,3 +40,4 @@ fun FileSpec.Builder.addImports(imports: Set<String>): FileSpec.Builder {
 inline fun <reified T> List<*>.anyInstance(): Boolean = this.filterIsInstance<T>().isNotEmpty()
 
 fun KSName?.safeString(): String = this?.asString() ?: ""
+

@@ -16,7 +16,7 @@ interface HeaderTestApi {
     ): People
 
     @GET("people/{id}/")
-    suspend fun testHeaderWithArray(
+    suspend fun <T> testHeaderWithArray(
         @Path("id") peopleId: Int,
         @Header("huhu") name: Array<String?>
     ): People

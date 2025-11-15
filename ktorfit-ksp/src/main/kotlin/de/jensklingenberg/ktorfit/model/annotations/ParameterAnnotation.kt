@@ -17,6 +17,7 @@ import de.jensklingenberg.ktorfit.utils.getQueryMapAnnotation
 import de.jensklingenberg.ktorfit.utils.getQueryNameAnnotation
 import de.jensklingenberg.ktorfit.utils.getRequestBuilderAnnotation
 import de.jensklingenberg.ktorfit.utils.getRequestTypeAnnotation
+import de.jensklingenberg.ktorfit.utils.getReturnType
 import de.jensklingenberg.ktorfit.utils.getTagAnnotation
 import de.jensklingenberg.ktorfit.utils.getUrlAnnotation
 
@@ -53,6 +54,8 @@ sealed class ParameterAnnotation {
     data object HeaderMap : ParameterAnnotation()
 
     data object Url : ParameterAnnotation()
+
+    data object ReturnType : ParameterAnnotation()
 
     data class RequestType(
         val requestType: KSType,
@@ -116,6 +119,10 @@ fun KSValueParameter.getParamAnnotationList(logger: KSPLogger): List<ParameterAn
     }
 
     ksValueParameter.getTagAnnotation()?.let {
+        paramAnnos.add(it)
+    }
+
+    ksValueParameter.getReturnType()?.let {
         paramAnnos.add(it)
     }
 

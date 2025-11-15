@@ -3,6 +3,7 @@ package de.jensklingenberg.ktorfit.poetspec
 import com.google.devtools.ksp.symbol.KSType
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import java.io.File
 
@@ -19,7 +20,11 @@ fun findTypeName(
         findTypeImport(className, filePath)
             ?: throw IllegalStateException("Import for $ksType not found")
     } else {
-        ksType.toTypeName()
+        try {
+            ksType.toTypeName()
+        }catch (ex: Exception){
+            TypeVariableName(ksType.toString())
+        }
     }
 
 /**

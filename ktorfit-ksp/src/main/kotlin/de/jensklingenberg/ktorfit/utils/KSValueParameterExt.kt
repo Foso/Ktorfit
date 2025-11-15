@@ -4,6 +4,7 @@ import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getAnnotationsByType
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSValueParameter
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Body
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Field
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.FieldMap
@@ -239,6 +240,13 @@ fun KSValueParameter.getBodyAnnotation(): Body? {
 }
 
 @OptIn(KspExperimental::class)
+fun KSValueParameter.getReturnType(): ParameterAnnotation.ReturnType? {
+    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.ReturnType::class).firstOrNull()?.let {
+        return ParameterAnnotation.ReturnType
+    }
+}
+
+@OptIn(KspExperimental::class)
 fun KSValueParameter.getTagAnnotation(): Tag? {
     try {
         return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Tag::class).firstOrNull()?.let {
@@ -272,3 +280,5 @@ fun KSValueParameter.getRequestTypeAnnotation(): RequestType? {
                 }.firstOrNull()
         }.firstOrNull()
 }
+
+

@@ -6,6 +6,7 @@ import com.google.devtools.ksp.processing.Resolver
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.TypeName
 import de.jensklingenberg.ktorfit.model.FunctionData
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.converterHelper
 import de.jensklingenberg.ktorfit.model.extDataClass
 import de.jensklingenberg.ktorfit.model.typeDataClass
@@ -16,6 +17,7 @@ import de.jensklingenberg.ktorfit.utils.removeWhiteSpaces
 fun FunctionData.toFunSpec(
     resolver: Resolver,
     setQualifiedTypeName: Boolean,
+    filePath: String,
 ): FunSpec {
     val returnTypeName = returnType.typeName ?: throw IllegalStateException("Return type not found")
 
@@ -23,9 +25,10 @@ fun FunctionData.toFunSpec(
         .builder(name)
         .addModifiers(modifiers)
         .addAnnotations(optInAnnotations)
+        .addTypeVariables(this.typeParameters)
         .addParameters(
             parameterDataList.map {
-                it.parameterSpec()
+                it.parameterSpec(filePath )
             },
         ).addBody(this, resolver, setQualifiedTypeName, returnTypeName)
         .returns(returnTypeName)
@@ -42,6 +45,8 @@ private fun FunSpec.Builder.addBody(
     val listType =
         resolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType() ?: error("List not found")
 
+    val func = functionData.parameterDataList.find { it.findAnnotationOrNull<ParameterAnnotation.ReturnType>() != null }
+
     val arrayType = resolver.builtIns.arrayType.starProjection()
     addRequestConverterText(functionData.parameterDataList)
         .addStatement(
@@ -52,7 +57,15 @@ private fun FunSpec.Builder.addBody(
             ),
         ).addStatement(
             "val ${typeDataClass.objectName} = ${typeDataClass.name}.createTypeData("
-        ).addStatement("typeInfo = typeInfo<%T>(),", returnTypeName)
+        ).addStatement(
+            if (func != null
+            ) {
+                "typeInfo = ${func.name},"
+            } else {
+                "typeInfo = typeInfo<%T>(),"
+            },
+            returnTypeName
+        )
         .addStatement(
             if (setQualifiedTypeName) {
                 buildString {

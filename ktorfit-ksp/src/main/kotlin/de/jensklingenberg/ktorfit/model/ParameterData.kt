@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.model
 
 import com.google.devtools.ksp.containingFile
 import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSValueParameter
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestBuilder
@@ -14,6 +15,7 @@ data class ParameterData(
     val name: String,
     val type: ReturnTypeData,
     val annotations: List<ParameterAnnotation> = emptyList(),
+    val isGeneric: Boolean = false,
 ) {
     inline fun <reified T : ParameterAnnotation> findAnnotationOrNull(): T? = this.annotations.firstOrNull { it is T } as? T
 
@@ -58,5 +60,11 @@ fun KSValueParameter.createParameterData(logger: KSPLogger): ParameterData {
         parameterName,
         type,
         parameterAnnotations,
+        ksValueParameter.isGenericType(),
     )
 }
+
+private fun KSValueParameter.isGenericType(): Boolean =
+    (this.parent as KSFunctionDeclaration).typeParameters.any {
+        it.name.getShortName() == this.type.toString().replace("?", "")
+    }
