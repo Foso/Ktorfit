@@ -2,6 +2,7 @@ public final class de/jensklingenberg/ktorfit/gradle/ErrorCheckingMode : java/la
 	public static final field ERROR Lde/jensklingenberg/ktorfit/gradle/ErrorCheckingMode;
 	public static final field NONE Lde/jensklingenberg/ktorfit/gradle/ErrorCheckingMode;
 	public static final field WARNING Lde/jensklingenberg/ktorfit/gradle/ErrorCheckingMode;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lde/jensklingenberg/ktorfit/gradle/ErrorCheckingMode;
 	public static fun values ()[Lde/jensklingenberg/ktorfit/gradle/ErrorCheckingMode;
 }
