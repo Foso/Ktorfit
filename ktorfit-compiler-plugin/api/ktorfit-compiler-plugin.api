@@ -1,7 +1,13 @@
 public final class de/jensklingenberg/ktorfit/CommonCompilerPluginRegistrar : org/jetbrains/kotlin/compiler/plugin/CompilerPluginRegistrar {
+	public static final field Companion Lde/jensklingenberg/ktorfit/CommonCompilerPluginRegistrar$Companion;
+	public static final field PLUGIN_ID Ljava/lang/String;
 	public fun <init> ()V
+	public fun getPluginId ()Ljava/lang/String;
 	public fun getSupportsK2 ()Z
 	public fun registerExtensions (Lorg/jetbrains/kotlin/compiler/plugin/CompilerPluginRegistrar$ExtensionStorage;Lorg/jetbrains/kotlin/config/CompilerConfiguration;)V
+}
+
+public final class de/jensklingenberg/ktorfit/CommonCompilerPluginRegistrar$Companion {
 }
 
 public final class de/jensklingenberg/ktorfit/ExampleCommandLineProcessor : org/jetbrains/kotlin/compiler/plugin/CommandLineProcessor {

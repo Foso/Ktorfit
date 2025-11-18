@@ -14,16 +14,13 @@ fun getCompilation(
     kspArgs: MutableMap<String, String> = mutableMapOf(),
 ): KotlinCompilation =
     KotlinCompilation().apply {
-        kspWithCompilation = true
         this.sources = sources
         inheritClassPath = true
-        kspIncremental = true
 
-        configureKsp(true) {
+        configureKsp {
             kspProcessorOptions = kspArgs
-            symbolProcessorProviders +=
-                buildList {
-                    addAll(mutableListOf(KtorfitProcessorProvider()))
-                }
+            symbolProcessorProviders += KtorfitProcessorProvider()
         }
+        kspIncremental = true
+        kspWithCompilation = true
     }
