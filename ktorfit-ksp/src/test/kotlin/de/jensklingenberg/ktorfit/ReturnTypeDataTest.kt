@@ -16,10 +16,38 @@ class ReturnTypeDataTest {
       package com.example.api
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Body
+import de.jensklingenberg.ktorfit.http.FormUrlEncoded
+import de.jensklingenberg.ktorfit.core.TypeConverter
+import de.jensklingenberg.ktorfit.core.TypeConverters
+import io.ktor.client.call.body
+import io.ktor.client.statement.HttpResponse
+import kotlinx.coroutines.flow.Flow
 
+@TypeConverters(MyConv::class)
 interface TestService {
-   @POST("user")
-    suspend fun test(@Body id: String): Map<String,Int>
+    @POST("user")
+    fun test(@Body id: String): Flow<User>
+}
+
+class User
+
+class MyConv {
+
+
+    @TypeConverter
+    suspend fun toUser2(httpResponse: io.ktor.client.statement.HttpResponse): String {
+        return httpResponse.body<User>()
+    }
+
+    @TypeConverter
+    fun toUser(getResponse: suspend () -> HttpResponse): Flow<Any> {
+        return flow {
+            val response = getResponse()
+            val user = toUser2(response)
+            emit(user)
+        }
+    }
+
 }
     """,
             )

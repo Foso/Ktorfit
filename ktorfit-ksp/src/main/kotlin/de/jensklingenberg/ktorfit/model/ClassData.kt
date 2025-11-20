@@ -8,12 +8,14 @@ import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
+import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeReference
 import com.squareup.kotlinpoet.ANY
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.utils.getKsFile
+import java.lang.invoke.MethodHandles.classData
 
 /**
  * @param name of the interface that contains annotations
@@ -34,6 +36,16 @@ data class ClassData(
     val providerName = "_${name}Provider"
 }
 
+fun ClassData.getConverters(): List<KSClassDeclaration> {
+    val anno = this.annotations.firstOrNull() {
+        it.shortName.asString() == "TypeConverters"
+    }
+    // Vararg KClass<*> becomes a List<KSType>
+    val ksTypes = anno?.arguments?.firstOrNull() { it.name?.asString() == "value" }?.value as? List<KSType>
+    val converterClassDecls = ksTypes?.mapNotNull { it.declaration as? KSClassDeclaration }.orEmpty()
+    return converterClassDecls
+}
+
 /**
  * Convert a [KSClassDeclaration] to [ClassData]
  * @param logger used to log errors
@@ -49,9 +61,13 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             "io.ktor.http.URLBuilder",
             "io.ktor.http.takeFrom",
             "io.ktor.http.decodeURLQueryComponent",
+            "io.ktor.client.request.request",
             annotationsAttributeKey.packageName + "." + annotationsAttributeKey.name,
             typeDataClass.packageName + "." + typeDataClass.name,
         )
+
+
+
 
     val packageName = ksClassDeclaration.packageName.asString()
     val className = ksClassDeclaration.simpleName.asString()

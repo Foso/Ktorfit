@@ -23,6 +23,9 @@ class Headers(
 
 object FormUrlEncoded : FunctionAnnotation()
 
+object TypeConverter : FunctionAnnotation()
+
+
 object Streaming : FunctionAnnotation()
 
 object Multipart : FunctionAnnotation()

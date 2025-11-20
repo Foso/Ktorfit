@@ -4,9 +4,20 @@ import com.example.api.Response
 import com.example.api.StarWarsApi
 import com.example.model.People
 import de.jensklingenberg.ktorfit.Call
-import de.jensklingenberg.ktorfit.http.*
-import io.ktor.client.statement.*
+import de.jensklingenberg.ktorfit.core.TypeConverters
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Headers
+import de.jensklingenberg.ktorfit.http.Path
+import de.jensklingenberg.ktorfit.http.Query
+import de.jensklingenberg.ktorfit.http.QueryMap
+import de.jensklingenberg.ktorfit.http.QueryName
+import de.jensklingenberg.ktorfit.http.Streaming
+import de.jensklingenberg.ktorfit.http.Url
+import io.ktor.client.call.body
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.HttpStatement
 
+@TypeConverters(ResponseConverter::class)
 internal interface JvmPlaceHolderApi : StarWarsApi {
     @GET("people/{id}/")
     suspend fun getPersonById2(
@@ -52,4 +63,13 @@ internal interface JvmPlaceHolderApi : StarWarsApi {
         @Url peopleId: String,
         @QueryMap name: Map<String, Int>?
     ): People
+}
+
+class ResponseConverter {
+
+    suspend fun toResponse(getResponse: suspend () -> HttpResponse): Response<People> {
+        val httpResponse = getResponse()
+        val people = httpResponse.body<People>()
+        return Response.success(people)
+    }
 }

@@ -1,12 +1,15 @@
 package de.jensklingenberg.ktorfit
 
 import com.google.devtools.ksp.closestClassDeclaration
+import com.google.devtools.ksp.isPublic
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 import com.google.devtools.ksp.symbol.KSAnnotated
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.generator.generateImplClass
 import de.jensklingenberg.ktorfit.http.DELETE
 import de.jensklingenberg.ktorfit.http.GET
@@ -48,10 +51,21 @@ class KtorfitProcessor(
                     classDec?.toClassData(KtorfitLogger(env.logger, loggingType))
                 }.mapNotNull { it }
 
-        generateImplClass(classDataList, env.codeGenerator, resolver, ktorfitOptions)
+        val typeConverter = resolver.getSymbolsWithAnnotation(de.jensklingenberg.ktorfit.core.TypeConverter::class.java.name).toList()
+            .filterIsInstance<KSFunctionDeclaration>()
+            .groupBy { it.closestClassDeclaration() }
+
+        // Generate the KClass argument from TypeConverters annotation
+
+
+
+
+        generateImplClass(classDataList, env.codeGenerator, resolver, ktorfitOptions, typeConverter)
 
         return emptyList()
     }
+
+
 
     /**
      * Returns a list of all [KSFunctionDeclaration] which are annotated with a Http Method Annotation
@@ -68,13 +82,13 @@ class KtorfitProcessor(
 
         val ksAnnotatedList =
             getAnnotated +
-                postAnnotated +
-                putAnnotated +
-                deleteAnnotated +
-                headAnnotated +
-                optionsAnnotated +
-                patchAnnotated +
-                httpAnnotated
+                    postAnnotated +
+                    putAnnotated +
+                    deleteAnnotated +
+                    headAnnotated +
+                    optionsAnnotated +
+                    patchAnnotated +
+                    httpAnnotated
         return ksAnnotatedList.filterIsInstance<KSFunctionDeclaration>()
     }
 }

@@ -4,6 +4,8 @@ import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.Resolver
+import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import de.jensklingenberg.ktorfit.KtorfitOptions
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.poetspec.createFileSpec
@@ -18,7 +20,8 @@ fun generateImplClass(
     classDataList: List<ClassData>,
     codeGenerator: CodeGenerator,
     resolver: Resolver,
-    ktorfitOptions: KtorfitOptions
+    ktorfitOptions: KtorfitOptions,
+    typeConverter: Map<KSClassDeclaration?, List<KSFunctionDeclaration>>
 ) {
     classDataList.forEach { classData ->
         with(classData) {

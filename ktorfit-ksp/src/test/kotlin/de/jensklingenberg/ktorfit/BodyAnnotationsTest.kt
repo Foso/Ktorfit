@@ -21,11 +21,24 @@ class BodyAnnotationsTest {
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.FormUrlEncoded
+import de.jensklingenberg.ktorfit.core.TypeConverter
+import io.ktor.client.call.body
+import io.ktor.client.statement.HttpResponse
+import kotlinx.coroutines.flow.Flow
 
 interface TestService {
     @FormUrlEncoded
     @POST("user")
     suspend fun test(@Body id: String): String
+}
+
+class MyConv {
+
+    @TypeConverter
+    suspend fun conv(httpResponse: HttpResponse): Int {
+        return httpResponse.body<Int>()
+    }
+
 }
     """,
             )

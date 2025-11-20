@@ -4,6 +4,7 @@ import com.example.model.github.GithubFollowerResponseItem
 import com.example.model.github.Issuedata
 import com.example.model.github.TestReeeItem
 import de.jensklingenberg.ktorfit.Call
+import de.jensklingenberg.ktorfit.core.TypeConverters
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
@@ -12,6 +13,7 @@ import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Path
 import kotlinx.coroutines.flow.Flow
 
+@TypeConverters(MyConv::class)
 interface GithubService {
     companion object {
         const val baseUrl = "https://api.github.com/"

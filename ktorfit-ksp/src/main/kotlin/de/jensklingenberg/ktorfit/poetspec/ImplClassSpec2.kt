@@ -18,6 +18,7 @@ import de.jensklingenberg.ktorfit.KtorfitOptions
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.converterHelper
+import de.jensklingenberg.ktorfit.model.getConverters
 import de.jensklingenberg.ktorfit.model.internalApi
 import de.jensklingenberg.ktorfit.model.ktorfitClass
 import de.jensklingenberg.ktorfit.model.toClassName
@@ -44,7 +45,8 @@ fun ClassData.getImplClassSpec(
             classData.functions.map {
                 it.toFunSpec(
                     resolver,
-                    ktorfitOptions.setQualifiedType
+                    ktorfitOptions.setQualifiedType,
+                    classData.getConverters()
                 )
             }
         )
@@ -65,6 +67,19 @@ private fun createImplClassTypeSpec(
             .addModifiers(KModifier.PRIVATE)
             .build()
 
+
+    val converterProperties = classData.getConverters().map { classDecl ->
+        val className = classDecl.toClassName()
+        PropertySpec
+            .builder(
+                className.simpleName.decapitalize(),
+                className,
+            )
+            .initializer("%T()", className)
+            .addModifiers(KModifier.PRIVATE)
+            .build()
+    }
+
     return TypeSpec
         .classBuilder(implClassName)
         .addAnnotation(getOptInAnnotation(classData.annotations))
@@ -74,7 +89,8 @@ private fun createImplClassTypeSpec(
                 .constructorBuilder()
                 .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
                 .build(),
-        ).addProperty(
+        ).addProperties(converterProperties)
+        .addProperty(
             PropertySpec
                 .builder(ktorfitClass.objectName, ktorfitClass.toClassName())
                 .initializer(ktorfitClass.objectName)

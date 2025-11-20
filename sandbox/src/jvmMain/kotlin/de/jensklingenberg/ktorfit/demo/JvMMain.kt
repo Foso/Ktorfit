@@ -16,6 +16,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 
@@ -58,21 +59,18 @@ val userKtorfit =
         )
     }
 
-val api: ExampleApi = userKtorfit.create<ExampleApi>()
+val api: ExampleApi = userKtorfit.createExampleApi()
+
 
 fun main() {
     runBlocking {
-        val user = api.getUserResponse()
+        val user = api.getUsFlow()
+        user.onEach {
+            println("User from Flow in JVM: $it")
+            delay(100)
+        }.collect {
 
-        when (user) {
-            is MyOwnResponse.Success -> {
-                System.out.println(user.data)
-            }
-
-            is MyOwnResponse.Error<*> -> {
-                System.out.println(user.ex)
-            }
         }
-        delay(3000)
+
     }
 }

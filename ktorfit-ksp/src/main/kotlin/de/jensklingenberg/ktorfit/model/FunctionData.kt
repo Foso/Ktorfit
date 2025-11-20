@@ -38,6 +38,7 @@ import de.jensklingenberg.ktorfit.utils.getHeaderAnnotation
 import de.jensklingenberg.ktorfit.utils.getKsFile
 import de.jensklingenberg.ktorfit.utils.getMultipartAnnotation
 import de.jensklingenberg.ktorfit.utils.getStreamingAnnotation
+import de.jensklingenberg.ktorfit.utils.getTypeConverter
 import de.jensklingenberg.ktorfit.utils.isSuspend
 import de.jensklingenberg.ktorfit.utils.parseHTTPMethodAnno
 import de.jensklingenberg.ktorfit.utils.resolveTypeName
@@ -117,6 +118,10 @@ fun KSFunctionDeclaration.toFunctionData(
             }
         }
         functionAnnotationList.add(headers)
+    }
+
+    funcDeclaration.getTypeConverter()?.let {
+        print("das")
     }
 
     funcDeclaration.getFormUrlEncodedAnnotation()?.let { formUrlEncoded ->
@@ -270,10 +275,7 @@ fun KSFunctionDeclaration.toFunctionData(
             }
 
             if (it is Body && funcDeclaration.getFormUrlEncodedAnnotation() != null) {
-                logger.error(
-                    KtorfitError.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING,
-                    funcDeclaration,
-                )
+
             }
         }
     }
