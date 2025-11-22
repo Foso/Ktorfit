@@ -8,7 +8,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import de.jensklingenberg.ktorfit.model.ClassData
-import de.jensklingenberg.ktorfit.model.baseUrl
 import de.jensklingenberg.ktorfit.model.httpClient
 import de.jensklingenberg.ktorfit.model.ktorfitClass
 import de.jensklingenberg.ktorfit.model.providerClass
@@ -27,9 +26,6 @@ fun createFileSpec(
             .addMember("\"warnings\"")
             .build()
 
-    val providerClass =
-        createProviderClassSpec(classData)
-
     val fileSpec = FileSpec
         .builder(classData.packageName, implClassName)
         .addAnnotation(suppressAnnotation)
@@ -38,7 +34,7 @@ fun createFileSpec(
         .addType(implClassSpec)
         .addFunction(getCreateFunctionSpec(classData, ktorfitLib))
     if (ktorfitLib) {
-        fileSpec.addType(providerClass)
+        fileSpec.addType(createProviderClassSpec(classData))
     }
 
     if (ktorfitLib) {
@@ -86,11 +82,10 @@ private fun getCreateFunctionSpec(classData: ClassData, ktorfitLib: Boolean): Fu
     if (ktorfitLib) {
         builder.addParameter("ktorfit", ktorfitClass.toClassName())
         builder.addStatement("return ${classData.implName}(baseUrl,httpClient,ktorfit)")
-    }else{
+    } else {
         builder.addStatement("return ${classData.implName}(baseUrl,httpClient)")
     }
         .returns(ClassName(classData.packageName, classData.name))
-
 
     return builder.build()
 }

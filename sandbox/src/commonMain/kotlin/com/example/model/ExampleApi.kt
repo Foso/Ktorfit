@@ -19,4 +19,5 @@ interface ExampleApi {
 
     @GET("example.json")
     fun getUsFlow(): Flow<User>
+
 }

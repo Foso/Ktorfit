@@ -53,7 +53,7 @@ class KtorfitProcessor(
             getAnnotatedFunctions(ktorfitResolver)
                 .groupBy { it.closestClassDeclaration() }
                 .map { (classDec) ->
-                    classDec?.toClassData(KtorfitLogger(env.logger, loggingType),ktorfitOptions.ktorfitLib)
+                    classDec?.toClassData(KtorfitLogger(env.logger, loggingType), ktorfitOptions.ktorfitLib)
                 }.mapNotNull { it }
 
         generateImplClass(classDataList, env.codeGenerator, resolver, ktorfitOptions, ktorfitOptions.ktorfitLib)

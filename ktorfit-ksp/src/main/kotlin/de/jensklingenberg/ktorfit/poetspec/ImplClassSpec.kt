@@ -9,7 +9,6 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.FunSpec.Companion.constructorBuilder
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
@@ -27,7 +26,7 @@ import de.jensklingenberg.ktorfit.model.ktorfitClass
 import de.jensklingenberg.ktorfit.model.toClassName
 
 /**
- * Transform a [ClassData] to a [FileSpec] for KotlinPoet
+ * Transform a [ClassData] to a [TypeSpec] for KotlinPoet
  */
 fun ClassData.getImplClassSpec(
     resolver: Resolver,
@@ -40,21 +39,18 @@ fun ClassData.getImplClassSpec(
             propertySpec(property)
         }
 
-    val implClassSpec =
-        createImplClassTypeSpec(
-            classData.implName,
-            classData,
-            implClassProperties,
-            classData.functions.map {
-                it.toFunSpec(
-                    resolver,
-                    ktorfitOptions.setQualifiedType,
-                    ktorfitOptions.ktorfitLib
-                )
-            }, ktorfitOptions.ktorfitLib
-        )
-
-    return implClassSpec
+    return createImplClassTypeSpec(
+        classData.implName,
+        classData,
+        implClassProperties,
+        classData.functions.map {
+            it.toFunSpec(
+                resolver,
+                ktorfitOptions.setQualifiedType,
+                ktorfitOptions.ktorfitLib
+            )
+        }, ktorfitOptions.ktorfitLib
+    )
 }
 
 private fun createImplClassTypeSpec(

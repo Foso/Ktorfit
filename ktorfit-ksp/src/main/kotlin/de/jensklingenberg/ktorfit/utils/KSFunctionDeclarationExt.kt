@@ -30,7 +30,6 @@ fun KSFunctionDeclaration.getFormUrlEncodedAnnotation(): FormUrlEncoded? {
 }
 
 
-
 @OptIn(KspExperimental::class)
 fun KSFunctionDeclaration.getStreamingAnnotation(): Streaming? {
     return this.getAnnotationsByType(de.jensklingenberg.ktorfit.http.Streaming::class).firstOrNull()?.let {

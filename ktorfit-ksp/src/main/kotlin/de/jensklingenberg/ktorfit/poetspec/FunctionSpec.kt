@@ -4,6 +4,7 @@ import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.getKotlinClassByName
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSType
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.ksp.toTypeName
@@ -19,6 +20,7 @@ import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
 import de.jensklingenberg.ktorfit.utils.removeWhiteSpaces
 import java.lang.Exception
 
+@OptIn(KspExperimental::class)
 fun FunctionData.toFunSpec(
     resolver: Resolver,
     setQualifiedTypeName: Boolean,
@@ -30,41 +32,42 @@ fun FunctionData.toFunSpec(
         it.parameterSpec()
     }
 
+    val listType =
+        resolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType() ?: error("List not found")
+
+    val arrayType = resolver.builtIns.arrayType.starProjection()
+
     return FunSpec
         .builder(name)
         .addModifiers(modifiers)
         .addAnnotations(optInAnnotations)
         .addParameters(parameterSpecs)
-        .addBody(this, resolver, setQualifiedTypeName, returnTypeName, ktorfitLib)
+        .addBody(this, setQualifiedTypeName, returnTypeName, ktorfitLib, listType, arrayType)
         .returns(returnTypeName)
         .build()
 }
 
-@OptIn(KspExperimental::class)
 private fun FunSpec.Builder.addBody(
     functionData: FunctionData,
-    resolver: Resolver,
     setQualifiedTypeName: Boolean,
     returnTypeName: TypeName,
-    ktorfitLib: Boolean
+    ktorfitLib: Boolean,
+    listType: KSType,
+    arrayType: KSType
 ) = apply {
-    val listType =
-        resolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType() ?: error("List not found")
 
-    val arrayType = resolver.builtIns.arrayType.starProjection()
     val builder = addRequestConverterText(functionData.parameterDataList)
-        .addStatement(
-            getReqBuilderExtensionText(
-                functionData,
-                listType,
-                arrayType,
-            ),
-        )
+    builder.addStatement(
+        getReqBuilderExtensionText(
+            functionData,
+            listType,
+            arrayType,
+        ),
+    )
     if (ktorfitLib) {
         builder.addStatement("val %N = %T.createTypeData(", typeDataClass.objectName, typeDataClass.toClassName())
             .addStatement("%T = typeInfo<%T>())", typeInfoClass.toClassName(), returnTypeName)
     }
-
     builder.addStatement(
 
         if (functionData.isSuspend) {
@@ -82,9 +85,9 @@ private fun FunSpec.Builder.addBody(
                         "return $parentName.$convFunction$ee(_response)"
 
             } else {
-                if(ktorfitLib){
+                if (ktorfitLib) {
                     ""
-                }else{
+                } else {
                     "return ${httpClient.objectName}.request(_ext).body()"
                 }
             }
@@ -108,24 +111,22 @@ private fun FunSpec.Builder.addBody(
                         } else {
                             throw IllegalStateException("Unknown parameter type ${it.type.toTypeName()} for function $convFunction Only suspend () -> HttpResponse, TypeInfo and HttpClient are supported")
                         }
-                    }catch (ex: Exception){
-""
+                    } catch (ex: Exception) {
+                        ""
                     }
                 }
 
-                val ee = if (matchingConverterFunctions.typeParameters.isNotEmpty()) {
-                    "<${matchingConverterFunctions.typeParameters.joinToString(",") { functionData.returnType.name }}>"
+                val typeArguments = if (matchingConverterFunctions.typeParameters.isNotEmpty()) {
+                    matchingConverterFunctions.typeParameters.joinToString(prefix = "<", separator = ",", postfix = ">") { functionData.returnType.name }
                 } else {
                     ""
                 }
-                "return $parentName.$convFunction$ee({$str) as $returnTypeName"
+                "return $parentName.$convFunction$typeArguments({$str) as $returnTypeName"
             } else {
                 ""
             }
         }
     )
-
-
 
     if (ktorfitLib) {
         builder.addStatement(

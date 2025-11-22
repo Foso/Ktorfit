@@ -2,7 +2,6 @@ package de.jensklingenberg.ktorfit.model
 
 import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.isPrivate
-import com.google.devtools.ksp.isPublic
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.AnnotationSpec
@@ -30,7 +29,6 @@ import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.FieldMap
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Header
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.HeaderMap
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Path
-import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestBuilder
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestType
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Tag
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Url
@@ -78,6 +76,13 @@ private fun getHttpMethodAnnotations(ksFunctionDeclaration: KSFunctionDeclaratio
     val httpAnno = ksFunctionDeclaration.parseHTTPMethodAnno("HTTP")
 
     return listOfNotNull(getAnno, postAnno, putAnno, deleteAnno, headAnno, optionsAnno, patchAnno, httpAnno)
+}
+
+interface Validator {
+    fun validateFunctionData(
+        functionData: KSFunctionDeclaration,
+        logger: KSPLogger,
+    )
 }
 
 fun KSFunctionDeclaration.toFunctionData(
@@ -182,13 +187,7 @@ fun KSFunctionDeclaration.toFunctionData(
         )
     }
 
-    if (functionParameters.filter { it.hasAnnotation<RequestBuilder>() }.size > 1) {
-        logger.error(
-            KtorfitError.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED + " Found: " + httpMethodAnnoList.joinToString { it.toString() } + " at " +
-                    functionName,
-            funcDeclaration,
-        )
-    }
+    RequestBuilderValidator(functionParameters, httpMethodAnnoList, functionName).validateFunctionData(this, logger)
 
     when (firstHttpMethodAnnotation.httpMethod) {
         HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH -> {}
@@ -210,49 +209,49 @@ fun KSFunctionDeclaration.toFunctionData(
     }
 
     functionParameters.forEach { parameterData ->
-        parameterData.annotations.forEach {
-            if (it is Path) {
-                if (!firstHttpMethodAnnotation.path.contains("{${it.value}}")) {
+        parameterData.annotations.forEach { annotation ->
+            if (annotation is Path) {
+                if (!firstHttpMethodAnnotation.path.contains("{${annotation.value}}")) {
                     logger.error(
-                        KtorfitError.missingXInRelativeUrlPath(it.value),
+                        KtorfitError.missingXInRelativeUrlPath(annotation.value),
                         funcDeclaration,
                     )
                 }
             }
 
-            if (it is Header || it is HeaderMap) {
+            if (annotation is Header || annotation is HeaderMap) {
                 addImport("io.ktor.client.request.headers")
             }
 
-            if (it is Tag) {
+            if (annotation is Tag) {
                 addImport("io.ktor.util.AttributeKey")
             }
 
-            if (it is Body ||
-                it is ParameterAnnotation.PartMap ||
-                it is ParameterAnnotation.Part ||
-                it is FieldMap ||
-                it is Field
+            if (annotation is Body ||
+                annotation is ParameterAnnotation.PartMap ||
+                annotation is ParameterAnnotation.Part ||
+                annotation is FieldMap ||
+                annotation is Field
             ) {
                 addImport("io.ktor.client.request.setBody")
             }
 
-            if (it is Path && !it.encoded) {
+            if (annotation is Path && !annotation.encoded) {
                 addImport("io.ktor.http.encodeURLPath")
             }
 
-            if (it is RequestType) {
+            if (annotation is RequestType) {
                 addImport("kotlin.reflect.cast")
             }
 
-            if (it is Path && firstHttpMethodAnnotation.path.isEmpty()) {
+            if (annotation is Path && firstHttpMethodAnnotation.path.isEmpty()) {
                 logger.error(
                     KtorfitError.PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON + "@${firstHttpMethodAnnotation.httpMethod.keyword}",
                     funcDeclaration,
                 )
             }
 
-            if (it is Url) {
+            if (annotation is Url) {
                 if (functionParameters.filter { it.hasAnnotation<Url>() }.size > 1) {
                     logger.error(KtorfitError.MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND, funcDeclaration)
                 }
@@ -264,18 +263,18 @@ fun KSFunctionDeclaration.toFunctionData(
                 }
             }
 
-            if (it is Field && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
+            if (annotation is Field && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
                 logger.error(KtorfitError.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING, funcDeclaration)
             }
 
-            if (it is FieldMap && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
+            if (annotation is FieldMap && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
                 logger.error(
                     KtorfitError.FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING,
                     funcDeclaration,
                 )
             }
 
-            if (it is Body && funcDeclaration.getFormUrlEncodedAnnotation() != null) {
+            if (annotation is Body && funcDeclaration.getFormUrlEncodedAnnotation() != null) {
                 logger.error(
                     KtorfitError.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING,
                     funcDeclaration,
@@ -284,13 +283,13 @@ fun KSFunctionDeclaration.toFunctionData(
         }
     }
 
-    functionAnnotationList.forEach {
-        if (it is Headers || it is FormUrlEncoded) {
+    functionAnnotationList.forEach { annotation ->
+        if (annotation is Headers || annotation is FormUrlEncoded) {
             addImport("io.ktor.client.request.headers")
         }
 
-        if (it is FormUrlEncoded ||
-            it is Multipart ||
+        if (annotation is FormUrlEncoded ||
+            annotation is Multipart ||
             functionParameters.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<ParameterAnnotation.Part>() }
         ) {
             addImport("io.ktor.client.request.forms.FormDataContent")
@@ -326,36 +325,34 @@ fun KSFunctionDeclaration.toFunctionData(
     }
 
     val convertersClasses = this.parentDeclaration?.annotations?.toList().orEmpty().getConverters()
+
+    val nonPrivateConverterFunctions = convertersClasses
+        .map { it.getDeclaredFunctions().toList() }
+        .flatten()
+        .filter { !it.isPrivate() && it.returnType!!.resolve().isAssignableFrom(returnType.parameterType) }
+
     val conv = if (isSuspend) {
 
-        val matchingConverterFunctions = convertersClasses
-            .map { it.getDeclaredFunctions().toList() }
-            .flatten()
-            .filter { !it.isPrivate() }
+        val matchingConverterFunctions = nonPrivateConverterFunctions
             .firstOrNull {
                 it.parameters.firstOrNull()?.type.toString().contains("HttpResponse") &&
-                        it.returnType!!.resolve().isAssignableFrom(returnType.parameterType) &&
                         it.isSuspend
             }
 
         matchingConverterFunctions
 
     } else {
-        val matchingConverterFunctions = convertersClasses
-            .map { it.getDeclaredFunctions().toList() }
-            .flatten()
-            .filter { !it.isPrivate() }
+        val matchingConverterFunctions = nonPrivateConverterFunctions
             .firstOrNull {
                 it.parameters.firstOrNull()?.type.toString().contains("SuspendFunction") &&
-                        it.returnType!!.resolve().isAssignableFrom(returnType.parameterType) &&
                         !it.isSuspend
             }
 
-        if(!ktorfitLib && convertersClasses.isNotEmpty() && matchingConverterFunctions==null){
+        if (!ktorfitLib && convertersClasses.isNotEmpty() && matchingConverterFunctions == null) {
             logger.error("Found converter function for non-suspend function ${functionName} in ${this.parentDeclaration?.simpleName?.asString()}, but the function is not suspend. Make sure this is intended. fun convert( getResponse: suspend () -> HttpResponse): ${returnType.name}")
         }
 
-        if(!ktorfitLib && convertersClasses.isEmpty()){
+        if (!ktorfitLib && convertersClasses.isEmpty()) {
             logger.error("No converter function for non-suspend function ${functionName} in ${this.parentDeclaration?.simpleName?.asString()}, but the function is not suspend. Make sure this is intended. \n fun convert( getResponse: suspend () -> HttpResponse): ${returnType.name}")
         }
 
