@@ -18,6 +18,7 @@ import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.KtorfitOptions
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
+import de.jensklingenberg.ktorfit.model.baseUrl
 import de.jensklingenberg.ktorfit.model.converterHelper
 import de.jensklingenberg.ktorfit.model.getConverters
 import de.jensklingenberg.ktorfit.model.httpClient
@@ -84,13 +85,13 @@ private fun createImplClassTypeSpec(
     }
 
 
-    val constructor = FunSpec
+    val constructorBuilder = FunSpec
         .constructorBuilder()
-        .addParameter("_baseUrl", String::class)
+        .addParameter(baseUrl.objectName, String::class)
         .addParameter(httpClient.objectName, httpClient.toClassName())
 
     if (ktorfitLib) {
-        constructor.addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
+        constructorBuilder.addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
     }
 
     val builder = TypeSpec
@@ -98,7 +99,7 @@ private fun createImplClassTypeSpec(
         .addAnnotation(getOptInAnnotation(classData.annotations))
         .addModifiers(classData.modifiers)
         .primaryConstructor(
-            constructor.build()
+            constructorBuilder.build()
         ).addProperties(converterProperties)
         .addProperty(
             PropertySpec
@@ -108,8 +109,8 @@ private fun createImplClassTypeSpec(
                 .build(),
         ).addProperty(
             PropertySpec
-                .builder("_baseUrl", String::class)
-                .initializer("_baseUrl")
+                .builder(baseUrl.objectName, String::class)
+                .initializer(baseUrl.objectName)
                 .addModifiers(KModifier.PRIVATE)
                 .build(),
         )
@@ -198,7 +199,7 @@ private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeR
             this.addSuperinterface(
                 ClassName(superTypePackage, superTypeClassName),
                 CodeBlock.of(
-                    "%L._%LImpl(_baseUrl,${httpClient.objectName},${ktorfitClass.objectName})",
+                    "%L._%LImpl(${baseUrl.objectName},${httpClient.objectName},${ktorfitClass.objectName})",
                     superTypePackage,
                     superTypeClassName,
                 )

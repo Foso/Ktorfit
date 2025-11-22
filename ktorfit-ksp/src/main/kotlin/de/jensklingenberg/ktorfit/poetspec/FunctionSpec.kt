@@ -80,7 +80,11 @@ private fun FunSpec.Builder.addBody(
                         "return $parentName.$convFunction$ee(_response)"
 
             } else {
-                "return ${httpClient.objectName}.request(_ext).body()"
+                if(ktorfitLib){
+                    ""
+                }else{
+                    "return ${httpClient.objectName}.request(_ext).body()"
+                }
             }
 
 

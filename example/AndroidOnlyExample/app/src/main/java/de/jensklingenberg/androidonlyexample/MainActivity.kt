@@ -27,7 +27,7 @@ val httpClient = HttpClient {
     }
 }
 
-val api = _StarWarsApiImpl(baseUrl, httpClient)
+val api = createStarWarsApi(baseUrl, httpClient)
 
 class MainActivity : ComponentActivity() {
 

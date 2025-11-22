@@ -5,6 +5,7 @@ import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
 import de.jensklingenberg.ktorfit.http.Tag
+import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
@@ -22,12 +23,12 @@ interface StarWarsApi {
 
     @GET("people/{id}/")
     //@Deprecated("Just for testing")
-    fun getPeopleFlow(@Path("id") page: Int, @Tag("myTag") test : Int = 3): Flow<Person>
+    fun getPeopleFlow(@Path("id") page: Int): Flow<Person>
 }
 
 class MyConverter{
 
-    fun convert( getResponse: suspend () -> HttpResponse): Flow<Person>{
+    fun convert( getResponse: suspend () -> HttpResponse, httpClient: HttpClient): Flow<Person>{
         return flow {
             val response = getResponse()
             val person= response.body<Person>()

@@ -12,6 +12,7 @@ interface StarWarsApi {
         const val baseUrl = "https://swapi.dev/api/"
     }
 
+    @Suppress("ArrayInDataClass")
     @GET("people/{id}/")
     fun getPersonById(
         @Path("id") peopleId: Int

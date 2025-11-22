@@ -64,13 +64,8 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger, ktorfitLib: Boolean): Clas
             "io.ktor.http.decodeURLQueryComponent",
             "io.ktor.client.request.request",
             "io.ktor.client.call.body",
-
-            // typeDataClass.packageName + "." + typeDataClass.name,
+            "io.ktor.util.AttributeKey"
         )
-
-    if (ktorfitLib) {
-        imports.add(annotationsAttributeKey.packageName + "." + annotationsAttributeKey.name)
-    }
 
     val packageName = ksClassDeclaration.packageName.asString()
     val className = ksClassDeclaration.simpleName.asString()

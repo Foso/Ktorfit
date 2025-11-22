@@ -59,6 +59,7 @@ val ktor = "3.1.2"
 val compose_ui_version = "1.7.8"
 val coroutines = "1.9.0"
 dependencies {
+   // implementation("de.jensklingenberg.ktorfit:ktorfit-lib:${ktorfitVersion}")
     implementation("de.jensklingenberg.ktorfit:ktorfit-annotations:$ktorfitVersion")
     // Ktor client core + engine + logging
     implementation("io.ktor:ktor-client-core:$ktor")

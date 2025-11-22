@@ -18,4 +18,5 @@ val converterHelper = KtorfitClass("KtorfitConverterHelper", "de.jensklingenberg
 val internalApi = ClassName("de.jensklingenberg.ktorfit.internal", "InternalKtorfitApi")
 val annotationsAttributeKey = KtorfitClass("annotationsAttributeKey", "de.jensklingenberg.ktorfit", "AttributeKey(\"__ktorfit_attribute_annotations\")")
 val httpClient = KtorfitClass("HttpClient", "io.ktor.client", "__httpClient")
+val baseUrl = KtorfitClass("String", "kotlin", "__baseUrl")
 fun KtorfitClass.toClassName() = ClassName(packageName, name)

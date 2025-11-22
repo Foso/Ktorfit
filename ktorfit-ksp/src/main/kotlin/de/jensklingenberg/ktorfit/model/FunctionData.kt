@@ -1,6 +1,8 @@
 package de.jensklingenberg.ktorfit.model
 
 import com.google.devtools.ksp.getDeclaredFunctions
+import com.google.devtools.ksp.isPrivate
+import com.google.devtools.ksp.isPublic
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.AnnotationSpec
@@ -274,7 +276,10 @@ fun KSFunctionDeclaration.toFunctionData(
             }
 
             if (it is Body && funcDeclaration.getFormUrlEncodedAnnotation() != null) {
-
+                logger.error(
+                    KtorfitError.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING,
+                    funcDeclaration,
+                )
             }
         }
     }
@@ -326,6 +331,7 @@ fun KSFunctionDeclaration.toFunctionData(
         val matchingConverterFunctions = convertersClasses
             .map { it.getDeclaredFunctions().toList() }
             .flatten()
+            .filter { !it.isPrivate() }
             .firstOrNull {
                 it.parameters.firstOrNull()?.type.toString().contains("HttpResponse") &&
                         it.returnType!!.resolve().isAssignableFrom(returnType.parameterType) &&
@@ -338,6 +344,7 @@ fun KSFunctionDeclaration.toFunctionData(
         val matchingConverterFunctions = convertersClasses
             .map { it.getDeclaredFunctions().toList() }
             .flatten()
+            .filter { !it.isPrivate() }
             .firstOrNull {
                 it.parameters.firstOrNull()?.type.toString().contains("SuspendFunction") &&
                         it.returnType!!.resolve().isAssignableFrom(returnType.parameterType) &&
