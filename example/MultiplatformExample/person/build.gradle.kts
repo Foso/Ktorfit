@@ -10,7 +10,7 @@ version = "1.0"
 val ktorVersion = "3.2.1"
 
 kotlin {
-    jvmToolchain(8)
+
     applyDefaultHierarchyTemplate()
 
     jvm()
@@ -52,10 +52,6 @@ android {
         minSdk = 21
         targetSdk = 34
         namespace = "com.example.person"
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 

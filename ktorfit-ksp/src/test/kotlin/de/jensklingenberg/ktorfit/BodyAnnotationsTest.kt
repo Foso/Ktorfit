@@ -34,7 +34,7 @@ interface TestService {
 
 class MyConv {
 
-    @TypeConverter
+    
     suspend fun conv(httpResponse: HttpResponse): Int {
         return httpResponse.body<Int>()
     }

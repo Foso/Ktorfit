@@ -13,24 +13,26 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
+
 class MyConv {
 
-    suspend fun _conv(httpResponse: HttpResponse): User {
+    suspend fun <T> _conv(httpResponse: HttpResponse): User {
         val env = httpResponse.body<Envelope>()
         return env.user
     }
 
-    public fun convert(getResponse: suspend () -> HttpResponse): Flow<User> {
+    public inline fun <reified T> convert(noinline getResponse: suspend () -> HttpResponse): Flow<User> {
+
         // Implementation here
         return flow {
             val response = getResponse()
-            val user = _conv(response)
+            val user = response.body<Envelope>().user
             emit(user)
         }
     }
 
     fun convertCall(getResponse: suspend () -> HttpResponse): Call<People> {
-        return object : Call<People>{
+        return object : Call<People> {
             override fun onExecute(callBack: Callback<People>) {
                 kotlinx.coroutines.GlobalScope.launch {
                     try {
@@ -51,7 +53,7 @@ class MyConv {
         return MyOwnResponse.success(user.user)
     }
 
-    fun getFollowers(getResponse: suspend () -> HttpResponse): Flow<List<GithubFollowerResponseItem>>{
+    fun getFollowers(getResponse: suspend () -> HttpResponse): Flow<List<Any>> {
         // Implementation here
         return flow {
             // Dummy implementation, replace with actual logic

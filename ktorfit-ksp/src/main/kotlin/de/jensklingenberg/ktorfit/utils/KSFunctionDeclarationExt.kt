@@ -14,7 +14,6 @@ import de.jensklingenberg.ktorfit.model.annotations.HttpMethod
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.Multipart
 import de.jensklingenberg.ktorfit.model.annotations.Streaming
-import de.jensklingenberg.ktorfit.model.annotations.TypeConverter
 
 @OptIn(KspExperimental::class)
 fun KSFunctionDeclaration.getHeaderAnnotation(): Headers? {
@@ -30,12 +29,7 @@ fun KSFunctionDeclaration.getFormUrlEncodedAnnotation(): FormUrlEncoded? {
     }
 }
 
-@OptIn(KspExperimental::class)
-fun KSFunctionDeclaration.getTypeConverter(): TypeConverter? {
-    return this.getAnnotationsByType(de.jensklingenberg.ktorfit.core.TypeConverter::class).firstOrNull()?.let {
-        return TypeConverter
-    }
-}
+
 
 @OptIn(KspExperimental::class)
 fun KSFunctionDeclaration.getStreamingAnnotation(): Streaming? {

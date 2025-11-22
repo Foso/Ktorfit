@@ -1,16 +1,14 @@
 package de.jensklingenberg.ktorfit
 
 import com.google.devtools.ksp.closestClassDeclaration
-import com.google.devtools.ksp.isPublic
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 import com.google.devtools.ksp.symbol.KSAnnotated
-import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import com.google.devtools.ksp.symbol.KSType
 import de.jensklingenberg.ktorfit.generator.generateImplClass
+import de.jensklingenberg.ktorfit.validation.ClassValidator
 import de.jensklingenberg.ktorfit.http.DELETE
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.HEAD
@@ -44,27 +42,37 @@ class KtorfitProcessor(
         }
         invoked = true
 
+        // Validate that required classes exist at compilation time
+        val ktorfitLib = validateRequiredClasses(resolver)
+
         val classDataList =
             getAnnotatedFunctions(ktorfitResolver)
                 .groupBy { it.closestClassDeclaration() }
                 .map { (classDec) ->
-                    classDec?.toClassData(KtorfitLogger(env.logger, loggingType))
+                    classDec?.toClassData(KtorfitLogger(env.logger, loggingType), ktorfitLib)
                 }.mapNotNull { it }
 
-        val typeConverter = resolver.getSymbolsWithAnnotation(de.jensklingenberg.ktorfit.core.TypeConverter::class.java.name).toList()
-            .filterIsInstance<KSFunctionDeclaration>()
-            .groupBy { it.closestClassDeclaration() }
 
-        // Generate the KClass argument from TypeConverters annotation
-
-
-
-
-        generateImplClass(classDataList, env.codeGenerator, resolver, ktorfitOptions, typeConverter)
+        generateImplClass(classDataList, env.codeGenerator, resolver, ktorfitOptions, ktorfitLib)
 
         return emptyList()
     }
 
+    /**
+     * Validates that required Ktorfit classes exist at compilation time
+     */
+    private fun validateRequiredClasses(resolver: Resolver): Boolean {
+        val requiredClasses = listOf(
+            "de.jensklingenberg.ktorfit.Ktorfit",
+        )
+
+        val test = ClassValidator.validateAllClassesExist(resolver, env.logger, requiredClasses)
+        if (test) {
+            env.logger.info("All required Ktorfit classes are present.")
+        }
+
+        return test
+    }
 
 
     /**

@@ -88,8 +88,23 @@ private fun createImplClassTypeSpec(
             FunSpec
                 .constructorBuilder()
                 .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
+                .addParameter("_baseUrl", String::class)
+                .addParameter("_httpClient", ClassName("io.ktor.client", "HttpClient"))
                 .build(),
         ).addProperties(converterProperties)
+        .addProperty(
+            PropertySpec
+                .builder("_httpClient", ClassName("io.ktor.client", "HttpClient"))
+                .initializer("_httpClient")
+                .addModifiers(KModifier.PRIVATE)
+                .build(),
+        ).addProperty(
+            PropertySpec
+                .builder("_baseUrl", String::class)
+                .initializer("_baseUrl")
+                .addModifiers(KModifier.PRIVATE)
+                .build(),
+        )
         .addProperty(
             PropertySpec
                 .builder(ktorfitClass.objectName, ktorfitClass.toClassName())
@@ -169,7 +184,7 @@ private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeR
             this.addSuperinterface(
                 ClassName(superTypePackage, superTypeClassName),
                 CodeBlock.of(
-                    "%L._%LImpl(${ktorfitClass.objectName})",
+                    "%L._%LImpl(${ktorfitClass.objectName},_baseUrl,_httpClient)",
                     superTypePackage,
                     superTypeClassName,
                 )

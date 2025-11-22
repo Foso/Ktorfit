@@ -6,6 +6,3 @@ import kotlin.reflect.KClass
 annotation class TypeConverters(
     vararg val value: KClass<*>
 )
-
-@Target(AnnotationTarget.FUNCTION)
-annotation class TypeConverter

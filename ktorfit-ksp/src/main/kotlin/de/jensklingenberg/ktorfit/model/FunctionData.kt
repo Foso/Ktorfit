@@ -38,7 +38,6 @@ import de.jensklingenberg.ktorfit.utils.getHeaderAnnotation
 import de.jensklingenberg.ktorfit.utils.getKsFile
 import de.jensklingenberg.ktorfit.utils.getMultipartAnnotation
 import de.jensklingenberg.ktorfit.utils.getStreamingAnnotation
-import de.jensklingenberg.ktorfit.utils.getTypeConverter
 import de.jensklingenberg.ktorfit.utils.isSuspend
 import de.jensklingenberg.ktorfit.utils.parseHTTPMethodAnno
 import de.jensklingenberg.ktorfit.utils.resolveTypeName
@@ -120,9 +119,6 @@ fun KSFunctionDeclaration.toFunctionData(
         functionAnnotationList.add(headers)
     }
 
-    funcDeclaration.getTypeConverter()?.let {
-        print("das")
-    }
 
     funcDeclaration.getFormUrlEncodedAnnotation()?.let { formUrlEncoded ->
         val isWithoutFieldOrFieldMap =

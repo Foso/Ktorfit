@@ -4,8 +4,6 @@ import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.Resolver
-import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import de.jensklingenberg.ktorfit.KtorfitOptions
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.poetspec.createFileSpec
@@ -21,7 +19,7 @@ fun generateImplClass(
     codeGenerator: CodeGenerator,
     resolver: Resolver,
     ktorfitOptions: KtorfitOptions,
-    typeConverter: Map<KSClassDeclaration?, List<KSFunctionDeclaration>>
+    ktorfitLib: Boolean
 ) {
     classDataList.forEach { classData ->
         with(classData) {
@@ -31,7 +29,8 @@ fun generateImplClass(
                 createFileSpec(
                     classData,
                     classData.implName,
-                    implClassSpec
+                    implClassSpec,
+                    ktorfitLib
                 ).toString()
 
             val fileName = classData.implName

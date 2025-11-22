@@ -25,8 +25,8 @@ fun getUrlCode(
             ""
         } else {
             params.firstOrNull { it.hasAnnotation<Url>() }?.let { parameterData ->
-                "(${ktorfitClass.objectName}.baseUrl.takeIf{ !${parameterData.name}.startsWith(\"http\")} ?: \"\") + "
-            } ?: "${ktorfitClass.objectName}.baseUrl + "
+                "(_baseUrl.takeIf{ !${parameterData.name}.startsWith(\"http\")} ?: \"\") + "
+            } ?: "_baseUrl + "
         }
 
     params.filter { it.hasAnnotation<Path>() }.forEach { parameterData ->

@@ -32,15 +32,12 @@ interface TestService {
 class User
 
 class MyConv {
-
-
-    @TypeConverter
+    
     suspend fun toUser2(httpResponse: io.ktor.client.statement.HttpResponse): String {
         return httpResponse.body<User>()
     }
 
-    @TypeConverter
-    fun toUser(getResponse: suspend () -> HttpResponse): Flow<Any> {
+    fun <T: Flow> toUser(getResponse: suspend () -> HttpResponse): T {
         return flow {
             val response = getResponse()
             val user = toUser2(response)

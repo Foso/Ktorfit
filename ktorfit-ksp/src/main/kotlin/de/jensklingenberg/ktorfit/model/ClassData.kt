@@ -15,7 +15,6 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.utils.getKsFile
-import java.lang.invoke.MethodHandles.classData
 
 /**
  * @param name of the interface that contains annotations
@@ -51,7 +50,7 @@ fun ClassData.getConverters(): List<KSClassDeclaration> {
  * @param logger used to log errors
  * @return the transformed classdata
  */
-fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
+fun KSClassDeclaration.toClassData(logger: KSPLogger, ktorfitLib: Boolean): ClassData {
     val ksClassDeclaration = this
     val imports =
         mutableSetOf(
@@ -62,6 +61,7 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             "io.ktor.http.takeFrom",
             "io.ktor.http.decodeURLQueryComponent",
             "io.ktor.client.request.request",
+            "io.ktor.client.call.body",
             annotationsAttributeKey.packageName + "." + annotationsAttributeKey.name,
             typeDataClass.packageName + "." + typeDataClass.name,
         )

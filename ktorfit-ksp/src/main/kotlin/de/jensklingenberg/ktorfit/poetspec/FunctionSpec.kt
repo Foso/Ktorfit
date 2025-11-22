@@ -25,15 +25,16 @@ fun FunctionData.toFunSpec(
 ): FunSpec {
     val returnTypeName = returnType.typeName ?: throw IllegalStateException("Return type not found")
 
+    val parameterSpecs = parameterDataList.map {
+        it.parameterSpec()
+    }
+
     return FunSpec
         .builder(name)
         .addModifiers(modifiers)
         .addAnnotations(optInAnnotations)
-        .addParameters(
-            parameterDataList.map {
-                it.parameterSpec()
-            },
-        ).addBody(this, resolver, setQualifiedTypeName, returnTypeName, converters)
+        .addParameters(parameterSpecs)
+        .addBody(this, resolver, setQualifiedTypeName, returnTypeName, converters)
         .returns(returnTypeName)
         .build()
 }
@@ -60,25 +61,29 @@ private fun FunSpec.Builder.addBody(
             ),
         ).addStatement(
             if (functionData.isSuspend) {
-                val responseTypeName = ClassName("io.ktor.client.statemen", "HttpResponse")
+
                 val e = converters
                     .map { it.getDeclaredFunctions().toList() }
                     .flatten()
                     .firstOrNull {
                         it.parameters.firstOrNull()?.type.toString().contains("HttpResponse") &&
-                                it.returnType?.toTypeName() == functionData.returnType.typeName &&
+                                it.returnType!!.resolve().isAssignableFrom(functionData.returnType.parameterType) &&
                                 it.isSuspend
                     }
-
 
                 val convFunction = e?.simpleName?.asString()
                 val parentName = (e?.parent as? KSClassDeclaration)?.simpleName?.asString()?.replaceFirstChar { it.lowercase() }
                 if (e?.returnType?.toTypeName() == functionData.returnType.typeName) {
-                    "val _response = _ktorfit.httpClient.request(_ext) \n" +
-                            "return $parentName.$convFunction(_response)"
+                    val ee = if (e!!.typeParameters.isNotEmpty()) {
+                        "<${e.typeParameters.joinToString(",") { functionData.returnType.name }}>"
+                    } else {
+                        ""
+                    }
+                    "val _response = _httpClient.request(_ext) \n" +
+                            "return $parentName.$convFunction$ee(_response)"
 
                 } else {
-                    "val _response = _ktorfit.httpClient.request(_ext)"
+                    "return _httpClient.request(_ext).body()"
                 }
 
 
@@ -88,21 +93,24 @@ private fun FunSpec.Builder.addBody(
                     .flatten()
                     .firstOrNull {
                         it.parameters.firstOrNull()?.type.toString().contains("SuspendFunction") &&
-                                it.returnType?.toTypeName() == functionData.returnType.typeName &&
+                                it.returnType!!.resolve().isAssignableFrom(functionData.returnType.parameterType) &&
                                 !it.isSuspend
                     }
 
                 val convFunction = e?.simpleName?.asString()
                 val parentName = (e?.parent as? KSClassDeclaration)?.simpleName?.asString()?.replaceFirstChar { it.lowercase() }
-                if(convFunction !=null && parentName!=null)
-                 "return $parentName.$convFunction{_ktorfit.httpClient.request(_ext)}"
-                else{
-                    ""
+                if (convFunction != null && parentName != null) {
+                    val ee = if (e.typeParameters.isNotEmpty()) {
+                        "<${e.typeParameters.joinToString(",") { functionData.returnType.name }}>"
+                    } else {
+                        ""
+                    }
+                    "return $parentName.$convFunction$ee{_httpClient.request(_ext)} as $returnTypeName"
+                } else {
+                    " throw NotImplementedError()"
                 }
-            })
-        .addStatement(
-            "val ${typeDataClass.objectName} = ${typeDataClass.name}.createTypeData("
-        ).addStatement("typeInfo = typeInfo<%T>(),", returnTypeName)
+            }
+        )
         .addStatement(
             if (setQualifiedTypeName) {
                 buildString {
@@ -111,17 +119,7 @@ private fun FunSpec.Builder.addBody(
                     append("\")")
                 }
             } else {
-                ")"
+                ""
             },
-        ).addStatement(
-            "return %L.%L(%L,${extDataClass.objectName})%L",
-            converterHelper.objectName,
-            if (functionData.isSuspend) {
-                "suspendRequest"
-            } else {
-                "request"
-            },
-            typeDataClass.objectName,
-            "!!".takeIf { !functionData.returnType.parameterType.isMarkedNullable }.orEmpty(),
         )
 }
