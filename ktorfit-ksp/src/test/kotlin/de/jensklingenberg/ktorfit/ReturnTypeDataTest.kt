@@ -70,6 +70,7 @@ class MyConv {
         assertTrue(generatedFile.exists())
 
         val actualSource = generatedFile.readText()
+        print(actualSource)
         assertTrue(actualSource.contains(expectedBodyDataArgumentText))
     }
 }
