@@ -77,8 +77,15 @@ class MyConv {
 
                     class TypeInfo""")
 
+        val source4 =           SourceFile.kotlin(
+            "User.kt",
+            """
+                    package de.jensklingenberg.ktorfit
 
-        val compilation = getCompilation(listOf(source2,source,source3))
+                    class Ktorfit""")
+
+
+        val compilation = getCompilation(listOf(source2,source,source3, source4))
         val result = compilation.compile()
 
         val generatedSourcesDir = compilation.kspSourcesDir

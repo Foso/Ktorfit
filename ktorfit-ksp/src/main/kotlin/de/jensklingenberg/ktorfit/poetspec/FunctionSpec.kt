@@ -13,9 +13,11 @@ import de.jensklingenberg.ktorfit.model.extDataClass
 import de.jensklingenberg.ktorfit.model.httpClient
 import de.jensklingenberg.ktorfit.model.toClassName
 import de.jensklingenberg.ktorfit.model.typeDataClass
+import de.jensklingenberg.ktorfit.model.typeInfoClass
 import de.jensklingenberg.ktorfit.reqBuilderExtension.addRequestConverterText
 import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
 import de.jensklingenberg.ktorfit.utils.removeWhiteSpaces
+import java.lang.Exception
 
 fun FunctionData.toFunSpec(
     resolver: Resolver,
@@ -60,7 +62,7 @@ private fun FunSpec.Builder.addBody(
         )
     if (ktorfitLib) {
         builder.addStatement("val %N = %T.createTypeData(", typeDataClass.objectName, typeDataClass.toClassName())
-            .addStatement("typeInfo = typeInfo<%T>())", returnTypeName)
+            .addStatement("%T = typeInfo<%T>())", typeInfoClass.toClassName(), returnTypeName)
     }
 
     builder.addStatement(
@@ -96,14 +98,18 @@ private fun FunSpec.Builder.addBody(
             if (convFunction != null && parentName != null) {
 
                 val str = matchingConverterFunctions.parameters.joinToString {
-                    if (it.type.toTypeName().toString() == "suspend () -> io.ktor.client.statement.HttpResponse") {
-                        "${httpClient.objectName}.request(_ext)}"
-                    } else if (it.type.toTypeName().toString() == "io.ktor.util.reflect.TypeInfo") {
-                        "\ntypeInfo<$returnTypeName>()"
-                    } else if (it.type.toTypeName().toString() == "io.ktor.client.HttpClient") {
-                        "\n${httpClient.objectName}"
-                    } else {
-                        throw IllegalStateException("Unknown parameter type ${it.type.toTypeName()} for function $convFunction Only suspend () -> HttpResponse, TypeInfo and HttpClient are supported")
+                    try {
+                        if (it.type.toTypeName().toString() == "suspend () -> io.ktor.client.statement.HttpResponse") {
+                            "${httpClient.objectName}.request(_ext)}"
+                        } else if (it.type.toTypeName().toString() == "io.ktor.util.reflect.TypeInfo") {
+                            "\ntypeInfo<$returnTypeName>()"
+                        } else if (it.type.toTypeName().toString() == "io.ktor.client.HttpClient") {
+                            "\n${httpClient.objectName}"
+                        } else {
+                            throw IllegalStateException("Unknown parameter type ${it.type.toTypeName()} for function $convFunction Only suspend () -> HttpResponse, TypeInfo and HttpClient are supported")
+                        }
+                    }catch (ex: Exception){
+""
                     }
                 }
 
