@@ -5,13 +5,13 @@ import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.getKotlinClassByName
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.converterHelper
 import de.jensklingenberg.ktorfit.model.extDataClass
+import de.jensklingenberg.ktorfit.model.toClassName
 import de.jensklingenberg.ktorfit.model.typeDataClass
 import de.jensklingenberg.ktorfit.reqBuilderExtension.addRequestConverterText
 import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
@@ -51,6 +51,7 @@ private fun FunSpec.Builder.addBody(
         resolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType() ?: error("List not found")
 
 
+
     val arrayType = resolver.builtIns.arrayType.starProjection()
     addRequestConverterText(functionData.parameterDataList)
         .addStatement(
@@ -59,10 +60,13 @@ private fun FunSpec.Builder.addBody(
                 listType,
                 arrayType,
             ),
-        ).addStatement(
+        )
+        .addStatement("val %N = %T.createTypeData(", typeDataClass.objectName, typeDataClass.toClassName())
+        .addStatement("typeInfo = typeInfo<%T>())", returnTypeName)
+        .addStatement(
             if (functionData.isSuspend) {
 
-                val e = converters
+                val matchingConverter = converters
                     .map { it.getDeclaredFunctions().toList() }
                     .flatten()
                     .firstOrNull {
@@ -71,11 +75,11 @@ private fun FunSpec.Builder.addBody(
                                 it.isSuspend
                     }
 
-                val convFunction = e?.simpleName?.asString()
-                val parentName = (e?.parent as? KSClassDeclaration)?.simpleName?.asString()?.replaceFirstChar { it.lowercase() }
-                if (e?.returnType?.toTypeName() == functionData.returnType.typeName) {
-                    val ee = if (e!!.typeParameters.isNotEmpty()) {
-                        "<${e.typeParameters.joinToString(",") { functionData.returnType.name }}>"
+                val convFunction = matchingConverter?.simpleName?.asString()
+                val parentName = (matchingConverter?.parent as? KSClassDeclaration)?.simpleName?.asString()?.replaceFirstChar { it.lowercase() }
+                if (matchingConverter?.returnType?.toTypeName() == functionData.returnType.typeName) {
+                    val ee = if (matchingConverter!!.typeParameters.isNotEmpty()) {
+                        "<${matchingConverter.typeParameters.joinToString(",") { functionData.returnType.name }}>"
                     } else {
                         ""
                     }
@@ -121,5 +125,16 @@ private fun FunSpec.Builder.addBody(
             } else {
                 ""
             },
+        )
+        .addStatement(
+            "return %L.%L(%L,${extDataClass.objectName})%L",
+            converterHelper.objectName,
+            if (functionData.isSuspend) {
+                "suspendRequest"
+            } else {
+                "request"
+            },
+            typeDataClass.objectName,
+            "!!".takeIf { !functionData.returnType.parameterType.isMarkedNullable }.orEmpty(),
         )
 }

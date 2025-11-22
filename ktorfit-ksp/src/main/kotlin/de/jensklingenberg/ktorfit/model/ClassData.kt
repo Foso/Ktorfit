@@ -63,7 +63,7 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger, ktorfitLib: Boolean): Clas
             "io.ktor.client.request.request",
             "io.ktor.client.call.body",
             annotationsAttributeKey.packageName + "." + annotationsAttributeKey.name,
-            typeDataClass.packageName + "." + typeDataClass.name,
+           // typeDataClass.packageName + "." + typeDataClass.name,
         )
 
 

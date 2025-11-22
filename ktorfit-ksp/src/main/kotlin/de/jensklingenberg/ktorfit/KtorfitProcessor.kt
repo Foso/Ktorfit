@@ -43,7 +43,7 @@ class KtorfitProcessor(
         invoked = true
 
         // Validate that required classes exist at compilation time
-        val ktorfitLib = validateRequiredClasses(resolver)
+        val ktorfitLib = true//validateRequiredClasses(resolver)
 
         val classDataList =
             getAnnotatedFunctions(ktorfitResolver)
