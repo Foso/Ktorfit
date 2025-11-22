@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit.model
 
+import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.squareup.kotlinpoet.AnnotationSpec
@@ -57,6 +58,7 @@ data class FunctionData(
     val modifiers: List<KModifier> = emptyList(),
     val optInAnnotations: List<AnnotationSpec>,
     val nonKtorfitAnnotations: List<AnnotationSpec>,
+    val matchingConverterFunctions: KSFunctionDeclaration?
 )
 
 /**
@@ -78,7 +80,8 @@ private fun getHttpMethodAnnotations(ksFunctionDeclaration: KSFunctionDeclaratio
 
 fun KSFunctionDeclaration.toFunctionData(
     logger: KSPLogger,
-    addImport: (String) -> Unit
+    addImport: (String) -> Unit,
+    ktorfitLib: Boolean
 ): FunctionData {
     val funcDeclaration = this
     val functionName = funcDeclaration.simpleName.asString()
@@ -159,9 +162,9 @@ fun KSFunctionDeclaration.toFunctionData(
     if (httpMethodAnnoList.size > 1) {
         logger.error(
             KtorfitError.ONLY_ONE_HTTP_METHOD_IS_ALLOWED + "Found: " +
-                httpMethodAnnoList.joinToString {
-                    it.httpMethod.keyword
-                } + " at " + functionName,
+                    httpMethodAnnoList.joinToString {
+                        it.httpMethod.keyword
+                    } + " at " + functionName,
             funcDeclaration,
         )
     }
@@ -180,7 +183,7 @@ fun KSFunctionDeclaration.toFunctionData(
     if (functionParameters.filter { it.hasAnnotation<RequestBuilder>() }.size > 1) {
         logger.error(
             KtorfitError.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED + " Found: " + httpMethodAnnoList.joinToString { it.toString() } + " at " +
-                functionName,
+                    functionName,
             funcDeclaration,
         )
     }
@@ -317,6 +320,40 @@ fun KSFunctionDeclaration.toFunctionData(
         addImport(className.canonicalName)
     }
 
+    val convertersClasses = this.parentDeclaration?.annotations?.toList().orEmpty().getConverters()
+    val conv = if (isSuspend) {
+
+        val matchingConverterFunctions = convertersClasses
+            .map { it.getDeclaredFunctions().toList() }
+            .flatten()
+            .firstOrNull {
+                it.parameters.firstOrNull()?.type.toString().contains("HttpResponse") &&
+                        it.returnType!!.resolve().isAssignableFrom(returnType.parameterType) &&
+                        it.isSuspend
+            }
+
+        matchingConverterFunctions
+
+    } else {
+        val matchingConverterFunctions = convertersClasses
+            .map { it.getDeclaredFunctions().toList() }
+            .flatten()
+            .firstOrNull {
+                it.parameters.firstOrNull()?.type.toString().contains("SuspendFunction") &&
+                        it.returnType!!.resolve().isAssignableFrom(returnType.parameterType) &&
+                        !it.isSuspend
+            }
+
+        if(!ktorfitLib && convertersClasses.isNotEmpty() && matchingConverterFunctions==null){
+            logger.error("Found converter function for non-suspend function ${functionName} in ${this.parentDeclaration?.simpleName?.asString()}, but the function is not suspend. Make sure this is intended. fun convert( getResponse: suspend () -> HttpResponse): ${returnType.name}")
+        }
+
+        if(!ktorfitLib && convertersClasses.isEmpty()){
+            logger.error("No converter function for non-suspend function ${functionName} in ${this.parentDeclaration?.simpleName?.asString()}, but the function is not suspend. Make sure this is intended. \n fun convert( getResponse: suspend () -> HttpResponse): ${returnType.name}")
+        }
+
+        matchingConverterFunctions
+    }
     return FunctionData(
         functionName,
         returnType,
@@ -327,6 +364,7 @@ fun KSFunctionDeclaration.toFunctionData(
         modifiers,
         optInAnnotations,
         nonKtorfitAnnotations,
+        conv
     )
 }
 

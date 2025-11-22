@@ -10,32 +10,24 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
+import de.jensklingenberg.androidonlyexample.StarWarsApi.Companion.baseUrl
 import de.jensklingenberg.androidonlyexample.ui.theme.AndroidOnlyExampleTheme
-import de.jensklingenberg.ktorfit.converter.CallConverterFactory
-import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
-import de.jensklingenberg.ktorfit.converter.ResponseConverterFactory
-import de.jensklingenberg.ktorfit.ktorfit
+import de.jensklingenberg.androidonlyexample._StarWarsApiImpl
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
-val ktorfit = ktorfit {
-    baseUrl(StarWarsApi.baseUrl)
-    httpClient(HttpClient {
-        install(ContentNegotiation) {
-            json(Json { isLenient = true; ignoreUnknownKeys = true })
-        }
-    })
-    converterFactories(
-        FlowConverterFactory(),
-        CallConverterFactory(),
-        ResponseConverterFactory()
-    )
 
+val httpClient = HttpClient {
+    install(ContentNegotiation) {
+        json(Json { isLenient = true; ignoreUnknownKeys = true })
+    }
 }
-val api = ktorfit.create<StarWarsApi>()
+
+val api = _StarWarsApiImpl(baseUrl, httpClient)
 
 class MainActivity : ComponentActivity() {
 
@@ -61,6 +53,9 @@ class MainActivity : ComponentActivity() {
 
         lifecycleScope.launch {
             peopleState.value = api.getPerson(1)
+             api.getPeopleFlow(1).collect {
+                print(it.name)
+            }
         }
     }
 }

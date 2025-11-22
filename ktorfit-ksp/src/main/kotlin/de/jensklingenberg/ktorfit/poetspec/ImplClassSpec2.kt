@@ -9,6 +9,7 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.FunSpec.Companion.constructorBuilder
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
@@ -19,6 +20,7 @@ import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.converterHelper
 import de.jensklingenberg.ktorfit.model.getConverters
+import de.jensklingenberg.ktorfit.model.httpClient
 import de.jensklingenberg.ktorfit.model.internalApi
 import de.jensklingenberg.ktorfit.model.ktorfitClass
 import de.jensklingenberg.ktorfit.model.toClassName
@@ -46,9 +48,9 @@ fun ClassData.getImplClassSpec(
                 it.toFunSpec(
                     resolver,
                     ktorfitOptions.setQualifiedType,
-                    classData.getConverters()
+                    ktorfitOptions.ktorfitLib
                 )
-            }
+            }, ktorfitOptions.ktorfitLib
         )
 
     return implClassSpec
@@ -58,7 +60,8 @@ private fun createImplClassTypeSpec(
     implClassName: String,
     classData: ClassData,
     implClassProperties: List<PropertySpec>,
-    funSpecs: List<FunSpec>
+    funSpecs: List<FunSpec>,
+    ktorfitLib: Boolean
 ): TypeSpec {
     val helperProperty =
         PropertySpec
@@ -80,22 +83,27 @@ private fun createImplClassTypeSpec(
             .build()
     }
 
-    return TypeSpec
+
+    val constructor = FunSpec
+        .constructorBuilder()
+        .addParameter("_baseUrl", String::class)
+        .addParameter(httpClient.objectName, httpClient.toClassName())
+
+    if (ktorfitLib) {
+        constructor.addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
+    }
+
+    val builder = TypeSpec
         .classBuilder(implClassName)
         .addAnnotation(getOptInAnnotation(classData.annotations))
         .addModifiers(classData.modifiers)
         .primaryConstructor(
-            FunSpec
-                .constructorBuilder()
-                .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
-                .addParameter("_baseUrl", String::class)
-                .addParameter("_httpClient", ClassName("io.ktor.client", "HttpClient"))
-                .build(),
+            constructor.build()
         ).addProperties(converterProperties)
         .addProperty(
             PropertySpec
-                .builder("_httpClient", ClassName("io.ktor.client", "HttpClient"))
-                .initializer("_httpClient")
+                .builder(httpClient.objectName, httpClient.toClassName())
+                .initializer(httpClient.objectName)
                 .addModifiers(KModifier.PRIVATE)
                 .build(),
         ).addProperty(
@@ -105,17 +113,23 @@ private fun createImplClassTypeSpec(
                 .addModifiers(KModifier.PRIVATE)
                 .build(),
         )
-        .addProperty(
-            PropertySpec
-                .builder(ktorfitClass.objectName, ktorfitClass.toClassName())
-                .initializer(ktorfitClass.objectName)
-                .addModifiers(KModifier.PRIVATE)
-                .build(),
-        ).addSuperinterface(ClassName(classData.packageName, classData.name))
+        .addSuperinterface(ClassName(classData.packageName, classData.name))
         .addKtorfitSuperInterface(classData.superClasses)
-        .addProperties(listOf(helperProperty) + implClassProperties)
-        .addFunctions(funSpecs)
-        .build()
+        .addProperties(implClassProperties)
+
+    if (ktorfitLib) {
+        builder.addProperty(helperProperty)
+            .addProperty(
+                PropertySpec
+                    .builder(ktorfitClass.objectName, ktorfitClass.toClassName())
+                    .initializer(ktorfitClass.objectName)
+                    .addModifiers(KModifier.PRIVATE)
+                    .build(),
+            )
+    }
+
+    return builder.addFunctions(funSpecs).build()
+
 }
 
 private fun getOptInAnnotation(annotations: List<KSAnnotation>): AnnotationSpec {
@@ -184,7 +198,7 @@ private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeR
             this.addSuperinterface(
                 ClassName(superTypePackage, superTypeClassName),
                 CodeBlock.of(
-                    "%L._%LImpl(${ktorfitClass.objectName},_baseUrl,_httpClient)",
+                    "%L._%LImpl(_baseUrl,${httpClient.objectName},${ktorfitClass.objectName})",
                     superTypePackage,
                     superTypeClassName,
                 )

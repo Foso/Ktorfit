@@ -35,12 +35,14 @@ data class ClassData(
     val providerName = "_${name}Provider"
 }
 
-fun ClassData.getConverters(): List<KSClassDeclaration> {
-    val anno = this.annotations.firstOrNull() {
+fun ClassData.getConverters(): List<KSClassDeclaration> = this.annotations.getConverters()
+
+fun List<KSAnnotation>.getConverters(): List<KSClassDeclaration> {
+    val anno = this.firstOrNull {
         it.shortName.asString() == "TypeConverters"
     }
     // Vararg KClass<*> becomes a List<KSType>
-    val ksTypes = anno?.arguments?.firstOrNull() { it.name?.asString() == "value" }?.value as? List<KSType>
+    val ksTypes = anno?.arguments?.firstOrNull { it.name?.asString() == "value" }?.value as? List<KSType>
     val converterClassDecls = ksTypes?.mapNotNull { it.declaration as? KSClassDeclaration }.orEmpty()
     return converterClassDecls
 }
@@ -62,12 +64,13 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger, ktorfitLib: Boolean): Clas
             "io.ktor.http.decodeURLQueryComponent",
             "io.ktor.client.request.request",
             "io.ktor.client.call.body",
-            annotationsAttributeKey.packageName + "." + annotationsAttributeKey.name,
-           // typeDataClass.packageName + "." + typeDataClass.name,
+
+            // typeDataClass.packageName + "." + typeDataClass.name,
         )
 
-
-
+    if (ktorfitLib) {
+        imports.add(annotationsAttributeKey.packageName + "." + annotationsAttributeKey.name)
+    }
 
     val packageName = ksClassDeclaration.packageName.asString()
     val className = ksClassDeclaration.simpleName.asString()
@@ -79,7 +82,7 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger, ktorfitLib: Boolean): Clas
             .getDeclaredFunctions()
             .toList()
             .map { funcDeclaration ->
-                return@map funcDeclaration.toFunctionData(logger, addImport = { imports.add(it) })
+                return@map funcDeclaration.toFunctionData(logger, addImport = { imports.add(it) }, ktorfitLib)
             }
 
     val filteredSupertypes =

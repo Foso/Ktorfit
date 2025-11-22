@@ -61,6 +61,7 @@ kotlin {
                 implementation(projects.ktorfitConverters.flow)
                 implementation(projects.ktorfitConverters.call)
                 implementation(projects.ktorfitConverters.response)
+                implementation(projects.ktorfitAnnotations)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.ktor.client.content.negotiation)

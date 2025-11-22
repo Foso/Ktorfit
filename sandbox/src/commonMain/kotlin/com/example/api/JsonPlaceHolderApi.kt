@@ -4,12 +4,20 @@ import com.example.model.Comment
 import com.example.model.MyOwnResponse
 import com.example.model.Post
 import de.jensklingenberg.ktorfit.Call
+import de.jensklingenberg.ktorfit.Callback
+import de.jensklingenberg.ktorfit.core.TypeConverters
 import de.jensklingenberg.ktorfit.http.*
+import io.ktor.client.call.body
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import io.ktor.util.reflect.TypeInfo
+import io.ktor.util.reflect.typeInfo
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 
+@TypeConverters(MyCallConverter::class)
 interface JsonPlaceHolderApi {
     companion object {
         const val baseUrl = "https://jsonplaceholder.typicode.com/"
@@ -102,4 +110,28 @@ interface JsonPlaceHolderApi {
     suspend fun deletePosts(
         @Path("postId") postId: Int
     ): String
+}
+
+class MyCallConverter() {
+    inline fun <reified T : Any> convert(noinline getResponse: suspend () -> HttpResponse): Flow<Any> {
+        val t = T::class
+        return flow {
+            val httpResponse = getResponse()
+            val responseBody = httpResponse.body<T>()
+            emit(responseBody)
+        }
+    }
+
+    inline fun <reified T> convert2(noinline getResponse: suspend () -> HttpResponse, typeInfo: TypeInfo): Call<Any> {
+
+        return object : Call<Any> {
+            override fun onExecute(callBack: Callback<Any>) {
+
+
+            }
+
+        }
+
+    }
+
 }

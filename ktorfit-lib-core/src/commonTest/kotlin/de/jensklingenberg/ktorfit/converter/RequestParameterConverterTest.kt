@@ -3,7 +3,6 @@ package de.jensklingenberg.ktorfit.converter
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.TestEngine
 import de.jensklingenberg.ktorfit.TestStringToIntRequestConverter
-import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
 import de.jensklingenberg.ktorfit.internal.KtorfitConverterHelper
 import io.ktor.client.request.HttpRequestData
 import kotlin.test.Test

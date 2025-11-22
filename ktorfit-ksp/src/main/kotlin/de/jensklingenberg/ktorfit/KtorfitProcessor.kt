@@ -43,17 +43,20 @@ class KtorfitProcessor(
         invoked = true
 
         // Validate that required classes exist at compilation time
-        val ktorfitLib = true//validateRequiredClasses(resolver)
+
+        val mut = env.options.toMutableMap()
+        mut["Ktorfit_Lib"] = validateRequiredClasses(resolver).toString()
+
+        val ktorfitOptions = KtorfitOptions(mut)
 
         val classDataList =
             getAnnotatedFunctions(ktorfitResolver)
                 .groupBy { it.closestClassDeclaration() }
                 .map { (classDec) ->
-                    classDec?.toClassData(KtorfitLogger(env.logger, loggingType), ktorfitLib)
+                    classDec?.toClassData(KtorfitLogger(env.logger, loggingType),ktorfitOptions.ktorfitLib)
                 }.mapNotNull { it }
 
-
-        generateImplClass(classDataList, env.codeGenerator, resolver, ktorfitOptions, ktorfitLib)
+        generateImplClass(classDataList, env.codeGenerator, resolver, ktorfitOptions, ktorfitOptions.ktorfitLib)
 
         return emptyList()
     }

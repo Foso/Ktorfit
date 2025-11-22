@@ -1,6 +1,7 @@
 package com.example.api
 
 import com.example.api.Query.NotWorking
+import de.jensklingenberg.ktorfit.core.TypeConverters
 import de.jensklingenberg.ktorfit.http.*
 import de.jensklingenberg.ktorfit.http.Headers
 import io.ktor.client.request.forms.*
@@ -93,5 +94,5 @@ class KtorfitTest {
 
 interface ITest {
     @GET("test")
-    fun test(): KtorfitTest.TestData
+    suspend fun test(): KtorfitTest.TestData
 }

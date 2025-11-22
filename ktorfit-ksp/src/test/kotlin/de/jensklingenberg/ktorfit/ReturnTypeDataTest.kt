@@ -22,6 +22,7 @@ import de.jensklingenberg.ktorfit.core.TypeConverters
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
+import io.ktor.client.statement.HttpResponse
 
 @TypeConverters(MyConv::class)
 interface TestService {
@@ -37,7 +38,7 @@ class MyConv {
         return httpResponse.body<User>()
     }
 
-    fun <T: Flow> toUser(getResponse: suspend () -> HttpResponse): T {
+    fun  toUser(getResponse: suspend () -> HttpResponse, typeInfo: io.ktor.util.reflect.TypeInfo): Flow<User> {
         return flow {
             val response = getResponse()
             val user = toUser2(response)
@@ -58,7 +59,26 @@ class MyConv {
         setBody(id) 
         }"""
 
-        val compilation = getCompilation(listOf(source))
+
+
+        val source2 =
+            SourceFile.kotlin(
+                "Ktorfit.kt",
+                """
+                    package io.ktor.client.statement
+
+                    class HttpResponse""")
+
+
+        val source3 =           SourceFile.kotlin(
+                "User.kt",
+                """
+                    package io.ktor.util.reflect
+
+                    class TypeInfo""")
+
+
+        val compilation = getCompilation(listOf(source2,source,source3))
         val result = compilation.compile()
 
         val generatedSourcesDir = compilation.kspSourcesDir

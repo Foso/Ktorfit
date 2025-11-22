@@ -1,12 +1,16 @@
 package de.jensklingenberg.androidonlyexample
 
-import de.jensklingenberg.ktorfit.Call
-import de.jensklingenberg.ktorfit.Response
+import de.jensklingenberg.ktorfit.core.TypeConverters
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
+import de.jensklingenberg.ktorfit.http.Tag
+import io.ktor.client.call.body
+import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
+@TypeConverters(MyConverter::class)
 interface StarWarsApi {
 
     companion object {
@@ -16,13 +20,18 @@ interface StarWarsApi {
     @GET("people/{id}/")
     suspend fun getPerson(@Path("id") personId: Int): Person
 
-    @GET("people")
-    fun getPeopleFlow(@Query("page") page: Int): Flow<Person>
-
     @GET("people/{id}/")
-    fun getPersonCall(@Path("id") personId: Int): Call<Person>
+    //@Deprecated("Just for testing")
+    fun getPeopleFlow(@Path("id") page: Int, @Tag("myTag") test : Int = 3): Flow<Person>
+}
 
-    @GET("people/{id}/")
-    suspend fun getPersonResponse(@Path("id") personId: Int): Response<Person>
+class MyConverter{
 
+    fun convert( getResponse: suspend () -> HttpResponse): Flow<Person>{
+        return flow {
+            val response = getResponse()
+            val person= response.body<Person>()
+            emit(person)
+        }
+    }
 }

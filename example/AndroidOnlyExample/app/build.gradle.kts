@@ -57,14 +57,23 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 val ktorfitVersion = "2.6.4"
 val ktor = "3.1.2"
 val compose_ui_version = "1.7.8"
+val coroutines = "1.9.0"
 dependencies {
-    implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
-    implementation("io.ktor:ktor-client-serialization:$ktor")
+    implementation("de.jensklingenberg.ktorfit:ktorfit-annotations:$ktorfitVersion")
+    // Ktor client core + engine + logging
+    implementation("io.ktor:ktor-client-core:$ktor")
+    implementation("io.ktor:ktor-client-okhttp:$ktor")
+    implementation("io.ktor:ktor-client-logging:$ktor")
+    // Content negotiation + Kotlinx JSON
     implementation("io.ktor:ktor-client-content-negotiation:$ktor")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
-    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfitVersion")
-    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfitVersion")
-    implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfitVersion")
+    // Removed deprecated ktor-client-serialization
+    // Coroutine support
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines")
+    //implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfitVersion")
+    // implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfitVersion")
+    //  implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfitVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.3")
     implementation("androidx.activity:activity-compose:1.10.1")
     implementation("androidx.compose.ui:ui:$compose_ui_version")
@@ -77,4 +86,3 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_ui_version")
 }
-

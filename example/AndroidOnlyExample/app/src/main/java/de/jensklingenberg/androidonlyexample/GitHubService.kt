@@ -9,4 +9,7 @@ interface GitHubService {
         @Path("user") user: String,
         @Path("repo") repo: String,
     ): String
+
+    @GET("users/{user}")
+    suspend fun getUser(@Path("user") user: String): GitHubUser
 }

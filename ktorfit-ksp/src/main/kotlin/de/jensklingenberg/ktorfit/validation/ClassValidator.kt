@@ -39,7 +39,7 @@ object ClassValidator {
         if (!exists) {
             val message = errorMessage
                 ?: "Required class not found: $className. Make sure ktorfit-lib-core is included in your dependencies."
-            logger.error(message)
+            logger.info(message)
         } else {
             logger.info("Validated required class exists: $className")
         }

@@ -21,4 +21,6 @@ class KtorfitOptions(
      * If the compilation is multiplatform and has only one target, this will be true
      */
     val multiplatformWithSingleTarget = options["Ktorfit_MultiplatformWithSingleTarget"]?.toBoolean() ?: false
+
+    val ktorfitLib = options["Ktorfit_Lib"]?.toBoolean() ?: false
 }

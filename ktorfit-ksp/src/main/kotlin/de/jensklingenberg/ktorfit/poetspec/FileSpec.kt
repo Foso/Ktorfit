@@ -37,7 +37,7 @@ fun createFileSpec(
         .addImports(classData.imports)
         .addType(implClassSpec)
     if (ktorfitLib) {
-        //fileSpec.addType(providerClass)
+        fileSpec.addType(providerClass)
     }
 
     if (ktorfitLib) {
@@ -58,7 +58,7 @@ private fun createProviderClassSpec(classData: ClassData) =
                 .builder("create")
                 .addModifiers(KModifier.OVERRIDE)
                 .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
-                .addStatement("return ${classData.implName}(${ktorfitClass.objectName},${ktorfitClass.objectName}.baseUrl,${ktorfitClass.objectName}.httpClient)")
+                .addStatement("return ${classData.implName}(${ktorfitClass.objectName}.baseUrl,${ktorfitClass.objectName}.httpClient,${ktorfitClass.objectName})")
                 .returns(ClassName(classData.packageName, classData.name))
                 .build(),
         ).build()
@@ -70,7 +70,7 @@ private fun getCreateExtensionFunctionSpec(classData: ClassData): FunSpec =
     FunSpec
         .builder("create${classData.name}")
         .addModifiers(classData.modifiers)
-        .addStatement("return ${classData.implName}(this,this.baseUrl, this.httpClient)")
+        .addStatement("return ${classData.implName}(this.baseUrl, this.httpClient, this)")
         .receiver(ktorfitClass.toClassName())
         .returns(ClassName(classData.packageName, classData.name))
         .build()
