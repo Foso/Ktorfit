@@ -80,8 +80,7 @@ private fun getCreateFunctionSpec(classData: ClassData, ktorfitLib: Boolean): Fu
         .addParameter("httpClient", httpClient.toClassName())
 
     if (ktorfitLib) {
-        builder.addParameter("ktorfit", ktorfitClass.toClassName())
-        builder.addStatement("return ${classData.implName}(baseUrl,httpClient,ktorfit)")
+        builder.addStatement("return ${classData.implName}(baseUrl,httpClient,Ktorfit.Builder().baseUrl(baseUrl).httpClient(httpClient).build())")
     } else {
         builder.addStatement("return ${classData.implName}(baseUrl,httpClient)")
     }

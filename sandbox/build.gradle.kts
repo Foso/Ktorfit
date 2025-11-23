@@ -27,10 +27,36 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 kotlin {
+    jvm {
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions.jvmTarget = JvmTarget.JVM_1_8
+            }
+        }
+    }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+    js(IR) {
+        this.nodejs()
+        binaries.executable() // not applicable to BOTH, see details below
+    }
+    linuxX64 {
+        binaries {
+            executable()
+        }
+    }
+    linuxArm64 {
+        binaries {
+            executable()
+        }
+    }
 
+    // macosX64()
+    mingwX64()
     applyDefaultHierarchyTemplate()
     androidTarget()
-    jvm()
+
     sourceSets {
         commonMain {
             dependencies {
@@ -89,7 +115,7 @@ kotlin {
             }
         }
         androidMain {
-           // kotlin.srcDir("build/generated/ksp/android")
+            // kotlin.srcDir("build/generated/ksp/android")
         }
     }
 }
