@@ -29,6 +29,7 @@ import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.FieldMap
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Header
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.HeaderMap
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Path
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestBuilder
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestType
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Tag
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Url
@@ -187,7 +188,13 @@ fun KSFunctionDeclaration.toFunctionData(
         )
     }
 
-    RequestBuilderValidator(functionParameters, httpMethodAnnoList, functionName).validateFunctionData(this, logger)
+    if (functionParameters.filter { it.hasAnnotation<RequestBuilder>() }.size > 1) {
+        logger.error(
+            KtorfitError.ONLY_ONE_REQUEST_BUILDER_IS_ALLOWED + " Found: " + httpMethodAnnoList.joinToString { it.toString() } + " at " +
+                functionName,
+            funcDeclaration,
+        )
+    }
 
     when (firstHttpMethodAnnotation.httpMethod) {
         HttpMethod.POST, HttpMethod.PUT, HttpMethod.PATCH -> {}
