@@ -6,6 +6,7 @@ plugins {
     id("kotlinx-serialization")
     id("app.cash.licensee")
     id("de.jensklingenberg.ktorfit")
+    id("com.android.application")
 }
 version = "1.0-SNAPSHOT"
 
@@ -26,34 +27,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 kotlin {
-    jvm {
-        compilations.all {
-            compileTaskProvider.configure {
-                compilerOptions.jvmTarget = JvmTarget.JVM_1_8
-            }
-        }
-    }
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-    js(IR) {
-        this.nodejs()
-        binaries.executable() // not applicable to BOTH, see details below
-    }
-    linuxX64 {
-        binaries {
-            executable()
-        }
-    }
-    linuxArm64 {
-        binaries {
-            executable()
-        }
-    }
 
-    // macosX64()
-    mingwX64()
     applyDefaultHierarchyTemplate()
+    androidTarget()
+    jvm()
     sourceSets {
         commonMain {
             dependencies {
@@ -111,6 +88,23 @@ kotlin {
                 implementation(libs.ktor.client.js)
             }
         }
+        androidMain {
+           // kotlin.srcDir("build/generated/ksp/android")
+        }
+    }
+}
+
+android {
+    compileSdk = 34
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    defaultConfig {
+        minSdk = 21
+        targetSdk = 34
+        namespace = "com.example.ktorfittest"
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 

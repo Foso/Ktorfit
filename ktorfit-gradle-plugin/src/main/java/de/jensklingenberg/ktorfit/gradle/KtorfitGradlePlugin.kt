@@ -71,8 +71,8 @@ class KtorfitGradlePlugin : Plugin<Project> {
                      */
                     val singleTarget =
                         project.kotlinExtension.targets
-                            .toList()
-                            .size == 2
+                            .toList().filter { it.name != "metadata" }
+                            .size == 1
 
                     if (kotlinExtension is KotlinMultiplatformExtension) {
                         if (singleTarget) {
@@ -86,11 +86,15 @@ class KtorfitGradlePlugin : Plugin<Project> {
                                 } ?: project.findProperty("ksp.useKSP2")?.toString()?.toBoolean() ?: false
 
                             if (useKsp2) {
-                                tasks.named { name -> name.startsWith("ksp") }.configureEach {
-                                    if (name != "kspCommonMainKotlinMetadata") {
-                                        dependsOn("kspCommonMainKotlinMetadata")
+
+                                    tasks.named { name -> name.startsWith("ksp") }.configureEach {
+                                        print("============================="+name)
+                                        if (name != "kspCommonMainKotlinMetadata") {
+                                            dependsOn("kspCommonMainKotlinMetadata")
+                                        }
                                     }
-                                }
+
+
                             } else {
                                 tasks.withType(KotlinCompilationTask::class.java).configureEach {
                                     if (name != "kspCommonMainKotlinMetadata") {

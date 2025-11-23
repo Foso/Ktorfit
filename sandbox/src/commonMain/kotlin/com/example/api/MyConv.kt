@@ -61,7 +61,7 @@ class MyConv {
         }
     }
 
-    suspend inline fun toResponse(httpResponse: HttpResponse): MyOwnResponse<User> {
+    suspend inline fun <T> toResponse(httpResponse: HttpResponse): MyOwnResponse<User> {
         val user = httpResponse.body<Envelope>()
         return MyOwnResponse.success(user.user)
     }

@@ -131,9 +131,6 @@ public abstract interface class de/jensklingenberg/ktorfit/internal/ClassProvide
 	public abstract fun create (Lde/jensklingenberg/ktorfit/Ktorfit;)Ljava/lang/Object;
 }
 
-public abstract interface annotation class de/jensklingenberg/ktorfit/internal/InternalKtorfitApi : java/lang/annotation/Annotation {
-}
-
 public final class de/jensklingenberg/ktorfit/internal/KtorfitConverterHelper {
 	public fun <init> (Lde/jensklingenberg/ktorfit/Ktorfit;)V
 	public final fun convertParameterType (Ljava/lang/Object;Lkotlin/reflect/KClass;Lkotlin/reflect/KClass;)Ljava/lang/Object;

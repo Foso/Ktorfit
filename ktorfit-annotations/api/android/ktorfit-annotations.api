@@ -1,6 +1,10 @@
 public abstract interface annotation class de/jensklingenberg/ktorfit/core/NoDelegation : java/lang/annotation/Annotation {
 }
 
+public abstract interface annotation class de/jensklingenberg/ktorfit/core/TypeConverters : java/lang/annotation/Annotation {
+	public abstract fun value ()[Ljava/lang/Class;
+}
+
 public abstract interface annotation class de/jensklingenberg/ktorfit/http/Body : java/lang/annotation/Annotation {
 }
 
@@ -105,5 +109,8 @@ public abstract interface annotation class de/jensklingenberg/ktorfit/http/Tag :
 }
 
 public abstract interface annotation class de/jensklingenberg/ktorfit/http/Url : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class de/jensklingenberg/ktorfit/internal/InternalKtorfitApi : java/lang/annotation/Annotation {
 }
 

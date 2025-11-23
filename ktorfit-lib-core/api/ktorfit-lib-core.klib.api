@@ -6,10 +6,6 @@
 // - Show declarations: true
 
 // Library unique name: <Ktorfit:ktorfit-lib-core>
-open annotation class de.jensklingenberg.ktorfit.internal/InternalKtorfitApi : kotlin/Annotation { // de.jensklingenberg.ktorfit.internal/InternalKtorfitApi|null[0]
-    constructor <init>() // de.jensklingenberg.ktorfit.internal/InternalKtorfitApi.<init>|<init>(){}[0]
-}
-
 abstract interface <#A: kotlin/Any?, #B: kotlin/Any?> de.jensklingenberg.ktorfit.converter/Converter { // de.jensklingenberg.ktorfit.converter/Converter|null[0]
     open fun getUpperBoundType(kotlin/Int, de.jensklingenberg.ktorfit.converter/TypeData): de.jensklingenberg.ktorfit.converter/TypeData? // de.jensklingenberg.ktorfit.converter/Converter.getUpperBoundType|getUpperBoundType(kotlin.Int;de.jensklingenberg.ktorfit.converter.TypeData){}[0]
 

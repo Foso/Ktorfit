@@ -10,6 +10,7 @@ public final class de/jensklingenberg/ktorfit/KtorfitLogger : com/google/devtool
 public final class de/jensklingenberg/ktorfit/KtorfitOptions {
 	public fun <init> (Ljava/util/Map;)V
 	public final fun getErrorsLoggingType ()I
+	public final fun getKtorfitLib ()Z
 	public final fun getMultiplatformWithSingleTarget ()Z
 	public final fun getSetQualifiedType ()Z
 }
@@ -34,7 +35,7 @@ public final class de/jensklingenberg/ktorfit/KtorfitProcessorProvider : com/goo
 }
 
 public final class de/jensklingenberg/ktorfit/generator/ClassGeneratorKt {
-	public static final fun generateImplClass (Ljava/util/List;Lcom/google/devtools/ksp/processing/CodeGenerator;Lcom/google/devtools/ksp/processing/Resolver;Lde/jensklingenberg/ktorfit/KtorfitOptions;)V
+	public static final fun generateImplClass (Ljava/util/List;Lcom/google/devtools/ksp/processing/CodeGenerator;Lcom/google/devtools/ksp/processing/Resolver;Lde/jensklingenberg/ktorfit/KtorfitOptions;Z)V
 }
 
 public final class de/jensklingenberg/ktorfit/model/ClassData {
@@ -68,13 +69,16 @@ public final class de/jensklingenberg/ktorfit/model/ClassData {
 }
 
 public final class de/jensklingenberg/ktorfit/model/ClassDataKt {
-	public static final fun toClassData (Lcom/google/devtools/ksp/symbol/KSClassDeclaration;Lcom/google/devtools/ksp/processing/KSPLogger;)Lde/jensklingenberg/ktorfit/model/ClassData;
+	public static final fun getConverters (Lde/jensklingenberg/ktorfit/model/ClassData;)Ljava/util/List;
+	public static final fun getConverters (Ljava/util/List;)Ljava/util/List;
+	public static final fun toClassData (Lcom/google/devtools/ksp/symbol/KSClassDeclaration;Lcom/google/devtools/ksp/processing/KSPLogger;Z)Lde/jensklingenberg/ktorfit/model/ClassData;
 }
 
 public final class de/jensklingenberg/ktorfit/model/FunctionData {
-	public fun <init> (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;ZLjava/util/List;Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/util/List;Ljava/util/List;Ljava/util/List;)V
-	public synthetic fun <init> (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;ZLjava/util/List;Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;ZLjava/util/List;Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;)V
+	public synthetic fun <init> (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;ZLjava/util/List;Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
+	public final fun component10 ()Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;
 	public final fun component2 ()Lde/jensklingenberg/ktorfit/model/ReturnTypeData;
 	public final fun component3 ()Z
 	public final fun component4 ()Ljava/util/List;
@@ -83,11 +87,12 @@ public final class de/jensklingenberg/ktorfit/model/FunctionData {
 	public final fun component7 ()Ljava/util/List;
 	public final fun component8 ()Ljava/util/List;
 	public final fun component9 ()Ljava/util/List;
-	public final fun copy (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;ZLjava/util/List;Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/util/List;Ljava/util/List;Ljava/util/List;)Lde/jensklingenberg/ktorfit/model/FunctionData;
-	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/FunctionData;Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;ZLjava/util/List;Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/FunctionData;
+	public final fun copy (Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;ZLjava/util/List;Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;)Lde/jensklingenberg/ktorfit/model/FunctionData;
+	public static synthetic fun copy$default (Lde/jensklingenberg/ktorfit/model/FunctionData;Ljava/lang/String;Lde/jensklingenberg/ktorfit/model/ReturnTypeData;ZLjava/util/List;Ljava/util/List;Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;ILjava/lang/Object;)Lde/jensklingenberg/ktorfit/model/FunctionData;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAnnotations ()Ljava/util/List;
 	public final fun getHttpMethodAnnotation ()Lde/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation;
+	public final fun getMatchingConverterFunctions ()Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;
 	public final fun getModifiers ()Ljava/util/List;
 	public final fun getName ()Ljava/lang/String;
 	public final fun getNonKtorfitAnnotations ()Ljava/util/List;
@@ -100,7 +105,7 @@ public final class de/jensklingenberg/ktorfit/model/FunctionData {
 }
 
 public final class de/jensklingenberg/ktorfit/model/FunctionDataKt {
-	public static final fun toFunctionData (Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;Lcom/google/devtools/ksp/processing/KSPLogger;Lkotlin/jvm/functions/Function1;)Lde/jensklingenberg/ktorfit/model/FunctionData;
+	public static final fun toFunctionData (Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;Lcom/google/devtools/ksp/processing/KSPLogger;Lkotlin/jvm/functions/Function1;Z)Lde/jensklingenberg/ktorfit/model/FunctionData;
 }
 
 public final class de/jensklingenberg/ktorfit/model/KtorfitClass {
@@ -120,14 +125,17 @@ public final class de/jensklingenberg/ktorfit/model/KtorfitClass {
 
 public final class de/jensklingenberg/ktorfit/model/KtorfitClassKt {
 	public static final fun getAnnotationsAttributeKey ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public static final fun getBaseUrl ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
 	public static final fun getConverterHelper ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
 	public static final fun getExtDataClass ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
 	public static final fun getFormData ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
 	public static final fun getFormParameters ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public static final fun getHttpClient ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
 	public static final fun getInternalApi ()Lcom/squareup/kotlinpoet/ClassName;
 	public static final fun getKtorfitClass ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
 	public static final fun getProviderClass ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
 	public static final fun getTypeDataClass ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
+	public static final fun getTypeInfoClass ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
 	public static final fun toClassName (Lde/jensklingenberg/ktorfit/model/KtorfitClass;)Lcom/squareup/kotlinpoet/ClassName;
 }
 
@@ -151,6 +159,14 @@ public final class de/jensklingenberg/ktorfit/model/ParameterDataKt {
 	public static final fun createParameterData (Lcom/google/devtools/ksp/symbol/KSValueParameter;Lcom/google/devtools/ksp/processing/KSPLogger;)Lde/jensklingenberg/ktorfit/model/ParameterData;
 }
 
+public final class de/jensklingenberg/ktorfit/model/RequestBuilderValidator : de/jensklingenberg/ktorfit/model/Validator {
+	public fun <init> (Ljava/util/List;Ljava/util/List;Ljava/lang/String;)V
+	public final fun getFunctionName ()Ljava/lang/String;
+	public final fun getFunctionParameters ()Ljava/util/List;
+	public final fun getHttpMethodAnnoList ()Ljava/util/List;
+	public fun validateFunctionData (Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;Lcom/google/devtools/ksp/processing/KSPLogger;)V
+}
+
 public final class de/jensklingenberg/ktorfit/model/ReturnTypeData {
 	public fun <init> (Ljava/lang/String;Lcom/google/devtools/ksp/symbol/KSType;Lcom/squareup/kotlinpoet/TypeName;)V
 	public synthetic fun <init> (Ljava/lang/String;Lcom/google/devtools/ksp/symbol/KSType;Lcom/squareup/kotlinpoet/TypeName;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -165,6 +181,10 @@ public final class de/jensklingenberg/ktorfit/model/ReturnTypeData {
 	public final fun getTypeName ()Lcom/squareup/kotlinpoet/TypeName;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class de/jensklingenberg/ktorfit/model/Validator {
+	public abstract fun validateFunctionData (Lcom/google/devtools/ksp/symbol/KSFunctionDeclaration;Lcom/google/devtools/ksp/processing/KSPLogger;)V
 }
 
 public final class de/jensklingenberg/ktorfit/model/annotations/CustomHttp : de/jensklingenberg/ktorfit/model/annotations/HttpMethodAnnotation {
@@ -390,15 +410,19 @@ public final class de/jensklingenberg/ktorfit/model/annotations/Streaming : de/j
 	public static final field INSTANCE Lde/jensklingenberg/ktorfit/model/annotations/Streaming;
 }
 
+public final class de/jensklingenberg/ktorfit/model/annotations/TypeConverter : de/jensklingenberg/ktorfit/model/annotations/FunctionAnnotation {
+	public static final field INSTANCE Lde/jensklingenberg/ktorfit/model/annotations/TypeConverter;
+}
+
 public final class de/jensklingenberg/ktorfit/poetspec/FileSpecKt {
-	public static final fun createFileSpec (Lde/jensklingenberg/ktorfit/model/ClassData;Ljava/lang/String;Lcom/squareup/kotlinpoet/TypeSpec;)Lcom/squareup/kotlinpoet/FileSpec;
+	public static final fun createFileSpec (Lde/jensklingenberg/ktorfit/model/ClassData;Ljava/lang/String;Lcom/squareup/kotlinpoet/TypeSpec;Z)Lcom/squareup/kotlinpoet/FileSpec;
 }
 
 public final class de/jensklingenberg/ktorfit/poetspec/FunctionSpecKt {
-	public static final fun toFunSpec (Lde/jensklingenberg/ktorfit/model/FunctionData;Lcom/google/devtools/ksp/processing/Resolver;Z)Lcom/squareup/kotlinpoet/FunSpec;
+	public static final fun toFunSpec (Lde/jensklingenberg/ktorfit/model/FunctionData;Lcom/google/devtools/ksp/processing/Resolver;ZZ)Lcom/squareup/kotlinpoet/FunSpec;
 }
 
-public final class de/jensklingenberg/ktorfit/poetspec/ImplClassSpec2Kt {
+public final class de/jensklingenberg/ktorfit/poetspec/ImplClassSpecKt {
 	public static final fun getImplClassSpec (Lde/jensklingenberg/ktorfit/model/ClassData;Lcom/google/devtools/ksp/processing/Resolver;Lde/jensklingenberg/ktorfit/KtorfitOptions;)Lcom/squareup/kotlinpoet/TypeSpec;
 }
 
@@ -495,5 +519,13 @@ public final class de/jensklingenberg/ktorfit/utils/UtilsKt {
 	public static final fun resolveTypeName (Lcom/google/devtools/ksp/symbol/KSType;)Ljava/lang/String;
 	public static final fun safeString (Lcom/google/devtools/ksp/symbol/KSName;)Ljava/lang/String;
 	public static final fun surroundIfNotEmpty (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class de/jensklingenberg/ktorfit/validation/ClassValidator {
+	public static final field INSTANCE Lde/jensklingenberg/ktorfit/validation/ClassValidator;
+	public final fun classExists (Lcom/google/devtools/ksp/processing/Resolver;Ljava/lang/String;)Z
+	public final fun validateAllClassesExist (Lcom/google/devtools/ksp/processing/Resolver;Lcom/google/devtools/ksp/processing/KSPLogger;Ljava/util/List;)Z
+	public final fun validateClassExists (Lcom/google/devtools/ksp/processing/Resolver;Lcom/google/devtools/ksp/processing/KSPLogger;Ljava/lang/String;Ljava/lang/String;)Z
+	public static synthetic fun validateClassExists$default (Lde/jensklingenberg/ktorfit/validation/ClassValidator;Lcom/google/devtools/ksp/processing/Resolver;Lcom/google/devtools/ksp/processing/KSPLogger;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Z
 }
 

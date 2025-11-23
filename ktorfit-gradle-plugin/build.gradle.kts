@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.assign
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {

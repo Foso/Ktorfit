@@ -22,7 +22,7 @@ kotlin {
 
 
     androidTarget()
-
+   // jvm()
 
 
     sourceSets {
