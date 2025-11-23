@@ -44,6 +44,11 @@ fun List<KSAnnotation>.getConverters(): List<KSClassDeclaration> {
     // Vararg KClass<*> becomes a List<KSType>
     val ksTypes = anno?.arguments?.firstOrNull { it.name?.asString() == "value" }?.value as? List<KSType>
     val converterClassDecls = ksTypes?.mapNotNull { it.declaration as? KSClassDeclaration }.orEmpty()
+    converterClassDecls.forEach {
+        if(it.origin.name != "KOTLIN"){
+            throw IllegalStateException("Ktorfit only supports Kotlin TypeConverters. Java classes are not supported. Problematic class: ${it.simpleName.asString()}")
+        }
+    }
     return converterClassDecls
 }
 
