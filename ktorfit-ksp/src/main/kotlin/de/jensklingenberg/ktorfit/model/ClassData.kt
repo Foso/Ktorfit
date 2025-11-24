@@ -48,6 +48,9 @@ fun List<KSAnnotation>.getConverters(): List<KSClassDeclaration> {
         if(it.origin.name != "KOTLIN"){
             throw IllegalStateException("Ktorfit only supports Kotlin TypeConverters. Java classes are not supported. Problematic class: ${it.simpleName.asString()}")
         }
+        if(it.typeParameters.isNotEmpty()){
+            throw IllegalStateException("Ktorfit TypeConverters cannot have type parameters. Problematic class: ${it.simpleName.asString()}")
+        }
     }
     return converterClassDecls
 }

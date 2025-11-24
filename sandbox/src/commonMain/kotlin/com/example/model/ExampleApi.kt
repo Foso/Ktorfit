@@ -3,6 +3,7 @@ package com.example.model
 import com.example.api.MyConv
 import de.jensklingenberg.ktorfit.core.TypeConverters
 import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Tag
 import kotlinx.coroutines.flow.Flow
 
 @TypeConverters(MyConv::class)
@@ -18,6 +19,6 @@ interface ExampleApi {
     suspend fun getUs(): User
 
     @GET("example.json")
-    fun getUsFlow(): Flow<User>
+    fun getUsFlow(@Tag hallo: String = "Hallo"): Flow<User>
 
 }

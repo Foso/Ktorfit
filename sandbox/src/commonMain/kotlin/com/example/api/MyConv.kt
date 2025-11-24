@@ -4,13 +4,14 @@ import com.example.model.Envelope
 import com.example.model.MyOwnResponse
 import com.example.model.People
 import com.example.model.User
-import com.example.model.github.GithubFollowerResponseItem
 import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.Callback
-import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.request
+import io.ktor.util.AttributeKey
 import io.ktor.util.reflect.TypeInfo
+import io.ktor.util.reflect.typeInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
@@ -19,27 +20,33 @@ import kotlin.reflect.KClass
 
 class MyConv {
 
-    suspend fun <T> _conv( httpResponse: HttpResponse): User {
-        val env = httpResponse.body<Envelope>()
+    suspend fun <T> _conv(httpResponse: suspend () -> HttpResponse): User {
+        val test = httpResponse()
+        val env = test.body<Envelope>()
         return env.user
     }
 
-    public fun convert(
-        getResponse: suspend () -> HttpResponse,
+    inline fun <reified T> convert(
+        noinline getResponse: suspend () -> HttpResponse,
         typeInfo: TypeInfo,
-        httpClient: HttpClient
     ): Flow<Any> {
         // Implementation here
-        return flow {
 
-            if ((typeInfo.kotlinType?.arguments[0]?.type?.classifier as KClass<*>) == User::class) {
-                val response = getResponse()
+
+        val t = (typeInfo<T>().kotlinType?.arguments?.first()?.type?.classifier as KClass<*>)
+
+        return flow {
+            val response = getResponse()
+            val attr = response.request.attributes[AttributeKey<String>("hallo")]
+            if ((typeInfo.kotlinType?.arguments?.first()?.type?.classifier as KClass<*>) == User::class) {
+
                 val user = response.body<Envelope>().user
                 emit(user)
                 return@flow
             }
-            val response = getResponse()
-
+            val user = response.call.body(TypeInfo(t))
+            emit(user)
+            return@flow
 
         }
     }
@@ -61,8 +68,9 @@ class MyConv {
         }
     }
 
-    suspend inline fun <T> toResponse(httpResponse: HttpResponse): MyOwnResponse<User> {
-        val user = httpResponse.body<Envelope>()
+    suspend inline fun <T> toResponse(httpResponse: suspend () -> HttpResponse): MyOwnResponse<User> {
+        val response = httpResponse()
+        val user = response.body<Envelope>()
         return MyOwnResponse.success(user.user)
     }
 

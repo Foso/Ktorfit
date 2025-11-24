@@ -113,13 +113,14 @@ interface JsonPlaceHolderApi {
 }
 
 class MyCallConverter() {
-    inline fun <reified T : Any> convert(noinline getResponse: suspend () -> HttpResponse): Flow<Any> {
+
+    inline fun <reified T > convert(noinline getResponse: suspend () -> HttpResponse): T {
         val t = T::class
         return flow {
             val httpResponse = getResponse()
             val responseBody = httpResponse.body<T>()
             emit(responseBody)
-        }
+        } as T
     }
 
     inline fun <reified T> convert2(noinline getResponse: suspend () -> HttpResponse, typeInfo: TypeInfo): Call<Any> {

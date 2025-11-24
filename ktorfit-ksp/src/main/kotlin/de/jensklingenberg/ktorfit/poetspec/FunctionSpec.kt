@@ -55,6 +55,76 @@ private fun FunSpec.Builder.addBody(
     listType: KSType,
     arrayType: KSType
 ) = apply {
+    val matchingConverterFunctions = functionData.matchingConverterFunction
+    val convFunction = matchingConverterFunctions?.simpleName?.asString()
+    val parentName = (matchingConverterFunctions?.parent as? KSClassDeclaration)?.simpleName?.asString()?.replaceFirstChar { it.lowercase() }
+
+    val star = if (functionData.isSuspend) {
+
+        if (matchingConverterFunctions?.returnType?.toTypeName() == functionData.returnType.typeName) {
+
+            val arguments = matchingConverterFunctions?.parameters?.joinToString(prefix = "{") {
+                try {
+                    if (it.type.toTypeName().toString() == "suspend () -> io.ktor.client.statement.HttpResponse") {
+                        "${httpClient.objectName}.request(_ext)}"
+                    } else if (it.type.toTypeName().toString() == "io.ktor.util.reflect.TypeInfo") {
+                        "\ntypeInfo<$returnTypeName>()"
+                    } else if (it.type.toTypeName().toString() == "io.ktor.client.HttpClient") {
+                        "\n${httpClient.objectName}"
+                    } else {
+                        throw IllegalStateException("Unknown parameter type ${it.type.toTypeName()} for function $convFunction Only suspend () -> HttpResponse, TypeInfo and HttpClient are supported")
+                    }
+                } catch (ex: Exception) {
+                    throw IllegalStateException("Unknown parameter type ${it.type.toTypeName()} for function $convFunction Only suspend () -> HttpResponse, TypeInfo and HttpClient are supported")
+                }
+            }
+
+            val typeArguments = if (matchingConverterFunctions!!.typeParameters.isNotEmpty()) {
+                "<${matchingConverterFunctions.typeParameters.joinToString(",") { functionData.returnType.name }}>"
+            } else {
+                ""
+            }
+
+            "return $parentName.$convFunction$typeArguments($arguments)"
+
+        } else {
+            if (ktorfitLib) {
+                ""
+            } else {
+                "return ${httpClient.objectName}.request(_ext).body() as $returnTypeName"
+            }
+        }
+
+    } else {
+
+        if (convFunction != null && parentName != null) {
+
+            val arguments = matchingConverterFunctions.parameters.joinToString(prefix = "{") {
+                try {
+                    if (it.type.toTypeName().toString() == "suspend () -> io.ktor.client.statement.HttpResponse") {
+                        "${httpClient.objectName}.request(_ext)}"
+                    } else if (it.type.toTypeName().toString() == "io.ktor.util.reflect.TypeInfo") {
+                        "\ntypeInfo<$returnTypeName>()"
+                    } else if (it.type.toTypeName().toString() == "io.ktor.client.HttpClient") {
+                        "\n${httpClient.objectName}"
+                    } else {
+                        throw IllegalStateException("Unknown parameter type ${it.type.toTypeName()} for function $convFunction Only suspend () -> HttpResponse, TypeInfo and HttpClient are supported")
+                    }
+                } catch (ex: Exception) {
+                    throw IllegalStateException("Unknown parameter type ${it.type.toTypeName()} for function $convFunction Only suspend () -> HttpResponse, TypeInfo and HttpClient are supported")
+                }
+            }
+
+            val typeArguments = if (matchingConverterFunctions.typeParameters.isNotEmpty()) {
+                matchingConverterFunctions.typeParameters.joinToString(prefix = "<", separator = ",", postfix = ">") { functionData.returnType.name }
+            } else {
+                ""
+            }
+            "return $parentName.$convFunction$typeArguments($arguments) as $returnTypeName"
+        } else {
+            ""
+        }
+    }
 
     val builder = addRequestConverterText(functionData.parameterDataList)
     builder.addStatement(
@@ -69,63 +139,7 @@ private fun FunSpec.Builder.addBody(
             .addStatement("%T = typeInfo<%T>())", typeInfoClass.toClassName(), returnTypeName)
     }
     builder.addStatement(
-
-        if (functionData.isSuspend) {
-            val matchingConverterFunctions = functionData.matchingConverterFunctions
-
-            val convFunction = matchingConverterFunctions?.simpleName?.asString()
-            val parentName = (matchingConverterFunctions?.parent as? KSClassDeclaration)?.simpleName?.asString()?.replaceFirstChar { it.lowercase() }
-            if (matchingConverterFunctions?.returnType?.toTypeName() == functionData.returnType.typeName) {
-                val ee = if (matchingConverterFunctions!!.typeParameters.isNotEmpty()) {
-                    "<${matchingConverterFunctions.typeParameters.joinToString(",") { functionData.returnType.name }}>"
-                } else {
-                    ""
-                }
-                "val _response = ${httpClient.objectName}.request(_ext) \n" +
-                        "return $parentName.$convFunction$ee(_response)"
-
-            } else {
-                if (ktorfitLib) {
-                    ""
-                } else {
-                    "return ${httpClient.objectName}.request(_ext).body()"
-                }
-            }
-
-
-        } else {
-            val matchingConverterFunctions = functionData.matchingConverterFunctions
-
-            val convFunction = matchingConverterFunctions?.simpleName?.asString()
-            val parentName = (matchingConverterFunctions?.parent as? KSClassDeclaration)?.simpleName?.asString()?.replaceFirstChar { it.lowercase() }
-            if (convFunction != null && parentName != null) {
-
-                val str = matchingConverterFunctions.parameters.joinToString {
-                    try {
-                        if (it.type.toTypeName().toString() == "suspend () -> io.ktor.client.statement.HttpResponse") {
-                            "${httpClient.objectName}.request(_ext)}"
-                        } else if (it.type.toTypeName().toString() == "io.ktor.util.reflect.TypeInfo") {
-                            "\ntypeInfo<$returnTypeName>()"
-                        } else if (it.type.toTypeName().toString() == "io.ktor.client.HttpClient") {
-                            "\n${httpClient.objectName}"
-                        } else {
-                            throw IllegalStateException("Unknown parameter type ${it.type.toTypeName()} for function $convFunction Only suspend () -> HttpResponse, TypeInfo and HttpClient are supported")
-                        }
-                    } catch (ex: Exception) {
-                        ""
-                    }
-                }
-
-                val typeArguments = if (matchingConverterFunctions.typeParameters.isNotEmpty()) {
-                    matchingConverterFunctions.typeParameters.joinToString(prefix = "<", separator = ",", postfix = ">") { functionData.returnType.name }
-                } else {
-                    ""
-                }
-                "return $parentName.$convFunction$typeArguments({$str) as $returnTypeName"
-            } else {
-                ""
-            }
-        }
+        star
     )
 
     if (ktorfitLib) {

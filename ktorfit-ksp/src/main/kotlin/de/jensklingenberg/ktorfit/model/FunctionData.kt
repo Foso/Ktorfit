@@ -4,6 +4,7 @@ import com.google.devtools.ksp.getDeclaredFunctions
 import com.google.devtools.ksp.isPrivate
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.google.devtools.ksp.symbol.KSTypeParameter
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.asClassName
@@ -59,7 +60,7 @@ data class FunctionData(
     val modifiers: List<KModifier> = emptyList(),
     val optInAnnotations: List<AnnotationSpec>,
     val nonKtorfitAnnotations: List<AnnotationSpec>,
-    val matchingConverterFunctions: KSFunctionDeclaration?
+    val matchingConverterFunction: KSFunctionDeclaration?
 )
 
 /**
@@ -336,7 +337,10 @@ fun KSFunctionDeclaration.toFunctionData(
     val nonPrivateConverterFunctions = convertersClasses
         .map { it.getDeclaredFunctions().toList() }
         .flatten()
-        .filter { !it.isPrivate() && it.returnType!!.resolve().isAssignableFrom(returnType.parameterType) }
+        .filter {
+            !it.isPrivate() &&
+                    (it.returnType?.resolve()?.isAssignableFrom(returnType.parameterType) == true || it.hasGenericReturnType() )
+        }
 
     val conv = if (isSuspend) {
 
@@ -385,3 +389,12 @@ private val functionalKtorfitAnnotation =
         KtorfitHeaders::class, KtorfitFormUrlEncoded::class, KtorfitMultipart::class, KtorfitStreaming::class,
     )
         .map { it.asClassName() }
+
+
+fun KSFunctionDeclaration.hasGenericReturnType(): Boolean {
+    val rt = returnType ?: return false
+    // Case: returns a type parameter directly (e.g. T)
+    return rt.resolve().declaration is KSTypeParameter
+    // Case: returns a parameterized type (e.g. List<String>, Foo<T>, Bar<*>)
+    //return rt.element?.typeArguments?.isNotEmpty() == true
+}

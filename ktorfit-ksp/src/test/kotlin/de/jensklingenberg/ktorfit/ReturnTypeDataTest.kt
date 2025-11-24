@@ -23,6 +23,7 @@ import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import kotlinx.coroutines.flow.Flow
 import io.ktor.client.statement.HttpResponse
+import io.ktor.util.reflect.TypeInfo
 
 @TypeConverters(MyConv::class)
 interface TestService {
@@ -38,7 +39,7 @@ class MyConv {
         return httpResponse.body<User>()
     }
 
-    fun  toUser(getResponse: suspend () -> HttpResponse, typeInfo: io.ktor.util.reflect.TypeInfo): Flow<User> {
+    fun <T> toUser(getResponse: suspend () -> HttpResponse, test: String): T {
         return flow {
             val response = getResponse()
             val user = toUser2(response)
