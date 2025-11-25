@@ -2,11 +2,26 @@ package de.jensklingenberg.ktorfit.utils
 
 import com.google.devtools.ksp.symbol.KSName
 import com.google.devtools.ksp.symbol.KSType
+import com.google.devtools.ksp.symbol.KSTypeAlias
 import com.squareup.kotlinpoet.FileSpec
 
+/**
+ * Recursively resolves typealias to its actual underlying type.
+ * For example: typealias StringMap = Map<String, String> -> Map<String, String>
+ */
+fun KSType.resolveTypeAlias(): KSType {
+    var currentType = this
+    while (currentType.declaration is KSTypeAlias) {
+        currentType = (currentType.declaration as KSTypeAlias).type.resolve()
+    }
+    return currentType
+}
+
 fun KSType?.resolveTypeName(): String {
-    // TODO: Find better way to handle type alias Types
-    return this.toString().removePrefix("[typealias ").removeSuffix("]")
+    if (this == null) return ""
+
+    // Resolve typealias to actual type and return its string representation
+    return this.resolveTypeAlias().toString()
 }
 
 fun String.prefixIfNotEmpty(s: String): String = (s + this).takeIf { this.isNotEmpty() } ?: this
