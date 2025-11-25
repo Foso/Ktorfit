@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.demo
 
 import com.example.UserFactory
 import com.example.api.JsonPlaceHolderApi
+import com.example.api.KtorSamplesApi
 import com.example.model.ExampleApi
 import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverterFactory
@@ -13,17 +14,27 @@ import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
+import io.ktor.client.request.forms.formData
 import io.ktor.client.statement.*
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
+import java.io.File
+import kotlin.io.readBytes
 
 val jvmClient =
     HttpClient {
 
         install(Logging) {
-            // level = LogLevel.ALL
+             level = LogLevel.ALL
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        println("Ktor Client: $message")
+                    }
+                }
         }
 
         install(ContentNegotiation) {
@@ -47,7 +58,7 @@ val jvmKtorfit =
 
 val userKtorfit =
     ktorfit {
-        baseUrl("https://foso.github.io/Ktorfit/")
+        baseUrl(KtorSamplesApi.baseUrl)
         httpClient(jvmClient)
 
         converterFactories(
@@ -58,21 +69,21 @@ val userKtorfit =
         )
     }
 
-val api: ExampleApi = userKtorfit.create<ExampleApi>()
+val api: KtorSamplesApi = userKtorfit.create<KtorSamplesApi>()
 
 fun main() {
     runBlocking {
-        val user = api.getUserResponse()
+        val user = api.uploadFile("test", formData {
 
-        when (user) {
-            is MyOwnResponse.Success -> {
-                System.out.println(user.data)
-            }
+            append("description", "Ktor logo")
+            append("image", File("/Users/jens.klingenberg/Code/2025/Ktorfit/ktor_logo.png").readBytes(), Headers.build {
+                append(HttpHeaders.ContentType, "image/png")
+                append(HttpHeaders.ContentDisposition, "filename=\"ktor_logo.png\"")
+            })
 
-            is MyOwnResponse.Error<*> -> {
-                System.out.println(user.ex)
-            }
-        }
+        }, mapOf())
+
+
         delay(3000)
     }
 }

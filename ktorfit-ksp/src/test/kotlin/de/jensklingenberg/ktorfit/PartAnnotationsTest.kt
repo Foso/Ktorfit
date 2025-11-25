@@ -129,7 +129,7 @@ import de.jensklingenberg.ktorfit.http.Part
 interface TestService {
    
     @POST("posts")
-    suspend fun test(@Part("name") testPart: List<String>)
+    suspend fun test(@Part("name") testPart: List<PartData>)
 }
     """,
             )

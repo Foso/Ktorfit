@@ -12,6 +12,30 @@ fun getPartsCode(
     listType: KSType,
     arrayType: KSType,
 ): String {
+    val partTextList =
+        params.filter { it.hasAnnotation<Part>() }.joinToString("") { parameterData ->
+            val part =
+                parameterData.annotations
+                    .filterIsInstance<Part>()
+                    .firstOrNull() ?: throw IllegalStateException("Part annotation not found")
+            val name = parameterData.name
+            val partValue = part.value
+
+            val starProj = parameterData.type.parameterType?.starProjection()
+            val isList = starProj?.isAssignableFrom(listType) ?: false
+            val isArray = starProj?.isAssignableFrom(arrayType) ?: false
+
+            when {
+                isList || isArray -> {
+                    name
+                }
+
+                else -> {
+                    ""
+                }
+            }
+        }
+
     val partText =
         params.filter { it.hasAnnotation<Part>() }.joinToString("") { parameterData ->
             val part =
@@ -27,7 +51,7 @@ fun getPartsCode(
 
             when {
                 isList || isArray -> {
-                    "$name?.filterNotNull()?.forEach { append(\"$partValue\", \"\${it}\") }\n"
+                    ""
                 }
 
                 else -> {
@@ -41,8 +65,17 @@ fun getPartsCode(
             "${parameterData.name}?.forEach { entry -> entry.value?.let{ append(entry.key, \"\${entry.value}\") } }\n"
         }
 
-    return (partText + partMapStrings).surroundIfNotEmpty(
+    val code = (partText + partMapStrings).surroundIfNotEmpty(
         "val ${formData.objectName} = formData {\n",
-        "}\nsetBody(MultiPartFormDataContent(${formData.objectName}))\n",
+        "}",
     )
+
+    return if(code.isNotEmpty()){
+        code + " + ${partTextList}\n  setBody(MultiPartFormDataContent(${formData.objectName}))\n"
+    }else if (partTextList.isNotEmpty()){
+        "setBody(MultiPartFormDataContent(${partTextList}))\n"
+    }else{
+        ""
+    }
+
 }
