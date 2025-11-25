@@ -20,6 +20,28 @@ env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx8g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
   
 jobs:
+  set-milestone:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set milestone
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const milestoneName = "Next"; // replace with your milestone
+            const milestones = await github.rest.issues.listMilestones({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open"
+            });
+            const milestone = milestones.data.find(m => m.title === milestoneName);
+            if (milestone) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                milestone: milestone.number
+              });
+            }
   lint_check:
     name: Lint check
     runs-on: ubuntu-latest
