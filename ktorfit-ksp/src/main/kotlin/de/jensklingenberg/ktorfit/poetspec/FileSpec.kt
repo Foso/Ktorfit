@@ -55,7 +55,7 @@ private fun createProviderClassSpec(classData: ClassData) =
                 .builder("create")
                 .addModifiers(KModifier.OVERRIDE)
                 .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
-                .addStatement("return ${classData.implName}(${ktorfitClass.objectName}.baseUrl,${ktorfitClass.objectName}.httpClient,${ktorfitClass.objectName})")
+                .addStatement("return ${classData.implName}(${ktorfitClass.objectName}.baseUrl,${ktorfitClass.objectName}.httpClient,KtorfitConverterHelper(${ktorfitClass.objectName}))")
                 .returns(ClassName(classData.packageName, classData.name))
                 .build(),
         ).build()
@@ -67,7 +67,7 @@ private fun getCreateExtensionFunctionSpec(classData: ClassData): FunSpec =
     FunSpec
         .builder("create${classData.name}")
         .addModifiers(classData.modifiers)
-        .addStatement("return ${classData.implName}(this.baseUrl, this.httpClient, this)")
+        .addStatement("return ${classData.implName}(this.baseUrl, this.httpClient, KtorfitConverterHelper(this))")
         .receiver(ktorfitClass.toClassName())
         .returns(ClassName(classData.packageName, classData.name))
         .build()
@@ -80,7 +80,7 @@ private fun getCreateFunctionSpec(classData: ClassData, ktorfitLib: Boolean): Fu
         .addParameter("httpClient", httpClient.toClassName())
 
     if (ktorfitLib) {
-        builder.addStatement("return ${classData.implName}(baseUrl,httpClient,Ktorfit.Builder().baseUrl(baseUrl).httpClient(httpClient).build())")
+        builder.addStatement("return ${classData.implName}(baseUrl,httpClient,KtorfitConverterHelper(Ktorfit.Builder().baseUrl(baseUrl).httpClient(httpClient).build()))")
     } else {
         builder.addStatement("return ${classData.implName}(baseUrl,httpClient)")
     }

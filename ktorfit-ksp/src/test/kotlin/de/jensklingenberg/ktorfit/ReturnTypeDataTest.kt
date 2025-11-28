@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.Flow
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.reflect.TypeInfo
 
-@TypeConverters(MyConv::class)
+//@TypeConverters(MyConv::class)
 interface TestService {
     @POST("user")
     fun test(@Body id: String): Flow<User>

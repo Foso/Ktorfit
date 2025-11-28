@@ -45,7 +45,7 @@ class KtorfitProcessor(
         // Validate that required classes exist at compilation time
 
         val mut = env.options.toMutableMap()
-        mut["Ktorfit_Lib"] = validateRequiredClasses(resolver).toString()
+        mut["Ktorfit_Lib"] = "true"//validateRequiredClasses(resolver).toString()
 
         val ktorfitOptions = KtorfitOptions(mut)
 

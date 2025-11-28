@@ -63,7 +63,7 @@ private fun createImplClassTypeSpec(
     val helperProperty =
         PropertySpec
             .builder(converterHelper.objectName, converterHelper.toClassName())
-            .initializer("${converterHelper.name}(${ktorfitClass.objectName})")
+            .initializer(converterHelper.objectName)
             .addModifiers(KModifier.PRIVATE)
             .build()
 
@@ -86,8 +86,10 @@ private fun createImplClassTypeSpec(
         .addParameter(baseUrl.objectName, String::class)
         .addParameter(httpClient.objectName, httpClient.toClassName())
 
+
     if (ktorfitLib) {
-        constructorBuilder.addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
+        constructorBuilder
+            .addParameter(converterHelper.objectName, converterHelper.toClassName())
     }
 
     val builder = TypeSpec
@@ -109,21 +111,12 @@ private fun createImplClassTypeSpec(
                 .initializer(baseUrl.objectName)
                 .addModifiers(KModifier.PRIVATE)
                 .build(),
-        )
+        ).addProperty(helperProperty)
         .addSuperinterface(ClassName(classData.packageName, classData.name))
         .addKtorfitSuperInterface(classData.superClasses)
         .addProperties(implClassProperties)
 
-    if (ktorfitLib) {
-        builder.addProperty(helperProperty)
-            .addProperty(
-                PropertySpec
-                    .builder(ktorfitClass.objectName, ktorfitClass.toClassName())
-                    .initializer(ktorfitClass.objectName)
-                    .addModifiers(KModifier.PRIVATE)
-                    .build(),
-            )
-    }
+
 
     return builder.addFunctions(funSpecs).build()
 
@@ -195,7 +188,7 @@ private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeR
             this.addSuperinterface(
                 ClassName(superTypePackage, superTypeClassName),
                 CodeBlock.of(
-                    "%L._%LImpl(${baseUrl.objectName},${httpClient.objectName},${ktorfitClass.objectName})",
+                    "%L._%LImpl(${baseUrl.objectName},${httpClient.objectName},${converterHelper.objectName})",
                     superTypePackage,
                     superTypeClassName,
                 )
