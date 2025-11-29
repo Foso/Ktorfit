@@ -24,7 +24,7 @@ ktorfitGradlePlugin = "2.6.4"
 ktorVersion = "3.2.1"
 mockk = "1.14.6"
 mockito-kotlin = "4.1.0"
-gradleMavenPublishPlugin = "0.34.0"
+gradleMavenPublishPlugin = "0.35.0"
 vannikMavenPublish = "0.35.0"
 licensee = "1.13.0"
 
