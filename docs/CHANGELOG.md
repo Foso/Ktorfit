@@ -17,6 +17,12 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 
 ## Fixed
 - Fix Kotlin 2.2.21 compatibility: update IrClass.defaultType usage
+- Cant find generated code in KMP project with only Android target #965
+- Add typealias support to KSP processor #944
+- Fix KSP version extraction logic in the Gradle plugin #931
+
+Thanks to @eygraber, @martinbirn and @ rsicarelli for contributing to this release!
+
 
 # [2.6.4]()
 
