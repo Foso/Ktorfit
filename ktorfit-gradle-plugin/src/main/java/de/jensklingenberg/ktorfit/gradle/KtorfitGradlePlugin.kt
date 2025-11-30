@@ -130,11 +130,10 @@ class KtorfitGradlePlugin : Plugin<Project> {
                                 dependencies.add("ksp${capitalizedTargetName}Test", dependency)
                             }
 
-                            if (this.name == "android")
-                                {
-                                    // Fix android as single target in multiplatform projects
-                                    dependencies.add("ksp", dependency)
-                                }
+                            if (this.name == "android") {
+                                // Fix android as single target in multiplatform projects
+                                dependencies.add("ksp", dependency)
+                            }
                         }
 
                         kotlinExtension.sourceSets
