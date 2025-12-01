@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.kspPlugin)
@@ -20,24 +22,20 @@ licensee {
     allowUrl("https://opensource.org/license/mit")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
-
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 kotlin {
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
+            compileTaskProvider.configure {
+                compilerOptions.jvmTarget = JvmTarget.JVM_1_8
+            }
         }
-        withJava()
     }
     iosX64()
     iosArm64()
+    iosSimulatorArm64()
     js(IR) {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
@@ -57,8 +55,7 @@ kotlin {
     mingwX64()
     applyDefaultHierarchyTemplate()
     sourceSets {
-        val commonMain by getting {
-
+        commonMain {
             dependencies {
                 implementation(projects.ktorfitLibCore)
                 implementation(projects.ktorfitConverters.flow)
@@ -70,7 +67,14 @@ kotlin {
                 implementation(libs.ktor.serialization.kotlinx.json)
             }
         }
-        val linuxX64Main by getting {
+        commonTest {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.kotlin.coroutines.test)
+                implementation(libs.ktor.client.mock)
+            }
+        }
+        linuxX64Main {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.curl)
@@ -79,7 +83,7 @@ kotlin {
             }
         }
 
-        val jvmMain by getting {
+        jvmMain {
             kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
 
             dependencies {
@@ -91,15 +95,14 @@ kotlin {
             }
         }
 
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
-                dependsOn(jvmMain)
                 implementation(libs.ktor.client.mock)
                 implementation(libs.junit)
             }
         }
 
-        val jsMain by getting {
+        jsMain {
             dependencies {
                 implementation(libs.kotlinx.serialization.runtime.js)
                 implementation(libs.ktor.client.serialization)
@@ -107,10 +110,6 @@ kotlin {
                 implementation(libs.ktor.client.js)
             }
         }
-
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosMain by getting
     }
 }
 

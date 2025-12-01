@@ -1,5 +1,5 @@
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -17,23 +17,23 @@ licensee {
     allow("MIT")
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 
 kotlin {
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-    wasmJs()
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-    wasmWasi()
-
-    jvm {
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        nodejs()
+        binaries.executable()
     }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmWasi {
+        nodejs()
+        binaries.executable()
+    }
+
+    jvm {}
     js(IR) {
         this.nodejs()
         binaries.executable() // not applicable to BOTH, see details below
@@ -104,12 +104,18 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 34
     }
     namespace = "de.jensklingenberg.ktorfit.annotations"
 }
 
 val enableSigning = project.hasProperty("signingInMemoryKey")
+
+// Fix task dependencies for signing and publishing
+if (enableSigning) {
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        dependsOn(tasks.withType<Sign>())
+    }
+}
 
 mavenPublishing {
     coordinates(
@@ -118,7 +124,6 @@ mavenPublishing {
         libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
-    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {
         signAllPublications()
     }
@@ -182,7 +187,7 @@ publishing {
     }
 }
 
-rootProject.plugins.withType(NodeJsRootPlugin::class) {
-    rootProject.the(NodeJsRootExtension::class).version =
-        "18.0.0"
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

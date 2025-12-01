@@ -7,10 +7,11 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
+import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import java.util.Locale.US
 import kotlin.reflect.full.declaredMemberProperties
@@ -21,10 +22,10 @@ class KtorfitGradlePlugin : Plugin<Project> {
         const val GROUP_NAME = "de.jensklingenberg.ktorfit"
         const val ARTIFACT_NAME = "compiler-plugin"
         const val COMPILER_PLUGIN_ID = "ktorfitPlugin"
-        const val KTORFIT_KSP_PLUGIN_VERSION = "2.5.1"
-        const val KTORFIT_COMPILER_PLUGIN_VERSION = "2.2.0"
-        const val MIN_KSP_VERSION = "1.0.28"
-        const val MIN_KOTLIN_VERSION = "2.1.0"
+        const val KTORFIT_KSP_PLUGIN_VERSION = "2.6.4"
+        const val KTORFIT_COMPILER_PLUGIN_VERSION = "2.3.1"
+        const val MIN_KSP_VERSION = "2.0.2"
+        const val MIN_KOTLIN_VERSION = "2.2.0"
     }
 
     override fun apply(project: Project) {
@@ -44,6 +45,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
                     kspPlugin.javaClass.protectionDomain.codeSource.location
                         .toURI()
                         .toString()
+                        .removeSuffix("-SNAPSHOT")
                         .substringAfterLast("-")
                         .substringBefore(".jar")
 
@@ -127,6 +129,11 @@ class KtorfitGradlePlugin : Plugin<Project> {
                             if (this.compilations.any { it.name == "test" }) {
                                 dependencies.add("ksp${capitalizedTargetName}Test", dependency)
                             }
+
+                            if (this.name == "android") {
+                                // Fix android as single target in multiplatform projects
+                                dependencies.add("ksp", dependency)
+                            }
                         }
 
                         kotlinExtension.sourceSets
@@ -183,3 +190,11 @@ private fun Project.createKtorfitExtension(name: String = KtorfitGradlePlugin.GR
         type = KtorfitPluginExtension::class,
     ).apply { setupConvention(this@createKtorfitExtension) }
 }
+
+internal val KotlinProjectExtension.targets: Iterable<KotlinTarget>
+    get() =
+        when (this) {
+            is KotlinSingleTargetExtension<*> -> listOf(this.target)
+            is KotlinMultiplatformExtension -> targets
+            else -> error("Unexpected 'kotlin' extension $this")
+        }

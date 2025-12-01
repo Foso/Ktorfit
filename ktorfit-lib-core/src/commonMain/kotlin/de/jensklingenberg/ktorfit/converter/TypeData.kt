@@ -38,6 +38,7 @@ public data class TypeData(
                         if (modelClass == null) {
                             return@mapIndexed null
                         } else {
+                            // Before replacing the deprecated code check issue #887
                             createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType))
                         }
                     }?.filterNotNull()

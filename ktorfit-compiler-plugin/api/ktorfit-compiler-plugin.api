@@ -6,9 +6,13 @@ public final class de/jensklingenberg/ktorfit/CommonCompilerPluginRegistrar : or
 
 public final class de/jensklingenberg/ktorfit/ExampleCommandLineProcessor : org/jetbrains/kotlin/compiler/plugin/CommandLineProcessor {
 	public fun <init> ()V
+	public fun appendList (Lorg/jetbrains/kotlin/config/CompilerConfiguration;Lorg/jetbrains/kotlin/config/CompilerConfigurationKey;Ljava/lang/Object;)V
+	public fun appendList (Lorg/jetbrains/kotlin/config/CompilerConfiguration;Lorg/jetbrains/kotlin/config/CompilerConfigurationKey;Ljava/util/List;)V
+	public fun applyOptionsFrom (Lorg/jetbrains/kotlin/config/CompilerConfiguration;Ljava/util/Map;Ljava/util/Collection;)V
 	public fun getPluginId ()Ljava/lang/String;
 	public fun getPluginOptions ()Ljava/util/Collection;
 	public fun processOption (Lorg/jetbrains/kotlin/compiler/plugin/AbstractCliOption;Ljava/lang/String;Lorg/jetbrains/kotlin/config/CompilerConfiguration;)V
+	public fun processOption (Lorg/jetbrains/kotlin/compiler/plugin/CliOption;Ljava/lang/String;Lorg/jetbrains/kotlin/config/CompilerConfiguration;)V
 }
 
 public final class de/jensklingenberg/ktorfit/ExampleCommandLineProcessorKt {

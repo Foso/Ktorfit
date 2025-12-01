@@ -5,16 +5,77 @@ All important changes of this project must be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project orients towards [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
-But there is no intent to bump the Ktorfit major version for every KSP update. 
+But there is no intent to bump the Ktorfit major version for every KSP update.
 
-Unreleased
+# [2.6.5]()
+
+2.6.5 -
 ========================================
-* Supported KSP version: >=1.0.28
-* Supported Kotlin version: >=2.1.10
-* Ktor version: 3.2.0
+* Supported KSP version: >=2.0.4
+* Supported Kotlin version: >=2.2.21
+* Ktor version: 3.2.1
+
+## Fixed
+- Fix Kotlin 2.2.21 compatibility: update IrClass.defaultType usage
+- Cant find generated code in KMP project with only Android target #965
+- Add typealias support to KSP processor #944
+- Fix KSP version extraction logic in the Gradle plugin #931
+
+Thanks to @eygraber, @martinbirn and @ rsicarelli for contributing to this release!
+
+
+# [2.6.4]()
+
+2.6.4 - 2025-07-29
+========================================
+* Supported KSP version: >=2.0.2
+* Supported Kotlin version: >=2.2.0
+* Ktor version: 3.2.1
+
+# Fixed
+- ClassCastException in compiler plugin
+
+# [2.6.3]()
+
+2.6.3 - 2025-07-27
+========================================
+* Supported KSP version: >=2.0.2
+* Supported Kotlin version: >=2.2.0
+* Ktor version: 3.2.1
+
+# Fixed
+- Can't deserialize List on iOS #887
+- Java 21 requirement after update to 2.6.0 #883
+- Build failed when use parameter with name method #865
+
+Thanks to @Link184 and @king22 for contributing to this release!
+
+# [2.6.2]()
+
+2.6.2 - 2025-07-26
+========================================
+SKIP THIS VERSION
+
+# [2.6.1]()
+
+2.6.1 - 2025-07-04
+========================================
+* Supported KSP version: >=2.0.2
+* Supported Kotlin version: >=2.2.0
+* Ktor version: 3.2.1
 
 ## Changed
-- Update Ktor to 3.2.0
+- Update Ktor to 3.2.1
+- Update Kotlin to 2.2.0
+
+Special thanks to @eygraber for contributing to this release!
+
+# [2.6.0]()
+
+2.6.0 - 2025-07-04
+========================================
+SKIP THIS VERSION, it was released with a wrong Kotlin compiler plugin version.
+
 
 # [2.5.2]()
 

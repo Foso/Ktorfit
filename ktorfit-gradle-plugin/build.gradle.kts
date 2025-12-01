@@ -1,27 +1,13 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("jvm")
     kotlin("kapt")
     id("java-gradle-plugin")
     `kotlin-dsl`
-    id("com.gradle.plugin-publish") version "1.2.1"
+    id("com.gradle.plugin-publish") version "1.3.1"
     id("com.vanniktech.maven.publish")
     id("org.jlleitschuh.gradle.ktlint")
-}
-
-allprojects {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven("https://maven.google.com")
-        maven("https://plugins.gradle.org/m2/")
-        google()
-    }
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
 }
 
 dependencies {
@@ -29,7 +15,7 @@ dependencies {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 
 dependencies {
@@ -53,6 +39,13 @@ gradlePlugin {
 
 val enableSigning = project.hasProperty("signingInMemoryKey")
 
+// Fix task dependencies for signing and publishing
+if (enableSigning) {
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        dependsOn(tasks.withType<Sign>())
+    }
+}
+
 mavenPublishing {
 
     coordinates(
@@ -61,7 +54,6 @@ mavenPublishing {
         libs.versions.ktorfitGradle.get(),
     )
     publishToMavenCentral()
-    // publishToMavenCentral(SonatypeHost.S01) for publishing through s01.oss.sonatype.org
     if (enableSigning) {
         signAllPublications()
     }
@@ -118,4 +110,9 @@ publishing {
             }
         }
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

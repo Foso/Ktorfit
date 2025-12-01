@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.maven
+
 pluginManagement {
 
     repositories {
@@ -24,11 +26,20 @@ pluginManagement {
         }
     }
 }
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
+dependencyResolutionManagement {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        google()
+        maven {
+            url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+        }
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
+    }
 }
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "Ktorfit"
 include(":ktorfit-gradle-plugin")

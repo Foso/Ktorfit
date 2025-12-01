@@ -1,6 +1,5 @@
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("multiplatform")
@@ -12,12 +11,6 @@ plugins {
     alias(libs.plugins.detekt)
     id("app.cash.licensee")
     id("org.jlleitschuh.gradle.ktlint")
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
 }
 
 ktlint {
@@ -34,7 +27,7 @@ ktlint {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 
 licensee {
@@ -45,11 +38,18 @@ licensee {
 
 detekt {
     toolVersion = libs.versions.detekt.get()
-    config = files("../detekt-config.yml")
+    config.from(files("../detekt-config.yml"))
     buildUponDefaultConfig = false
 }
 
 val enableSigning = project.hasProperty("signingInMemoryKey")
+
+// Fix task dependencies for signing and publishing
+if (enableSigning) {
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        dependsOn(tasks.withType<Sign>())
+    }
+}
 
 mavenPublishing {
 
@@ -61,19 +61,21 @@ mavenPublishing {
         libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
-    //  publishToMavenCentral(SonatypeHost.S01) // for publishing through s01.oss.sonatype.org
     if (enableSigning) {
         signAllPublications()
     }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 
 kotlin {
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-    wasmJs()
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        this.nodejs()
+        binaries.executable()
+    }
     explicitApi()
     jvm {
     }
@@ -133,19 +135,19 @@ kotlin {
     applyDefaultHierarchyTemplate()
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(projects.ktorfitAnnotations)
                 api(libs.ktor.client.core)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
             }
         }
 
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
                 kotlin.srcDir("build/generated/ksp/jvm/jvmTest/")
 
@@ -155,15 +157,10 @@ kotlin {
                 implementation(libs.ktor.client.cio.jvm)
             }
         }
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-
-        val iosMain by getting
     }
 }
 
-val javadocJar by tasks.registering(Jar::class) {
+tasks.register<Jar>("javadocJar").configure {
     archiveClassifier.set("javadoc")
 }
 
@@ -172,7 +169,6 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 34
 
         val proguardFile =
             file("src/jvmMain/resources/META-INF/proguard/ktorfit.pro").also {
@@ -250,10 +246,6 @@ ksp {
     arg("Ktorfit_QualifiedTypeName", "true")
 }
 
-rootProject.plugins.withType(NodeJsRootPlugin::class) {
-    rootProject.the(NodeJsRootExtension::class).version = "18.0.0"
-}
-
 dependencies {
     add(
         "kspCommonMainMetadata",
@@ -261,4 +253,9 @@ dependencies {
     )
     add("kspJvm", projects.ktorfitKsp)
     add("kspJvmTest", projects.ktorfitKsp)
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
