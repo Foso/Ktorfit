@@ -86,15 +86,11 @@ class KtorfitGradlePlugin : Plugin<Project> {
                                 } ?: project.findProperty("ksp.useKSP2")?.toString()?.toBoolean() ?: false
 
                             if (useKsp2) {
-
-                                    tasks.named { name -> name.startsWith("ksp") }.configureEach {
-                                        print("============================="+name)
-                                        if (name != "kspCommonMainKotlinMetadata") {
-                                            dependsOn("kspCommonMainKotlinMetadata")
-                                        }
+                                tasks.named { name -> name.startsWith("ksp") }.configureEach {
+                                    if (name != "kspCommonMainKotlinMetadata") {
+                                        dependsOn("kspCommonMainKotlinMetadata")
                                     }
-
-
+                                }
                             } else {
                                 tasks.withType(KotlinCompilationTask::class.java).configureEach {
                                     if (name != "kspCommonMainKotlinMetadata") {
@@ -109,19 +105,11 @@ class KtorfitGradlePlugin : Plugin<Project> {
 
                 when (val kotlinExtension = kotlinExtension) {
                     is KotlinSingleTargetExtension<*> -> {
-                        kotlinExtension.targets.forEach {
-                            println("Configuring KSP for single target: ${it.name}")
-                        }
                         dependencies.add("ksp", dependency)
                     }
 
                     is KotlinMultiplatformExtension -> {
-                        println("=SIZE ==============================="+kotlinExtension.targets.joinToString { it.name })
-
-
-
                         kotlinExtension.targets.configureEach {
-                            println("Configuring KSP for target: $name")
                             if (platformType.name == "common") {
                                 dependencies.add("kspCommonMainMetadata", dependency)
                                 return@configureEach
@@ -142,11 +130,8 @@ class KtorfitGradlePlugin : Plugin<Project> {
                                 dependencies.add("ksp${capitalizedTargetName}Test", dependency)
                             }
 
-                            this.compilations.forEach {
-                                println("==COMPILATION============================"+it.name)
-                            }
-
-                            if(this.name == "android"){
+                            if (this.name == "android") {
+                                // Fix android as single target in multiplatform projects
                                 dependencies.add("ksp", dependency)
                             }
                         }
