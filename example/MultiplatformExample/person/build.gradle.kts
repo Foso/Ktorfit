@@ -10,7 +10,7 @@ version = "1.0"
 val ktorVersion = "3.2.1"
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(11)
     applyDefaultHierarchyTemplate()
 
     jvm()

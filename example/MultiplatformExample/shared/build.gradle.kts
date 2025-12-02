@@ -3,11 +3,10 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("multiplatform")
-    kotlin("native.cocoapods")
     id("com.android.library")
     id("com.google.devtools.ksp") version "2.2.0-2.0.2"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "2.6.4"
+    id("de.jensklingenberg.ktorfit") version "2.6.5"
 }
 
 ktorfit {
@@ -16,10 +15,10 @@ ktorfit {
 
 version = "1.0"
 val ktorVersion = "3.2.1"
-val ktorfitVersion = "2.6.4"
+val ktorfitVersion = "2.6.5"
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(11)
     applyDefaultHierarchyTemplate()
 
     jvm()
@@ -32,15 +31,7 @@ kotlin {
         this.nodejs()
         binaries.executable()
     }
-    cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
-        ios.deploymentTarget = "14.1"
-        podfile = project.file("../iosApp/Podfile")
-        framework {
-            baseName = "shared"
-        }
-    }
+
 
     sourceSets {
         val commonMain by getting {
@@ -48,7 +39,7 @@ kotlin {
                 implementation(project(":person"))
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
                 // implementation("de.jensklingenberg.ktorfit:ktorfit-lib-light:$ktorfitVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-response:$ktorfitVersion")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-call:$ktorfitVersion")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-converters-flow:$ktorfitVersion")
@@ -73,7 +64,7 @@ kotlin {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 36
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
