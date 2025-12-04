@@ -9,10 +9,10 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 
 # [2.6.5]()
 
-2.6.5 -
+2.6.5 - 2025-12-01
 ========================================
-* Supported KSP version: >=2.0.4
-* Supported Kotlin version: >=2.2.21
+* Supported KSP version: >=2.0.2
+* Supported Kotlin version: >=2.2.0
 * Ktor version: 3.2.1
 
 ## Fixed
@@ -20,8 +20,9 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 - Cant find generated code in KMP project with only Android target #965
 - Add typealias support to KSP processor #944
 - Fix KSP version extraction logic in the Gradle plugin #931
+- Composed annotations lead to invalid generated code #875
 
-Thanks to @eygraber, @martinbirn and @ rsicarelli for contributing to this release!
+Thanks to @eygraber, @martinbirn, @rsicarelli and @haruue for contributing to this release!
 
 
 # [2.6.4]()
