@@ -27,6 +27,7 @@ public final class de/jensklingenberg/ktorfit/gradle/KtorfitGradlePlugin$Compani
 
 public class de/jensklingenberg/ktorfit/gradle/KtorfitPluginExtension {
 	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
+	public fun getCompilerPluginVersion ()Lorg/gradle/api/provider/Property;
 	public fun getErrorCheckingMode ()Lorg/gradle/api/provider/Property;
 	public fun getGenerateQualifiedTypeName ()Lorg/gradle/api/provider/Property;
 	public fun getKotlinVersion ()Lorg/gradle/api/provider/Property;
