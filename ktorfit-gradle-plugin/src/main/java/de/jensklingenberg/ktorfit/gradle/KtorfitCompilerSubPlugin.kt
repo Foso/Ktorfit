@@ -38,7 +38,7 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
         val kotlinVersion =
             myProject.ktorfitExtension(
                 GRADLE_TASKNAME
-            ).kotlinVersion.get()
+            ).compilerPluginVersion.get()
 
         return kotlinVersion != "-"
     }
@@ -49,7 +49,7 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
         val compilerVersion =
             myProject.ktorfitExtension(
                 GRADLE_TASKNAME
-            ).kotlinVersion.getOrElse(KTORFIT_COMPILER_PLUGIN_VERSION)
+            ).compilerPluginVersion.getOrElse(KTORFIT_COMPILER_PLUGIN_VERSION)
 
         return SubpluginArtifact(
             groupId = GROUP_NAME,
