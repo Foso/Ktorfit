@@ -7,6 +7,39 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update.
 
+
+# [2.7.0]()
+
+2.7.0 -
+========================================
+* Supported KSP version: >=2.3.0
+* Supported Kotlin version: >=2.3.0
+* Ktor version: 3.2.1
+
+## Changed
+- Update Kotlin to 2.3.0
+
+## Deprecated
+- The `kotlinVersion` property in the Ktorfit Gradle plugin extension is now **deprecated** in favor of `compilerPluginVersion`.
+
+  **Reason:**
+  The new `compilerPluginVersion` property provides a clearer and more accurate description of its purpose, which is to specify the version of the Ktorfit compiler plugin, not the Kotlin language version. This change improves configuration clarity and reduces confusion.
+
+  **Migration:**
+  Replace any usage of `kotlinVersion` in your Gradle build scripts with `compilerPluginVersion`. The `kotlinVersion` property will continue to work for now, but will be removed in a future release.
+
+  **Example migration:**
+  ```kotlin
+  // Old (deprecated)
+  ktorfit {
+      kotlinVersion.set("2.3.0")
+  }
+  // New (recommended)
+  ktorfit {
+      compilerPluginVersion.set("2.3.0")
+  }
+  ```
+
 # [2.6.5]()
 
 2.6.5 - 2025-12-01
@@ -24,17 +57,6 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 
 Thanks to @eygraber, @martinbirn, @rsicarelli and @haruue for contributing to this release!
 
-
-# [2.7.0]()
-
-2.7.0 - 
-========================================
-* Supported KSP version: >=2.3.0
-* Supported Kotlin version: >=2.3.0
-* Ktor version: 3.2.1
-
-## Changed
-- Update Kotlin to 2.3.0
 
 # [2.6.4]()
 

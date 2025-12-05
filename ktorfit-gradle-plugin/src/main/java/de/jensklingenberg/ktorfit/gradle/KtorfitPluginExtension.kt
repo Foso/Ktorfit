@@ -27,17 +27,26 @@ open class KtorfitPluginExtension
         open val errorCheckingMode: Property<ErrorCheckingMode> = objectFactory.property(ErrorCheckingMode::class.java)
 
         /**
+         * Specify the version of the Ktorfit compiler plugin
+         *
+         * Default: [KtorfitGradlePlugin.KTORFIT_COMPILER_PLUGIN_VERSION]
+         * Set value to "-" to disable the compiler plugin
+         */
+        open val compilerPluginVersion: Property<String> = objectFactory.property(String::class.java)
+
+        /**
          * Specify the Kotlin version of the compiler plugin.
          *
          * Default: your current Kotlin version
          * Set value to "-" to disable the compiler plugin
          */
-        open val kotlinVersion: Property<String> = objectFactory.property(String::class.java)
+        @Deprecated("Use compilerPluginVersion instead", ReplaceWith("compilerPluginVersion"))
+        open val kotlinVersion: Property<String> = compilerPluginVersion
 
         internal fun setupConvention(project: Project) {
             generateQualifiedTypeName.convention(false)
             errorCheckingMode.convention(ErrorCheckingMode.ERROR)
-            kotlinVersion.convention(KtorfitGradlePlugin.KTORFIT_COMPILER_PLUGIN_VERSION)
+            compilerPluginVersion.convention(KtorfitGradlePlugin.KTORFIT_COMPILER_PLUGIN_VERSION)
         }
     }
 
