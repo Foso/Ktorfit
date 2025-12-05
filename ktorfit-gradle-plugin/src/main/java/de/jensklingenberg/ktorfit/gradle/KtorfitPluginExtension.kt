@@ -27,9 +27,9 @@ open class KtorfitPluginExtension
         open val errorCheckingMode: Property<ErrorCheckingMode> = objectFactory.property(ErrorCheckingMode::class.java)
 
         /**
-         * Specify the Kotlin version of the compiler plugin.
+         * Specify the version of the Ktorfit compiler plugin
          *
-         * Default: your current Kotlin version
+         * Default: [KtorfitGradlePlugin.KTORFIT_COMPILER_PLUGIN_VERSION]
          * Set value to "-" to disable the compiler plugin
          */
         open val compilerPluginVersion: Property<String> = objectFactory.property(String::class.java)
