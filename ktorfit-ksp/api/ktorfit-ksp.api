@@ -398,7 +398,7 @@ public final class de/jensklingenberg/ktorfit/poetspec/FunctionSpecKt {
 	public static final fun toFunSpec (Lde/jensklingenberg/ktorfit/model/FunctionData;Lcom/google/devtools/ksp/processing/Resolver;Z)Lcom/squareup/kotlinpoet/FunSpec;
 }
 
-public final class de/jensklingenberg/ktorfit/poetspec/ImplClassSpec2Kt {
+public final class de/jensklingenberg/ktorfit/poetspec/ImplClassSpecKt {
 	public static final fun getImplClassSpec (Lde/jensklingenberg/ktorfit/model/ClassData;Lcom/google/devtools/ksp/processing/Resolver;Lde/jensklingenberg/ktorfit/KtorfitOptions;)Lcom/squareup/kotlinpoet/TypeSpec;
 }
 

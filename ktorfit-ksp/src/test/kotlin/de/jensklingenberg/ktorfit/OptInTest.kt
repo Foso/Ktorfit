@@ -32,10 +32,9 @@ interface TestService {
         val expectedHeadersArgumentText =
             """@OptIn(ExperimentalCompilerApi::class, InternalKtorfitApi::class)
 public class _TestServiceImpl(
-  private val _ktorfit: Ktorfit,
+  private val _baseUrl: String,
+  private val _helper: KtorfitConverterHelper,
 ) : TestService {
-  private val _helper: KtorfitConverterHelper = KtorfitConverterHelper(_ktorfit)
-
   @OptIn(ExperimentalCompilerApi::class)
   override suspend fun test("""
 
@@ -80,7 +79,8 @@ interface TestService {
         val expectedHeadersArgumentText =
             """@OptIn(ExperimentalCompilerApi::class, InternalKtorfitApi::class)
 public class _TestServiceImpl(
-  private val _ktorfit: Ktorfit,
+  private val _baseUrl: String,
+  private val _helper: KtorfitConverterHelper,
 ) : TestService {"""
 
         val compilation = getCompilation(listOf(source))

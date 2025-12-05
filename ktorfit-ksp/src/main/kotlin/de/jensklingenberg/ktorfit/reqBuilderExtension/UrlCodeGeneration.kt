@@ -4,7 +4,6 @@ import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.HttpMethodAnnotation
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Path
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Url
-import de.jensklingenberg.ktorfit.model.ktorfitClass
 
 fun getUrlCode(
     params: List<ParameterData>,
@@ -25,8 +24,8 @@ fun getUrlCode(
             ""
         } else {
             params.firstOrNull { it.hasAnnotation<Url>() }?.let { parameterData ->
-                "(${ktorfitClass.objectName}.baseUrl.takeIf{ !${parameterData.name}.startsWith(\"http\")} ?: \"\") + "
-            } ?: "${ktorfitClass.objectName}.baseUrl + "
+                "(_baseUrl.takeIf{ !${parameterData.name}.startsWith(\"http\")} ?: \"\") + "
+            } ?: "_baseUrl + "
         }
 
     params.filter { it.hasAnnotation<Path>() }.forEach { parameterData ->

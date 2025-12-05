@@ -35,10 +35,18 @@ interface TestService : SuperTestService {
 
         val expectedGeneratedCode =
             buildString {
+                /**
+                 * public class _TestServiceImpl(
+                 *   private val _baseUrl: String,
+                 *   private val _helper: KtorfitConverterHelper,
+                 * ) : TestService,
+                 *     SuperTestService by com.example.api._SuperTestServiceImpl( _baseUrl,_helper) {
+                 */
                 append("public class _TestServiceImpl(\n")
-                append("  private val _ktorfit: Ktorfit,\n")
+                append("  private val _baseUrl: String,\n")
+                append("  private val _helper: KtorfitConverterHelper,\n")
                 append(") : TestService,\n")
-                append("    SuperTestService by com.example.api._SuperTestServiceImpl(_ktorfit) {")
+                append("    SuperTestService by com.example.api._SuperTestServiceImpl( _baseUrl,_helper) {\n")
             }
 
         val compilation = getCompilation(listOf(source))
@@ -88,7 +96,8 @@ interface TestService : @NoDelegation SuperTestService1, @NoDelegation SuperTest
 
         val expectedHeadersArgumentText =
             "public class _TestServiceImpl(\n" +
-                "  private val _ktorfit: Ktorfit,\n" +
+                "  private val _baseUrl: String,\n" +
+                "  private val _helper: KtorfitConverterHelper,\n" +
                 ") : TestService {"
 
         val compilation = getCompilation(listOf(source))
