@@ -96,9 +96,9 @@ interface TestService : @NoDelegation SuperTestService1, @NoDelegation SuperTest
 
         val expectedHeadersArgumentText =
             "public class _TestServiceImpl(\n" +
-                    "  private val _baseUrl: String,\n" +
-                    "  private val _helper: KtorfitConverterHelper,\n" +
-                    ") : TestService {"
+                "  private val _baseUrl: String,\n" +
+                "  private val _helper: KtorfitConverterHelper,\n" +
+                ") : TestService {"
 
         val compilation = getCompilation(listOf(source))
         val result = compilation.compile()
