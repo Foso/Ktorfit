@@ -61,7 +61,7 @@ private fun createImplClassTypeSpec(
     val helperProperty =
         PropertySpec
             .builder(converterHelper.objectName, converterHelper.toClassName())
-            .initializer("${converterHelper.name}(${ktorfitClass.objectName})")
+            .initializer(converterHelper.objectName)
             .addModifiers(KModifier.PRIVATE)
             .build()
 
@@ -73,6 +73,7 @@ private fun createImplClassTypeSpec(
             FunSpec
                 .constructorBuilder()
                 .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
+                .addParameter(converterHelper.objectName, converterHelper.toClassName())
                 .build(),
         ).addProperty(
             PropertySpec
@@ -153,7 +154,7 @@ private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeR
             this.addSuperinterface(
                 ClassName(superTypePackage, superTypeClassName),
                 CodeBlock.of(
-                    "%L._%LImpl(${ktorfitClass.objectName})",
+                    "%L._%LImpl(${ktorfitClass.objectName}, ${converterHelper.objectName})",
                     superTypePackage,
                     superTypeClassName,
                 )

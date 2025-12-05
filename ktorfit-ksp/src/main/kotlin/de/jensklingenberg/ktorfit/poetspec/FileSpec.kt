@@ -8,6 +8,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeSpec
 import de.jensklingenberg.ktorfit.model.ClassData
+import de.jensklingenberg.ktorfit.model.converterHelper
 import de.jensklingenberg.ktorfit.model.ktorfitClass
 import de.jensklingenberg.ktorfit.model.providerClass
 import de.jensklingenberg.ktorfit.model.toClassName
@@ -49,7 +50,7 @@ private fun createProviderClassSpec(classData: ClassData) =
                 .builder("create")
                 .addModifiers(KModifier.OVERRIDE)
                 .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
-                .addStatement("return ${classData.implName}(${ktorfitClass.objectName})")
+                .addStatement("return ${classData.implName}(${ktorfitClass.objectName}, ${converterHelper.name}(${ktorfitClass.objectName}))")
                 .returns(ClassName(classData.packageName, classData.name))
                 .build(),
         ).build()
@@ -61,7 +62,7 @@ private fun getCreateExtensionFunctionSpec(classData: ClassData): FunSpec =
     FunSpec
         .builder("create${classData.name}")
         .addModifiers(classData.modifiers)
-        .addStatement("return ${classData.implName}(this)")
+        .addStatement("return ${classData.implName}(this, ${converterHelper.name}(this))")
         .receiver(ktorfitClass.toClassName())
         .returns(ClassName(classData.packageName, classData.name))
         .build()
