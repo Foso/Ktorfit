@@ -50,7 +50,7 @@ private fun createProviderClassSpec(classData: ClassData) =
                 .builder("create")
                 .addModifiers(KModifier.OVERRIDE)
                 .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
-                .addStatement("return ${classData.implName}(${ktorfitClass.objectName}, ${converterHelper.name}(${ktorfitClass.objectName}))")
+                .addStatement("return ${classData.implName}(${ktorfitClass.objectName}.baseUrl, ${converterHelper.name}(${ktorfitClass.objectName}))")
                 .returns(ClassName(classData.packageName, classData.name))
                 .build(),
         ).build()
@@ -62,7 +62,7 @@ private fun getCreateExtensionFunctionSpec(classData: ClassData): FunSpec =
     FunSpec
         .builder("create${classData.name}")
         .addModifiers(classData.modifiers)
-        .addStatement("return ${classData.implName}(this, ${converterHelper.name}(this))")
+        .addStatement("return ${classData.implName}(this.baseUrl, ${converterHelper.name}(this))")
         .receiver(ktorfitClass.toClassName())
         .returns(ClassName(classData.packageName, classData.name))
         .build()

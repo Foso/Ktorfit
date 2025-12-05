@@ -19,7 +19,6 @@ import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.converterHelper
 import de.jensklingenberg.ktorfit.model.internalApi
-import de.jensklingenberg.ktorfit.model.ktorfitClass
 import de.jensklingenberg.ktorfit.model.toClassName
 
 /**
@@ -65,6 +64,13 @@ private fun createImplClassTypeSpec(
             .addModifiers(KModifier.PRIVATE)
             .build()
 
+    val baseUrlProperty =
+        PropertySpec
+            .builder("_baseUrl", ClassName("kotlin", "String"))
+            .initializer("_baseUrl")
+            .addModifiers(KModifier.PRIVATE)
+            .build()
+
     return TypeSpec
         .classBuilder(implClassName)
         .addAnnotation(getOptInAnnotation(classData.annotations))
@@ -72,18 +78,12 @@ private fun createImplClassTypeSpec(
         .primaryConstructor(
             FunSpec
                 .constructorBuilder()
-                .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
+                .addParameter("_baseUrl", ClassName("kotlin", "String"))
                 .addParameter(converterHelper.objectName, converterHelper.toClassName())
-                .build(),
-        ).addProperty(
-            PropertySpec
-                .builder(ktorfitClass.objectName, ktorfitClass.toClassName())
-                .initializer(ktorfitClass.objectName)
-                .addModifiers(KModifier.PRIVATE)
                 .build(),
         ).addSuperinterface(ClassName(classData.packageName, classData.name))
         .addKtorfitSuperInterface(classData.superClasses)
-        .addProperties(listOf(helperProperty) + implClassProperties)
+        .addProperties(listOf(baseUrlProperty, helperProperty) + implClassProperties)
         .addFunctions(funSpecs)
         .build()
 }
@@ -154,7 +154,7 @@ private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeR
             this.addSuperinterface(
                 ClassName(superTypePackage, superTypeClassName),
                 CodeBlock.of(
-                    "%L._%LImpl(${ktorfitClass.objectName}, ${converterHelper.objectName})",
+                    "%L._%LImpl( _baseUrl,${converterHelper.objectName})",
                     superTypePackage,
                     superTypeClassName,
                 )
