@@ -2,7 +2,7 @@
 abg = "8.12.0"
 autoService = "1.1.1"
 binaryCompatibilityValidator = "0.18.1"
-coroutines = "1.8.1"
+coroutines = "1.10.2"
 detekt = "1.23.8"
 junit = "4.13.2"
 kctfork = "0.11.1"
