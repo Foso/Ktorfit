@@ -14,3 +14,8 @@ will be transformed to:
 ```kotlin
 val api = jvmKtorfit.create<ExampleApi>(_ExampleApiImpl(jvmKtorfit))
 ```
+
+# Compatibility table
+| Compiler plugin version | Kotlin |
+|-------------------------|--------|
+| 2.6.4                   | 2.2.21 |

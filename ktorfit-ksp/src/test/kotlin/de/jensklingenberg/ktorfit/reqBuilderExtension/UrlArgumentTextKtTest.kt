@@ -19,7 +19,7 @@ class UrlArgumentTextKtTest {
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         val expected =
             "url{\n" +
-                "takeFrom(_ktorfit.baseUrl + \"posts\")\n" +
+                "takeFrom(_baseUrl + \"posts\")\n" +
                 "}".trimMargin()
         assertEquals(
             expected,
@@ -36,7 +36,7 @@ class UrlArgumentTextKtTest {
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         assertEquals(
             "url{\n" +
-                "takeFrom((_ktorfit.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"posts\")\n" +
+                "takeFrom((_baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"posts\")\n" +
                 "}",
             text,
         )
@@ -52,7 +52,7 @@ class UrlArgumentTextKtTest {
         val expected =
             String.format(
                 "url{\n" +
-                    "takeFrom((_ktorfit.baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"%s{test1}\")\n" +
+                    "takeFrom((_baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"%s{test1}\")\n" +
                     "}",
                 "$",
             )
@@ -64,7 +64,7 @@ class UrlArgumentTextKtTest {
         val parameterData = ParameterData("test1", ReturnTypeData("String", mock<KSType>()))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
-        assertEquals("url{\ntakeFrom(_ktorfit.baseUrl + \"\")\n}", text)
+        assertEquals("url{\ntakeFrom(_baseUrl + \"\")\n}", text)
     }
 
     @Test
@@ -76,7 +76,7 @@ class UrlArgumentTextKtTest {
         val text = getUrlCode(params, HttpMethodAnnotation("user/{testValue}", HttpMethod.GET), "")
         assertEquals(
             """url{
-takeFrom(_ktorfit.baseUrl + "user/$/{"$/test1".encodeURLPath()}")
+takeFrom(_baseUrl + "user/$/{"$/test1".encodeURLPath()}")
 }""".replace("$/", "$"),
             text,
         )

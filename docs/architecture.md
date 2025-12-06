@@ -32,15 +32,15 @@ Then it looks at the parent interfaces of that functions and generates, the sour
 ```kotlin
 @OptIn(InternalKtorfitApi::class)
 public class _ExampleApiImpl(
-    private val _ktorfit: Ktorfit,
+    private val _baseUrl: String,
+    private val _helper: KtorfitConverterHelper,
 ) : ExampleApi {
-    private val _helper: KtorfitConverterHelper = KtorfitConverterHelper(_ktorfit)
-
+    
     override suspend fun exampleGet(): People {
         val _ext: HttpRequestBuilder.() -> Unit = {
             method = HttpMethod.parse("GET")
             url{
-                takeFrom(_ktorfit.baseUrl + "/test")
+                takeFrom(_baseUrl + "/test")
             }
         }
         val _typeData = TypeData.createTypeData(
@@ -51,10 +51,11 @@ public class _ExampleApiImpl(
 }
 
 public class _ExampleApiProvider : ClassProvider<ExampleApi> {
-    override fun create(_ktorfit: Ktorfit): ExampleApi = _ExampleApiImpl(_ktorfit)
+    override fun create(_ktorfit: Ktorfit): ExampleApi = _ExampleApiImpl(_ktorfit.baseUrl, KtorfitConverterHelper(_ktorfit))
 }
 
-public fun Ktorfit.createExampleApi(): ExampleApi = _ExampleApiImpl(this)
+public fun Ktorfit.createExampleApi(): ExampleApi = _ExampleApiImpl(this.baseUrl, KtorfitConverterHelper(this))
+
 ```
 
 The next part is the compiler plugin which is added by the gradle plugin.
