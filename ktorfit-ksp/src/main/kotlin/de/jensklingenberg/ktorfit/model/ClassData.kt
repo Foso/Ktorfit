@@ -50,7 +50,6 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             "io.ktor.http.takeFrom",
             "io.ktor.http.decodeURLQueryComponent",
             annotationsAttributeKey.packageName + "." + annotationsAttributeKey.name,
-            typeDataClass.packageName + "." + typeDataClass.name,
         )
 
     val packageName = ksClassDeclaration.packageName.asString()

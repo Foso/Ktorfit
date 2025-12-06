@@ -9,7 +9,7 @@ import io.ktor.client.request.prepareRequest
 import io.ktor.client.request.request
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.HttpStatement
-import io.ktor.util.reflect.typeInfo
+import io.ktor.util.reflect.TypeInfo
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
@@ -26,17 +26,21 @@ public class KtorfitConverterHelper(
      * This will handle all requests for functions without suspend modifier
      */
     public fun <ReturnType> request(
-        returnTypeData: TypeData,
         requestBuilder: HttpRequestBuilder.() -> Unit,
+        typeInfo: TypeInfo,
+        qualifier: String = "",
     ): ReturnType? {
+        val returnTypeData =
+            TypeData.createTypeData(
+                typeInfo = typeInfo,
+                qualifiedTypename = qualifier,
+            )
         ktorfit.nextResponseConverter(null, returnTypeData)?.let { responseConverter ->
             return responseConverter.convert {
                 suspendRequest<HttpResponse>(
-                    TypeData.createTypeData(
-                        "io.ktor.client.statement.HttpResponse",
-                        typeInfo<HttpResponse>(),
-                    ),
                     requestBuilder,
+                    typeInfo,
+                    qualifier
                 )!!
             } as ReturnType?
         }
@@ -49,9 +53,15 @@ public class KtorfitConverterHelper(
      * Used by generated Code
      */
     public suspend fun <ReturnType> suspendRequest(
-        typeData: TypeData,
         requestBuilder: HttpRequestBuilder.() -> Unit,
+        typeInfo: TypeInfo,
+        qualifier: String = "",
     ): ReturnType? {
+        val typeData =
+            TypeData.createTypeData(
+                typeInfo = typeInfo,
+                qualifiedTypename = qualifier,
+            )
         if (typeData.typeInfo.type == HttpStatement::class) {
             return httpClient.prepareRequest {
                 requestBuilder(this)
