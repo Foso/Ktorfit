@@ -41,10 +41,11 @@ interface TestService {
     """,
             )
 
-        val expectedFunctionText = """return _helper.suspendRequest(_typeData,_ext)!!"""
+        val expectedFunctionText = """return _helper.suspendRequest(_ext, typeInfo<HttpStatement>(),)!!"""
 
         val compilation = getCompilation(listOf(httpStatement, source))
         val result = compilation.compile()
+
 
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
@@ -56,6 +57,7 @@ interface TestService {
 
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expectedFunctionText))
+
     }
 
     @Test
