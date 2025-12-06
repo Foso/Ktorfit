@@ -50,7 +50,7 @@ private fun FunSpec.Builder.addBody(
                 arrayType,
             ),
         ).addStatement(
-            "return %L.%L(${extDataClass.objectName}, typeInfo<%T>()%L)%L ",
+            "return %L.%L(${extDataClass.objectName}, typeInfo<%T>(),%L)%L ",
             converterHelper.objectName,
             if (functionData.isSuspend) {
                 "suspendRequest"
