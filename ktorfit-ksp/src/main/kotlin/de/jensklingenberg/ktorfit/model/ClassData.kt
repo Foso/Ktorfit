@@ -46,7 +46,6 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             "io.ktor.util.reflect.typeInfo",
             "io.ktor.client.request.HttpRequestBuilder",
             "io.ktor.client.request.parameter",
-            "io.ktor.http.URLBuilder",
             "io.ktor.http.takeFrom",
             "io.ktor.http.decodeURLQueryComponent"
         )
