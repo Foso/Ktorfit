@@ -278,13 +278,13 @@ fun KSFunctionDeclaration.toFunctionData(
         }
     }
 
-    functionAnnotationList.forEach {
-        if (it is Headers || it is FormUrlEncoded) {
+    functionAnnotationList.forEach { annotation ->
+        if (annotation is Headers || annotation is FormUrlEncoded) {
             addImport("io.ktor.client.request.headers")
         }
 
-        if (it is FormUrlEncoded ||
-            it is Multipart ||
+        if (annotation is FormUrlEncoded ||
+            annotation is Multipart ||
             functionParameters.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<ParameterAnnotation.Part>() }
         ) {
             addImport("io.ktor.client.request.forms.FormDataContent")
@@ -317,6 +317,10 @@ fun KSFunctionDeclaration.toFunctionData(
         if (functionalKtorfitAnnotation.contains(className)) return@forEach
         nonKtorfitAnnotations.add(annotation)
         addImport(className.canonicalName)
+    }
+
+    if (nonKtorfitAnnotations.isNotEmpty()) {
+        addImport("io.ktor.util.AttributeKey")
     }
 
     return FunctionData(

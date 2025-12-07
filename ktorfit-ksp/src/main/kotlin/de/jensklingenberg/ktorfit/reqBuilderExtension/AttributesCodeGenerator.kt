@@ -35,7 +35,7 @@ fun getAttributesCode(
             annotation
                 .members
                 .joinToString {
-                    it.toString().removePrefix("@")
+                    it.toString().replace("@", "")
                 }
                 .let { "${annotation.toClassName().simpleName}($it)" }
         }
