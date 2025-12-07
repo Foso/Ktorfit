@@ -16,7 +16,7 @@ import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.KtorfitOptions
 import de.jensklingenberg.ktorfit.model.ClassData
-import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.PROPERTIES_NOT_SUPPORTED
+import de.jensklingenberg.ktorfit.model.KtorfitError.PROPERTIES_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.converterHelper
 import de.jensklingenberg.ktorfit.model.internalApi
 import de.jensklingenberg.ktorfit.model.toClassName
