@@ -45,7 +45,6 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         mutableSetOf(
             "io.ktor.util.reflect.typeInfo",
             "io.ktor.client.request.HttpRequestBuilder",
-            "io.ktor.client.request.parameter",
             "io.ktor.http.takeFrom",
             "io.ktor.http.decodeURLQueryComponent"
         )
