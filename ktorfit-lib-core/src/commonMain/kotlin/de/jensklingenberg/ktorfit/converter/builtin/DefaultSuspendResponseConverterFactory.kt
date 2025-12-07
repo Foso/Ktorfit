@@ -3,7 +3,7 @@ package de.jensklingenberg.ktorfit.converter.builtin
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
-import de.jensklingenberg.ktorfit.converter.TypeData2
+import de.jensklingenberg.ktorfit.converter.TypeData
 import io.ktor.client.statement.HttpResponse
 
 /**
@@ -12,12 +12,12 @@ import io.ktor.client.statement.HttpResponse
  */
 internal class DefaultSuspendResponseConverterFactory : Converter.Factory {
     class DefaultSuspendResponseConverter(
-        val typeData2: TypeData2
+        val typeData: TypeData
     ) : Converter.SuspendResponseConverter<HttpResponse, Any?> {
         override suspend fun convert(result: KtorfitResult): Any? =
             when (result) {
                 is KtorfitResult.Failure -> {
-                    if (typeData2.isNullable) {
+                    if (typeData.isNullable) {
                         null
                     } else {
                         throw result.throwable
@@ -25,7 +25,7 @@ internal class DefaultSuspendResponseConverterFactory : Converter.Factory {
                 }
 
                 is KtorfitResult.Success -> {
-                    result.response.call.body(typeData2.typeInfo)
+                    result.response.call.body(typeData.typeInfo)
                 }
             }
     }
@@ -35,15 +35,15 @@ internal class DefaultSuspendResponseConverterFactory : Converter.Factory {
     }
 
     override fun suspendResponseConverter(
-        typeData2: TypeData2,
+        typeData: TypeData,
         ktorfit: Ktorfit,
-    ): Converter.SuspendResponseConverter<HttpResponse, *> = DefaultSuspendResponseConverter(typeData2)
+    ): Converter.SuspendResponseConverter<HttpResponse, *> = DefaultSuspendResponseConverter(typeData)
 
     override fun responseConverter(
-        typeData2: TypeData2,
+        typeData: TypeData,
         ktorfit: Ktorfit,
     ): Converter.ResponseConverter<HttpResponse, *>? =
-        if (typeData2.isNullable) {
+        if (typeData.isNullable) {
             DefaultResponseConverter()
         } else {
             null

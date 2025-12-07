@@ -34,10 +34,10 @@ class ConverterFactoryTest {
         val testConverterFactory =
             object : Converter.Factory {
                 override fun suspendResponseConverter(
-                    typeData2: TypeData2,
+                    typeData: TypeData,
                     ktorfit: Ktorfit,
                 ): Converter.SuspendResponseConverter<HttpResponse, *>? {
-                    if (typeData2.qualifiedName == "kotlinx.coroutines.flow.Flow") {
+                    if (typeData.qualifiedName == "kotlinx.coroutines.flow.Flow") {
                         return object : Converter.SuspendResponseConverter<HttpResponse, Any> {
                             override suspend fun convert(result: KtorfitResult): Any {
                                 when (result) {
@@ -82,10 +82,10 @@ class ConverterFactoryTest {
         val test =
             object : Converter.Factory {
                 override fun responseConverter(
-                    typeData2: TypeData2,
+                    typeData: TypeData,
                     ktorfit: Ktorfit,
                 ): Converter.ResponseConverter<HttpResponse, *>? {
-                    if (typeData2.typeInfo.type == Flow::class) {
+                    if (typeData.typeInfo.type == Flow::class) {
                         return object : Converter.ResponseConverter<HttpResponse, Flow<Any>> {
                             override fun convert(getResponse: suspend () -> HttpResponse): Flow<Any> =
                                 flow {

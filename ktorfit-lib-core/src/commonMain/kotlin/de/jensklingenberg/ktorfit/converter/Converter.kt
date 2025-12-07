@@ -47,15 +47,15 @@ public interface Converter<F, T> {
      */
     public fun getUpperBoundType(
         index: Int,
-        type: TypeData2,
-    ): TypeData2? = type.typeArgs[index]
+        type: TypeData,
+    ): TypeData? = type.typeArgs[index]
 
     public interface Factory {
         /**
-         * Return a [ResponseConverter] that can handle [typeData2] or else null
+         * Return a [ResponseConverter] that can handle [typeData] or else null
          */
         public fun responseConverter(
-            typeData2: TypeData2,
+            typeData: TypeData,
             ktorfit: Ktorfit,
         ): ResponseConverter<HttpResponse, *>? = null
 
@@ -68,10 +68,10 @@ public interface Converter<F, T> {
         ): RequestParameterConverter? = null
 
         /**
-         * Return a [SuspendResponseConverter] that can handle [typeData2] or else null
+         * Return a [SuspendResponseConverter] that can handle [typeData] or else null
          */
         public fun suspendResponseConverter(
-            typeData2: TypeData2,
+            typeData: TypeData,
             ktorfit: Ktorfit,
         ): SuspendResponseConverter<HttpResponse, *>? = null
     }

@@ -5,7 +5,7 @@ import de.jensklingenberg.ktorfit.Strings.Companion.BASE_URL_REQUIRED
 import de.jensklingenberg.ktorfit.Strings.Companion.ENABLE_GRADLE_PLUGIN
 import de.jensklingenberg.ktorfit.Strings.Companion.EXPECTED_URL_SCHEME
 import de.jensklingenberg.ktorfit.converter.Converter
-import de.jensklingenberg.ktorfit.converter.TypeData2
+import de.jensklingenberg.ktorfit.converter.TypeData
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.internal.ClassProvider
 import io.ktor.client.HttpClient
@@ -33,7 +33,7 @@ public class Ktorfit private constructor(
      */
     public fun nextResponseConverter(
         currentFactory: Converter.Factory?,
-        type: TypeData2,
+        type: TypeData,
     ): Converter.ResponseConverter<HttpResponse, *>? {
         val start = converterFactories.indexOf(currentFactory) + 1
         return converterFactories
@@ -50,7 +50,7 @@ public class Ktorfit private constructor(
      */
     public fun nextSuspendResponseConverter(
         currentFactory: Converter.Factory?,
-        type: TypeData2,
+        type: TypeData,
     ): Converter.SuspendResponseConverter<HttpResponse, *>? {
         val start = converterFactories.indexOf(currentFactory) + 1
         return converterFactories

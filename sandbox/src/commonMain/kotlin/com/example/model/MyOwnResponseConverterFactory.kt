@@ -3,16 +3,16 @@ package com.example.model
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
-import de.jensklingenberg.ktorfit.converter.TypeData2
+import de.jensklingenberg.ktorfit.converter.TypeData
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 
 class MyOwnResponseConverterFactory : Converter.Factory {
     override fun suspendResponseConverter(
-        typeData2: TypeData2,
+        typeData: TypeData,
         ktorfit: Ktorfit
     ): Converter.SuspendResponseConverter<HttpResponse, *>? {
-        if (typeData2.typeInfo.type == MyOwnResponse::class) {
+        if (typeData.typeInfo.type == MyOwnResponse::class) {
             return object : Converter.SuspendResponseConverter<HttpResponse, Any> {
                 override suspend fun convert(result: KtorfitResult): Any {
                     return when (result) {
@@ -27,9 +27,9 @@ class MyOwnResponseConverterFactory : Converter.Factory {
                                     ktorfit
                                         .nextSuspendResponseConverter(
                                             null,
-                                            typeData2.typeArgs.first()
+                                            typeData.typeArgs.first()
                                         )?.convert(result)
-                                        ?: response.body(typeData2.typeArgs.first().typeInfo)
+                                        ?: response.body(typeData.typeArgs.first().typeInfo)
                                 MyOwnResponse.success(convertedBody)
                             } catch (ex: Throwable) {
                                 MyOwnResponse.error(ex)
