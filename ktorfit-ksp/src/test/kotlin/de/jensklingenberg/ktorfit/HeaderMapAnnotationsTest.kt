@@ -3,8 +3,8 @@ package de.jensklingenberg.ktorfit
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
-import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING
-import de.jensklingenberg.ktorfit.model.KtorfitError.Companion.HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP
+import de.jensklingenberg.ktorfit.model.KtorfitError.HEADER_MAP_KEYS_MUST_BE_OF_TYPE_STRING
+import de.jensklingenberg.ktorfit.model.KtorfitError.HEADER_MAP_PARAMETER_TYPE_MUST_BE_MAP
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

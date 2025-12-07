@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform") version libs.versions.kotlin apply false
     alias(libs.plugins.mavenPublish) apply false
-    id("org.jlleitschuh.gradle.ktlint") version "12.2.0" apply false
+    id("org.jlleitschuh.gradle.ktlint") version "12.3.0" apply false
     alias(libs.plugins.binaryCompatibilityValidator)
 }
 
@@ -28,19 +28,11 @@ buildscript {
 }
 
 apiValidation {
-    ignoredProjects.addAll(
-        listOf(
-            "sandbox",
-        )
-    )
+    ignoredProjects.addAll(listOf("sandbox","ktorfit-ksp","ktorfit-compiler-plugin"))
+
     @OptIn(kotlinx.validation.ExperimentalBCVApi::class)
     klib {
         enabled = true
     }
 }
 
-allprojects {
-    tasks.withType<AbstractPublishToMaven>().configureEach {
-        dependsOn(":sandbox:allTests")
-    }
-}

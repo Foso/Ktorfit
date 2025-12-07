@@ -115,6 +115,9 @@ kotlin {
 
 configurations.all {
     resolutionStrategy.dependencySubstitution {
+        substitute(module("de.jensklingenberg.ktorfit:ksp"))
+            .using(project(":ktorfit-ksp"))
+            .because("we work with the unreleased development version")
         substitute(module("de.jensklingenberg.ktorfit:gradle-plugin"))
             .using(project(":ktorfit-gradle-plugin"))
             .because("we work with the unreleased development version")
