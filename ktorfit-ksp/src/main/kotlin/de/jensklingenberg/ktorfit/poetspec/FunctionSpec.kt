@@ -8,7 +8,6 @@ import com.squareup.kotlinpoet.TypeName
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.converterHelper
 import de.jensklingenberg.ktorfit.model.extDataClass
-import de.jensklingenberg.ktorfit.model.typeDataClass
 import de.jensklingenberg.ktorfit.reqBuilderExtension.addRequestConverterText
 import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
 import de.jensklingenberg.ktorfit.utils.removeWhiteSpaces
@@ -51,27 +50,19 @@ private fun FunSpec.Builder.addBody(
                 arrayType,
             ),
         ).addStatement(
-            "val ${typeDataClass.objectName} = ${typeDataClass.name}.createTypeData("
-        ).addStatement("typeInfo = typeInfo<%T>(),", returnTypeName)
-        .addStatement(
-            if (setQualifiedTypeName) {
-                buildString {
-                    append("qualifiedTypename = \"")
-                    append(returnTypeName.toString().removeWhiteSpaces())
-                    append("\")")
-                }
-            } else {
-                ")"
-            },
-        ).addStatement(
-            "return %L.%L(%L,${extDataClass.objectName})%L",
+            "return %L.%L(${extDataClass.objectName}, typeInfo<%T>(),%L)%L ",
             converterHelper.objectName,
             if (functionData.isSuspend) {
                 "suspendRequest"
             } else {
                 "request"
             },
-            typeDataClass.objectName,
+            returnTypeName,
+            if (setQualifiedTypeName) {
+                "\"" + returnTypeName.toString().removeWhiteSpaces() + "\""
+            } else {
+                ""
+            },
             "!!".takeIf { !functionData.returnType.parameterType.isMarkedNullable }.orEmpty(),
         )
 }
