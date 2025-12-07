@@ -39,7 +39,7 @@ fun getAttributesCode(
                 }
                 .let { "${annotation.toClassName().simpleName}($it)" }
         }
-            .let { "attributes.put(${annotationsAttributeKey.name}, $it)" }
+            .let { "attributes.put(${annotationsAttributeKey.objectName}, $it)" }
 
     return if (parameterAttributes.isNotEmpty()) {
         parameterAttributes + "\n" + annotationsAttribute
