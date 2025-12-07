@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.model
 
 internal object KtorfitError {
-
     const val FUNCTION_OR_PARAMETERS_TYPES_MUST_NOT_INCLUDE_ATYPE_VARIABLE_OR_WILDCARD =
         "function or parameters types must not include a type variable or wildcard:"
     const val FORM_ENCODED_METHOD_MUST_CONTAIN_AT_LEAST_ONE_FIELD_OR_FIELD_MAP =
@@ -53,4 +52,3 @@ internal object KtorfitError {
 
     fun urlCanOnlyBeUsedWithEmpty(keyword: String) = "@Url can only be used with empty @$keyword URL value"
 }
-
