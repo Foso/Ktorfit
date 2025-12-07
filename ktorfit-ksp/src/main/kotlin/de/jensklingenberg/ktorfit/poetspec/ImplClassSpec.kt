@@ -12,12 +12,14 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.ksp.toAnnotationSpec
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.KtorfitOptions
 import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.KtorfitError.PROPERTIES_NOT_SUPPORTED
 import de.jensklingenberg.ktorfit.model.converterHelper
+import de.jensklingenberg.ktorfit.model.httpClientClass
 import de.jensklingenberg.ktorfit.model.internalApi
 import de.jensklingenberg.ktorfit.model.toClassName
 
@@ -73,20 +75,27 @@ private fun createImplClassTypeSpec(
 
     val httpClientProperty =
         PropertySpec
-            .builder(de.jensklingenberg.ktorfit.model.httpClientClass.objectName, de.jensklingenberg.ktorfit.model.httpClientClass.toClassName())
-            .initializer(de.jensklingenberg.ktorfit.model.httpClientClass.objectName)
+            .builder(httpClientClass.objectName, httpClientClass.toClassName())
+            .initializer(httpClientClass.objectName)
             .addModifiers(KModifier.PRIVATE)
             .build()
+
+    // Get class-level annotations excluding @OptIn (which is handled separately)
+    val classAnnotations =
+        classData.annotations
+            .filter { it.shortName.getShortName() != "OptIn" }
+            .map { it.toAnnotationSpec() }
 
     return TypeSpec
         .classBuilder(implClassName)
         .addAnnotation(getOptInAnnotation(classData.annotations))
+        .addAnnotations(classAnnotations)
         .addModifiers(classData.modifiers)
         .primaryConstructor(
             FunSpec
                 .constructorBuilder()
                 .addParameter("_baseUrl", ClassName("kotlin", "String"))
-                .addParameter(de.jensklingenberg.ktorfit.model.httpClientClass.objectName, de.jensklingenberg.ktorfit.model.httpClientClass.toClassName())
+                .addParameter(httpClientClass.objectName, de.jensklingenberg.ktorfit.model.httpClientClass.toClassName())
                 .addParameter(converterHelper.objectName, converterHelper.toClassName())
                 .build(),
         ).addSuperinterface(ClassName(classData.packageName, classData.name))
@@ -162,7 +171,7 @@ private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeR
             this.addSuperinterface(
                 ClassName(superTypePackage, superTypeClassName),
                 CodeBlock.of(
-                    "%L._%LImpl( _baseUrl,${de.jensklingenberg.ktorfit.model.httpClientClass.objectName},${converterHelper.objectName})",
+                    "%L._%LImpl( _baseUrl,${httpClientClass.objectName},${converterHelper.objectName})",
                     superTypePackage,
                     superTypeClassName,
                 )

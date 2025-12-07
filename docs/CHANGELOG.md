@@ -19,6 +19,9 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 ## Changed
 - Update Kotlin to 2.3.0
 
+## Fixed
+- Class-level annotations (e.g., `@HiddenFromObjC`, `@ObjCName`, `@Deprecated`) are now properly propagated to generated implementation classes. This resolves compilation errors when using annotations like `@HiddenFromObjC` on Ktorfit interfaces
+
 ## Deprecated
 - The `kotlinVersion` property in the Ktorfit Gradle plugin extension is now **deprecated** in favor of `compilerPluginVersion`.
 
