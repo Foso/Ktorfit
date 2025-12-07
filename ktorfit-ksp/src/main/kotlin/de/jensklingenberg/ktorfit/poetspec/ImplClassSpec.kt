@@ -81,9 +81,10 @@ private fun createImplClassTypeSpec(
             .build()
 
     // Get class-level annotations excluding @OptIn (which is handled separately)
-    val classAnnotations = classData.annotations
-        .filter { it.shortName.getShortName() != "OptIn" }
-        .map { it.toAnnotationSpec() }
+    val classAnnotations =
+        classData.annotations
+            .filter { it.shortName.getShortName() != "OptIn" }
+            .map { it.toAnnotationSpec() }
 
     return TypeSpec
         .classBuilder(implClassName)
