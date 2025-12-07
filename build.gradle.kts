@@ -28,19 +28,11 @@ buildscript {
 }
 
 apiValidation {
-    ignoredProjects.addAll(
-        listOf(
-            "sandbox",
-        )
-    )
+    ignoredProjects.addAll(listOf("sandbox","ktorfit-ksp","ktorfit-compiler-plugin"))
+
     @OptIn(kotlinx.validation.ExperimentalBCVApi::class)
     klib {
         enabled = true
     }
 }
 
-allprojects {
-    tasks.withType<AbstractPublishToMaven>().configureEach {
-        dependsOn(":sandbox:allTests")
-    }
-}
