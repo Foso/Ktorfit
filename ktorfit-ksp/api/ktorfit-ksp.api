@@ -127,7 +127,6 @@ public final class de/jensklingenberg/ktorfit/model/KtorfitClassKt {
 	public static final fun getInternalApi ()Lcom/squareup/kotlinpoet/ClassName;
 	public static final fun getKtorfitClass ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
 	public static final fun getProviderClass ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
-	public static final fun getTypeDataClass ()Lde/jensklingenberg/ktorfit/model/KtorfitClass;
 	public static final fun toClassName (Lde/jensklingenberg/ktorfit/model/KtorfitClass;)Lcom/squareup/kotlinpoet/ClassName;
 }
 
