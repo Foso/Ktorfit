@@ -27,6 +27,9 @@ import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.FieldMap
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Header
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.HeaderMap
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Path
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Query
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.QueryMap
+import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.QueryName
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestBuilder
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.RequestType
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Tag
@@ -216,6 +219,18 @@ fun KSFunctionDeclaration.toFunctionData(
 
             if (annotation is Header || annotation is HeaderMap) {
                 addImport("io.ktor.client.request.headers")
+            }
+
+            if (annotation is Query && !annotation.encoded) {
+                addImport("io.ktor.client.request.parameter")
+            }
+
+            if (annotation is QueryName && !annotation.encoded) {
+                addImport("io.ktor.client.request.parameter")
+            }
+
+            if (annotation is QueryMap && !annotation.encoded) {
+                addImport("io.ktor.client.request.parameter")
             }
 
             if (annotation is Tag) {
