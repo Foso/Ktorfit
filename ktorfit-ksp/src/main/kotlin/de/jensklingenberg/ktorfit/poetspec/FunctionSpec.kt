@@ -59,7 +59,7 @@ private fun FunSpec.Builder.addBody(
             },
             returnTypeName,
             if (setQualifiedTypeName) {
-                "\""+returnTypeName.toString().removeWhiteSpaces()+"\""
+                "\"" + returnTypeName.toString().removeWhiteSpaces() + "\""
             } else {
                 ""
             },

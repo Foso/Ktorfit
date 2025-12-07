@@ -10,6 +10,7 @@ import io.ktor.client.request.request
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.HttpStatement
 import io.ktor.util.reflect.TypeInfo
+import io.ktor.util.reflect.typeInfo
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
@@ -39,8 +40,8 @@ public class KtorfitConverterHelper(
             return responseConverter.convert {
                 suspendRequest<HttpResponse>(
                     requestBuilder,
-                    typeInfo,
-                    qualifier
+                    typeInfo<HttpResponse>(),
+                    "io.ktor.client.statement.HttpResponse",
                 )!!
             } as ReturnType?
         }

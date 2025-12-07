@@ -46,7 +46,6 @@ interface TestService {
         val compilation = getCompilation(listOf(httpStatement, source))
         val result = compilation.compile()
 
-
         val generatedSourcesDir = compilation.kspSourcesDir
         val generatedFile =
             File(
@@ -57,7 +56,6 @@ interface TestService {
 
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expectedFunctionText))
-
     }
 
     @Test
