@@ -33,6 +33,7 @@ interface TestService {
             """@OptIn(ExperimentalCompilerApi::class, InternalKtorfitApi::class)
 public class _TestServiceImpl(
   private val _baseUrl: String,
+  private val _httpClient: HttpClient,
   private val _helper: KtorfitConverterHelper,
 ) : TestService {
   @OptIn(ExperimentalCompilerApi::class)
@@ -80,6 +81,7 @@ interface TestService {
             """@OptIn(ExperimentalCompilerApi::class, InternalKtorfitApi::class)
 public class _TestServiceImpl(
   private val _baseUrl: String,
+  private val _httpClient: HttpClient,
   private val _helper: KtorfitConverterHelper,
 ) : TestService {"""
 
