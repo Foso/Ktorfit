@@ -204,49 +204,49 @@ fun KSFunctionDeclaration.toFunctionData(
     }
 
     functionParameters.forEach { parameterData ->
-        parameterData.annotations.forEach {
-            if (it is Path) {
-                if (!firstHttpMethodAnnotation.path.contains("{${it.value}}")) {
+        parameterData.annotations.forEach { annotation ->
+            if (annotation is Path) {
+                if (!firstHttpMethodAnnotation.path.contains("{${annotation.value}}")) {
                     logger.error(
-                        KtorfitError.missingXInRelativeUrlPath(it.value),
+                        KtorfitError.missingXInRelativeUrlPath(annotation.value),
                         funcDeclaration,
                     )
                 }
             }
 
-            if (it is Header || it is HeaderMap) {
+            if (annotation is Header || annotation is HeaderMap) {
                 addImport("io.ktor.client.request.headers")
             }
 
-            if (it is Tag) {
+            if (annotation is Tag) {
                 addImport("io.ktor.util.AttributeKey")
             }
 
-            if (it is Body ||
-                it is ParameterAnnotation.PartMap ||
-                it is ParameterAnnotation.Part ||
-                it is FieldMap ||
-                it is Field
+            if (annotation is Body ||
+                annotation is ParameterAnnotation.PartMap ||
+                annotation is ParameterAnnotation.Part ||
+                annotation is FieldMap ||
+                annotation is Field
             ) {
                 addImport("io.ktor.client.request.setBody")
             }
 
-            if (it is Path && !it.encoded) {
+            if (annotation is Path && !annotation.encoded) {
                 addImport("io.ktor.http.encodeURLPath")
             }
 
-            if (it is RequestType) {
+            if (annotation is RequestType) {
                 addImport("kotlin.reflect.cast")
             }
 
-            if (it is Path && firstHttpMethodAnnotation.path.isEmpty()) {
+            if (annotation is Path && firstHttpMethodAnnotation.path.isEmpty()) {
                 logger.error(
                     KtorfitError.PATH_CAN_ONLY_BE_USED_WITH_RELATIVE_URL_ON + "@${firstHttpMethodAnnotation.httpMethod.keyword}",
                     funcDeclaration,
                 )
             }
 
-            if (it is Url) {
+            if (annotation is Url) {
                 if (functionParameters.filter { it.hasAnnotation<Url>() }.size > 1) {
                     logger.error(KtorfitError.MULTIPLE_URL_METHOD_ANNOTATIONS_FOUND, funcDeclaration)
                 }
@@ -258,18 +258,18 @@ fun KSFunctionDeclaration.toFunctionData(
                 }
             }
 
-            if (it is Field && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
+            if (annotation is Field && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
                 logger.error(KtorfitError.FIELD_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING, funcDeclaration)
             }
 
-            if (it is FieldMap && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
+            if (annotation is FieldMap && funcDeclaration.getFormUrlEncodedAnnotation() == null) {
                 logger.error(
                     KtorfitError.FIELD_MAP_PARAMETERS_CAN_ONLY_BE_USED_WITH_FORM_ENCODING,
                     funcDeclaration,
                 )
             }
 
-            if (it is Body && funcDeclaration.getFormUrlEncodedAnnotation() != null) {
+            if (annotation is Body && funcDeclaration.getFormUrlEncodedAnnotation() != null) {
                 logger.error(
                     KtorfitError.BODY_PARAMETERS_CANNOT_BE_USED_WITH_FORM_OR_MULTI_PART_ENCODING,
                     funcDeclaration,
@@ -278,13 +278,13 @@ fun KSFunctionDeclaration.toFunctionData(
         }
     }
 
-    functionAnnotationList.forEach {
-        if (it is Headers || it is FormUrlEncoded) {
+    functionAnnotationList.forEach { annotation ->
+        if (annotation is Headers || annotation is FormUrlEncoded) {
             addImport("io.ktor.client.request.headers")
         }
 
-        if (it is FormUrlEncoded ||
-            it is Multipart ||
+        if (annotation is FormUrlEncoded ||
+            annotation is Multipart ||
             functionParameters.any { param -> param.hasAnnotation<Field>() || param.hasAnnotation<ParameterAnnotation.Part>() }
         ) {
             addImport("io.ktor.client.request.forms.FormDataContent")
@@ -317,6 +317,10 @@ fun KSFunctionDeclaration.toFunctionData(
         if (functionalKtorfitAnnotation.contains(className)) return@forEach
         nonKtorfitAnnotations.add(annotation)
         addImport(className.canonicalName)
+    }
+
+    if (nonKtorfitAnnotations.isNotEmpty()) {
+        addImport("io.ktor.util.AttributeKey")
     }
 
     return FunctionData(

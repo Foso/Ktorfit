@@ -15,6 +15,6 @@ val formParameters = KtorfitClass("", "", "__formParameters")
 val formData = KtorfitClass("", "", "__formData")
 val converterHelper = KtorfitClass("KtorfitConverterHelper", "de.jensklingenberg.ktorfit.internal", "_helper")
 val internalApi = ClassName("de.jensklingenberg.ktorfit.internal", "InternalKtorfitApi")
-val annotationsAttributeKey = KtorfitClass("annotationsAttributeKey", "de.jensklingenberg.ktorfit", "")
+val annotationsAttributeKey = KtorfitClass("annotationsAttributeKey", "de.jensklingenberg.ktorfit", "AttributeKey(\"__ktorfit_attribute_annotations\")")
 
 fun KtorfitClass.toClassName() = ClassName(packageName, name)
