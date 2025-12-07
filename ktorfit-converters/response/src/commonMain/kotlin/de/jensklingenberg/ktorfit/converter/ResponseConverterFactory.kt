@@ -9,11 +9,11 @@ import io.ktor.client.statement.HttpResponse
  */
 public class ResponseConverterFactory : Converter.Factory {
     override fun suspendResponseConverter(
-        typeData: TypeData,
+        typeData2: TypeData2,
         ktorfit: Ktorfit,
     ): Converter.SuspendResponseConverter<HttpResponse, *>? {
-        if (typeData.typeInfo.type == Response::class) {
-            return ResponseClassSuspendConverter(typeData, ktorfit)
+        if (typeData2.typeInfo.type == Response::class) {
+            return ResponseClassSuspendConverter(typeData2, ktorfit)
         }
         return null
     }

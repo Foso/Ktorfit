@@ -2,7 +2,7 @@ package de.jensklingenberg.ktorfit.internal
 
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
-import de.jensklingenberg.ktorfit.converter.TypeData
+import de.jensklingenberg.ktorfit.converter.TypeData2
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.prepareRequest
@@ -31,12 +31,12 @@ public class KtorfitConverterHelper(
         typeInfo: TypeInfo,
         qualifier: String = "",
     ): ReturnType? {
-        val returnTypeData =
-            TypeData.createTypeData(
+        val returnTypeData2 =
+            TypeData2.createTypeData(
                 typeInfo = typeInfo,
                 qualifiedTypename = qualifier,
             )
-        ktorfit.nextResponseConverter(null, returnTypeData)?.let { responseConverter ->
+        ktorfit.nextResponseConverter(null, returnTypeData2)?.let { responseConverter ->
             return responseConverter.convert {
                 suspendRequest<HttpResponse>(
                     requestBuilder,
@@ -46,7 +46,7 @@ public class KtorfitConverterHelper(
             } as ReturnType?
         }
 
-        throw IllegalStateException("Add a ResponseConverter for " + returnTypeData.typeInfo + " or make function suspend")
+        throw IllegalStateException("Add a ResponseConverter for " + returnTypeData2.typeInfo + " or make function suspend")
     }
 
     /**
@@ -58,18 +58,18 @@ public class KtorfitConverterHelper(
         typeInfo: TypeInfo,
         qualifier: String = "",
     ): ReturnType? {
-        val typeData =
-            TypeData.createTypeData(
+        val typeData2 =
+            TypeData2.createTypeData(
                 typeInfo = typeInfo,
                 qualifiedTypename = qualifier,
             )
-        if (typeData.typeInfo.type == HttpStatement::class) {
+        if (typeData2.typeInfo.type == HttpStatement::class) {
             return httpClient.prepareRequest {
                 requestBuilder(this)
             } as ReturnType
         }
 
-        ktorfit.nextSuspendResponseConverter(null, typeData)?.let {
+        ktorfit.nextSuspendResponseConverter(null, typeData2)?.let {
             val result: KtorfitResult =
                 try {
                     KtorfitResult.Success(
@@ -83,7 +83,7 @@ public class KtorfitConverterHelper(
             return it.convert(result) as ReturnType?
         }
 
-        throw IllegalStateException("No SuspendResponseConverter found to convert ${typeData.typeInfo}")
+        throw IllegalStateException("No SuspendResponseConverter found to convert ${typeData2.typeInfo}")
     }
 
     public fun <T : Any> convertParameterType(

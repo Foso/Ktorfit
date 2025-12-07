@@ -2,7 +2,7 @@ package de.jensklingenberg.ktorfit
 
 import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
-import de.jensklingenberg.ktorfit.converter.TypeData
+import de.jensklingenberg.ktorfit.converter.TypeData2
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import io.ktor.client.request.HttpRequestData
 import io.ktor.client.statement.HttpResponse
@@ -30,7 +30,7 @@ class KtorfitTest {
         val nextConverter =
             ktorfit.nextSuspendResponseConverter(
                 null,
-                TypeData("kotlin.String", emptyList(), isNullable = true, typeInfo = typeInfo<String>()),
+                TypeData2("kotlin.String", emptyList(), isNullable = true, typeInfo = typeInfo<String>()),
             )
         assertTrue(nextConverter is TestConverterFactory.SuspendConverter)
     }
@@ -53,7 +53,7 @@ class KtorfitTest {
         val nextConverter =
             ktorfit.nextSuspendResponseConverter(
                 null,
-                TypeData("kotlin.String", emptyList(), isNullable = true, typeInfo = typeInfo<String>()),
+                TypeData2("kotlin.String", emptyList(), isNullable = true, typeInfo = typeInfo<String>()),
             )
         assertTrue(nextConverter is DefaultSuspendResponseConverterFactory.DefaultSuspendResponseConverter)
     }
@@ -75,7 +75,7 @@ class KtorfitTest {
                 .build()
 
         val nextConverter =
-            ktorfit.nextResponseConverter(null, TypeData("kotlin.String", emptyList(), isNullable = true, typeInfo = typeInfo<String>()))
+            ktorfit.nextResponseConverter(null, TypeData2("kotlin.String", emptyList(), isNullable = true, typeInfo = typeInfo<String>()))
         assertTrue((nextConverter) is TestConverterFactory.ResponseConverter)
     }
 
@@ -95,19 +95,19 @@ class KtorfitTest {
                 .build()
 
         val nextConverter =
-            ktorfit.nextResponseConverter(null, TypeData("kotlin.String", emptyList(), isNullable = true, typeInfo = typeInfo<String>()))
+            ktorfit.nextResponseConverter(null, TypeData2("kotlin.String", emptyList(), isNullable = true, typeInfo = typeInfo<String>()))
         assertTrue(nextConverter is DefaultSuspendResponseConverterFactory.DefaultResponseConverter)
     }
 }
 
 private class TestConverterFactory : Converter.Factory {
     class SuspendConverter(
-        val typeData: TypeData
+        val typeData2: TypeData2
     ) : Converter.SuspendResponseConverter<HttpResponse, Any> {
         override suspend fun convert(result: KtorfitResult): Any {
             when (result) {
                 is KtorfitResult.Success -> {
-                    return result.response.call.body(typeData.typeInfo)
+                    return result.response.call.body(typeData2.typeInfo)
                 }
                 is KtorfitResult.Failure -> {
                     throw result.throwable
@@ -121,21 +121,21 @@ private class TestConverterFactory : Converter.Factory {
     }
 
     override fun suspendResponseConverter(
-        typeData: TypeData,
+        typeData2: TypeData2,
         ktorfit: Ktorfit,
     ): Converter.SuspendResponseConverter<HttpResponse, *>? {
-        return if (typeData.qualifiedName == "kotlin.String") {
-            return SuspendConverter(typeData)
+        return if (typeData2.qualifiedName == "kotlin.String") {
+            return SuspendConverter(typeData2)
         } else {
             null
         }
     }
 
     override fun responseConverter(
-        typeData: TypeData,
+        typeData2: TypeData2,
         ktorfit: Ktorfit,
     ): Converter.ResponseConverter<HttpResponse, *>? {
-        return if (typeData.qualifiedName == "kotlin.String") {
+        return if (typeData2.qualifiedName == "kotlin.String") {
             return ResponseConverter()
         } else {
             null

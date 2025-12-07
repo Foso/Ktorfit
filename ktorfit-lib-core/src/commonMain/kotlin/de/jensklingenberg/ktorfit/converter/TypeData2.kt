@@ -13,9 +13,9 @@ import kotlin.reflect.KClass
  * @param typeInfo the typeInfo of the return type, that can be used to
  * convert the HTTPResponse to the given type
  */
-public data class TypeData(
+public data class TypeData2(
     public val qualifiedName: String,
-    public val typeArgs: List<TypeData> = emptyList(),
+    public val typeArgs: List<TypeData2> = emptyList(),
     public val typeInfo: TypeInfo,
     public val isNullable: Boolean = typeInfo.kotlinType?.isMarkedNullable ?: false,
 ) {
@@ -23,7 +23,7 @@ public data class TypeData(
         public fun createTypeData(
             qualifiedTypename: String = "",
             typeInfo: TypeInfo,
-        ): TypeData {
+        ): TypeData2 {
             val typeArgument = qualifiedTypename.substringAfter("<").substringBeforeLast(">")
             val split = typeArgument.split(",")
             val args =
@@ -44,7 +44,7 @@ public data class TypeData(
                     }?.filterNotNull()
                     .orEmpty()
 
-            return TypeData(qualifiedTypename.substringBefore("<"), args, typeInfo = typeInfo)
+            return TypeData2(qualifiedTypename.substringBefore("<"), args, typeInfo = typeInfo)
         }
     }
 }

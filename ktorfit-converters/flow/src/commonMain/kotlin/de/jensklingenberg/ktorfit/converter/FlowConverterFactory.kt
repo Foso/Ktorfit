@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.flow
  */
 public class FlowConverterFactory : Converter.Factory {
     override fun responseConverter(
-        typeData: TypeData,
+        typeData2: TypeData2,
         ktorfit: Ktorfit,
     ): Converter.ResponseConverter<HttpResponse, *>? {
-        if (typeData.typeInfo.type == Flow::class) {
+        if (typeData2.typeInfo.type == Flow::class) {
             return object : Converter.ResponseConverter<HttpResponse, Flow<Any?>> {
                 override fun convert(getResponse: suspend () -> HttpResponse): Flow<Any?> {
-                    val requestType = typeData.typeArgs.first()
+                    val requestType = typeData2.typeArgs.first()
                     return flow {
                         val response = getResponse()
                         if (requestType.typeInfo.type == HttpResponse::class) {
@@ -26,9 +26,9 @@ public class FlowConverterFactory : Converter.Factory {
                             val convertedBody =
                                 ktorfit.nextSuspendResponseConverter(
                                     this@FlowConverterFactory,
-                                    typeData.typeArgs.first(),
+                                    typeData2.typeArgs.first(),
                                 )?.convert(KtorfitResult.Success(response))
-                                    ?: response.body(typeData.typeArgs.first().typeInfo)
+                                    ?: response.body(typeData2.typeArgs.first().typeInfo)
                             emit(convertedBody)
                         }
                     }
