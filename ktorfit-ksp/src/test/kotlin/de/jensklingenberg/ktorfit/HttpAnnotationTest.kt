@@ -97,8 +97,7 @@ interface TestService {
 
         val expectedFunctionText = """val _ext: HttpRequestBuilder.() -> Unit = {
         this.method = HttpMethod.parse("GET2")
-        url{
-        takeFrom(_baseUrl + "user")
+        url(_baseUrl + "user"){
         }
         setBody(body) 
         }"""

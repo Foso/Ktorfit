@@ -18,8 +18,7 @@ class UrlArgumentTextKtTest {
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         val expected =
-            "url{\n" +
-                "takeFrom(_baseUrl + \"posts\")\n" +
+            "url(_baseUrl + \"posts\"){\n" +
                 "}".trimMargin()
         assertEquals(
             expected,
@@ -35,8 +34,7 @@ class UrlArgumentTextKtTest {
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("posts", HttpMethod.GET), "")
         assertEquals(
-            "url{\n" +
-                "takeFrom((_baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"posts\")\n" +
+            "url((_baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"posts\"){\n" +
                 "}",
             text,
         )
@@ -51,8 +49,7 @@ class UrlArgumentTextKtTest {
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
         val expected =
             String.format(
-                "url{\n" +
-                    "takeFrom((_baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"%s{test1}\")\n" +
+                "url((_baseUrl.takeIf{ !test1.startsWith(\"http\")} ?: \"\") + \"%s{test1}\"){\n" +
                     "}",
                 "$",
             )
@@ -64,7 +61,7 @@ class UrlArgumentTextKtTest {
         val parameterData = ParameterData("test1", ReturnTypeData("String", mock<KSType>()))
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("", HttpMethod.GET), "")
-        assertEquals("url{\ntakeFrom(_baseUrl + \"\")\n}", text)
+        assertEquals("url(_baseUrl + \"\"){\n}", text)
     }
 
     @Test
@@ -75,8 +72,7 @@ class UrlArgumentTextKtTest {
         val params = listOf(parameterData)
         val text = getUrlCode(params, HttpMethodAnnotation("user/{testValue}", HttpMethod.GET), "")
         assertEquals(
-            """url{
-takeFrom(_baseUrl + "user/$/{"$/test1".encodeURLPath()}")
+            """url(_baseUrl + "user/$/{"$/test1".encodeURLPath()}"){
 }""".replace("$/", "$"),
             text,
         )

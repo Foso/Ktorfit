@@ -12,8 +12,7 @@ import java.io.File
 class UrlTest {
     @Test
     fun testFunctionWithGET() {
-        val expectedFunctionSource = """url{
-        takeFrom(_baseUrl + "user")
+        val expectedFunctionSource = """url(_baseUrl + "user"){
         }"""
 
         val source =
@@ -63,8 +62,7 @@ interface TestService {
             )
 
         val expectedFunctionText =
-            """url{
-        takeFrom(_baseUrl + "user/$\{"$\userId".encodeURLPath()}")
+            """url(_baseUrl + "user/$\{"$\userId".encodeURLPath()}"){
         } """.replace("$\\", "$")
 
         val compilation = getCompilation(listOf(source))
@@ -102,8 +100,7 @@ interface TestService {
             )
 
         val expectedFunctionText =
-            """url{
-        takeFrom(_baseUrl + "user/$\{"$\userId".encodeURLPath()}")
+            """url(_baseUrl + "user/$\{"$\userId".encodeURLPath()}"){
         } """.replace("$\\", "$")
 
         val compilation = getCompilation(listOf(source))
@@ -124,8 +121,7 @@ interface TestService {
     @Test
     fun testFunctionWithGETAndUrlAnno() {
         val expectedFunctionSource =
-            """url{
-        takeFrom((_baseUrl.takeIf{ !url.startsWith("http")} ?: "") + "$\{url}")
+            """url((_baseUrl.takeIf{ !url.startsWith("http")} ?: "") + "$\{url}"){
         }""".replace("$\\", "$")
 
         val source =
@@ -223,8 +219,7 @@ interface TestService {
             )
 
         val expectedFunctionText =
-            """url{
-        takeFrom(_baseUrl + "user/$\{"$\id"}")
+            """url(_baseUrl + "user/$\{"$\id"}"){
         }""".replace("$\\", "$")
 
         val compilation = getCompilation(listOf(source))

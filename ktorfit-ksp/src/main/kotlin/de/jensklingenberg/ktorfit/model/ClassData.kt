@@ -46,8 +46,8 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
             "io.ktor.util.reflect.typeInfo",
             "io.ktor.client.request.HttpRequestBuilder",
             "io.ktor.client.request.parameter",
-            "io.ktor.http.takeFrom",
-            "io.ktor.http.decodeURLQueryComponent"
+            "io.ktor.client.request.url",
+            "io.ktor.http.decodeURLQueryComponent",
         )
 
     val packageName = ksClassDeclaration.packageName.asString()
