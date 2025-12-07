@@ -87,6 +87,7 @@ class ClientTest {
         }
     }
 
+    @OptIn(InternalKtorfitApi::class)
     @Test
     fun throwExceptionWhenRequestConverterMissing() {
         try {

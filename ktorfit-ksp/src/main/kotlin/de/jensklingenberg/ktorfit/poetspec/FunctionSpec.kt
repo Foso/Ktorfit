@@ -8,6 +8,7 @@ import com.squareup.kotlinpoet.TypeName
 import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.converterHelper
 import de.jensklingenberg.ktorfit.model.extDataClass
+import de.jensklingenberg.ktorfit.model.httpClientClass
 import de.jensklingenberg.ktorfit.reqBuilderExtension.addRequestConverterText
 import de.jensklingenberg.ktorfit.reqBuilderExtension.getReqBuilderExtensionText
 import de.jensklingenberg.ktorfit.utils.removeWhiteSpaces
@@ -50,7 +51,7 @@ private fun FunSpec.Builder.addBody(
                 arrayType,
             ),
         ).addStatement(
-            "return %L.%L(${extDataClass.objectName}, typeInfo<%T>(),%L)%L ",
+            "return %L.%L(${httpClientClass.objectName}, ${extDataClass.objectName}, typeInfo<%T>(),%L)%L ",
             converterHelper.objectName,
             if (functionData.isSuspend) {
                 "suspendRequest"

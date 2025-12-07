@@ -21,12 +21,11 @@ import kotlin.reflect.cast
 public class KtorfitConverterHelper(
     private val ktorfit: Ktorfit
 ) {
-    private val httpClient: HttpClient = ktorfit.httpClient
-
     /**
      * This will handle all requests for functions without suspend modifier
      */
     public fun <ReturnType> request(
+        httpClient: HttpClient,
         requestBuilder: HttpRequestBuilder.() -> Unit,
         typeInfo: TypeInfo,
         qualifier: String = "",
@@ -39,6 +38,7 @@ public class KtorfitConverterHelper(
         ktorfit.nextResponseConverter(null, returnTypeData)?.let { responseConverter ->
             return responseConverter.convert {
                 suspendRequest<HttpResponse>(
+                    httpClient,
                     requestBuilder,
                     typeInfo<HttpResponse>(),
                     "io.ktor.client.statement.HttpResponse",
@@ -54,6 +54,7 @@ public class KtorfitConverterHelper(
      * Used by generated Code
      */
     public suspend fun <ReturnType> suspendRequest(
+        httpClient: HttpClient,
         requestBuilder: HttpRequestBuilder.() -> Unit,
         typeInfo: TypeInfo,
         qualifier: String = "",

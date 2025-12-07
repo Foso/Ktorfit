@@ -38,15 +38,17 @@ interface TestService : SuperTestService {
                 /**
                  * public class _TestServiceImpl(
                  *   private val _baseUrl: String,
+                 *   private val _httpClient: HttpClient,
                  *   private val _helper: KtorfitConverterHelper,
                  * ) : TestService,
-                 *     SuperTestService by com.example.api._SuperTestServiceImpl( _baseUrl,_helper) {
+                 *     SuperTestService by com.example.api._SuperTestServiceImpl( _baseUrl,_httpClient,_helper) {
                  */
                 append("public class _TestServiceImpl(\n")
                 append("  private val _baseUrl: String,\n")
+                append("  private val _httpClient: HttpClient,\n")
                 append("  private val _helper: KtorfitConverterHelper,\n")
                 append(") : TestService,\n")
-                append("    SuperTestService by com.example.api._SuperTestServiceImpl( _baseUrl,_helper) {\n")
+                append("    SuperTestService by com.example.api._SuperTestServiceImpl( _baseUrl,_httpClient,_helper) {\n")
             }
 
         val compilation = getCompilation(listOf(source))
@@ -97,6 +99,7 @@ interface TestService : @NoDelegation SuperTestService1, @NoDelegation SuperTest
         val expectedHeadersArgumentText =
             "public class _TestServiceImpl(\n" +
                 "  private val _baseUrl: String,\n" +
+                "  private val _httpClient: HttpClient,\n" +
                 "  private val _helper: KtorfitConverterHelper,\n" +
                 ") : TestService {"
 

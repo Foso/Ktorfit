@@ -71,6 +71,13 @@ private fun createImplClassTypeSpec(
             .addModifiers(KModifier.PRIVATE)
             .build()
 
+    val httpClientProperty =
+        PropertySpec
+            .builder(de.jensklingenberg.ktorfit.model.httpClientClass.objectName, de.jensklingenberg.ktorfit.model.httpClientClass.toClassName())
+            .initializer(de.jensklingenberg.ktorfit.model.httpClientClass.objectName)
+            .addModifiers(KModifier.PRIVATE)
+            .build()
+
     return TypeSpec
         .classBuilder(implClassName)
         .addAnnotation(getOptInAnnotation(classData.annotations))
@@ -79,11 +86,12 @@ private fun createImplClassTypeSpec(
             FunSpec
                 .constructorBuilder()
                 .addParameter("_baseUrl", ClassName("kotlin", "String"))
+                .addParameter(de.jensklingenberg.ktorfit.model.httpClientClass.objectName, de.jensklingenberg.ktorfit.model.httpClientClass.toClassName())
                 .addParameter(converterHelper.objectName, converterHelper.toClassName())
                 .build(),
         ).addSuperinterface(ClassName(classData.packageName, classData.name))
         .addKtorfitSuperInterface(classData.superClasses)
-        .addProperties(listOf(baseUrlProperty, helperProperty) + implClassProperties)
+        .addProperties(listOf(baseUrlProperty, httpClientProperty, helperProperty) + implClassProperties)
         .addFunctions(funSpecs)
         .build()
 }
@@ -154,7 +162,7 @@ private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeR
             this.addSuperinterface(
                 ClassName(superTypePackage, superTypeClassName),
                 CodeBlock.of(
-                    "%L._%LImpl( _baseUrl,${converterHelper.objectName})",
+                    "%L._%LImpl( _baseUrl,${de.jensklingenberg.ktorfit.model.httpClientClass.objectName},${converterHelper.objectName})",
                     superTypePackage,
                     superTypeClassName,
                 )
