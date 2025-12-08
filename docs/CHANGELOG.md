@@ -14,10 +14,11 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 ========================================
 * Supported KSP version: >=2.3.0
 * Supported Kotlin version: >=2.3.0
-* Ktor version: 3.2.1
+* Ktor version: 3.3.3
 
 ## Changed
 - Update Kotlin to 2.3.0
+- Update Ktor to 3.3.3
 
 ## Fixed
 - Class-level annotations (e.g., `@HiddenFromObjC`, `@ObjCName`, `@Deprecated`) are now properly propagated to generated implementation classes. This resolves compilation errors when using annotations like `@HiddenFromObjC` on Ktorfit interfaces
