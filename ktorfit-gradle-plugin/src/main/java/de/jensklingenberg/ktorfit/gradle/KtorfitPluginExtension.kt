@@ -31,6 +31,7 @@ open class KtorfitPluginExtension
          *
          * Default: [KtorfitGradlePlugin.KTORFIT_COMPILER_PLUGIN_VERSION]
          * Set value to "-" to disable the compiler plugin
+         * @see [Compatibility-table](https://github.com/Foso/Ktorfit/tree/master/ktorfit-compiler-plugin#compatibility-table)
          */
         open val compilerPluginVersion: Property<String> = objectFactory.property(String::class.java)
 
