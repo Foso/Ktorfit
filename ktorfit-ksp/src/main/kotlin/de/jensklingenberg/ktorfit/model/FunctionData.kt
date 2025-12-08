@@ -246,6 +246,12 @@ fun KSFunctionDeclaration.toFunctionData(
                 addImport("io.ktor.client.request.setBody")
             }
 
+            if ((annotation is Field && annotation.encoded) ||
+                (annotation is FieldMap && annotation.encoded)
+            ) {
+                addImport("io.ktor.http.decodeURLQueryComponent")
+            }
+
             if (annotation is Path && !annotation.encoded) {
                 addImport("io.ktor.http.encodeURLPath")
             }
