@@ -95,7 +95,7 @@ private fun createImplClassTypeSpec(
             FunSpec
                 .constructorBuilder()
                 .addParameter("_baseUrl", ClassName("kotlin", "String"))
-                .addParameter(httpClientClass.objectName, de.jensklingenberg.ktorfit.model.httpClientClass.toClassName())
+                .addParameter(httpClientClass.objectName, httpClientClass.toClassName())
                 .addParameter(converterHelper.objectName, converterHelper.toClassName())
                 .build(),
         ).addSuperinterface(ClassName(classData.packageName, classData.name))

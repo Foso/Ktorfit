@@ -12,13 +12,13 @@ kotlinPoet = "2.2.0"
 kspVersion = "2.3.3"
 
 groupId = "de.jensklingenberg.ktorfit"
-ktorfit = "2.6.5"
-ktorfitKsp = "2.6.6"
-ktorfitCompiler = "2.3.3" #Don't confuse this with the Kotlin version
-ktorfitCallConverter = "2.6.5"
-ktorfitFlowConverter = "2.6.5"
-ktorfitResponseConverter = "2.6.5"
-ktorfitGradle = "2.6.5"
+ktorfit = "2.7.0"
+ktorfitKsp = "2.7.0"
+ktorfitCompiler = "2.3.2" #Don't confuse this with the Kotlin version
+ktorfitCallConverter = "2.7.0"
+ktorfitFlowConverter = "2.7.0"
+ktorfitResponseConverter = "2.7.0"
+ktorfitGradle = "2.7.0"
 
 ktorfitGradlePlugin = "2.6.5"
 ktorVersion = "3.3.3"

@@ -4,13 +4,13 @@ import com.example.model.github.GithubFollowerResponseItem
 import com.example.model.github.Issuedata
 import com.example.model.github.TestReeeItem
 import de.jensklingenberg.ktorfit.Call
-import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.Headers
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Path
 import kotlinx.coroutines.flow.Flow
+import de.jensklingenberg.ktorfit.http.Body as HttpBody
 
 interface GithubService {
     companion object {
@@ -24,13 +24,13 @@ interface GithubService {
     )
     @POST("repos/foso/experimental/issues")
     suspend fun createIssue(
-        @Body body: Map<*, String>,
+        @HttpBody body: Map<*, String>,
         @Header("Acci") headi: String?
     ): String
 
     @POST("repos/foso/experimental/issues")
     suspend fun createIssue2(
-        @Body body: Issuedata,
+        @HttpBody body: Issuedata,
         @Header("Acci") headi: String?
     ): Call<Map<String?, Int>>
 
