@@ -19,5 +19,5 @@ val api = jvmKtorfit.create<ExampleApi>(_ExampleApiImpl(jvmKtorfit))
 | Compiler plugin version | Kotlin |
 |-------------------------|--------|
 | 2.3.1                   | 2.2.21 |
-| 2.3.2                   | 2.3.0  |
+| 2.3.3                   | 2.3.0  |
 
