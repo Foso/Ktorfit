@@ -32,7 +32,7 @@ internal class CreateFuncTransformer(
         fun errorImplNotFound(
             implName: String,
             className: String,
-        ) = "$implName not found, did you apply the Ksp Ktorfit plugin? Use .create$className() instead"
+        ) = "$implName not found, did you apply the Ksp Ktorfit plugin? Make sure that it's applied after the KSP Gradle plugin. Use .create$className() instead"
 
         fun errorClassNotFound(implName: String) = "class $implName not found, did you apply the Ksp Ktorfit plugin?"
 
