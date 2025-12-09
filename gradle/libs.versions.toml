@@ -13,8 +13,8 @@ kspVersion = "2.3.3"
 
 groupId = "de.jensklingenberg.ktorfit"
 ktorfit = "2.7.1"
-ktorfitKsp = "2.6.6"
-ktorfitCompiler = "2.3.3" #Don't confuse this with the Kotlin version
+ktorfitKsp = "2.7.1"
+ktorfitCompiler = "2.3.2" #Don't confuse this with the Kotlin version
 ktorfitCallConverter = "2.7.1"
 ktorfitFlowConverter = "2.7.1"
 ktorfitResponseConverter = "2.7.1"
