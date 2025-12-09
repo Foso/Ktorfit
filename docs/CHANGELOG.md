@@ -12,8 +12,8 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 
 2.7.0 -
 ========================================
-* Supported KSP version: >=2.3.0
-* Supported Kotlin version: >=2.3.0
+* Supported KSP version: >=2.0.2
+* Supported Kotlin version: >=2.2.0
 * Ktor version: 3.3.3
 
 ## Changed
