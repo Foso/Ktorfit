@@ -11,7 +11,7 @@ import org.jetbrains.kotlin.config.CompilerConfigurationKey
 @OptIn(ExperimentalCompilerApi::class)
 @AutoService(CommandLineProcessor::class) // don't forget!
 class ExampleCommandLineProcessor : CommandLineProcessor {
-    override val pluginId: String = CommonCompilerPluginRegistrar.PLUGIN_ID
+    override val pluginId: String = "ktorfitPlugin"
 
     override val pluginOptions: Collection<CliOption> =
         listOf(
