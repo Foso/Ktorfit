@@ -11,8 +11,6 @@ import org.jetbrains.kotlin.config.CompilerConfiguration
 @OptIn(ExperimentalCompilerApi::class)
 @AutoService(CompilerPluginRegistrar::class)
 class CommonCompilerPluginRegistrar : CompilerPluginRegistrar() {
-    override val pluginId: String = PLUGIN_ID
-
     override val supportsK2: Boolean
         get() = true
 
@@ -26,9 +24,5 @@ class CommonCompilerPluginRegistrar : CompilerPluginRegistrar() {
         IrGenerationExtension.registerExtension(
             KtorfitIrGenerationExtension(DebugLogger(logging, messageCollector)),
         )
-    }
-
-    companion object {
-        const val PLUGIN_ID = "ktorfitPlugin"
     }
 }
