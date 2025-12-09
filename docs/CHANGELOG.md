@@ -17,7 +17,6 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 * Ktor version: 3.3.3
 
 ## Changed
-- Update Kotlin to 2.3.0
 - Update Ktor to 3.3.3
 
 ## Fixed
