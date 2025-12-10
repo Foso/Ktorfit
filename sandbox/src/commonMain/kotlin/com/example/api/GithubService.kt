@@ -12,11 +12,16 @@ import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Path
 import kotlinx.coroutines.flow.Flow
 
+@Target(AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class CustomThrows
+
 interface GithubService {
     companion object {
         const val baseUrl = "https://api.github.com/"
     }
 
+    @Throws
     @Headers(
         "Accept: application/vnd.github.v3+json",
         "Authorization: token ghp_abcdefgh",
