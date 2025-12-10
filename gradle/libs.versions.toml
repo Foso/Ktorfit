@@ -18,7 +18,7 @@ ktorfitCompiler = "2.3.3" #Don't confuse this with the Kotlin version
 ktorfitCallConverter = "2.7.1"
 ktorfitFlowConverter = "2.7.1"
 ktorfitResponseConverter = "2.7.1"
-ktorfitGradle = "2.7.1"
+ktorfitGradle = "2.6.5"
 
 ktorfitGradlePlugin = "2.7.1"
 ktorVersion = "3.3.3"

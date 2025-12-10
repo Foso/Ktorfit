@@ -338,7 +338,7 @@ fun KSFunctionDeclaration.toFunctionData(
         }
         if (functionalKtorfitAnnotation.contains(className)) return@forEach
         // Skip optional-expect Swift interop annotations like @Throws which can break common metadata
-        if (className.canonicalName.startsWith("kotlin.")  && className.canonicalName.endsWith("Throws")) {
+        if (className.canonicalName.startsWith("kotlin.") && className.canonicalName.endsWith("Throws")) {
             return@forEach
         }
         nonKtorfitAnnotations.add(annotation)

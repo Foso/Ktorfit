@@ -85,7 +85,6 @@ interface TestService {
         assertTrue("Generated function test2 should exist", actualSource.contains("override suspend fun test2()"))
     }
 
-
     @Test
     fun `when custom annotation ending with Throws is used it should be filtered out`() {
         val source =
@@ -205,4 +204,3 @@ interface TestService {
         assertTrue("Generated function should exist", actualSource.contains("override suspend fun test()"))
     }
 }
-
