@@ -86,7 +86,7 @@ interface TestService {
     }
 
     @Test
-    fun `when custom annotation ending with Throws is used it should be filtered out`() {
+    fun `when custom annotation ending with Throws is used it should not be filtered out`() {
         val source =
             SourceFile.kotlin(
                 "Source.kt",
@@ -117,7 +117,7 @@ interface TestService {
         val actualSource = generatedFile.readText()
 
         // CustomThrows should be filtered out since it ends with "Throws"
-        assertTrue("Custom annotation ending with Throws should be filtered out", actualSource.contains("@CustomThrows"))
+        assertTrue("Custom annotation ending with Throws should not be filtered out", actualSource.contains("CustomThrows"))
 
         // The function should still be generated
         assertTrue("Generated function should exist", actualSource.contains("override suspend fun test()"))

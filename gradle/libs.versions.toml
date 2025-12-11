@@ -12,15 +12,15 @@ kotlinPoet = "2.2.0"
 kspVersion = "2.3.3"
 
 groupId = "de.jensklingenberg.ktorfit"
-ktorfit = "2.7.1"
-ktorfitKsp = "2.6.6"
-ktorfitCompiler = "2.3.3" #Don't confuse this with the Kotlin version
+ktorfit =  "2.7.1"
+ktorfitKsp = "2.7.1"
+ktorfitCompiler = "2.3.2" #Don't confuse this with the Kotlin version
 ktorfitCallConverter = "2.7.1"
 ktorfitFlowConverter = "2.7.1"
 ktorfitResponseConverter = "2.7.1"
-ktorfitGradle = "2.6.5"
+ktorfitGradle = "2.7.1"
 
-ktorfitGradlePlugin = "2.7.1"
+ktorfitGradlePlugin = "2.6.5"
 ktorVersion = "3.3.3"
 mockk = "1.14.6"
 mockito-kotlin = "4.1.0"
