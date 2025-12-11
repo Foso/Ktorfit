@@ -331,11 +331,16 @@ fun KSFunctionDeclaration.toFunctionData(
 
     annotations.forEach { annotation ->
         val className = annotation.toClassName()
+        // Keep only explicit OptIn entries
         if (className.simpleName == "OptIn") {
             optInAnnotations.add(annotation)
             return@forEach
         }
         if (functionalKtorfitAnnotation.contains(className)) return@forEach
+        // Skip optional-expect Swift interop annotations like @Throws which can break common metadata
+        if (className.canonicalName.startsWith("kotlin.") && className.canonicalName.endsWith("Throws")) {
+            return@forEach
+        }
         nonKtorfitAnnotations.add(annotation)
         addImport(className.canonicalName)
     }
