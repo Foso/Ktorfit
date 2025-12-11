@@ -29,20 +29,28 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
   **Reason:**
   The new `compilerPluginVersion` property provides a clearer and more accurate description of its purpose, which is to specify the version of the Ktorfit compiler plugin, not the Kotlin language version. This change improves configuration clarity and reduces confusion.
 
+When you use Kotlin 2.3.0 you need to set the compilerPluginVersion to 2.3.3. See compatibility table below:
+https://github.com/Foso/Ktorfit/tree/master/ktorfit-compiler-plugin#compatibility-table
+
   **Migration:**
   Replace any usage of `kotlinVersion` in your Gradle build scripts with `compilerPluginVersion`. The `kotlinVersion` property will continue to work for now, but will be removed in a future release.
+
+
 
   **Example migration:**
   ```kotlin
   // Old (deprecated)
   ktorfit {
-      kotlinVersion.set("2.3.0")
+      kotlinVersion.set("2.3.3")
   }
   // New (recommended)
   ktorfit {
-      compilerPluginVersion.set("2.3.0")
+      compilerPluginVersion.set("2.3.3")
   }
   ```
+
+Thanks to @eygraber for contributing to this release!
+
 
 # [2.6.5]()
 
