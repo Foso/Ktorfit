@@ -1,5 +1,5 @@
 [versions]
-abg = "8.12.0"
+abg = "8.13.1"
 autoService = "1.1.1"
 binaryCompatibilityValidator = "0.18.1"
 coroutines = "1.8.1"
