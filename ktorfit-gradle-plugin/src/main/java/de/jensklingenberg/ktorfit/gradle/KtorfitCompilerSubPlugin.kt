@@ -45,11 +45,22 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
 
     @OptIn(ExperimentalKotlinGradlePluginApi::class, ExperimentalBuildToolsApi::class)
     override fun getPluginArtifact(): SubpluginArtifact {
-        checkKotlinVersion(myProject.kotlinExtension.compilerVersion.get())
+        val projectKotlinVersionStr = myProject.kotlinExtension.compilerVersion.get()
+        val (major, minor, patch) = projectKotlinVersionStr.split(".")
+        val projectKotlinVersion =
+            KotlinVersion(
+                major = major.toInt(),
+                minor = minor.toInt(),
+                patch = patch.takeWhile { it != '-' }.toInt()
+            )
+
+        checkKotlinVersion(projectKotlinVersion)
         val compilerVersion =
             myProject.ktorfitExtension(
                 GRADLE_TASKNAME
-            ).compilerPluginVersion.getOrElse(KTORFIT_COMPILER_PLUGIN_VERSION)
+            ).compilerPluginVersion.getOrElse(
+                defaultCompilerPluginVersion(projectKotlinVersion)
+            )
 
         return SubpluginArtifact(
             groupId = GROUP_NAME,
@@ -58,9 +69,16 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
         )
     }
 
-    private fun checkKotlinVersion(compilerVersion: String) {
-        if (compilerVersion.split(".")[0] < MIN_KOTLIN_VERSION.split(".")[0]) {
+    private fun checkKotlinVersion(compilerVersion: KotlinVersion) {
+        if (compilerVersion < MIN_KOTLIN_VERSION) {
             error("Ktorfit: Kotlin version $compilerVersion is not supported. You need at least version $MIN_KOTLIN_VERSION")
+        }
+    }
+
+    private fun defaultCompilerPluginVersion(projectKotlinVersion: KotlinVersion): String {
+        return when {
+            projectKotlinVersion.isAtLeast(2, 3) -> "2.3.3"
+            else -> KTORFIT_COMPILER_PLUGIN_VERSION
         }
     }
 }
