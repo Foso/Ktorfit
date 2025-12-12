@@ -15,7 +15,6 @@ public final class de/jensklingenberg/ktorfit/gradle/KtorfitGradlePlugin : org/g
 	public static final field GROUP_NAME Ljava/lang/String;
 	public static final field KTORFIT_COMPILER_PLUGIN_VERSION Ljava/lang/String;
 	public static final field KTORFIT_KSP_PLUGIN_VERSION Ljava/lang/String;
-	public static final field MIN_KOTLIN_VERSION Ljava/lang/String;
 	public static final field MIN_KSP_VERSION Ljava/lang/String;
 	public fun <init> ()V
 	public synthetic fun apply (Ljava/lang/Object;)V
@@ -23,6 +22,7 @@ public final class de/jensklingenberg/ktorfit/gradle/KtorfitGradlePlugin : org/g
 }
 
 public final class de/jensklingenberg/ktorfit/gradle/KtorfitGradlePlugin$Companion {
+	public final fun getMIN_KOTLIN_VERSION ()Lkotlin/KotlinVersion;
 }
 
 public class de/jensklingenberg/ktorfit/gradle/KtorfitPluginExtension {
