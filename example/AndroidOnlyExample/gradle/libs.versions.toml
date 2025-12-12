@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.2.21"
-agp = "8.11.1"
+agp = "8.13.2"
 ksp = "2.3.3"
 ktorfit = "2.7.1"
 ktor = "3.3.3"
