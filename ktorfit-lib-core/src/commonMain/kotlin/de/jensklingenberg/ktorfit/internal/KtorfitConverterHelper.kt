@@ -5,10 +5,8 @@ import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.converter.TypeData
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.client.request.prepareRequest
 import io.ktor.client.request.request
 import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.HttpStatement
 import io.ktor.util.reflect.TypeInfo
 import io.ktor.util.reflect.typeInfo
 import kotlin.reflect.KClass
@@ -64,11 +62,6 @@ public class KtorfitConverterHelper(
                 typeInfo = typeInfo,
                 qualifiedTypename = qualifier,
             )
-        if (typeData.typeInfo.type == HttpStatement::class) {
-            return httpClient.prepareRequest {
-                requestBuilder(this)
-            } as ReturnType
-        }
 
         ktorfit.nextSuspendResponseConverter(null, typeData)?.let {
             val result: KtorfitResult =

@@ -50,7 +50,17 @@ private fun FunSpec.Builder.addBody(
                 listType,
                 arrayType,
             ),
-        ).addStatement(
+        )
+
+    val isHttpStatementReturnType = functionData.returnType.parameterType.declaration.qualifiedName?.asString() == "io.ktor.client.statement.HttpStatement"
+
+    if (isHttpStatementReturnType) {
+        addStatement(
+            "return ${httpClientClass.objectName}.prepareRequest { ${extDataClass.objectName}(this) }%L",
+            "!!".takeIf { !functionData.returnType.parameterType.isMarkedNullable }.orEmpty(),
+        )
+    } else {
+        addStatement(
             "return %L.%L(${httpClientClass.objectName}, ${extDataClass.objectName}, typeInfo<%T>(),%L)%L ",
             converterHelper.objectName,
             if (functionData.isSuspend) {
@@ -66,4 +76,5 @@ private fun FunSpec.Builder.addBody(
             },
             "!!".takeIf { !functionData.returnType.parameterType.isMarkedNullable }.orEmpty(),
         )
+    }
 }

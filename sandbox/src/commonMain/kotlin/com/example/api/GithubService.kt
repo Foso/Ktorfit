@@ -10,6 +10,8 @@ import de.jensklingenberg.ktorfit.http.Header
 import de.jensklingenberg.ktorfit.http.Headers
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.Path
+import de.jensklingenberg.ktorfit.http.Streaming
+import io.ktor.client.statement.HttpStatement
 import kotlinx.coroutines.flow.Flow
 
 @Target(AnnotationTarget.FUNCTION)
@@ -39,13 +41,14 @@ interface GithubService {
         @Header("Acci") headi: String?
     ): Call<Map<String?, Int>>
 
+    @Streaming
     @Headers(
         "Accept: application/vnd.github.v3+json",
         "Authorization: token ghp_abcdefgh",
         "Content-Type: application/json"
     )
     @GET("user/followers")
-    fun getFollowers(): Flow<List<GithubFollowerResponseItem>>
+    fun getFollowers(): HttpStatement
 
     @Headers(
         "Accept: application/vnd.github.v3+json",

@@ -146,6 +146,9 @@ fun KSFunctionDeclaration.toFunctionData(
                 KtorfitError.FOR_STREAMING_THE_RETURN_TYPE_MUST_BE_HTTP_STATEMENT,
                 funcDeclaration,
             )
+        } else {
+            // Add import for prepareRequest when HttpStatement is used
+            addImport("io.ktor.client.request.prepareRequest")
         }
         functionAnnotationList.add(streaming)
     }

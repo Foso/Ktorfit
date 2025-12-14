@@ -41,7 +41,7 @@ interface TestService {
     """,
             )
 
-        val expectedFunctionText = """return _helper.suspendRequest(_httpClient, _ext, typeInfo<HttpStatement>(),)!!"""
+        val expectedFunctionText = """return _httpClient.prepareRequest { _ext(this) }!!"""
 
         val compilation = getCompilation(listOf(httpStatement, source))
         val result = compilation.compile()
