@@ -43,6 +43,9 @@ private fun FunSpec.Builder.addBody(
         resolver.getKotlinClassByName("kotlin.collections.List")?.asStarProjectedType() ?: error("List not found")
 
     val arrayType = resolver.builtIns.arrayType.starProjection()
+
+    val isHttpStatement = functionData.returnType.name == "HttpStatement"
+
     addRequestConverterText(functionData.parameterDataList)
         .addStatement(
             getReqBuilderExtensionText(
@@ -50,7 +53,18 @@ private fun FunSpec.Builder.addBody(
                 listType,
                 arrayType,
             ),
-        ).addStatement(
+        )
+
+    if (isHttpStatement && functionData.isSuspend) {
+        // For HttpStatement return type, use prepareRequest instead
+        addStatement(
+            "return ${httpClientClass.objectName}.prepareRequest {\n" +
+            "    ${extDataClass.objectName}(this)\n" +
+            "} as %T",
+            returnTypeName
+        )
+    } else {
+        addStatement(
             "val httpResponseLambda: suspend () -> HttpResponse = {\n" +
             "    ${httpClientClass.objectName}.request {\n" +
             "        ${extDataClass.objectName}(this)\n" +
@@ -73,4 +87,5 @@ private fun FunSpec.Builder.addBody(
             },
             "!!".takeIf { !functionData.returnType.parameterType.isMarkedNullable }.orEmpty(),
         )
+    }
 }

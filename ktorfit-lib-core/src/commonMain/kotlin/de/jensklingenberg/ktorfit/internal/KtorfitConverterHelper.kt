@@ -71,16 +71,8 @@ public class KtorfitConverterHelper(
         typeInfo: TypeInfo,
         qualifier: String = "",
     ): ReturnType? {
-        val typeData =
-            TypeData.createTypeData(
-                typeInfo = typeInfo,
-                qualifiedTypename = qualifier,
-            )
-        if (typeData.typeInfo.type == HttpStatement::class) {
-            return httpClient.prepareRequest {
-                requestBuilder(this)
-            } as ReturnType
-        }
+
+
         val httpResponseLambda: suspend () -> HttpResponse = {
             httpClient.request {
                 requestBuilder(this)
