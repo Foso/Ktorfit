@@ -51,6 +51,13 @@ private fun FunSpec.Builder.addBody(
                 arrayType,
             ),
         ).addStatement(
+            "val httpResponseLambda: suspend () -> HttpResponse = {\n" +
+            "    ${httpClientClass.objectName}.request {\n" +
+            "        ${extDataClass.objectName}(this)\n" +
+            "    }\n" +
+            "}"
+        )
+        .addStatement(
             "return %L.%L(${httpClientClass.objectName}, ${extDataClass.objectName}, typeInfo<%T>(),%L)%L ",
             converterHelper.objectName,
             if (functionData.isSuspend) {
