@@ -72,7 +72,7 @@ private fun FunSpec.Builder.addBody(
             "}"
         )
         .addStatement(
-            "return %L.%L(${httpClientClass.objectName}, ${extDataClass.objectName}, typeInfo<%T>(),%L)%L ",
+            "return %L.%L(httpResponseLambda, typeInfo<%T>(),%L)%L ",
             converterHelper.objectName,
             if (functionData.isSuspend) {
                 "suspendRequest"

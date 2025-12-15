@@ -3,12 +3,7 @@ package de.jensklingenberg.ktorfit.internal
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.converter.TypeData
-import io.ktor.client.HttpClient
-import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.client.request.prepareRequest
-import io.ktor.client.request.request
 import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.HttpStatement
 import io.ktor.util.reflect.TypeInfo
 import io.ktor.util.reflect.typeInfo
 import kotlin.reflect.KClass
@@ -24,26 +19,8 @@ public class KtorfitConverterHelper(
     /**
      * This will handle all requests for functions without suspend modifier
      */
-
     public fun <ReturnType> request(
-        httpClient: HttpClient,
-        requestBuilder: HttpRequestBuilder.() -> Unit,
-        typeInfo: TypeInfo,
-        qualifier: String = "",
-    ): ReturnType? {
-
-        val httpResponseLambda: suspend () -> HttpResponse = {
-            httpClient.request {
-                requestBuilder(this)
-            }
-        }
-
-        return request(httpResponseLambda,typeInfo,qualifier)
-    }
-
-
-    private fun <ReturnType> request(
-        httpClient: suspend () -> HttpResponse,
+        response: suspend () -> HttpResponse,
         typeInfo: TypeInfo,
         qualifier: String = "",
     ): ReturnType? {
@@ -55,7 +32,7 @@ public class KtorfitConverterHelper(
         ktorfit.nextResponseConverter(null, returnTypeData)?.let { responseConverter ->
             return responseConverter.convert {
                 suspendRequest<HttpResponse>(
-                    httpClient,
+                    response,
                     typeInfo<HttpResponse>(),
                     "io.ktor.client.statement.HttpResponse",
                 )!!
@@ -65,29 +42,12 @@ public class KtorfitConverterHelper(
         throw IllegalStateException("Add a ResponseConverter for " + returnTypeData.typeInfo + " or make function suspend")
     }
 
-    public suspend fun <ReturnType> suspendRequest(
-        httpClient: HttpClient,
-        requestBuilder: HttpRequestBuilder.() -> Unit,
-        typeInfo: TypeInfo,
-        qualifier: String = "",
-    ): ReturnType? {
-
-
-        val httpResponseLambda: suspend () -> HttpResponse = {
-            httpClient.request {
-                requestBuilder(this)
-            }
-        }
-
-        return suspendRequest(httpResponseLambda,typeInfo,qualifier)
-    }
-
     /**
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
     public suspend fun <ReturnType> suspendRequest(
-        httpClient: suspend () -> HttpResponse,
+        response: suspend () -> HttpResponse,
         typeInfo: TypeInfo,
         qualifier: String = "",
     ): ReturnType? {
@@ -101,11 +61,12 @@ public class KtorfitConverterHelper(
             val result: KtorfitResult =
                 try {
                     KtorfitResult.Success(
-                        httpClient(),
+                        response(),
                     )
                 } catch (throwable: Throwable) {
                     KtorfitResult.Failure(throwable)
                 }
+
             return it.convert(result) as ReturnType?
         }
 
