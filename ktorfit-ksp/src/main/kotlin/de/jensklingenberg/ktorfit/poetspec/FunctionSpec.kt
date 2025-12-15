@@ -59,33 +59,33 @@ private fun FunSpec.Builder.addBody(
         // For HttpStatement return type, use prepareRequest instead
         addStatement(
             "return ${httpClientClass.objectName}.prepareRequest {\n" +
-            "    ${extDataClass.objectName}(this)\n" +
-            "} as %T",
+                "    ${extDataClass.objectName}(this)\n" +
+                "} as %T",
             returnTypeName
         )
     } else {
         addStatement(
             "val httpResponseLambda: suspend () -> HttpResponse = {\n" +
-            "    ${httpClientClass.objectName}.request {\n" +
-            "        ${extDataClass.objectName}(this)\n" +
-            "    }\n" +
-            "}"
+                "    ${httpClientClass.objectName}.request {\n" +
+                "        ${extDataClass.objectName}(this)\n" +
+                "    }\n" +
+                "}"
         )
-        .addStatement(
-            "return %L.%L(httpResponseLambda, typeInfo<%T>(),%L)%L ",
-            converterHelper.objectName,
-            if (functionData.isSuspend) {
-                "suspendRequest"
-            } else {
-                "request"
-            },
-            returnTypeName,
-            if (setQualifiedTypeName) {
-                "\"" + returnTypeName.toString().removeWhiteSpaces() + "\""
-            } else {
-                ""
-            },
-            "!!".takeIf { !functionData.returnType.parameterType.isMarkedNullable }.orEmpty(),
-        )
+            .addStatement(
+                "return %L.%L(httpResponseLambda, typeInfo<%T>(),%L)%L ",
+                converterHelper.objectName,
+                if (functionData.isSuspend) {
+                    "suspendRequest"
+                } else {
+                    "request"
+                },
+                returnTypeName,
+                if (setQualifiedTypeName) {
+                    "\"" + returnTypeName.toString().removeWhiteSpaces() + "\""
+                } else {
+                    ""
+                },
+                "!!".takeIf { !functionData.returnType.parameterType.isMarkedNullable }.orEmpty(),
+            )
     }
 }
