@@ -189,12 +189,11 @@ val ktorClient = HttpClient() {
 ## Streaming
 
 ```kotlin
-@Streaming
 @GET("docs/response.html#streaming")
 suspend fun getPostsStreaming(): HttpStatement
 ```
 
-To receive streaming data you need to annotate a function with @Streaming and the return type has to be HttpStatement.
+To receive streaming data you need to set the return type to HttpStatement.
 
 
 ```kotlin
