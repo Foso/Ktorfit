@@ -8,6 +8,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      GitHub_Actions:
+        patterns:
+          - "*"
   # Updates for Gradle dependencies used in the app
   - package-ecosystem: gradle
     directory: "/"
