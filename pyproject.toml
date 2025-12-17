@@ -1,0 +1,12 @@
+[project]
+name = "Ktorfit"
+version = "0.1.0"
+description = "Documentation for Ktorfit"
+requires-python = ">=3.10"
+dependencies = [
+    "mkdocs==1.6.1",
+    "mkdocs-material==9.5.47",
+    "mkdocs-git-revision-date-localized-plugin==0.14.0",
+    "mkdocs-minify-plugin==0.8.0",
+    "mkdocs-macros-plugin==1.0.5",
+]

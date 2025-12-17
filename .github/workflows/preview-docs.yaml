@@ -1,0 +1,40 @@
+name: Preview documentation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - 'pyproject.toml'
+
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  preview_docs:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      TERM: dumb
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup uv
+        if: github.event.action != 'closed'
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install dependencies
+        if: github.event.action != 'closed'
+        run: uv sync --frozen
+
+      - name: Build documentation
+        if: github.event.action != 'closed'
+        run: mkdocs build
+
+      - name: Deploy PR preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./site/
