@@ -97,6 +97,11 @@ fun KSFunctionDeclaration.toFunctionData(
             typeName = findTypeName(resolvedReturnType, funcDeclaration.getKsFile().filePath),
         )
 
+    // Add prepareRequest import when return type is HttpStatement
+    if (returnType.name == "HttpStatement") {
+        addImport("io.ktor.client.request.prepareRequest")
+    }
+
     val functionAnnotationList = mutableListOf<FunctionAnnotation>()
 
     funcDeclaration.getMultipartAnnotation()?.let {

@@ -3,12 +3,7 @@ package de.jensklingenberg.ktorfit.internal
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.converter.TypeData
-import io.ktor.client.HttpClient
-import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.client.request.prepareRequest
-import io.ktor.client.request.request
 import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.HttpStatement
 import io.ktor.util.reflect.TypeInfo
 import io.ktor.util.reflect.typeInfo
 import kotlin.reflect.KClass
@@ -25,8 +20,7 @@ public class KtorfitConverterHelper(
      * This will handle all requests for functions without suspend modifier
      */
     public fun <ReturnType> request(
-        httpClient: HttpClient,
-        requestBuilder: HttpRequestBuilder.() -> Unit,
+        response: suspend () -> HttpResponse,
         typeInfo: TypeInfo,
         qualifier: String = "",
     ): ReturnType? {
@@ -38,8 +32,7 @@ public class KtorfitConverterHelper(
         ktorfit.nextResponseConverter(null, returnTypeData)?.let { responseConverter ->
             return responseConverter.convert {
                 suspendRequest<HttpResponse>(
-                    httpClient,
-                    requestBuilder,
+                    response,
                     typeInfo<HttpResponse>(),
                     "io.ktor.client.statement.HttpResponse",
                 )!!
@@ -54,8 +47,7 @@ public class KtorfitConverterHelper(
      * Used by generated Code
      */
     public suspend fun <ReturnType> suspendRequest(
-        httpClient: HttpClient,
-        requestBuilder: HttpRequestBuilder.() -> Unit,
+        response: suspend () -> HttpResponse,
         typeInfo: TypeInfo,
         qualifier: String = "",
     ): ReturnType? {
@@ -64,23 +56,17 @@ public class KtorfitConverterHelper(
                 typeInfo = typeInfo,
                 qualifiedTypename = qualifier,
             )
-        if (typeData.typeInfo.type == HttpStatement::class) {
-            return httpClient.prepareRequest {
-                requestBuilder(this)
-            } as ReturnType
-        }
 
         ktorfit.nextSuspendResponseConverter(null, typeData)?.let {
             val result: KtorfitResult =
                 try {
                     KtorfitResult.Success(
-                        httpClient.request {
-                            requestBuilder(this)
-                        },
+                        response(),
                     )
                 } catch (throwable: Throwable) {
                     KtorfitResult.Failure(throwable)
                 }
+
             return it.convert(result) as ReturnType?
         }
 
