@@ -22,14 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Setup uv
-        if: github.event.action != 'closed'
-        uses: astral-sh/setup-uv@v7
-
-      - name: Install dependencies
-        if: github.event.action != 'closed'
-        run: uv sync --frozen
-
       - name: Build documentation
         if: github.event.action != 'closed'
         run: mkdocs build
