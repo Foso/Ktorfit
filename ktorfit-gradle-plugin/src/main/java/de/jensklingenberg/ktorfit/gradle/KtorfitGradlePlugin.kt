@@ -25,7 +25,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
         const val KTORFIT_KSP_PLUGIN_VERSION = "2.7.1"
         const val KTORFIT_COMPILER_PLUGIN_VERSION = "2.3.2"
         const val MIN_KSP_VERSION = "2.0.2"
-        const val MIN_KOTLIN_VERSION = "2.2.0"
+        val MIN_KOTLIN_VERSION = KotlinVersion(2, 2, 0)
     }
 
     override fun apply(project: Project) {
