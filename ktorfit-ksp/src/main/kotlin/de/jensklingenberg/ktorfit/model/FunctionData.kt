@@ -347,6 +347,7 @@ fun KSFunctionDeclaration.toFunctionData(
 
     if (nonKtorfitAnnotations.isNotEmpty()) {
         addImport("io.ktor.util.AttributeKey")
+        addImport("de.jensklingenberg.ktorfit.annotationsAttributeKey")
     }
 
     return FunctionData(
