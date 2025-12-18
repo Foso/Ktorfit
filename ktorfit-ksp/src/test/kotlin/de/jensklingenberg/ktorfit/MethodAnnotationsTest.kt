@@ -31,7 +31,7 @@ interface TestService {
             )
 
         val expectedHeadersArgumentText =
-            """attributes.put(AttributeKey("__ktorfit_attribute_annotations"), listOf(
+            """attributes.put(annotationsAttributeKey, listOf(
         Test1(`value` = "Foo"),
         Test1(`value` = "Bar"),
         Test2(value1 = "Foo", value2 = "Bar"),
@@ -76,7 +76,7 @@ interface TestService {
             )
 
         val expectedHeadersArgumentText =
-            """attributes.put(AttributeKey("__ktorfit_attribute_annotations"), listOf(
+            """attributes.put(annotationsAttributeKey, listOf(
         Test1(),
         ))"""
 

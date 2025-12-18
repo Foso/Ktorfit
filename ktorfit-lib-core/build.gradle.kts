@@ -155,6 +155,7 @@ kotlin {
                 implementation(libs.junit)
                 implementation(libs.mockito.kotlin)
                 implementation(libs.ktor.client.cio.jvm)
+                implementation(libs.kotlin.coroutines.test)
             }
         }
     }
