@@ -6,7 +6,7 @@ plugins {
     id("com.android.library")
     id("com.google.devtools.ksp") version "2.3.4"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "2.7.1"
+    id("de.jensklingenberg.ktorfit") version "2.7.2"
 }
 
 ktorfit {
@@ -15,7 +15,7 @@ ktorfit {
 
 version = "1.0"
 val ktorVersion = "3.3.3"
-val ktorfitVersion = "2.7.1"
+val ktorfitVersion = "2.7.2"
 
 kotlin {
     jvmToolchain(11)
