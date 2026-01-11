@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "2.3.3"
+    id("com.google.devtools.ksp") version "2.3.4"
     id("kotlinx-serialization")
     id("de.jensklingenberg.ktorfit") version "2.7.1"
 }
