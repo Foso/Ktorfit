@@ -12,7 +12,7 @@ pluginManagement {
 
     dependencyResolutionManagement {
         repositories {
-            mavenLocal()
+            //mavenLocal()
             google()
             mavenCentral()
             // your repos
