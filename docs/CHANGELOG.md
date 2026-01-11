@@ -17,13 +17,12 @@ But there is no intent to bump the Ktorfit major version for every KSP update.
 
 ## Changed
 - Update KSP to 2.3.4
-- When you Kotlin 2.3.0 the Gradle plugin will now automatically set the compilerPluginVersion to 2.3.3 if not set manually.
+- When you use Kotlin 2.3.0 the Gradle plugin will now automatically set the compilerPluginVersion to 2.3.3 if not set manually.
 
 ## Fixed
 - Unable to retrieve annotations in client plugin #1009
 
 Thanks to @eygraber and @bmoliveira for contributing to this release!
-
 
 # [2.7.1]()
 
@@ -35,7 +34,6 @@ Thanks to @eygraber and @bmoliveira for contributing to this release!
 
 ## Changed
 - Update Ktor to 3.3.3
-- 
 
 ## Fixed
 - Class-level annotations (e.g., `@HiddenFromObjC`, `@ObjCName`, `@Deprecated`) are now properly propagated to generated implementation classes. This resolves compilation errors when using annotations like `@HiddenFromObjC` on Ktorfit interfaces
