@@ -139,7 +139,7 @@ android {
     defaultConfig {
         minSdk = 21
     }
-    namespace = "de.jensklingenberg.ktorfit.converters.call"
+    namespace = "de.jensklingenberg.ktorfit.converters.response"
 }
 
 publishing {
