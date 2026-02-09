@@ -8,10 +8,8 @@
   ],
   packageRules: [
     {
-      groupName: 'Ktor Client',
-      matchPackageNames: [
-        '/^io\\.ktor:ktor-client(-[^:]+)?$/',
-      ],
+      matchPackageNames: ['io.ktor:ktor-*'],
+      allowedVersions: '!/.*-eap-.*$/'
     },
   ],
 }
