@@ -1,17 +1,17 @@
 package de.jensklingenberg.ktorfit.reqBuilderExtension
 
-import com.squareup.kotlinpoet.AnnotationSpec
-import de.jensklingenberg.ktorfit.model.ParameterData
+import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotationsAttributeKey
+import de.jensklingenberg.ktorfit.model.pathTemplateAttributeKey
 import de.jensklingenberg.ktorfit.utils.toClassName
 
 fun getAttributesCode(
-    parameterDataList: List<ParameterData>,
-    annotations: List<AnnotationSpec>,
+    functionData: FunctionData
 ): String {
     val parameterAttributes =
-        parameterDataList
+        "attributes.put(AttributeKey(\"${pathTemplateAttributeKey.objectName}\"), ${functionData.httpMethodAnnotation.path}) )\n" +
+        functionData.parameterDataList
             .filter { it.hasAnnotation<ParameterAnnotation.Tag>() }
             .joinToString("\n") {
                 val tag =
@@ -24,10 +24,11 @@ fun getAttributesCode(
                 }
             }
 
-    if (annotations.isEmpty()) return parameterAttributes
+
+    if (functionData.nonKtorfitAnnotations.isEmpty()) return parameterAttributes
 
     val annotationsAttribute =
-        annotations.joinToString(
+        functionData.nonKtorfitAnnotations.joinToString(
             separator = ",\n",
             prefix = "listOf(\n",
             postfix = ",\n)",
