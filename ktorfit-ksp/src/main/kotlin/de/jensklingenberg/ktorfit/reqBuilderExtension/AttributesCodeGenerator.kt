@@ -10,7 +10,8 @@ fun getAttributesCode(
     functionData: FunctionData
 ): String {
     val parameterAttributes =
-        "attributes.put(AttributeKey(\"${pathTemplateAttributeKey.objectName}\"), ${functionData.httpMethodAnnotation.path}) )\n" +
+        "setAttributes {\n" +
+            "put(AttributeKey(\"${pathTemplateAttributeKey.objectName}\"), \"${functionData.httpMethodAnnotation.path}\"))\n" +
         functionData.parameterDataList
             .filter { it.hasAnnotation<ParameterAnnotation.Tag>() }
             .joinToString("\n") {
@@ -18,11 +19,11 @@ fun getAttributesCode(
                     it.findAnnotationOrNull<ParameterAnnotation.Tag>()
                         ?: throw IllegalStateException("Tag annotation not found")
                 if (it.type.parameterType.isMarkedNullable) {
-                    "${it.name}?.let{ attributes.put(AttributeKey(\"${tag.value}\"), it) }"
+                    "${it.name}?.let{ put(AttributeKey(\"${tag.value}\"), it) }"
                 } else {
-                    "attributes.put(AttributeKey(\"${tag.value}\"), ${it.name})"
+                    "put(AttributeKey(\"${tag.value}\"), ${it.name})"
                 }
-            }
+            } + "}"
 
 
     if (functionData.nonKtorfitAnnotations.isEmpty()) return parameterAttributes
