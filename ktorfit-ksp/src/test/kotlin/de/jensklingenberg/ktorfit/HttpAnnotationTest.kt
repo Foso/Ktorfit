@@ -97,7 +97,7 @@ interface TestService {
 
         val expectedFunctionText = """val _ext: HttpRequestBuilder.() -> Unit = {
         setAttributes {
-        put(AttributeKey("pathTemplateAttributeKey"), "user"))
+        put(AttributeKey("pathTemplateAttributeKey"), "user")
         }
         this.method = HttpMethod.parse("GET2")
         url{

@@ -11,7 +11,7 @@ fun getAttributesCode(
 ): String {
     val parameterAttributes =
         "setAttributes {\n" +
-            "put(AttributeKey(\"${pathTemplateAttributeKey.objectName}\"), \"${functionData.httpMethodAnnotation.path}\"))\n" +
+            "put(AttributeKey(\"${pathTemplateAttributeKey.objectName}\"), \"${functionData.httpMethodAnnotation.path}\")\n" +
         functionData.parameterDataList
             .filter { it.hasAnnotation<ParameterAnnotation.Tag>() }
             .joinToString("\n") {
