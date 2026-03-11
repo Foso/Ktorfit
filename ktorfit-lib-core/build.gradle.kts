@@ -2,7 +2,7 @@ plugins {
     id("ktorfit.kmp")
     alias(libs.plugins.kspPlugin)
     id("ktorfit.publishing")
-    alias(libs.plugins.detekt)
+    id("ktorfit.detekt")
     id("ktorfit.licensee")
     id("org.jlleitschuh.gradle.ktlint")
 }
@@ -20,13 +20,11 @@ ktlint {
     }
 }
 
-detekt {
-    toolVersion = libs.versions.detekt.get()
-    config.from(files("../detekt-config.yml"))
-    buildUponDefaultConfig = false
-}
-
 kotlin {
+    androidLibrary {
+        namespace = "de.jensklingenberg.ktorfit.common"
+    }
+
     explicitApi()
 
     sourceSets {
@@ -53,22 +51,6 @@ kotlin {
                 implementation(libs.kotlin.coroutines.test)
             }
         }
-    }
-}
-
-android {
-    namespace = "de.jensklingenberg.ktorfit.common"
-    defaultConfig {
-        val proguardFile =
-            file("src/jvmMain/resources/META-INF/proguard/ktorfit.pro").also {
-                if (!it.exists()) {
-                    throw NoSuchFileException(
-                        file = it,
-                        reason = "We have to provide a proguard rules file for the library.",
-                    )
-                }
-            }
-        consumerProguardFiles(proguardFile)
     }
 }
 

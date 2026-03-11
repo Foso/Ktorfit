@@ -1,16 +1,14 @@
 plugins {
     id("ktorfit.kmp")
     id("ktorfit.publishing")
-    id("app.cash.licensee")
-}
-
-licensee {
-    allow("Apache-2.0")
-    allow("MIT")
-    allowUrl("https://opensource.org/license/mit")
+    id("ktorfit.licensee")
 }
 
 kotlin {
+    androidLibrary {
+        namespace = "de.jensklingenberg.ktorfit"
+    }
+
     explicitApi()
 
     sourceSets {
@@ -53,10 +51,6 @@ kotlin {
             }
         }
     }
-}
-
-android {
-    namespace = "de.jensklingenberg.ktorfit"
 }
 
 mavenPublishing {

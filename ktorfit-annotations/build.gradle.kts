@@ -8,14 +8,14 @@ plugins {
 }
 
 kotlin {
+    androidLibrary {
+        namespace = "de.jensklingenberg.ktorfit.annotations"
+    }
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmWasi {
         nodejs()
     }
-}
-
-android {
-    namespace = "de.jensklingenberg.ktorfit.annotations"
 }
 
 mavenPublishing {

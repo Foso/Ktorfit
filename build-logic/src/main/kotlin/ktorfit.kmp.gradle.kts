@@ -2,11 +2,16 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     id("ktorfit.jvm")
 }
 
 kotlin {
+    androidLibrary {
+        compileSdk = 35
+        minSdk = 21
+    }
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         nodejs()
@@ -16,10 +21,6 @@ kotlin {
 
     js(IR) {
         nodejs()
-    }
-
-    androidTarget {
-        publishLibraryVariants("release", "debug")
     }
 
     androidNativeArm32()
@@ -48,12 +49,3 @@ kotlin {
 
     applyDefaultHierarchyTemplate()
 }
-
-android {
-    compileSdk = 34
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        minSdk = 21
-    }
-}
-

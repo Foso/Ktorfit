@@ -6,6 +6,10 @@ plugins {
 }
 
 kotlin {
+    androidLibrary {
+        namespace = "de.jensklingenberg.ktorfit.converters.call"
+    }
+
     explicitApi()
 
     sourceSets {
@@ -28,10 +32,6 @@ kotlin {
             }
         }
     }
-}
-
-android {
-    namespace = "de.jensklingenberg.ktorfit.converters.call"
 }
 
 mavenPublishing {

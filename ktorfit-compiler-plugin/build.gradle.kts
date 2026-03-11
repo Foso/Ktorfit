@@ -3,7 +3,7 @@ plugins {
     id("ktorfit.jvm")
     kotlin("kapt")
     id("ktorfit.publishing")
-    alias(libs.plugins.detekt)
+    id("ktorfit.detekt")
     id("ktorfit.licensee")
     id("org.jlleitschuh.gradle.ktlint")
 }
@@ -21,8 +21,3 @@ dependencies {
     testImplementation(kotlin("reflect"))
 }
 
-detekt {
-    toolVersion = libs.versions.detekt.get()
-    config.from(files("../detekt-config.yml"))
-    buildUponDefaultConfig = false
-}

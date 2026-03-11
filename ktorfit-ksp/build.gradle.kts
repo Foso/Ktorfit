@@ -4,7 +4,7 @@ plugins {
     kotlin("jvm")
     id("ktorfit.jvm")
     id("ktorfit.publishing")
-    alias(libs.plugins.detekt)
+    id("ktorfit.detekt")
     kotlin("kapt")
     id("ktorfit.licensee")
     id("org.jlleitschuh.gradle.ktlint")
@@ -28,12 +28,6 @@ dependencies {
     testImplementation(libs.kctfork.core)
     testImplementation(libs.kctfork.ksp)
     testImplementation(libs.mockito.kotlin)
-}
-
-detekt {
-    toolVersion = libs.versions.detekt.get()
-    config.from(files("../detekt-config.yml"))
-    buildUponDefaultConfig = false
 }
 
 tasks.withType<KotlinCompilationTask<*>>().configureEach {
