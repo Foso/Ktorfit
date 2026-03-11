@@ -6,13 +6,8 @@ plugins {
     id("ktorfit.publishing")
     alias(libs.plugins.detekt)
     kotlin("kapt")
-    id("app.cash.licensee")
+    id("ktorfit.licensee")
     id("org.jlleitschuh.gradle.ktlint")
-}
-
-licensee {
-    allow("Apache-2.0")
-    allow("MIT")
 }
 
 mavenPublishing {

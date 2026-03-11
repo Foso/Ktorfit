@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kspPlugin)
     id("ktorfit.publishing")
     alias(libs.plugins.detekt)
-    id("app.cash.licensee")
+    id("ktorfit.licensee")
     id("org.jlleitschuh.gradle.ktlint")
 }
 
@@ -18,12 +18,6 @@ ktlint {
             )
         }
     }
-}
-
-licensee {
-    allow("Apache-2.0")
-    allow("MIT")
-    allowUrl("https://opensource.org/license/mit")
 }
 
 detekt {
