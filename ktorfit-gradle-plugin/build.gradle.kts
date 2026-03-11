@@ -5,7 +5,7 @@ plugins {
     id("java-gradle-plugin")
     `kotlin-dsl`
     alias(libs.plugins.gradlePluginPublish)
-    id("com.vanniktech.maven.publish")
+    id("ktorfit.publishing")
     id("org.jlleitschuh.gradle.ktlint")
 }
 
@@ -32,75 +32,6 @@ gradlePlugin {
     }
 }
 
-val enableSigning = project.hasProperty("signingInMemoryKey")
-
-// Fix task dependencies for signing and publishing
-if (enableSigning) {
-    tasks.withType<AbstractPublishToMaven>().configureEach {
-        dependsOn(tasks.withType<Sign>())
-    }
-}
-
 mavenPublishing {
-
-    coordinates(
-        version = libs.versions.ktorfitGradlePlugin.get(),
-    )
-    publishToMavenCentral()
-    if (enableSigning) {
-        signAllPublications()
-    }
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("default") {
-            from(components["java"])
-
-            pom {
-                name.set("ktorfit-gradle-plugin")
-                description.set("Gradle plugin for Ktorfit")
-                url.set("https://github.com/Foso/Ktorfit")
-
-                licenses {
-                    license {
-                        name.set("Apache License 2.0")
-                        url.set("https://github.com/Foso/Ktorfit/blob/master/LICENSE.txt")
-                    }
-                }
-                scm {
-                    url.set("https://github.com/Foso/Ktorfit")
-                    connection.set("scm:git:git://github.com/Foso/Ktorfit.git")
-                }
-                developers {
-                    developer {
-                        name.set("Jens Klingenberg")
-                        url.set("https://github.com/Foso")
-                    }
-                }
-            }
-        }
-    }
-
-    repositories {
-        if (
-            hasProperty("sonatypeUsername") &&
-            hasProperty("sonatypePassword") &&
-            hasProperty("sonatypeSnapshotUrl") &&
-            hasProperty("sonatypeReleaseUrl")
-        ) {
-            maven {
-                val url =
-                    when {
-                        "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
-                        else -> property("sonatypeReleaseUrl")
-                    } as String
-                setUrl(url)
-                credentials {
-                    username = property("sonatypeUsername") as String
-                    password = property("sonatypePassword") as String
-                }
-            }
-        }
-    }
+    coordinates(version = libs.versions.ktorfitGradlePlugin.get())
 }

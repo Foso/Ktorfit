@@ -1,9 +1,7 @@
 plugins {
     id("ktorfit.kmp")
     alias(libs.plugins.kspPlugin)
-    id("maven-publish")
-    id("signing")
-    id("com.vanniktech.maven.publish")
+    id("ktorfit.publishing")
     alias(libs.plugins.detekt)
     id("app.cash.licensee")
     id("org.jlleitschuh.gradle.ktlint")
@@ -34,26 +32,6 @@ detekt {
     buildUponDefaultConfig = false
 }
 
-val enableSigning = project.hasProperty("signingInMemoryKey")
-
-// Fix task dependencies for signing and publishing
-if (enableSigning) {
-    tasks.withType<AbstractPublishToMaven>().configureEach {
-        dependsOn(tasks.withType<Sign>())
-    }
-}
-
-mavenPublishing {
-
-    coordinates(
-        version = libs.versions.ktorfit.get(),
-    )
-    publishToMavenCentral()
-    if (enableSigning) {
-        signAllPublications()
-    }
-}
-
 kotlin {
     explicitApi()
 
@@ -77,15 +55,11 @@ kotlin {
                 implementation(libs.ktor.client.mock)
                 implementation(libs.junit)
                 implementation(libs.mockito.kotlin)
-                implementation(libs.ktor.client.cio.jvm)
+                implementation(libs.ktor.client.cio)
                 implementation(libs.kotlin.coroutines.test)
             }
         }
     }
-}
-
-tasks.register<Jar>("javadocJar").configure {
-    archiveClassifier.set("javadoc")
 }
 
 android {
@@ -104,62 +78,8 @@ android {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("default") {
-            artifact(tasks["sourcesJar"])
-            // artifact(tasks["javadocJar"])
-
-            pom {
-                name.set(project.name)
-                issueManagement {
-                    system.set("GitHub")
-                    url.set("https://github.com/Foso/Ktorfit/issues")
-                }
-                description.set("Ktorfit Client Library (light)")
-                url.set("https://github.com/Foso/Ktorfit")
-
-                licenses {
-                    license {
-                        name.set("Apache License 2.0")
-                        url.set("https://github.com/Foso/Ktorfit/blob/master/LICENSE.txt")
-                    }
-                }
-                scm {
-                    url.set("https://github.com/Foso/Ktorfit")
-                    connection.set("scm:git:git://github.com/Foso/Ktorfit.git")
-                }
-                developers {
-                    developer {
-                        name.set("Jens Klingenberg")
-                        url.set("https://github.com/Foso")
-                    }
-                }
-            }
-        }
-    }
-
-    repositories {
-        if (
-            hasProperty("sonatypeUsername") &&
-            hasProperty("sonatypePassword") &&
-            hasProperty("sonatypeSnapshotUrl") &&
-            hasProperty("sonatypeReleaseUrl")
-        ) {
-            maven {
-                val url =
-                    when {
-                        "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
-                        else -> property("sonatypeReleaseUrl")
-                    } as String
-                setUrl(url)
-                credentials {
-                    username = property("sonatypeUsername") as String
-                    password = property("sonatypePassword") as String
-                }
-            }
-        }
-    }
+mavenPublishing {
+    coordinates(version = libs.versions.ktorfit.get())
 }
 
 ksp {

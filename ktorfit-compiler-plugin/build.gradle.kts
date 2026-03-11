@@ -1,11 +1,8 @@
-val enableSigning = project.hasProperty("signingInMemoryKey")
-
 plugins {
     kotlin("jvm")
     id("ktorfit.jvm")
     kotlin("kapt")
-    id("com.vanniktech.maven.publish")
-    signing
+    id("ktorfit.publishing")
     alias(libs.plugins.detekt)
     id("app.cash.licensee")
     id("org.jlleitschuh.gradle.ktlint")
@@ -18,17 +15,6 @@ licensee {
 
 mavenPublishing {
     coordinates(version = libs.versions.ktorfitCompiler.get())
-    publishToMavenCentral()
-    if (enableSigning) {
-        signAllPublications()
-    }
-}
-
-// Fix task dependencies for signing and publishing
-if (enableSigning) {
-    tasks.withType<AbstractPublishToMaven>().configureEach {
-        dependsOn(tasks.withType<Sign>())
-    }
 }
 
 dependencies {
@@ -44,57 +30,4 @@ detekt {
     toolVersion = libs.versions.detekt.get()
     config.from(files("../detekt-config.yml"))
     buildUponDefaultConfig = false
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("default") {
-            from(components["java"])
-
-            pom {
-                name.set("ktorfit-compiler-plugin")
-                description.set("Compiler Plugin for Ktorfit")
-                url.set("https://github.com/Foso/Ktorfit")
-
-                licenses {
-                    license {
-                        name.set("Apache License 2.0")
-                        url.set("https://github.com/Foso/Ktorfit/blob/master/LICENSE.txt")
-                    }
-                }
-                scm {
-                    url.set("https://github.com/Foso/Ktorfit")
-                    connection.set("scm:git:git://github.com/Foso/Ktorfit.git")
-                }
-                developers {
-                    developer {
-                        name.set("Jens Klingenberg")
-                        url.set("https://github.com/Foso")
-                    }
-                }
-            }
-        }
-    }
-
-    repositories {
-        if (
-            hasProperty("sonatypeUsername") &&
-            hasProperty("sonatypePassword") &&
-            hasProperty("sonatypeSnapshotUrl") &&
-            hasProperty("sonatypeReleaseUrl")
-        ) {
-            maven {
-                val url =
-                    when {
-                        "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
-                        else -> property("sonatypeReleaseUrl")
-                    } as String
-                setUrl(url)
-                credentials {
-                    username = property("sonatypeUsername") as String
-                    password = property("sonatypePassword") as String
-                }
-            }
-        }
-    }
 }
