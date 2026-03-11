@@ -78,8 +78,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.curl)
-                implementation(libs.ktor.client.core.linuxX64)
-                implementation(libs.ktor.client.cio.linuxX64)
+                implementation(libs.ktor.client.cio)
             }
         }
 
@@ -87,11 +86,10 @@ kotlin {
             kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
 
             dependencies {
-                implementation(libs.ktor.client.core.jvm)
+                implementation(libs.ktor.client.cio)
                 implementation("ch.qos.logback:logback-classic:1.2.3")
                 implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.serialization.gson)
-                implementation(libs.ktor.client.cio.jvm)
             }
         }
 
@@ -104,7 +102,6 @@ kotlin {
 
         jsMain {
             dependencies {
-                implementation(libs.kotlinx.serialization.runtime.js)
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.ktor.client.json.js)
                 implementation(libs.ktor.client.js)

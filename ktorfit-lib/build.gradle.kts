@@ -22,11 +22,8 @@ if (enableSigning) {
 }
 
 mavenPublishing {
-    val artifactId ="ktorfit-lib"
     coordinates(
-        libs.versions.groupId.get(),
-        artifactId,
-        libs.versions.ktorfit.get(),
+        version = libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
     if (enableSigning) {
@@ -43,22 +40,15 @@ kotlin {
                 api(projects.ktorfitLibCore)
             }
         }
-        linuxX64Main {
+        linuxMain {
             dependencies {
-                implementation(libs.ktor.client.core.linuxX64)
-                implementation(libs.ktor.client.cio.linuxX64)
-            }
-        }
-        linuxArm64Main {
-            dependencies {
-                implementation(libs.ktor.client.core.linuxArm64)
-                implementation(libs.ktor.client.cio.linuxArm64)
+                implementation(libs.ktor.client.cio)
             }
         }
 
         mingwX64Main {
             dependencies {
-                implementation(libs.ktor.client.core.mingwx64)
+                implementation(libs.ktor.client.core)
             }
         }
         androidMain {
@@ -68,7 +58,7 @@ kotlin {
         }
         jvmMain {
             dependencies {
-                implementation(libs.ktor.client.cio.jvm)
+                implementation(libs.ktor.client.cio)
             }
         }
 

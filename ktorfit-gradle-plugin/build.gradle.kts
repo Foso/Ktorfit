@@ -4,7 +4,7 @@ plugins {
     kotlin("kapt")
     id("java-gradle-plugin")
     `kotlin-dsl`
-    id("com.gradle.plugin-publish") version "1.3.1"
+    alias(libs.plugins.gradlePluginPublish)
     id("com.vanniktech.maven.publish")
     id("org.jlleitschuh.gradle.ktlint")
 }
@@ -44,9 +44,7 @@ if (enableSigning) {
 mavenPublishing {
 
     coordinates(
-        libs.versions.groupId.get(),
-        "ktorfit-gradle-plugin",
-        libs.versions.ktorfitGradle.get(),
+        version = libs.versions.ktorfitGradlePlugin.get(),
     )
     publishToMavenCentral()
     if (enableSigning) {

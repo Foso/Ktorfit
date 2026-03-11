@@ -23,12 +23,8 @@ if (enableSigning) {
 }
 
 mavenPublishing {
-    val artifactId =
-        "ktorfit-converters-flow"
     coordinates(
-        libs.versions.groupId.get(),
-        artifactId,
-        libs.versions.ktorfitFlowConverter.get(),
+        version = libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
     if (enableSigning) {

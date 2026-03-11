@@ -17,7 +17,7 @@ licensee {
 }
 
 mavenPublishing {
-    coordinates(libs.versions.groupId.get(), "compiler-plugin", libs.versions.ktorfitCompiler.get())
+    coordinates(version = libs.versions.ktorfitCompiler.get())
     publishToMavenCentral()
     if (enableSigning) {
         signAllPublications()

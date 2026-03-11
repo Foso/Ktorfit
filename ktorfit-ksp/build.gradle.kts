@@ -27,9 +27,7 @@ if (enableSigning) {
 
 mavenPublishing {
     coordinates(
-        libs.versions.groupId.get(),
-        "ktorfit-ksp",
-        libs.versions.ktorfitKsp.get(),
+        version = libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
     if (enableSigning) {

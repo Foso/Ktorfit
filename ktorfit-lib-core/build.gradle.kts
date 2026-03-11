@@ -45,12 +45,8 @@ if (enableSigning) {
 
 mavenPublishing {
 
-    val artifactId =
-        "ktorfit-lib-light"
     coordinates(
-        libs.versions.groupId.get(),
-        artifactId,
-        libs.versions.ktorfit.get(),
+        version = libs.versions.ktorfit.get(),
     )
     publishToMavenCentral()
     if (enableSigning) {
