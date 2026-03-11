@@ -1,11 +1,10 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val enableSigning = project.hasProperty("signingInMemoryKey")
 
 plugins {
     kotlin("jvm")
+    id("ktorfit.jvm")
     id("com.vanniktech.maven.publish")
     signing
     alias(libs.plugins.detekt)
@@ -24,15 +23,6 @@ if (enableSigning) {
     tasks.withType<AbstractPublishToMaven>().configureEach {
         dependsOn(tasks.withType<Sign>())
     }
-}
-
-tasks.withType<KotlinCompile> {
-    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 mavenPublishing {

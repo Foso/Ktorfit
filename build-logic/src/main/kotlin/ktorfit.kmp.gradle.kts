@@ -1,10 +1,9 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("ktorfit.jvm")
 }
 
 kotlin {
@@ -58,11 +57,3 @@ android {
     }
 }
 
-tasks.withType<KotlinCompile> {
-    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}

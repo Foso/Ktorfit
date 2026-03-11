@@ -1,7 +1,6 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     kotlin("jvm")
+    id("ktorfit.jvm")
     kotlin("kapt")
     id("java-gradle-plugin")
     `kotlin-dsl`
@@ -12,10 +11,6 @@ plugins {
 
 dependencies {
     add("compileOnly", kotlin("gradle-plugin"))
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 
 dependencies {
@@ -110,9 +105,4 @@ publishing {
             }
         }
     }
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
 }
