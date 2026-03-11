@@ -124,7 +124,6 @@ fun <T> Ktorfit.create(ktorfitService: ClassProvider? = null): T {
             sources = sourceFiles
             verbose = false
             jvmTarget = JvmTarget.fromString(System.getProperty("rdt.jvmTarget", "1.8"))!!.description
-            supportsK2 = true
         }
 
     private fun compile(sourceFiles: List<SourceFile>): JvmCompilationResult = prepareCompilation(sourceFiles).compile()

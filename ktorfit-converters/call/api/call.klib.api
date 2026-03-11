@@ -5,7 +5,7 @@
 // - Show manifest properties: true
 // - Show declarations: true
 
-// Library unique name: <Ktorfit.ktorfit-converters:call>
+// Library unique name: <de.jensklingenberg.ktorfit:call>
 abstract interface <#A: kotlin/Any?> de.jensklingenberg.ktorfit/Call { // de.jensklingenberg.ktorfit/Call|null[0]
     abstract fun onExecute(de.jensklingenberg.ktorfit/Callback<#A>) // de.jensklingenberg.ktorfit/Call.onExecute|onExecute(de.jensklingenberg.ktorfit.Callback<1:0>){}[0]
 }

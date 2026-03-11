@@ -1,3 +1,10 @@
+buildscript {
+    dependencies {
+        // Required for sandbox to apply the ktorfit plugin from the local project
+        classpath(libs.ktorfit.gradle.plugin)
+    }
+}
+
 plugins {
     kotlin("multiplatform") version libs.versions.kotlin apply false
     kotlin("plugin.serialization") version libs.versions.kotlin apply false

@@ -13,7 +13,7 @@ kspVersion = "2.3.6"
 
 ktorfit = "2.7.4-SNAPSHOT"
 ktorfitCompiler = "2.3.5-SNAPSHOT"
-ktorfitGradlePlugin = "2.7.2-SNAPSHOT"
+ktorfitGradlePlugin = "2.7.2"
 
 ktorVersion = "3.3.3"
 mockk = "1.14.7"
@@ -30,6 +30,7 @@ detekt-gradle-plugin = { module = "dev.detekt:detekt-gradle-plugin", version.ref
 gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "vannikMavenPublish" }
 kotlin-gradle-plugin-api = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin-api", version.ref = "kotlin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+ktorfit-gradle-plugin = { module = "de.jensklingenberg.ktorfit:ktorfit-gradle-plugin", version.ref = "ktorfitGradlePlugin" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kctfork-core = { module = "dev.zacsweers.kctfork:core", version.ref = "kctfork" }
 kctfork-ksp = { module = "dev.zacsweers.kctfork:ksp", version.ref = "kctfork" }
@@ -66,4 +67,5 @@ kspPlugin = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "vannikMavenPublish" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 gradlePluginPublish = { id = "com.gradle.plugin-publish", version.ref = "gradlePluginPublish" }
+ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfitGradlePlugin" }
 licensee = { id = "app.cash.licensee", version.ref = "licensee" }

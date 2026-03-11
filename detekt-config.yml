@@ -1,19 +1,9 @@
-build:
-  maxIssues: 0
-  weights:
-    # complexity: 2
-    # LongParameterList: 1
-    # style: 1
-    # comments: 1
-
 complexity:
   active: true
-  ComplexMethod:
+  CyclomaticComplexMethod:
     active: true
-    threshold: 16
-  ComplexCondition:
+  CognitiveComplexMethod:
     active: true
-    threshold: 5
   LongMethod:
     active: true
     excludes: ['**/test/**', '**/androidTest/**']
@@ -28,8 +18,7 @@ style:
   ReturnCount:
     active: true
     max: 5
-    excludedFunctions: "equals"
+    excludedFunctions:
+      - "equals"
     excludeLabeled: false
     excludeReturnFromLambda: true
-  UnusedImports:
-    active: true

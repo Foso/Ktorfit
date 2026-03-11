@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
-    compileOnly(libs.android.build.gradle)
-    compileOnly(libs.kotlin.gradle.plugin)
-    compileOnly(libs.gradle.maven.publish.plugin)
-    compileOnly(libs.licensee.gradle.plugin)
-    compileOnly(libs.detekt.gradle.plugin)
+    implementation(libs.android.build.gradle)
+    implementation(libs.kotlin.gradle.plugin)
+    implementation(libs.gradle.maven.publish.plugin)
+    implementation(libs.licensee.gradle.plugin)
+    implementation(libs.detekt.gradle.plugin)
 }

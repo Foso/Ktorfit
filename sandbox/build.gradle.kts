@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform")
     alias(libs.plugins.kspPlugin)
     id("kotlinx-serialization")
-    id("app.cash.licensee")
+    alias(libs.plugins.licensee)
     id("de.jensklingenberg.ktorfit")
 }
 version = "1.0-SNAPSHOT"
