@@ -1,42 +1,20 @@
-import org.gradle.kotlin.dsl.maven
-
 pluginManagement {
     includeBuild("build-logic")
 
     repositories {
-        mavenLocal()
         google()
-
         mavenCentral()
         gradlePluginPortal()
-    }
-
-    dependencyResolutionManagement {
-        repositories {
-            //mavenLocal()
-            google()
-            mavenCentral()
-            // your repos
-        }
-    }
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == "de.jensklingenberg.ktorfit") {
-                useModule("de.jensklingenberg.ktorfit:de.jensklingenberg.ktorfit.gradle.plugin:${requested.version}")
-            }
-        }
     }
 }
 
 dependencyResolutionManagement {
     repositories {
-        mavenLocal()
-        mavenCentral()
         google()
+        mavenCentral()
         maven {
             url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
         }
-        maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
     }
 }
 
