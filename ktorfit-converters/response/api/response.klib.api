@@ -5,7 +5,7 @@
 // - Show manifest properties: true
 // - Show declarations: true
 
-// Library unique name: <de.jensklingenberg.ktorfit:response>
+// Library unique name: <Ktorfit.ktorfit-converters:response>
 final class <#A: kotlin/Any?> de.jensklingenberg.ktorfit/Response { // de.jensklingenberg.ktorfit/Response|null[0]
     final val code // de.jensklingenberg.ktorfit/Response.code|{}code[0]
         final fun <get-code>(): kotlin/Int // de.jensklingenberg.ktorfit/Response.code.<get-code>|<get-code>(){}[0]
