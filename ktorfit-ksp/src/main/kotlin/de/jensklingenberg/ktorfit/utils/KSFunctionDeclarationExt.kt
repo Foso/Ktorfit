@@ -73,6 +73,7 @@ private fun KSFunctionDeclaration.getAnnotationByName(name: String): KSAnnotatio
         it.shortName.asString() == name
     }
 
+@Suppress("UNCHECKED_CAST")
 fun <T> KSAnnotation.getArgumentValueByName(name: String): T? = this.arguments.firstOrNull { it.name?.asString() == name }?.value as? T
 
 val KSFunctionDeclaration.isSuspend: Boolean

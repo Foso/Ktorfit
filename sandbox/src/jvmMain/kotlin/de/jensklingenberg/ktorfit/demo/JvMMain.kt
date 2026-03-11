@@ -35,7 +35,6 @@ val jvmClient =
             )
         }
 
-        this.developmentMode = true
         expectSuccess = false
     }
 

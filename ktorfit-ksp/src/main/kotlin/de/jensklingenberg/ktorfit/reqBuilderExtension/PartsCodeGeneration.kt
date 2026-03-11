@@ -21,6 +21,7 @@ fun getPartsCode(
             val name = parameterData.name
             val partValue = part.value
 
+            @Suppress("UNNECESSARY_SAFE_CALL")
             val starProj = parameterData.type.parameterType?.starProjection()
             val isList = starProj?.isAssignableFrom(listType) ?: false
             val isArray = starProj?.isAssignableFrom(arrayType) ?: false

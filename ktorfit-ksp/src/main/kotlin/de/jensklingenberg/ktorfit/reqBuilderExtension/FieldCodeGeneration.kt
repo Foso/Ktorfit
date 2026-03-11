@@ -20,6 +20,8 @@ fun getFieldArgumentsText(
             val encoded = field.encoded
             val paramName = parameterData.name
             val fieldValue = field.value
+
+            @Suppress("UNNECESSARY_SAFE_CALL")
             val starProj = parameterData.type.parameterType?.starProjection()
 
             val isList = starProj?.isAssignableFrom(listType) ?: false

@@ -27,6 +27,7 @@ fun getHeadersCode(
             .joinToString("") { parameterData ->
                 val paramName = parameterData.name
 
+                @Suppress("UNNECESSARY_SAFE_CALL")
                 val starProj = parameterData.type.parameterType?.starProjection()
                 val isList = starProj?.isAssignableFrom(listType) ?: false
                 val isArray = starProj?.isAssignableFrom(arrayType) ?: false
