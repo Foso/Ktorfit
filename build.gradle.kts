@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version libs.versions.kotlin apply false
+    kotlin("plugin.serialization") version libs.versions.kotlin apply false
     alias(libs.plugins.mavenPublish) apply false
     alias(libs.plugins.ktlint) apply false
     alias(libs.plugins.binaryCompatibilityValidator)
