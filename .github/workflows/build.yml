@@ -21,7 +21,7 @@ on:
       - 'release/**'
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx8g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
-  
+
 jobs:
   set-milestone:
     if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
@@ -56,7 +56,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 21
+          java-version-file: .java-version
       - uses: gradle/actions/setup-gradle@v5
       - name: API check
         run: ./gradlew ktLintCheck
@@ -73,7 +73,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 21
+          java-version-file: .java-version
       - uses: gradle/actions/setup-gradle@v5
       - name: API check
         run: ./gradlew apiCheck
@@ -81,24 +81,14 @@ jobs:
         if: failure()
         run: echo "Format check failed. Run ./gradlew apiDump to fix."
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Set up JDK 21
+      - name: Set up JDK
         uses: actions/setup-java@v5
         with:
-          java-version: 21
           distribution: 'temurin'
-      - name: Cache Gradle and wrapper
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-    
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+          java-version-file: .java-version
+      - uses: gradle/actions/setup-gradle@v5
       - name: Build and test with Gradle
         run: ./gradlew licensee :ktorfit-gradle-plugin:publishToMavenLocal :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:publishToMavenLocal :ktorfit-lib-core:publishToMavenLocal :ktorfit-compiler-plugin:test :ktorfit-ksp:test :ktorfit-lib-core:jvmTest :ktorfit-converters:call:publishToMavenLocal :ktorfit-converters:flow:publishToMavenLocal :ktorfit-converters:response:publishToMavenLocal
