@@ -74,14 +74,11 @@ kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         this.nodejs()
-        binaries.executable()
     }
     explicitApi()
-    jvm {
-    }
+    jvm()
     js(IR) {
         this.nodejs()
-        binaries.executable() // not applicable to BOTH, see details below
     }
     androidTarget {
         publishLibraryVariants("release", "debug")
@@ -97,24 +94,13 @@ kotlin {
 
     watchosArm32()
     watchosArm64()
-    watchosX64()
     watchosSimulatorArm64()
     watchosDeviceArm64()
     tvosArm64()
-    tvosX64()
     tvosSimulatorArm64()
-    macosX64()
     macosArm64()
-    linuxX64 {
-        binaries {
-            executable()
-        }
-    }
-    linuxArm64 {
-        binaries {
-            executable()
-        }
-    }
+    linuxX64()
+    linuxArm64()
     listOf(
         iosX64(),
         iosArm64(),
@@ -124,7 +110,6 @@ kotlin {
         watchosSimulatorArm64(),
         watchosDeviceArm64(),
         tvosArm64(),
-        tvosX64(),
         tvosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {

@@ -25,18 +25,15 @@ kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         nodejs()
-        binaries.executable()
     }
     @OptIn(ExperimentalWasmDsl::class)
     wasmWasi {
         nodejs()
-        binaries.executable()
     }
 
     jvm {}
     js(IR) {
         this.nodejs()
-        binaries.executable() // not applicable to BOTH, see details below
     }
     androidTarget {
         publishLibraryVariants("release", "debug")
@@ -51,24 +48,13 @@ kotlin {
     iosSimulatorArm64()
     watchosArm32()
     watchosArm64()
-    watchosX64()
     watchosSimulatorArm64()
     watchosDeviceArm64()
     tvosArm64()
-    tvosX64()
     tvosSimulatorArm64()
-    macosX64()
     macosArm64()
-    linuxX64 {
-        binaries {
-            executable()
-        }
-    }
-    linuxArm64 {
-        binaries {
-            executable()
-        }
-    }
+    linuxX64()
+    linuxArm64()
     listOf(
         iosX64(),
         iosArm64(),
@@ -78,7 +64,6 @@ kotlin {
         watchosSimulatorArm64(),
         watchosDeviceArm64(),
         tvosArm64(),
-        tvosX64(),
         tvosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
@@ -88,12 +73,6 @@ kotlin {
 
     mingwX64()
     applyDefaultHierarchyTemplate()
-    sourceSets {
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by getting
-    }
 }
 val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")

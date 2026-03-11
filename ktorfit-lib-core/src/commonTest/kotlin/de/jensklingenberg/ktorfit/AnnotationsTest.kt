@@ -14,7 +14,7 @@ data class TestAnnotation(val value: String = "default")
 
 class AnnotationsTest {
     @Test
-    fun `when annotations are set, they can be retrieved via extension property`() {
+    fun `when annotations are set they can be retrieved via extension property`() {
         val builder = HttpRequestBuilder()
         val annotations = listOf(TestAnnotation("test-value"))
 
@@ -28,7 +28,7 @@ class AnnotationsTest {
     }
 
     @Test
-    fun `when annotations are set, they can be retrieved via getOrNull`() {
+    fun `when annotations are set they can be retrieved via getOrNull`() {
         val builder = HttpRequestBuilder()
         val annotations = listOf(TestAnnotation("test-value"))
 
@@ -42,7 +42,7 @@ class AnnotationsTest {
     }
 
     @Test
-    fun `when no annotations are set, extension property returns empty list`() {
+    fun `when no annotations are set extension property returns empty list`() {
         val builder = HttpRequestBuilder()
 
         // Verify extension property returns empty list when no annotations are set
@@ -51,7 +51,7 @@ class AnnotationsTest {
     }
 
     @Test
-    fun `when no annotations are set, getOrNull returns null`() {
+    fun `when no annotations are set getOrNull returns null`() {
         val builder = HttpRequestBuilder()
 
         // Verify getOrNull returns null when no annotations are set
@@ -60,7 +60,7 @@ class AnnotationsTest {
     }
 
     @Test
-    fun `when annotations are set, they can be filtered by type`() {
+    fun `when annotations are set they can be filtered by type`() {
         val builder = HttpRequestBuilder()
         val annotations =
             listOf(
