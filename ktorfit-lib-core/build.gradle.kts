@@ -1,13 +1,9 @@
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    kotlin("multiplatform")
+    id("ktorfit.kmp")
     alias(libs.plugins.kspPlugin)
     id("maven-publish")
     id("signing")
     id("com.vanniktech.maven.publish")
-    id("com.android.library")
     alias(libs.plugins.detekt)
     id("app.cash.licensee")
     id("org.jlleitschuh.gradle.ktlint")
@@ -24,10 +20,6 @@ ktlint {
             )
         }
     }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
 }
 
 licensee {
@@ -66,58 +58,8 @@ mavenPublishing {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
-}
-
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        this.nodejs()
-    }
     explicitApi()
-    jvm()
-    js(IR) {
-        this.nodejs()
-    }
-    androidTarget {
-        publishLibraryVariants("release", "debug")
-    }
-    androidNativeArm32()
-    androidNativeArm64()
-    androidNativeX86()
-    androidNativeX64()
-
-    iosArm64()
-    iosX64()
-    iosSimulatorArm64()
-
-    watchosArm32()
-    watchosArm64()
-    watchosSimulatorArm64()
-    watchosDeviceArm64()
-    tvosArm64()
-    tvosSimulatorArm64()
-    macosArm64()
-    linuxX64()
-    linuxArm64()
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64(),
-        watchosArm32(),
-        watchosArm64(),
-        watchosSimulatorArm64(),
-        watchosDeviceArm64(),
-        tvosArm64(),
-        tvosSimulatorArm64(),
-    ).forEach {
-        it.binaries.framework {
-            baseName = "library"
-        }
-    }
-    mingwX64()
-    applyDefaultHierarchyTemplate()
 
     sourceSets {
         commonMain {
@@ -151,11 +93,8 @@ tasks.register<Jar>("javadocJar").configure {
 }
 
 android {
-    compileSdk = 34
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    namespace = "de.jensklingenberg.ktorfit.common"
     defaultConfig {
-        minSdk = 21
-
         val proguardFile =
             file("src/jvmMain/resources/META-INF/proguard/ktorfit.pro").also {
                 if (!it.exists()) {
@@ -167,7 +106,6 @@ android {
             }
         consumerProguardFiles(proguardFile)
     }
-    namespace = "de.jensklingenberg.ktorfit.common"
 }
 
 publishing {
@@ -239,9 +177,4 @@ dependencies {
     )
     add("kspJvm", projects.ktorfitKsp)
     add("kspJvmTest", projects.ktorfitKsp)
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
 }

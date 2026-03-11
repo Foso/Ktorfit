@@ -1,12 +1,8 @@
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    kotlin("multiplatform")
+    id("ktorfit.kmp")
     id("maven-publish")
     id("signing")
     id("com.vanniktech.maven.publish")
-    id("com.android.library")
     id("app.cash.licensee")
     id("org.jlleitschuh.gradle.ktlint")
 }
@@ -40,59 +36,9 @@ mavenPublishing {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
-}
-
 kotlin {
     explicitApi()
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        nodejs()
-    }
-    jvm()
-    js(IR) {
-        this.nodejs()
-    }
 
-    androidTarget {
-        publishLibraryVariants("release", "debug")
-    }
-    androidNativeArm32()
-    androidNativeArm64()
-    androidNativeX86()
-    androidNativeX64()
-
-    iosArm64()
-    iosX64()
-    iosSimulatorArm64()
-
-    watchosArm32()
-    watchosArm64()
-    watchosSimulatorArm64()
-    watchosDeviceArm64()
-    tvosArm64()
-    tvosSimulatorArm64()
-    macosArm64()
-    linuxX64()
-    linuxArm64()
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64(),
-        watchosArm32(),
-        watchosArm64(),
-        watchosSimulatorArm64(),
-        watchosDeviceArm64(),
-        tvosArm64(),
-        tvosSimulatorArm64(),
-    ).forEach {
-        it.binaries.framework {
-            baseName = "library"
-        }
-    }
-    mingwX64()
-    applyDefaultHierarchyTemplate()
     sourceSets {
         commonMain {
             dependencies {
@@ -120,11 +66,6 @@ tasks.register<Jar>("javadocJar").configure {
 }
 
 android {
-    compileSdk = 34
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        minSdk = 21
-    }
     namespace = "de.jensklingenberg.ktorfit.converters.call"
 }
 
@@ -184,9 +125,4 @@ publishing {
             }
         }
     }
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
 }

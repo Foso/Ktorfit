@@ -33,6 +33,7 @@ android-build-gradle = { module = "com.android.tools.build:gradle", version.ref 
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradleMavenPublishPlugin" }
 kotlin-gradle-plugin-api = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin-api", version.ref = "kotlin" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 ktorfit-gradle-plugin = { module = "de.jensklingenberg.ktorfit:ktorfit-gradle-plugin", version.ref = "ktorfitGradlePlugin" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kctfork-core = { module = "dev.zacsweers.kctfork:core", version.ref = "kctfork" }

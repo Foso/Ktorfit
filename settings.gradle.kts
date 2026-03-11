@@ -1,6 +1,7 @@
 import org.gradle.kotlin.dsl.maven
 
 pluginManagement {
+    includeBuild("build-logic")
 
     repositories {
         mavenLocal()
