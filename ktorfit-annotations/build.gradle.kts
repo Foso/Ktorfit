@@ -8,7 +8,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
+    android {
         namespace = "de.jensklingenberg.ktorfit.annotations"
     }
 

@@ -7,8 +7,8 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
-        compileSdk = 35
+    android {
+        compileSdk = 36
         minSdk = 21
     }
 

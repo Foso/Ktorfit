@@ -21,7 +21,7 @@ ktlint {
 }
 
 kotlin {
-    androidLibrary {
+    android {
         namespace = "de.jensklingenberg.ktorfit.common"
     }
 

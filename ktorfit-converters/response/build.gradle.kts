@@ -6,7 +6,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
+    android {
         namespace = "de.jensklingenberg.ktorfit.converters.response"
     }
 
