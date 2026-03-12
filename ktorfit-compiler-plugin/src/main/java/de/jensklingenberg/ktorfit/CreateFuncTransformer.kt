@@ -2,8 +2,10 @@ package de.jensklingenberg.ktorfit
 
 import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
+import org.jetbrains.kotlin.ir.declarations.IrFile
 import org.jetbrains.kotlin.ir.declarations.IrParameterKind
 import org.jetbrains.kotlin.ir.descriptors.toIrBasedKotlinType
+import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
 import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.expressions.impl.IrConstructorCallImpl
@@ -24,6 +26,7 @@ import org.jetbrains.kotlin.name.Name
 internal class CreateFuncTransformer(
     private val pluginContext: IrPluginContext,
     private val debugLogger: DebugLogger,
+    private val file: IrFile,
 ) : IrElementTransformerVoidWithContext() {
     companion object {
         fun errorTypeArgumentNotInterface(implName: String) =
@@ -82,13 +85,10 @@ internal class CreateFuncTransformer(
                 val providerClassName = "_$className" + "Provider"
 
                 // Find the class _TestApiProvider
+                val classId = ClassId(FqName(packageName), Name.identifier(providerClassName))
                 val implClassSymbol =
-                    pluginContext.referenceClass(
-                        ClassId(
-                            FqName(packageName),
-                            Name.identifier(providerClassName),
-                        ),
-                    ) ?: throw IllegalStateException(errorImplNotFound(providerClassName, className))
+                    pluginContext.findClass(classId, file)
+                        ?: throw IllegalStateException(errorImplNotFound(providerClassName, className))
 
                 val newConstructor = implClassSymbol.constructors.first()
 
@@ -133,6 +133,25 @@ internal class CreateFuncTransformer(
             .firstOrNull() != null
     }
 }
+
+/**
+ * Finds a class using the new [IrPluginContext.finderForSource] API (Kotlin 2.3.20+),
+ * falling back to the deprecated [IrPluginContext.referenceClass] for older versions.
+ *
+ * The fallback is needed because this plugin runs inside the user's Kotlin compiler,
+ * which may be older than 2.3.20. Remove once the minimum supported Kotlin version
+ * is >= 2.3.20.
+ */
+@Suppress("DEPRECATION")
+private fun IrPluginContext.findClass(
+    classId: ClassId,
+    file: IrFile,
+): IrClassSymbol? =
+    try {
+        finderForSource(file).findClass(classId)
+    } catch (_: NoSuchMethodError) {
+        referenceClass(classId)
+    }
 
 private val FqName?.packageName: String
     get() {
