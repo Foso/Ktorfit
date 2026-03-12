@@ -91,4 +91,16 @@ jobs:
           java-version-file: .java-version
       - uses: gradle/actions/setup-gradle@v5
       - name: Build and test with Gradle
-        run: ./gradlew licensee :ktorfit-gradle-plugin:publishToMavenLocal :ktorfit-annotations:publishToMavenLocal :ktorfit-ksp:publishToMavenLocal :ktorfit-lib-core:publishToMavenLocal :ktorfit-compiler-plugin:test :ktorfit-ksp:test :ktorfit-lib-core:jvmTest :ktorfit-converters:call:publishToMavenLocal :ktorfit-converters:flow:publishToMavenLocal :ktorfit-converters:response:publishToMavenLocal
+        run: ./gradlew build publishToMavenLocal
+  build-apple:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version-file: .java-version
+      - uses: gradle/actions/setup-gradle@v5
+      - name: Build and test Apple targets
+        run: ./gradlew appleTest publishAppleToMavenLocal

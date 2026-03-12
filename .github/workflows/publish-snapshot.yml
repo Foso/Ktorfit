@@ -37,17 +37,7 @@ jobs:
           bump_snapshot "ktorfitCompiler"
 
       - name: Publish snapshot
-        run: >-
-          ./gradlew
-          :ktorfit-annotations:publishToMavenCentral
-          :ktorfit-ksp:publishToMavenCentral
-          :ktorfit-compiler-plugin:publishToMavenCentral
-          :ktorfit-gradle-plugin:publishToMavenCentral
-          :ktorfit-lib:publishToMavenCentral
-          :ktorfit-lib-core:publishToMavenCentral
-          :ktorfit-converters:call:publishToMavenCentral
-          :ktorfit-converters:flow:publishToMavenCentral
-          :ktorfit-converters:response:publishToMavenCentral
+        run: ./gradlew publishToMavenCentral
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
