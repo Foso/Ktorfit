@@ -11,14 +11,13 @@
 
 The build produces warnings in the following categories:
 
-| # | Category | Count | Severity | Effort |
-|---|----------|-------|----------|--------|
-| 1 | Kotlin plugin version mismatch | 1 | Low | N/A |
-| 2 | `-Xjvm-default` deprecated | 1 | Medium | Easy |
-| 3 | `ExperimentalCompilerApi` unresolved opt-in | 1 | Medium | Easy |
-| 4 | Deprecated `referenceClass` API (compiler plugin) | 1 | High | Medium |
-| 5 | Deprecated `TypeInfo` constructor & `platformType` | 2 (×many targets) | Medium | Easy |
-| 6 | Deprecated `create()` in tests and sandbox | ~10 | Low | Easy |
+| # | Category                                           | Count             | Severity | Effort |
+|---|----------------------------------------------------|-------------------|----------|--------|
+| 1 | Kotlin plugin version mismatch                     | 1                 | Low      | N/A    |
+| 2 | `ExperimentalCompilerApi` unresolved opt-in        | 1                 | Medium   | Easy   |
+| 3 | Deprecated `referenceClass` API (compiler plugin)  | 1                 | High     | Medium |
+| 4 | Deprecated `TypeInfo` constructor & `platformType` | 2 (×many targets) | Medium   | Easy   |
+| 5 | Deprecated `create()` in tests and sandbox         | ~10               | Low      | Easy   |
 
 ---
 
@@ -41,22 +40,7 @@ that might work differently than in the requested version `2.3.20-RC3`.
 
 ---
 
-### 2. `-Xjvm-default` deprecated
-
-**Warning:**
-```
-w: -Xjvm-default is deprecated. Use -jvm-default instead.
-```
-
-**Source:** `:ktorfit-gradle-plugin:kaptGenerateStubsKotlin` task
-
-**Root cause:** This flag is likely being set internally by the `kotlin-dsl` or kapt plugin, not by the project itself. No explicit `-Xjvm-default` was found in project build files.
-
-**Fix:** This is upstream (Gradle/kapt) behavior. No direct action possible. Will likely be fixed in a future Gradle or kapt update.
-
----
-
-### 3. `ExperimentalCompilerApi` unresolved opt-in
+### 2. `ExperimentalCompilerApi` unresolved opt-in
 
 **Warning:**
 ```
@@ -74,7 +58,7 @@ w: Opt-in requirement marker 'org.jetbrains.kotlin.compiler.plugin.ExperimentalC
 
 ---
 
-### 4. Deprecated `referenceClass` API (compiler plugin)
+### 3. Deprecated `referenceClass` API (compiler plugin)
 
 **Warning:**
 ```
@@ -95,7 +79,7 @@ This requires understanding which classes are being referenced to choose the rig
 
 ---
 
-### 5. Deprecated `TypeInfo` constructor & `platformType`
+### 4. Deprecated `TypeInfo` constructor & `platformType`
 
 **Warnings:**
 ```
@@ -121,7 +105,7 @@ w: .../TypeInfoExt.kt:16:12
 
 ---
 
-### 6. Deprecated `create()` in tests and sandbox
+### 5. Deprecated `create()` in tests and sandbox
 
 **Warnings (~10 instances):**
 ```
@@ -144,13 +128,12 @@ w: .../LinuxMain.kt:16
 ## Recommended Priority Order
 
 ### Phase 1: API migrations
-1. **#5 — TypeInfo/platformType deprecation** — Update Ktor API usage
-2. **#3 — ExperimentalCompilerApi** — Add dependency or remove opt-in
-3. **#6 — Deprecated create() in tests** — Update test API calls
+1. **#4 — TypeInfo/platformType deprecation** — Update Ktor API usage
+2. **#2 — ExperimentalCompilerApi** — Add dependency or remove opt-in
+3. **#5 — Deprecated create() in tests** — Update test API calls
 
 ### Phase 2: Deeper changes
-4. **#4 — referenceClass deprecation** — Migrate compiler plugin IR API
+4. **#3 — referenceClass deprecation** — Migrate compiler plugin IR API
 
 ### No action needed
 - **#1 — Kotlin version mismatch** — Resolves with stable Kotlin release
-- **#2 — -Xjvm-default** — Upstream Gradle/kapt issue

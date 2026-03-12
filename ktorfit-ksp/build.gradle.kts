@@ -2,10 +2,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
     kotlin("jvm")
+    alias(libs.plugins.kspPlugin)
     id("ktorfit.jvm")
     id("ktorfit.publishing")
     id("ktorfit.detekt")
-    kotlin("kapt")
     id("ktorfit.licensee")
     id("org.jlleitschuh.gradle.ktlint")
 }
@@ -20,8 +20,8 @@ dependencies {
     implementation(libs.kotlinPoet)
     implementation(libs.kotlinPoet.ksp)
 
-    compileOnly(libs.autoService)
-    kapt(libs.autoService)
+    implementation(libs.autoService)
+    ksp(libs.autoServiceKsp)
 
     // TEST
     testImplementation(libs.junit)

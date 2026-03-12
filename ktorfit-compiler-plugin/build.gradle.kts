@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm")
+    alias(libs.plugins.kspPlugin)
     id("ktorfit.jvm")
-    kotlin("kapt")
     id("ktorfit.publishing")
     id("ktorfit.detekt")
     id("ktorfit.licensee")
@@ -13,8 +13,8 @@ mavenPublishing {
 }
 
 dependencies {
-    compileOnly(libs.autoService)
-    kapt(libs.autoService)
+    implementation(libs.autoService)
+    ksp(libs.autoServiceKsp)
     compileOnly(libs.kotlin.compiler.embeddable)
     testImplementation(libs.kctfork.core)
     testImplementation(libs.junit)

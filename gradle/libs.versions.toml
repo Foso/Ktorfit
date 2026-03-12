@@ -27,7 +27,8 @@ gradlePluginPublish = "2.1.0"
 
 [libraries]
 android-build-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
-autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
+autoService = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
+autoServiceKsp = "dev.zacsweers.autoservice:auto-service-ksp:1.2.0"
 detekt-gradle-plugin = { module = "dev.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "vannikMavenPublish" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
