@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     alias(libs.plugins.kspPlugin)
     id("ktorfit.jvm")
+    id("ktorfit.licensee")
     id("kotlinx-serialization")
     alias(libs.plugins.licensee)
     id("de.jensklingenberg.ktorfit")
@@ -11,14 +12,6 @@ version = "1.0-SNAPSHOT"
 ksp {
     arg("Ktorfit_Errors", "1")
     arg("Ktorfit_QualifiedTypeName", "false")
-}
-
-licensee {
-    allow("Apache-2.0")
-    allow("MIT")
-    allow("EPL-1.0")
-    allow("MIT-0")
-    allowUrl("https://opensource.org/license/mit")
 }
 
 kotlin {
