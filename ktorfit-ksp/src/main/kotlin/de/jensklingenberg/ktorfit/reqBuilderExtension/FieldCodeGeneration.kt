@@ -21,15 +21,14 @@ fun getFieldArgumentsText(
             val paramName = parameterData.name
             val fieldValue = field.value
 
-            @Suppress("UNNECESSARY_SAFE_CALL")
-            val starProj = parameterData.type.parameterType?.starProjection()
+            val starProj = parameterData.type.parameterType.starProjection()
 
-            val isList = starProj?.isAssignableFrom(listType) ?: false
-            val isArray = starProj?.isAssignableFrom(arrayType) ?: false
+            val isList = starProj.isAssignableFrom(listType)
+            val isArray = starProj.isAssignableFrom(arrayType)
 
             when {
                 isList || isArray -> {
-                    "$paramName?.filterNotNull()?.forEach { append(\"$fieldValue\", \"\$it\"%s) }\n".format(
+                    $$"$$paramName?.filterNotNull()?.forEach { append(\"$$fieldValue\", \"$it\"%s) }\n".format(
                         if (encoded) {
                             /**
                              * This is a workaround.
@@ -46,7 +45,7 @@ fun getFieldArgumentsText(
                 }
 
                 else -> {
-                    "$paramName?.let{ append(\"$fieldValue\", \"\${it}\"%s) }\n".format(
+                    $$"$$paramName?.let{ append(\"$$fieldValue\", \"${it}\"%s) }\n".format(
                         if (encoded) {
                             ".decodeURLQueryComponent(plusIsSpace = true)"
                         } else {
@@ -68,7 +67,7 @@ fun getFieldArgumentsText(
                 val encoded = fieldMap.encoded
                 val data = parameterData.name
 
-                "%s?.forEach { entry -> entry.value?.let{ append(entry.key, \"\${entry.value}%s\") } }\n".format(
+                $$"%s?.forEach { entry -> entry.value?.let{ append(entry.key, \"${entry.value}%s\") } }\n".format(
                     data,
                     if (encoded) {
                         ".decodeURLQueryComponent(plusIsSpace = true)"

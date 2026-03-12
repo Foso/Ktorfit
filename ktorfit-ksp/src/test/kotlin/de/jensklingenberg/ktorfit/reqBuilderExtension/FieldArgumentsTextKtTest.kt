@@ -31,13 +31,13 @@ class FieldArgumentsTextKtTest {
         val parameterData1 =
             ParameterData(
                 "test1",
-                ReturnTypeData("String", mock<KSType>()),
+                ReturnTypeData("String", createKsType("String", "kotlin")),
                 annotations = listOf(fieldAnnotation),
             )
         val parameterData2 =
             ParameterData(
                 "test1",
-                ReturnTypeData("String", mock<KSType>()),
+                ReturnTypeData("String", createKsType("String", "kotlin")),
                 annotations = listOf(fieldAnnotationEncoded),
             )
 
@@ -62,19 +62,19 @@ class FieldArgumentsTextKtTest {
         val parameterData1 =
             ParameterData(
                 "test1",
-                ReturnTypeData("String", mock<KSType>()),
+                ReturnTypeData("String", createKsType("String", "kotlin")),
                 annotations = listOf(fieldAnnotation),
             )
         val parameterData2 =
             ParameterData(
                 "test2",
-                ReturnTypeData("String", mock<KSType>()),
+                ReturnTypeData("String", createKsType("String", "kotlin")),
                 annotations = listOf(fieldAnnotationEncoded),
             )
         val parameterData3 =
             ParameterData(
                 "test3",
-                ReturnTypeData("String", mock<KSType>()),
+                ReturnTypeData("String", createKsType("String", "kotlin")),
                 annotations = listOf(fieldMapAnnotation),
             )
 
