@@ -1,7 +1,6 @@
 plugins {
     kotlin("jvm")
     id("ktorfit.jvm")
-    kotlin("kapt")
     id("java-gradle-plugin")
     `kotlin-dsl`
     alias(libs.plugins.gradlePluginPublish)
@@ -10,11 +9,7 @@ plugins {
 }
 
 dependencies {
-    add("compileOnly", kotlin("gradle-plugin"))
-}
-
-dependencies {
-    implementation(libs.kotlin.gradle.plugin.api)
+    implementation(libs.kotlin.gradle.plugin)
 }
 
 gradlePlugin {
