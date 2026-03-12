@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.converter
 
 import io.ktor.util.reflect.TypeInfo
-import io.ktor.util.reflect.platformType
 import kotlin.reflect.KClass
 
 /**
@@ -38,8 +37,7 @@ public data class TypeData(
                         if (modelClass == null) {
                             return@mapIndexed null
                         } else {
-                            // Before replacing the deprecated code check issue #887
-                            createTypeData(cleaned, TypeInfo(modelClass, modelKType.platformType, modelKType))
+                            createTypeData(cleaned, TypeInfo(type = modelClass, kotlinType = modelKType))
                         }
                     }?.filterNotNull()
                     .orEmpty()

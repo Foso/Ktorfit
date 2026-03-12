@@ -30,6 +30,6 @@ dependencies {
     testImplementation(libs.mockito.kotlin)
 }
 
-tasks.withType<KotlinCompilationTask<*>>().configureEach {
+tasks.named<KotlinCompilationTask<*>>("compileTestKotlin") {
     compilerOptions.freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi")
 }
