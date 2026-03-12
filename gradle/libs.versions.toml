@@ -21,7 +21,7 @@ mockito-kotlin = "4.1.0"
 vannikMavenPublish = "0.36.0"
 licensee = "1.14.1"
 ktlint = "12.3.0"
-gradlePluginPublish = "1.3.1"
+gradlePluginPublish = "2.1.0"
 
 [libraries]
 android-build-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
