@@ -95,8 +95,10 @@ private fun createImplClassTypeSpec(
             FunSpec
                 .constructorBuilder()
                 .addParameter("_baseUrl", ClassName("kotlin", "String"))
-                .addParameter(httpClientClass.objectName, de.jensklingenberg.ktorfit.model.httpClientClass.toClassName())
-                .addParameter(converterHelper.objectName, converterHelper.toClassName())
+                .addParameter(
+                    httpClientClass.objectName,
+                    httpClientClass.toClassName()
+                ).addParameter(converterHelper.objectName, converterHelper.toClassName())
                 .build(),
         ).addSuperinterface(ClassName(classData.packageName, classData.name))
         .addKtorfitSuperInterface(classData.superClasses)
@@ -114,8 +116,7 @@ private fun getOptInAnnotation(annotations: List<KSAnnotation>): AnnotationSpec 
                 (annotation.arguments[0].value as? List<KSType>)
                     ?.map { it.toClassName() }
                     .orEmpty()
-            }
-            .plus(internalApi)
+            }.plus(internalApi)
             .toTypedArray<Any>()
 
     val format = (1..markerClasses.size).joinToString { "%T::class" }

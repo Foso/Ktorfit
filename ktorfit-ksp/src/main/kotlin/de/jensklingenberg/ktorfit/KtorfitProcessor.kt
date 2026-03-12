@@ -20,7 +20,10 @@ import de.jensklingenberg.ktorfit.model.toClassData
 
 class KtorfitProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor =
-        KtorfitProcessor(environment, KtorfitOptions(environment.options))
+        KtorfitProcessor(
+            env = environment,
+            ktorfitOptions = KtorfitOptions(environment.options)
+        )
 }
 
 class KtorfitProcessor(

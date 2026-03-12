@@ -24,10 +24,11 @@ public class FlowConverterFactory : Converter.Factory {
                             emit(response)
                         } else {
                             val convertedBody =
-                                ktorfit.nextSuspendResponseConverter(
-                                    this@FlowConverterFactory,
-                                    typeData.typeArgs.first(),
-                                )?.convert(KtorfitResult.Success(response))
+                                ktorfit
+                                    .nextSuspendResponseConverter(
+                                        this@FlowConverterFactory,
+                                        typeData.typeArgs.first(),
+                                    )?.convert(KtorfitResult.Success(response))
                                     ?: response.body(typeData.typeArgs.first().typeInfo)
                             emit(convertedBody)
                         }
