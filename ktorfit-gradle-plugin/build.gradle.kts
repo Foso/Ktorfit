@@ -28,5 +28,5 @@ gradlePlugin {
 }
 
 mavenPublishing {
-    coordinates(version = libs.versions.ktorfitGradlePlugin.get())
+    coordinates(version = libs.versions.ktorfit.get())
 }

@@ -5,7 +5,6 @@ Releasing
 
 1. Create new branch `release/X.Y.Z` from `master` branch
 2. Update **ktorfit** version inside `gradle/libs.versions.toml`
-3. Update **ktorfitGradlePlugin** version inside `gradle/libs.versions.toml`
 4. Update Compatibility table in Readme.md
 5. Update KtorfitCompilerSubPlugin.defaultCompilerPluginVersion if necessary 
 6. Update ktorfit release version in mkdocs.yml
