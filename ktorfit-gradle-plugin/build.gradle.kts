@@ -1,8 +1,7 @@
 plugins {
-    kotlin("jvm")
+    `kotlin-dsl`
     id("ktorfit.jvm")
     id("java-gradle-plugin")
-    `kotlin-dsl`
     alias(libs.plugins.gradlePluginPublish)
     id("ktorfit.publishing")
     id("org.jlleitschuh.gradle.ktlint")
