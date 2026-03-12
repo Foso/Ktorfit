@@ -18,7 +18,7 @@ ktorfitCompiler = "2.3.4-SNAPSHOT"
 ktorfitGradlePlugin = "2.7.2"
 
 ktorVersion = "3.3.3"
-mockk = "1.14.7"
+mockk = "1.14.9"
 mockito-kotlin = "4.1.0"
 vannikMavenPublish = "0.36.0"
 licensee = "1.14.1"
