@@ -1,8 +1,7 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.kspPlugin)
+    id("ktorfit.jvm")
     id("kotlinx-serialization")
     alias(libs.plugins.licensee)
     id("de.jensklingenberg.ktorfit")
@@ -22,17 +21,8 @@ licensee {
     allowUrl("https://opensource.org/license/mit")
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
-}
 kotlin {
-    jvm {
-        compilations.all {
-            compileTaskProvider.configure {
-                compilerOptions.jvmTarget = JvmTarget.JVM_1_8
-            }
-        }
-    }
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -51,7 +41,6 @@ kotlin {
         }
     }
 
-    // macosX64()
     mingwX64()
     applyDefaultHierarchyTemplate()
     sourceSets {
@@ -76,7 +65,6 @@ kotlin {
         }
         linuxX64Main {
             dependencies {
-                implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.curl)
                 implementation(libs.ktor.client.cio)
             }
@@ -87,7 +75,6 @@ kotlin {
 
             dependencies {
                 implementation(libs.ktor.client.cio)
-                implementation("ch.qos.logback:logback-classic:1.2.3")
                 implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.serialization.gson)
             }
