@@ -1,4 +1,5 @@
 import com.example.api.JsonPlaceHolderApi
+import com.example.api.createJsonPlaceHolderApi
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
 import io.ktor.client.HttpClient
@@ -13,7 +14,7 @@ fun main() {
             .converterFactories(FlowConverterFactory())
             .build()
 
-    val api = linuxKtorfit.create<JsonPlaceHolderApi>()
+    val api = linuxKtorfit.createJsonPlaceHolderApi()
     runBlocking {
         api.getPosts().collect {
             println(it)

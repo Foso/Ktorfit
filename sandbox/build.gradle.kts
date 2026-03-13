@@ -1,10 +1,10 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     kotlin("multiplatform")
     alias(libs.plugins.kspPlugin)
+    id("ktorfit.jvm")
+    id("ktorfit.licensee")
     id("kotlinx-serialization")
-    id("app.cash.licensee")
+    alias(libs.plugins.licensee)
     id("de.jensklingenberg.ktorfit")
 }
 version = "1.0-SNAPSHOT"
@@ -14,25 +14,8 @@ ksp {
     arg("Ktorfit_QualifiedTypeName", "false")
 }
 
-licensee {
-    allow("Apache-2.0")
-    allow("MIT")
-    allow("EPL-1.0")
-    allow("MIT-0")
-    allowUrl("https://opensource.org/license/mit")
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
-}
 kotlin {
-    jvm {
-        compilations.all {
-            compileTaskProvider.configure {
-                compilerOptions.jvmTarget = JvmTarget.JVM_1_8
-            }
-        }
-    }
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -51,7 +34,6 @@ kotlin {
         }
     }
 
-    // macosX64()
     mingwX64()
     applyDefaultHierarchyTemplate()
     sourceSets {
@@ -76,10 +58,8 @@ kotlin {
         }
         linuxX64Main {
             dependencies {
-                implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.ktor.client.curl)
-                implementation(libs.ktor.client.core.linuxX64)
-                implementation(libs.ktor.client.cio.linuxX64)
+                implementation(libs.ktor.client.cio)
             }
         }
 
@@ -87,11 +67,9 @@ kotlin {
             kotlin.srcDir("build/generated/ksp/jvm/jvmMain/")
 
             dependencies {
-                implementation(libs.ktor.client.core.jvm)
-                implementation("ch.qos.logback:logback-classic:1.2.3")
+                implementation(libs.ktor.client.cio)
                 implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.serialization.gson)
-                implementation(libs.ktor.client.cio.jvm)
             }
         }
 
@@ -104,7 +82,6 @@ kotlin {
 
         jsMain {
             dependencies {
-                implementation(libs.kotlinx.serialization.runtime.js)
                 implementation(libs.ktor.client.serialization)
                 implementation(libs.ktor.client.json.js)
                 implementation(libs.ktor.client.js)

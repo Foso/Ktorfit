@@ -52,9 +52,10 @@ private fun getQueryNameText(
         val encoded = queryName.encoded
         val name = parameterData.name
 
-        val starProj = parameterData.type.parameterType.starProjection()
-        val isList = starProj.isAssignableFrom(listType)
-        val isArray = starProj.isAssignableFrom(arrayType)
+        @Suppress("UNNECESSARY_SAFE_CALL")
+        val starProj = parameterData.type.parameterType?.starProjection()
+        val isList = starProj?.isAssignableFrom(listType) ?: false
+        val isArray = starProj?.isAssignableFrom(arrayType) ?: false
 
         if (isList || isArray) {
             "%s?.filterNotNull()?.forEach { %s.appendAll(\"\$it\", emptyList()) }\n".format(
@@ -89,6 +90,8 @@ private fun getQueryText(
             parameterData.annotations.filterIsInstance<Query>().firstOrNull()
                 ?: throw IllegalStateException("Query annotation not found")
         val encoded = query.encoded
+
+        @Suppress("UNNECESSARY_SAFE_CALL")
         val starProj = parameterData.type.parameterType?.starProjection()
         val isList = starProj?.isAssignableFrom(listType) ?: false
         val isArray = starProj?.isAssignableFrom(arrayType) ?: false

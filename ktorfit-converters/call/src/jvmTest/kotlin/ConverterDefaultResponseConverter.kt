@@ -57,6 +57,7 @@ class ConverterDefaultResponseConverter {
 
             val responseConverter = converter.responseConverter(typeData, ktor)
             assertNotNull(responseConverter)
+            @Suppress("UNCHECKED_CAST")
             val converted = responseConverter.convert(responseFunc) as Call<String>
             converted.onExecute(
                 object : Callback<String> {

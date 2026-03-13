@@ -1,0 +1,45 @@
+name: Publish Snapshot
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish-snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version-file: .java-version
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      - name: Bump versions to SNAPSHOT
+        run: |
+          bump_snapshot() {
+            local key="$1"
+            local version
+            version=$(grep "^${key} = " gradle/libs.versions.toml | sed 's/.*"\(.*\)"/\1/')
+            local major minor patch
+            IFS='.' read -r major minor patch <<< "$version"
+            patch=$((patch + 1))
+            local snapshot="${major}.${minor}.${patch}-SNAPSHOT"
+            sed -i "s/^${key} = \".*\"/${key} = \"${snapshot}\"/" gradle/libs.versions.toml
+            echo "${key}: ${version} -> ${snapshot}"
+          }
+          bump_snapshot "ktorfit"
+          bump_snapshot "ktorfitCompiler"
+
+      - name: Publish snapshot
+        run: ./gradlew publishToMavenCentral
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_IN_MEMORY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}

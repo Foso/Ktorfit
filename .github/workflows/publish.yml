@@ -5,16 +5,16 @@ on:
 
 jobs:
   publish-annotations:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install JDK 21
+      - name: Set up JDK
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version-file: .java-version
 
       - uses: gradle/actions/setup-gradle@v5
 
@@ -31,11 +31,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install JDK 21
+      - name: Set up JDK
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version-file: .java-version
 
       - uses: gradle/actions/setup-gradle@v5
 
@@ -52,11 +52,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install JDK 21
+      - name: Set up JDK
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version-file: .java-version
 
       - uses: gradle/actions/setup-gradle@v5
 
@@ -73,11 +73,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install JDK 21
+      - name: Set up JDK
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version-file: .java-version
 
       - uses: gradle/actions/setup-gradle@v5
 
@@ -89,16 +89,16 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_IN_MEMORY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
   publish-ktorfit-lib:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install JDK 21
+      - name: Set up JDK
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version-file: .java-version
 
       - uses: gradle/actions/setup-gradle@v5
 

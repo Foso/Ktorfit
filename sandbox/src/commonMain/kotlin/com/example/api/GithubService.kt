@@ -21,7 +21,6 @@ interface GithubService {
         const val baseUrl = "https://api.github.com/"
     }
 
-    @Throws
     @Headers(
         "Accept: application/vnd.github.v3+json",
         "Authorization: token ghp_abcdefgh",

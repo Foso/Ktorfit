@@ -15,27 +15,27 @@ internal class ElementTransformer(
     private val debugLogger: DebugLogger,
 ) : IrElementTransformerVoidWithContext() {
     override fun visitValueParameterNew(declaration: IrValueParameter): IrStatement {
-        declaration.transform(CreateFuncTransformer(pluginContext, debugLogger), null)
+        declaration.transform(CreateFuncTransformer(pluginContext, debugLogger, currentFile), null)
         return super.visitValueParameterNew(declaration)
     }
 
     override fun visitPropertyNew(declaration: IrProperty): IrStatement {
-        declaration.transform(CreateFuncTransformer(pluginContext, debugLogger), null)
+        declaration.transform(CreateFuncTransformer(pluginContext, debugLogger, currentFile), null)
         return super.visitPropertyNew(declaration)
     }
 
     override fun visitCall(expression: IrCall): IrExpression {
-        expression.transform(CreateFuncTransformer(pluginContext, debugLogger), null)
+        expression.transform(CreateFuncTransformer(pluginContext, debugLogger, currentFile), null)
         return super.visitCall(expression)
     }
 
     override fun visitVariable(declaration: IrVariable): IrStatement {
-        declaration.transform(CreateFuncTransformer(pluginContext, debugLogger), null)
+        declaration.transform(CreateFuncTransformer(pluginContext, debugLogger, currentFile), null)
         return super.visitVariable(declaration)
     }
 
     override fun visitFunctionExpression(expression: IrFunctionExpression): IrExpression {
-        expression.transform(CreateFuncTransformer(pluginContext, debugLogger), null)
+        expression.transform(CreateFuncTransformer(pluginContext, debugLogger, currentFile), null)
         return super.visitFunctionExpression(expression)
     }
 }
