@@ -7,7 +7,7 @@ jobs:
   deploy:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           submodules: "recursive" 
           fetch-depth: 0       # Fetch all history for .GitInfo and .Lastmod
@@ -27,7 +27,7 @@ jobs:
       - name: Build site
         run: mkdocs build
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4
         with:
           personal_token: ${{ secrets.GH_SECRET }}
           publish_dir: ./site
