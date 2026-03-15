@@ -33,12 +33,20 @@ fun KSValueParameter.getPathAnnotation(): Path? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "Path"
-        }?.let {
-            val encoded = it.getArgumentValueByName<Boolean>("encoded") ?: false
-            return Path(it.getArgumentValueByName<String>("value")?.replace(KTORFIT_DEFAULT_VALUE, this.name.safeString()) ?: this.name.safeString(), encoded)
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "Path"
+            }?.let {
+                val encoded = it.getArgumentValueByName<Boolean>("encoded") ?: false
+                return Path(
+                    value =
+                        it
+                            .getArgumentValueByName<String>("value")
+                            ?.replace(KTORFIT_DEFAULT_VALUE, this.name.safeString())
+                            ?: this.name.safeString(),
+                    encoded = encoded
+                )
+            }
     }
 }
 
@@ -50,11 +58,12 @@ fun KSValueParameter.getHeaderAnnotation(): Header? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "Header"
-        }?.let {
-            return Header(it.getArgumentValueByName<String>("value") ?: this.name.safeString())
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "Header"
+            }?.let {
+                return Header(it.getArgumentValueByName<String>("value") ?: this.name.safeString())
+            }
     }
 }
 
@@ -66,11 +75,12 @@ fun KSValueParameter.getHeaderMapAnnotation(): HeaderMap? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "HeaderMap"
-        }?.let {
-            return HeaderMap
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "HeaderMap"
+            }?.let {
+                return HeaderMap
+            }
     }
 }
 
@@ -82,12 +92,20 @@ fun KSValueParameter.getQueryAnnotation(): Query? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "Query"
-        }?.let {
-            val encoded = it.getArgumentValueByName<Boolean>("encoded") ?: false
-            return Query(it.getArgumentValueByName<String>("value")?.replace(KTORFIT_DEFAULT_VALUE, this.name.safeString()) ?: this.name.safeString(), encoded)
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "Query"
+            }?.let {
+                val encoded = it.getArgumentValueByName<Boolean>("encoded") ?: false
+                return Query(
+                    value =
+                        it
+                            .getArgumentValueByName<String>("value")
+                            ?.replace(KTORFIT_DEFAULT_VALUE, this.name.safeString())
+                            ?: this.name.safeString(),
+                    encoded = encoded
+                )
+            }
     }
 }
 
@@ -99,12 +117,13 @@ fun KSValueParameter.getQueryNameAnnotation(): QueryName? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "QueryName"
-        }?.let {
-            val encoded = it.getArgumentValueByName<Boolean>("encoded") ?: false
-            return QueryName(encoded)
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "QueryName"
+            }?.let {
+                val encoded = it.getArgumentValueByName<Boolean>("encoded") ?: false
+                return QueryName(encoded)
+            }
     }
 }
 
@@ -116,12 +135,13 @@ fun KSValueParameter.getQueryMapAnnotation(): QueryMap? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "QueryMap"
-        }?.let {
-            val encoded = it.getArgumentValueByName<Boolean>("encoded") ?: false
-            return QueryMap(encoded)
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "QueryMap"
+            }?.let {
+                val encoded = it.getArgumentValueByName<Boolean>("encoded") ?: false
+                return QueryMap(encoded)
+            }
     }
 }
 
@@ -133,12 +153,20 @@ fun KSValueParameter.getFieldAnnotation(): Field? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "Field"
-        }?.let {
-            val encoded = it.getArgumentValueByName<Boolean>("encoded") ?: false
-            return Field(it.getArgumentValueByName<String>("value")?.replace(KTORFIT_DEFAULT_VALUE, this.name.safeString()) ?: this.name.safeString(), encoded)
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "Field"
+            }?.let {
+                val encoded = it.getArgumentValueByName<Boolean>("encoded") ?: false
+                return Field(
+                    value =
+                        it
+                            .getArgumentValueByName<String>("value")
+                            ?.replace(KTORFIT_DEFAULT_VALUE, this.name.safeString())
+                            ?: this.name.safeString(),
+                    encoded = encoded
+                )
+            }
     }
 }
 
@@ -149,12 +177,13 @@ fun KSValueParameter.getFieldMapAnnotation(): FieldMap? {
             return FieldMap(it.encoded)
         }
     } catch (e: Exception) {
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "FieldMap"
-        }?.let {
-            val encoded = it.getArgumentValueByName<Boolean>("encoded") ?: false
-            return FieldMap(encoded)
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "FieldMap"
+            }?.let {
+                val encoded = it.getArgumentValueByName<Boolean>("encoded") ?: false
+                return FieldMap(encoded)
+            }
     }
 }
 
@@ -166,11 +195,12 @@ fun KSValueParameter.getPartAnnotation(): Part? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "Part"
-        }?.let {
-            return Part(it.getArgumentValueByName<String>("value") ?: this.name.safeString(), "binary")
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "Part"
+            }?.let {
+                return Part(it.getArgumentValueByName<String>("value") ?: this.name.safeString(), "binary")
+            }
     }
 }
 
@@ -182,11 +212,12 @@ fun KSValueParameter.getPartMapAnnotation(): PartMap? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "PartMap"
-        }?.let {
-            return PartMap(it.getArgumentValueByName<String>("encoding") ?: "binary")
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "PartMap"
+            }?.let {
+                return PartMap(it.getArgumentValueByName<String>("encoding") ?: "binary")
+            }
     }
 }
 
@@ -198,11 +229,12 @@ fun KSValueParameter.getRequestBuilderAnnotation(): RequestBuilder? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "ReqBuilder"
-        }?.let {
-            return RequestBuilder
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "ReqBuilder"
+            }?.let {
+                return RequestBuilder
+            }
     }
 }
 
@@ -214,11 +246,12 @@ fun KSValueParameter.getUrlAnnotation(): Url? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "Url"
-        }?.let {
-            return Url
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "Url"
+            }?.let {
+                return Url
+            }
     }
 }
 
@@ -230,11 +263,12 @@ fun KSValueParameter.getBodyAnnotation(): Body? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "Body"
-        }?.let {
-            return Body
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "Body"
+            }?.let {
+                return Body
+            }
     }
 }
 
@@ -246,11 +280,18 @@ fun KSValueParameter.getTagAnnotation(): Tag? {
         }
     } catch (e: Exception) {
         // TODO Workaround for KSP2 cant find annotation,check if still needed when KSP2 out of beta
-        return this.annotations.firstOrNull {
-            it.shortName.getShortName() == "Tag"
-        }?.let {
-            return Tag(it.getArgumentValueByName<String>("value")?.replace(KTORFIT_DEFAULT_VALUE, this.name.safeString()) ?: this.name.safeString())
-        }
+        return this.annotations
+            .firstOrNull {
+                it.shortName.getShortName() == "Tag"
+            }?.let {
+                return Tag(
+                    value =
+                        it
+                            .getArgumentValueByName<String>("value")
+                            ?.replace(KTORFIT_DEFAULT_VALUE, this.name.safeString())
+                            ?: this.name.safeString()
+                )
+            }
     }
 }
 
@@ -264,11 +305,10 @@ fun KSValueParameter.getRequestTypeAnnotation(): RequestType? {
                     .declaration.qualifiedName
                     ?.asString() == requestTypeClazz.qualifiedName
         }
-    return filteredAnnotations
-        .mapNotNull {
-            it.arguments
-                .map { arg ->
-                    RequestType((arg.value as KSType))
-                }.firstOrNull()
-        }.firstOrNull()
+    return filteredAnnotations.firstNotNullOfOrNull {
+        it.arguments
+            .map { arg ->
+                RequestType((arg.value as KSType))
+            }.firstOrNull()
+    }
 }

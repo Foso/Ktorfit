@@ -365,7 +365,16 @@ fun KSFunctionDeclaration.toFunctionData(
 
 private val functionalKtorfitAnnotation =
     listOf(
-        GET::class, POST::class, PUT::class, DELETE::class, HEAD::class, OPTIONS::class, PATCH::class, HTTP::class,
-        KtorfitHeaders::class, KtorfitFormUrlEncoded::class, KtorfitMultipart::class, KtorfitStreaming::class,
-    )
-        .map { it.asClassName() }
+        GET::class,
+        POST::class,
+        PUT::class,
+        DELETE::class,
+        HEAD::class,
+        OPTIONS::class,
+        PATCH::class,
+        HTTP::class,
+        KtorfitHeaders::class,
+        KtorfitFormUrlEncoded::class,
+        KtorfitMultipart::class,
+        KtorfitStreaming::class,
+    ).map { it.asClassName() }

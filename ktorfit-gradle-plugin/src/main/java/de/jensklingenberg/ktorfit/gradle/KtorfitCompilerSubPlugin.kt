@@ -19,14 +19,13 @@ import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
     private lateinit var myProject: Project
 
-    override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
-        return kotlinCompilation.target.project.provider {
+    override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> =
+        kotlinCompilation.target.project.provider {
             listOf(
                 SubpluginOption("enabled", "true"),
                 SubpluginOption("logging", "false"),
             )
         }
-    }
 
     override fun apply(target: Project) {
         myProject = target
@@ -36,9 +35,11 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
 
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean {
         val kotlinVersion =
-            myProject.ktorfitExtension(
-                GRADLE_TASKNAME
-            ).compilerPluginVersion.get()
+            myProject
+                .ktorfitExtension(
+                    GRADLE_TASKNAME
+                ).compilerPluginVersion
+                .get()
 
         return kotlinVersion != "-"
     }
@@ -56,11 +57,13 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
 
         checkKotlinVersion(projectKotlinVersion)
         val compilerVersion =
-            myProject.ktorfitExtension(
-                GRADLE_TASKNAME
-            ).compilerPluginVersion.getOrElse(
-                defaultCompilerPluginVersion(projectKotlinVersion)
-            )
+            myProject
+                .ktorfitExtension(
+                    GRADLE_TASKNAME
+                ).compilerPluginVersion
+                .getOrElse(
+                    defaultCompilerPluginVersion(projectKotlinVersion)
+                )
 
         return SubpluginArtifact(
             groupId = GROUP_NAME,
@@ -75,10 +78,9 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
         }
     }
 
-    private fun defaultCompilerPluginVersion(projectKotlinVersion: KotlinVersion): String {
-        return when {
+    private fun defaultCompilerPluginVersion(projectKotlinVersion: KotlinVersion): String =
+        when {
             projectKotlinVersion.isAtLeast(2, 3) -> "2.3.4"
             else -> KTORFIT_COMPILER_PLUGIN_VERSION
         }
-    }
 }

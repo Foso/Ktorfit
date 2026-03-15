@@ -14,9 +14,7 @@ class TestStringToIntRequestConverter : Converter.Factory {
     }
 
     class Test : Converter.RequestParameterConverter {
-        override fun convert(data: Any): Any {
-            return (data as String).toInt()
-        }
+        override fun convert(data: Any): Any = (data as String).toInt()
     }
 
     override fun requestParameterConverter(

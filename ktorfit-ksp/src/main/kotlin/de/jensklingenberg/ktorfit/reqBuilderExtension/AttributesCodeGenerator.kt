@@ -27,19 +27,18 @@ fun getAttributesCode(
     if (annotations.isEmpty()) return parameterAttributes
 
     val annotationsAttribute =
-        annotations.joinToString(
-            separator = ",\n",
-            prefix = "listOf(\n",
-            postfix = ",\n)",
-        ) { annotation ->
-            annotation
-                .members
-                .joinToString {
-                    it.toString().replace("@", "")
-                }
-                .let { "${annotation.toClassName().simpleName}($it)" }
-        }
-            .let { "attributes.put(${annotationsAttributeKey.objectName}, $it)" }
+        annotations
+            .joinToString(
+                separator = ",\n",
+                prefix = "listOf(\n",
+                postfix = ",\n)",
+            ) { annotation ->
+                annotation
+                    .members
+                    .joinToString {
+                        it.toString().replace("@", "")
+                    }.let { "${annotation.toClassName().simpleName}($it)" }
+            }.let { "attributes.put(${annotationsAttributeKey.objectName}, $it)" }
 
     return if (parameterAttributes.isNotEmpty()) {
         parameterAttributes + "\n" + annotationsAttribute

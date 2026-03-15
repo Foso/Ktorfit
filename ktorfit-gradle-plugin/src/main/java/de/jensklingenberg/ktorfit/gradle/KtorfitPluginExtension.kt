@@ -10,7 +10,9 @@ import javax.inject.Inject
  */
 open class KtorfitPluginExtension
     @Inject
-    constructor(objectFactory: ObjectFactory) {
+    constructor(
+        objectFactory: ObjectFactory
+    ) {
         /**
          * Set whether qualified type names should be generated or not.
          *

@@ -10,9 +10,14 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-annotation class AuthRequired(val optional: Boolean = false)
+annotation class AuthRequired(
+    val optional: Boolean = false
+)
 
-annotation class CustomHeader(val name: String, val value: String)
+annotation class CustomHeader(
+    val name: String,
+    val value: String
+)
 
 /**
  * Test API interface with annotations
@@ -55,11 +60,14 @@ class AnnotationsIntegrationTest {
                 }
 
             val ktorfit =
-                Ktorfit.Builder().baseUrl("http://localhost/").httpClient(
-                    HttpClient(engine) {
-                        install(annotationsTestPlugin)
-                    }
-                ).build()
+                Ktorfit
+                    .Builder()
+                    .baseUrl("http://localhost/")
+                    .httpClient(
+                        HttpClient(engine) {
+                            install(annotationsTestPlugin)
+                        }
+                    ).build()
 
             ktorfit.createAnnotationsTestApi().getPosts()
 
@@ -105,11 +113,14 @@ class AnnotationsIntegrationTest {
                 }
 
             val ktorfit =
-                Ktorfit.Builder().baseUrl("http://localhost/").httpClient(
-                    HttpClient(engine) {
-                        install(authPlugin)
-                    }
-                ).build()
+                Ktorfit
+                    .Builder()
+                    .baseUrl("http://localhost/")
+                    .httpClient(
+                        HttpClient(engine) {
+                            install(authPlugin)
+                        }
+                    ).build()
 
             ktorfit.createAnnotationsTestApi().getPosts()
 
@@ -148,11 +159,14 @@ class AnnotationsIntegrationTest {
                 }
 
             val ktorfit =
-                Ktorfit.Builder().baseUrl("http://localhost/").httpClient(
-                    HttpClient(engine) {
-                        install(testPlugin)
-                    }
-                ).build()
+                Ktorfit
+                    .Builder()
+                    .baseUrl("http://localhost/")
+                    .httpClient(
+                        HttpClient(engine) {
+                            install(testPlugin)
+                        }
+                    ).build()
 
             ktorfit.createAnnotationsTestApi().getPosts()
 

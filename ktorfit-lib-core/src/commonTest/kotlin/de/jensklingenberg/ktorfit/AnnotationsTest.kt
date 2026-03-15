@@ -10,7 +10,9 @@ import kotlin.test.assertNull
  * Simple data class to simulate annotation instances
  * (In real usage, these would be actual annotation instances from KSP/KotlinPoet)
  */
-data class TestAnnotation(val value: String = "default")
+data class TestAnnotation(
+    val value: String = "default"
+)
 
 class AnnotationsTest {
     @Test
