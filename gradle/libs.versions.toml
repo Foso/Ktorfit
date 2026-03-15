@@ -2,7 +2,7 @@
 agp = "9.1.0"
 autoService = "1.1.1"
 binaryCompatibilityValidator = "0.18.1"
-coroutines = "1.8.1"
+coroutines = "1.10.2"
 detekt = "2.0.0-alpha.2"
 junit = "4.13.2"
 kctfork = "0.12.1"
