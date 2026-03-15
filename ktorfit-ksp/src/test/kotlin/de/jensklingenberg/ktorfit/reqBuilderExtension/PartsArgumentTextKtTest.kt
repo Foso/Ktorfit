@@ -1,6 +1,7 @@
 package de.jensklingenberg.ktorfit.reqBuilderExtension
 
 import com.google.devtools.ksp.symbol.KSType
+import de.jensklingenberg.ktorfit.createKsType
 import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.ReturnTypeData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Part
@@ -15,7 +16,7 @@ class PartsArgumentTextKtTest {
 
     @Test
     fun whenNoPartAnnotationFoundThenKeepPartsCodeEmpty() {
-        val parameterData = ParameterData("test1", ReturnTypeData("String", mock<KSType>()))
+        val parameterData = ParameterData("test1", ReturnTypeData("String", createKsType("String", "kotlin")))
         val params = listOf(parameterData)
         val text = getPartsCode(params, listType, arrayType)
         assertEquals("", text)
@@ -27,7 +28,7 @@ class PartsArgumentTextKtTest {
         val parameterData =
             ParameterData(
                 "test1",
-                ReturnTypeData("String", mock<KSType>()),
+                ReturnTypeData("String", createKsType("String", "kotlin")),
                 annotations = listOf(partAnnotation),
             )
         val params = listOf(parameterData)
@@ -48,10 +49,10 @@ class PartsArgumentTextKtTest {
         val parameterData1 =
             ParameterData(
                 "test1",
-                ReturnTypeData("String", mock<KSType>()),
+                ReturnTypeData("String", createKsType("String", "kotlin")),
                 annotations = listOf(partMapAnnotation),
             )
-        val parameterData2 = ParameterData("test2", ReturnTypeData("String", mock<KSType>()))
+        val parameterData2 = ParameterData("test2", ReturnTypeData("String", createKsType("String", "kotlin")))
 
         val params = listOf(parameterData1, parameterData2)
         val text = getPartsCode(params, listType, arrayType)
@@ -73,13 +74,13 @@ setBody(MultiPartFormDataContent(__formData))
         val parameterData1 =
             ParameterData(
                 "test1",
-                ReturnTypeData("String", mock<KSType>()),
+                ReturnTypeData("String", createKsType("String", "kotlin")),
                 annotations = listOf(partMapAnnotation),
             )
         val parameterData2 =
             ParameterData(
                 "test2",
-                ReturnTypeData("String", mock<KSType>()),
+                ReturnTypeData("String", createKsType("String", "kotlin")),
                 annotations = listOf(partAnnotation),
             )
 

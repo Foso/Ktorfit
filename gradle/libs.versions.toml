@@ -22,7 +22,7 @@ mockk = "1.14.9"
 mockito-kotlin = "4.1.0"
 vannikMavenPublish = "0.36.0"
 licensee = "1.14.1"
-ktlint = "12.3.0"
+ktlint = "14.2.0"
 gradlePluginPublish = "2.1.0"
 
 [libraries]

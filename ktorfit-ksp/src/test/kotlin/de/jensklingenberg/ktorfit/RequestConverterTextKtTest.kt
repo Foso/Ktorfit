@@ -68,5 +68,6 @@ fun createKsType(
 
     val ksType = mock<KSType>()
     whenever(ksType.declaration).thenAnswer { mockDec }
+    whenever(ksType.starProjection()).thenAnswer { ksType }
     return ksType
 }

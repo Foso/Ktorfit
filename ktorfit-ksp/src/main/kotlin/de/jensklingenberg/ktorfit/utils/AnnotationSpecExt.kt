@@ -4,10 +4,9 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.ParameterizedTypeName
 
-fun AnnotationSpec.toClassName(): ClassName {
-    return if (typeName is ClassName) {
+fun AnnotationSpec.toClassName(): ClassName =
+    if (typeName is ClassName) {
         typeName as ClassName
     } else {
         (typeName as ParameterizedTypeName).rawType
     }
-}

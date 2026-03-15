@@ -29,8 +29,7 @@ internal class CreateFuncTransformer(
     private val file: IrFile,
 ) : IrElementTransformerVoidWithContext() {
     companion object {
-        fun errorTypeArgumentNotInterface(implName: String) =
-            "create<$implName> argument is not supported. Type argument needs to be an interface"
+        fun errorTypeArgumentNotInterface(implName: String) = "create<$implName> argument is not supported. Type argument needs to be an interface"
 
         fun errorImplNotFound(
             implName: String,
@@ -129,8 +128,7 @@ internal class CreateFuncTransformer(
         return arguments
             .filterIndexed { index, _ ->
                 index in regularParameterIndices
-            }
-            .firstOrNull() != null
+            }.firstOrNull() != null
     }
 }
 

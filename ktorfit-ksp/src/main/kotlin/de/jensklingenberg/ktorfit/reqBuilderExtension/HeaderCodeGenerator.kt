@@ -27,10 +27,9 @@ fun getHeadersCode(
             .joinToString("") { parameterData ->
                 val paramName = parameterData.name
 
-                @Suppress("UNNECESSARY_SAFE_CALL")
-                val starProj = parameterData.type.parameterType?.starProjection()
-                val isList = starProj?.isAssignableFrom(listType) ?: false
-                val isArray = starProj?.isAssignableFrom(arrayType) ?: false
+                val starProj = parameterData.type.parameterType.starProjection()
+                val isList = starProj.isAssignableFrom(listType)
+                val isArray = starProj.isAssignableFrom(arrayType)
 
                 val headerName = parameterData.findAnnotationOrNull<Header>()?.path.orEmpty()
 
@@ -98,7 +97,7 @@ fun getHeadersCode(
                             if (isStringListOrArray) {
                                 "it"
                             } else {
-                                "\"\$it\""
+                                $$"\"$it\""
                             },
                         )
                         headerListStringBuilder.append(")}\n")
@@ -169,12 +168,12 @@ fun getHeadersCode(
                 headerMapStringBuilder.append(
                     if (valueIsString && hasNullableKeyType) {
                         "value) }"
-                    } else if (valueIsString && !hasNullableKeyType) {
+                    } else if (valueIsString) {
                         "it.value)"
                     } else if (hasNullableKeyType) {
-                        "\"\$value\") }"
+                        $$"\"$value\") }"
                     } else {
-                        "\"\${it.value}\")"
+                        $$"\"${it.value}\")"
                     },
                 )
                 headerMapStringBuilder.append("}\n")
