@@ -1,7 +1,7 @@
 [versions]
 kotlin = "2.2.21"
 agp = "8.11.1"
-ksp = "2.3.4"
+ksp = "2.3.6"
 ktorfit = "2.7.2"
 ktor = "3.4.1"
 composeUi = "1.10.0"
