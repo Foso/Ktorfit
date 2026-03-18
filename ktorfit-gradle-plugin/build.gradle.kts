@@ -1,25 +1,14 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    kotlin("jvm")
-    kotlin("kapt")
-    id("java-gradle-plugin")
     `kotlin-dsl`
-    id("com.gradle.plugin-publish") version "1.3.1"
-    id("com.vanniktech.maven.publish")
+    id("ktorfit.jvm")
+    id("java-gradle-plugin")
+    alias(libs.plugins.gradlePluginPublish)
+    id("ktorfit.publishing")
     id("org.jlleitschuh.gradle.ktlint")
 }
 
 dependencies {
-    add("compileOnly", kotlin("gradle-plugin"))
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions.jvmTarget = JvmTarget.JVM_1_8
-}
-
-dependencies {
-    implementation(libs.kotlin.gradle.plugin.api)
+    implementation(libs.kotlin.gradle.plugin)
 }
 
 gradlePlugin {
@@ -37,82 +26,6 @@ gradlePlugin {
     }
 }
 
-val enableSigning = project.hasProperty("signingInMemoryKey")
-
-// Fix task dependencies for signing and publishing
-if (enableSigning) {
-    tasks.withType<AbstractPublishToMaven>().configureEach {
-        dependsOn(tasks.withType<Sign>())
-    }
-}
-
 mavenPublishing {
-
-    coordinates(
-        libs.versions.groupId.get(),
-        "ktorfit-gradle-plugin",
-        libs.versions.ktorfitGradle.get(),
-    )
-    publishToMavenCentral()
-    if (enableSigning) {
-        signAllPublications()
-    }
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("default") {
-            from(components["java"])
-
-            pom {
-                name.set("ktorfit-gradle-plugin")
-                description.set("Gradle plugin for Ktorfit")
-                url.set("https://github.com/Foso/Ktorfit")
-
-                licenses {
-                    license {
-                        name.set("Apache License 2.0")
-                        url.set("https://github.com/Foso/Ktorfit/blob/master/LICENSE.txt")
-                    }
-                }
-                scm {
-                    url.set("https://github.com/Foso/Ktorfit")
-                    connection.set("scm:git:git://github.com/Foso/Ktorfit.git")
-                }
-                developers {
-                    developer {
-                        name.set("Jens Klingenberg")
-                        url.set("https://github.com/Foso")
-                    }
-                }
-            }
-        }
-    }
-
-    repositories {
-        if (
-            hasProperty("sonatypeUsername") &&
-            hasProperty("sonatypePassword") &&
-            hasProperty("sonatypeSnapshotUrl") &&
-            hasProperty("sonatypeReleaseUrl")
-        ) {
-            maven {
-                val url =
-                    when {
-                        "SNAPSHOT" in version.toString() -> property("sonatypeSnapshotUrl")
-                        else -> property("sonatypeReleaseUrl")
-                    } as String
-                setUrl(url)
-                credentials {
-                    username = property("sonatypeUsername") as String
-                    password = property("sonatypePassword") as String
-                }
-            }
-        }
-    }
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    coordinates(version = libs.versions.ktorfit.get())
 }

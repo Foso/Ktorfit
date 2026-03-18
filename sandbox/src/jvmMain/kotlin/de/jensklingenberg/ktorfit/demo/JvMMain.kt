@@ -35,7 +35,6 @@ val jvmClient =
             )
         }
 
-        this.developmentMode = true
         expectSuccess = false
     }
 
@@ -58,7 +57,7 @@ val userKtorfit =
         )
     }
 
-val api: ExampleApi = userKtorfit.create<ExampleApi>()
+val api: ExampleApi = userKtorfit.createExampleApi()
 
 fun main() {
     runBlocking {

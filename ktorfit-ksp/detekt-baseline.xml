@@ -1,12 +1,17 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" ?>
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
-    <ID>ComplexMethod:FunctionsParser.kt$fun getFunctionDataList( ksFunctionDeclarationList: List&lt;KSFunctionDeclaration>, logger: KSPLogger ): List&lt;FunctionData></ID>
-    <ID>ComplexMethod:ParameterParser.kt$fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger): List&lt;ParameterAnnotation></ID>
-    <ID>LongMethod:FunctionsParser.kt$fun getFunctionDataList( ksFunctionDeclarationList: List&lt;KSFunctionDeclaration>, logger: KSPLogger ): List&lt;FunctionData></ID>
-    <ID>LongMethod:ParameterParser.kt$fun getParamAnnotationList(ksValueParameter: KSValueParameter, logger: KSPLogger): List&lt;ParameterAnnotation></ID>
-    <ID>TooManyFunctions:KSValueParameterExt.kt$de.jensklingenberg.ktorfit.utils.KSValueParameterExt.kt</ID>
-    <ID>TooManyFunctions:Utils.kt$de.jensklingenberg.ktorfit.utils.Utils.kt</ID>
+    <ID>CognitiveComplexMethod:ClassGenerator.kt:@OptIn(KspExperimental::class) fun generateImplClass</ID>
+    <ID>CognitiveComplexMethod:FunctionData.kt:fun KSFunctionDeclaration.toFunctionData: FunctionData</ID>
+    <ID>CognitiveComplexMethod:HeaderCodeGenerator.kt:fun getHeadersCode: String</ID>
+    <ID>CognitiveComplexMethod:ParameterAnnotation.kt:@Suppress("ktlint:standard:property-naming") fun KSValueParameter.getParamAnnotationList: List&lt;ParameterAnnotation&gt;</ID>
+    <ID>CyclomaticComplexMethod:FunctionData.kt:fun KSFunctionDeclaration.toFunctionData: FunctionData</ID>
+    <ID>CyclomaticComplexMethod:HeaderCodeGenerator.kt:fun getHeadersCode: String</ID>
+    <ID>CyclomaticComplexMethod:ParameterAnnotation.kt:@Suppress("ktlint:standard:property-naming") fun KSValueParameter.getParamAnnotationList: List&lt;ParameterAnnotation&gt;</ID>
+    <ID>LongMethod:FunctionData.kt:fun KSFunctionDeclaration.toFunctionData: FunctionData</ID>
+    <ID>LongMethod:HeaderCodeGenerator.kt:fun getHeadersCode: String</ID>
+    <ID>LongMethod:ParameterAnnotation.kt:@Suppress("ktlint:standard:property-naming") fun KSValueParameter.getParamAnnotationList: List&lt;ParameterAnnotation&gt;</ID>
+    <ID>TooManyFunctions:KSValueParameterExt.kt:de.jensklingenberg.ktorfit.utils.KSValueParameterExt.kt</ID>
   </CurrentIssues>
 </SmellBaseline>

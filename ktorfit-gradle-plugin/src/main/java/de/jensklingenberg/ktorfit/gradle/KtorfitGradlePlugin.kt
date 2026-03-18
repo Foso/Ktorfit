@@ -79,11 +79,13 @@ class KtorfitGradlePlugin : Plugin<Project> {
                             argMethod.invoke(kspExtension, "Ktorfit_MultiplatformWithSingleTarget", true.toString())
                         } else {
                             val useKsp2 =
-                                kspExtension.javaClass.kotlin.declaredMemberProperties.find {
-                                    it.name == "useKsp2"
-                                }?.call(kspExtension).let {
-                                    (it as Property<*>?)?.get() as Boolean?
-                                } ?: project.findProperty("ksp.useKSP2")?.toString()?.toBoolean() ?: false
+                                kspExtension.javaClass.kotlin.declaredMemberProperties
+                                    .find {
+                                        it.name == "useKsp2"
+                                    }?.call(kspExtension)
+                                    .let {
+                                        (it as Property<*>?)?.get() as Boolean?
+                                    } ?: project.findProperty("ksp.useKSP2")?.toString()?.toBoolean() ?: false
 
                             if (useKsp2) {
                                 tasks.named { name -> name.startsWith("ksp") }.configureEach {
@@ -170,12 +172,11 @@ class KtorfitGradlePlugin : Plugin<Project> {
  *
  * Tries to find it by type or creates it otherwise.
  */
-internal fun Project.ktorfitExtension(name: String = KtorfitGradlePlugin.GRADLE_TASKNAME): KtorfitPluginExtension {
-    return this.extensions.findByType<KtorfitPluginExtension>()
+internal fun Project.ktorfitExtension(name: String = KtorfitGradlePlugin.GRADLE_TASKNAME): KtorfitPluginExtension =
+    this.extensions.findByType<KtorfitPluginExtension>()
         ?: runCatching { this@ktorfitExtension.createKtorfitExtension(name) }.getOrNull()
         ?: this.extensions.findByName(name) as? KtorfitPluginExtension
         ?: this.extensions.getByType<KtorfitPluginExtension>()
-}
 
 /**
  * Creates the Ktorfit plugin extension.
@@ -184,12 +185,13 @@ internal fun Project.ktorfitExtension(name: String = KtorfitGradlePlugin.GRADLE_
  * @throws IllegalArgumentException When an extension with the given name already exists.
  */
 @Throws(IllegalArgumentException::class)
-private fun Project.createKtorfitExtension(name: String = KtorfitGradlePlugin.GRADLE_TASKNAME): KtorfitPluginExtension {
-    return this@createKtorfitExtension.extensions.create(
-        name = name,
-        type = KtorfitPluginExtension::class,
-    ).apply { setupConvention(this@createKtorfitExtension) }
-}
+private fun Project.createKtorfitExtension(name: String = KtorfitGradlePlugin.GRADLE_TASKNAME): KtorfitPluginExtension =
+    this@createKtorfitExtension
+        .extensions
+        .create(
+            name = name,
+            type = KtorfitPluginExtension::class,
+        ).apply { setupConvention(this@createKtorfitExtension) }
 
 internal val KotlinProjectExtension.targets: Iterable<KotlinTarget>
     get() =

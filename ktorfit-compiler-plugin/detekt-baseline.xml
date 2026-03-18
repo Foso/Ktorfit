@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CognitiveComplexMethod:CreateFuncTransformer.kt:CreateFuncTransformer$@OptIn(UnsafeDuringIrConstructionAPI::class) override fun visitExpression: IrExpression</ID>
+    <ID>ReturnCount:CreateFuncTransformer.kt:CreateFuncTransformer$@OptIn(UnsafeDuringIrConstructionAPI::class) override fun visitExpression: IrExpression</ID>
+  </CurrentIssues>
+</SmellBaseline>

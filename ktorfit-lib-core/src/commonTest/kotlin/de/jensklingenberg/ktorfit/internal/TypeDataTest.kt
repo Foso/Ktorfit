@@ -4,6 +4,7 @@ import de.jensklingenberg.ktorfit.converter.TypeData
 import io.ktor.util.reflect.typeInfo
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class TypeDataTest {
@@ -23,5 +24,21 @@ class TypeDataTest {
         assertEquals("", typeData.qualifiedName)
         assertTrue(typeData.typeInfo.type == Map::class)
         assertTrue(typeData.typeArgs[0].typeInfo.type == String::class)
+    }
+
+    // Regression test for https://github.com/Foso/Ktorfit/issues/887
+    // List type args must carry kotlinType so serialization works on iOS
+    @Test
+    fun testTypeDataCreatorWithListPreservesKotlinType() {
+        val typeData = TypeData.createTypeData("kotlin.collections.List<kotlin.String>", typeInfo<List<String>>())
+
+        assertEquals("kotlin.collections.List", typeData.qualifiedName)
+        assertTrue(typeData.typeInfo.type == List::class)
+        assertEquals(1, typeData.typeArgs.size)
+
+        val argTypeData = typeData.typeArgs[0]
+        assertTrue(argTypeData.typeInfo.type == String::class)
+        // kotlinType must be preserved so that platform serializers can resolve the correct type
+        assertNotNull(argTypeData.typeInfo.kotlinType)
     }
 }

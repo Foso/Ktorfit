@@ -89,9 +89,10 @@ private fun getQueryText(
             parameterData.annotations.filterIsInstance<Query>().firstOrNull()
                 ?: throw IllegalStateException("Query annotation not found")
         val encoded = query.encoded
-        val starProj = parameterData.type.parameterType?.starProjection()
-        val isList = starProj?.isAssignableFrom(listType) ?: false
-        val isArray = starProj?.isAssignableFrom(arrayType) ?: false
+
+        val starProj = parameterData.type.parameterType.starProjection()
+        val isList = starProj.isAssignableFrom(listType)
+        val isArray = starProj.isAssignableFrom(arrayType)
 
         if (isList || isArray) {
             "%s?.filterNotNull()?.forEach { %s(\"%s\", \"\$it\") }\n".format(

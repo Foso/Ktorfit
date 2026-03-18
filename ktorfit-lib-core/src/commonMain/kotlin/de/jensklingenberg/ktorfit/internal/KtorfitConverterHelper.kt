@@ -24,6 +24,7 @@ public class KtorfitConverterHelper(
     /**
      * This will handle all requests for functions without suspend modifier
      */
+    @Suppress("UNCHECKED_CAST")
     public fun <ReturnType> request(
         httpClient: HttpClient,
         requestBuilder: HttpRequestBuilder.() -> Unit,
@@ -53,6 +54,7 @@ public class KtorfitConverterHelper(
      * This will handle all requests for functions with suspend modifier
      * Used by generated Code
      */
+    @Suppress("UNCHECKED_CAST")
     public suspend fun <ReturnType> suspendRequest(
         httpClient: HttpClient,
         requestBuilder: HttpRequestBuilder.() -> Unit,
