@@ -7,6 +7,17 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update.
 
+# [2.7.3]()
+
+2.7.3 - 2026-03-06
+========================================
+* Supported KSP version: >=2.0.2
+* Supported Kotlin version: >=2.2.0
+* Ktor version: 3.3.3
+
+## Changed
+- Request builder now adds original path template as a request attribute.
+
 # [2.7.2]()
 
 2.7.2 - 2026-01-11
