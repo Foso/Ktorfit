@@ -15,7 +15,7 @@ kspVersion = "2.3.6"
 ktorfit = "2.7.3"
 ktorfitCompiler = "2.3.4"
 
-ktorfitGradlePlugin = "2.7.2"
+ktorfitGradlePlugin = "2.7.3"
 
 ktorVersion = "3.5.0"
 mockk = "1.14.9"
