@@ -7,6 +7,7 @@ import de.jensklingenberg.ktorfit.Call
 import de.jensklingenberg.ktorfit.http.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import de.jensklingenberg.ktorfit.http.Query
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
 
@@ -53,6 +54,12 @@ interface JsonPlaceHolderApi {
     @GET("posts/{postId}/comments")
     suspend fun getCommentsByPostIdResponse(
         @RequestType(Int::class) @Path("postId") postId: String
+    ): MyOwnResponse<List<Comment>>
+
+    @GET("posts/{postId}/comments")
+    suspend fun getCommentsByPostIdResponse(
+        @Path("postId") postId: String,
+        @Query("commentTypes") @RequestType(String::class) commentTypes: List<String>
     ): MyOwnResponse<List<Comment>>
 
     @Headers(value = ["Content-Type: application/json"])
