@@ -7,16 +7,23 @@ and this project orients towards [Semantic Versioning](http://semver.org/spec/v2
 Note: This project needs KSP to work and every new Ktorfit with an update of the KSP version is technically a breaking change.
 But there is no intent to bump the Ktorfit major version for every KSP update.
 
-# [TBD]()
+# [2.7.4]()
 
-TBD
+2.7.4 - 2026-06-03
 ========================================
 * Supported KSP version: >=2.0.2
 * Supported Kotlin version: >=2.2.0
 * Ktor version: 3.5.0
 
 ## Changed
+- Update Kotlin to 2.4.0
+- Update KSP to 2.3.9
 - Update Ktor to 3.5.0
+
+## Fixed
+- The compilerPluginVersion will now get correctly set to 2.3.5 by the Gradle plugin to support using Kotlin 2.4.0+.
+
+Thanks to @eygraber for contributing to this release!
 
 # [2.7.3]()
 
