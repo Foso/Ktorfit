@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.3.21"
+kotlin = "2.4.0"
 agp = "8.13.2"
 ksp = "2.3.9"
 ktorfit = "2.7.3"
