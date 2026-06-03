@@ -80,6 +80,7 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
 
     private fun defaultCompilerPluginVersion(projectKotlinVersion: KotlinVersion): String =
         when {
+            projectKotlinVersion.isAtLeast(2, 4) -> "2.3.5"
             projectKotlinVersion.isAtLeast(2, 3) -> "2.3.4"
             else -> KTORFIT_COMPILER_PLUGIN_VERSION
         }
