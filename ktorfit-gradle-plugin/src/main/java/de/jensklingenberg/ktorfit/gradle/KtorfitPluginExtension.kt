@@ -49,7 +49,6 @@ open class KtorfitPluginExtension
         internal fun setupConvention(project: Project) {
             generateQualifiedTypeName.convention(false)
             errorCheckingMode.convention(ErrorCheckingMode.ERROR)
-            compilerPluginVersion.convention(KtorfitGradlePlugin.KTORFIT_COMPILER_PLUGIN_VERSION)
         }
     }
 

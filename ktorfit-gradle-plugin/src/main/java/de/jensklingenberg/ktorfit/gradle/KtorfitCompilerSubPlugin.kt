@@ -4,7 +4,6 @@ import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.ARTIFACT_
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.COMPILER_PLUGIN_ID
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.GRADLE_TASKNAME
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.GROUP_NAME
-import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.KTORFIT_COMPILER_PLUGIN_VERSION
 import de.jensklingenberg.ktorfit.gradle.KtorfitGradlePlugin.Companion.MIN_KOTLIN_VERSION
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
@@ -39,7 +38,7 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
                 .ktorfitExtension(
                     GRADLE_TASKNAME
                 ).compilerPluginVersion
-                .get()
+                .orNull
 
         return kotlinVersion != "-"
     }
@@ -82,6 +81,6 @@ internal class KtorfitCompilerSubPlugin : KotlinCompilerPluginSupportPlugin {
         when {
             projectKotlinVersion.isAtLeast(2, 4) -> "2.3.5"
             projectKotlinVersion.isAtLeast(2, 3) -> "2.3.4"
-            else -> KTORFIT_COMPILER_PLUGIN_VERSION
+            else -> "2.3.2"
         }
 }
