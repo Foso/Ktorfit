@@ -12,7 +12,7 @@ kotlinPoet = "2.3.0"
 kspVersion = "2.3.9"
 
 # these are the release versions for the artifacts, not for libraries in the catalog
-ktorfit = "2.7.4"
+ktorfit = "2.7.5"
 ktorfitCompiler = "2.3.5"
 
 ktorfitGradlePlugin = "2.7.2"
