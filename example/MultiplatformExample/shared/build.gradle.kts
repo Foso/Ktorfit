@@ -6,7 +6,7 @@ plugins {
     id("com.android.library")
     id("com.google.devtools.ksp") version "2.3.9"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "2.7.3"
+    id("de.jensklingenberg.ktorfit") version "2.7.5"
 }
 
 ktorfit {
