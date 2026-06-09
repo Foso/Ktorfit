@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.demo
 
 import com.example.UserFactory
 import com.example.api.JsonPlaceHolderApi
+import com.example.model.ArrayToStringConverterFactory
 import com.example.model.ExampleApi
 import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverterFactory
@@ -42,6 +43,10 @@ val jvmKtorfit =
     ktorfit {
         baseUrl(JsonPlaceHolderApi.baseUrl)
         httpClient(jvmClient)
+
+        converterFactories(
+            ArrayToStringConverterFactory()
+        )
     }
 
 val userKtorfit =

@@ -1,6 +1,7 @@
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
 import de.jensklingenberg.ktorfit.getCompilation
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
@@ -36,5 +37,37 @@ interface TestService {
             )
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expectedFunctionSource))
+    }
+
+    @Test
+    fun `should generate code based on mapped type for List`() {
+        val source =
+            SourceFile.kotlin(
+                "Source.kt",
+                """
+      package com.example.api
+import de.jensklingenberg.ktorfit.http.*
+
+interface TestService {
+    @GET("posts")
+    suspend fun test(@RequestType(String::class) @Query("ids") ids: List<Int>): String
+}
+    """,
+            )
+
+        val expectedFunctionSource = $$"""ids?.let{ parameter("ids", "$it") }"""
+
+        val compilation = getCompilation(listOf(source))
+        compilation.compile()
+
+        val generatedFile =
+            File(
+                compilation.kspSourcesDir,
+                "/kotlin/com/example/api/_TestServiceImpl.kt",
+            )
+        val actualSource = generatedFile.readText()
+
+        assertTrue(actualSource.contains(expectedFunctionSource))
+        assertFalse(actualSource.contains("ids?.filterNotNull()?.forEach"))
     }
 }
