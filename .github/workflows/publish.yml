@@ -16,7 +16,7 @@ jobs:
           distribution: 'temurin'
           java-version-file: .java-version
 
-      - uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6
+      - uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6
 
       - name: Publish release
         run: ./gradlew :ktorfit-annotations:publishAndReleaseToMavenCentral
@@ -37,7 +37,7 @@ jobs:
           distribution: 'temurin'
           java-version-file: .java-version
 
-      - uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6
+      - uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6
 
       - name: Publish release
         run: ./gradlew :ktorfit-ksp:publishAndReleaseToMavenCentral
@@ -58,7 +58,7 @@ jobs:
           distribution: 'temurin'
           java-version-file: .java-version
 
-      - uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6
+      - uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6
 
       - name: Publish release
         run: ./gradlew :ktorfit-compiler-plugin:publishAndReleaseToMavenCentral
@@ -79,7 +79,7 @@ jobs:
           distribution: 'temurin'
           java-version-file: .java-version
 
-      - uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6
+      - uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6
 
       - name: Publish release
         run: ./gradlew :ktorfit-gradle-plugin:publishAndReleaseToMavenCentral
@@ -100,7 +100,7 @@ jobs:
           distribution: 'temurin'
           java-version-file: .java-version
 
-      - uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6
+      - uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6
 
       - name: Publish release
         run: ./gradlew :ktorfit-lib:publishAndReleaseToMavenCentral :ktorfit-lib-core:publishAndReleaseToMavenCentral
@@ -122,7 +122,7 @@ jobs:
           distribution: 'temurin'
           java-version-file: .java-version
 
-      - uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6
+      - uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6
       - name: Publish release
         run: ./gradlew :ktorfit-converters:call:publishAndReleaseToMavenCentral :ktorfit-converters:flow:publishAndReleaseToMavenCentral :ktorfit-converters:response:publishAndReleaseToMavenCentral
         env:
