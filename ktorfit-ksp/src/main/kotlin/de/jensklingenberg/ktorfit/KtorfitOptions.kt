@@ -16,4 +16,18 @@ class KtorfitOptions(
      * If set to true, the generated code will contain qualified type names
      */
     val setQualifiedType = options["Ktorfit_QualifiedTypeName"]?.toBoolean() ?: false
+
+    /**
+     * If the compilation is multiplatform and has only one target, this will be true.
+     * Only relevant in the legacy (non-per-target) code path.
+     */
+    val multiplatformWithSingleTarget = options["Ktorfit_MultiplatformWithSingleTarget"]?.toBoolean() ?: false
+
+    /**
+     * When true, code generation is done independently per target instead of
+     * relying on `kspCommonMainKotlinMetadata`. This removes the commonMain
+     * module filtering in [ClassGenerator] and allows the processor to
+     * generate code for every source file visible to the current compilation.
+     */
+    val perTargetGeneration = options["Ktorfit_PerTargetGeneration"]?.toBoolean() ?: false
 }

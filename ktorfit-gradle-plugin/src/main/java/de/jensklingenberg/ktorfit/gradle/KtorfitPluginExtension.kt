@@ -46,9 +46,23 @@ open class KtorfitPluginExtension
         @Deprecated("Use compilerPluginVersion instead", ReplaceWith("compilerPluginVersion"))
         open val kotlinVersion: Property<String> = compilerPluginVersion
 
+        /**
+         * Enables per-target KSP code generation instead of relying on
+         * `kspCommonMainKotlinMetadata` for shared code.
+         *
+         * When enabled, each KMP target runs KSP independently and generates
+         * its own copy of the implementation code. This removes the serial
+         * bottleneck of the metadata task for module dependencies but can
+         * make the usage of the createApi() methods more difficult.
+         *
+         * Default: false (uses the traditional metadata-based approach)
+         */
+        open val perTargetGeneration: Property<Boolean> = objectFactory.property(Boolean::class.java)
+
         internal fun setupConvention(project: Project) {
             generateQualifiedTypeName.convention(false)
             errorCheckingMode.convention(ErrorCheckingMode.ERROR)
+            perTargetGeneration.convention(false)
         }
     }
 

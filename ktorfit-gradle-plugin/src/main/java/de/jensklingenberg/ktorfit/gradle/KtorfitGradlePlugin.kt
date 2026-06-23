@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.provider.Property
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.findByType
 import org.gradle.kotlin.dsl.getByType
@@ -9,8 +10,12 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+import java.lang.reflect.Method
 import java.util.Locale.US
+import kotlin.reflect.full.declaredMemberProperties
 
 class KtorfitGradlePlugin : Plugin<Project> {
     companion object {
@@ -18,7 +23,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
         const val GROUP_NAME = "de.jensklingenberg.ktorfit"
         const val ARTIFACT_NAME = "compiler-plugin"
         const val COMPILER_PLUGIN_ID = "ktorfitPlugin"
-        const val KTORFIT_KSP_PLUGIN_VERSION = "2.7.6-SNAPSHOT"
+        const val KTORFIT_KSP_PLUGIN_VERSION = "2.7.3"
         const val MIN_KSP_VERSION = "2.0.2"
         val MIN_KOTLIN_VERSION = KotlinVersion(2, 2, 0)
     }
@@ -47,10 +52,12 @@ class KtorfitGradlePlugin : Plugin<Project> {
                 checkKSPVersion(kspVersion)
                 val kspExtension = extensions.findByName("ksp") ?: error("KSP config not found")
                 val argMethod = kspExtension.javaClass.getMethod("arg", String::class.java, String::class.java)
+                val dependency = "$ktorfitKsp:$KTORFIT_KSP_PLUGIN_VERSION"
 
                 afterEvaluate {
                     val errorCheckingMode = extension.errorCheckingMode.getOrElse(ErrorCheckingMode.ERROR)
                     val generateQualifiedTypeName = extension.generateQualifiedTypeName.getOrElse(false)
+                    val perTargetGeneration = extension.perTargetGeneration.getOrElse(false)
 
                     argMethod.invoke(kspExtension, "Ktorfit_Errors", errorCheckingMode.ordinal.toString())
                     argMethod.invoke(
@@ -58,9 +65,17 @@ class KtorfitGradlePlugin : Plugin<Project> {
                         "Ktorfit_QualifiedTypeName",
                         generateQualifiedTypeName.toString(),
                     )
-                }
-                val dependency = "$ktorfitKsp:$KTORFIT_KSP_PLUGIN_VERSION"
+                    argMethod.invoke(
+                        kspExtension,
+                        "Ktorfit_PerTargetGeneration",
+                        perTargetGeneration.toString(),
+                    )
 
+                    if (!perTargetGeneration) {
+                        configureKspCommonMainMetadataDependency(kspExtension, argMethod, kotlinExtension, dependency)
+
+                    }
+                }
                 when (val kotlinExtension = kotlinExtension) {
                     is KotlinSingleTargetExtension<*> -> {
                         dependencies.add("ksp", dependency)
@@ -87,7 +102,6 @@ class KtorfitGradlePlugin : Plugin<Project> {
                                 dependencies.add("ksp${capitalizedTargetName}Test", dependency)
                             }
                         }
-
                     }
 
                     else -> Unit
@@ -134,6 +148,66 @@ private fun Project.createKtorfitExtension(name: String = KtorfitGradlePlugin.GR
             name = name,
             type = KtorfitPluginExtension::class,
         ).apply { setupConvention(this@createKtorfitExtension) }
+
+
+/**
+ * Workaround for registering generated code into Common source set
+ */
+private fun Project.configureKspCommonMainMetadataDependency(kspExtension: Any, argMethod: Method, kotlinExtension: KotlinProjectExtension, kspDependency: String) {
+    /**
+     * This is currently a workaround for a bug in KSP that causes the plugin
+     * to not work with multiplatform projects with only one target.
+     * https://github.com/google/ksp/issues/1525
+     */
+    val singleTarget =
+        project.kotlinExtension.targets
+            .toList()
+            .size == 2
+
+    if (kotlinExtension is KotlinMultiplatformExtension) {
+        if (singleTarget) {
+            argMethod.invoke(kspExtension, "Ktorfit_MultiplatformWithSingleTarget", true.toString())
+        } else {
+            val useKsp2 =
+                kspExtension.javaClass.kotlin.declaredMemberProperties
+                    .find {
+                        it.name == "useKsp2"
+                    }?.call(kspExtension)
+                    .let {
+                        (it as Property<*>?)?.get() as Boolean?
+                    } ?: project.findProperty("ksp.useKSP2")?.toString()?.toBoolean() ?: false
+
+            if (useKsp2) {
+                tasks.named { name -> name.startsWith("ksp") }.configureEach {
+                    if (name != "kspCommonMainKotlinMetadata") {
+                        dependsOn("kspCommonMainKotlinMetadata")
+                    }
+                }
+            } else {
+                tasks.withType(KotlinCompilationTask::class.java).configureEach {
+                    if (name != "kspCommonMainKotlinMetadata") {
+                        dependsOn("kspCommonMainKotlinMetadata")
+                    }
+                }
+            }
+        }
+    }
+    if (kotlinExtension is KotlinMultiplatformExtension) {
+        kotlinExtension.targets.configureEach {
+            if (platformType.name == "common") {
+                dependencies.add("kspCommonMainMetadata", kspDependency)
+            }
+        }
+    }
+    kotlinExtension.sourceSets
+        .named(KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME)
+        .configure {
+            kotlin.srcDir(
+                "${layout.buildDirectory.get()}/generated/ksp/metadata/" +
+                        "${KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME}/kotlin"
+            )
+        }
+}
 
 internal val KotlinProjectExtension.targets: Iterable<KotlinTarget>
     get() =
