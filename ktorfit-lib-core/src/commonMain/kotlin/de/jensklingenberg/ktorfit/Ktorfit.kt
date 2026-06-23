@@ -8,6 +8,8 @@ import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.TypeData
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.internal.ClassProvider
+import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
+import de.jensklingenberg.ktorfit.internal.KtorfitApiRegistry
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
@@ -81,10 +83,10 @@ public class Ktorfit private constructor(
      * @exception IllegalArgumentException if the compiler plugin is not enabled
      */
     @Deprecated(
-        """This function relies on a compiler plugin to find the implementation class of the requested 
-            interface. This can lead to compile errors when the class can't be found. The plan is to get rid of the 
-            plugin.When your project is configured correct, the autocompletion should show an extension function 
-            *create* followed by the name of the interface. This function will not trigger the compiler plugin e.g. 
+        """This function relies on a compiler plugin to find the implementation class of the requested
+            interface. This can lead to compile errors when the class can't be found. The plan is to get rid of the
+            plugin.When your project is configured correct, the autocompletion should show an extension function
+            *create* followed by the name of the interface. This function will not trigger the compiler plugin e.g.
             change .create<ExampleApi>() to .createExampleApi()""",
     )
     public fun <T> create(classProvider: ClassProvider<T>? = null): T {
@@ -92,6 +94,30 @@ public class Ktorfit private constructor(
             throw IllegalArgumentException(ENABLE_GRADLE_PLUGIN)
         }
         return classProvider.create(this)
+    }
+
+    /**
+     * Creates an implementation of the Ktorfit-annotated interface [T]
+     * without requiring a compiler plugin.
+     *
+     * Uses a per-target registry populated via KSP code generation.
+     * Available from commonMain — each generated `_<Name>Impl.kt` file
+     * self-registers into [KtorfitApiRegistry] during class loading.
+     *
+     * ```kotlin
+     * val api: ExampleApi = ktorfit.createApi<ExampleApi>()
+     * ```
+     */
+    @OptIn(InternalKtorfitApi::class)
+    public inline fun <reified T : Any> createApi(): T {
+        val factory =
+            KtorfitApiRegistry[T::class]
+                ?: throw IllegalArgumentException(
+                    "No Ktorfit API registered for ${T::class.simpleName}. " +
+                        "Is the KSP processor correctly configured for this target?",
+                )
+        @Suppress("UNCHECKED_CAST")
+        return factory(this) as T
     }
 
     /**

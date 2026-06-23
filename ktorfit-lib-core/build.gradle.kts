@@ -63,10 +63,6 @@ ksp {
 }
 
 dependencies {
-    add(
-        "kspCommonMainMetadata",
-        projects.ktorfitKsp,
-    )
     add("kspJvm", projects.ktorfitKsp)
     add("kspJvmTest", projects.ktorfitKsp)
 }
