@@ -23,7 +23,6 @@ class KtorfitGradlePlugin : Plugin<Project> {
         const val ARTIFACT_NAME = "compiler-plugin"
         const val COMPILER_PLUGIN_ID = "ktorfitPlugin"
         const val KTORFIT_KSP_PLUGIN_VERSION = "2.7.3"
-        const val KTORFIT_COMPILER_PLUGIN_VERSION = "2.3.4"
         const val MIN_KSP_VERSION = "2.0.2"
         val MIN_KOTLIN_VERSION = KotlinVersion(2, 2, 0)
     }
@@ -130,11 +129,6 @@ class KtorfitGradlePlugin : Plugin<Project> {
 
                             if (this.compilations.any { it.name == "test" }) {
                                 dependencies.add("ksp${capitalizedTargetName}Test", dependency)
-                            }
-
-                            if (this.name == "android") {
-                                // Fix android as single target in multiplatform projects
-                                dependencies.add("ksp", dependency)
                             }
                         }
 

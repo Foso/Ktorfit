@@ -4,9 +4,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "2.3.4"
+    id("com.google.devtools.ksp") version "2.3.9"
     id("kotlinx-serialization")
-    id("de.jensklingenberg.ktorfit") version "2.7.2"
+    id("de.jensklingenberg.ktorfit") version "2.7.5"
 }
 
 ktorfit {
@@ -14,8 +14,8 @@ ktorfit {
 }
 
 version = "1.0"
-val ktorVersion = "3.4.1"
-val ktorfitVersion = "2.7.2"
+val ktorVersion = "3.5.0"
+val ktorfitVersion = "2.7.5"
 
 kotlin {
     jvmToolchain(11)

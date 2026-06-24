@@ -1,29 +1,29 @@
 [versions]
-agp = "9.1.0"
+agp = "9.2.1"
 autoService = "1.1.1"
 binaryCompatibilityValidator = "0.18.1"
 coroutines = "1.8.1"
-detekt = "2.0.0-alpha.2"
+detekt = "2.0.0-alpha.3"
 junit = "4.13.2"
-kctfork = "0.12.1"
-kotlin = "2.3.20-RC3"
+kctfork = "0.13.0"
+kotlin = "2.4.0"
 kotlinx = "1.10.2"
-kotlinPoet = "2.2.0"
-kspVersion = "2.3.6"
+kotlinPoet = "2.3.0"
+kspVersion = "2.3.9"
 
 # these are the release versions for the artifacts, not for libraries in the catalog
-ktorfit = "2.7.3"
-ktorfitCompiler = "2.3.4"
+ktorfit = "2.7.5"
+ktorfitCompiler = "2.3.5"
 
 ktorfitGradlePlugin = "2.7.2"
 
-ktorVersion = "3.4.1"
-mockk = "1.14.9"
+ktorVersion = "3.5.0"
+mockk = "1.14.11"
 mockito-kotlin = "4.1.0"
 vannikMavenPublish = "0.36.0"
 licensee = "1.14.1"
 ktlint = "14.2.0"
-gradlePluginPublish = "2.1.0"
+gradlePluginPublish = "2.1.1"
 
 [libraries]
 android-build-gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
