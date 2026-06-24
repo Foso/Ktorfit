@@ -9,7 +9,18 @@ This will generate the code for the implementation of the interfaces
 This transforms the create() function from the Ktorfit lib
 
 ## Ktorfit lib
-A wrapper around Ktor to simplify code generation
+A wrapper around Ktor to simplify code generation.
+
+## Per-Target Generation (Alternative Pipeline)
+
+When `perTargetGeneration = true` is set in the Ktorfit Gradle plugin config, a different code generation pipeline is used:
+
+- Each KMP target runs KSP independently instead of relying on `kspCommonMainKotlinMetadata`
+- Generated `_<Name>Impl.kt` files include a self-registration property that registers the API factory into `KtorfitApiRegistry`
+- The `createApi<T>()` inline function looks up the registry, removing the need for the compiler plugin
+
+This eliminates the serial bottleneck of the metadata task for module dependencies and allows using `Ktorfit.createApi<T>()` from `commonMain` without a compiler plugin.
+
 
 ## Example 
 ```kotlin
