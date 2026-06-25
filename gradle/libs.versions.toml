@@ -12,10 +12,10 @@ kotlinPoet = "2.3.0"
 kspVersion = "2.3.9"
 
 # these are the release versions for the artifacts, not for libraries in the catalog
-ktorfit = "2.7.5"
+ktorfit = "2.7.6"
 ktorfitCompiler = "2.3.5"
 
-ktorfitGradlePlugin = "2.7.2"
+ktorfitGradlePlugin = "2.7.6"
 
 ktorVersion = "3.5.0"
 mockk = "1.14.11"
@@ -32,7 +32,7 @@ autoServiceKsp = "dev.zacsweers.autoservice:auto-service-ksp:1.2.0"
 detekt-gradle-plugin = { module = "dev.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 gradle-maven-publish-plugin = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "vannikMavenPublish" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-ktorfit-gradle-plugin = { module = "de.jensklingenberg.ktorfit:ktorfit-gradle-plugin", version.ref = "ktorfitGradlePlugin" }
+ktorfit-gradle-plugin = { module = "de.jensklingenberg.ktorfit:gradle-plugin", version.ref = "ktorfitGradlePlugin" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kctfork-core = { module = "dev.zacsweers.kctfork:core", version.ref = "kctfork" }
 kctfork-ksp = { module = "dev.zacsweers.kctfork:ksp", version.ref = "kctfork" }

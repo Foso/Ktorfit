@@ -23,7 +23,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
         const val GROUP_NAME = "de.jensklingenberg.ktorfit"
         const val ARTIFACT_NAME = "compiler-plugin"
         const val COMPILER_PLUGIN_ID = "ktorfitPlugin"
-        const val KTORFIT_KSP_PLUGIN_VERSION = "2.7.3"
+        const val KTORFIT_KSP_PLUGIN_VERSION = "2.7.6"
         const val MIN_KSP_VERSION = "2.0.2"
         val MIN_KOTLIN_VERSION = KotlinVersion(2, 2, 0)
     }
@@ -36,7 +36,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
 
             val hasKspApplied = extensions.findByName("ksp") != null
             if (hasKspApplied) {
-                val ktorfitKsp = "$GROUP_NAME:ktorfit-ksp"
+                val ktorfitKsp = "$GROUP_NAME:ksp"
 
                 val kspPlugin =
                     plugins.findPlugin("com.google.devtools.ksp") ?: error("KSP plugin not found")

@@ -14,13 +14,18 @@ ksp {
     arg("Ktorfit_QualifiedTypeName", "false")
 }
 
+ktorfit {
+    perTargetGeneration = true
+    enableFactoryRegistry = true
+}
+
 kotlin {
     jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    js(IR) {
-        this.nodejs()
+    js {
+        nodejs()
         binaries.executable() // not applicable to BOTH, see details below
     }
     linuxX64 {
@@ -92,7 +97,7 @@ kotlin {
 
 configurations.all {
     resolutionStrategy.dependencySubstitution {
-        substitute(module("de.jensklingenberg.ktorfit:ksp"))
+        substitute(module("de.jensklingenberg.ktorfit:ktorfit-ksp"))
             .using(project(":ktorfit-ksp"))
             .because("we work with the unreleased development version")
         substitute(module("de.jensklingenberg.ktorfit:gradle-plugin"))

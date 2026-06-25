@@ -1,7 +1,8 @@
 package com.example
 
-import com.example.api.createStarWarsApi
+import com.example.api.StarWarsApi
 import com.example.model.People
+import de.jensklingenberg.ktorfit.ExperimentalFactoryRegistry
 import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
 import io.ktor.client.HttpClient
@@ -21,6 +22,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 class SummonStormtroopersTest {
+    @OptIn(ExperimentalFactoryRegistry::class)
     @Test
     fun `Given mocked response When subscribeToStormtroopers Then obtain not null expected result`() = runTest {
         // Given
@@ -44,7 +46,7 @@ class SummonStormtroopersTest {
                 headers = headersOf(HttpHeaders.ContentType, "application/json")
             )
         }
-        val starWarsApi = setUpTestKtorfit(mockEngine).createStarWarsApi()
+        val starWarsApi = setUpTestKtorfit(mockEngine).createUsingRegistry<StarWarsApi>()
 
         // When
         val result = starWarsApi.subscribeToStormtroopers()
@@ -54,6 +56,7 @@ class SummonStormtroopersTest {
         assertEquals(Json.decodeFromString<List<People>>(stringJsonListStormtroopersContent), result.first())
     }
 
+    @OptIn(ExperimentalFactoryRegistry::class)
     @Test
     fun `Given mocked response When summonStormtroopers Then obtain not null expected result`() = runTest {
         // Given
@@ -77,7 +80,7 @@ class SummonStormtroopersTest {
                 headers = headersOf(HttpHeaders.ContentType, "application/json")
             )
         }
-        val starWarsApi = setUpTestKtorfit(mockEngine).createStarWarsApi()
+        val starWarsApi = setUpTestKtorfit(mockEngine).createUsingRegistry<StarWarsApi>()
 
         // When
         val result = starWarsApi.summonStormtroopers()

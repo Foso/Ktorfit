@@ -1,7 +1,7 @@
 package com.example.model
 
 import com.example.api.JsonPlaceHolderApi
-import com.example.api.createJsonPlaceHolderApi
+import de.jensklingenberg.ktorfit.ExperimentalFactoryRegistry
 import de.jensklingenberg.ktorfit.converter.CallConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
 import io.ktor.client.*
@@ -33,4 +33,5 @@ val commonKtorfit =
         )
     }
 
-val jsonPlaceHolderApi = commonKtorfit.createJsonPlaceHolderApi()
+@OptIn(ExperimentalFactoryRegistry::class)
+val jsonPlaceHolderApi = commonKtorfit.createUsingRegistry<JsonPlaceHolderApi>()
