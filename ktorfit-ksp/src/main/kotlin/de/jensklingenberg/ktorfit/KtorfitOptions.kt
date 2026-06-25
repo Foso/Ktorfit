@@ -18,7 +18,23 @@ class KtorfitOptions(
     val setQualifiedType = options["Ktorfit_QualifiedTypeName"]?.toBoolean() ?: false
 
     /**
-     * If the compilation is multiplatform and has only one target, this will be true
+     * If the compilation is multiplatform and has only one target, this will be true.
+     * Only relevant in the legacy (non-per-target) code path.
      */
     val multiplatformWithSingleTarget = options["Ktorfit_MultiplatformWithSingleTarget"]?.toBoolean() ?: false
+
+    /**
+     * When true, code generation is done independently per target instead of
+     * relying on `kspCommonMainKotlinMetadata`. This removes the commonMain
+     * module filtering in [ClassGenerator] and allows the processor to
+     * generate code for every source file visible to the current compilation.
+     *
+     * When enabled, each API interface must have a corresponding `expect`
+     * declaration in commonMain:
+     *   expect fun Ktorfit.createMyApi(): MyApi
+     *
+     * KSP validates this at compile time and generates the `actual`
+     * implementation in each platform target.
+     */
+    val perTargetGeneration = options["Ktorfit_PerTargetGeneration"]?.toBoolean() ?: false
 }

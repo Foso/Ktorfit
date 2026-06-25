@@ -30,5 +30,6 @@ public class de/jensklingenberg/ktorfit/gradle/KtorfitPluginExtension {
 	public fun getErrorCheckingMode ()Lorg/gradle/api/provider/Property;
 	public fun getGenerateQualifiedTypeName ()Lorg/gradle/api/provider/Property;
 	public fun getKotlinVersion ()Lorg/gradle/api/provider/Property;
+	public fun getPerTargetGeneration ()Lorg/gradle/api/provider/Property;
 }
 
