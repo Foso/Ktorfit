@@ -9,7 +9,7 @@ import de.jensklingenberg.ktorfit.converter.TypeData
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.internal.ClassProvider
 import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
-import de.jensklingenberg.ktorfit.internal.KtorfitApiRegistry
+import de.jensklingenberg.ktorfit.optins.KtorfitFactoryRegistry
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
@@ -97,27 +97,23 @@ public class Ktorfit private constructor(
     }
 
     /**
-     * Creates an implementation of the Ktorfit-annotated interface [T]
-     * without requiring a compiler plugin.
+     * This will return an implementation of [T] if [T] is an interface
+     * with Ktorfit annotations. This uses an service locator central factory registry
+     * instead of depending on the hard to mantain compiler plugin as the deprecated [create] method.
+     * Usage of this method requires enabling plugin flag: enableFactoryRegistry
      *
-     * Uses a per-target registry populated via KSP code generation.
-     * Available from commonMain — each generated `_<Name>Impl.kt` file
-     * self-registers into [KtorfitApiRegistry] during class loading.
-     *
-     * ```kotlin
-     * val api: ExampleApi = ktorfit.createApi<ExampleApi>()
-     * ```
+     * @exception IllegalArgumentException if you have not enabled enableFactoryRegistry
      */
+    @ExperimentalFactoryRegistry
     @OptIn(InternalKtorfitApi::class)
-    public inline fun <reified T : Any> createApi(): T {
-        val factory =
-            KtorfitApiRegistry[T::class]
+    public inline fun <reified T : Any> createUsingRegistry(): T {
+        val classProvider =
+            KtorfitFactoryRegistry[T::class]
                 ?: throw IllegalArgumentException(
                     "No Ktorfit API registered for ${T::class.simpleName}. " +
                         "Is the KSP processor correctly configured for this target?",
                 )
-        @Suppress("UNCHECKED_CAST")
-        return factory(this) as T
+        return classProvider.create(this)
     }
 
     /**

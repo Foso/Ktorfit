@@ -30,4 +30,10 @@ class KtorfitOptions(
      * generate code for every source file visible to the current compilation.
      */
     val perTargetGeneration = options["Ktorfit_PerTargetGeneration"]?.toBoolean() ?: false
+
+    /**
+     * If set to true, the generated code will add all created class providers to central registry enabling the usage of
+     * the Ktorfit.createUsingRegistry() function.
+     */
+    val enableFactoryRegistry = options["Ktorfit_EnableFactoryRegistry"]?.toBoolean() ?: false
 }

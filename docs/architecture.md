@@ -11,16 +11,22 @@ This transforms the create() function from the Ktorfit lib
 ## Ktorfit lib
 A wrapper around Ktor to simplify code generation.
 
-## Per-Target Generation (Alternative Pipeline)
+## Per-Target Generation
 
 When `perTargetGeneration = true` is set in the Ktorfit Gradle plugin config, a different code generation pipeline is used:
 
 - Each KMP target runs KSP independently instead of relying on `kspCommonMainKotlinMetadata`
-- Generated `_<Name>Impl.kt` files include a self-registration property that registers the API factory into `KtorfitApiRegistry`
-- The `createApi<T>()` inline function looks up the registry, removing the need for the compiler plugin
+- This removes the serial bottleneck of the metadata task triggering metadata compilation for all targets from child modules
 
-This eliminates the serial bottleneck of the metadata task for module dependencies and allows using `Ktorfit.createApi<T>()` from `commonMain` without a compiler plugin.
+## Factory Registry (Optional)
 
+When `enableFactoryRegistry = true` is set in the Ktorfit Gradle plugin config:
+
+- Generated `_<Name>Impl.kt` files include a self-registration property that registers a `ClassProvider` into `KtorfitFactoryRegistry`
+- The `Ktorfit.createUsingRegistry<T>()` inline function looks up the registry, removing the need for the compiler plugin
+- Usage requires opt-in via `@ExperimentalFactoryRegistry`
+
+This flag is independent of `perTargetGeneration` but works well together with it to simplify API creation from `commonMain`.
 
 ## Example 
 ```kotlin
@@ -69,28 +75,44 @@ public fun Ktorfit.createExampleApi(): ExampleApi = _ExampleApiImpl(this.baseUrl
 
 ```
 
-The next part is the compiler plugin which is added by the gradle plugin.
-It looks for the every usage of the create function from the Ktorfit-lib and adds an object of the 
-wanted implementation class as an argument. Because of the naming convention of the generated classes
-we can deduce the name of the class from the name of type parameter.
+When `enableFactoryRegistry = true`, a self-registration property is also generated:
+
+```kotlin
+@Suppress("unused")
+private val __ktorfit_registration: Unit =
+    run { KtorfitFactoryRegistry.register(ExampleApi::class, _ExampleApiProvider()) }
+```
+
+### Compiler Plugin Path (legacy)
+
+The compiler plugin looks for every usage of the `create` function from the Ktorfit-lib and adds an object
+of the wanted implementation class as an argument.
 
 ```kotlin
 val api = jvmKtorfit.create<ExampleApi>()
 ```
 
-will be transformed to: 
+will be transformed to:
 
 ```kotlin
 val api = jvmKtorfit.create<ExampleApi>(_ExampleApiImpl(jvmKtorfit))
 ```
 
-The create() function is used, checks that the compiler plugin replaced the default value
+### Registry Path (enableFactoryRegistry)
+
+When the factory registry is enabled, use `createUsingRegistry` instead — no compiler plugin needed:
 
 ```kotlin
-public fun <T> create(data: T? = null): T {
-    if (data == null) {
-        throw IllegalArgumentException(ENABLE_GRADLE_PLUGIN)
-    }
-    return data
+@OptIn(ExperimentalFactoryRegistry::class)
+val api = jvmKtorfit.createUsingRegistry<ExampleApi>()
+```
+
+The `createUsingRegistry()` function looks up the `ClassProvider` from `KtorfitFactoryRegistry`:
+
+```kotlin
+public inline fun <reified T : Any> createUsingRegistry(): T {
+    val classProvider = KtorfitFactoryRegistry[T::class]
+        ?: throw IllegalArgumentException(...)
+    return classProvider.create(this)
 }
 ```

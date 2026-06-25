@@ -58,6 +58,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
                     val errorCheckingMode = extension.errorCheckingMode.getOrElse(ErrorCheckingMode.ERROR)
                     val generateQualifiedTypeName = extension.generateQualifiedTypeName.getOrElse(false)
                     val perTargetGeneration = extension.perTargetGeneration.getOrElse(false)
+                    val enableFactoryRegistry = extension.enableFactoryRegistry.getOrElse(false)
 
                     argMethod.invoke(kspExtension, "Ktorfit_Errors", errorCheckingMode.ordinal.toString())
                     argMethod.invoke(
@@ -70,10 +71,14 @@ class KtorfitGradlePlugin : Plugin<Project> {
                         "Ktorfit_PerTargetGeneration",
                         perTargetGeneration.toString(),
                     )
+                    argMethod.invoke(
+                        kspExtension,
+                        "Ktorfit_EnableFactoryRegistry",
+                        enableFactoryRegistry.toString(),
+                    )
 
                     if (!perTargetGeneration) {
                         configureKspCommonMainMetadataDependency(kspExtension, argMethod, kotlinExtension, dependency)
-
                     }
                 }
                 when (val kotlinExtension = kotlinExtension) {
@@ -149,11 +154,15 @@ private fun Project.createKtorfitExtension(name: String = KtorfitGradlePlugin.GR
             type = KtorfitPluginExtension::class,
         ).apply { setupConvention(this@createKtorfitExtension) }
 
-
 /**
  * Workaround for registering generated code into Common source set
  */
-private fun Project.configureKspCommonMainMetadataDependency(kspExtension: Any, argMethod: Method, kotlinExtension: KotlinProjectExtension, kspDependency: String) {
+private fun Project.configureKspCommonMainMetadataDependency(
+    kspExtension: Any,
+    argMethod: Method,
+    kotlinExtension: KotlinProjectExtension,
+    kspDependency: String,
+) {
     /**
      * This is currently a workaround for a bug in KSP that causes the plugin
      * to not work with multiplatform projects with only one target.
@@ -204,7 +213,7 @@ private fun Project.configureKspCommonMainMetadataDependency(kspExtension: Any, 
         .configure {
             kotlin.srcDir(
                 "${layout.buildDirectory.get()}/generated/ksp/metadata/" +
-                        "${KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME}/kotlin"
+                    "${KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME}/kotlin"
             )
         }
 }

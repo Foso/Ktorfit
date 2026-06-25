@@ -2,7 +2,8 @@ package de.jensklingenberg.ktorfit
 
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.kspSourcesDir
-import org.junit.Assert.*
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
@@ -113,5 +114,29 @@ suspend fun test(): List<Triple<String,Int?,String>>
     fun `perTargetGeneration is false when set to invalid value`() {
         val options = KtorfitOptions(mapOf("Ktorfit_PerTargetGeneration" to "invalid"))
         assertFalse(options.perTargetGeneration)
+    }
+
+    @Test
+    fun `enableFactoryRegistry defaults to false when not set`() {
+        val options = KtorfitOptions(emptyMap())
+        assertFalse(options.enableFactoryRegistry)
+    }
+
+    @Test
+    fun `enableFactoryRegistry is true when set to true`() {
+        val options = KtorfitOptions(mapOf("Ktorfit_EnableFactoryRegistry" to "true"))
+        assertTrue(options.enableFactoryRegistry)
+    }
+
+    @Test
+    fun `enableFactoryRegistry is false when set to false`() {
+        val options = KtorfitOptions(mapOf("Ktorfit_EnableFactoryRegistry" to "false"))
+        assertFalse(options.enableFactoryRegistry)
+    }
+
+    @Test
+    fun `enableFactoryRegistry is false when set to invalid value`() {
+        val options = KtorfitOptions(mapOf("Ktorfit_EnableFactoryRegistry" to "invalid"))
+        assertFalse(options.enableFactoryRegistry)
     }
 }

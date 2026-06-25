@@ -24,4 +24,3 @@ fun getCompilation(
         kspIncremental = true
         kspWithCompilation = true
     }
-

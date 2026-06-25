@@ -4,8 +4,9 @@ import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.KtorfitResult
 import de.jensklingenberg.ktorfit.converter.TypeData
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
+import de.jensklingenberg.ktorfit.internal.ClassProvider
 import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
-import de.jensklingenberg.ktorfit.internal.KtorfitApiRegistry
+import de.jensklingenberg.ktorfit.optins.KtorfitFactoryRegistry
 import io.ktor.client.request.HttpRequestData
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.reflect.typeInfo
@@ -14,6 +15,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
+@OptIn(InternalKtorfitApi::class, ExperimentalFactoryRegistry::class)
 class KtorfitTest {
     @Test
     fun whenSuspendResponseConverterForStringAdded_FindIt() {
@@ -107,40 +109,54 @@ class KtorfitTest {
     // Use distinct interfaces to avoid global registry pollution between tests.
 
     interface RegisteredSuccessApi
+
     interface NotRegisteredApi
 
+    interface KtorfitAwareApi
+
     @Test
-    fun `createApi returns registered implementation`() {
+    fun `createUsingRegistry returns registered implementation`() {
         val ktorfit = buildKtorfit()
         val expectedInstance = object : RegisteredSuccessApi {}
-        KtorfitApiRegistry.register(RegisteredSuccessApi::class) { expectedInstance }
+        val classProvider =
+            object : ClassProvider<RegisteredSuccessApi> {
+                override fun create(_ktorfit: Ktorfit): RegisteredSuccessApi = expectedInstance
+            }
+        KtorfitFactoryRegistry.register(RegisteredSuccessApi::class, classProvider)
 
-        val api = ktorfit.createApi<RegisteredSuccessApi>()
+        val api = ktorfit.createUsingRegistry<RegisteredSuccessApi>()
 
         assertEquals(expectedInstance, api)
     }
 
     @Test
-    fun `createApi returns the same type that was registered`() {
+    fun `createUsingRegistry passes Ktorfit instance to ClassProvider`() {
         val ktorfit = buildKtorfit()
-        val expected = object : RegisteredSuccessApi {}
-        KtorfitApiRegistry.register(RegisteredSuccessApi::class) { expected }
+        var capturedKtorfit: Ktorfit? = null
+        val expectedInstance = object : KtorfitAwareApi {}
+        val classProvider =
+            object : ClassProvider<KtorfitAwareApi> {
+                override fun create(_ktorfit: Ktorfit): KtorfitAwareApi {
+                    capturedKtorfit = _ktorfit
+                    return expectedInstance
+                }
+            }
+        KtorfitFactoryRegistry.register(KtorfitAwareApi::class, classProvider)
 
-        val actual = ktorfit.createApi<RegisteredSuccessApi>()
+        ktorfit.createUsingRegistry<KtorfitAwareApi>()
 
-        assertEquals(expected, actual)
+        assertEquals(ktorfit, capturedKtorfit)
     }
 
     @Test
-    fun `createApi throws when no factory registered`() {
+    fun `createUsingRegistry throws when no factory registered`() {
         val ktorfit = buildKtorfit()
         val exception =
             assertFailsWith<IllegalArgumentException> {
-                ktorfit.createApi<NotRegisteredApi>()
+                ktorfit.createUsingRegistry<NotRegisteredApi>()
             }
         assertTrue(exception.message?.contains("No Ktorfit API registered") ?: false)
     }
-
 }
 
 @OptIn(InternalKtorfitApi::class)
@@ -150,7 +166,8 @@ private fun buildKtorfit(): Ktorfit {
             override fun getRequestData(data: HttpRequestData) {
             }
         }
-    return Ktorfit.Builder()
+    return Ktorfit
+        .Builder()
         .httpClient(engine)
         .baseUrl("http://test.de/")
         .build()
