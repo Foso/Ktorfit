@@ -4,83 +4,82 @@ import com.google.devtools.ksp.symbol.KSFile
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
 import de.jensklingenberg.ktorfit.model.ClassData
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.mockito.kotlin.mock
 
 class FileSpecTest {
     @Test
-    fun `when createRegistration is true, generated file contains KtorfitFactoryRegistry import`() {
+    fun `when hasExpectDeclaration is true, generated function has actual modifier`() {
         val classData = createTestClassData()
         val implClassSpec = TypeSpec.classBuilder(classData.implName).build()
-        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, createRegistration = true)
+        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, hasExpectDeclaration = true)
         val generatedCode = fileSpec.toString()
 
-        assertTrue(
-            generatedCode.contains("import de.jensklingenberg.ktorfit.optins.KtorfitFactoryRegistry"),
-        )
+        assertTrue(generatedCode.contains("actual fun Ktorfit.createTestService()"))
     }
 
     @Test
-    fun `when createRegistration is false, generated file does NOT contain KtorfitFactoryRegistry import`() {
+    fun `when hasExpectDeclaration is false, generated function does NOT have actual modifier`() {
         val classData = createTestClassData()
         val implClassSpec = TypeSpec.classBuilder(classData.implName).build()
-        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, createRegistration = false)
+        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, hasExpectDeclaration = false)
         val generatedCode = fileSpec.toString()
 
-        assertTrue(!generatedCode.contains("KtorfitFactoryRegistry"))
+        assertTrue(generatedCode.contains("fun Ktorfit.createTestService()"))
+        assertFalse(generatedCode.contains("actual fun Ktorfit.createTestService()"))
     }
 
     @Test
-    fun `when createRegistration is true, generated file contains self-registration property`() {
+    fun `generated file contains impl class`() {
         val classData = createTestClassData()
         val implClassSpec = TypeSpec.classBuilder(classData.implName).build()
-        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, createRegistration = true)
+        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, hasExpectDeclaration = false)
         val generatedCode = fileSpec.toString()
 
-        assertTrue(generatedCode.contains("KtorfitFactoryRegistry.register(TestService::class, _TestServiceProvider())"))
+        assertTrue(generatedCode.contains("class _TestServiceImpl"))
     }
 
     @Test
-    fun `when createRegistration is false, generated file does NOT contain registration property`() {
+    fun `generated file contains create extension function`() {
         val classData = createTestClassData()
         val implClassSpec = TypeSpec.classBuilder(classData.implName).build()
-        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, createRegistration = false)
-        val generatedCode = fileSpec.toString()
-
-        assertTrue(!generatedCode.contains("__ktorfit_registration"))
-        assertTrue(!generatedCode.contains("KtorfitFactoryRegistry.register"))
-    }
-
-    @Test
-    fun `generated file contains provider class regardless of registration flag`() {
-        val classData = createTestClassData()
-        val implClassSpec = TypeSpec.classBuilder(classData.implName).build()
-        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, createRegistration = false)
-        val generatedCode = fileSpec.toString()
-
-        assertTrue(generatedCode.contains("class _TestServiceProvider"))
-    }
-
-    @Test
-    fun `generated file contains create extension function regardless of registration flag`() {
-        val classData = createTestClassData()
-        val implClassSpec = TypeSpec.classBuilder(classData.implName).build()
-        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, createRegistration = false)
+        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, hasExpectDeclaration = false)
         val generatedCode = fileSpec.toString()
 
         assertTrue(generatedCode.contains("fun Ktorfit.createTestService()"))
     }
 
     @Test
-    fun `registration property is private and suppresses unused warning`() {
+    fun `generated file does NOT contain provider class`() {
         val classData = createTestClassData()
         val implClassSpec = TypeSpec.classBuilder(classData.implName).build()
-        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, createRegistration = true)
+        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, hasExpectDeclaration = false)
         val generatedCode = fileSpec.toString()
 
-        assertTrue(generatedCode.contains("@Suppress(\"unused\")"))
-        assertTrue(generatedCode.contains("private val __ktorfit_registration"))
+        assertFalse(generatedCode.contains("Provider"))
+    }
+
+    @Test
+    fun `generated file does NOT contain factory registry import`() {
+        val classData = createTestClassData()
+        val implClassSpec = TypeSpec.classBuilder(classData.implName).build()
+        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, hasExpectDeclaration = true)
+        val generatedCode = fileSpec.toString()
+
+        assertFalse(generatedCode.contains("KtorfitFactoryRegistry"))
+    }
+
+    @Test
+    fun `generated file does NOT contain registration property`() {
+        val classData = createTestClassData()
+        val implClassSpec = TypeSpec.classBuilder(classData.implName).build()
+        val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, hasExpectDeclaration = true)
+        val generatedCode = fileSpec.toString()
+
+        assertFalse(generatedCode.contains("__ktorfit_registration"))
+        assertFalse(generatedCode.contains("KtorfitFactoryRegistry.register"))
     }
 
     private fun createTestClassData(): ClassData {

@@ -1,6 +1,7 @@
 package com.example.api
 
 import com.example.api.Query.NotWorking
+import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.http.*
 import de.jensklingenberg.ktorfit.http.Headers
 import io.ktor.client.request.forms.*
@@ -56,6 +57,8 @@ interface KtorSamplesApi {
     )
 }
 
+expect fun Ktorfit.createKtorSamplesApi(): KtorSamplesApi
+
 data class Query(
     val working: Working
 ) {
@@ -83,6 +86,8 @@ interface API {
     ): List<NotWorking> // not sure if non-list works, haven't tested
 }
 
+expect fun Ktorfit.createAPI(): API
+
 class KtorfitTest {
     @Serializable
     data class TestData(
@@ -95,3 +100,5 @@ interface ITest {
     @GET("test")
     fun test(): KtorfitTest.TestData
 }
+
+expect fun Ktorfit.createITest(): ITest

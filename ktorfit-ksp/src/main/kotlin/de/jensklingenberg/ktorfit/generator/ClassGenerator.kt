@@ -29,7 +29,7 @@ fun generateImplClass(
                     classData,
                     classData.implName,
                     implClassSpec,
-                    ktorfitOptions.enableFactoryRegistry
+                    classData.hasExpectDeclaration,
                 ).toString()
 
             val fileName = classData.implName

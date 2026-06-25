@@ -1,5 +1,6 @@
 package com.example.model
 
+import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Headers
@@ -13,3 +14,5 @@ interface ExampleApi {
     @GET("example.json")
     suspend fun getUserResponse(): MyOwnResponse<User>
 }
+
+expect fun Ktorfit.createExampleApi(): ExampleApi

@@ -4,6 +4,7 @@ import com.example.model.github.GithubFollowerResponseItem
 import com.example.model.github.Issuedata
 import com.example.model.github.TestReeeItem
 import de.jensklingenberg.ktorfit.Call
+import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
@@ -57,3 +58,5 @@ interface GithubService {
         @Path repo: String
     ): Flow<List<TestReeeItem>>
 }
+
+expect fun Ktorfit.createGithubService(): GithubService

@@ -52,7 +52,7 @@ class ClientTest {
                 .build()
 
         runBlocking {
-            _ClientTestApiProvider().create(ktorfit).checkCorrectHttpMethod()
+            ktorfit.createClientTestApi().checkCorrectHttpMethod()
         }
     }
 
@@ -79,7 +79,7 @@ class ClientTest {
                     .httpClient(client)
                     .build()
             runBlocking {
-                _ClientTestApiProvider().create(ktorfit).converterMissing()
+                ktorfit.createClientTestApi().converterMissing()
             }
         } catch (exception: Exception) {
             assertTrue(exception is IllegalStateException)
@@ -123,7 +123,7 @@ class ClientTest {
                 .build()
         try {
             runBlocking {
-                _ClientTestApiProvider().create(ktorfit).whenUrlValueContainsBaseUrl_ThenRemoveBaseUrl()
+                ktorfit.createClientTestApi().whenUrlValueContainsBaseUrl_ThenRemoveBaseUrl()
             }
         } catch (ex: Exception) {
         }

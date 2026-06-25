@@ -116,27 +116,4 @@ suspend fun test(): List<Triple<String,Int?,String>>
         assertFalse(options.perTargetGeneration)
     }
 
-    @Test
-    fun `enableFactoryRegistry defaults to false when not set`() {
-        val options = KtorfitOptions(emptyMap())
-        assertFalse(options.enableFactoryRegistry)
-    }
-
-    @Test
-    fun `enableFactoryRegistry is true when set to true`() {
-        val options = KtorfitOptions(mapOf("Ktorfit_EnableFactoryRegistry" to "true"))
-        assertTrue(options.enableFactoryRegistry)
-    }
-
-    @Test
-    fun `enableFactoryRegistry is false when set to false`() {
-        val options = KtorfitOptions(mapOf("Ktorfit_EnableFactoryRegistry" to "false"))
-        assertFalse(options.enableFactoryRegistry)
-    }
-
-    @Test
-    fun `enableFactoryRegistry is false when set to invalid value`() {
-        val options = KtorfitOptions(mapOf("Ktorfit_EnableFactoryRegistry" to "invalid"))
-        assertFalse(options.enableFactoryRegistry)
-    }
 }

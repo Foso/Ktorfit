@@ -6,7 +6,6 @@ import com.example.model.ExampleApi
 import com.example.model.MyOwnResponse
 import com.example.model.MyOwnResponseConverterFactory
 import com.example.model.createExampleApi
-import de.jensklingenberg.ktorfit.ExperimentalFactoryRegistry
 import de.jensklingenberg.ktorfit.converter.CallConverterFactory
 import de.jensklingenberg.ktorfit.converter.FlowConverterFactory
 import de.jensklingenberg.ktorfit.ktorfit
@@ -58,8 +57,7 @@ val userKtorfit =
         )
     }
 
-@OptIn(ExperimentalFactoryRegistry::class)
-val api: ExampleApi = userKtorfit.createUsingRegistry()
+val api: ExampleApi = userKtorfit.createExampleApi()
 
 fun main() {
     runBlocking {

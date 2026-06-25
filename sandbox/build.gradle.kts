@@ -16,7 +16,6 @@ ksp {
 
 ktorfit {
     perTargetGeneration = true
-    enableFactoryRegistry = true
 }
 
 kotlin {

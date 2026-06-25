@@ -28,12 +28,13 @@ class KtorfitOptions(
      * relying on `kspCommonMainKotlinMetadata`. This removes the commonMain
      * module filtering in [ClassGenerator] and allows the processor to
      * generate code for every source file visible to the current compilation.
+     *
+     * When enabled, each API interface must have a corresponding `expect`
+     * declaration in commonMain:
+     *   expect fun Ktorfit.createMyApi(): MyApi
+     *
+     * KSP validates this at compile time and generates the `actual`
+     * implementation in each platform target.
      */
     val perTargetGeneration = options["Ktorfit_PerTargetGeneration"]?.toBoolean() ?: false
-
-    /**
-     * If set to true, the generated code will add all created class providers to central registry enabling the usage of
-     * the Ktorfit.createUsingRegistry() function.
-     */
-    val enableFactoryRegistry = options["Ktorfit_EnableFactoryRegistry"]?.toBoolean() ?: false
 }

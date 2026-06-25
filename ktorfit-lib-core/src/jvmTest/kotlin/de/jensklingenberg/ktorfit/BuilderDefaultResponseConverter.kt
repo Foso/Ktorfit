@@ -70,7 +70,7 @@ class BuilderDefaultResponseConverter {
                 .httpClient(HttpClient(engine))
                 .build()
         runBlocking {
-            _BuilderTestApiProvider().create(ktorfit).checkIfBaseUrlIsSetWhenUrlCheckIsDisabled()
+            ktorfit.createBuilderTestApi().checkIfBaseUrlIsSetWhenUrlCheckIsDisabled()
         }
     }
 }

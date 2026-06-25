@@ -58,21 +58,34 @@ ktorfit {
 Enable this option when you need to eliminate the `kspCommonMainKotlinMetadata` dependency from your module's build. With per-target generation:
 
 - Each KMP target processes sources independently
-- Generated `_<Name>Impl.kt` files self-register into `KtorfitApiRegistry`
-- You can use `ktorfit.createApi<T>()` from `commonMain` without a compiler plugin
-- Multi-module projects avoid file-name collisions since each Impl file registers itself individually
+- KSP generates `actual` implementations for each platform target
+- You can use the generated `createXxx()` extension function from `commonMain`
 
-### createApi alternative
+### expect/actual pattern
 
-When `perTargetGeneration` is enabled, each generated file registers itself automatically. You can then use the `createApi<T>()` method instead of the generated extension function:
+When `perTargetGeneration = true`, each API interface in `commonMain` requires an `expect` declaration. KSP validates this at compile time and generates the `actual` implementation in each platform target.
 
 ```kotlin
-// Extension function (always available)
-val api = ktorfit.createExampleApi()
+// commonMain — user writes both:
+interface ExampleApi {
+    @GET("users")
+    suspend fun getUsers(): List<User>
+}
 
-// Registry-based lookup (requires perTargetGeneration = true)
-val api: ExampleApi = ktorfit.createApi<ExampleApi>()
+expect fun Ktorfit.createExampleApi(): ExampleApi
+
+// jvmMain, jsMain, nativeMain, etc. — KSP generates:
+actual fun Ktorfit.createExampleApi(): ExampleApi =
+    _ExampleApiImpl(this.baseUrl, this.httpClient, KtorfitConverterHelper(this))
 ```
+
+**Usage from commonMain:**
+
+```kotlin
+val api = ktorfit.createExampleApi()
+```
+
+If the `expect` declaration is missing, KSP emits a compile error telling you exactly what to add. This is the same pattern used by Room for Kotlin Multiplatform.
 
 # Ktorfit Builder
 

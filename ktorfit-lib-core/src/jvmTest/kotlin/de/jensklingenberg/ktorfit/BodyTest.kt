@@ -39,7 +39,7 @@ class BodyTest {
                     .build()
 
             runBlocking {
-                _BodyTestApiProvider().create(ktorfit).testBody("testBody")
+                ktorfit.createBodyTestApi().testBody("testBody")
             }
         } catch (ex: Exception) {
         }

@@ -51,39 +51,27 @@ open class KtorfitPluginExtension
          * `kspCommonMainKotlinMetadata` for shared code.
          *
          * When enabled, each KMP target runs KSP independently and generates
-         * its own copy of the implementation code. This removes the serial
+         * its own copy of the implementation code. This avoids the serial
          * bottleneck of the metadata task triggering metadata compilation for all
-         * targets from child modules, but can make usage of the typesafe creation api more difficult.
+         * targets from child modules.
          *
-         * Consider also using [enableFactoryRegistry] to also enable Ktorfit.createUsingRegistry for simplified use
+         * **Requires an `expect` declaration per API in commonMain:**
+         * ```kotlin
+         * // commonMain
+         * expect fun Ktorfit.createJsonPlaceholderApi(): JsonPlaceholderApi
+         * ```
+         * KSP validates the `expect` exists at compile time and generates the
+         * `actual` implementation in each platform target. Without the `expect`,
+         * compilation will fail with a descriptive error.
          *
          * Default: false (uses the traditional metadata-based approach)
          */
         open val perTargetGeneration: Property<Boolean> = objectFactory.property(Boolean::class.java)
 
-        /**
-         * Enables the self-registering factory registry for API implementations.
-         *
-         * When enabled, each generated `_<Name>Impl.kt` file includes a module-level
-         * property that registers its [ClassProvider] into [KtorfitFactoryRegistry].
-         * This allows using `Ktorfit.createUsingRegistry<T>()` from commonMain without
-         * relying on the compiler plugin.
-         *
-         * This flag is independent of [perTargetGeneration] but works well with it:
-         * - With [perTargetGeneration] = true: each target registers its own factory
-         * - With [perTargetGeneration] = false: only the metadata compilation registers factories
-         *
-         * Default: false
-         * @see de.jensklingenberg.ktorfit.optins.KtorfitFactoryRegistry
-         * @see de.jensklingenberg.ktorfit.ExperimentalFactoryRegistry
-         */
-        open val enableFactoryRegistry: Property<Boolean> = objectFactory.property(Boolean::class.java)
-
         internal fun setupConvention(project: Project) {
             generateQualifiedTypeName.convention(false)
             errorCheckingMode.convention(ErrorCheckingMode.ERROR)
             perTargetGeneration.convention(false)
-            enableFactoryRegistry.convention(false)
         }
     }
 

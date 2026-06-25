@@ -58,7 +58,6 @@ class KtorfitGradlePlugin : Plugin<Project> {
                     val errorCheckingMode = extension.errorCheckingMode.getOrElse(ErrorCheckingMode.ERROR)
                     val generateQualifiedTypeName = extension.generateQualifiedTypeName.getOrElse(false)
                     val perTargetGeneration = extension.perTargetGeneration.getOrElse(false)
-                    val enableFactoryRegistry = extension.enableFactoryRegistry.getOrElse(false)
 
                     argMethod.invoke(kspExtension, "Ktorfit_Errors", errorCheckingMode.ordinal.toString())
                     argMethod.invoke(
@@ -70,11 +69,6 @@ class KtorfitGradlePlugin : Plugin<Project> {
                         kspExtension,
                         "Ktorfit_PerTargetGeneration",
                         perTargetGeneration.toString(),
-                    )
-                    argMethod.invoke(
-                        kspExtension,
-                        "Ktorfit_EnableFactoryRegistry",
-                        enableFactoryRegistry.toString(),
                     )
 
                     if (!perTargetGeneration) {

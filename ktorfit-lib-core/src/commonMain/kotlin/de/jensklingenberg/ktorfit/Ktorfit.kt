@@ -8,8 +8,6 @@ import de.jensklingenberg.ktorfit.converter.Converter
 import de.jensklingenberg.ktorfit.converter.TypeData
 import de.jensklingenberg.ktorfit.converter.builtin.DefaultSuspendResponseConverterFactory
 import de.jensklingenberg.ktorfit.internal.ClassProvider
-import de.jensklingenberg.ktorfit.internal.InternalKtorfitApi
-import de.jensklingenberg.ktorfit.optins.KtorfitFactoryRegistry
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
@@ -93,26 +91,6 @@ public class Ktorfit private constructor(
         if (classProvider == null) {
             throw IllegalArgumentException(ENABLE_GRADLE_PLUGIN)
         }
-        return classProvider.create(this)
-    }
-
-    /**
-     * This will return an implementation of [T] if [T] is an interface
-     * with Ktorfit annotations. This uses an service locator central factory registry
-     * instead of depending on the hard to mantain compiler plugin as the deprecated [create] method.
-     * Usage of this method requires enabling plugin flag: enableFactoryRegistry
-     *
-     * @exception IllegalArgumentException if you have not enabled enableFactoryRegistry
-     */
-    @ExperimentalFactoryRegistry
-    @OptIn(InternalKtorfitApi::class)
-    public inline fun <reified T : Any> createUsingRegistry(): T {
-        val classProvider =
-            KtorfitFactoryRegistry[T::class]
-                ?: throw IllegalArgumentException(
-                    "No Ktorfit API registered for ${T::class.simpleName}. " +
-                        "Is the KSP processor correctly configured for this target?",
-                )
         return classProvider.create(this)
     }
 

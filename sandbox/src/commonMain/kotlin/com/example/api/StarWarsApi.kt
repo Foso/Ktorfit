@@ -2,6 +2,7 @@ package com.example.api
 
 import com.example.model.People
 import de.jensklingenberg.ktorfit.Call
+import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
 import kotlinx.coroutines.flow.Flow
@@ -22,3 +23,5 @@ interface StarWarsApi {
     @GET("people/stormtrooper/all")
     suspend fun summonStormtroopers(): List<People>
 }
+
+expect fun Ktorfit.createStarWarsApi(): StarWarsApi
