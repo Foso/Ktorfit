@@ -1,6 +1,5 @@
 package com.example
 
-import com.example.api.StarWarsApi
 import com.example.api.createStarWarsApi
 import com.example.model.People
 import de.jensklingenberg.ktorfit.Ktorfit

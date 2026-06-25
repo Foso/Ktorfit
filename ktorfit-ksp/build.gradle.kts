@@ -28,7 +28,6 @@ dependencies {
     testImplementation(libs.kctfork.core)
     testImplementation(libs.kctfork.ksp)
     testImplementation(libs.mockito.kotlin)
-    testImplementation(projects.ktorfitLibCore)
 }
 
 tasks.named<KotlinCompilationTask<*>>("compileTestKotlin") {

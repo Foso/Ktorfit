@@ -4,7 +4,6 @@ import com.example.model.Comment
 import com.example.model.MyOwnResponse
 import com.example.model.Post
 import de.jensklingenberg.ktorfit.Call
-import de.jensklingenberg.ktorfit.Ktorfit
 import de.jensklingenberg.ktorfit.http.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*

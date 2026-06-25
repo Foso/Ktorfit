@@ -79,7 +79,7 @@ class ClientTest {
                     .httpClient(client)
                     .build()
             runBlocking {
-                ktorfit.createClientTestApi().converterMissing()
+                _ClientTestApiProvider().create(ktorfit).converterMissing()
             }
         } catch (exception: Exception) {
             assertTrue(exception is IllegalStateException)
