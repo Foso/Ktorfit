@@ -115,5 +115,4 @@ suspend fun test(): List<Triple<String,Int?,String>>
         val options = KtorfitOptions(mapOf("Ktorfit_PerTargetGeneration" to "invalid"))
         assertFalse(options.perTargetGeneration)
     }
-
 }

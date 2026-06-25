@@ -10,10 +10,6 @@ open annotation class de.jensklingenberg.ktorfit.internal/InternalKtorfitApi : k
     constructor <init>() // de.jensklingenberg.ktorfit.internal/InternalKtorfitApi.<init>|<init>(){}[0]
 }
 
-open annotation class de.jensklingenberg.ktorfit/ExperimentalFactoryRegistry : kotlin/Annotation { // de.jensklingenberg.ktorfit/ExperimentalFactoryRegistry|null[0]
-    constructor <init>() // de.jensklingenberg.ktorfit/ExperimentalFactoryRegistry.<init>|<init>(){}[0]
-}
-
 abstract interface <#A: kotlin/Any?, #B: kotlin/Any?> de.jensklingenberg.ktorfit.converter/Converter { // de.jensklingenberg.ktorfit.converter/Converter|null[0]
     open fun getUpperBoundType(kotlin/Int, de.jensklingenberg.ktorfit.converter/TypeData): de.jensklingenberg.ktorfit.converter/TypeData? // de.jensklingenberg.ktorfit.converter/Converter.getUpperBoundType|getUpperBoundType(kotlin.Int;de.jensklingenberg.ktorfit.converter.TypeData){}[0]
 
@@ -105,7 +101,6 @@ final class de.jensklingenberg.ktorfit/Ktorfit { // de.jensklingenberg.ktorfit/K
     final fun <#A1: kotlin/Any?> create(de.jensklingenberg.ktorfit.internal/ClassProvider<#A1>? = ...): #A1 // de.jensklingenberg.ktorfit/Ktorfit.create|create(de.jensklingenberg.ktorfit.internal.ClassProvider<0:0>?){0§<kotlin.Any?>}[0]
     final fun nextResponseConverter(de.jensklingenberg.ktorfit.converter/Converter.Factory?, de.jensklingenberg.ktorfit.converter/TypeData): de.jensklingenberg.ktorfit.converter/Converter.ResponseConverter<io.ktor.client.statement/HttpResponse, *>? // de.jensklingenberg.ktorfit/Ktorfit.nextResponseConverter|nextResponseConverter(de.jensklingenberg.ktorfit.converter.Converter.Factory?;de.jensklingenberg.ktorfit.converter.TypeData){}[0]
     final fun nextSuspendResponseConverter(de.jensklingenberg.ktorfit.converter/Converter.Factory?, de.jensklingenberg.ktorfit.converter/TypeData): de.jensklingenberg.ktorfit.converter/Converter.SuspendResponseConverter<io.ktor.client.statement/HttpResponse, *>? // de.jensklingenberg.ktorfit/Ktorfit.nextSuspendResponseConverter|nextSuspendResponseConverter(de.jensklingenberg.ktorfit.converter.Converter.Factory?;de.jensklingenberg.ktorfit.converter.TypeData){}[0]
-    final inline fun <#A1: reified kotlin/Any> createUsingRegistry(): #A1 // de.jensklingenberg.ktorfit/Ktorfit.createUsingRegistry|createUsingRegistry(){0§<kotlin.Any>}[0]
 
     final class Builder { // de.jensklingenberg.ktorfit/Ktorfit.Builder|null[0]
         constructor <init>() // de.jensklingenberg.ktorfit/Ktorfit.Builder.<init>|<init>(){}[0]
@@ -121,11 +116,6 @@ final class de.jensklingenberg.ktorfit/Ktorfit { // de.jensklingenberg.ktorfit/K
         final fun httpClient(io.ktor.client/HttpClient): de.jensklingenberg.ktorfit/Ktorfit.Builder // de.jensklingenberg.ktorfit/Ktorfit.Builder.httpClient|httpClient(io.ktor.client.HttpClient){}[0]
         final fun httpClient(kotlin/Function1<io.ktor.client/HttpClientConfig<*>, kotlin/Unit>): de.jensklingenberg.ktorfit/Ktorfit.Builder // de.jensklingenberg.ktorfit/Ktorfit.Builder.httpClient|httpClient(kotlin.Function1<io.ktor.client.HttpClientConfig<*>,kotlin.Unit>){}[0]
     }
-}
-
-final object de.jensklingenberg.ktorfit.optins/KtorfitFactoryRegistry { // de.jensklingenberg.ktorfit.optins/KtorfitFactoryRegistry|null[0]
-    final fun <#A1: kotlin/Any> get(kotlin.reflect/KClass<#A1>): de.jensklingenberg.ktorfit.internal/ClassProvider<#A1>? // de.jensklingenberg.ktorfit.optins/KtorfitFactoryRegistry.get|get(kotlin.reflect.KClass<0:0>){0§<kotlin.Any>}[0]
-    final fun register(kotlin.reflect/KClass<*>, de.jensklingenberg.ktorfit.internal/ClassProvider<out kotlin/Any>) // de.jensklingenberg.ktorfit.optins/KtorfitFactoryRegistry.register|register(kotlin.reflect.KClass<*>;de.jensklingenberg.ktorfit.internal.ClassProvider<out|kotlin.Any>){}[0]
 }
 
 final val de.jensklingenberg.ktorfit/annotations // de.jensklingenberg.ktorfit/annotations|@io.ktor.client.request.HttpRequestBuilder{}annotations[0]

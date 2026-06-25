@@ -98,7 +98,6 @@ class KtorfitTest {
             ktorfit.nextResponseConverter(null, TypeData("kotlin.String", emptyList(), isNullable = true, typeInfo = typeInfo<String>()))
         assertTrue(nextConverter is DefaultSuspendResponseConverterFactory.DefaultResponseConverter)
     }
-
 }
 
 private class TestConverterFactory : Converter.Factory {
