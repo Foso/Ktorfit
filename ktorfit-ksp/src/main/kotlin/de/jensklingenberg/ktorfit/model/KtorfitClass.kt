@@ -9,6 +9,7 @@ data class KtorfitClass(
 )
 
 val ktorfitClass = KtorfitClass("Ktorfit", "de.jensklingenberg.ktorfit", "_ktorfit")
+val providerClass = KtorfitClass("ClassProvider", "de.jensklingenberg.ktorfit.internal", "EMPTY")
 val extDataClass = KtorfitClass("HttpRequestBuilder.() -> Unit", "", "_ext")
 val formParameters = KtorfitClass("", "", "__formParameters")
 val formData = KtorfitClass("", "", "__formData")

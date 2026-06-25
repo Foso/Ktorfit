@@ -32,6 +32,7 @@ data class ClassData(
     val hasExpectDeclaration: Boolean = false,
 ) {
     val implName = "_${name}Impl"
+    val providerName = "_${name}Provider"
 }
 
 /**

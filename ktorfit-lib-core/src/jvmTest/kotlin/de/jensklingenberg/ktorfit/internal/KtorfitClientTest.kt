@@ -52,7 +52,7 @@ class ClientTest {
                 .build()
 
         runBlocking {
-            ktorfit.createClientTestApi().checkCorrectHttpMethod()
+            _ClientTestApiProvider().create(ktorfit).checkCorrectHttpMethod()
         }
     }
 
@@ -123,7 +123,7 @@ class ClientTest {
                 .build()
         try {
             runBlocking {
-                ktorfit.createClientTestApi().whenUrlValueContainsBaseUrl_ThenRemoveBaseUrl()
+                _ClientTestApiProvider().create(ktorfit).whenUrlValueContainsBaseUrl_ThenRemoveBaseUrl()
             }
         } catch (ex: Exception) {
         }

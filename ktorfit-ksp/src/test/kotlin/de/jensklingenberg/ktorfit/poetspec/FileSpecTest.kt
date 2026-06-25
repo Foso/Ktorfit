@@ -52,13 +52,13 @@ class FileSpecTest {
     }
 
     @Test
-    fun `generated file does NOT contain provider class`() {
+    fun `generated file contains provider class`() {
         val classData = createTestClassData()
         val implClassSpec = TypeSpec.classBuilder(classData.implName).build()
         val fileSpec = createFileSpec(classData, classData.implName, implClassSpec, hasExpectDeclaration = false)
         val generatedCode = fileSpec.toString()
 
-        assertFalse(generatedCode.contains("Provider"))
+        assertTrue(generatedCode.contains("class _TestServiceProvider"))
     }
 
     @Test

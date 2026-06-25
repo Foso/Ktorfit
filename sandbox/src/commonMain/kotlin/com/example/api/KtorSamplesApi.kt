@@ -84,6 +84,8 @@ interface API {
     ): List<NotWorking> // not sure if non-list works, haven't tested
 }
 
+expect fun Ktorfit.createAPI(): API
+
 class KtorfitTest {
     @Serializable
     data class TestData(
@@ -96,3 +98,5 @@ interface ITest {
     @GET("test")
     fun test(): KtorfitTest.TestData
 }
+
+expect fun Ktorfit.createITest(): ITest
