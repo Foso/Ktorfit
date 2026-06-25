@@ -14,5 +14,3 @@ interface ExampleApi {
     @GET("example.json")
     suspend fun getUserResponse(): MyOwnResponse<User>
 }
-
-expect fun Ktorfit.createExampleApi(): ExampleApi

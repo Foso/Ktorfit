@@ -104,5 +104,3 @@ interface JsonPlaceHolderApi {
         @Path("postId") postId: Int
     ): String
 }
-
-expect fun Ktorfit.createJsonPlaceHolderApi(): JsonPlaceHolderApi

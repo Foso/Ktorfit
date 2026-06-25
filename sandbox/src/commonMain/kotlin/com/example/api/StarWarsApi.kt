@@ -23,5 +23,3 @@ interface StarWarsApi {
     @GET("people/stormtrooper/all")
     suspend fun summonStormtroopers(): List<People>
 }
-
-expect fun Ktorfit.createStarWarsApi(): StarWarsApi

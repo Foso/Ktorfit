@@ -58,5 +58,3 @@ interface GithubService {
         @Path repo: String
     ): Flow<List<TestReeeItem>>
 }
-
-expect fun Ktorfit.createGithubService(): GithubService

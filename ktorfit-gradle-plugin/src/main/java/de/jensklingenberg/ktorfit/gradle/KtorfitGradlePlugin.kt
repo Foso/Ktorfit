@@ -36,7 +36,7 @@ class KtorfitGradlePlugin : Plugin<Project> {
 
             val hasKspApplied = extensions.findByName("ksp") != null
             if (hasKspApplied) {
-                val ktorfitKsp = "$GROUP_NAME:ksp"
+                val ktorfitKsp = "$GROUP_NAME:ktorfit-ksp"
 
                 val kspPlugin =
                     plugins.findPlugin("com.google.devtools.ksp") ?: error("KSP plugin not found")

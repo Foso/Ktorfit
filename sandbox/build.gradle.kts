@@ -14,10 +14,6 @@ ksp {
     arg("Ktorfit_QualifiedTypeName", "false")
 }
 
-ktorfit {
-    perTargetGeneration = true
-}
-
 kotlin {
     jvm()
     iosX64()
