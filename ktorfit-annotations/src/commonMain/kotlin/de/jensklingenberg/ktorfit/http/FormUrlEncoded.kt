@@ -5,5 +5,6 @@ package de.jensklingenberg.ktorfit.http
  * application/x-www-form-urlencoded added to the request.
  * Needed to use @Field @FieldMap
  */
+@MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)
 annotation class FormUrlEncoded
