@@ -9,5 +9,6 @@ package de.jensklingenberg.ktorfit.http
  * suspend fun getPosts(@ReqBuilder builder : HttpRequestBuilder.() -> Unit) : List<Post>
  * ```
  */
+@MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class ReqBuilder

@@ -9,6 +9,7 @@ package de.jensklingenberg.ktorfit.http
  * @param path URL path.
  * @param hasBody
  * */
+@MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)
 annotation class HTTP(
     val method: String,

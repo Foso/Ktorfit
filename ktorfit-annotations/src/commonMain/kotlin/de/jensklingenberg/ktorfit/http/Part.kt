@@ -10,6 +10,7 @@ package de.jensklingenberg.ktorfit.http
  * @param value part name
  * Part parameters type may not be nullable.
  */
+@MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class Part(
     val value: String = ""

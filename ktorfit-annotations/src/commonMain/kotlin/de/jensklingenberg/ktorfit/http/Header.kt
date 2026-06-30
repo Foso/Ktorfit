@@ -13,6 +13,7 @@ package de.jensklingenberg.ktorfit.http
  * @see Headers
  * @see HeaderMap
  */
+@MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class Header(
     val value: String
