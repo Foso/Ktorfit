@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     id("kotlinx-serialization")
 }
 
@@ -14,11 +14,15 @@ kotlin {
     applyDefaultHierarchyTemplate()
 
     jvm()
-    androidTarget()
+    android {
+        namespace = "com.example.person"
+        compileSdk = 34
+        minSdk = 21
+    }
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    macosX64()
+    macosArm64()
     js(IR) {
         this.nodejs()
         binaries.executable()
@@ -41,23 +45,10 @@ kotlin {
         val jvmMain by getting
         val jsMain by getting
         val iosMain by getting
-        val macosX64Main by getting
+        val macosArm64Main by getting
     }
 }
 
-android {
-    compileSdk = 34
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        minSdk = 21
-        targetSdk = 34
-        namespace = "com.example.person"
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-}
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     compilerOptions {
