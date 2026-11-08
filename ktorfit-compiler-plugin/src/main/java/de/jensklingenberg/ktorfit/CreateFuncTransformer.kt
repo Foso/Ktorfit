@@ -4,7 +4,6 @@ import org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.ir.declarations.IrFile
 import org.jetbrains.kotlin.ir.declarations.IrParameterKind
-import org.jetbrains.kotlin.ir.descriptors.toIrBasedKotlinType
 import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
 import org.jetbrains.kotlin.ir.expressions.IrCall
 import org.jetbrains.kotlin.ir.expressions.IrExpression
@@ -15,7 +14,6 @@ import org.jetbrains.kotlin.ir.util.constructors
 import org.jetbrains.kotlin.ir.util.defaultType
 import org.jetbrains.kotlin.ir.util.dumpKotlinLike
 import org.jetbrains.kotlin.ir.util.isInterface
-import org.jetbrains.kotlin.js.descriptorUtils.getKotlinTypeFqName
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
@@ -75,7 +73,7 @@ internal class CreateFuncTransformer(
 
                 if (classFqName == null) {
                     throw IllegalStateException(
-                        errorClassNotFound(argumentType.toIrBasedKotlinType().getKotlinTypeFqName(false))
+                        errorClassNotFound(argumentType.dumpKotlinLike())
                     )
                 }
 
@@ -106,7 +104,7 @@ internal class CreateFuncTransformer(
                 irCall.arguments[1] = newCall
 
                 debugLogger.log(
-                    "Transformed " + argumentType.toIrBasedKotlinType().getKotlinTypeFqName(false).substringAfterLast(".") +
+                    "Transformed " + className +
                         " to _$className" +
                         "Provider",
                 )
