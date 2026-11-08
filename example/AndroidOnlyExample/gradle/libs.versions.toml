@@ -1,6 +1,6 @@
 [versions]
-kotlin = "2.4.0"
-agp = "8.13.2"
+kotlin = "2.4.21"
+agp = "9.5.1"
 ksp = "2.3.9"
 ktorfit = "2.7.5"
 ktor = "3.5.0"
@@ -12,6 +12,7 @@ androidxTestExtJunit = "1.3.0"
 espressoCore = "3.7.0"
 
 [libraries]
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ktorfit-lib = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-lib", version.ref = "ktorfit" }
 ktorfit-converters-response = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-converters-response", version.ref = "ktorfit" }
 ktorfit-converters-call = { group = "de.jensklingenberg.ktorfit", name = "ktorfit-converters-call", version.ref = "ktorfit" }
@@ -34,7 +35,6 @@ espresso-core = { group = "androidx.test.espresso", name = "espresso-core", vers
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

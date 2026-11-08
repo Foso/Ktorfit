@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
+    id("com.android.kotlin.multiplatform.library")
     id("com.google.devtools.ksp") version "2.3.9"
     id("kotlinx-serialization")
     id("de.jensklingenberg.ktorfit") version "2.7.5"
@@ -22,11 +22,15 @@ kotlin {
     applyDefaultHierarchyTemplate()
 
     jvm()
-    androidTarget()
+    android {
+        namespace = "com.example.ktorfittest"
+        compileSdk = 36
+        minSdk = 21
+    }
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    macosX64()
+    macosArm64()
     js(IR) {
         this.nodejs()
         binaries.executable()
@@ -59,23 +63,10 @@ kotlin {
         val jvmMain by getting
         val jsMain by getting
         val iosMain by getting
-        val macosX64Main by getting
+        val macosArm64Main by getting
     }
 }
 
-android {
-    compileSdk = 36
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        minSdk = 21
-        targetSdk = 34
-        namespace = "com.example.ktorfittest"
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-}
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     compilerOptions {
