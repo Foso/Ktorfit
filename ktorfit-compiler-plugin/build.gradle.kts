@@ -17,6 +17,7 @@ dependencies {
     ksp(libs.autoServiceKsp)
     compileOnly(libs.kotlin.compiler.embeddable)
     testImplementation(libs.kctfork.core)
+    testImplementation(libs.kotlin.compiler.embeddable)
     testImplementation(libs.junit)
     testImplementation(kotlin("reflect"))
 }

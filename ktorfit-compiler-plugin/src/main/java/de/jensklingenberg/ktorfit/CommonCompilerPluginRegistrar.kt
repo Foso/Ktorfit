@@ -7,8 +7,9 @@ import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CommonConfigurationKeys
 import org.jetbrains.kotlin.config.CompilerConfiguration
+import org.jetbrains.kotlin.config.MessageCollectorAccess
 
-@OptIn(ExperimentalCompilerApi::class)
+@OptIn(ExperimentalCompilerApi::class, MessageCollectorAccess::class)
 @AutoService(CompilerPluginRegistrar::class)
 class CommonCompilerPluginRegistrar : CompilerPluginRegistrar() {
     override val pluginId: String = PLUGIN_ID
