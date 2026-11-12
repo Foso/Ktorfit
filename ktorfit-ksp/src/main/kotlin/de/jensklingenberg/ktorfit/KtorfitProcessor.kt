@@ -1,5 +1,6 @@
 package de.jensklingenberg.ktorfit
 
+import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.closestClassDeclaration
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
@@ -7,6 +8,7 @@ import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.google.devtools.ksp.symbol.Modifier
 import de.jensklingenberg.ktorfit.generator.generateImplClass
 import de.jensklingenberg.ktorfit.http.DELETE
 import de.jensklingenberg.ktorfit.http.GET
@@ -16,6 +18,7 @@ import de.jensklingenberg.ktorfit.http.OPTIONS
 import de.jensklingenberg.ktorfit.http.PATCH
 import de.jensklingenberg.ktorfit.http.POST
 import de.jensklingenberg.ktorfit.http.PUT
+import de.jensklingenberg.ktorfit.model.ClassData
 import de.jensklingenberg.ktorfit.model.toClassData
 
 class KtorfitProcessorProvider : SymbolProcessorProvider {
@@ -50,10 +53,48 @@ class KtorfitProcessor(
                 .map { (classDec) ->
                     classDec?.toClassData(KtorfitLogger(env.logger, loggingType))
                 }.mapNotNull { it }
+                .map { classData ->
+                    val isCommonMain = classData.ksFile.filePath.contains("commonMain")
+                    val hasExpect =
+                        if (isCommonMain && ktorfitOptions.perTargetGeneration) {
+                            val found = findExpectDeclaration(classData, resolver)
+                            if (!found) {
+                                env.logger.error(
+                                    "Missing expect declaration for API interface '${classData.name}'. " +
+                                        "When perTargetGeneration=true, you must declare in commonMain:\n" +
+                                        "  expect fun Ktorfit.create${classData.name}(): ${classData.name}",
+                                    classData.ksFile,
+                                )
+                            }
+                            found
+                        } else {
+                            false
+                        }
+                    classData.copy(hasExpectDeclaration = hasExpect)
+                }
 
         generateImplClass(classDataList, env.codeGenerator, resolver, ktorfitOptions)
 
         return emptyList()
+    }
+
+    /**
+     * Looks for an `expect fun Ktorfit.create<Name>()` declaration in the same package
+     * as the API interface. Returns true if found.
+     */
+    @OptIn(KspExperimental::class)
+    private fun findExpectDeclaration(
+        classData: ClassData,
+        resolver: Resolver,
+    ): Boolean {
+        val expectedName = "create${classData.name}"
+        return resolver
+            .getDeclarationsFromPackage(classData.packageName)
+            .filterIsInstance<KSFunctionDeclaration>()
+            .any { func ->
+                func.simpleName.asString() == expectedName &&
+                    Modifier.EXPECT in func.modifiers
+            }
     }
 
     /**

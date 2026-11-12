@@ -29,6 +29,7 @@ data class ClassData(
     val modifiers: List<KModifier> = emptyList(),
     val ksFile: KSFile,
     val annotations: List<KSAnnotation>,
+    val hasExpectDeclaration: Boolean = false,
 ) {
     val implName = "_${name}Impl"
     val providerName = "_${name}Provider"

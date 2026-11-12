@@ -19,8 +19,8 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    js(IR) {
-        this.nodejs()
+    js {
+        nodejs()
         binaries.executable() // not applicable to BOTH, see details below
     }
     linuxX64 {

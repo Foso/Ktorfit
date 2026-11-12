@@ -28,26 +28,32 @@ fun generateImplClass(
                 createFileSpec(
                     classData,
                     classData.implName,
-                    implClassSpec
+                    implClassSpec,
+                    classData.hasExpectDeclaration,
                 ).toString()
 
             val fileName = classData.implName
-            val commonMainModuleName = "commonMain"
-            val moduleName =
-                try {
-                    resolver.getModuleName().getShortName()
-                } catch (e: Throwable) {
-                    ""
-                }
 
-            if (!ktorfitOptions.multiplatformWithSingleTarget) {
-                if (moduleName.contains(commonMainModuleName)) {
-                    if (!ksFile.filePath.contains(commonMainModuleName)) {
-                        return@forEach
+            if (!ktorfitOptions.perTargetGeneration) {
+                // filter source files based on module name so that
+                // commonMain sources are only processed by kspCommonMainMetadata.
+                val commonMainModuleName = "commonMain"
+                val moduleName =
+                    try {
+                        resolver.getModuleName().getShortName()
+                    } catch (e: Throwable) {
+                        ""
                     }
-                } else {
-                    if (ksFile.filePath.contains(commonMainModuleName)) {
-                        return@forEach
+
+                if (!ktorfitOptions.multiplatformWithSingleTarget) {
+                    if (moduleName.contains(commonMainModuleName)) {
+                        if (!ksFile.filePath.contains(commonMainModuleName)) {
+                            return@forEach
+                        }
+                    } else {
+                        if (ksFile.filePath.contains(commonMainModuleName)) {
+                            return@forEach
+                        }
                     }
                 }
             }

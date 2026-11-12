@@ -91,4 +91,28 @@ suspend fun test(): List<Triple<String,Int?,String>>
         val actualSource = generatedFile.readText()
         assertTrue(actualSource.contains(expected))
     }
+
+    @Test
+    fun `perTargetGeneration defaults to false when not set`() {
+        val options = KtorfitOptions(emptyMap())
+        assertFalse(options.perTargetGeneration)
+    }
+
+    @Test
+    fun `perTargetGeneration is true when set to true`() {
+        val options = KtorfitOptions(mapOf("Ktorfit_PerTargetGeneration" to "true"))
+        assertTrue(options.perTargetGeneration)
+    }
+
+    @Test
+    fun `perTargetGeneration is false when set to false`() {
+        val options = KtorfitOptions(mapOf("Ktorfit_PerTargetGeneration" to "false"))
+        assertFalse(options.perTargetGeneration)
+    }
+
+    @Test
+    fun `perTargetGeneration is false when set to invalid value`() {
+        val options = KtorfitOptions(mapOf("Ktorfit_PerTargetGeneration" to "invalid"))
+        assertFalse(options.perTargetGeneration)
+    }
 }
