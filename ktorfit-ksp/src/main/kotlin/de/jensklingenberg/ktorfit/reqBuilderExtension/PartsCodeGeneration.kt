@@ -5,6 +5,7 @@ import de.jensklingenberg.ktorfit.model.ParameterData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.Part
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation.PartMap
 import de.jensklingenberg.ktorfit.model.formData
+import de.jensklingenberg.ktorfit.utils.resolveTypeAlias
 import de.jensklingenberg.ktorfit.utils.surroundIfNotEmpty
 
 fun getPartsCode(
@@ -12,6 +13,7 @@ fun getPartsCode(
     listType: KSType,
     arrayType: KSType,
 ): String {
+    val rawParts = mutableListOf<String>()
     val partText =
         params.filter { it.hasAnnotation<Part>() }.joinToString("") { parameterData ->
             val part =
@@ -21,11 +23,27 @@ fun getPartsCode(
             val name = parameterData.name
             val partValue = part.value
 
-            val starProj = parameterData.type.parameterType.starProjection()
+            val parameterType = parameterData.type.parameterType.resolveTypeAlias()
+            val starProj = parameterType.starProjection()
             val isList = starProj.isAssignableFrom(listType)
             val isArray = starProj.isAssignableFrom(arrayType)
+            val isPartDataCollection =
+                (isList || isArray) &&
+                    parameterType.arguments
+                        .firstOrNull()
+                        ?.type
+                        ?.resolve()
+                        ?.resolveTypeAlias()
+                        ?.declaration
+                        ?.qualifiedName
+                        ?.asString() == "io.ktor.http.content.PartData"
 
             when {
+                isPartDataCollection -> {
+                    rawParts.add("$name.filterNotNull()")
+                    ""
+                }
+
                 isList || isArray -> {
                     "$name?.filterNotNull()?.forEach { append(\"$partValue\", \"\${it}\") }\n"
                 }
@@ -41,8 +59,11 @@ fun getPartsCode(
             "${parameterData.name}?.forEach { entry -> entry.value?.let{ append(entry.key, \"\${entry.value}\") } }\n"
         }
 
-    return (partText + partMapStrings).surroundIfNotEmpty(
-        "val ${formData.objectName} = formData {\n",
-        "}\nsetBody(MultiPartFormDataContent(${formData.objectName}))\n",
+    val formParts = (partText + partMapStrings).surroundIfNotEmpty("formData {\n", "}")
+    val allParts = (listOf(formParts) + rawParts).filter { it.isNotEmpty() }.joinToString(" + ")
+
+    return allParts.surroundIfNotEmpty(
+        "val ${formData.objectName} = ",
+        "\nsetBody(MultiPartFormDataContent(${formData.objectName}))\n",
     )
 }
