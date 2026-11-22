@@ -1,7 +1,6 @@
 package de.jensklingenberg.ktorfit.poetspec
 
 import com.squareup.kotlinpoet.AnnotationSpec
-import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -44,14 +43,14 @@ private fun createProviderClassSpec(classData: ClassData) =
         .classBuilder(classData.providerName)
         .addModifiers(classData.modifiers)
         .addSuperinterface(
-            providerClass.toClassName().parameterizedBy(ClassName(classData.packageName, classData.name)),
+            providerClass.toClassName().parameterizedBy(classData.className),
         ).addFunction(
             FunSpec
                 .builder("create")
                 .addModifiers(KModifier.OVERRIDE)
                 .addParameter(ktorfitClass.objectName, ktorfitClass.toClassName())
                 .addStatement("return ${classData.implName}(${ktorfitClass.objectName}.baseUrl, ${ktorfitClass.objectName}.httpClient, ${converterHelper.name}(${ktorfitClass.objectName}))")
-                .returns(ClassName(classData.packageName, classData.name))
+                .returns(classData.className)
                 .build(),
         ).build()
 
@@ -64,5 +63,5 @@ private fun getCreateExtensionFunctionSpec(classData: ClassData): FunSpec =
         .addModifiers(classData.modifiers)
         .addStatement("return ${classData.implName}(this.baseUrl, this.httpClient, ${converterHelper.name}(this))")
         .receiver(ktorfitClass.toClassName())
-        .returns(ClassName(classData.packageName, classData.name))
+        .returns(classData.className)
         .build()
