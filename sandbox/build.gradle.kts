@@ -92,7 +92,7 @@ kotlin {
 
 configurations.all {
     resolutionStrategy.dependencySubstitution {
-        substitute(module("de.jensklingenberg.ktorfit:ksp"))
+        substitute(module("de.jensklingenberg.ktorfit:ktorfit-ksp"))
             .using(project(":ktorfit-ksp"))
             .because("we work with the unreleased development version")
         substitute(module("de.jensklingenberg.ktorfit:gradle-plugin"))
