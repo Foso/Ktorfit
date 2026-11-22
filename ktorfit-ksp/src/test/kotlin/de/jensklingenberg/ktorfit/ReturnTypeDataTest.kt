@@ -26,6 +26,9 @@ interface TestService {
 
         val expectedBodyDataArgumentText =
             """val _ext: HttpRequestBuilder.() -> Unit = {
+        setAttributes {
+        put(AttributeKey("pathTemplateAttributeKey"), "user")
+        }
         this.method = HttpMethod.parse("POST")
         url{
         takeFrom(_baseUrl + "user")

@@ -1,33 +1,35 @@
 package de.jensklingenberg.ktorfit.reqBuilderExtension
 
-import com.squareup.kotlinpoet.AnnotationSpec
-import de.jensklingenberg.ktorfit.model.ParameterData
+import de.jensklingenberg.ktorfit.model.FunctionData
 import de.jensklingenberg.ktorfit.model.annotations.ParameterAnnotation
 import de.jensklingenberg.ktorfit.model.annotationsAttributeKey
+import de.jensklingenberg.ktorfit.model.pathTemplateAttributeKey
 import de.jensklingenberg.ktorfit.utils.toClassName
 
 fun getAttributesCode(
-    parameterDataList: List<ParameterData>,
-    annotations: List<AnnotationSpec>,
+    functionData: FunctionData
 ): String {
+    val templatePath = functionData.httpMethodAnnotation.path
     val parameterAttributes =
-        parameterDataList
-            .filter { it.hasAnnotation<ParameterAnnotation.Tag>() }
-            .joinToString("\n") {
-                val tag =
-                    it.findAnnotationOrNull<ParameterAnnotation.Tag>()
-                        ?: throw IllegalStateException("Tag annotation not found")
-                if (it.type.parameterType.isMarkedNullable) {
-                    "${it.name}?.let{ attributes.put(AttributeKey(\"${tag.value}\"), it) }"
-                } else {
-                    "attributes.put(AttributeKey(\"${tag.value}\"), ${it.name})"
-                }
-            }
+        "setAttributes {\n" +
+            "put(AttributeKey(\"${pathTemplateAttributeKey.objectName}\"), \"${templatePath}\")\n" +
+            functionData.parameterDataList
+                .filter { it.hasAnnotation<ParameterAnnotation.Tag>() }
+                .joinToString("\n") {
+                    val tag =
+                        it.findAnnotationOrNull<ParameterAnnotation.Tag>()
+                            ?: throw IllegalStateException("Tag annotation not found")
+                    if (it.type.parameterType.isMarkedNullable) {
+                        "${it.name}?.let{ put(AttributeKey(\"${tag.value}\"), it) }"
+                    } else {
+                        "put(AttributeKey(\"${tag.value}\"), ${it.name})"
+                    }
+                } + "}"
 
-    if (annotations.isEmpty()) return parameterAttributes
+    if (functionData.nonKtorfitAnnotations.isEmpty()) return parameterAttributes
 
     val annotationsAttribute =
-        annotations
+        functionData.nonKtorfitAnnotations
             .joinToString(
                 separator = ",\n",
                 prefix = "listOf(\n",

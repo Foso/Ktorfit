@@ -17,5 +17,6 @@ val converterHelper = KtorfitClass("KtorfitConverterHelper", "de.jensklingenberg
 val httpClientClass = KtorfitClass("HttpClient", "io.ktor.client", "_httpClient")
 val internalApi = ClassName("de.jensklingenberg.ktorfit.internal", "InternalKtorfitApi")
 val annotationsAttributeKey = KtorfitClass("annotationsAttributeKey", "de.jensklingenberg.ktorfit", "annotationsAttributeKey")
+val pathTemplateAttributeKey = KtorfitClass("pathTemplateAttributeKey", "de.jensklingenberg.ktorfit", "pathTemplateAttributeKey")
 
 fun KtorfitClass.toClassName() = ClassName(packageName, name)
