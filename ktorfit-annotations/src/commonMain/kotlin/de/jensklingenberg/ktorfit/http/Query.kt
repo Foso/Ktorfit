@@ -20,6 +20,7 @@ package de.jensklingenberg.ktorfit.http
  * null values are ignored
  * @param encoded true means that this value is already URL encoded and will not be encoded again
  */
+@MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class Query(
     val value: String = "KTORFIT_DEFAULT_VALUE",

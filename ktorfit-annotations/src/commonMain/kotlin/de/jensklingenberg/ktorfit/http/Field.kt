@@ -7,6 +7,7 @@ package de.jensklingenberg.ktorfit.http
  * @see FormUrlEncoded
  * @see FieldMap
  */
+@MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class Field(
     val value: String = "KTORFIT_DEFAULT_VALUE",

@@ -9,6 +9,7 @@ package de.jensklingenberg.ktorfit.http
  *  suspend fun requestWithHeaders(): List<Comment>
  * ```
  */
+@MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)
 annotation class Headers(
     vararg val value: String

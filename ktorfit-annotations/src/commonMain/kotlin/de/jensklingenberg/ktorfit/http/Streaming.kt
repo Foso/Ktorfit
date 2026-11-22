@@ -10,5 +10,6 @@ package de.jensklingenberg.ktorfit.http
  *
  *  The return type has to be HttpStatement
  */
+@MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)
 annotation class Streaming

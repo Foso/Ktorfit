@@ -8,5 +8,6 @@ package de.jensklingenberg.ktorfit.http
  * suspend fun upload(@Body issue: Issue)
  * ```
  */
+@MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class Body

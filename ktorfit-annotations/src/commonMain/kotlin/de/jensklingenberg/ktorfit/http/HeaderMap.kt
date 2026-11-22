@@ -11,5 +11,6 @@ package de.jensklingenberg.ktorfit.http
  * @see Headers
  * @see Header
  */
+@MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class HeaderMap
