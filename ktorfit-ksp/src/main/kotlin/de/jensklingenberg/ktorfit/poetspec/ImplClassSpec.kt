@@ -2,6 +2,7 @@ package de.jensklingenberg.ktorfit.poetspec
 
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.KSAnnotation
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeReference
@@ -100,7 +101,7 @@ private fun createImplClassTypeSpec(
                     httpClientClass.toClassName()
                 ).addParameter(converterHelper.objectName, converterHelper.toClassName())
                 .build(),
-        ).addSuperinterface(ClassName(classData.packageName, classData.name))
+        ).addSuperinterface(classData.className)
         .addKtorfitSuperInterface(classData.superClasses)
         .addProperties(listOf(baseUrlProperty, httpClientProperty, helperProperty) + implClassProperties)
         .addFunctions(funSpecs)
@@ -170,7 +171,8 @@ private fun TypeSpec.Builder.addKtorfitSuperInterface(superClasses: List<KSTypeR
         val superTypePackage = superClassDeclaration.packageName.asString()
         if (!hasNoDelegationAnnotation) {
             this.addSuperinterface(
-                ClassName(superTypePackage, superTypeClassName),
+                (superClassDeclaration as? KSClassDeclaration)?.toClassName()
+                    ?: ClassName(superTypePackage, superTypeClassName),
                 CodeBlock.of(
                     "%L._%LImpl( _baseUrl,${httpClientClass.objectName},${converterHelper.objectName})",
                     superTypePackage,

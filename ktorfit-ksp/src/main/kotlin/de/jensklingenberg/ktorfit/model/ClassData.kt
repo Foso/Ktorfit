@@ -10,7 +10,9 @@ import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSTypeReference
 import com.squareup.kotlinpoet.ANY
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.ksp.toClassName
 import com.squareup.kotlinpoet.ksp.toKModifier
 import com.squareup.kotlinpoet.ksp.toTypeName
 import de.jensklingenberg.ktorfit.utils.getKsFile
@@ -29,6 +31,8 @@ data class ClassData(
     val modifiers: List<KModifier> = emptyList(),
     val ksFile: KSFile,
     val annotations: List<KSAnnotation>,
+    /** Name of the interface, includes the enclosing declarations if it is a nested interface */
+    val className: ClassName = ClassName(packageName, name),
 ) {
     val implName = "_${name}Impl"
     val providerName = "_${name}Provider"
@@ -77,7 +81,8 @@ fun KSClassDeclaration.toClassData(logger: KSPLogger): ClassData {
         properties = properties,
         modifiers = ksClassDeclaration.modifiers.mapNotNull { it.toKModifier() },
         ksFile = ksClassDeclaration.getKsFile(),
-        annotations = ksClassDeclaration.annotations.toList()
+        annotations = ksClassDeclaration.annotations.toList(),
+        className = ksClassDeclaration.toClassName()
     )
 }
 
